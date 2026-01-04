@@ -1,0 +1,9 @@
+﻿<Application
+    x:Class="ModernFormatConverter.MainApp"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:media="using:Microsoft.UI.Xaml.Media">
+    <Application.Resources>
+        <XamlControlsResources />
+    </Application.Resources>
+</Application>

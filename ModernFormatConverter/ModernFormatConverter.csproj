@@ -1,0 +1,139 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <ApplicationManifest>ModernFormatConverter.manifest</ApplicationManifest>
+    <AssemblyName>ModernFormatConverter</AssemblyName>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <CustomAfterMicrosoftCommonTargets>$(SolutionDir)Configuration\XamlCompiler.targets</CustomAfterMicrosoftCommonTargets>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <DefaultXamlRuntime>WinUI</DefaultXamlRuntime>
+    <DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+    <Deterministic>true</Deterministic>
+    <DesktopCompatible>true</DesktopCompatible>
+    <DisableXbfLineInfo>false</DisableXbfLineInfo>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+    <EnableDefaultPageItems>false</EnableDefaultPageItems>
+    <EnablePriGenTooling>true</EnablePriGenTooling>
+    <EnableTypeInfoReflection>false</EnableTypeInfoReflection>
+    <_EnableWindowsDesktopGlobbing>true</_EnableWindowsDesktopGlobbing>
+    <_EnableWindowsDesktopNETFrameworkImplicitReference>true</_EnableWindowsDesktopNETFrameworkImplicitReference>
+    <ImportWindowsDesktopTargets>false</ImportWindowsDesktopTargets>
+    <ImportFrameworkWinFXTargets>false</ImportFrameworkWinFXTargets>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <IncludeSymbols>false</IncludeSymbols>
+    <LangVersion>latest</LangVersion>
+    <Optimize>false</Optimize>
+    <OutputType>WinExe</OutputType>
+    <Platforms>x86;x64;ARM64</Platforms>
+    <ResolveComReferenceSilent>true</ResolveComReferenceSilent>
+    <RootNamespace>ModernFormatConverter</RootNamespace>
+    <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+    <TargetFramework>net481</TargetFramework>
+    <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion>10.0.26100.0</TargetPlatformVersion>
+    <TrimmerRemoveSymbols>true</TrimmerRemoveSymbols>
+    <UsingMicrosoftNETSdk>false</UsingMicrosoftNETSdk>
+    <WindowsAppSDKBackgroundTask>false</WindowsAppSDKBackgroundTask>
+    <WindowsAppSDKDeploymentManagerInitialize>false</WindowsAppSDKDeploymentManagerInitialize>
+    <WindowsAppSDKSingleFileVerifyConfiguration>false</WindowsAppSDKSingleFileVerifyConfiguration>
+    <WindowsAppSDKVerifyCsWinRtVersions>false</WindowsAppSDKVerifyCsWinRtVersions>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Platform)'=='x86'">
+    <RuntimeIdentifier>win-x86</RuntimeIdentifier>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Platform)'=='x64'">
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Platform)'=='ARM64'">
+    <RuntimeIdentifier>win-arm64</RuntimeIdentifier>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DebuggerSupport>true</DebuggerSupport>
+    <DebugType>pdbonly</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DebuggerSupport>false</DebuggerSupport>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ApplicationDefinition Include="MainApp.xaml" />
+
+    <Content Include="Assets\LargeTile.scale-100.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\LargeTile.scale-125.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\LargeTile.scale-150.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\LargeTile.scale-200.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\LargeTile.scale-400.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\SmallTile.scale-100.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\SmallTile.scale-125.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\SmallTile.scale-150.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\SmallTile.scale-200.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\SmallTile.scale-400.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\SplashScreen.scale-100.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\SplashScreen.scale-125.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\SplashScreen.scale-150.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\SplashScreen.scale-200.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\SplashScreen.scale-400.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-16.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-24.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-256.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-32.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-48.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-16.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-24.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-256.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-32.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-48.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square44x44Logo.scale-100.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square44x44Logo.scale-125.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square44x44Logo.scale-150.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square44x44Logo.scale-200.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square44x44Logo.scale-400.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square44x44Logo.targetsize-16.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square44x44Logo.targetsize-256.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square44x44Logo.targetsize-32.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square44x44Logo.targetsize-48.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square150x150Logo.scale-100.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square150x150Logo.scale-125.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square150x150Logo.scale-150.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square150x150Logo.scale-200.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square150x150Logo.scale-400.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\StoreLogo.scale-100.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\StoreLogo.scale-125.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\StoreLogo.scale-150.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\StoreLogo.scale-200.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\StoreLogo.scale-400.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Wide310x150Logo.scale-100.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Wide310x150Logo.scale-125.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Wide310x150Logo.scale-150.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Wide310x150Logo.scale-200.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Wide310x150Logo.scale-400.png" CopyToOutputDirectory="Always" />
+
+    <None Remove="MainApp.xaml" />
+    <None Remove="Views\Windows\MainWindow.xaml" />
+
+    <Page Include="Views\Windows\MainWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7175" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools.MSIX" Version="1.7.20250829.1" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
+    <PackageReference Include="Microsoft.Windows.SDK.NET.Ref" Version="10.0.26100.81" PrivateAssets="none" IncludeAssets="none" GeneratePathProperty="true" />
+    <PackageReference Include="Microsoft.WindowsAppSDK.Base" Version="1.8.250831001" />
+    <PackageReference Include="Microsoft.WindowsAppSDK.Foundation" Version="1.8.251104000" />
+    <PackageReference Include="Microsoft.WindowsAppSDK.InteractiveExperiences" Version="1.8.251104001" GeneratePathProperty="True" />
+    <PackageReference Include="Microsoft.WindowsAppSDK.Runtime" Version="1.8.251106002" />
+    <PackageReference Include="Microsoft.WindowsAppSDK.WinUI" Version="1.8.251105000" GeneratePathProperty="True" IncludeAssets="none" PrivateAssets="all" />
+    <PackageReference Include="System.Runtime.WindowsRuntime" Version="4.7.0" />
+
+    <Reference Include="$(PkgMicrosoft_WindowsAppSDK_InteractiveExperiences)\metadata\10.0.18362.0\Microsoft.UI.winmd" Private="false" Visible="false" />
+    <Reference Include="$(PkgMicrosoft_WindowsAppSDK_WinUI)\metadata\Microsoft.UI.Text.winmd" Private="false" Visible="false" />
+    <Reference Include="$(PkgMicrosoft_WindowsAppSDK_WinUI)\metadata\Microsoft.UI.Xaml.winmd" Private="false" Visible="false" />
+    <Reference Include="$(Pkgmicrosoft_windows_sdk_net_ref)\winmd\*.winmd" Private="false" Visible="false" />
+    <Reference Include="$(WindowsSdkPath)\UnionMetadata\$(TargetPlatformVersion)\Facade\Windows.WinMD" Private="false" Visible="false" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+</Project>
