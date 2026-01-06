@@ -2,10 +2,222 @@
     x:Class="ModernFormatConverter.Views.Windows.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:backdrophelper="using:ModernFormatConverter.Helpers.Backdrop"
+    xmlns:converter="using:ModernFormatConverter.Helpers.Converters"
+    xmlns:rootservice="using:ModernFormatConverter.Services.Root"
+    xmlns:settingsservice="using:ModernFormatConverter.Services.Settings"
     Title="{x:Bind WindowTitle, Mode=OneWay}"
     SystemBackdrop="{x:Bind WindowSystemBackdrop, Mode=OneWay}">
 
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBlock FontSize="22" Text="Modern Format Converter, coming soon..." />
-    </StackPanel>
+    <Page
+        x:Name="MainPage"
+        ActualThemeChanged="{x:Bind OnActualThemeChanged}"
+        FlowDirection="{x:Bind settingsservice:LanguageService.FlowDirection}"
+        KeyDown="{x:Bind OnKeyDown}"
+        RequestedTheme="{x:Bind WindowTheme, Mode=OneWay}">
+
+        <Page.Resources>
+            <ResourceDictionary>
+                <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
+                <SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="Transparent" />
+                <Thickness x:Key="NavigationViewContentMargin">0,30,0,0</Thickness>
+
+                <MenuFlyout x:Name="TitlebarMenuFlyout" Placement="BottomEdgeAlignedLeft">
+
+                    <MenuFlyoutItem
+                        Height="28"
+                        Padding="11,0"
+                        Click="{x:Bind OnRestoreClicked}"
+                        FontSize="12"
+                        IsEnabled="{x:Bind IsWindowMaximized, Mode=OneWay}"
+                        Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('Restore')}">
+
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Margin="6" Glyph="&#xE923;" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+
+                    <MenuFlyoutItem
+                        Height="28"
+                        Padding="11,0"
+                        Click="{x:Bind OnMoveClicked}"
+                        FontSize="12"
+                        IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsWindowMaximized), Mode=OneWay}"
+                        Tag="{x:Bind TitlebarMenuFlyout}"
+                        Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('Move')}" />
+
+                    <MenuFlyoutItem
+                        Height="28"
+                        Padding="11,0"
+                        Click="{x:Bind OnSizeClicked}"
+                        FontSize="12"
+                        IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsWindowMaximized), Mode=OneWay}"
+                        Tag="{x:Bind TitlebarMenuFlyout}"
+                        Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('Size')}" />
+
+                    <MenuFlyoutItem
+                        Height="28"
+                        Padding="11,0"
+                        Click="{x:Bind OnMinimizeClicked}"
+                        FontSize="12"
+                        Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('Minimize')}">
+
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Margin="6" Glyph="&#xE921;" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+
+                    <MenuFlyoutItem
+                        Height="28"
+                        Padding="11,0"
+                        Click="{x:Bind OnMaximizeClicked}"
+                        FontSize="12"
+                        IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsWindowMaximized), Mode=OneWay}"
+                        Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('Maximize')}">
+
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Margin="6" Glyph="&#xE922;" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+
+                    <MenuFlyoutSeparator Width="200" />
+
+                    <MenuFlyoutItem
+                        Height="28"
+                        Padding="11,0"
+                        Click="{x:Bind OnCloseClicked}"
+                        FontSize="12"
+                        Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('Close')}">
+
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Margin="6" Glyph="&#xE8BB;" />
+                        </MenuFlyoutItem.Icon>
+
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="F4" Modifiers="Menu" />
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+                </MenuFlyout>
+            </ResourceDictionary>
+        </Page.Resources>
+
+        <Grid>
+            <!--  应用标题栏内容  -->
+            <TitleBar
+                x:Name="AppTitlebar"
+                Title="{x:Bind WindowTitle, Mode=OneWay}"
+                Height="48"
+                Margin="35,0,0,0"
+                VerticalAlignment="Top">
+
+                <TitleBar.LeftHeader>
+                    <ImageIcon
+                        MaxWidth="16"
+                        MaxHeight="16"
+                        Margin="14,0,2,0"
+                        Source="ms-appx:///Assets/Square44x44Logo.altform-unplated_targetsize-256.png" />
+                </TitleBar.LeftHeader>
+            </TitleBar>
+
+            <NavigationView
+                x:Name="MainNavigationView"
+                AlwaysShowHeader="False"
+                BackRequested="{x:Bind OnBackRequested}"
+                Canvas.ZIndex="0"
+                Collapsed="{x:Bind OnCollapsed}"
+                Expanding="{x:Bind OnExpanding}"
+                IsBackButtonVisible="Visible"
+                IsBackEnabled="{x:Bind IsBackEnabled, Mode=OneWay}"
+                IsPaneToggleButtonVisible="False"
+                IsSettingsVisible="False"
+                ItemInvoked="{x:Bind OnItemInvoked}"
+                Loaded="{x:Bind OnLoaded}"
+                OpenPaneLength="220"
+                PaneDisplayMode="Left"
+                SelectedItem="{x:Bind SelectedItem, Mode=OneWay}">
+
+                <NavigationView.MenuItems>
+                    <!--  所有工具  -->
+                    <NavigationViewItem Tag="{x:Bind PageList[0].Key}">
+
+                        <NavigationViewItem.Icon>
+                            <ImageIcon Source="ms-appx:///Assets/ControlIcon/AllTools.png" />
+                        </NavigationViewItem.Icon>
+
+                        <NavigationViewItem.Content>
+                            <TextBlock
+                                x:Name="WindowAllToolsText"
+                                Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('AllTools')}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="NoWrap" />
+                        </NavigationViewItem.Content>
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip
+                                MaxWidth="9999"
+                                Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('AllTools')}"
+                                Loaded="{x:Bind backdrophelper:ToolTipBackdropHelper.OnLoaded}"
+                                Visibility="{x:Bind WindowAllToolsText.IsTextTrimmed, Mode=OneWay}" />
+                        </ToolTipService.ToolTip>
+                    </NavigationViewItem>
+
+                    <NavigationViewItemSeparator Margin="0,0,6,0" />
+
+                    <!--  视频  -->
+
+                    <!--  音频  -->
+
+                    <!--  图片  -->
+
+                    <!--  文档  -->
+
+                    <!--  其他  -->
+                </NavigationView.MenuItems>
+
+                <NavigationView.FooterMenuItems>
+                    <NavigationViewItem Tag="{x:Bind PageList[1].Key}">
+
+                        <NavigationViewItem.Icon>
+                            <ImageIcon Source="ms-appx:///Assets/ControlIcon/Settings.png" />
+                        </NavigationViewItem.Icon>
+
+                        <NavigationViewItem.Content>
+                            <TextBlock
+                                x:Name="WindowSettingsText"
+                                Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('Settings')}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="NoWrap" />
+                        </NavigationViewItem.Content>
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip
+                                MaxWidth="9999"
+                                Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('Settings')}"
+                                Loaded="{x:Bind backdrophelper:ToolTipBackdropHelper.OnLoaded}"
+                                Visibility="{x:Bind WindowSettingsText.IsTextTrimmed, Mode=OneWay}" />
+                        </ToolTipService.ToolTip>
+                    </NavigationViewItem>
+                </NavigationView.FooterMenuItems>
+
+                <Frame Navigated="{x:Bind OnNavigated}" NavigationFailed="{x:Bind OnNavigationFailed}">
+                    <Frame.ContentTransitions>
+                        <TransitionCollection>
+                            <NavigationThemeTransition />
+                        </TransitionCollection>
+                    </Frame.ContentTransitions>
+                </Frame>
+            </NavigationView>
+
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup>
+                    <VisualState x:Name="BackgroundDefault">
+                        <VisualState.Setters>
+                            <Setter Target="MainPage.Background" Value="{ThemeResource DefaultBackgroundColorBrush}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="BackgroundTransparent" />
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+        </Grid>
+    </Page>
 </Window>

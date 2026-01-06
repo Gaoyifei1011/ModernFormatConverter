@@ -3,12 +3,17 @@ using Microsoft.UI.Xaml;
 using ModernFormatConverter.Extensions.DataType.Class;
 using ModernFormatConverter.Helpers.Root;
 using ModernFormatConverter.Services.Root;
+using ModernFormatConverter.Services.Settings;
 using ModernFormatConverter.WindowsAPI.ComTypes;
 using ModernFormatConverter.WindowsAPI.PInvoke.Kernel32;
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.Text;
 using System.Threading;
+
+// 抑制 CA1806 警告
+#pragma warning disable CA1806
 
 namespace ModernFormatConverter
 {
@@ -48,6 +53,7 @@ namespace ModernFormatConverter
                 return;
             }
 
+            InitializeProgramResources();
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
 
             Application.Start((param) =>
@@ -63,6 +69,16 @@ namespace ModernFormatConverter
         private static void OnUnhandledException(object sender, System.UnhandledExceptionEventArgs args)
         {
             LogService.WriteLog(TraceEventType.Warning, nameof(ModernFormatConverter), nameof(Program), nameof(OnUnhandledException), 1, args.ExceptionObject as Exception);
+        }
+
+        /// <summary>
+        /// 加载应用程序所需的资源
+        /// </summary>
+        private static void InitializeProgramResources()
+        {
+            LogService.Initialize();
+            LanguageService.InitializeLanguage();
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(LanguageService.AppLanguage.Key);
         }
     }
 }

@@ -63,6 +63,16 @@
   <ItemGroup>
     <ApplicationDefinition Include="MainApp.xaml" />
 
+    <COMReference Include="IWshRuntimeLibrary">
+      <WrapperTool>tlbimp</WrapperTool>
+      <VersionMinor>0</VersionMinor>
+      <VersionMajor>1</VersionMajor>
+      <Guid>f935dc20-1cf0-11d0-adb9-00c04fd58a0b</Guid>
+      <Lcid>0</Lcid>
+      <Isolated>false</Isolated>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </COMReference>
+
     <Content Include="Assets\LargeTile.scale-100.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\LargeTile.scale-125.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\LargeTile.scale-150.png" CopyToOutputDirectory="Always" />
@@ -115,8 +125,12 @@
     <Content Include="Assets\Wide310x150Logo.scale-400.png" CopyToOutputDirectory="Always" />
 
     <None Remove="MainApp.xaml" />
+    <None Remove="Views\Pages\HomePage.xaml" />
+    <None Remove="Views\Pages\SettingsPage.xaml" />
     <None Remove="Views\Windows\MainWindow.xaml" />
 
+    <Page Include="Views\Pages\HomePage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Pages\SettingsPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\MainWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7175" />
@@ -135,6 +149,7 @@
     <Reference Include="$(PkgMicrosoft_WindowsAppSDK_WinUI)\metadata\Microsoft.UI.Xaml.winmd" Private="false" Visible="false" />
     <Reference Include="$(Pkgmicrosoft_windows_sdk_net_ref)\winmd\*.winmd" Private="false" Visible="false" />
     <Reference Include="$(WindowsSdkPath)\UnionMetadata\$(TargetPlatformVersion)\Facade\Windows.WinMD" Private="false" Visible="false" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
 </Project>
