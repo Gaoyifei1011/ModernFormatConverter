@@ -131,6 +131,9 @@
     <EmbeddedResource Include="Strings\Home.zh-hans.restext" />
     <EmbeddedResource Include="Strings\Settings.en-us.restext" />
     <EmbeddedResource Include="Strings\Settings.restext" />
+    <EmbeddedResource Include="Strings\SettingsGeneral.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\SettingsGeneral.en-us.restext" />
+    <EmbeddedResource Include="Strings\SettingsGeneral.restext" />
     <EmbeddedResource Include="Strings\Settings.zh-hans.restext" />
     <EmbeddedResource Include="Strings\Window.en-us.restext" />
     <EmbeddedResource Include="Strings\Window.restext" />
@@ -138,10 +141,12 @@
 
     <None Remove="MainApp.xaml" />
     <None Remove="Views\Pages\HomePage.xaml" />
+    <None Remove="Views\Pages\SettingsGeneralPage.xaml" />
     <None Remove="Views\Pages\SettingsPage.xaml" />
     <None Remove="Views\Windows\MainWindow.xaml" />
 
     <Page Include="Views\Pages\HomePage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Pages\SettingsGeneralPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\SettingsPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\MainWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     

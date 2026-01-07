@@ -49,7 +49,7 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
-        private List<Type> PageList { get; } = [];
+        private List<Type> PageList { get; } = [typeof(SettingsGeneralPage)];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
