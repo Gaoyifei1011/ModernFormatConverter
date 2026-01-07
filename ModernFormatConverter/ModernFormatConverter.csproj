@@ -126,6 +126,16 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" CopyToOutputDirectory="Always" />
 
+    <EmbeddedResource Include="Strings\Home.en-us.restext" />
+    <EmbeddedResource Include="Strings\Home.restext" />
+    <EmbeddedResource Include="Strings\Home.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\Settings.en-us.restext" />
+    <EmbeddedResource Include="Strings\Settings.restext" />
+    <EmbeddedResource Include="Strings\Settings.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\Window.en-us.restext" />
+    <EmbeddedResource Include="Strings\Window.restext" />
+    <EmbeddedResource Include="Strings\Window.zh-hans.restext" />
+
     <None Remove="MainApp.xaml" />
     <None Remove="Views\Pages\HomePage.xaml" />
     <None Remove="Views\Pages\SettingsPage.xaml" />
