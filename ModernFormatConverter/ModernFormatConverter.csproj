@@ -73,6 +73,8 @@
       <EmbedInteropTypes>true</EmbedInteropTypes>
     </COMReference>
 
+    <Content Include="Assets\ControlIcon\Home.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\ControlIcon\Settings.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\LargeTile.scale-100.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\LargeTile.scale-125.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\LargeTile.scale-150.png" CopyToOutputDirectory="Always" />
