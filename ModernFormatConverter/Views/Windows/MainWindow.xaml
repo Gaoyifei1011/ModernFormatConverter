@@ -137,17 +137,17 @@
                 SelectedItem="{x:Bind SelectedItem, Mode=OneWay}">
 
                 <NavigationView.MenuItems>
-                    <!--  所有工具  -->
+                    <!--  主页  -->
                     <NavigationViewItem Tag="{x:Bind PageList[0].Key}">
 
                         <NavigationViewItem.Icon>
-                            <ImageIcon Source="ms-appx:///Assets/ControlIcon/AllTools.png" />
+                            <ImageIcon Source="ms-appx:///Assets/ControlIcon/Home.png" />
                         </NavigationViewItem.Icon>
 
                         <NavigationViewItem.Content>
                             <TextBlock
-                                x:Name="WindowAllToolsText"
-                                Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('AllTools')}"
+                                x:Name="WindowHomeText"
+                                Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('Home')}"
                                 TextTrimming="CharacterEllipsis"
                                 TextWrapping="NoWrap" />
                         </NavigationViewItem.Content>
@@ -155,9 +155,9 @@
                         <ToolTipService.ToolTip>
                             <ToolTip
                                 MaxWidth="9999"
-                                Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('AllTools')}"
+                                Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('Home')}"
                                 Loaded="{x:Bind backdrophelper:ToolTipBackdropHelper.OnLoaded}"
-                                Visibility="{x:Bind WindowAllToolsText.IsTextTrimmed, Mode=OneWay}" />
+                                Visibility="{x:Bind WindowHomeText.IsTextTrimmed, Mode=OneWay}" />
                         </ToolTipService.ToolTip>
                     </NavigationViewItem>
 
