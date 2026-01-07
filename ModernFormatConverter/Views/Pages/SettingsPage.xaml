@@ -68,7 +68,6 @@
                     SelectionChanged="{x:Bind OnSelectorBarSelectionChanged}">
 
                     <SelectorBarItem Padding="12,5" Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('General')}" />
-                    <SelectorBarItem Padding="12,5" Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('Advanced')}" />
                     <SelectorBarItem Padding="12,5" Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('About')}" />
                 </SelectorBar>
 
