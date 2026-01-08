@@ -63,6 +63,12 @@
   <ItemGroup>
     <ApplicationDefinition Include="MainApp.xaml" />
 
+    <Compile Update="Strings\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+
     <COMReference Include="IWshRuntimeLibrary">
       <WrapperTool>tlbimp</WrapperTool>
       <VersionMinor>0</VersionMinor>
@@ -132,6 +138,7 @@
     <EmbeddedResource Include="Strings\Home.en-us.restext" />
     <EmbeddedResource Include="Strings\Home.restext" />
     <EmbeddedResource Include="Strings\Home.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\Resources.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
     <EmbeddedResource Include="Strings\Settings.en-us.restext" />
     <EmbeddedResource Include="Strings\Settings.restext" />
     <EmbeddedResource Include="Strings\Settings.zh-hans.restext" />
@@ -147,6 +154,7 @@
 
     <None Remove="MainApp.xaml" />
     <None Remove="Views\Dialogs\AppInformationDialog.xaml" />
+    <None Remove="Views\Dialogs\LicenseDialog.xaml" />
     <None Remove="Views\Pages\HomePage.xaml" />
     <None Remove="Views\Pages\SettingsAboutPage.xaml" />
     <None Remove="Views\Pages\SettingsGeneralPage.xaml" />
@@ -154,6 +162,7 @@
     <None Remove="Views\Windows\MainWindow.xaml" />
 
     <Page Include="Views\Dialogs\AppInformationDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Dialogs\LicenseDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\HomePage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\SettingsAboutPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\SettingsGeneralPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -178,11 +187,5 @@
     <Reference Include="$(WindowsSdkPath)\UnionMetadata\$(TargetPlatformVersion)\Facade\Windows.WinMD" Private="false" Visible="false" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Views\Pages\SettingsAboutPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
   </ItemGroup>
 </Project>

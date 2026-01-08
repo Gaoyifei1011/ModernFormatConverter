@@ -113,9 +113,9 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 查看许可证
         /// </summary>
-        private void OnShowLicenseClicked(object sender, RoutedEventArgs args)
+        private async void OnShowLicenseClicked(object sender, RoutedEventArgs args)
         {
-            //await MainWindow.Current.ShowDialogAsync(new LicenseDialog());
+            await MainWindow.Current.ShowDialogAsync(new LicenseDialog());
         }
 
         /// <summary>
