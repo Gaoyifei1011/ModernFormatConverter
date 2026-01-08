@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ModernFormatConverter": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}
