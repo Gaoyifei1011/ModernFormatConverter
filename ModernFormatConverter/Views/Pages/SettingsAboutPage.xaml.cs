@@ -1,6 +1,8 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using ModernFormatConverter.Services.Root;
+using ModernFormatConverter.Views.Dialogs;
+using ModernFormatConverter.Views.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -85,9 +87,9 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 应用信息
         /// </summary>
-        private void OnAppInformationClicked(object sender, RoutedEventArgs args)
+        private async void OnAppInformationClicked(object sender, RoutedEventArgs args)
         {
-            //await MainWindow.Current.ShowDialogAsync(new AppInformationDialog());
+            await MainWindow.Current.ShowDialogAsync(new AppInformationDialog());
         }
 
         /// <summary>
