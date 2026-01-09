@@ -12,6 +12,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources>
                     <XamlControlsResources.MergedDictionaries>
+                        <ResourceDictionary Source="ms-appx:///Styles/NavigationView.xaml" />
+
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
                                 <ResourceDictionary x:Key="Default">

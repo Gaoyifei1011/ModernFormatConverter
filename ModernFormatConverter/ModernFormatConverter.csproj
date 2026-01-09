@@ -156,6 +156,7 @@
     <EmbeddedResource Include="Strings\Window.zh-hans.restext" />
 
     <None Remove="MainApp.xaml" />
+    <None Remove="Styles\NavigationView.xaml" />
     <None Remove="Views\Dialogs\AppInformationDialog.xaml" />
     <None Remove="Views\Dialogs\LicenseDialog.xaml" />
     <None Remove="Views\Dialogs\UpdateAppDialog.xaml" />
@@ -166,6 +167,7 @@
     <None Remove="Views\Pages\SettingsPage.xaml" />
     <None Remove="Views\Windows\MainWindow.xaml" />
 
+    <Page Include="Styles\NavigationView.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Dialogs\AppInformationDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Dialogs\LicenseDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Dialogs\UpdateAppDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
