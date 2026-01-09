@@ -1,7 +1,9 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.Views.Dialogs;
+using ModernFormatConverter.Views.NotificationTips;
 using ModernFormatConverter.Views.Windows;
 using System;
 using System.Collections.Generic;
@@ -192,16 +194,16 @@ namespace ModernFormatConverter.Views.Pages
                         IReadOnlyList<StorePackageUpdate> packageUpdateList = await storeContext.GetAppAndOptionalStorePackageUpdatesAsync();
                         isNewest = packageUpdateList.Count is 0;
                         IsChecking = false;
-                        synchronizationContext.Post((_) =>
+                        synchronizationContext.Post(async (_) =>
                         {
-                            //await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.CheckUpdate, Convert.ToInt32(isNewest)));
+                            await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.CheckUpdate, Convert.ToInt32(isNewest)));
                         }, null);
                     }
                     catch (Exception e)
                     {
                         LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(SettingsAboutPage), nameof(OnCheckUpdateClicked), 1, e);
                         IsChecking = false;
-                        //await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.CheckUpdate, 2));
+                        await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.CheckUpdate, 2));
                     }
 
                     if (!isNewest)
@@ -212,7 +214,7 @@ namespace ModernFormatConverter.Views.Pages
                 else
                 {
                     IsChecking = false;
-                    //await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.CheckUpdate, 2));
+                    await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.CheckUpdate, 2));
                 }
             }
         }

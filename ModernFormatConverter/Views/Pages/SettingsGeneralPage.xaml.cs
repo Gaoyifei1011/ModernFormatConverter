@@ -2,10 +2,13 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Win32;
 using ModernFormatConverter.Extensions.DataType.Class;
+using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Helpers.Root;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.Services.Settings;
+using ModernFormatConverter.Views.NotificationTips;
+using ModernFormatConverter.Views.Windows;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -209,7 +212,7 @@ namespace ModernFormatConverter.Views.Pages
                 }
 
                 LanguageService.SetLanguage(AppLanguage);
-                //await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.LanguageChange));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.LanguageChange));
             }
         }
 

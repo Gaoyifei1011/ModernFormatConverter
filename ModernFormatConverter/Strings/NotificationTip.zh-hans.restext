@@ -1,2 +1,12 @@
 ﻿CopyToClipboardFailed=复制内容到剪贴板失败，请检查剪贴板的访问权限
 CopyToClipboardSuccessfully=成功复制内容到剪贴板
+DesktopShortFailed=应用的桌面快捷方式创建失败，请手动创建
+DesktopShortcutSuccessfully=应用的桌面快捷方式已成功创建
+LanguageChange=语言设置修改成功，重启应用后生效
+NewestVersion=应用已是最新版本
+NotNewestVersion=应用不是最新版本，点击项目主页以获取更新
+StartScreenFailed=应用固定到“开始”屏幕失败，请手动固定
+StartScreenSuccessfully=已成功将应用固定到“开始”屏幕
+TaskbarFailed=应用固定到任务栏失败，请手动固定
+TaskbarSuccessfully=已成功将应用固定到任务栏
+UpdateCheckFailed=更新检测失败

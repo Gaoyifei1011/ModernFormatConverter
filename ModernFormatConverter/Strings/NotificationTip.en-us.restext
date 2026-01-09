@@ -1,2 +1,12 @@
 ﻿CopyToClipboardFailed=Failed to copy the content to the clipboard. Please check the access permission of the clipboard
 CopyToClipboardSuccessfully=Content has been successfully copied to the clipboard
+DesktopShortFailed=The app's desktop shortcut failed to create, please create it manually
+DesktopShortcutSuccessfully=The desktop shortcut for the app was created successfully
+LanguageChange=The language setting is modified successfully and takes effect after restarting the application
+NewestVersion=The application is the latest version
+NotNewestVersion=The app is not the latest version
+StartScreenFailed=App pinning to Start screen failed, please pin it manually
+StartScreenSuccessfully=You successfully pinned the app to the Start screen
+TaskbarFailed=App pinning to taskbar failed. Please pin manually
+TaskbarSuccessfully=The app was successfully pinned to the taskbar
+UpdateCheckFailed=Update check failed

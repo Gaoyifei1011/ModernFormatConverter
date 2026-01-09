@@ -3,8 +3,11 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Navigation;
+using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Helpers.Root;
 using ModernFormatConverter.Services.Root;
+using ModernFormatConverter.Views.NotificationTips;
+using ModernFormatConverter.Views.Windows;
 using ModernFormatConverter.WindowsAPI.PInvoke.Kernel32;
 using System;
 using System.Collections.Generic;
@@ -200,7 +203,7 @@ namespace ModernFormatConverter.Views.Pages
                 }
             });
 
-            //await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.Desktop, isCreatedSuccessfully));
+            await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.Desktop, isCreatedSuccessfully));
         }
 
         /// <summary>
@@ -234,8 +237,7 @@ namespace ModernFormatConverter.Views.Pages
             }
             finally
             {
-                Debug.WriteLine(isPinnedSuccessfully);
-                //await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.StartScreen, isPinnedSuccessfully));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.StartScreen, isPinnedSuccessfully));
             }
         }
 
@@ -267,7 +269,7 @@ namespace ModernFormatConverter.Views.Pages
             }
             finally
             {
-                //await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.Taskbar, isPinnedSuccessfully));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.Taskbar, isPinnedSuccessfully));
             }
         }
 
