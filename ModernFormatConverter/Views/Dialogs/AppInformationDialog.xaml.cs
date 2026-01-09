@@ -3,6 +3,8 @@ using Microsoft.UI.Xaml.Controls;
 using ModernFormatConverter.Extensions.DataType.Class;
 using ModernFormatConverter.Helpers.Root;
 using ModernFormatConverter.Services.Root;
+using ModernFormatConverter.Views.NotificationTips;
+using ModernFormatConverter.Views.Windows;
 using ModernFormatConverter.WindowsAPI.PInvoke.KernelAppCore;
 using System;
 using System.Collections;
@@ -145,7 +147,7 @@ namespace ModernFormatConverter.Views.Dialogs
                 contentDialogButtonClickDeferral.Complete();
             }
 
-            //await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(copyResult));
+            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(copyResult));
         }
     }
 }
