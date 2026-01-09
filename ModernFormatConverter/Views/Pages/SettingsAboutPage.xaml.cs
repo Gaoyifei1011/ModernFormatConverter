@@ -75,7 +75,8 @@ namespace ModernFormatConverter.Views.Pages
             {
                 try
                 {
-                    Process.Start("https://apps.microsoft.com/detail/9MV67V21H386");
+                    // TODO：未完成
+                    Process.Start("https://apps.microsoft.com/detail");
                 }
                 catch (Exception e)
                 {
@@ -205,7 +206,7 @@ namespace ModernFormatConverter.Views.Pages
 
                     if (!isNewest)
                     {
-                        //await MainWindow.Current.ShowDialogAsync(new UpdateAppDialog());
+                        await MainWindow.Current.ShowDialogAsync(new UpdateAppDialog());
                     }
                 }
                 else
