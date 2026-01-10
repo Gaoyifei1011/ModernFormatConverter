@@ -2,6 +2,7 @@
   <PropertyGroup>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <AnalysisLevel>latest</AnalysisLevel>
+    <ApplicationIcon>Assets\ModernFormatConverter.ico</ApplicationIcon>
     <ApplicationManifest>ModernFormatConverter.manifest</ApplicationManifest>
     <AssemblyName>ModernFormatConverter</AssemblyName>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
