@@ -1,5 +1,4 @@
-﻿using ModernFormatConverter.WindowsAPI.ComTypes;
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 
 namespace ModernFormatConverter.WindowsAPI.ComTypes

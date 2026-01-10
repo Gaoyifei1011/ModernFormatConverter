@@ -1,4 +1,4 @@
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using ModernFormatConverter.Extensions.DataType.Class;
 using ModernFormatConverter.Helpers.Root;
