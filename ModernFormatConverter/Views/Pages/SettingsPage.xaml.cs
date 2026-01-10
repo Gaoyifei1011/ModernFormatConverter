@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Navigation;
 using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Helpers.Root;
 using ModernFormatConverter.Services.Root;
+using ModernFormatConverter.Views.Dialogs;
 using ModernFormatConverter.Views.NotificationTips;
 using ModernFormatConverter.Views.Windows;
 using ModernFormatConverter.WindowsAPI.PInvoke.Kernel32;
@@ -139,9 +140,9 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 打开重启应用确认的窗口对话框
         /// </summary>
-        private void OnRestartAppsClicked(object sender, RoutedEventArgs args)
+        private async void OnRestartAppsClicked(object sender, RoutedEventArgs args)
         {
-            //await MainWindow.Current.ShowDialogAsync(new RestartAppsDialog());
+            await MainWindow.Current.ShowDialogAsync(new RestartAppsDialog());
         }
 
         /// <summary>
