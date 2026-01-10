@@ -4,6 +4,9 @@ using ModernFormatConverter.Views.Windows;
 using System;
 using System.Collections.Generic;
 
+// 抑制 IDE0060 警告
+#pragma warning disable IDE0060
+
 namespace ModernFormatConverter.Views.Pages
 {
     /// <summary>

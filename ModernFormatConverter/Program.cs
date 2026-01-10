@@ -46,7 +46,7 @@ namespace ModernFormatConverter
             {
                 try
                 {
-                    Process.Start("modernformatconverter:");
+                    Process.Start("explorer.exe", @"shell:AppsFolder\055B5CA4.ModernFormatConverter_zp2hc899bs298!ModernFormatConverter");
                 }
                 catch (Exception)
                 { }

@@ -1,4 +1,4 @@
-<Page
+ï»¿<Page
     x:Class="ModernFormatConverter.Views.Pages.HomePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -99,7 +99,7 @@
 
         <StackPanel Padding="30,0,0,30" Spacing="3">
 
-            <!--  Ö÷Ò³ÃæÑÕÉ«±³¾°  -->
+            <!--  ä¸»é¡µé¢é¢œè‰²èƒŒæ™¯  -->
             <Grid BorderBrush="{ThemeResource NavigationViewContentGridBorderBrush}" CornerRadius="8,0,0,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -141,7 +141,7 @@
                 </Grid>
             </Grid>
 
-            <!--  ¹¤¾ßÀ¸  -->
+            <!--  å·¥å…·æ   -->
             <TextBlock
                 Grid.Column="0"
                 Margin="0,15,0,5"

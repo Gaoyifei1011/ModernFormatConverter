@@ -183,6 +183,9 @@
     <Page Include="Views\Pages\SettingsPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\MainWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     
+    <PRIResource Include="Strings\en-us\Resources.resjson" />
+		<PRIResource Include="Strings\zh-hans\Resources.resjson" />
+    
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7463" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools.MSIX" Version="1.7.20250829.1" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
     <PackageReference Include="Microsoft.Windows.SDK.NET.Ref" Version="10.0.26100.81" PrivateAssets="none" IncludeAssets="none" GeneratePathProperty="true" />
