@@ -14,16 +14,17 @@
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Default">
-                    <LinearGradientBrush x:Key="BackgroundGradient" StartPoint="0.4,-0.2" EndPoint="1.0,1.2">
-                        <GradientStop Offset="0.2" Color="#4AA647" />
-                        <GradientStop Offset="0.6" Color="#24722A" />
-                        <GradientStop Offset="1.2" Color="#0E5835" />
+                    <LinearGradientBrush x:Key="BackgroundGradient" StartPoint="0.0,0.0" EndPoint="1.0,1.0">
+                        <GradientStop Offset="0.0" Color="#3A4EDB" />
+                        <GradientStop Offset="0.5" Color="#6B45C9" />
+                        <GradientStop Offset="1.0" Color="#C83E9A" />
                     </LinearGradientBrush>
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Light">
-                    <LinearGradientBrush x:Key="BackgroundGradient" StartPoint="0.4,-0.2" EndPoint="0.9,1.3">
-                        <GradientStop Offset="0.2" Color="#9AE171" />
-                        <GradientStop Offset="1.2" Color="#45A144" />
+                    <LinearGradientBrush x:Key="BackgroundGradient" StartPoint="0.0,0.0" EndPoint="1.0,1.0">
+                        <GradientStop Offset="0.0" Color="#B9C6FF" />
+                        <GradientStop Offset="0.5" Color="#C7B2FF" />
+                        <GradientStop Offset="1.0" Color="#F58AD9" />
                     </LinearGradientBrush>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
