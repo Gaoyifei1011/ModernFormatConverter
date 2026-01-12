@@ -27,7 +27,6 @@ namespace ModernFormatConverter.Views.Dialogs
     public sealed partial class AppInformationDialog : ContentDialog, INotifyPropertyChanged
     {
         private readonly string DoNetVersionString = ResourceService.DialogResource.GetString("DoNetVersion");
-        private readonly string FFMpegVersionString = ResourceService.DialogResource.GetString("FFMpegVersion");
         private readonly string WindowsAppSDKVersionString = ResourceService.DialogResource.GetString("WindowsAppSDKVersion");
         private readonly string WinUIVersionString = ResourceService.DialogResource.GetString("WinUIVersion");
 
@@ -95,10 +94,6 @@ namespace ModernFormatConverter.Views.Dialogs
                             break;
                         }
                     }
-
-                    // FFMpeg 版本信息
-                    FileVersionInfo ffmpegFile = FileVersionInfo.GetVersionInfo(Path.Combine(Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath), "Mile.FFmpeg.dll"));
-                    dependencyInformationList.Add(new KeyValuePair<string, Version>(FFMpegVersionString, new Version(ffmpegFile.FileMajorPart, ffmpegFile.FileMinorPart, ffmpegFile.FileBuildPart, ffmpegFile.FilePrivatePart)));
 
                     // .NET 版本信息
                     dependencyInformationList.Add(new KeyValuePair<string, Version>(DoNetVersionString, new Version(RuntimeInformation.FrameworkDescription.Remove(0, 15))));

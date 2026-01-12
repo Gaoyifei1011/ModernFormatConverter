@@ -4,7 +4,6 @@ Close=Close
 CloseApp=Close app
 CopyAppInformation=Copy app information
 DoNetVersion=.NET Framework version:
-FFMpegVersion=FFMpeg version:
 License=Format converter License
 LoadingAppInformation=Loading app information, please wait...
 OK=OK
