@@ -85,6 +85,7 @@
     <Content Include="Assets\LargeTile.scale-150.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\LargeTile.scale-200.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\LargeTile.scale-400.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Resources\HATest.mp4" CopyToOutputDirectory="Always" />
     <Content Include="Assets\SmallTile.scale-100.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\SmallTile.scale-125.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\SmallTile.scale-150.png" CopyToOutputDirectory="Always" />
