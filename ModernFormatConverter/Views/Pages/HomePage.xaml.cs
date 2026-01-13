@@ -1,5 +1,6 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 using ModernFormatConverter.Models;
+using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.Views.Windows;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,20 @@ namespace ModernFormatConverter.Views.Pages
         // 其他工具列表
         private List<ControlItemModel> OtherToolsList { get; } =
         [
+            new ControlItemModel()
+            {
+                Title = ResourceService.HomeResource.GetString("FileInformation"),
+                Description = ResourceService.HomeResource.GetString("FileInformationDescription"),
+                ImagePath = "ms-appx:///Assets/ControlIcon/FileInformation.png",
+                Tag = "FileInformation"
+            },
+            new ControlItemModel()
+            {
+                Title = ResourceService.HomeResource.GetString("HATest"),
+                Description = ResourceService.HomeResource.GetString("HATestDescription"),
+                ImagePath = "ms-appx:///Assets/ControlIcon/HATest.png",
+                Tag = "HATest"
+            }
         ];
 
         public HomePage()
@@ -51,9 +66,15 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnItemClick(object sender, ItemClickEventArgs args)
         {
-            if (args.ClickedItem is ControlItemModel controlItem && MainWindow.Current.NavigationItemList.Find(item => string.Equals(item.NavigationTag, controlItem.Tag, StringComparison.OrdinalIgnoreCase)) is NavigationModel navigationItem)
+            if (args.ClickedItem is ControlItemModel controlItem)
             {
-                MainWindow.Current.NavigateTo(navigationItem.NavigationPage);
+                if (OtherToolsList.Contains(controlItem) && MainWindow.Current.NavigationItemList.Find(item => string.Equals(item.NavigationTag, controlItem.Tag, StringComparison.OrdinalIgnoreCase)) is NavigationModel navigationItem)
+                {
+                    MainWindow.Current.NavigateTo(navigationItem.NavigationPage);
+                }
+                else
+                {
+                }
             }
         }
 
