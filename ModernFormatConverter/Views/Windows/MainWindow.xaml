@@ -161,21 +161,82 @@
                         </ToolTipService.ToolTip>
                     </NavigationViewItem>
 
-                    <NavigationViewItemSeparator Margin="0,0,6,0" />
+                    <!--  任务管理  -->
+                    <NavigationViewItem Tag="{x:Bind PageList[1].Key}">
 
-                    <!--  视频  -->
+                        <NavigationViewItem.Icon>
+                            <ImageIcon Source="ms-appx:///Assets/ControlIcon/TaskManager.png" />
+                        </NavigationViewItem.Icon>
 
-                    <!--  音频  -->
+                        <NavigationViewItem.Content>
+                            <TextBlock
+                                x:Name="WindowTaskManagerText"
+                                Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('TaskManager')}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="NoWrap" />
+                        </NavigationViewItem.Content>
 
-                    <!--  图片  -->
+                        <ToolTipService.ToolTip>
+                            <ToolTip
+                                MaxWidth="9999"
+                                Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('TaskManager')}"
+                                Loaded="{x:Bind backdrophelper:ToolTipBackdropHelper.OnLoaded}"
+                                Visibility="{x:Bind WindowTaskManagerText.IsTextTrimmed, Mode=OneWay}" />
+                        </ToolTipService.ToolTip>
+                    </NavigationViewItem>
 
-                    <!--  文档  -->
+                    <!--  文件信息  -->
+                    <NavigationViewItem Tag="{x:Bind PageList[2].Key}">
 
-                    <!--  其他  -->
+                        <NavigationViewItem.Icon>
+                            <ImageIcon Source="ms-appx:///Assets/ControlIcon/FileInformation.png" />
+                        </NavigationViewItem.Icon>
+
+                        <NavigationViewItem.Content>
+                            <TextBlock
+                                x:Name="WindowFileInformationText"
+                                Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('FileInformation')}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="NoWrap" />
+                        </NavigationViewItem.Content>
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip
+                                MaxWidth="9999"
+                                Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('FileInformation')}"
+                                Loaded="{x:Bind backdrophelper:ToolTipBackdropHelper.OnLoaded}"
+                                Visibility="{x:Bind WindowFileInformationText.IsTextTrimmed, Mode=OneWay}" />
+                        </ToolTipService.ToolTip>
+                    </NavigationViewItem>
+
+                    <!--  硬件加速测试  -->
+                    <NavigationViewItem Tag="{x:Bind PageList[3].Key}">
+
+                        <NavigationViewItem.Icon>
+                            <ImageIcon Source="ms-appx:///Assets/ControlIcon/HATest.png" />
+                        </NavigationViewItem.Icon>
+
+                        <NavigationViewItem.Content>
+                            <TextBlock
+                                x:Name="WindowHATestText"
+                                Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('HATest')}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="NoWrap" />
+                        </NavigationViewItem.Content>
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip
+                                MaxWidth="9999"
+                                Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('HATest')}"
+                                Loaded="{x:Bind backdrophelper:ToolTipBackdropHelper.OnLoaded}"
+                                Visibility="{x:Bind WindowHATestText.IsTextTrimmed, Mode=OneWay}" />
+                        </ToolTipService.ToolTip>
+                    </NavigationViewItem>
                 </NavigationView.MenuItems>
 
                 <NavigationView.FooterMenuItems>
-                    <NavigationViewItem Tag="{x:Bind PageList[1].Key}">
+                    <!--  设置  -->
+                    <NavigationViewItem Tag="{x:Bind PageList[4].Key}">
 
                         <NavigationViewItem.Icon>
                             <ImageIcon Source="ms-appx:///Assets/ControlIcon/Settings.png" />

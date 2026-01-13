@@ -152,6 +152,9 @@ namespace ModernFormatConverter.Views.Windows
         private List<KeyValuePair<string, Type>> PageList { get; } =
         [
             new KeyValuePair<string, Type>("Home",typeof(HomePage)),
+            new KeyValuePair<string, Type>("TaskManger",typeof(TaskMangerPage)),
+            new KeyValuePair<string, Type>("FileInformation",typeof(FileInformationPage)),
+            new KeyValuePair<string, Type>("HATest",typeof(HATestPage)),
             new KeyValuePair<string, Type>("Settings",typeof(SettingsPage)),
         ];
 
