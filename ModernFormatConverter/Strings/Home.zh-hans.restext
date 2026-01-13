@@ -1,6 +1,10 @@
 ﻿AudioTools=音频工具
 DocumentTools=文档工具
+HATest=硬件加速测试
+HATestDescription=测试可用的媒体文件的硬件加速平台
 Home=主页
+FileInformation=文件信息
+FileInformationDescription=查看媒体、图片、文档文件信息
 ModernFormatConverter=格式转换器
 ModernFormatConverterDescription=轻松转换，便捷获取想要的任意格式
 OtherTools=其他工具

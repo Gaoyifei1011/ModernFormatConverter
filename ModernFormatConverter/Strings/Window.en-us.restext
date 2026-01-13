@@ -1,4 +1,6 @@
 ﻿Close=Close
+FileInformation=File information
+HATest=Hardware acceleration test
 Home=Home
 Maximize=Maximize
 Minimize=Minimize
@@ -7,4 +9,5 @@ Restore=Restore
 RunningAdministrator=(Administrator)
 Settings=Settings
 Size=Size
+TaskManager=Task manager
 Title=Format converter
