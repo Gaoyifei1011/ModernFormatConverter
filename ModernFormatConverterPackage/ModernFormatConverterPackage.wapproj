@@ -60,7 +60,7 @@
     <Content Include="$(ProjectDir)\FFMpeg\$(Platform)\ffmpeg.exe" Link="ffmpeg.exe" CopyToOutputDirectory="Always" />
     <None Include="Package.StoreAssociation.xml" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7463" />
-    <PackageReference Include="Microsoft.WindowsAppSDK.Runtime" Version="1.8.251106002" />
+    <PackageReference Include="Microsoft.WindowsAppSDK.Runtime" Version="1.8.260101001" />
     <ProjectReference Include="..\ModernFormatConverter\ModernFormatConverter.csproj" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
