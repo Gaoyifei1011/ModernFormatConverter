@@ -81,6 +81,7 @@ namespace ModernFormatConverter.Views.Pages
                 }
                 else
                 {
+                    MainWindow.Current.NavigateTo(MainWindow.Current.NavigationItemList[1].NavigationPage);
                 }
             }
         }

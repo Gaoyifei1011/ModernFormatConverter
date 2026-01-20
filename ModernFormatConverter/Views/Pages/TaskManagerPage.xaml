@@ -6,4 +6,20 @@
     xmlns:local="using:ModernFormatConverter.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:rootservice="using:ModernFormatConverter.Services.Root"
-    mc:Ignorable="d" />
+    mc:Ignorable="d">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            Grid.Row="0"
+            Margin="30,15,30,0"
+            FontSize="22"
+            Text="{x:Bind rootservice:ResourceService.TaskManagerResource.GetString('TaskManager')}" />
+    </Grid>
+</Page>
