@@ -51,6 +51,13 @@ namespace ModernFormatConverter.Views.Pages
                 Description = ResourceService.HomeResource.GetString("HATestDescription"),
                 ImagePath = "ms-appx:///Assets/ControlIcon/HATest.png",
                 Tag = "HATest"
+            },
+            new ControlItemModel()
+            {
+                Title = ResourceService.HomeResource.GetString("CustomCommand"),
+                Description = ResourceService.HomeResource.GetString("CustomCommandDescription"),
+                ImagePath = "ms-appx:///Assets/ControlIcon/CustomCommand.png",
+                Tag = "CustomCommand"
             }
         ];
 

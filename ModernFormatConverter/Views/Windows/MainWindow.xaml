@@ -232,11 +232,35 @@
                                 Visibility="{x:Bind WindowHATestText.IsTextTrimmed, Mode=OneWay}" />
                         </ToolTipService.ToolTip>
                     </NavigationViewItem>
+
+                    <!--  硬件加速测试  -->
+                    <NavigationViewItem Tag="{x:Bind PageList[4].Key}">
+
+                        <NavigationViewItem.Icon>
+                            <ImageIcon Source="ms-appx:///Assets/ControlIcon/CustomCommand.png" />
+                        </NavigationViewItem.Icon>
+
+                        <NavigationViewItem.Content>
+                            <TextBlock
+                                x:Name="WindowCustomCommandText"
+                                Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('CustomCommand')}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="NoWrap" />
+                        </NavigationViewItem.Content>
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip
+                                MaxWidth="9999"
+                                Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('CustomCommand')}"
+                                Loaded="{x:Bind backdrophelper:ToolTipBackdropHelper.OnLoaded}"
+                                Visibility="{x:Bind WindowHATestText.IsTextTrimmed, Mode=OneWay}" />
+                        </ToolTipService.ToolTip>
+                    </NavigationViewItem>
                 </NavigationView.MenuItems>
 
                 <NavigationView.FooterMenuItems>
                     <!--  设置  -->
-                    <NavigationViewItem Tag="{x:Bind PageList[4].Key}">
+                    <NavigationViewItem Tag="{x:Bind PageList[5].Key}">
 
                         <NavigationViewItem.Icon>
                             <ImageIcon Source="ms-appx:///Assets/ControlIcon/Settings.png" />

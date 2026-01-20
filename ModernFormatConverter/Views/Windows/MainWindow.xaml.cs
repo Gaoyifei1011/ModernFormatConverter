@@ -155,6 +155,7 @@ namespace ModernFormatConverter.Views.Windows
             new KeyValuePair<string, Type>("TaskManger",typeof(TaskMangerPage)),
             new KeyValuePair<string, Type>("FileInformation",typeof(FileInformationPage)),
             new KeyValuePair<string, Type>("HATest",typeof(HATestPage)),
+            new KeyValuePair<string, Type>("CustomCommand",typeof(CustomCommandPage)),
             new KeyValuePair<string, Type>("Settings",typeof(SettingsPage)),
         ];
 
