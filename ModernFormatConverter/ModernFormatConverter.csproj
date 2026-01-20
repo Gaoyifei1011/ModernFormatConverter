@@ -140,9 +140,18 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" CopyToOutputDirectory="Always" />
 
+    <EmbeddedResource Include="Strings\CustomCommand.en-us.restext" />
+    <EmbeddedResource Include="Strings\CustomCommand.restext" />
+    <EmbeddedResource Include="Strings\CustomCommand.zh-hans.restext" />
     <EmbeddedResource Include="Strings\Dialog.en-us.restext" />
     <EmbeddedResource Include="Strings\Dialog.restext" />
     <EmbeddedResource Include="Strings\Dialog.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\FileInformation.en-us.restext" />
+    <EmbeddedResource Include="Strings\FileInformation.restext" />
+    <EmbeddedResource Include="Strings\FileInformation.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\HATest.en-us.restext" />
+    <EmbeddedResource Include="Strings\HATest.restext" />
+    <EmbeddedResource Include="Strings\HATest.zh-hans.restext" />
     <EmbeddedResource Include="Strings\Home.en-us.restext" />
     <EmbeddedResource Include="Strings\Home.restext" />
     <EmbeddedResource Include="Strings\Home.zh-hans.restext" />
@@ -159,6 +168,9 @@
     <EmbeddedResource Include="Strings\SettingsGeneral.zh-hans.restext" />
     <EmbeddedResource Include="Strings\SettingsGeneral.en-us.restext" />
     <EmbeddedResource Include="Strings\SettingsGeneral.restext" />
+    <EmbeddedResource Include="Strings\TaskManager.en-us.restext" />
+    <EmbeddedResource Include="Strings\TaskManager.restext" />
+    <EmbeddedResource Include="Strings\TaskManager.zh-hans.restext" />
     <EmbeddedResource Include="Strings\Window.en-us.restext" />
     <EmbeddedResource Include="Strings\Window.restext" />
     <EmbeddedResource Include="Strings\Window.zh-hans.restext" />
@@ -184,6 +196,7 @@
     <Page Include="Views\Dialogs\UpdateAppDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\NotificationTips\CopyPasteNotificationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\NotificationTips\OperationResultNotificationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Pages\CustomCommandPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\HATestPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\HomePage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\SettingsAboutPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />

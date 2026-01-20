@@ -10,7 +10,13 @@ namespace ModernFormatConverter.Services.Root
     {
         private static Assembly CurrentAssembly { get; } = Assembly.GetExecutingAssembly();
 
+        public static ResourceManager CustomCommandResource { get; } = new("ModernFormatConverter.Strings.CustomCommand", CurrentAssembly);
+
         public static ResourceManager DialogResource { get; } = new("ModernFormatConverter.Strings.Dialog", CurrentAssembly);
+
+        public static ResourceManager FileInformationResource { get; } = new("ModernFormatConverter.Strings.FileInformation", CurrentAssembly);
+
+        public static ResourceManager HATestResource { get; } = new("ModernFormatConverter.Strings.HATest", CurrentAssembly);
 
         public static ResourceManager HomeResource { get; } = new("ModernFormatConverter.Strings.Home", CurrentAssembly);
 
@@ -21,6 +27,8 @@ namespace ModernFormatConverter.Services.Root
         public static ResourceManager SettingsGeneralResource { get; } = new("ModernFormatConverter.Strings.SettingsGeneral", CurrentAssembly);
 
         public static ResourceManager SettingsResource { get; } = new("ModernFormatConverter.Strings.Settings", CurrentAssembly);
+
+        public static ResourceManager TaskManagerResource { get; } = new("ModernFormatConverter.Strings.TaskManager", CurrentAssembly);
 
         public static ResourceManager WindowResource { get; } = new("ModernFormatConverter.Strings.Window", CurrentAssembly);
     }

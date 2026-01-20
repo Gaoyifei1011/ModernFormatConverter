@@ -1,4 +1,6 @@
 ﻿AudioTools=Audio tools
+CustomCommand=Custom command
+CustomCommandDescription=Custom FFmpeg program execution command
 DocumentTools=Document tools
 HATest=Hardware acceleration test
 HATestDescription=Test the hardware acceleration platform for available media files

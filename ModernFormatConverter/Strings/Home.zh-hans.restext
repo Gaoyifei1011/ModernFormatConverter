@@ -1,4 +1,6 @@
 ﻿AudioTools=音频工具
+CustomCommand=自定义命令
+CustomCommandDescription=自定义 FFmepg 程序运行命令
 DocumentTools=文档工具
 HATest=硬件加速测试
 HATestDescription=测试可用的媒体文件的硬件加速平台

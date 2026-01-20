@@ -1,4 +1,6 @@
 ﻿Close=Close
+CustomCommand=Custom command
+CustomCommandDescription=Custom FFmpeg program execution command
 FileInformation=File information
 HATest=Hardware acceleration test
 Home=Home
