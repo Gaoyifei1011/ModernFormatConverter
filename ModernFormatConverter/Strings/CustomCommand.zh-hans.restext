@@ -1,1 +1,4 @@
-﻿CustomCommand=自定义命令
+﻿CommandPHText=请输入 FFmepg 命令
+CustomCommand=自定义命令
+Run=运行
+Stop=停止运行

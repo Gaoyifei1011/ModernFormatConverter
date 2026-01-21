@@ -1,1 +1,4 @@
-﻿CustomCommand=Custom command
+﻿CommandPHText=Please input FFmpeg command
+CustomCommand=Custom command
+Run=Run
+Stop=Stop running
