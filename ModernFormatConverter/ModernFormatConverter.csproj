@@ -177,6 +177,7 @@
 
     <None Remove="MainApp.xaml" />
     <None Remove="Styles\NavigationView.xaml" />
+    <None Remove="Styles\TextBox.xaml" />
     <None Remove="Views\Dialogs\AppInformationDialog.xaml" />
     <None Remove="Views\Dialogs\LicenseDialog.xaml" />
     <None Remove="Views\Dialogs\RestartAppsDialog.xaml" />
@@ -190,6 +191,7 @@
     <None Remove="Views\Windows\MainWindow.xaml" />
 
     <Page Include="Styles\NavigationView.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Styles\TextBox.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Dialogs\AppInformationDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Dialogs\LicenseDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Dialogs\RestartAppsDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
