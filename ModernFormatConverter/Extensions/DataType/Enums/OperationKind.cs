@@ -6,6 +6,7 @@
     public enum OperationKind
     {
         CheckUpdate,
+        CommandEmpty,
         Desktop,
         LanguageChange,
         StartScreen,

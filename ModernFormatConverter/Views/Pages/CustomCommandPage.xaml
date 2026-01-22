@@ -38,6 +38,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <AutoSuggestBox
@@ -77,6 +78,49 @@
                     </AppBarButton>
                 </CommandBar.PrimaryCommands>
             </CommandBar>
+
+            <Button
+                Grid.Column="2"
+                MinHeight="{ThemeResource AppBarThemeCompactHeight}"
+                Margin="-6,0,0,0"
+                Padding="{ThemeResource CommandBarMoreButtonMargin}"
+                VerticalAlignment="Center"
+                Foreground="{ThemeResource CommandBarForeground}"
+                IsAccessKeyScope="True"
+                Style="{ThemeResource EllipsisButton}">
+
+                <Button.Content>
+                    <FontIcon
+                        Height="{ThemeResource AppBarExpandButtonCircleDiameter}"
+                        VerticalAlignment="Center"
+                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                        FontSize="20"
+                        Glyph="&#xE712;" />
+                </Button.Content>
+
+                <Button.Flyout>
+                    <MenuFlyout Placement="Bottom">
+                        <MenuFlyoutItem Click="{x:Bind OnTestClicked}" Text="{x:Bind rootservice:ResourceService.CustomCommandResource.GetString('Test')}">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE756;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+
+                        <MenuFlyoutItem Click="{x:Bind OnClearResultClicked}" Text="{x:Bind rootservice:ResourceService.CustomCommandResource.GetString('ClearResult')}">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE74D;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                    </MenuFlyout>
+                </Button.Flyout>
+
+                <ToolTipService.ToolTip>
+                    <ToolTip
+                        MaxWidth="9999"
+                        Content="{x:Bind rootservice:ResourceService.CustomCommandResource.GetString('ViewMore')}"
+                        Loaded="{x:Bind backdrophelper:ToolTipBackdropHelper.OnLoaded}" />
+                </ToolTipService.ToolTip>
+            </Button>
         </Grid>
 
         <Grid
@@ -87,6 +131,8 @@
             CornerRadius="{StaticResource ControlCornerRadius}">
 
             <TextBox
+                Padding="16,5,20,6"
+                FontSize="15"
                 IsReadOnly="True"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                 ScrollViewer.HorizontalScrollMode="Disabled"
@@ -94,11 +140,60 @@
                 ScrollViewer.VerticalScrollMode="Enabled"
                 Style="{StaticResource CustomCommandResultTextBoxStyle}"
                 Text="{x:Bind CommandResultText, Mode=OneWay}"
+                TextAlignment="Justify"
+                TextChanged="{x:Bind OnCommandResultTextChanged}"
                 TextWrapping="Wrap" />
         </Grid>
 
-        <Grid Grid.Row="3" Margin="30,0,30,40">
-            <TextBlock Text="Test Description" />
-        </Grid>
+        <!--  小提示  -->
+        <Expander
+            Grid.Row="3"
+            Margin="30,0,30,30"
+            Padding="0"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            IsExpanded="True">
+
+            <Expander.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <FontIcon
+                        Grid.Column="0"
+                        Margin="0,0,12,0"
+                        FontSize="16"
+                        Glyph="&#xE82F;" />
+
+                    <TextBlock
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind rootservice:ResourceService.CustomCommandResource.GetString('Tips')}" />
+                </Grid>
+            </Expander.Header>
+
+            <Expander.Content>
+                <StackPanel>
+                    <TextBlock
+                        Margin="44,10,16,5"
+                        FontSize="14"
+                        FontWeight="Normal"
+                        Text="{x:Bind rootservice:ResourceService.CustomCommandResource.GetString('TipContent1')}"
+                        TextAlignment="Justify"
+                        TextWrapping="Wrap" />
+
+                    <TextBlock
+                        Margin="44,0,16,10"
+                        FontSize="14"
+                        FontWeight="Normal"
+                        Text="{x:Bind rootservice:ResourceService.CustomCommandResource.GetString('TipContent2')}"
+                        TextAlignment="Justify"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+            </Expander.Content>
+        </Expander>
     </Grid>
 </Page>

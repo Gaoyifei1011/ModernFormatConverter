@@ -1,4 +1,5 @@
-﻿CopyToClipboardFailed=复制内容到剪贴板失败，请检查剪贴板的访问权限
+﻿CommandEmpty=请输入命令
+CopyToClipboardFailed=复制内容到剪贴板失败，请检查剪贴板的访问权限
 CopyToClipboardSuccessfully=成功复制内容到剪贴板
 DesktopShortFailed=应用的桌面快捷方式创建失败，请手动创建
 DesktopShortcutSuccessfully=应用的桌面快捷方式已成功创建

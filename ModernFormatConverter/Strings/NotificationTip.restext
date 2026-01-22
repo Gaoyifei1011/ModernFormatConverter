@@ -1,4 +1,5 @@
-﻿CopyToClipboardFailed=Failed to copy the content to the clipboard. Please check the access permission of the clipboard
+﻿CommandEmpty=Please input command
+CopyToClipboardFailed=Failed to copy the content to the clipboard. Please check the access permission of the clipboard
 CopyToClipboardSuccessfully=Content has been successfully copied to the clipboard
 DesktopShortFailed=The app's desktop shortcut failed to create, please create it manually
 DesktopShortcutSuccessfully=The desktop shortcut for the app was created successfully

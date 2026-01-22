@@ -1,4 +1,10 @@
-﻿CommandPHText=Please input FFmpeg command
+﻿ClearResult=Clear output result
+CommandPHText=Please input FFmpeg command
 CustomCommand=Custom command
 Run=Run
 Stop=Stop running
+Test=Test
+Tips=Tips
+TipContent1=1.The custom command requires users to have a certain level of command line proficiency
+TipContent2=2.The custom command is associated with the program, so you only need to enter the command name to invoke it, without specifying its path.
+ViewMore=View more

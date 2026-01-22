@@ -48,7 +48,12 @@ namespace ModernFormatConverter.Views.NotificationTips
         {
             InitializeComponent();
 
-            if (operationKind is OperationKind.LanguageChange)
+            if (operationKind is OperationKind.CommandEmpty)
+            {
+                IsSuccessOperation = false;
+                OperationContent = ResourceService.NotificationTipResource.GetString("CommandEmpty");
+            }
+            else if (operationKind is OperationKind.LanguageChange)
             {
                 IsSuccessOperation = true;
                 OperationContent = ResourceService.NotificationTipResource.GetString("LanguageChange");

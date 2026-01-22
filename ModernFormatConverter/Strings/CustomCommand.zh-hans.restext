@@ -1,4 +1,10 @@
-﻿CommandPHText=请输入 FFmepg 命令
+﻿ClearResult=清空输出结果
+CommandPHText=请输入 FFmepg 命令
 CustomCommand=自定义命令
 Run=运行
 Stop=停止运行
+Test=测试
+Tips=小提示
+TipContent1=1.自定义命令功能需要用户具备一定的命令行使用基础
+TipContent2=2.自定义命令已与程序关联，您只需输入命令名称即可调用，无需指定其所在路径
+ViewMore=查看更多
