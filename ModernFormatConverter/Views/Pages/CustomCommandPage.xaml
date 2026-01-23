@@ -8,6 +8,8 @@
     xmlns:local="using:ModernFormatConverter.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:rootservice="using:ModernFormatConverter.Services.Root"
+    Loaded="{x:Bind OnLoaded}"
+    NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
     <Grid>
@@ -100,7 +102,10 @@
 
                 <Button.Flyout>
                     <MenuFlyout Placement="Bottom">
-                        <MenuFlyoutItem Click="{x:Bind OnTestClicked}" Text="{x:Bind rootservice:ResourceService.CustomCommandResource.GetString('Test')}">
+                        <MenuFlyoutItem
+                            Click="{x:Bind OnTestClicked}"
+                            IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsRunning), Mode=OneWay}"
+                            Text="{x:Bind rootservice:ResourceService.CustomCommandResource.GetString('Test')}">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE756;" />
                             </MenuFlyoutItem.Icon>
@@ -131,6 +136,7 @@
             CornerRadius="{StaticResource ControlCornerRadius}">
 
             <TextBox
+                x:Name="CommandResultTextBox"
                 Padding="16,5,20,6"
                 FontSize="15"
                 IsReadOnly="True"
@@ -186,10 +192,18 @@
                         TextWrapping="Wrap" />
 
                     <TextBlock
-                        Margin="44,0,16,10"
+                        Margin="44,0,16,5"
                         FontSize="14"
                         FontWeight="Normal"
                         Text="{x:Bind rootservice:ResourceService.CustomCommandResource.GetString('TipContent2')}"
+                        TextAlignment="Justify"
+                        TextWrapping="Wrap" />
+
+                    <TextBlock
+                        Margin="44,0,16,10"
+                        FontSize="14"
+                        FontWeight="Normal"
+                        Text="{x:Bind rootservice:ResourceService.CustomCommandResource.GetString('TipContent3')}"
                         TextAlignment="Justify"
                         TextWrapping="Wrap" />
                 </StackPanel>

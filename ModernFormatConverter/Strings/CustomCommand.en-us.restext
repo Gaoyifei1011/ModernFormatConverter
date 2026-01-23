@@ -1,10 +1,12 @@
 ﻿ClearResult=Clear output result
 CommandPHText=Please input FFmpeg command
 CustomCommand=Custom command
+ProcessExit=The program "[{0}] {1}" has exited with return value {2} (0x{3:X8})
 Run=Run
 Stop=Stop running
 Test=Test
 Tips=Tips
 TipContent1=1.The custom command requires users to have a certain level of command line proficiency
 TipContent2=2.The custom command is associated with the program, so you only need to enter the command name to invoke it, without specifying its path.
+TipContent3=3.The FFmpeg program operates in non-interactive mode
 ViewMore=View more
