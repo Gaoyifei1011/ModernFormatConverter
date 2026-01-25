@@ -115,6 +115,59 @@ namespace ModernFormatConverter.Views.Pages
             if (string.IsNullOrEmpty(CommandText))
             {
                 await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.CommandEmpty));
+                return;
+            }
+
+            if (!IsRunning)
+            {
+                IsRunning = true;
+                commandResultBuilder.Clear();
+                CommandResultText = string.Empty;
+                customCommandResultTextBoxScrollViewer.ChangeView(null, 0, null, true);
+
+                await Task.Run(() =>
+                {
+                    try
+                    {
+                        process = new()
+                        {
+                            StartInfo = new ProcessStartInfo
+                            {
+                                FileName = "FFmpeg.exe",
+                                Arguments = string.Join(" ", "-nostdin", CommandText),
+                                RedirectStandardOutput = true,
+                                RedirectStandardError = true,
+                                UseShellExecute = false,
+                                CreateNoWindow = true,
+                                WorkingDirectory = Environment.CurrentDirectory,
+                                StandardOutputEncoding = Encoding.UTF8,
+                                StandardErrorEncoding = Encoding.UTF8
+                            },
+                            EnableRaisingEvents = true
+                        };
+                        process.OutputDataReceived += OnOutputDataReceived;
+                        process.ErrorDataReceived += OnErrorDataReceived;
+                        process.Exited += OnExited;
+                        process.Start();
+                        process.BeginOutputReadLine();
+                        process.BeginErrorReadLine();
+                        process.WaitForExit();
+                        process.OutputDataReceived -= OnOutputDataReceived;
+                        process.ErrorDataReceived -= OnErrorDataReceived;
+                        process.Exited -= OnExited;
+                        process = null;
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CustomCommandPage), nameof(OnTestClicked), 1, e);
+                        process.OutputDataReceived -= OnOutputDataReceived;
+                        process.ErrorDataReceived -= OnErrorDataReceived;
+                        process.Exited -= OnExited;
+                        process.Dispose();
+                        process = null;
+                    }
+                });
+                IsRunning = false;
             }
         }
 
@@ -134,6 +187,7 @@ namespace ModernFormatConverter.Views.Pages
             if (string.IsNullOrEmpty(CommandText))
             {
                 await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.CommandEmpty));
+                return;
             }
 
             if (!IsRunning)
