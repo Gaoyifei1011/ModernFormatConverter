@@ -1,1 +1,16 @@
-﻿HATest=硬件加速测试
+﻿AMDHATest=AMD 硬件加速测试
+AV1=AV1
+H264=H264
+HATest=硬件加速测试
+Hevc=Hevc
+IntelHATest=英特尔硬件加速测试
+MediaFoundationTest=媒体基础测试
+NotSupport=不支持
+NotTest=未测试
+NvidiaHATest=Nvidia 硬件加速测试
+Operation=操作
+RunHATest=运行测试
+StopHATest=停止测试
+Support=支持
+Testing=测试中...
+VP9=VP9

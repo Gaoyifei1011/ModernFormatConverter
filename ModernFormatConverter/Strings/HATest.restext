@@ -1,1 +1,16 @@
-﻿HATest=Hardware acceleration test
+﻿AMDGPU=AMD hardware acceleration test
+AV1=AV1
+H264=H264
+HATest=Hardware acceleration test
+Hevc=Hevc
+IntelGPU=Intel hardware acceleration test
+MediaFoundationTest=Media foundation test
+NotSupport=Not support
+NotTest=Not test
+NvidiaGPU=Nvidia hardware acceleration test
+Operation=Operation
+RunHATest=Run test
+StopHATest=Stop test
+Support=Support
+Testing=Testing...
+VP9=VP9
