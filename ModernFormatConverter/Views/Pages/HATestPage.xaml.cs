@@ -4,7 +4,10 @@ using ModernFormatConverter.Extensions.DataType.Class;
 using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
+using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 // 抑制 IDE0060 警告
 #pragma warning disable IDE0060
@@ -137,6 +140,26 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnRunHATestClicked(object sender, RoutedEventArgs args)
         {
+            if (!IsTesting)
+            {
+                IsTesting = true;
+                foreach (HATestModel intelHATestItem in IntelHATestCollection)
+                {
+                    intelHATestItem.HATestResultKind = HATestResultKind.Testing;
+                }
+                foreach (HATestModel mediaFoundationTestItem in MediaFoundationTestCollection)
+                {
+                    mediaFoundationTestItem.HATestResultKind = HATestResultKind.Testing;
+                }
+                foreach (HATestModel nvidiaHATestItem in NvidiaHATestCollection)
+                {
+                    nvidiaHATestItem.HATestResultKind = HATestResultKind.Testing;
+                }
+                foreach (HATestModel amdHATestItem in AMDHATestCollection)
+                {
+                    amdHATestItem.HATestResultKind = HATestResultKind.Testing;
+                }
+            }
         }
 
         /// <summary>
@@ -149,8 +172,42 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 使用说明
         /// </summary>
-        private void OnUseInstructionClicked(object sender, RoutedEventArgs args)
+        private async void OnUseInstructionClicked(object sender, RoutedEventArgs args)
         {
+            await Task.Delay(300);
+            if (!HATestSplitView.IsPaneOpen)
+            {
+                HATestSplitView.IsPaneOpen = true;
+            }
+        }
+
+        /// <summary>
+        /// 点击关闭按钮关闭使用说明
+        /// </summary>
+        private void OnCloseClicked(object sender, RoutedEventArgs args)
+        {
+            if (HATestSplitView.IsPaneOpen)
+            {
+                HATestSplitView.IsPaneOpen = false;
+            }
+        }
+
+        /// <summary>
+        /// 打开设备管理器
+        /// </summary>
+        private void OnOpenDeviceManagementClicked(object sender, RoutedEventArgs args)
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    Process.Start("devmgmt.msc");
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(HATestPage), nameof(OnOpenDeviceManagementClicked), 1, e);
+                }
+            });
         }
 
         #endregion 第一部分：硬件加速测试页面——挂载的事件
