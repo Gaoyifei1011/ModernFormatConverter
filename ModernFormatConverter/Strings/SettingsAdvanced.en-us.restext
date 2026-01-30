@@ -1,0 +1,10 @@
+﻿Clear=Clear
+ClearLog=Clear log record
+ClearLogDescription=Clear all log contents of the app
+FFMpegFilePath=FFMpeg file path settings
+FFMpegFilePathDescription=Set the file path for the audio and video conversion tool FFMpeg
+LogFolder=Log storage path
+LogFolderDescription=Manage the log content of the app
+LogRecord=Log record
+LogRecordDescription=Manage app log record
+OpenLogFolder=Open folder

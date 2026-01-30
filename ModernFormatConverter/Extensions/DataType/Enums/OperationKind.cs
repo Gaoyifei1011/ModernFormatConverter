@@ -9,6 +9,7 @@
         CommandEmpty,
         Desktop,
         LanguageChange,
+        LogClean,
         StartScreen,
         Taskbar,
     }

@@ -77,6 +77,19 @@ namespace ModernFormatConverter.Views.NotificationTips
                     OperationContent = ResourceService.NotificationTipResource.GetString("DesktopShortcutFailed");
                 }
             }
+            else if (operationKind is OperationKind.LogClean)
+            {
+                if (operationResult)
+                {
+                    IsSuccessOperation = true;
+                    OperationContent = ResourceService.NotificationTipResource.GetString("LogCleanSuccessfully");
+                }
+                else
+                {
+                    IsSuccessOperation = false;
+                    OperationContent = ResourceService.NotificationTipResource.GetString("LogCleanFailed");
+                }
+            }
             else if (operationKind is OperationKind.StartScreen)
             {
                 if (operationResult)

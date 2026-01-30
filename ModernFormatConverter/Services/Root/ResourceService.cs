@@ -24,6 +24,8 @@ namespace ModernFormatConverter.Services.Root
 
         public static ResourceManager SettingsAboutResource { get; } = new("ModernFormatConverter.Strings.SettingsAbout", CurrentAssembly);
 
+        public static ResourceManager SettingsAdvancedResource { get; } = new("ModernFormatConverter.Strings.SettingsAdvanced", CurrentAssembly);
+
         public static ResourceManager SettingsGeneralResource { get; } = new("ModernFormatConverter.Strings.SettingsGeneral", CurrentAssembly);
 
         public static ResourceManager SettingsResource { get; } = new("ModernFormatConverter.Strings.Settings", CurrentAssembly);

@@ -1,0 +1,10 @@
+﻿Clear=清除
+ClearLog=清除日志记录
+ClearLogDescription=清除应用所有的日志内容
+FFMpegFilePath=FFMpeg 文件路径设置
+FFMpegFilePathDescription=设置音视频转换工具 FFMpeg 的文件路径
+LogFolder=日志存放路径
+LogFolderDescription=管理应用的日志内容
+LogRecord=日志记录
+LogRecordDescription=管理应用日志记录
+OpenLogFolder=打开文件夹

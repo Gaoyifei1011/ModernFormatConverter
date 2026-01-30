@@ -53,7 +53,7 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
-        private List<Type> PageList { get; } = [typeof(SettingsGeneralPage), typeof(SettingsAboutPage)];
+        private List<Type> PageList { get; } = [typeof(SettingsGeneralPage), typeof(SettingsAdvancedPage), typeof(SettingsAboutPage)];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -107,6 +107,10 @@ namespace ModernFormatConverter.Views.Pages
             else if (index is 1 && !Equals(currentPage, PageList[1]))
             {
                 NavigateTo(PageList[1], null, index > currentIndex);
+            }
+            else if (index is 2 && !Equals(currentPage, PageList[2]))
+            {
+                NavigateTo(PageList[2], null, index > currentIndex);
             }
         }
 

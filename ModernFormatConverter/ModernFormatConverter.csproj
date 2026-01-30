@@ -162,12 +162,15 @@
     <EmbeddedResource Include="Strings\Settings.en-us.restext" />
     <EmbeddedResource Include="Strings\Settings.restext" />
     <EmbeddedResource Include="Strings\Settings.zh-hans.restext" />
-    <EmbeddedResource Include="Strings\SettingsAbout.zh-hans.restext" />
     <EmbeddedResource Include="Strings\SettingsAbout.en-us.restext" />
     <EmbeddedResource Include="Strings\SettingsAbout.restext" />
-    <EmbeddedResource Include="Strings\SettingsGeneral.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\SettingsAbout.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\SettingsAdvanced.en-us.restext" />
+    <EmbeddedResource Include="Strings\SettingsAdvanced.restext" />
+    <EmbeddedResource Include="Strings\SettingsAdvanced.zh-hans.restext" />
     <EmbeddedResource Include="Strings\SettingsGeneral.en-us.restext" />
     <EmbeddedResource Include="Strings\SettingsGeneral.restext" />
+    <EmbeddedResource Include="Strings\SettingsGeneral.zh-hans.restext" />
     <EmbeddedResource Include="Strings\TaskManager.en-us.restext" />
     <EmbeddedResource Include="Strings\TaskManager.restext" />
     <EmbeddedResource Include="Strings\TaskManager.zh-hans.restext" />
@@ -186,6 +189,7 @@
     <None Remove="Views\NotificationTips\OperationResultNotificationTip.xaml" />
     <None Remove="Views\Pages\HomePage.xaml" />
     <None Remove="Views\Pages\SettingsAboutPage.xaml" />
+    <None Remove="Views\Pages\SettingsAdvancedPage.xaml" />
     <None Remove="Views\Pages\SettingsGeneralPage.xaml" />
     <None Remove="Views\Pages\SettingsPage.xaml" />
     <None Remove="Views\Windows\MainWindow.xaml" />
@@ -202,6 +206,7 @@
     <Page Include="Views\Pages\HATestPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\HomePage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\SettingsAboutPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Pages\SettingsAdvancedPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\SettingsGeneralPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\SettingsPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\FileInformationPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
