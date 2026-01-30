@@ -7,6 +7,8 @@ using ModernFormatConverter.Services.Root;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 
 // 抑制 IDE0060 警告
@@ -22,7 +24,11 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string AV1String = ResourceService.HATestResource.GetString("AV1");
         private readonly string H264String = ResourceService.HATestResource.GetString("H264");
         private readonly string HevcString = ResourceService.HATestResource.GetString("Hevc");
+        private readonly string TestFailedString = ResourceService.HATestResource.GetString("TestFailed");
+        private readonly string UserCancelTestString = ResourceService.HATestResource.GetString("UserCancelTest");
         private readonly string VP9String = ResourceService.HATestResource.GetString("VP9");
+        private bool isUserCanceled;
+        private Process process;
 
         private bool _isTesting;
 
@@ -138,27 +144,31 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 运行测试
         /// </summary>
-        private void OnRunHATestClicked(object sender, RoutedEventArgs args)
+        private async void OnRunHATestClicked(object sender, RoutedEventArgs args)
         {
             if (!IsTesting)
             {
                 IsTesting = true;
+                isUserCanceled = false;
+
                 foreach (HATestModel intelHATestItem in IntelHATestCollection)
                 {
-                    intelHATestItem.HATestResultKind = HATestResultKind.Testing;
+                    await RunHATestAsync(intelHATestItem);
                 }
                 foreach (HATestModel mediaFoundationTestItem in MediaFoundationTestCollection)
                 {
-                    mediaFoundationTestItem.HATestResultKind = HATestResultKind.Testing;
+                    await RunHATestAsync(mediaFoundationTestItem);
                 }
                 foreach (HATestModel nvidiaHATestItem in NvidiaHATestCollection)
                 {
-                    nvidiaHATestItem.HATestResultKind = HATestResultKind.Testing;
+                    await RunHATestAsync(nvidiaHATestItem);
                 }
                 foreach (HATestModel amdHATestItem in AMDHATestCollection)
                 {
-                    amdHATestItem.HATestResultKind = HATestResultKind.Testing;
+                    await RunHATestAsync(amdHATestItem);
                 }
+
+                IsTesting = false;
             }
         }
 
@@ -167,6 +177,26 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnStopHATestClicked(object sender, RoutedEventArgs args)
         {
+            if (IsTesting)
+            {
+                IsTesting = false;
+                isUserCanceled = true;
+
+                Task.Run(() =>
+                {
+                    if (process is not null)
+                    {
+                        try
+                        {
+                            process.Kill();
+                        }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(HATestPage), nameof(OnStopHATestClicked), 1, e);
+                        }
+                    }
+                });
+            }
         }
 
         /// <summary>
@@ -211,5 +241,147 @@ namespace ModernFormatConverter.Views.Pages
         }
 
         #endregion 第一部分：硬件加速测试页面——挂载的事件
+
+        /// <summary>
+        /// 运行硬件加速测试
+        /// </summary>
+        private async Task RunHATestAsync(HATestModel haTestItem)
+        {
+            if (!isUserCanceled)
+            {
+                haTestItem.HATestResultKind = HATestResultKind.Testing;
+                (bool isSupported, bool isConvertFailed, string convertFailedReason) = await Task.Run(() =>
+                {
+                    bool isSupported = false;
+                    bool isConvertFailed = false;
+                    string convertFailedReason = string.Empty;
+                    string output = string.Empty;
+                    string temporaryFile = string.Empty;
+                    string outputFile = string.Empty;
+
+                    try
+                    {
+                        string inputFile = Path.Combine(Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath), @"Assets\Resources\HATest.mp4");
+                        temporaryFile = Path.GetTempFileName();
+                        outputFile = Path.ChangeExtension(temporaryFile, ".mp4");
+                        StringBuilder outputBuilder = new();
+                        object outputBuilderLock = new();
+
+                        string arguments = haTestItem.HATestKind switch
+                        {
+                            HATestKind.H264_QSV => string.Format(@"-y -i ""{0}"" -c:v:0 h264_qsv ""{1}""", inputFile, outputFile),
+                            HATestKind.HEVC_QSV => string.Format(@"-y -i ""{0}"" -c:v:0 hevc_qsv ""{1}""", inputFile, outputFile),
+                            HATestKind.AV1_QSV => string.Format(@"-y -i ""{0}"" -c:v:0 av1_qsv ""{1}""", inputFile, outputFile),
+                            HATestKind.VP9_QSV => string.Format(@"-y -i ""{0}"" -c:v:0 vp9_qsv ""{1}""", inputFile, outputFile),
+                            HATestKind.H264_MF => string.Format(@"-y -i ""{0}"" -c:v:0 h264_mf ""{1}""", inputFile, outputFile),
+                            HATestKind.HEVC_MF => string.Format(@"-y -i ""{0}"" -c:v:0 hevc_mf ""{1}""", inputFile, outputFile),
+                            HATestKind.AV1_MF => string.Format(@"-y -i ""{0}"" -c:v:0 av1_mf ""{1}""", inputFile, outputFile),
+                            HATestKind.H264_NVENC => string.Format(@"-y -i ""{0}"" -c:v:0 h264_nvenc -b_ref_mode disabled ""{1}""", inputFile, outputFile),
+                            HATestKind.HEVC_NVENC => string.Format(@"-y -i ""{0}"" -c:v:0 hevc_nvenc -b_ref_mode disabled ""{1}""", inputFile, outputFile),
+                            HATestKind.AV1_NVENC => string.Format(@"-y -i ""{0}"" -c:v:0 av1_nvenc -b_ref_mode disabled ""{1}""", inputFile, outputFile),
+                            HATestKind.H264_AMF => string.Format(@"-y -i ""{0}"" -c:v:0 h264_amf -b_ref_mode disabled ""{1}""", inputFile, outputFile),
+                            HATestKind.HEVC_AMF => string.Format(@"-y -i ""{0}"" -c:v:0 hevc_amf -b_ref_mode disabled ""{1}""", inputFile, outputFile),
+                            HATestKind.AV1_AMF => string.Format(@"-y -i ""{0}"" -c:v:0 av1_amf -b_ref_mode disabled ""{1}""", inputFile, outputFile),
+                            _ => string.Empty
+                        };
+
+                        process = new()
+                        {
+                            StartInfo = new ProcessStartInfo
+                            {
+                                FileName = "FFmpeg.exe",
+                                Arguments = arguments,
+                                RedirectStandardOutput = true,
+                                RedirectStandardError = true,
+                                UseShellExecute = false,
+                                CreateNoWindow = true,
+                                WorkingDirectory = Environment.CurrentDirectory,
+                                StandardOutputEncoding = Encoding.UTF8,
+                                StandardErrorEncoding = Encoding.UTF8
+                            },
+                        };
+
+                        process.OutputDataReceived += (sender, args) =>
+                        {
+                            lock (outputBuilderLock)
+                            {
+                                outputBuilder.AppendLine(args.Data);
+                            }
+                        };
+                        process.ErrorDataReceived += (sender, args) =>
+                        {
+                            lock (outputBuilderLock)
+                            {
+                                outputBuilder.AppendLine(args.Data);
+                            }
+                        };
+                        process.Start();
+                        process.BeginOutputReadLine();
+                        process.BeginErrorReadLine();
+                        process.WaitForExit();
+                        lock (outputBuilderLock)
+                        {
+                            output = outputBuilder.ToString();
+                        }
+                        process = null;
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(HATestPage), nameof(RunHATestAsync), 1, e);
+                        convertFailedReason = e.Message;
+                        process = null;
+                    }
+
+                    try
+                    {
+                        if (File.Exists(temporaryFile))
+                        {
+                            File.Delete(temporaryFile);
+                        }
+
+                        if (File.Exists(outputFile))
+                        {
+                            File.Delete(outputFile);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(HATestPage), nameof(RunHATestAsync), 2, e);
+                    }
+
+                    if (!isUserCanceled && string.IsNullOrEmpty(convertFailedReason) && !output.Contains("Conversion failed"))
+                    {
+                        isSupported = true;
+                    }
+
+                    return ValueTuple.Create(isSupported, isConvertFailed, convertFailedReason);
+                });
+
+                if (isSupported)
+                {
+                    haTestItem.HATestResultKind = HATestResultKind.Supported;
+                }
+                else
+                {
+                    if (isUserCanceled)
+                    {
+                        haTestItem.HATestResultKind = HATestResultKind.Failed;
+                        haTestItem.HATestFailedReason = string.Format(TestFailedString, UserCancelTestString);
+                    }
+                    else
+                    {
+                        if (isConvertFailed)
+                        {
+                            haTestItem.HATestResultKind = HATestResultKind.Failed;
+                            haTestItem.HATestFailedReason = string.Format(TestFailedString, convertFailedReason);
+                        }
+                        else
+                        {
+                            haTestItem.HATestResultKind = HATestResultKind.NotSupported;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
