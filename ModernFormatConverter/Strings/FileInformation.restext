@@ -1,1 +1,15 @@
-﻿FileInformation=File information
+﻿AudioInformation=Audio information
+CopyClipboard=Copy to clipboard
+DocumentInformation=Document information
+DragOverContent=Add to the File Information page
+GeneralInformation=General information
+FileInformation=File information
+FileLocation=File location
+FileNotParse=Please select a file to view detail information
+FileProperties=File properties
+NoMultiFile=Please do not select multiple files
+OpenFile=Open file
+Operation=Operation
+ParsingFileInformation=Parsing now. Please wait...
+SelectFile=Select file
+VideoInformation=Video information

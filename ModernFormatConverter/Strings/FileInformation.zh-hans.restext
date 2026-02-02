@@ -1,1 +1,15 @@
-﻿FileInformation=文件信息
+﻿AudioInformation=音频信息
+CopyClipboard=复制到剪贴板
+DocumentInformation=文档信息
+DragOverContent=添加到“文件信息”页面
+GeneralInformation=基本信息
+FileInformation=文件信息
+FileLocation=文件定位
+FileNotParse=请选择文件以查看详细信息
+FileProperties=文件属性
+NoMultiFile=请不要选择多个文件
+OpenFile=打开文件
+Operation=操作
+ParsingFileInformation=正在解析中，请稍候...
+SelectFile=选择文件
+VideoInformation=视频信息
