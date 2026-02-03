@@ -1,5 +1,7 @@
-﻿using System;
+﻿using ModernFormatConverter.WindowsAPI.ComTypes;
+using System;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 
 // 抑制 CA1401 警告
 #pragma warning disable CA1401
@@ -12,6 +14,48 @@ namespace ModernFormatConverter.WindowsAPI.PInvoke.Shell32
     public static class Shell32Library
     {
         private const string Shell32 = "shell32.dll";
+
+        /// <summary>
+        /// 返回与指定文件路径关联的 ITEMIDLIST 结构。
+        /// </summary>
+        /// <param name="pszPath">指向包含路径的以 null 结尾的 Unicode 字符串的指针。 此字符串的长度应不超过 MAX_PATH 个字符，包括终止 null 字符。</param>
+        /// <returns>返回指向对应于路径的 ITEMIDLIST 结构的指针。</returns>
+        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "ILCreateFromPathW", PreserveSig = true, SetLastError = false)]
+        public static extern nint ILCreateFromPath([MarshalAs(UnmanagedType.LPWStr)] string pszPath);
+
+        /// <summary>
+        /// 释放 Shell 分配的 ITEMIDLIST 结构。
+        /// </summary>
+        /// <param name="pidl">指向要释放的 ITEMIDLIST 结构的指针。 此参数可以为 NULL。</param>
+        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "ILFree", PreserveSig = true, SetLastError = false)]
+        public static extern void ILFree(nint pidl);
+
+        /// <summary>
+        /// 返回 ITEMIDLIST 结构的大小（以字节为单位）。
+        /// </summary>
+        /// <param name="pidl">指向 ITEMIDLIST 结构的指针。</param>
+        /// <returns>pidl 指定的 ITEMIDLIST 结构的大小（以字节为单位）。</returns>
+        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "ILGetSize", PreserveSig = true, SetLastError = false)]
+        public static extern int ILGetSize(nint pidl);
+
+        /// <summary>
+        /// 从分析名称创建和初始化命令行管理程序项对象。
+        /// </summary>
+        /// <param name="pszPath">指向显示名称的指针。</param>
+        /// <param name="pbc">
+        /// 自选。指向绑定上下文的指针，用于将参数作为输入和输出传递给分析函数。
+        /// 这些传递的参数通常特定于数据源，并由数据源所有者记录。
+        /// 例如，文件系统数据源接受正在使用STR_FILE_SYS_BIND_DATA绑定上下文参数分析的名称（作为 WIN32_FIND_DATA 结构）。
+        /// 可以传递STR_PARSE_PREFER_FOLDER_BROWSING以指示在可能的情况下使用文件系统数据源分析 URL。
+        /// 使用 CreateBindCtx 构造绑定上下文对象，并使用IBindCtx::RegisterObjectParam 填充值。
+        /// 有关这些键的完整列表，请参阅绑定上下文字符串键。有关使用此参数的示例，请参阅使用参数进行分析示例。
+        /// 如果没有数据传递到分析函数或从分析函数接收任何数据，则此值可以为NULL。
+        /// </param>
+        /// <param name="riid">对接口的 IID 的引用，以通过ppv（通常为IID_IShellItem或IID_IShellItem2）进行检索。</param>
+        /// <param name="ppv">此方法成功返回时，包含 riid 中请求的接口指针。这通常是IShellItem或IShellItem2。</param>
+        /// <returns>如果此函数成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
+        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "SHCreateItemFromParsingName", PreserveSig = true, SetLastError = false)]
+        public static extern int SHCreateItemFromParsingName([MarshalAs(UnmanagedType.LPWStr)] string pszPath, IBindCtx pbc, Guid riid, [MarshalAs(UnmanagedType.Interface)] out IShellItem ppv);
 
         /// <summary>
         /// 检索由文件夹的 KNOWNFOLDERID 标识的已知文件夹的完整路径。
@@ -29,5 +73,25 @@ namespace ModernFormatConverter.WindowsAPI.PInvoke.Shell32
         /// <returns>如果成功，则返回S_OK，否则返回错误值</returns>
         [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "SHGetKnownFolderPath", PreserveSig = true, SetLastError = false)]
         public static extern int SHGetKnownFolderPath(Guid rfid, KNOWN_FOLDER_FLAG dwFlags, nint hToken, [MarshalAs(UnmanagedType.LPWStr)] out string pszPath);
+
+        /// <summary>
+        /// 显示一组文件的合并属性表。 显示所有文件通用的属性值，而不同的属性值显示字符串 (多个值) 。
+        /// </summary>
+        /// <param name="pdtobj">指向数据对象的指针，该对象提供要显示合并属性表的所有文件的 PIDL。 数据对象必须使用 CFSTR_SHELLIDLIST 剪贴板格式。 父文件夹的 IShellFolder：：GetDisplayNameOf 实现必须为每个项返回一个完全限定的文件系统路径，以响应 SHGDN_FORPARSING 标志。</param>
+        /// <param name="dwFlags">保留。 必须设置为 0。</param>
+        /// <returns>如果此函数成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
+        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "SHMultiFileProperties", PreserveSig = true, SetLastError = false)]
+        public static extern nint SHMultiFileProperties(IDataObject pdtobj, int dwFlags);
+
+        /// <summary>
+        /// 打开 Windows 资源管理器窗口，其中选定了特定文件夹中的指定项目。
+        /// </summary>
+        /// <param name="pidlFolder">指向指定文件夹的完全限定项 ID 列表的指针。</param>
+        /// <param name="cidl">选择数组 apidl 中的项计数。 如果 cidl 为零，则 pidlFolder 必须指向描述要选择的单个项的完全指定的 ITEMIDLIST 。 此函数打开父文件夹并选择该项目。</param>
+        /// <param name="apidl">指向 PIDL 结构数组的指针，每个结构都是在 pidlFolder 引用的目标文件夹中选择的项。</param>
+        /// <param name="dwFlags">可选标志。</param>
+        /// <returns>如果此函数成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
+        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "SHOpenFolderAndSelectItems", ExactSpelling = false, PreserveSig = true)]
+        public static extern int SHOpenFolderAndSelectItems(nint pidlFolder, uint cidl, nint apidl, uint dwFlags);
     }
 }

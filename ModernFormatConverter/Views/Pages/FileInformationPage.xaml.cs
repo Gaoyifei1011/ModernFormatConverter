@@ -3,19 +3,25 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using ModernFormatConverter.Extensions.DataType.Enums;
+using ModernFormatConverter.Helpers.Root;
 using ModernFormatConverter.Services.Root;
+using ModernFormatConverter.WindowsAPI.PInvoke.Shell32;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 
-// 抑制 CA1822，IDE0060 警告
-#pragma warning disable CA1822,IDE0060
+// 抑制 CA1806，CA1822，IDE0060 警告
+#pragma warning disable CA1806,CA1822,IDE0060
 
 namespace ModernFormatConverter.Views.Pages
 {
@@ -28,6 +34,7 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string NoMultiFileString = ResourceService.FileInformationResource.GetString("NoMultiFile");
         private readonly string ParsingFileInformationString = ResourceService.FileInformationResource.GetString("ParsingFileInformation");
         private readonly string SelectFileString = ResourceService.FileInformationResource.GetString("SelectFile");
+        private string filePath;
 
         private FileInformationResultKind _fileInformationResultKind;
 
@@ -142,8 +149,10 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         protected override async void OnDrop(Microsoft.UI.Xaml.DragEventArgs args)
         {
+            base.OnDrop(args);
             DragOperationDeferral dragOperationDeferral = args.GetDeferral();
-            string filePath = string.Empty;
+            filePath = string.Empty;
+
             try
             {
                 DataPackageView dataPackageView = args.DataView;
@@ -180,7 +189,7 @@ namespace ModernFormatConverter.Views.Pages
 
             if (File.Exists(filePath))
             {
-                // TODO：未完成
+                await GetFileInformationAsync(filePath);
             }
         }
 
@@ -191,7 +200,7 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 打开本地文件
         /// </summary>
-        private void OnOpenFileClicked(object sender, RoutedEventArgs args)
+        private async void OnOpenFileClicked(object sender, RoutedEventArgs args)
         {
             OpenFileDialog openFileDialog = new()
             {
@@ -200,7 +209,7 @@ namespace ModernFormatConverter.Views.Pages
             };
             if (openFileDialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(openFileDialog.FileName))
             {
-                // TODO：未完成
+                await GetFileInformationAsync(filePath);
             }
             openFileDialog.Dispose();
         }
@@ -210,7 +219,25 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnFilePropertiesClicked(object sender, RoutedEventArgs args)
         {
-            // TODO：未完成
+            if (File.Exists(filePath))
+            {
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        StringCollection stringCollection = [filePath];
+                        DataObject data = new();
+                        data.SetData("Preferred DropEffect", true, new MemoryStream([5, 0, 0, 0]));
+                        data.SetData("Shell IDList Array", true, CreateShellIDList(stringCollection));
+                        data.SetFileDropList(stringCollection);
+                        Shell32Library.SHMultiFileProperties(data, 0);
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(FileInformationPage), nameof(OnFilePropertiesClicked), 1, e);
+                    }
+                });
+            }
         }
 
         /// <summary>
@@ -218,7 +245,41 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnOpenFileLocationClicked(object sender, RoutedEventArgs args)
         {
-            // TODO：未完成
+            Task.Run(() =>
+            {
+                try
+                {
+                    if (!string.IsNullOrEmpty(filePath))
+                    {
+                        if (File.Exists(filePath))
+                        {
+                            nint pidlList = Shell32Library.ILCreateFromPath(filePath);
+                            if (pidlList is not 0)
+                            {
+                                Shell32Library.SHOpenFolderAndSelectItems(pidlList, 0, 0, 0);
+                                Shell32Library.ILFree(pidlList);
+                            }
+                        }
+                        else
+                        {
+                            string directoryPath = Path.GetDirectoryName(filePath);
+
+                            if (Directory.Exists(directoryPath))
+                            {
+                                Process.Start(directoryPath);
+                            }
+                            else
+                            {
+                                Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
+                            }
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(FileInformationPage), nameof(OnOpenFileLocationClicked), 1, e);
+                }
+            });
         }
 
         /// <summary>
@@ -254,5 +315,91 @@ namespace ModernFormatConverter.Views.Pages
         }
 
         #endregion 第二部分：文件信息页面——挂载的事件
+
+        /// <summary>
+        /// 获取文件信息
+        /// </summary>
+        private async Task GetFileInformationAsync(string filePath)
+        {
+            FileInformationResultKind = FileInformationResultKind.Parsing;
+            await GetThumbnailAsync(filePath);
+            FileInformationResultKind = FileInformationResultKind.File;
+        }
+
+        /// <summary>
+        /// 获取文件缩略图
+        /// </summary>
+        private async Task GetThumbnailAsync(string filePath)
+        {
+            MemoryStream memoryStream = null;
+            try
+            {
+                Bitmap thumbnailBitmap = ThumbnailHelper.GetThumbnailBitmap(filePath, 300);
+
+                if (thumbnailBitmap is not null)
+                {
+                    memoryStream = new();
+                    thumbnailBitmap.Save(memoryStream, ImageFormat.Png);
+                    memoryStream.Seek(0, SeekOrigin.Begin);
+                    thumbnailBitmap.Dispose();
+                }
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(FileInformationPage), nameof(GetThumbnailAsync), 1, e);
+            }
+
+            if (memoryStream is not null)
+            {
+                try
+                {
+                    BitmapImage bitmapImage = new();
+                    bitmapImage.SetSource(memoryStream.AsRandomAccessStream());
+                    FileThumbnailImage = bitmapImage;
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(FileInformationPage), nameof(GetThumbnailAsync), 2, e);
+                }
+                finally
+                {
+                    memoryStream?.Dispose();
+                }
+            }
+        }
+
+        private static MemoryStream CreateShellIDList(StringCollection fileNameCollection)
+        {
+            int pos = 0;
+            byte[][] pidls = new byte[fileNameCollection.Count][];
+            foreach (object filename in fileNameCollection)
+            {
+                nint pidl = Shell32Library.ILCreateFromPath(filename.ToString());
+                int pidlSize = Shell32Library.ILGetSize(pidl);
+                pidls[pos] = new byte[pidlSize];
+                Marshal.Copy(pidl, pidls[pos++], 0, pidlSize);
+                Shell32Library.ILFree(pidl);
+            }
+
+            int pidlOffset = 4 * (fileNameCollection.Count + 2);
+            MemoryStream memoryStream = new();
+            BinaryWriter binaryWriter = new(memoryStream);
+            binaryWriter.Write(fileNameCollection.Count);
+            binaryWriter.Write(pidlOffset);
+            pidlOffset += 4;
+            foreach (byte[] pidl in pidls)
+            {
+                binaryWriter.Write(pidlOffset);
+                pidlOffset += pidl.Length;
+            }
+
+            binaryWriter.Write(0);
+            foreach (byte[] pidl in pidls)
+            {
+                binaryWriter.Write(pidl);
+            }
+
+            return memoryStream;
+        }
     }
 }
