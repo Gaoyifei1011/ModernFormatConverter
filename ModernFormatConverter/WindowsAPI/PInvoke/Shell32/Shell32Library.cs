@@ -58,6 +58,27 @@ namespace ModernFormatConverter.WindowsAPI.PInvoke.Shell32
         public static extern int SHCreateItemFromParsingName([MarshalAs(UnmanagedType.LPWStr)] string pszPath, IBindCtx pbc, Guid riid, [MarshalAs(UnmanagedType.Interface)] out IShellItem ppv);
 
         /// <summary>
+        /// 检索文件系统中有关对象的信息，例如文件、文件夹、目录或驱动器根目录。
+        /// </summary>
+        /// <param name="pszPath">
+        /// 指向包含路径和文件名MAX_PATH最大长度的 null终止字符串 的指针。 绝对路径和相对路径均有效。
+        /// 如果 uFlags 参数包含 SHGFI_PIDL 标志，则此参数必须是 ITEMIDLIST （PIDL） 结构的地址，该结构包含唯一标识 Shell 命名空间中的文件的项标识符列表。 PIDL 必须是完全限定的 PIDL。 不允许使用相对 PIDL。
+        /// 如果 uFlags 参数包含 SHGFI_USEFILEATTRIBUTES 标志，则此参数不必是有效的文件名。 该函数将像文件存在一样，该文件具有指定的名称，以及传入 dwFileAttributes 参数的文件属性。 这允许你仅传递 pszPath 扩展名并在 dwFileAttributes中传递 FILE_ATTRIBUTE_NORMAL，从而获取有关文件类型的信息。
+        /// 此字符串可以使用短（8.3 格式）或长文件名。
+        /// </param>
+        /// <param name="dwFileAttributes">一个或多个 文件属性标志的组合（winnt.h 中定义的FILE_ATTRIBUTE_值）。 如果 uFlags 不包含 SHGFI_USEFILEATTRIBUTES 标志，则忽略此参数。</param>
+        /// <param name="psfi">指向 SHFILEINFO 结构的指针，用于接收文件信息。</param>
+        /// <param name="cbFileInfo">SHFILEINFO 结构 psfi 参数指向的大小（以字节为单位）。</param>
+        /// <param name="uFlags">指定要检索的文件信息的标志。</param>
+        /// <returns>
+        /// 返回一个值，其含义取决于 uFlags 参数。
+        /// 如果 uFlags 不包含 SHGFI_EXETYPE 或 SHGFI_SYSICONINDEX，则返回值为非零（否则为零）。
+        /// 如果 uFlags 包含 SHGFI_EXETYPE 标志，则返回值指定可执行文件的类型。
+        /// </returns>
+        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "SHGetFileInfoW", PreserveSig = true, SetLastError = false)]
+        public static extern nint SHGetFileInfo([MarshalAs(UnmanagedType.LPWStr)] string pszPath, uint dwFileAttributes, out SHFILEINFO psfi, uint cbFileInfo, SHGFI uFlags);
+
+        /// <summary>
         /// 检索由文件夹的 KNOWNFOLDERID 标识的已知文件夹的完整路径。
         /// </summary>
         /// <param name="rfid">对标识文件夹的 KNOWNFOLDERID 的引用。</param>

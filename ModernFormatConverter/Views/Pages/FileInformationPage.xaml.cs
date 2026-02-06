@@ -4,7 +4,9 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Helpers.Root;
+using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
+using ModernFormatConverter.WindowsAPI.PInvoke.Kernel32;
 using ModernFormatConverter.WindowsAPI.PInvoke.Shell32;
 using System;
 using System.Collections.Generic;
@@ -31,9 +33,12 @@ namespace ModernFormatConverter.Views.Pages
     public sealed partial class FileInformationPage : Page, INotifyPropertyChanged
     {
         private readonly string DragOverContentString = ResourceService.FileInformationResource.GetString("DragOverContent");
+        private readonly string FileSizeDescriptionString = ResourceService.FileInformationResource.GetString("FileSizeDescription");
         private readonly string NoMultiFileString = ResourceService.FileInformationResource.GetString("NoMultiFile");
+        private readonly string NotAvailableString = ResourceService.FileInformationResource.GetString("NotAvailable");
         private readonly string ParsingFileInformationString = ResourceService.FileInformationResource.GetString("ParsingFileInformation");
         private readonly string SelectFileString = ResourceService.FileInformationResource.GetString("SelectFile");
+        private readonly string SpaceUsageDescriptionString = ResourceService.FileInformationResource.GetString("SpaceUsageDescription");
         private string filePath;
 
         private FileInformationResultKind _fileInformationResultKind;
@@ -80,6 +85,118 @@ namespace ModernFormatConverter.Views.Pages
                 {
                     _fileThumbnailImage = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FileThumbnailImage)));
+                }
+            }
+        }
+
+        private string _fileName;
+
+        public string FileName
+        {
+            get { return _fileName; }
+
+            set
+            {
+                if (!string.Equals(_fileName, value))
+                {
+                    _fileName = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FileName)));
+                }
+            }
+        }
+
+        private string _fileType;
+
+        public string FileType
+        {
+            get { return _fileType; }
+
+            set
+            {
+                if (!string.Equals(_fileType, value))
+                {
+                    _fileType = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FileType)));
+                }
+            }
+        }
+
+        private string _fileSize;
+
+        public string FileSize
+        {
+            get { return _fileSize; }
+
+            set
+            {
+                if (!string.Equals(_fileSize, value))
+                {
+                    _fileSize = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FileSize)));
+                }
+            }
+        }
+
+        private string _fileSpaceUsage;
+
+        public string FileSpaceUsage
+        {
+            get { return _fileSpaceUsage; }
+
+            set
+            {
+                if (!string.Equals(_fileSpaceUsage, value))
+                {
+                    _fileSpaceUsage = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FileSpaceUsage)));
+                }
+            }
+        }
+
+        private string _fileCreateTime;
+
+        public string FileCreateTime
+        {
+            get { return _fileCreateTime; }
+
+            set
+            {
+                if (!string.Equals(_fileCreateTime, value))
+                {
+                    _fileCreateTime = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FileCreateTime)));
+                }
+            }
+        }
+
+        private string _fileModifyTime;
+
+        public string FileModifyTime
+        {
+            get { return _fileModifyTime; }
+
+            set
+            {
+                if (!string.Equals(_fileModifyTime, value))
+                {
+                    _fileModifyTime = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FileModifyTime)));
+                }
+            }
+        }
+
+        private string _fileAccessTime;
+
+        public string FileAccessTime
+        {
+            get { return _fileAccessTime; }
+
+            set
+            {
+                if (!string.Equals(_fileAccessTime, value))
+                {
+                    _fileAccessTime = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FileAccessTime)));
                 }
             }
         }
@@ -189,6 +306,7 @@ namespace ModernFormatConverter.Views.Pages
 
             if (File.Exists(filePath))
             {
+                FileName = Path.GetFileName(filePath);
                 await GetFileInformationAsync(filePath);
             }
         }
@@ -207,8 +325,10 @@ namespace ModernFormatConverter.Views.Pages
                 Multiselect = false,
                 Title = SelectFileString
             };
-            if (openFileDialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(openFileDialog.FileName))
+            if (openFileDialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(openFileDialog.FileName) && File.Exists(openFileDialog.FileName))
             {
+                filePath = openFileDialog.FileName;
+                FileName = Path.GetFileName(filePath);
                 await GetFileInformationAsync(filePath);
             }
             openFileDialog.Dispose();
@@ -283,9 +403,9 @@ namespace ModernFormatConverter.Views.Pages
         }
 
         /// <summary>
-        /// 复制到剪贴板
+        /// 复制基本信息到剪贴板
         /// </summary>
-        private void OnCopyClipboardClicked(object sender, RoutedEventArgs args)
+        private void OnGeneralInformationCopyClicked(object sender, RoutedEventArgs args)
         {
             // TODO：未完成
         }
@@ -323,6 +443,13 @@ namespace ModernFormatConverter.Views.Pages
         {
             FileInformationResultKind = FileInformationResultKind.Parsing;
             await GetThumbnailAsync(filePath);
+            FileInformationModel fileInformation = await GetGeneralInformationAsync(filePath);
+            FileType = string.IsNullOrEmpty(fileInformation.FileType) ? NotAvailableString : fileInformation.FileType;
+            FileSize = string.IsNullOrEmpty(fileInformation.FileSize) ? NotAvailableString : fileInformation.FileSize;
+            FileSpaceUsage = string.IsNullOrEmpty(fileInformation.SpaceUsage) ? NotAvailableString : fileInformation.SpaceUsage;
+            FileCreateTime = string.IsNullOrEmpty(fileInformation.CreateTime) ? NotAvailableString : fileInformation.CreateTime;
+            FileModifyTime = string.IsNullOrEmpty(fileInformation.ModifyTime) ? NotAvailableString : fileInformation.ModifyTime;
+            FileAccessTime = string.IsNullOrEmpty(fileInformation.AccessTime) ? NotAvailableString : fileInformation.AccessTime;
             FileInformationResultKind = FileInformationResultKind.File;
         }
 
@@ -366,6 +493,59 @@ namespace ModernFormatConverter.Views.Pages
                     memoryStream?.Dispose();
                 }
             }
+        }
+
+        /// <summary>
+        /// 获取文件基本信息
+        /// </summary>
+        private async Task<FileInformationModel> GetGeneralInformationAsync(string filePath)
+        {
+            FileInformationModel fileInformation = new();
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    if (File.Exists(filePath))
+                    {
+                        // 获取文件类型
+                        Shell32Library.SHGetFileInfo(filePath, 0, out SHFILEINFO shFileInfo, (uint)Marshal.SizeOf<SHFILEINFO>(), SHGFI.SHGFI_TYPENAME);
+                        fileInformation.FileType = string.Format("{0} ({1})", shFileInfo.szTypeName, Path.GetExtension(filePath).ToLowerInvariant());
+
+                        // 获取文件大小
+                        FileInfo fileInfo = new(filePath);
+                        fileInformation.FileSize = string.Format(FileSizeDescriptionString, VolumeSizeHelper.ConvertVolumeSizeToString(fileInfo.Length), fileInfo.Length);
+
+                        // 获取占用空间
+                        string drivePath = Path.GetPathRoot(filePath);
+                        if (!string.IsNullOrEmpty(drivePath))
+                        {
+                            Kernel32Library.GetDiskFreeSpace(drivePath.TrimEnd('\\', '/'), out uint sectorsPerCluster, out uint bytesPerSector, out uint freeClusters, out uint totalClusters);
+                            uint clusterSize = sectorsPerCluster * bytesPerSector;
+                            long clusters = (fileInfo.Length + clusterSize - 1) / clusterSize;
+                            long spaceUsage = clusters * clusterSize;
+                            fileInformation.SpaceUsage = string.Format(SpaceUsageDescriptionString, VolumeSizeHelper.ConvertVolumeSizeToString(spaceUsage), spaceUsage);
+                        }
+
+                        // 获取创建时间
+                        fileInformation.CreateTime = fileInfo.CreationTime.ToString("yyyy/MM/dd HH:mm:ss");
+
+                        // 获取修改时间
+                        fileInformation.ModifyTime = fileInfo.LastWriteTime.ToString("yyyy/MM/dd HH:mm:ss");
+
+                        // 获取访问时间
+                        fileInformation.AccessTime = fileInfo.LastAccessTime.ToString("yyyy/MM/dd HH:mm:ss");
+
+                        // 获取文件属性
+                    }
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(FileInformationPage), nameof(GetGeneralInformationAsync), 1, e);
+                }
+            });
+
+            return fileInformation;
         }
 
         private static MemoryStream CreateShellIDList(StringCollection fileNameCollection)
