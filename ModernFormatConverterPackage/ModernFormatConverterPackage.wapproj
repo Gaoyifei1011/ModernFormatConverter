@@ -57,7 +57,8 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <Content Include="$(ProjectDir)\FFMpeg\$(Platform)\ffmpeg.exe" Link="ffmpeg.exe" CopyToOutputDirectory="Always" />
+    <Content Include="$(ProjectDir)\Tools\$(Platform)\ffmpeg.exe" Link="ffmpeg.exe" CopyToOutputDirectory="Always" />
+    <Content Include="$(ProjectDir)\Tools\$(Platform)\MediaInfo.dll" Link="MediaInfo.dll" CopyToOutputDirectory="Always" />
     <None Include="Package.StoreAssociation.xml" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7463" />
     <PackageReference Include="Microsoft.WindowsAppSDK.Runtime" Version="1.8.260101001" />
