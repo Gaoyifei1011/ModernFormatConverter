@@ -92,6 +92,22 @@
                     TextAlignment="Center"
                     Visibility="{x:Bind CheckFileInformationState(FileInformationResultKind, enum:FileInformationResultKind.NotParse), Mode=OneWay}" />
 
+                <!--  正在加载中  -->
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="10"
+                    Visibility="{x:Bind CheckFileInformationState(FileInformationResultKind, enum:FileInformationResultKind.Parsing), Mode=OneWay}">
+
+                    <ProgressRing IsActive="True" IsEnabled="True" />
+
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ParsingFileInformation')}"
+                        TextAlignment="Center" />
+                </StackPanel>
+
                 <!--  解析文件失败  -->
                 <TextBlock
                     HorizontalAlignment="Center"
@@ -115,8 +131,7 @@
                 VerticalAlignment="Center">
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -172,8 +187,10 @@
                         <RowDefinition Height="Auto " />
                         <RowDefinition Height="Auto " />
                         <RowDefinition Height="Auto " />
+                        <RowDefinition Height="Auto " />
                     </Grid.RowDefinitions>
 
+                    <!--  基本信息  -->
                     <Expander
                         Grid.Row="0"
                         Margin="0,0,0,3"
@@ -351,6 +368,7 @@
                         </Expander.Content>
                     </Expander>
 
+                    <!--  视频信息  -->
                     <Expander
                         Grid.Row="1"
                         Margin="0,0,0,3"
@@ -380,13 +398,14 @@
                         </Expander.Header>
                     </Expander>
 
+                    <!--  音频信息  -->
                     <Expander
                         Grid.Row="2"
                         Margin="0,0,0,3"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
                         IsExpanded="True"
-                        Visibility="{x:Bind CheckFileInformationState(FileInformationResultKind, enum:FileInformationResultKind.MusicFile), Mode=OneWay}">
+                        Visibility="{x:Bind CheckFileInformationState(FileInformationResultKind, enum:FileInformationResultKind.AudioFile), Mode=OneWay}">
 
                         <Expander.Header>
                             <Grid>
@@ -409,6 +428,7 @@
                         </Expander.Header>
                     </Expander>
 
+                    <!--  文档信息  -->
                     <Expander
                         Grid.Row="3"
                         HorizontalAlignment="Stretch"
@@ -433,6 +453,35 @@
                                     Grid.Column="1"
                                     VerticalAlignment="Center"
                                     Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('DocumentInformation')}" />
+                            </Grid>
+                        </Expander.Header>
+                    </Expander>
+
+                    <!--  图像信息  -->
+                    <Expander
+                        Grid.Row="4"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        IsExpanded="True"
+                        Visibility="{x:Bind CheckFileInformationState(FileInformationResultKind, enum:FileInformationResultKind.ImageFile), Mode=OneWay}">
+
+                        <Expander.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <FontIcon
+                                    Grid.Column="0"
+                                    Margin="0,0,12,0"
+                                    FontSize="16"
+                                    Glyph="&#xE8B9;" />
+
+                                <TextBlock
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ImageInformation')}" />
                             </Grid>
                         </Expander.Header>
                     </Expander>

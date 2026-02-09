@@ -7,7 +7,8 @@
         Failed = 2,
         File = 3,
         VideoFile = 4,
-        MusicFile = 5,
+        AudioFile = 5,
         DocumentFile = 6,
+        ImageFile = 7
     }
 }

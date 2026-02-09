@@ -14,6 +14,17 @@ namespace ModernFormatConverter.WindowsAPI.PInvoke.Shlwapi
         private const string Shlwapi = "shlwapi.dll";
 
         /// <summary>
+        /// 根据文件的扩展名检索文件的感知类型。
+        /// </summary>
+        /// <param name="pszExt">指向包含文件扩展名的缓冲区的指针。 这应包括前导句点，例如“.txt”。</param>
+        /// <param name="ptype">指向指示感知类型的 PERCEIVED 值的指针。</param>
+        /// <param name="pflag">指向值的指针，该值指示感知到的类型信息的源。 以下一个或多个值。</param>
+        /// <param name="ppszType">如果函数返回成功代码，则包含指向接收感知类型字符串（例如“text”或“video”）的缓冲区的指针的地址。 此值可以为 NULL。</param>
+        /// <returns>如果此函数成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
+        [DllImport(Shlwapi, CharSet = CharSet.Unicode, EntryPoint = "AssocGetPerceivedType", PreserveSig = true)]
+        public static extern int AssocGetPerceivedType([MarshalAs(UnmanagedType.LPWStr)] string pszExt, out PERCEIVED ptype, out PERCEIVEDFLAG pflag, out nint ppszType);
+
+        /// <summary>
         /// 打开或创建文件，并检索要读取或写入该文件的流。
         /// </summary>
         /// <param name="pszFile">指向以 null 结尾的字符串的指针，该字符串指定文件名。</param>

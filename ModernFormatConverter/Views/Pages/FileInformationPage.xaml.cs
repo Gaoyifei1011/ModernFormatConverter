@@ -8,6 +8,7 @@ using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.WindowsAPI.PInvoke.Kernel32;
 using ModernFormatConverter.WindowsAPI.PInvoke.Shell32;
+using ModernFormatConverter.WindowsAPI.PInvoke.Shlwapi;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -410,30 +411,6 @@ namespace ModernFormatConverter.Views.Pages
             // TODO：未完成
         }
 
-        /// <summary>
-        /// 获取文件信息解析是否成功
-        /// </summary>
-        private Visibility GetFileInformationSuccessfullyState(FileInformationResultKind fileInformationResultKind, bool isSuccessfully)
-        {
-            return isSuccessfully ? (fileInformationResultKind is FileInformationResultKind.File || fileInformationResultKind is FileInformationResultKind.VideoFile || fileInformationResultKind is FileInformationResultKind.MusicFile || fileInformationResultKind is FileInformationResultKind.DocumentFile) ? Visibility.Visible : Visibility.Collapsed : (fileInformationResultKind is FileInformationResultKind.File || fileInformationResultKind is FileInformationResultKind.VideoFile || fileInformationResultKind is FileInformationResultKind.MusicFile || fileInformationResultKind is FileInformationResultKind.DocumentFile) ? Visibility.Collapsed : Visibility.Visible;
-        }
-
-        /// <summary>
-        /// 检查文件信息解析是否成功
-        /// </summary>
-        private Visibility CheckFileInformationState(FileInformationResultKind fileInformationResultKind, FileInformationResultKind comparedFileInformationResultKind)
-        {
-            return Equals(fileInformationResultKind, comparedFileInformationResultKind) ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        /// <summary>
-        /// 获取是否正在解析中
-        /// </summary>
-        private bool GetIsParsing(FileInformationResultKind fileInformationReusltKind)
-        {
-            return fileInformationReusltKind is not FileInformationResultKind.Parsing;
-        }
-
         #endregion 第二部分：文件信息页面——挂载的事件
 
         /// <summary>
@@ -450,7 +427,25 @@ namespace ModernFormatConverter.Views.Pages
             FileCreateTime = string.IsNullOrEmpty(fileInformation.CreateTime) ? NotAvailableString : fileInformation.CreateTime;
             FileModifyTime = string.IsNullOrEmpty(fileInformation.ModifyTime) ? NotAvailableString : fileInformation.ModifyTime;
             FileAccessTime = string.IsNullOrEmpty(fileInformation.AccessTime) ? NotAvailableString : fileInformation.AccessTime;
-            FileInformationResultKind = FileInformationResultKind.File;
+            FileInformationResultKind fileInformationResultKind = GetFileType(filePath);
+            if (fileInformationResultKind is FileInformationResultKind.VideoFile)
+            {
+                await GetVideoInformationAsync(filePath);
+            }
+            else if (fileInformationResultKind is FileInformationResultKind.AudioFile)
+            {
+                await GetAudioInformationAsync(filePath);
+            }
+            else if (fileInformationResultKind is FileInformationResultKind.DocumentFile)
+            {
+                await GetDocumentInformationAsync(filePath);
+            }
+            else if (fileInformationResultKind is FileInformationResultKind.ImageFile)
+            {
+                await GetImageInformationAsync(filePath);
+            }
+
+            FileInformationResultKind = fileInformationResultKind;
         }
 
         /// <summary>
@@ -535,8 +530,6 @@ namespace ModernFormatConverter.Views.Pages
 
                         // 获取访问时间
                         fileInformation.AccessTime = fileInfo.LastAccessTime.ToString("yyyy/MM/dd HH:mm:ss");
-
-                        // 获取文件属性
                     }
                 }
                 catch (Exception e)
@@ -546,6 +539,84 @@ namespace ModernFormatConverter.Views.Pages
             });
 
             return fileInformation;
+        }
+
+        /// <summary>
+        /// 获取文件类型
+        /// </summary>
+        private FileInformationResultKind GetFileType(string filePath)
+        {
+            FileInformationResultKind fileInformationResultKind = FileInformationResultKind.File;
+
+            try
+            {
+                string extension = Path.GetExtension(filePath);
+                if (!string.IsNullOrEmpty(extension) && ShlwapiLibrary.AssocGetPerceivedType(extension, out PERCEIVED type, out _, out _) is 0)
+                {
+                    if (type is PERCEIVED.PERCEIVED_TYPE_VIDEO)
+                    {
+                        fileInformationResultKind = FileInformationResultKind.VideoFile;
+                    }
+                    else if (type is PERCEIVED.PERCEIVED_TYPE_AUDIO)
+                    {
+                        fileInformationResultKind = FileInformationResultKind.AudioFile;
+                    }
+                    else if (type is PERCEIVED.PERCEIVED_TYPE_TEXT || type is PERCEIVED.PERCEIVED_TYPE_DOCUMENT)
+                    {
+                        fileInformationResultKind = FileInformationResultKind.DocumentFile;
+                    }
+                    else if (type is PERCEIVED.PERCEIVED_TYPE_IMAGE)
+                    {
+                        fileInformationResultKind = FileInformationResultKind.ImageFile;
+                    }
+                    else
+                    {
+                        // TODO：使用 MediaInfo 来判断
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(FileInformationPage), nameof(GetFileType), 1, e);
+            }
+
+            return fileInformationResultKind;
+        }
+
+        /// <summary>
+        /// 获取视频文件基本信息
+        /// </summary>
+        private async Task GetVideoInformationAsync(string filePath)
+        {
+            await Task.CompletedTask;
+            // TODO：未完成
+        }
+
+        /// <summary>
+        /// 获取音频文件基本信息
+        /// </summary>
+        private async Task GetAudioInformationAsync(string filePath)
+        {
+            await Task.CompletedTask;
+            // TODO：未完成
+        }
+
+        /// <summary>
+        /// 获取文档文件基本信息
+        /// </summary>
+        private async Task GetDocumentInformationAsync(string filePath)
+        {
+            await Task.CompletedTask;
+            // TODO：未完成
+        }
+
+        /// <summary>
+        /// 获取图片文件基本信息
+        /// </summary>
+        private async Task GetImageInformationAsync(string filePath)
+        {
+            await Task.CompletedTask;
+            // TODO：未完成
         }
 
         private static MemoryStream CreateShellIDList(StringCollection fileNameCollection)
@@ -580,6 +651,30 @@ namespace ModernFormatConverter.Views.Pages
             }
 
             return memoryStream;
+        }
+
+        /// <summary>
+        /// 获取文件信息解析是否成功
+        /// </summary>
+        private Visibility GetFileInformationSuccessfullyState(FileInformationResultKind fileInformationResultKind, bool isSuccessfully)
+        {
+            return isSuccessfully ? (fileInformationResultKind is FileInformationResultKind.File || fileInformationResultKind is FileInformationResultKind.VideoFile || fileInformationResultKind is FileInformationResultKind.AudioFile || fileInformationResultKind is FileInformationResultKind.DocumentFile || fileInformationResultKind is FileInformationResultKind.ImageFile) ? Visibility.Visible : Visibility.Collapsed : (fileInformationResultKind is FileInformationResultKind.File || fileInformationResultKind is FileInformationResultKind.VideoFile || fileInformationResultKind is FileInformationResultKind.AudioFile || fileInformationResultKind is FileInformationResultKind.DocumentFile || fileInformationResultKind is FileInformationResultKind.ImageFile) ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        /// <summary>
+        /// 检查文件信息解析是否成功
+        /// </summary>
+        private Visibility CheckFileInformationState(FileInformationResultKind fileInformationResultKind, FileInformationResultKind comparedFileInformationResultKind)
+        {
+            return Equals(fileInformationResultKind, comparedFileInformationResultKind) ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        /// <summary>
+        /// 获取是否正在解析中
+        /// </summary>
+        private bool GetIsParsing(FileInformationResultKind fileInformationReusltKind)
+        {
+            return fileInformationReusltKind is not FileInformationResultKind.Parsing;
         }
     }
 }
