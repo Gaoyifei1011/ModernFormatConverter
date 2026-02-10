@@ -7,6 +7,7 @@ using ModernFormatConverter.Helpers.Root;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.WindowsAPI.PInvoke.Kernel32;
+using ModernFormatConverter.WindowsAPI.PInvoke.MediaInfo;
 using ModernFormatConverter.WindowsAPI.PInvoke.Shell32;
 using ModernFormatConverter.WindowsAPI.PInvoke.Shlwapi;
 using System;
@@ -551,8 +552,9 @@ namespace ModernFormatConverter.Views.Pages
             try
             {
                 string extension = Path.GetExtension(filePath);
-                if (!string.IsNullOrEmpty(extension) && ShlwapiLibrary.AssocGetPerceivedType(extension, out PERCEIVED type, out _, out _) is 0)
+                if (!string.IsNullOrEmpty(extension))
                 {
+                    ShlwapiLibrary.AssocGetPerceivedType(extension, out PERCEIVED type, out _, out _);
                     if (type is PERCEIVED.PERCEIVED_TYPE_VIDEO)
                     {
                         fileInformationResultKind = FileInformationResultKind.VideoFile;
@@ -571,7 +573,37 @@ namespace ModernFormatConverter.Views.Pages
                     }
                     else
                     {
-                        // TODO：使用 MediaInfo 来判断
+                        if (MediaInfoLibrary.MediaInfo_New() is nint handle && handle is not 0 && MediaInfoLibrary.MediaInfo_Open(handle, filePath) is not 0)
+                        {
+                            if (MediaInfoLibrary.MediaInfo_Count_Get(handle, StreamKind.Video, -1) > 0)
+                            {
+                                fileInformationResultKind = FileInformationResultKind.VideoFile;
+                            }
+                            else
+                            {
+                                if (MediaInfoLibrary.MediaInfo_Count_Get(handle, StreamKind.Audio, -1) > 0)
+                                {
+                                    fileInformationResultKind = FileInformationResultKind.AudioFile;
+                                }
+                                else
+                                {
+                                    if (MediaInfoLibrary.MediaInfo_Count_Get(handle, StreamKind.Image, -1) > 0)
+                                    {
+                                        fileInformationResultKind = FileInformationResultKind.ImageFile;
+                                    }
+                                    else
+                                    {
+                                        if (MediaInfoLibrary.MediaInfo_Count_Get(handle, StreamKind.Text, -1) > 0)
+                                        {
+                                            fileInformationResultKind = FileInformationResultKind.DocumentFile;
+                                        }
+                                    }
+                                }
+                            }
+
+                            MediaInfoLibrary.MediaInfo_Close(handle);
+                            MediaInfoLibrary.MediaInfo_Delete(handle);
+                        }
                     }
                 }
             }

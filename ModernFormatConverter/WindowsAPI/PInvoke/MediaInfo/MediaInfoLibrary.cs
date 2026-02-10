@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 
 #pragma warning disable CA1401
 
@@ -13,6 +14,9 @@ namespace ModernFormatConverter.WindowsAPI.PInvoke.MediaInfo
 
         [DllImport(MediaInfo, CharSet = CharSet.Unicode, EntryPoint = "MediaInfo_Close", PreserveSig = true, SetLastError = false)]
         public static extern void MediaInfo_Close(nint handle);
+
+        [DllImport(MediaInfo, CharSet = CharSet.Unicode, EntryPoint = "MediaInfo_Count_Get", PreserveSig = true, SetLastError = false)]
+        public static extern int MediaInfo_Count_Get(nint handle, StreamKind streamKind, int streamNumber);
 
         [DllImport(MediaInfo, CharSet = CharSet.Unicode, EntryPoint = "MediaInfo_Delete", PreserveSig = true, SetLastError = false)]
         public static extern void MediaInfo_Delete(nint handle);
