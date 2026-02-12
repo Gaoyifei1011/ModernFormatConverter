@@ -261,7 +261,7 @@ namespace ModernFormatConverter.Views.Pages
                     string featureId = FeatureAccessHelper.GetFeatureId(feature);
                     if (!string.IsNullOrEmpty(featureId))
                     {
-                        string token = FeatureAccessHelper.GenerateTokenFromFeatureId(featureId);
+                        string token = FeatureAccessHelper.GenerateTokenFromFeatureId(feature, featureId);
                         string attestation = FeatureAccessHelper.GenerateAttestation(featureId);
                         LimitedAccessFeatureRequestResult accessResult = LimitedAccessFeatures.TryUnlockFeature(featureId, token, attestation);
 
