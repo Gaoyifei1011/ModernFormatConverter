@@ -61,7 +61,7 @@
     <Content Include="$(ProjectDir)\Tools\$(Platform)\MediaInfo.dll" Link="MediaInfo.dll" CopyToOutputDirectory="Always" />
     <None Include="Package.StoreAssociation.xml" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7705" />
-    <PackageReference Include="Microsoft.WindowsAppSDK.Runtime" Version="1.8.260209005" />
+    <PackageReference Include="Microsoft.WindowsAppSDK.Runtime" Version="2.0.0-preview1" />
     <ProjectReference Include="..\ModernFormatConverter\ModernFormatConverter.csproj" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
