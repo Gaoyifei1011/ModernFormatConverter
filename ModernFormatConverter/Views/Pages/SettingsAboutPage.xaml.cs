@@ -46,6 +46,7 @@ namespace ModernFormatConverter.Views.Pages
         //项目引用信息
         private ListDictionary ReferenceList { get; } = new()
         {
+            { "MeidaInfo", new Uri("https://mediaarea.net") },
             { "Microsoft.Windows.SDK.BuildTools", new Uri("https://aka.ms/WinSDKProjectURL") },
             { "Microsoft.Windows.SDK.BuildTools.MSIX", new Uri("https://aka.ms/WinSDKProjectURL") },
             { "Microsoft.Windows.SDK.NET.Ref", new Uri("https://aka.ms/WinSDKProjectURL") },
