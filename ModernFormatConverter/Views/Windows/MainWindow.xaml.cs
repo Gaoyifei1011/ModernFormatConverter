@@ -10,8 +10,6 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using ModernFormatConverter.Extensions.Backdrop;
-using ModernFormatConverter.Helpers.Backdrop;
-using ModernFormatConverter.Helpers.Controls;
 using ModernFormatConverter.Helpers.Root;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
@@ -49,7 +47,6 @@ namespace ModernFormatConverter.Views.Windows
         private readonly ContentIsland contentIsland;
         private readonly InputKeyboardSource inputKeyboardSource;
         private readonly InputPointerSource inputPointerSource;
-        private ToolTip navigationViewBackButtonToolTip;
 
         public new static MainWindow Current { get; private set; }
 
@@ -319,6 +316,14 @@ namespace ModernFormatConverter.Views.Windows
         #region 第四部分：导航控件及其内容挂载的事件
 
         /// <summary>
+        /// 当后退按钮收到交互（如单击或点击）时发生
+        /// </summary>
+        private void OnBackClicked(object sender, RoutedEventArgs args)
+        {
+            NavigationFrom();
+        }
+
+        /// <summary>
         /// 导航控件加载完成后初始化内容，初始化导航控件属性、屏幕缩放比例值和应用的背景色
         /// </summary>
         private async void OnLoaded(object sender, RoutedEventArgs args)
@@ -329,17 +334,6 @@ namespace ModernFormatConverter.Views.Windows
             // 导航控件加载完成后初始化内容
             if (sender is NavigationView navigationView)
             {
-                if (XamlTreeHelper.FindDescendant<Button>(navigationView, "NavigationViewBackButton") is Button navigationViewBackButton)
-                {
-                    navigationViewBackButtonToolTip = ToolTipService.GetToolTip(navigationViewBackButton) as ToolTip;
-
-                    if (navigationViewBackButtonToolTip is not null)
-                    {
-                        navigationViewBackButtonToolTip.Background = new SolidColorBrush(Colors.Transparent);
-                        navigationViewBackButtonToolTip.Loaded += ToolTipBackdropHelper.OnLoaded;
-                    }
-                }
-
                 foreach (object menuItem in navigationView.MenuItems)
                 {
                     if (menuItem is NavigationViewItem navigationViewItem && navigationViewItem.Tag is string tag)
@@ -395,14 +389,6 @@ namespace ModernFormatConverter.Views.Windows
             NavigateTo(typeof(HomePage));
             IsBackEnabled = CanGoBack();
             SetPopupControlTheme(WindowTheme);
-        }
-
-        /// <summary>
-        /// 当后退按钮收到交互（如单击或点击）时发生
-        /// </summary>
-        private void OnBackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
-        {
-            NavigationFrom();
         }
 
         /// <summary>
@@ -704,10 +690,6 @@ namespace ModernFormatConverter.Views.Windows
                             BackdropService.PropertyChanged -= OnServicePropertyChanged;
                             inputKeyboardSource.SystemKeyDown -= OnSystemKeyDown;
                             inputPointerSource.PointerReleased -= OnPointerReleased;
-                            if (navigationViewBackButtonToolTip is not null)
-                            {
-                                navigationViewBackButtonToolTip.Loaded -= ToolTipBackdropHelper.OnLoaded;
-                            }
                             Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, mainWindowSubClassProc, 0);
                             (Application.Current as MainApp).Dispose();
                         }, null);

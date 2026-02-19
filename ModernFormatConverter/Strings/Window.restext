@@ -1,4 +1,5 @@
-﻿Close=Close
+﻿Back=Back
+Close=Close
 CustomCommand=Custom command
 CustomCommandDescription=Custom FFmpeg program execution command
 FileInformation=File information
