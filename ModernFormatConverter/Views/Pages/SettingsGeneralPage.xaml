@@ -2,7 +2,6 @@
     x:Class="ModernFormatConverter.Views.Pages.SettingsGeneralPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:backdrophelper="using:ModernFormatConverter.Helpers.Backdrop"
     xmlns:class="using:ModernFormatConverter.Extensions.DataType.Class"
     xmlns:converter="using:ModernFormatConverter.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
