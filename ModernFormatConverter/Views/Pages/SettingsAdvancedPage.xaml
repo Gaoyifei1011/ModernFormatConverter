@@ -74,7 +74,7 @@
                     </Grid>
                 </Expander.Header>
 
-                <Expander.Content>
+                
                     <StackPanel Padding="0" HorizontalAlignment="Stretch">
                         <Grid
                             Height="52"
@@ -182,7 +182,7 @@
                                 Content="{x:Bind rootservice:ResourceService.SettingsAdvancedResource.GetString('Clear')}" />
                         </Grid>
                     </StackPanel>
-                </Expander.Content>
+                
             </Expander>
         </Grid>
     </ScrollViewer>

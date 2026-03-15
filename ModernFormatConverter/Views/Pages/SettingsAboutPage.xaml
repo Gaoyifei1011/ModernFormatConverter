@@ -357,7 +357,7 @@
                         Text="{x:Bind rootservice:ResourceService.SettingsAboutResource.GetString('Reference')}" />
                 </Expander.Header>
 
-                <Expander.Content>
+                
                     <GridView
                         Margin="26,0,16,0"
                         Padding="5"
@@ -417,7 +417,7 @@
                             </DataTemplate>
                         </GridView.ItemTemplate>
                     </GridView>
-                </Expander.Content>
+                
             </Expander>
 
             <!--  感谢用户信息  -->
@@ -436,7 +436,7 @@
                         Text="{x:Bind rootservice:ResourceService.SettingsAboutResource.GetString('Thanks')}" />
                 </Expander.Header>
 
-                <Expander.Content>
+                
                     <StackPanel Margin="0">
                         <TextBlock
                             Margin="30,10,16,5"
@@ -507,7 +507,7 @@
                             </GridView.ItemTemplate>
                         </GridView>
                     </StackPanel>
-                </Expander.Content>
+                
             </Expander>
         </Grid>
     </ScrollViewer>

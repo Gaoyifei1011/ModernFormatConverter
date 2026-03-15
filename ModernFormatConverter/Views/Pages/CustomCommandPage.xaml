@@ -89,14 +89,12 @@
                 IsAccessKeyScope="True"
                 Style="{ThemeResource EllipsisButton}">
 
-                <Button.Content>
-                    <FontIcon
-                        Height="{ThemeResource AppBarExpandButtonCircleDiameter}"
-                        VerticalAlignment="Center"
-                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                        FontSize="20"
-                        Glyph="&#xE712;" />
-                </Button.Content>
+                <FontIcon
+                    Height="{ThemeResource AppBarExpandButtonCircleDiameter}"
+                    VerticalAlignment="Center"
+                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                    FontSize="20"
+                    Glyph="&#xE712;" />
 
                 <Button.Flyout>
                     <MenuFlyout Placement="Bottom">
@@ -185,33 +183,31 @@
                 </Grid>
             </Expander.Header>
 
-            <Expander.Content>
-                <StackPanel>
-                    <TextBlock
-                        Margin="44,10,16,5"
-                        FontSize="14"
-                        FontWeight="Normal"
-                        Text="{x:Bind rootservice:ResourceService.CustomCommandResource.GetString('TipContent1')}"
-                        TextAlignment="Justify"
-                        TextWrapping="Wrap" />
+            <StackPanel>
+                <TextBlock
+                    Margin="44,10,16,5"
+                    FontSize="14"
+                    FontWeight="Normal"
+                    Text="{x:Bind rootservice:ResourceService.CustomCommandResource.GetString('TipContent1')}"
+                    TextAlignment="Justify"
+                    TextWrapping="Wrap" />
 
-                    <TextBlock
-                        Margin="44,0,16,5"
-                        FontSize="14"
-                        FontWeight="Normal"
-                        Text="{x:Bind rootservice:ResourceService.CustomCommandResource.GetString('TipContent2')}"
-                        TextAlignment="Justify"
-                        TextWrapping="Wrap" />
+                <TextBlock
+                    Margin="44,0,16,5"
+                    FontSize="14"
+                    FontWeight="Normal"
+                    Text="{x:Bind rootservice:ResourceService.CustomCommandResource.GetString('TipContent2')}"
+                    TextAlignment="Justify"
+                    TextWrapping="Wrap" />
 
-                    <TextBlock
-                        Margin="44,0,16,10"
-                        FontSize="14"
-                        FontWeight="Normal"
-                        Text="{x:Bind rootservice:ResourceService.CustomCommandResource.GetString('TipContent3')}"
-                        TextAlignment="Justify"
-                        TextWrapping="Wrap" />
-                </StackPanel>
-            </Expander.Content>
+                <TextBlock
+                    Margin="44,0,16,10"
+                    FontSize="14"
+                    FontWeight="Normal"
+                    Text="{x:Bind rootservice:ResourceService.CustomCommandResource.GetString('TipContent3')}"
+                    TextAlignment="Justify"
+                    TextWrapping="Wrap" />
+            </StackPanel>
         </Expander>
     </Grid>
 </Page>

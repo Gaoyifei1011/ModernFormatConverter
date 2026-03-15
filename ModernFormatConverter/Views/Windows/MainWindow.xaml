@@ -189,13 +189,11 @@
                             <ImageIcon Source="ms-appx:///Assets/ControlIcon/Home.png" />
                         </NavigationViewItem.Icon>
 
-                        <NavigationViewItem.Content>
-                            <TextBlock
-                                x:Name="WindowHomeText"
-                                Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('Home')}"
-                                TextTrimming="CharacterEllipsis"
-                                TextWrapping="NoWrap" />
-                        </NavigationViewItem.Content>
+                        <TextBlock
+                            x:Name="WindowHomeText"
+                            Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('Home')}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap" />
 
                         <ToolTipService.ToolTip>
                             <ToolTip
@@ -219,13 +217,11 @@
                             <ImageIcon Source="ms-appx:///Assets/ControlIcon/TaskManager.png" />
                         </NavigationViewItem.Icon>
 
-                        <NavigationViewItem.Content>
-                            <TextBlock
-                                x:Name="WindowTaskManagerText"
-                                Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('TaskManager')}"
-                                TextTrimming="CharacterEllipsis"
-                                TextWrapping="NoWrap" />
-                        </NavigationViewItem.Content>
+                        <TextBlock
+                            x:Name="WindowTaskManagerText"
+                            Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('TaskManager')}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap" />
 
                         <ToolTipService.ToolTip>
                             <ToolTip
@@ -249,13 +245,11 @@
                             <ImageIcon Source="ms-appx:///Assets/ControlIcon/FileInformation.png" />
                         </NavigationViewItem.Icon>
 
-                        <NavigationViewItem.Content>
-                            <TextBlock
-                                x:Name="WindowFileInformationText"
-                                Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('FileInformation')}"
-                                TextTrimming="CharacterEllipsis"
-                                TextWrapping="NoWrap" />
-                        </NavigationViewItem.Content>
+                        <TextBlock
+                            x:Name="WindowFileInformationText"
+                            Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('FileInformation')}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap" />
 
                         <ToolTipService.ToolTip>
                             <ToolTip
@@ -279,13 +273,11 @@
                             <ImageIcon Source="ms-appx:///Assets/ControlIcon/HATest.png" />
                         </NavigationViewItem.Icon>
 
-                        <NavigationViewItem.Content>
-                            <TextBlock
-                                x:Name="WindowHATestText"
-                                Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('HATest')}"
-                                TextTrimming="CharacterEllipsis"
-                                TextWrapping="NoWrap" />
-                        </NavigationViewItem.Content>
+                        <TextBlock
+                            x:Name="WindowHATestText"
+                            Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('HATest')}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap" />
 
                         <ToolTipService.ToolTip>
                             <ToolTip
@@ -309,13 +301,11 @@
                             <ImageIcon Source="ms-appx:///Assets/ControlIcon/CustomCommand.png" />
                         </NavigationViewItem.Icon>
 
-                        <NavigationViewItem.Content>
-                            <TextBlock
-                                x:Name="WindowCustomCommandText"
-                                Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('CustomCommand')}"
-                                TextTrimming="CharacterEllipsis"
-                                TextWrapping="NoWrap" />
-                        </NavigationViewItem.Content>
+                        <TextBlock
+                            x:Name="WindowCustomCommandText"
+                            Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('CustomCommand')}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap" />
 
                         <ToolTipService.ToolTip>
                             <ToolTip
@@ -341,13 +331,11 @@
                             <ImageIcon Source="ms-appx:///Assets/ControlIcon/Settings.png" />
                         </NavigationViewItem.Icon>
 
-                        <NavigationViewItem.Content>
-                            <TextBlock
-                                x:Name="WindowSettingsText"
-                                Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('Settings')}"
-                                TextTrimming="CharacterEllipsis"
-                                TextWrapping="NoWrap" />
-                        </NavigationViewItem.Content>
+                        <TextBlock
+                            x:Name="WindowSettingsText"
+                            Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('Settings')}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap" />
 
                         <ToolTipService.ToolTip>
                             <ToolTip

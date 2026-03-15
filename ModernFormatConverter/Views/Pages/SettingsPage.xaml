@@ -43,7 +43,7 @@
         PaneBackground="Transparent"
         PanePlacement="Right">
 
-        <SplitView.Content>
+        
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -95,9 +95,9 @@
                     HorizontalAlignment="Right"
                     VerticalAlignment="Top">
 
-                    <Button.Content>
+                    
                         <FontIcon FontSize="16" Glyph="&#xE712;" />
-                    </Button.Content>
+                    
 
                     <Button.Flyout>
                         <MenuFlyout Placement="Bottom">
@@ -216,7 +216,7 @@
                     </ToolTipService.ToolTip>
                 </Button>
             </Grid>
-        </SplitView.Content>
+        
 
         <SplitView.Pane>
             <!--  设置说明  -->
@@ -261,12 +261,12 @@
                             Click="{x:Bind OnCloseClicked}"
                             Style="{StaticResource AlternateCloseButtonStyle}">
 
-                            <Button.Content>
+                            
                                 <FontIcon
                                     Margin="4"
                                     FontSize="16"
                                     Glyph="&#xE711;" />
-                            </Button.Content>
+                            
 
                             <ToolTipService.ToolTip>
                                 <ToolTip
