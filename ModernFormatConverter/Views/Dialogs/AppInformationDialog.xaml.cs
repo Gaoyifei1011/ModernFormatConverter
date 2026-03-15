@@ -27,6 +27,7 @@ namespace ModernFormatConverter.Views.Dialogs
     public sealed partial class AppInformationDialog : ContentDialog, INotifyPropertyChanged
     {
         private readonly string DoNetVersionString = ResourceService.DialogResource.GetString("DoNetVersion");
+        private readonly string MediaInfoVersionString = ResourceService.DialogResource.GetString("MediaInfoVersion");
         private readonly string WindowsAppSDKVersionString = ResourceService.DialogResource.GetString("WindowsAppSDKVersion");
         private readonly string WinUIVersionString = ResourceService.DialogResource.GetString("WinUIVersion");
 
@@ -97,6 +98,10 @@ namespace ModernFormatConverter.Views.Dialogs
 
                     // .NET 版本信息
                     dependencyInformationList.Add(new KeyValuePair<string, Version>(DoNetVersionString, new Version(RuntimeInformation.FrameworkDescription.Remove(0, 15))));
+
+                    // MediaInfo 版本信息
+                    FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(Path.Combine(Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath), "MediaInfo.dll"));
+                    dependencyInformationList.Add(new KeyValuePair<string, Version>(MediaInfoVersionString, new Version(fileVersionInfo.FileVersion)));
                 }
             });
 
