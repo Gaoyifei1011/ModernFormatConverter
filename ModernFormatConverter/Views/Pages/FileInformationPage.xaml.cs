@@ -2,6 +2,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
+using ModernFormatConverter.Extensions.DataType.Class;
 using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Helpers.Root;
 using ModernFormatConverter.Models;
@@ -199,6 +200,198 @@ namespace ModernFormatConverter.Views.Pages
                 {
                     _fileAccessTime = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FileAccessTime)));
+                }
+            }
+        }
+
+        private SelectorBarItem _videoInformationSelectedItem;
+
+        public SelectorBarItem VideoInformationSelectedItem
+        {
+            get { return _videoInformationSelectedItem; }
+
+            set
+            {
+                if (!Equals(_videoInformationSelectedItem, value))
+                {
+                    _videoInformationSelectedItem = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoInformationSelectedItem)));
+                }
+            }
+        }
+
+        private string _videoAllInformation;
+
+        public string VideoAllInformation
+        {
+            get { return _videoAllInformation; }
+
+            set
+            {
+                if (!string.Equals(_videoAllInformation, value))
+                {
+                    _videoAllInformation = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoAllInformation)));
+                }
+            }
+        }
+
+        private bool _IsVideoAllInformationExisted;
+
+        public bool IsVideoAllInformationExisted
+        {
+            get { return _IsVideoAllInformationExisted; }
+
+            set
+            {
+                if (!Equals(_IsVideoAllInformationExisted, value))
+                {
+                    _IsVideoAllInformationExisted = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsVideoAllInformationExisted)));
+                }
+            }
+        }
+
+        private SelectorBarItem _audioInformationSelectedItem;
+
+        public SelectorBarItem AudioInformationSelectedItem
+        {
+            get { return _audioInformationSelectedItem; }
+
+            set
+            {
+                if (!Equals(_audioInformationSelectedItem, value))
+                {
+                    _audioInformationSelectedItem = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioInformationSelectedItem)));
+                }
+            }
+        }
+
+        private string _audioAllInformation;
+
+        public string AudioAllInformation
+        {
+            get { return _audioAllInformation; }
+
+            set
+            {
+                if (!string.Equals(_audioAllInformation, value))
+                {
+                    _audioAllInformation = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioAllInformation)));
+                }
+            }
+        }
+
+        private bool _IsAudioAllInformationExisted;
+
+        public bool IsAudioAllInformationExisted
+        {
+            get { return _IsAudioAllInformationExisted; }
+
+            set
+            {
+                if (!Equals(_IsAudioAllInformationExisted, value))
+                {
+                    _IsAudioAllInformationExisted = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsAudioAllInformationExisted)));
+                }
+            }
+        }
+
+        private SelectorBarItem _textInformationSelectedItem;
+
+        public SelectorBarItem TextInformationSelectedItem
+        {
+            get { return _textInformationSelectedItem; }
+
+            set
+            {
+                if (!Equals(_textInformationSelectedItem, value))
+                {
+                    _textInformationSelectedItem = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TextInformationSelectedItem)));
+                }
+            }
+        }
+
+        private string _textAllInformation;
+
+        public string TextAllInformation
+        {
+            get { return _textAllInformation; }
+
+            set
+            {
+                if (!string.Equals(_textAllInformation, value))
+                {
+                    _textAllInformation = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TextAllInformation)));
+                }
+            }
+        }
+
+        private bool _IsTextAllInformationExisted;
+
+        public bool IsTextAllInformationExisted
+        {
+            get { return _IsTextAllInformationExisted; }
+
+            set
+            {
+                if (!Equals(_IsTextAllInformationExisted, value))
+                {
+                    _IsTextAllInformationExisted = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsTextAllInformationExisted)));
+                }
+            }
+        }
+
+        private SelectorBarItem _imageInformationSelectedItem;
+
+        public SelectorBarItem ImageInformationSelectedItem
+        {
+            get { return _imageInformationSelectedItem; }
+
+            set
+            {
+                if (!Equals(_textInformationSelectedItem, value))
+                {
+                    _imageInformationSelectedItem = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageInformationSelectedItem)));
+                }
+            }
+        }
+
+        private string _imageAllInformation;
+
+        public string ImageAllInformation
+        {
+            get { return _imageAllInformation; }
+
+            set
+            {
+                if (!string.Equals(_imageAllInformation, value))
+                {
+                    _imageAllInformation = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageAllInformation)));
+                }
+            }
+        }
+
+        private bool _IsImageAllInformationExisted;
+
+        public bool IsImageAllInformationExisted
+        {
+            get { return _IsImageAllInformationExisted; }
+
+            set
+            {
+                if (!Equals(_IsImageAllInformationExisted, value))
+                {
+                    _IsImageAllInformationExisted = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsImageAllInformationExisted)));
                 }
             }
         }
@@ -412,6 +605,42 @@ namespace ModernFormatConverter.Views.Pages
             // TODO：未完成
         }
 
+        /// <summary>
+        /// 视频信息选中项发生变化时触发的事件
+        /// </summary>
+        private void OnVideoInformationSelectorBarSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
+        {
+            VideoInformationSelectedItem = sender.SelectedItem;
+            int index = sender.Items.IndexOf(VideoInformationSelectedItem);
+        }
+
+        /// <summary>
+        /// 音频信息选中项发生变化时触发的事件
+        /// </summary>
+        private void OnAudioInformationSelectorBarSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
+        {
+            AudioInformationSelectedItem = sender.SelectedItem;
+            int index = sender.Items.IndexOf(AudioInformationSelectedItem);
+        }
+
+        /// <summary>
+        /// 文本信息选中项发生变化时触发的事件
+        /// </summary>
+        private void OnTextInformationSelectorBarSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
+        {
+            TextInformationSelectedItem = sender.SelectedItem;
+            int index = sender.Items.IndexOf(TextInformationSelectedItem);
+        }
+
+        /// <summary>
+        /// 图像信息选中项发生变化时触发的事件
+        /// </summary>
+        private void OnImageInformationSelectorBarSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
+        {
+            ImageInformationSelectedItem = sender.SelectedItem;
+            int index = sender.Items.IndexOf(ImageInformationSelectedItem);
+        }
+
         #endregion 第二部分：文件信息页面——挂载的事件
 
         /// <summary>
@@ -420,6 +649,15 @@ namespace ModernFormatConverter.Views.Pages
         private async Task GetFileInformationAsync(string filePath)
         {
             FileInformationResultKind = FileInformationResultKind.Parsing;
+            FileThumbnailImage = null;
+            IsVideoAllInformationExisted = false;
+            IsAudioAllInformationExisted = false;
+            IsTextAllInformationExisted = false;
+            IsImageAllInformationExisted = false;
+            VideoAllInformation = string.Empty;
+            AudioAllInformation = string.Empty;
+            TextAllInformation = string.Empty;
+            ImageAllInformation = string.Empty;
             await GetThumbnailAsync(filePath);
             FileInformationModel fileInformation = await GetGeneralInformationAsync(filePath);
             FileType = string.IsNullOrEmpty(fileInformation.FileType) ? NotAvailableString : fileInformation.FileType;
@@ -431,19 +669,47 @@ namespace ModernFormatConverter.Views.Pages
             FileInformationResultKind fileInformationResultKind = GetFileType(filePath);
             if (fileInformationResultKind is FileInformationResultKind.VideoFile)
             {
-                await GetVideoInformationAsync(filePath);
+                VideoInformation videoInformation = await GetVideoInformationAsync(filePath);
+                VideoInformationSelectedItem = VideoInformationSelectorBar.Items[0];
+
+                if (!string.IsNullOrEmpty(videoInformation.VideoAllInformation))
+                {
+                    IsVideoAllInformationExisted = true;
+                    VideoAllInformation = videoInformation.VideoAllInformation;
+                }
             }
             else if (fileInformationResultKind is FileInformationResultKind.AudioFile)
             {
-                await GetAudioInformationAsync(filePath);
+                AudioInformation audioInformation = await GetAudioInformationAsync(filePath);
+                AudioInformationSelectedItem = AudioInformationSelectorBar.Items[0];
+
+                if (!string.IsNullOrEmpty(audioInformation.AudioAllInformation))
+                {
+                    IsAudioAllInformationExisted = true;
+                    AudioAllInformation = audioInformation.AudioAllInformation;
+                }
             }
-            else if (fileInformationResultKind is FileInformationResultKind.DocumentFile)
+            else if (fileInformationResultKind is FileInformationResultKind.TextFile)
             {
-                await GetDocumentInformationAsync(filePath);
+                TextInformation textInformation = await GetTextInformationAsync(filePath);
+                TextInformationSelectedItem = TextInformationSelectorBar.Items[0];
+
+                if (!string.IsNullOrEmpty(textInformation.TextAllInformation))
+                {
+                    IsTextAllInformationExisted = true;
+                    TextAllInformation = textInformation.TextAllInformation;
+                }
             }
             else if (fileInformationResultKind is FileInformationResultKind.ImageFile)
             {
-                await GetImageInformationAsync(filePath);
+                ImageInformation imageInformation = await GetImageInformationAsync(filePath);
+                ImageInformationSelectedItem = ImageInformationSelectorBar.Items[0];
+
+                if (!string.IsNullOrEmpty(imageInformation.ImageAllInformation))
+                {
+                    IsImageAllInformationExisted = true;
+                    ImageAllInformation = imageInformation.ImageAllInformation;
+                }
             }
 
             FileInformationResultKind = fileInformationResultKind;
@@ -565,7 +831,7 @@ namespace ModernFormatConverter.Views.Pages
                     }
                     else if (type is PERCEIVED.PERCEIVED_TYPE_TEXT || type is PERCEIVED.PERCEIVED_TYPE_DOCUMENT)
                     {
-                        fileInformationResultKind = FileInformationResultKind.DocumentFile;
+                        fileInformationResultKind = FileInformationResultKind.TextFile;
                     }
                     else if (type is PERCEIVED.PERCEIVED_TYPE_IMAGE)
                     {
@@ -595,7 +861,7 @@ namespace ModernFormatConverter.Views.Pages
                                     {
                                         if (MediaInfoLibrary.MediaInfo_Count_Get(handle, StreamKind.Text, -1) > 0)
                                         {
-                                            fileInformationResultKind = FileInformationResultKind.DocumentFile;
+                                            fileInformationResultKind = FileInformationResultKind.TextFile;
                                         }
                                     }
                                 }
@@ -618,37 +884,101 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 获取视频文件基本信息
         /// </summary>
-        private async Task GetVideoInformationAsync(string filePath)
+        private async Task<VideoInformation> GetVideoInformationAsync(string filePath)
         {
-            await Task.CompletedTask;
-            // TODO：未完成
+            VideoInformation videoInformation = new();
+
+            try
+            {
+                if (MediaInfoLibrary.MediaInfo_New() is nint handle && handle is not 0 && MediaInfoLibrary.MediaInfo_Open(handle, filePath) is not 0)
+                {
+                    nint informationPtr = MediaInfoLibrary.MediaInfo_Inform(handle, 0);
+                    videoInformation.VideoAllInformation = informationPtr is not 0 ? Marshal.PtrToStringUni(informationPtr).Trim() : string.Empty;
+                    MediaInfoLibrary.MediaInfo_Close(handle);
+                    MediaInfoLibrary.MediaInfo_Delete(handle);
+                }
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(FileInformationPage), nameof(GetVideoInformationAsync), 1, e);
+            }
+
+            return videoInformation;
         }
 
         /// <summary>
         /// 获取音频文件基本信息
         /// </summary>
-        private async Task GetAudioInformationAsync(string filePath)
+        private async Task<AudioInformation> GetAudioInformationAsync(string filePath)
         {
-            await Task.CompletedTask;
-            // TODO：未完成
+            AudioInformation audioInformation = new();
+
+            try
+            {
+                if (MediaInfoLibrary.MediaInfo_New() is nint handle && handle is not 0 && MediaInfoLibrary.MediaInfo_Open(handle, filePath) is not 0)
+                {
+                    nint informationPtr = MediaInfoLibrary.MediaInfo_Inform(handle, 0);
+                    audioInformation.AudioAllInformation = informationPtr is not 0 ? Marshal.PtrToStringUni(informationPtr).Trim() : string.Empty;
+                    MediaInfoLibrary.MediaInfo_Close(handle);
+                    MediaInfoLibrary.MediaInfo_Delete(handle);
+                }
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(FileInformationPage), nameof(GetAudioInformationAsync), 1, e);
+            }
+
+            return audioInformation;
         }
 
         /// <summary>
-        /// 获取文档文件基本信息
+        /// 获取文本文件基本信息
         /// </summary>
-        private async Task GetDocumentInformationAsync(string filePath)
+        private async Task<TextInformation> GetTextInformationAsync(string filePath)
         {
-            await Task.CompletedTask;
-            // TODO：未完成
+            TextInformation textInformation = new();
+
+            try
+            {
+                if (MediaInfoLibrary.MediaInfo_New() is nint handle && handle is not 0 && MediaInfoLibrary.MediaInfo_Open(handle, filePath) is not 0)
+                {
+                    nint informationPtr = MediaInfoLibrary.MediaInfo_Inform(handle, 0);
+                    textInformation.TextAllInformation = informationPtr is not 0 ? Marshal.PtrToStringUni(informationPtr).Trim() : string.Empty;
+                    MediaInfoLibrary.MediaInfo_Close(handle);
+                    MediaInfoLibrary.MediaInfo_Delete(handle);
+                }
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(FileInformationPage), nameof(GetTextInformationAsync), 1, e);
+            }
+
+            return textInformation;
         }
 
         /// <summary>
         /// 获取图片文件基本信息
         /// </summary>
-        private async Task GetImageInformationAsync(string filePath)
+        private async Task<ImageInformation> GetImageInformationAsync(string filePath)
         {
-            await Task.CompletedTask;
-            // TODO：未完成
+            ImageInformation imageInformation = new();
+
+            try
+            {
+                if (MediaInfoLibrary.MediaInfo_New() is nint handle && handle is not 0 && MediaInfoLibrary.MediaInfo_Open(handle, filePath) is not 0)
+                {
+                    nint informationPtr = MediaInfoLibrary.MediaInfo_Inform(handle, 0);
+                    imageInformation.ImageAllInformation = informationPtr is not 0 ? Marshal.PtrToStringUni(informationPtr).Trim() : string.Empty;
+                    MediaInfoLibrary.MediaInfo_Close(handle);
+                    MediaInfoLibrary.MediaInfo_Delete(handle);
+                }
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(FileInformationPage), nameof(GetImageInformationAsync), 1, e);
+            }
+
+            return imageInformation;
         }
 
         private static MemoryStream CreateShellIDList(StringCollection fileNameCollection)
@@ -690,7 +1020,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private Visibility GetFileInformationSuccessfullyState(FileInformationResultKind fileInformationResultKind, bool isSuccessfully)
         {
-            return isSuccessfully ? (fileInformationResultKind is FileInformationResultKind.File || fileInformationResultKind is FileInformationResultKind.VideoFile || fileInformationResultKind is FileInformationResultKind.AudioFile || fileInformationResultKind is FileInformationResultKind.DocumentFile || fileInformationResultKind is FileInformationResultKind.ImageFile) ? Visibility.Visible : Visibility.Collapsed : (fileInformationResultKind is FileInformationResultKind.File || fileInformationResultKind is FileInformationResultKind.VideoFile || fileInformationResultKind is FileInformationResultKind.AudioFile || fileInformationResultKind is FileInformationResultKind.DocumentFile || fileInformationResultKind is FileInformationResultKind.ImageFile) ? Visibility.Collapsed : Visibility.Visible;
+            return isSuccessfully ? (fileInformationResultKind is FileInformationResultKind.File || fileInformationResultKind is FileInformationResultKind.VideoFile || fileInformationResultKind is FileInformationResultKind.AudioFile || fileInformationResultKind is FileInformationResultKind.TextFile || fileInformationResultKind is FileInformationResultKind.ImageFile) ? Visibility.Visible : Visibility.Collapsed : (fileInformationResultKind is FileInformationResultKind.File || fileInformationResultKind is FileInformationResultKind.VideoFile || fileInformationResultKind is FileInformationResultKind.AudioFile || fileInformationResultKind is FileInformationResultKind.TextFile || fileInformationResultKind is FileInformationResultKind.ImageFile) ? Visibility.Collapsed : Visibility.Visible;
         }
 
         /// <summary>
@@ -707,6 +1037,11 @@ namespace ModernFormatConverter.Views.Pages
         private bool GetIsParsing(FileInformationResultKind fileInformationReusltKind)
         {
             return fileInformationReusltKind is not FileInformationResultKind.Parsing;
+        }
+
+        private Visibility GetSelectedSelectorBarItem(SelectorBarItem selectedItem, SelectorBarItem selectorBarItem)
+        {
+            return Equals(selectedItem, selectorBarItem) ? Visibility.Visible : Visibility.Collapsed;
         }
     }
 }
