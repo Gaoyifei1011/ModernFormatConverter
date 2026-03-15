@@ -8,7 +8,7 @@
         File = 3,
         VideoFile = 4,
         AudioFile = 5,
-        DocumentFile = 6,
+        TextFile = 6,
         ImageFile = 7
     }
 }
