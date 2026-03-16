@@ -33,6 +33,8 @@
 
         public string StreamSize { get; set; }
 
+        public string Default { get; set; }
+
         public string AlternateGroup { get; set; }
     }
 }
