@@ -5,30 +5,34 @@
     /// </summary>
     public class AudioDetailInfo
     {
+        public string ID { get; }
+
         public string Format { get; set; }
+
+        public string FormatInfo { get; set; }
+
+        public string CodecID { get; set; }
 
         public string Duration { get; set; }
 
-        public string OverallBitRateMode { get; set; }
+        public string BitRateMode { get; set; }
 
-        public string OverallBitRate { get; set; }
+        public string BitRate { get; set; }
 
-        public string Album { get; set; }
+        public string MaximumBitRate { get; set; }
 
-        public string TrackName { get; set; }
+        public string Channel { get; set; }
 
-        public string Performer { get; set; }
+        public string ChannelLayout { get; set; }
 
-        public string WritingLibrary { get; set; }
+        public string SamplingRate { get; set; }
 
-        public string Cover { get; set; }
+        public string FrameRate { get; set; }
 
-        public string CoverType { get; set; }
+        public string CompressionMode { get; set; }
 
-        public string CoverMIME { get; set; }
+        public string StreamSize { get; set; }
 
-        public string MaximumOverallBitRate { get; set; }
-
-        public string EncodedDate { get; set; }
+        public string AlternateGroup { get; set; }
     }
 }
