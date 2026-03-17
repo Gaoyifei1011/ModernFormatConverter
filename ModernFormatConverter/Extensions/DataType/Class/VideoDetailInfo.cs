@@ -5,7 +5,7 @@
     /// </summary>
     public class VideoDetailInfo
     {
-        public string ID { get; }
+        public string ID { get; set; }
 
         public string Format { get; set; }
 
