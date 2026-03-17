@@ -21,6 +21,9 @@ namespace ModernFormatConverter.WindowsAPI.PInvoke.MediaInfo
         [DllImport(MediaInfo, CharSet = CharSet.Unicode, EntryPoint = "MediaInfo_Delete", PreserveSig = true, SetLastError = false)]
         public static extern void MediaInfo_Delete(nint handle);
 
+        [DllImport(MediaInfo, CharSet = CharSet.Unicode, EntryPoint = "MediaInfo_Get", PreserveSig = true, SetLastError = false)]
+        public static extern nint MediaInfo_Get(nint Handle, StreamKind streamKind, int streamNumber, string parameter, InfoKind infoKind, InfoKind searchKind);
+
         [DllImport(MediaInfo, CharSet = CharSet.Unicode, EntryPoint = "MediaInfo_Inform", PreserveSig = true, SetLastError = false)]
         public static extern nint MediaInfo_Inform(nint handle, int reserved);
 
