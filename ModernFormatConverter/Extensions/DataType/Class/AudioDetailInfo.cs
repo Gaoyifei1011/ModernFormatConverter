@@ -5,7 +5,7 @@
     /// </summary>
     public class AudioDetailInfo
     {
-        public string ID { get; }
+        public string ID { get; set; }
 
         public string Format { get; set; }
 
@@ -19,7 +19,7 @@
 
         public string BitRate { get; set; }
 
-        public string MaximumBitRate { get; set; }
+        public string BitRateMaximum { get; set; }
 
         public string Channel { get; set; }
 

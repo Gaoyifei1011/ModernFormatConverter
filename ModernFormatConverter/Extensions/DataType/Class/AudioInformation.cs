@@ -9,7 +9,7 @@ namespace ModernFormatConverter.Extensions.DataType.Class
     {
         public GeneralInfo GeneralInfo { get; set; }
 
-        public List<AudioDetailInfo> AudioInfoList { get; } = [];
+        public List<AudioDetailInfo> AudioDetailInfoList { get; } = [];
 
         public string AudioAllInformation { get; set; }
     }
