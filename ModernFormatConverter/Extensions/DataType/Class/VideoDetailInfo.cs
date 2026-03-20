@@ -53,7 +53,7 @@
 
         public string ColorRange { get; set; }
 
-        public string ColorPrimaries { get; set; }
+        public string ColorParimaries { get; set; }
 
         public string TransferCharacteristics { get; set; }
 

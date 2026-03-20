@@ -9,11 +9,11 @@ namespace ModernFormatConverter.Extensions.DataType.Class
     {
         public GeneralInfo GeneralInfo { get; set; }
 
-        public List<VideoDetailInfo> VideoInfoList { get; } = [];
+        public List<VideoDetailInfo> VideoDetailInfoList { get; } = [];
 
-        public List<AudioDetailInfo> AudioInfoList { get; } = [];
+        public List<AudioDetailInfo> AudioDetailInfoList { get; } = [];
 
-        public List<TextDetailInfo> TextInfoList { get; } = [];
+        public List<TextDetailInfo> TextDetailInfoList { get; } = [];
 
         public string VideoAllInformation { get; set; }
     }
