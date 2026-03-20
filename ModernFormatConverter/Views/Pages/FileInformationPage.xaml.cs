@@ -611,7 +611,6 @@ namespace ModernFormatConverter.Views.Pages
         private void OnVideoInformationSelectorBarSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
         {
             VideoInformationSelectedItem = sender.SelectedItem;
-            int index = sender.Items.IndexOf(VideoInformationSelectedItem);
         }
 
         /// <summary>
@@ -620,7 +619,6 @@ namespace ModernFormatConverter.Views.Pages
         private void OnAudioInformationSelectorBarSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
         {
             AudioInformationSelectedItem = sender.SelectedItem;
-            int index = sender.Items.IndexOf(AudioInformationSelectedItem);
         }
 
         /// <summary>
@@ -629,7 +627,6 @@ namespace ModernFormatConverter.Views.Pages
         private void OnTextInformationSelectorBarSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
         {
             TextInformationSelectedItem = sender.SelectedItem;
-            int index = sender.Items.IndexOf(TextInformationSelectedItem);
         }
 
         /// <summary>
@@ -638,7 +635,6 @@ namespace ModernFormatConverter.Views.Pages
         private void OnImageInformationSelectorBarSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
         {
             ImageInformationSelectedItem = sender.SelectedItem;
-            int index = sender.Items.IndexOf(ImageInformationSelectedItem);
         }
 
         #endregion 第二部分：文件信息页面——挂载的事件
@@ -893,7 +889,159 @@ namespace ModernFormatConverter.Views.Pages
                 if (MediaInfoLibrary.MediaInfo_New() is nint handle && handle is not 0 && MediaInfoLibrary.MediaInfo_Open(handle, filePath) is not 0)
                 {
                     nint informationPtr = MediaInfoLibrary.MediaInfo_Inform(handle, 0);
-                    videoInformation.VideoAllInformation = informationPtr is not 0 ? Marshal.PtrToStringUni(informationPtr).Trim() : string.Empty;
+                    string videoAllInformation = informationPtr is not 0 ? Marshal.PtrToStringUni(informationPtr) : string.Empty;
+                    videoInformation.VideoAllInformation = string.IsNullOrEmpty(videoAllInformation) ? NotAvailableString : videoAllInformation;
+
+                    GeneralInfo generalInfo = new();
+                    string completeName = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "CompleteName", InfoKind.Text, InfoKind.Name));
+                    generalInfo.CompleteName = string.IsNullOrEmpty(completeName) ? NotAvailableString : completeName;
+                    string generalFormat = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Format", InfoKind.Text, InfoKind.Name));
+                    generalInfo.Format = string.IsNullOrEmpty(generalFormat) ? NotAvailableString : generalFormat;
+                    string generalFormatProfile = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Format_Profile", InfoKind.Text, InfoKind.Name));
+                    generalInfo.FormatProfile = string.IsNullOrEmpty(generalFormatProfile) ? NotAvailableString : generalFormatProfile;
+                    string generalCodecID = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "CodecID", InfoKind.Text, InfoKind.Name));
+                    generalInfo.CodecID = string.IsNullOrEmpty(generalCodecID) ? NotAvailableString : generalCodecID;
+                    string fileSize = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "FileSize", InfoKind.Text, InfoKind.Name));
+                    generalInfo.FileSize = string.IsNullOrEmpty(fileSize) ? NotAvailableString : fileSize;
+                    string encodedDate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Encoded_Date", InfoKind.Text, InfoKind.Name));
+                    generalInfo.EncodedDate = string.IsNullOrEmpty(encodedDate) ? NotAvailableString : encodedDate;
+                    string generalDuration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Duration", InfoKind.Text, InfoKind.Name));
+                    generalInfo.Duration = string.IsNullOrEmpty(generalDuration) ? NotAvailableString : generalDuration;
+                    string overallBitRate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "OverallBitRate", InfoKind.Text, InfoKind.Name));
+                    generalInfo.Duration = string.IsNullOrEmpty(overallBitRate) ? NotAvailableString : overallBitRate;
+                    string generalFrameRate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "FrameRate", InfoKind.Text, InfoKind.Name));
+                    generalInfo.FrameRate = string.IsNullOrEmpty(generalFrameRate) ? NotAvailableString : generalFrameRate;
+                    string generalStreamSize = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "StreamSize", InfoKind.Text, InfoKind.Name));
+                    generalInfo.StreamSize = string.IsNullOrEmpty(generalStreamSize) ? NotAvailableString : generalStreamSize;
+                    string recordedDate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Recorded_Date", InfoKind.Text, InfoKind.Name));
+                    generalInfo.EncodedDate = string.IsNullOrEmpty(recordedDate) ? NotAvailableString : recordedDate;
+                    videoInformation.GeneralInfo = generalInfo;
+
+                    int videoCount = MediaInfoLibrary.MediaInfo_Count_Get(handle, StreamKind.Video, -1);
+                    for (int index = 0; index < videoCount; index++)
+                    {
+                        VideoDetailInfo videoDetailInfo = new();
+                        string id = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "ID", InfoKind.Text, InfoKind.Name));
+                        videoDetailInfo.ID = string.IsNullOrEmpty(id) ? NotAvailableString : id;
+                        string videoFormat = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "Format", InfoKind.Text, InfoKind.Name));
+                        videoDetailInfo.Format = string.IsNullOrEmpty(videoFormat) ? NotAvailableString : videoFormat;
+                        string formatInfo = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "Format_Info", InfoKind.Text, InfoKind.Name));
+                        videoDetailInfo.FormatInfo = string.IsNullOrEmpty(videoFormat) ? NotAvailableString : formatInfo;
+                        string videoFormatProfile = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "Format_Profile", InfoKind.Text, InfoKind.Name));
+                        videoDetailInfo.FormatProfile = string.IsNullOrEmpty(videoFormatProfile) ? NotAvailableString : videoFormatProfile;
+                        string videoCodecID = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "CodecID", InfoKind.Text, InfoKind.Name));
+                        videoDetailInfo.CodecID = string.IsNullOrEmpty(videoCodecID) ? NotAvailableString : videoCodecID;
+                        string codecIDInfo = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "CodecID_Info", InfoKind.Text, InfoKind.Name));
+                        videoDetailInfo.CodecIDInfo = string.IsNullOrEmpty(codecIDInfo) ? NotAvailableString : codecIDInfo;
+                        string videoDuration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "Duration", InfoKind.Text, InfoKind.Name));
+                        videoDetailInfo.Duration = string.IsNullOrEmpty(videoDuration) ? NotAvailableString : videoDuration;
+                        string sourceDuration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "Source_Duration", InfoKind.Text, InfoKind.Name));
+                        videoDetailInfo.SourceDuration = string.IsNullOrEmpty(sourceDuration) ? NotAvailableString : sourceDuration;
+                        string bitRate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "BitRate", InfoKind.Text, InfoKind.Name));
+                        videoDetailInfo.BitRate = string.IsNullOrEmpty(bitRate) ? NotAvailableString : bitRate;
+                        string width = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "Width", InfoKind.Text, InfoKind.Name));
+                        videoDetailInfo.Width = string.IsNullOrEmpty(width) ? NotAvailableString : width;
+                        string height = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "Height", InfoKind.Text, InfoKind.Name));
+                        videoDetailInfo.Height = string.IsNullOrEmpty(height) ? NotAvailableString : height;
+                        string displayAspectRatio = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "DisplayAspectRatio", InfoKind.Text, InfoKind.Name));
+                        videoDetailInfo.DisplayAspectRatio = string.IsNullOrEmpty(displayAspectRatio) ? NotAvailableString : displayAspectRatio;
+                        string frameRateMode = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "FrameRate_Mode", InfoKind.Text, InfoKind.Name));
+                        videoDetailInfo.FrameRateMode = string.IsNullOrEmpty(frameRateMode) ? NotAvailableString : frameRateMode;
+                        string videoFrameRate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "FrameRate", InfoKind.Text, InfoKind.Name));
+                        videoDetailInfo.FrameRate = string.IsNullOrEmpty(videoFrameRate) ? NotAvailableString : videoFrameRate;
+                        string minimumFrameRate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "MinimumFrameRate", InfoKind.Text, InfoKind.Name));
+                        videoDetailInfo.MinimumFrameRate = string.IsNullOrEmpty(minimumFrameRate) ? NotAvailableString : minimumFrameRate;
+                        string maximumFrameRate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "MaximumFrameRate", InfoKind.Text, InfoKind.Name));
+                        videoDetailInfo.MaximumFrameRate = string.IsNullOrEmpty(maximumFrameRate) ? NotAvailableString : maximumFrameRate;
+                        string colorSpace = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "ColorSpace", InfoKind.Text, InfoKind.Name));
+                        videoDetailInfo.ColorSpace = string.IsNullOrEmpty(colorSpace) ? NotAvailableString : colorSpace;
+                        string chromaSubsampling = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "ChromaSubsampling", InfoKind.Text, InfoKind.Name));
+                        videoDetailInfo.ChromaSubsampling = string.IsNullOrEmpty(chromaSubsampling) ? NotAvailableString : chromaSubsampling;
+                        string bitDepth = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "BitDepth", InfoKind.Text, InfoKind.Name));
+                        videoDetailInfo.BitDepth = string.IsNullOrEmpty(bitDepth) ? NotAvailableString : bitDepth;
+                        string bitsPxixelFrame = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "Bits-(Pixel*Frame)", InfoKind.Text, InfoKind.Name));
+                        videoDetailInfo.BitsPixelFrame = string.IsNullOrEmpty(bitsPxixelFrame) ? NotAvailableString : bitsPxixelFrame;
+                        string videoStreamSize = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "StreamSize", InfoKind.Text, InfoKind.Name));
+                        videoDetailInfo.StreamSize = string.IsNullOrEmpty(videoStreamSize) ? NotAvailableString : videoStreamSize;
+                        string sourceStreamSize = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "Source_StreamSize", InfoKind.Text, InfoKind.Name));
+                        videoDetailInfo.SourceStreamSize = string.IsNullOrEmpty(sourceStreamSize) ? NotAvailableString : sourceStreamSize;
+                        string colorRange = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "colour_range", InfoKind.Text, InfoKind.Name));
+                        videoDetailInfo.ColorRange = string.IsNullOrEmpty(colorRange) ? NotAvailableString : colorRange;
+                        string colorParimaries = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "colour_primaries", InfoKind.Text, InfoKind.Name));
+                        videoDetailInfo.ColorParimaries = string.IsNullOrEmpty(colorParimaries) ? NotAvailableString : colorParimaries;
+                        string transferCharacteristics = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "transfer_characteristics", InfoKind.Text, InfoKind.Name));
+                        videoDetailInfo.TransferCharacteristics = string.IsNullOrEmpty(transferCharacteristics) ? NotAvailableString : transferCharacteristics;
+                        string matrixCoefficients = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "matrix_coefficients", InfoKind.Text, InfoKind.Name));
+                        videoDetailInfo.MatrixCoefficients = string.IsNullOrEmpty(matrixCoefficients) ? NotAvailableString : matrixCoefficients;
+                        string codecConfigurationBox = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "CodecConfigurationBox", InfoKind.Text, InfoKind.Name));
+                        videoDetailInfo.CodecConfigurationBox = string.IsNullOrEmpty(codecConfigurationBox) ? NotAvailableString : codecConfigurationBox;
+                        videoInformation.VideoDetailInfoList.Add(videoDetailInfo);
+                    }
+
+                    int audioCount = MediaInfoLibrary.MediaInfo_Count_Get(handle, StreamKind.Audio, -1);
+                    for (int index = 0; index < audioCount; index++)
+                    {
+                        AudioDetailInfo audioDetailInfo = new();
+                        string id = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "ID", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.ID = string.IsNullOrEmpty(id) ? NotAvailableString : id;
+                        string audioFormat = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "Format", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.Format = string.IsNullOrEmpty(audioFormat) ? NotAvailableString : audioFormat;
+                        string formatInfo = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "Format_Info", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.FormatInfo = string.IsNullOrEmpty(audioFormat) ? NotAvailableString : formatInfo;
+                        string audioCodecID = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "CodecID", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.CodecID = string.IsNullOrEmpty(audioCodecID) ? NotAvailableString : audioCodecID;
+                        string audioDuration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "Duration", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.Duration = string.IsNullOrEmpty(audioDuration) ? NotAvailableString : audioDuration;
+                        string bitRateMode = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "BitRate_Mode", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.BitRateMode = string.IsNullOrEmpty(bitRateMode) ? NotAvailableString : bitRateMode;
+                        string bitRate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "BitRate", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.BitRate = string.IsNullOrEmpty(bitRate) ? NotAvailableString : bitRate;
+                        string bitRateMaximum = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "BitRate_Maximum", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.BitRateMaximum = string.IsNullOrEmpty(bitRateMaximum) ? NotAvailableString : bitRateMaximum;
+                        string channel = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "Channel(s)", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.Channel = string.IsNullOrEmpty(channel) ? NotAvailableString : channel;
+                        string channelLayout = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "ChannelLayout", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.ChannelLayout = string.IsNullOrEmpty(channelLayout) ? NotAvailableString : channelLayout;
+                        string samplingRate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "SamplingRate", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.SamplingRate = string.IsNullOrEmpty(samplingRate) ? NotAvailableString : samplingRate;
+                        string audioFrameRate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "FrameRate", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.FrameRate = string.IsNullOrEmpty(audioFrameRate) ? NotAvailableString : audioFrameRate;
+                        string compressionMode = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "Compression_Mode", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.CompressionMode = string.IsNullOrEmpty(compressionMode) ? NotAvailableString : compressionMode;
+                        string audioStreamSize = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "StreamSize", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.StreamSize = string.IsNullOrEmpty(audioStreamSize) ? NotAvailableString : audioStreamSize;
+                        string @default = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "Default", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.Default = string.IsNullOrEmpty(@default) ? NotAvailableString : @default;
+                        string alternateGroup = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "AlternateGroup", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.AlternateGroup = string.IsNullOrEmpty(alternateGroup) ? NotAvailableString : alternateGroup;
+                        videoInformation.AudioDetailInfoList.Add(audioDetailInfo);
+                    }
+
+                    int textCount = MediaInfoLibrary.MediaInfo_Count_Get(handle, StreamKind.Text, -1);
+                    for (int index = 0; index < textCount; index++)
+                    {
+                        TextDetailInfo textDetailInfo = new();
+                        string id = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, index, "ID", InfoKind.Text, InfoKind.Name));
+                        textDetailInfo.ID = string.IsNullOrEmpty(id) ? NotAvailableString : id;
+                        string textFormat = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, index, "Format", InfoKind.Text, InfoKind.Name));
+                        textDetailInfo.Format = string.IsNullOrEmpty(textFormat) ? NotAvailableString : textFormat;
+                        string textCodecID = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, index, "CodecID", InfoKind.Text, InfoKind.Name));
+                        textDetailInfo.CodecID = string.IsNullOrEmpty(textCodecID) ? NotAvailableString : textCodecID;
+                        string codecIDInfo = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, index, "CodecID_Info", InfoKind.Text, InfoKind.Name));
+                        textDetailInfo.CodecIDInfo = string.IsNullOrEmpty(codecIDInfo) ? NotAvailableString : codecIDInfo;
+                        string textDuration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, index, "Duration", InfoKind.Text, InfoKind.Name));
+                        textDetailInfo.Duration = string.IsNullOrEmpty(textDuration) ? NotAvailableString : textDuration;
+                        string bitRate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, index, "BitRate", InfoKind.Text, InfoKind.Name));
+                        textDetailInfo.BitRate = string.IsNullOrEmpty(bitRate) ? NotAvailableString : bitRate;
+                        string countOfElements = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, index, "ElementCount", InfoKind.Text, InfoKind.Name));
+                        textDetailInfo.CountOfElements = string.IsNullOrEmpty(countOfElements) ? NotAvailableString : countOfElements;
+                        string textStreamSize = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, index, "StreamSize", InfoKind.Text, InfoKind.Name));
+                        textDetailInfo.StreamSize = string.IsNullOrEmpty(textStreamSize) ? NotAvailableString : textStreamSize;
+                        string textDefault = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, index, "Default", InfoKind.Text, InfoKind.Name));
+                        textDetailInfo.Default = string.IsNullOrEmpty(textDefault) ? NotAvailableString : textDefault;
+                        videoInformation.TextDetailInfoList.Add(textDetailInfo);
+                    }
+
                     MediaInfoLibrary.MediaInfo_Close(handle);
                     MediaInfoLibrary.MediaInfo_Delete(handle);
                 }
@@ -919,6 +1067,77 @@ namespace ModernFormatConverter.Views.Pages
                 {
                     nint informationPtr = MediaInfoLibrary.MediaInfo_Inform(handle, 0);
                     audioInformation.AudioAllInformation = informationPtr is not 0 ? Marshal.PtrToStringUni(informationPtr).Trim() : string.Empty;
+
+                    GeneralInfo generalInfo = new();
+                    string completeName = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "CompleteName", InfoKind.Text, InfoKind.Name));
+                    generalInfo.CompleteName = string.IsNullOrEmpty(completeName) ? NotAvailableString : completeName;
+                    string generalFormat = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Format", InfoKind.Text, InfoKind.Name));
+                    generalInfo.Format = string.IsNullOrEmpty(generalFormat) ? NotAvailableString : generalFormat;
+                    string generalFormatProfile = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Format_Profile", InfoKind.Text, InfoKind.Name));
+                    generalInfo.FormatProfile = string.IsNullOrEmpty(generalFormatProfile) ? NotAvailableString : generalFormatProfile;
+                    string generalCodecID = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "CodecID", InfoKind.Text, InfoKind.Name));
+                    generalInfo.CodecID = string.IsNullOrEmpty(generalCodecID) ? NotAvailableString : generalCodecID;
+                    string fileSize = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "FileSize", InfoKind.Text, InfoKind.Name));
+                    generalInfo.FileSize = string.IsNullOrEmpty(fileSize) ? NotAvailableString : fileSize;
+                    string encodedDate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Encoded_Date", InfoKind.Text, InfoKind.Name));
+                    generalInfo.EncodedDate = string.IsNullOrEmpty(encodedDate) ? NotAvailableString : encodedDate;
+                    string generalDuration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Duration", InfoKind.Text, InfoKind.Name));
+                    generalInfo.Duration = string.IsNullOrEmpty(generalDuration) ? NotAvailableString : generalDuration;
+                    string overallBitRate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "OverallBitRate", InfoKind.Text, InfoKind.Name));
+                    generalInfo.Duration = string.IsNullOrEmpty(overallBitRate) ? NotAvailableString : overallBitRate;
+                    string generalFrameRate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "FrameRate", InfoKind.Text, InfoKind.Name));
+                    generalInfo.FrameRate = string.IsNullOrEmpty(generalFrameRate) ? NotAvailableString : generalFrameRate;
+                    string generalStreamSize = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "StreamSize", InfoKind.Text, InfoKind.Name));
+                    generalInfo.StreamSize = string.IsNullOrEmpty(generalStreamSize) ? NotAvailableString : generalStreamSize;
+                    string recordedDate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Recorded_Date", InfoKind.Text, InfoKind.Name));
+                    generalInfo.EncodedDate = string.IsNullOrEmpty(recordedDate) ? NotAvailableString : recordedDate;
+                    string album = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Album", InfoKind.Text, InfoKind.Name));
+                    generalInfo.Album = string.IsNullOrEmpty(album) ? NotAvailableString : album;
+                    string trackName = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "TrackName", InfoKind.Text, InfoKind.Name));
+                    generalInfo.TrackName = string.IsNullOrEmpty(trackName) ? NotAvailableString : trackName;
+                    string performer = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Performer", InfoKind.Text, InfoKind.Name));
+                    generalInfo.Performer = string.IsNullOrEmpty(performer) ? NotAvailableString : performer;
+                    audioInformation.GeneralInfo = generalInfo;
+
+                    int audioCount = MediaInfoLibrary.MediaInfo_Count_Get(handle, StreamKind.Audio, -1);
+                    for (int index = 0; index < audioCount; index++)
+                    {
+                        AudioDetailInfo audioDetailInfo = new();
+                        string id = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "ID", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.ID = string.IsNullOrEmpty(id) ? NotAvailableString : id;
+                        string audioFormat = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "Format", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.Format = string.IsNullOrEmpty(audioFormat) ? NotAvailableString : audioFormat;
+                        string formatInfo = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "Format_Info", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.FormatInfo = string.IsNullOrEmpty(audioFormat) ? NotAvailableString : formatInfo;
+                        string audioCodecID = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "CodecID", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.CodecID = string.IsNullOrEmpty(audioCodecID) ? NotAvailableString : audioCodecID;
+                        string audioDuration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "Duration", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.Duration = string.IsNullOrEmpty(audioDuration) ? NotAvailableString : audioDuration;
+                        string bitRateMode = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "BitRate_Mode", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.BitRateMode = string.IsNullOrEmpty(bitRateMode) ? NotAvailableString : bitRateMode;
+                        string bitRate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "BitRate", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.BitRate = string.IsNullOrEmpty(bitRate) ? NotAvailableString : bitRate;
+                        string bitRateMaximum = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "BitRate_Maximum", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.BitRateMaximum = string.IsNullOrEmpty(bitRateMaximum) ? NotAvailableString : bitRateMaximum;
+                        string channel = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "Channel(s)", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.Channel = string.IsNullOrEmpty(channel) ? NotAvailableString : channel;
+                        string channelLayout = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "ChannelLayout", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.ChannelLayout = string.IsNullOrEmpty(channelLayout) ? NotAvailableString : channelLayout;
+                        string samplingRate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "SamplingRate", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.SamplingRate = string.IsNullOrEmpty(samplingRate) ? NotAvailableString : samplingRate;
+                        string audioFrameRate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "FrameRate", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.FrameRate = string.IsNullOrEmpty(audioFrameRate) ? NotAvailableString : audioFrameRate;
+                        string compressionMode = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "Compression_Mode", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.CompressionMode = string.IsNullOrEmpty(compressionMode) ? NotAvailableString : compressionMode;
+                        string audioStreamSize = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "StreamSize", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.StreamSize = string.IsNullOrEmpty(audioStreamSize) ? NotAvailableString : audioStreamSize;
+                        string @default = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "Default", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.Default = string.IsNullOrEmpty(@default) ? NotAvailableString : @default;
+                        string alternateGroup = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "AlternateGroup", InfoKind.Text, InfoKind.Name));
+                        audioDetailInfo.AlternateGroup = string.IsNullOrEmpty(alternateGroup) ? NotAvailableString : alternateGroup;
+                        audioInformation.AudioDetailInfoList.Add(audioDetailInfo);
+                    }
+
                     MediaInfoLibrary.MediaInfo_Close(handle);
                     MediaInfoLibrary.MediaInfo_Delete(handle);
                 }
@@ -944,6 +1163,28 @@ namespace ModernFormatConverter.Views.Pages
                 {
                     nint informationPtr = MediaInfoLibrary.MediaInfo_Inform(handle, 0);
                     textInformation.TextAllInformation = informationPtr is not 0 ? Marshal.PtrToStringUni(informationPtr).Trim() : string.Empty;
+
+                    TextDetailInfo textDetailInfo = new();
+                    string id = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, 0, "ID", InfoKind.Text, InfoKind.Name));
+                    textDetailInfo.ID = string.IsNullOrEmpty(id) ? NotAvailableString : id;
+                    string textFormat = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, 0, "Format", InfoKind.Text, InfoKind.Name));
+                    textDetailInfo.Format = string.IsNullOrEmpty(textFormat) ? NotAvailableString : textFormat;
+                    string textCodecID = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, 0, "CodecID", InfoKind.Text, InfoKind.Name));
+                    textDetailInfo.CodecID = string.IsNullOrEmpty(textCodecID) ? NotAvailableString : textCodecID;
+                    string codecIDInfo = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, 0, "CodecID_Info", InfoKind.Text, InfoKind.Name));
+                    textDetailInfo.CodecIDInfo = string.IsNullOrEmpty(codecIDInfo) ? NotAvailableString : codecIDInfo;
+                    string textDuration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, 0, "Duration", InfoKind.Text, InfoKind.Name));
+                    textDetailInfo.Duration = string.IsNullOrEmpty(textDuration) ? NotAvailableString : textDuration;
+                    string bitRate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, 0, "BitRate", InfoKind.Text, InfoKind.Name));
+                    textDetailInfo.BitRate = string.IsNullOrEmpty(bitRate) ? NotAvailableString : bitRate;
+                    string countOfElements = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, 0, "ElementCount", InfoKind.Text, InfoKind.Name));
+                    textDetailInfo.CountOfElements = string.IsNullOrEmpty(countOfElements) ? NotAvailableString : countOfElements;
+                    string textStreamSize = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, 0, "StreamSize", InfoKind.Text, InfoKind.Name));
+                    textDetailInfo.StreamSize = string.IsNullOrEmpty(textStreamSize) ? NotAvailableString : textStreamSize;
+                    string textDefault = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, 0, "Default", InfoKind.Text, InfoKind.Name));
+                    textDetailInfo.Default = string.IsNullOrEmpty(textDefault) ? NotAvailableString : textDefault;
+                    textInformation.TextInfo = textDetailInfo;
+
                     MediaInfoLibrary.MediaInfo_Close(handle);
                     MediaInfoLibrary.MediaInfo_Delete(handle);
                 }
