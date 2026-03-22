@@ -7,6 +7,7 @@ using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Helpers.Root;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
+using ModernFormatConverter.Views.NotificationTips;
 using ModernFormatConverter.WindowsAPI.PInvoke.Kernel32;
 using ModernFormatConverter.WindowsAPI.PInvoke.MediaInfo;
 using ModernFormatConverter.WindowsAPI.PInvoke.Shell32;
@@ -20,6 +21,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
@@ -36,7 +38,14 @@ namespace ModernFormatConverter.Views.Pages
     public sealed partial class FileInformationPage : Page, INotifyPropertyChanged
     {
         private readonly string DragOverContentString = ResourceService.FileInformationResource.GetString("DragOverContent");
+        private readonly string FileAccessTimeString = ResourceService.FileInformationResource.GetString("FileAccessTime");
+        private readonly string FileCreateTimeString = ResourceService.FileInformationResource.GetString("FileCreateTime");
+        private readonly string FileModifyTimeString = ResourceService.FileInformationResource.GetString("FileModifyTime");
+        private readonly string FileNameString = ResourceService.FileInformationResource.GetString("FileName");
+        private readonly string FileSizeString = ResourceService.FileInformationResource.GetString("FileSize");
         private readonly string FileSizeDescriptionString = ResourceService.FileInformationResource.GetString("FileSizeDescription");
+        private readonly string FileSpaceUsageString = ResourceService.FileInformationResource.GetString("FileSpaceUsage");
+        private readonly string FileTypeString = ResourceService.FileInformationResource.GetString("FileType");
         private readonly string NoMultiFileString = ResourceService.FileInformationResource.GetString("NoMultiFile");
         private readonly string NotAvailableString = ResourceService.FileInformationResource.GetString("NotAvailable");
         private readonly string ParsingFileInformationString = ResourceService.FileInformationResource.GetString("ParsingFileInformation");
@@ -600,9 +609,22 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 复制基本信息到剪贴板
         /// </summary>
-        private void OnGeneralInformationCopyClicked(object sender, RoutedEventArgs args)
+        private async void OnGeneralInformationCopyClicked(object sender, RoutedEventArgs args)
         {
-            // TODO：未完成
+            string generalInformation = await Task.Run(() =>
+            {
+                StringBuilder generalInformationBuilder = new();
+                generalInformationBuilder.AppendLine(string.Format("{0}\t{1}", FileNameString, FileName));
+                generalInformationBuilder.AppendLine(string.Format("{0}\t{1}", FileTypeString, FileType));
+                generalInformationBuilder.AppendLine(string.Format("{0}\t{1}", FileSizeString, FileSize));
+                generalInformationBuilder.AppendLine(string.Format("{0}\t{1}", FileSpaceUsageString, FileSpaceUsage));
+                generalInformationBuilder.AppendLine(string.Format("{0}\t{1}", FileCreateTimeString, FileCreateTime));
+                generalInformationBuilder.AppendLine(string.Format("{0}\t{1}", FileModifyTimeString, FileModifyTime));
+                generalInformationBuilder.AppendLine(string.Format("{0}\t{1}", FileAccessTimeString, FileAccessTime));
+                return generalInformationBuilder.ToString();
+            });
+
+            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(generalInformation)));
         }
 
         /// <summary>
