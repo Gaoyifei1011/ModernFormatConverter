@@ -8,6 +8,7 @@ using ModernFormatConverter.Helpers.Root;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.Views.NotificationTips;
+using ModernFormatConverter.Views.Windows;
 using ModernFormatConverter.WindowsAPI.PInvoke.Kernel32;
 using ModernFormatConverter.WindowsAPI.PInvoke.MediaInfo;
 using ModernFormatConverter.WindowsAPI.PInvoke.Shell32;
@@ -229,18 +230,18 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
-        private string _videoAllInformation;
+        private VideoInformation _videoInformation;
 
-        public string VideoAllInformation
+        public VideoInformation VideoInformation
         {
-            get { return _videoAllInformation; }
+            get { return _videoInformation; }
 
             set
             {
-                if (!string.Equals(_videoAllInformation, value))
+                if (!Equals(_videoInformation, value))
                 {
-                    _videoAllInformation = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoAllInformation)));
+                    _videoInformation = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoInformation)));
                 }
             }
         }
@@ -277,18 +278,18 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
-        private string _audioAllInformation;
+        private AudioInformation _audioInformation;
 
-        public string AudioAllInformation
+        public AudioInformation AudioInformation
         {
-            get { return _audioAllInformation; }
+            get { return _audioInformation; }
 
             set
             {
-                if (!string.Equals(_audioAllInformation, value))
+                if (!string.Equals(_audioInformation, value))
                 {
-                    _audioAllInformation = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioAllInformation)));
+                    _audioInformation = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioInformation)));
                 }
             }
         }
@@ -325,18 +326,18 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
-        private string _textAllInformation;
+        private TextInformation _textInformation;
 
-        public string TextAllInformation
+        public TextInformation TextInformation
         {
-            get { return _textAllInformation; }
+            get { return _textInformation; }
 
             set
             {
-                if (!string.Equals(_textAllInformation, value))
+                if (!string.Equals(_textInformation, value))
                 {
-                    _textAllInformation = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TextAllInformation)));
+                    _textInformation = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TextInformation)));
                 }
             }
         }
@@ -672,9 +673,9 @@ namespace ModernFormatConverter.Views.Pages
             IsAudioAllInformationExisted = false;
             IsTextAllInformationExisted = false;
             IsImageAllInformationExisted = false;
-            VideoAllInformation = string.Empty;
-            AudioAllInformation = string.Empty;
-            TextAllInformation = string.Empty;
+            VideoInformation = new();
+            AudioInformation = new();
+            TextInformation = new();
             ImageAllInformation = string.Empty;
             await GetThumbnailAsync(filePath);
             FileInformationModel fileInformation = await GetGeneralInformationAsync(filePath);
@@ -689,11 +690,11 @@ namespace ModernFormatConverter.Views.Pages
             {
                 VideoInformation videoInformation = await GetVideoInformationAsync(filePath);
                 VideoInformationSelectedItem = VideoInformationSelectorBar.Items[0];
+                VideoInformation = videoInformation;
 
                 if (!string.IsNullOrEmpty(videoInformation.VideoAllInformation))
                 {
                     IsVideoAllInformationExisted = true;
-                    VideoAllInformation = videoInformation.VideoAllInformation;
                 }
             }
             else if (fileInformationResultKind is FileInformationResultKind.AudioFile)
@@ -704,7 +705,6 @@ namespace ModernFormatConverter.Views.Pages
                 if (!string.IsNullOrEmpty(audioInformation.AudioAllInformation))
                 {
                     IsAudioAllInformationExisted = true;
-                    AudioAllInformation = audioInformation.AudioAllInformation;
                 }
             }
             else if (fileInformationResultKind is FileInformationResultKind.TextFile)
@@ -715,7 +715,6 @@ namespace ModernFormatConverter.Views.Pages
                 if (!string.IsNullOrEmpty(textInformation.TextAllInformation))
                 {
                     IsTextAllInformationExisted = true;
-                    TextAllInformation = textInformation.TextAllInformation;
                 }
             }
             else if (fileInformationResultKind is FileInformationResultKind.ImageFile)
@@ -919,24 +918,32 @@ namespace ModernFormatConverter.Views.Pages
                     generalInfo.CompleteName = string.IsNullOrEmpty(completeName) ? NotAvailableString : completeName;
                     string generalFormat = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Format", InfoKind.Text, InfoKind.Name));
                     generalInfo.Format = string.IsNullOrEmpty(generalFormat) ? NotAvailableString : generalFormat;
+                    string generalFormatVersion = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Format_Version", InfoKind.Text, InfoKind.Name));
+                    generalInfo.FormatVersion = string.IsNullOrEmpty(generalFormatVersion) ? NotAvailableString : generalFormatVersion;
                     string generalFormatProfile = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Format_Profile", InfoKind.Text, InfoKind.Name));
                     generalInfo.FormatProfile = string.IsNullOrEmpty(generalFormatProfile) ? NotAvailableString : generalFormatProfile;
                     string generalCodecID = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "CodecID", InfoKind.Text, InfoKind.Name));
                     generalInfo.CodecID = string.IsNullOrEmpty(generalCodecID) ? NotAvailableString : generalCodecID;
                     string fileSize = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "FileSize", InfoKind.Text, InfoKind.Name));
                     generalInfo.FileSize = string.IsNullOrEmpty(fileSize) ? NotAvailableString : fileSize;
+                    string uniqueID = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "UniqueID", InfoKind.Text, InfoKind.Name));
+                    generalInfo.UniqueID = string.IsNullOrEmpty(uniqueID) ? NotAvailableString : uniqueID;
                     string encodedDate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Encoded_Date", InfoKind.Text, InfoKind.Name));
                     generalInfo.EncodedDate = string.IsNullOrEmpty(encodedDate) ? NotAvailableString : encodedDate;
                     string generalDuration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Duration", InfoKind.Text, InfoKind.Name));
                     generalInfo.Duration = string.IsNullOrEmpty(generalDuration) ? NotAvailableString : generalDuration;
                     string overallBitRate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "OverallBitRate", InfoKind.Text, InfoKind.Name));
-                    generalInfo.Duration = string.IsNullOrEmpty(overallBitRate) ? NotAvailableString : overallBitRate;
+                    generalInfo.OverallBitRate = string.IsNullOrEmpty(overallBitRate) ? NotAvailableString : overallBitRate;
                     string generalFrameRate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "FrameRate", InfoKind.Text, InfoKind.Name));
                     generalInfo.FrameRate = string.IsNullOrEmpty(generalFrameRate) ? NotAvailableString : generalFrameRate;
                     string generalStreamSize = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "StreamSize", InfoKind.Text, InfoKind.Name));
                     generalInfo.StreamSize = string.IsNullOrEmpty(generalStreamSize) ? NotAvailableString : generalStreamSize;
                     string recordedDate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Recorded_Date", InfoKind.Text, InfoKind.Name));
-                    generalInfo.EncodedDate = string.IsNullOrEmpty(recordedDate) ? NotAvailableString : recordedDate;
+                    generalInfo.RecordedDate = string.IsNullOrEmpty(recordedDate) ? NotAvailableString : recordedDate;
+                    string encodedApplication = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Encoded_Application", InfoKind.Text, InfoKind.Name));
+                    generalInfo.EncodedApplication = string.IsNullOrEmpty(encodedApplication) ? NotAvailableString : encodedApplication;
+                    string encodedLibrary = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Encoded_Library", InfoKind.Text, InfoKind.Name));
+                    generalInfo.EncodedLibrary = string.IsNullOrEmpty(encodedLibrary) ? NotAvailableString : encodedLibrary;
                     videoInformation.GeneralInfo = generalInfo;
 
                     int videoCount = MediaInfoLibrary.MediaInfo_Count_Get(handle, StreamKind.Video, -1);

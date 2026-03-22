@@ -49,7 +49,7 @@
 
         public string SourceStreamSize { get; set; }
 
-        public string WritingLibrary { get; set; }
+        public string EncodedLibrary { get; set; }
 
         public string ColorRange { get; set; }
 

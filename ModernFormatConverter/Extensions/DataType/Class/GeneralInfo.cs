@@ -31,9 +31,9 @@
 
         public string RecordedDate { get; set; }
 
-        public string WritingApplication { get; set; }
+        public string EncodedApplication { get; set; }
 
-        public string WritingLibrary { get; set; }
+        public string EncodedLibrary { get; set; }
 
         #region 音频专用信息
 
