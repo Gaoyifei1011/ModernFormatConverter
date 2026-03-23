@@ -460,7 +460,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoInformation.GeneralInfo.CompleteName, Mode=OneWay}"
+                                        Text="{x:Bind VideoDisplayGeneralInfo.CompleteName, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -476,7 +476,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoInformation.GeneralInfo.Format, Mode=OneWay}"
+                                        Text="{x:Bind VideoDisplayGeneralInfo.Format, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -492,7 +492,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoInformation.GeneralInfo.FormatVersion, Mode=OneWay}"
+                                        Text="{x:Bind VideoDisplayGeneralInfo.FormatVersion, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -508,7 +508,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoInformation.GeneralInfo.FormatProfile, Mode=OneWay}"
+                                        Text="{x:Bind VideoDisplayGeneralInfo.FormatProfile, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -524,7 +524,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoInformation.GeneralInfo.CodecID, Mode=OneWay}"
+                                        Text="{x:Bind VideoDisplayGeneralInfo.CodecID, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -540,7 +540,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoInformation.GeneralInfo.FileSize, Mode=OneWay}"
+                                        Text="{x:Bind VideoDisplayGeneralInfo.FileSize, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -556,7 +556,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoInformation.GeneralInfo.UniqueID, Mode=OneWay}"
+                                        Text="{x:Bind VideoDisplayGeneralInfo.UniqueID, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -572,7 +572,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoInformation.GeneralInfo.EncodedDate, Mode=OneWay}"
+                                        Text="{x:Bind VideoDisplayGeneralInfo.EncodedDate, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -588,7 +588,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoInformation.GeneralInfo.Duration, Mode=OneWay}"
+                                        Text="{x:Bind VideoDisplayGeneralInfo.Duration, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -604,7 +604,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoInformation.GeneralInfo.OverallBitRate, Mode=OneWay}"
+                                        Text="{x:Bind VideoDisplayGeneralInfo.OverallBitRate, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -620,7 +620,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoInformation.GeneralInfo.FrameRate, Mode=OneWay}"
+                                        Text="{x:Bind VideoDisplayGeneralInfo.FrameRate, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -636,7 +636,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoInformation.GeneralInfo.StreamSize, Mode=OneWay}"
+                                        Text="{x:Bind VideoDisplayGeneralInfo.StreamSize, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -652,7 +652,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoInformation.GeneralInfo.RecordedDate, Mode=OneWay}"
+                                        Text="{x:Bind VideoDisplayGeneralInfo.RecordedDate, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -668,7 +668,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoInformation.GeneralInfo.EncodedApplication, Mode=OneWay}"
+                                        Text="{x:Bind VideoDisplayGeneralInfo.EncodedApplication, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -684,14 +684,571 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoInformation.GeneralInfo.EncodedLibrary, Mode=OneWay}"
+                                        Text="{x:Bind VideoDisplayGeneralInfo.EncodedLibrary, Mode=OneWay}"
                                         TextWrapping="Wrap" />
                                 </Grid>
 
                                 <Grid Visibility="{x:Bind GetSelectedSelectorBarItem(VideoInformationSelectedItem, VideoInformationSelectorBar.Items[1]), Mode=OneWay}">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
+
+                                    <TextBlock
+                                        Margin="0,5,0,3"
+                                        HorizontalAlignment="Center"
+                                        Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('EmptyVideoDisplayVideoInfo')}"
+                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(VideoDisplayVideoInfoCount), Mode=OneWay}" />
+
+                                    <Grid RowSpacing="3" Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(VideoDisplayVideoInfoCount), Mode=OneWay}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ID')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayVideoInfo.ID, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Format')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayVideoInfo.Format, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="2"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('FormatInfo')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="2"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayVideoInfo.FormatInfo, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="3"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('FormatProfile')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="3"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayVideoInfo.FormatProfile, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="4"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CodecID')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="4"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayVideoInfo.CodecID, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="5"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CodecIDInfo')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="5"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayVideoInfo.CodecIDInfo, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="6"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Duration')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="6"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayVideoInfo.Duration, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="7"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('SourceDuration')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="7"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayVideoInfo.SourceDuration, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="8"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('BitRate')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="8"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayVideoInfo.BitRate, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="9"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Width')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="9"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayVideoInfo.Width, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="10"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Height')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="10"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayVideoInfo.Height, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="11"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('DisplayAspectRatio')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="11"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayVideoInfo.DisplayAspectRatio, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="12"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('FrameRate')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="12"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayVideoInfo.FrameRate, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="13"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('FrameRateMode')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="13"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayVideoInfo.FrameRateMode, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="14"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('MinimumFrameRate')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="14"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayVideoInfo.MinimumFrameRate, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="15"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('MaximumFrameRate')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="15"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayVideoInfo.MaximumFrameRate, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="16"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ColorSpace')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="16"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayVideoInfo.ColorSpace, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="17"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ChromaSubsampling')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="17"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayVideoInfo.ChromaSubsampling, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="18"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('BitDepth')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="18"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayVideoInfo.BitDepth, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="19"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('BitsPixelFrame')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="19"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayVideoInfo.BitsPixelFrame, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="20"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('StreamSize')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="20"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayVideoInfo.StreamSize, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="21"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('SourceStreamSize')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="21"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayVideoInfo.SourceStreamSize, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="22"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('EncodedLibrary')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="22"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayVideoInfo.EncodedLibrary, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="23"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ColorRange')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="23"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayVideoInfo.ColorRange, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="24"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ColorParimaries')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="24"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayVideoInfo.ColorParimaries, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="25"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('TransferCharacteristics')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="25"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayVideoInfo.TransferCharacteristics, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="26"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('MatrixCoefficients')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="26"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayVideoInfo.MatrixCoefficients, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="27"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CodecConfigurationBox')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="27"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayVideoInfo.CodecConfigurationBox, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <StackPanel
+                                            Grid.Row="28"
+                                            Grid.ColumnSpan="2"
+                                            Margin="0,5,0,-4"
+                                            HorizontalAlignment="Center"
+                                            Orientation="Horizontal"
+                                            Spacing="3">
+
+                                            <Button
+                                                Width="32"
+                                                Height="32"
+                                                Padding="0"
+                                                Click="{x:Bind OnForwardDisplayVideoInfoClicked}"
+                                                CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                                <FontIcon FontSize="16" Glyph="&#xE76B;" />
+
+                                                <ToolTipService.ToolTip>
+                                                    <ToolTip
+                                                        MaxWidth="9999"
+                                                        Padding="0"
+                                                        Background="Transparent">
+
+                                                        <Grid>
+                                                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardDisplayVideoInfo')}" />
+                                                        </Grid>
+                                                    </ToolTip>
+                                                </ToolTipService.ToolTip>
+                                            </Button>
+
+                                            <NumberBox ValueChanged="{x:Bind OnVideoDisplayVideoInfoSelectedIndexValueChanged}" Value="{x:Bind VideoDisplayVideoInfoSelectedIndex, Mode=OneWay}">
+                                                <NumberBox.Resources>
+                                                    <x:Double x:Key="TextControlThemeMinWidth">0</x:Double>
+                                                </NumberBox.Resources>
+                                            </NumberBox>
+
+                                            <TextBlock Margin="0,0,3,3" VerticalAlignment="Center">
+
+                                                <Run Text="/" />
+                                                <Run Text="{x:Bind VideoDisplayVideoInfoCount, Mode=OneWay}" />
+                                            </TextBlock>
+
+                                            <Button
+                                                Width="32"
+                                                Height="32"
+                                                Padding="0"
+                                                Click="{x:Bind OnNextDisplayVideoInfoClicked}"
+                                                CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                                <FontIcon FontSize="16" Glyph="&#xE76C;" />
+
+                                                <ToolTipService.ToolTip>
+                                                    <ToolTip
+                                                        MaxWidth="9999"
+                                                        Padding="0"
+                                                        Background="Transparent">
+
+                                                        <Grid>
+                                                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextDisplayVideoInfo')}" />
+                                                        </Grid>
+                                                    </ToolTip>
+                                                </ToolTipService.ToolTip>
+                                            </Button>
+                                        </StackPanel>
+                                    </Grid>
                                 </Grid>
 
                                 <Grid Visibility="{x:Bind GetSelectedSelectorBarItem(VideoInformationSelectedItem, VideoInformationSelectorBar.Items[2]), Mode=OneWay}">
@@ -711,15 +1268,15 @@
                                     <TextBlock
                                         Margin="0,5,0,3"
                                         HorizontalAlignment="Center"
-                                        Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('EmptyVideoAllInformation')}"
-                                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsVideoAllInformationExisted), Mode=OneWay}" />
+                                        Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('EmptyVideoDisplayAllInfo')}"
+                                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsVideoDisplayAllInfoExisted), Mode=OneWay}" />
 
                                     <TextBlock
                                         Margin="0,5,0,3"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoInformation.VideoAllInformation, Mode=OneWay}"
+                                        Text="{x:Bind VideoDisplayAllInfo, Mode=OneWay}"
                                         TextWrapping="Wrap"
-                                        Visibility="{x:Bind IsVideoAllInformationExisted, Mode=OneWay}" />
+                                        Visibility="{x:Bind IsVideoDisplayAllInfoExisted, Mode=OneWay}" />
                                 </Grid>
                             </Grid>
                         </Grid>

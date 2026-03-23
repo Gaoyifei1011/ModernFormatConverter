@@ -53,6 +53,7 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string SelectFileString = ResourceService.FileInformationResource.GetString("SelectFile");
         private readonly string SpaceUsageDescriptionString = ResourceService.FileInformationResource.GetString("SpaceUsageDescription");
         private string filePath;
+        private VideoInformation videoInformation;
 
         private FileInformationResultKind _fileInformationResultKind;
 
@@ -230,34 +231,98 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
-        private VideoInformation _videoInformation;
+        private GeneralInfo _videoDisplayGeneralInfo;
 
-        public VideoInformation VideoInformation
+        public GeneralInfo VideoDisplayGeneralInfo
         {
-            get { return _videoInformation; }
+            get { return _videoDisplayGeneralInfo; }
 
             set
             {
-                if (!Equals(_videoInformation, value))
+                if (!Equals(_videoDisplayGeneralInfo, value))
                 {
-                    _videoInformation = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoInformation)));
+                    _videoDisplayGeneralInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDisplayGeneralInfo)));
                 }
             }
         }
 
-        private bool _IsVideoAllInformationExisted;
+        private VideoDetailInfo _videoDisplayVideoInfo;
 
-        public bool IsVideoAllInformationExisted
+        public VideoDetailInfo VideoDisplayVideoInfo
         {
-            get { return _IsVideoAllInformationExisted; }
+            get { return _videoDisplayVideoInfo; }
 
             set
             {
-                if (!Equals(_IsVideoAllInformationExisted, value))
+                if (!Equals(_videoDisplayVideoInfo, value))
                 {
-                    _IsVideoAllInformationExisted = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsVideoAllInformationExisted)));
+                    _videoDisplayVideoInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDisplayVideoInfo)));
+                }
+            }
+        }
+
+        private int _videoDisplayVideoInfoSelectedIndex;
+
+        public int VideoDisplayVideoInfoSelectedIndex
+        {
+            get { return _videoDisplayVideoInfoSelectedIndex; }
+
+            set
+            {
+                if (!Equals(_videoDisplayVideoInfoSelectedIndex, value))
+                {
+                    _videoDisplayVideoInfoSelectedIndex = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDisplayVideoInfoSelectedIndex)));
+                }
+            }
+        }
+
+        private int _videoDisplayVideoInfoCount;
+
+        public int VideoDisplayVideoInfoCount
+        {
+            get { return _videoDisplayVideoInfoCount; }
+
+            set
+            {
+                if (!Equals(_videoDisplayVideoInfoCount, value))
+                {
+                    _videoDisplayVideoInfoCount = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDisplayVideoInfoCount)));
+                }
+            }
+        }
+
+        private string _videoDisplayAllInfo;
+
+        public string VideoDisplayAllInfo
+        {
+            get { return _videoDisplayAllInfo; }
+
+            set
+            {
+                if (!Equals(_videoDisplayAllInfo, value))
+                {
+                    _videoDisplayAllInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDisplayAllInfo)));
+                }
+            }
+        }
+
+        private bool _isVideoDisplayAllInfoExisted;
+
+        public bool IsVideoDisplayAllInfoExisted
+        {
+            get { return _isVideoDisplayAllInfoExisted; }
+
+            set
+            {
+                if (!Equals(_isVideoDisplayAllInfoExisted, value))
+                {
+                    _isVideoDisplayAllInfoExisted = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsVideoDisplayAllInfoExisted)));
                 }
             }
         }
@@ -637,6 +702,61 @@ namespace ModernFormatConverter.Views.Pages
         }
 
         /// <summary>
+        /// 前一个视频流信息
+        /// </summary>
+        private void OnForwardDisplayVideoInfoClicked(object sender, RoutedEventArgs args)
+        {
+            if (videoInformation is not null && Equals(videoInformation.VideoDetailInfoList.Count, VideoDisplayVideoInfoCount) && VideoDisplayVideoInfoSelectedIndex > 1 && VideoDisplayVideoInfoSelectedIndex <= VideoDisplayVideoInfoCount)
+            {
+                VideoDisplayVideoInfoSelectedIndex--;
+                VideoDisplayVideoInfo = videoInformation.VideoDetailInfoList[VideoDisplayVideoInfoSelectedIndex - 1];
+            }
+        }
+
+        /// <summary>
+        /// 选中值发生变化时触发的事件
+        /// </summary>
+        private void OnVideoDisplayVideoInfoSelectedIndexValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
+            {
+                int newValue = Convert.ToInt32(args.NewValue);
+                VideoDisplayVideoInfoSelectedIndex = newValue;
+                VideoDisplayVideoInfoSelectedIndex = Convert.ToInt32(args.OldValue);
+
+                if (videoInformation is not null && Equals(videoInformation.VideoDetailInfoList.Count, VideoDisplayVideoInfoCount))
+                {
+                    if (newValue > VideoDisplayVideoInfoCount)
+                    {
+                        VideoDisplayVideoInfoSelectedIndex = VideoDisplayVideoInfoCount;
+                    }
+                    else if (newValue < 1)
+                    {
+                        VideoDisplayVideoInfoSelectedIndex = 1;
+                    }
+                    else
+                    {
+                        VideoDisplayVideoInfoSelectedIndex = newValue;
+                    }
+
+                    VideoDisplayVideoInfo = videoInformation.VideoDetailInfoList[VideoDisplayVideoInfoSelectedIndex - 1];
+                }
+            }
+        }
+
+        /// <summary>
+        /// 后一个视频流信息
+        /// </summary>
+        private void OnNextDisplayVideoInfoClicked(object sender, RoutedEventArgs args)
+        {
+            if (videoInformation is not null && Equals(videoInformation.VideoDetailInfoList.Count, VideoDisplayVideoInfoCount) && VideoDisplayVideoInfoSelectedIndex >= 1 && VideoDisplayVideoInfoSelectedIndex < VideoDisplayVideoInfoCount)
+            {
+                VideoDisplayVideoInfoSelectedIndex--;
+                VideoDisplayVideoInfo = videoInformation.VideoDetailInfoList[VideoDisplayVideoInfoSelectedIndex - 1];
+            }
+        }
+
+        /// <summary>
         /// 音频信息选中项发生变化时触发的事件
         /// </summary>
         private void OnAudioInformationSelectorBarSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
@@ -669,11 +789,17 @@ namespace ModernFormatConverter.Views.Pages
         {
             FileInformationResultKind = FileInformationResultKind.Parsing;
             FileThumbnailImage = null;
-            IsVideoAllInformationExisted = false;
+            videoInformation = null;
+            VideoInformationSelectedItem = VideoInformationSelectorBar.Items[0];
+            VideoDisplayGeneralInfo = new();
+            VideoDisplayVideoInfo = new();
+            VideoDisplayVideoInfoSelectedIndex = 0;
+            VideoDisplayVideoInfoCount = 0;
+            VideoDisplayAllInfo = string.Empty;
+            IsVideoDisplayAllInfoExisted = false;
             IsAudioAllInformationExisted = false;
             IsTextAllInformationExisted = false;
             IsImageAllInformationExisted = false;
-            VideoInformation = new();
             AudioInformation = new();
             TextInformation = new();
             ImageAllInformation = string.Empty;
@@ -688,13 +814,16 @@ namespace ModernFormatConverter.Views.Pages
             FileInformationResultKind fileInformationResultKind = GetFileType(filePath);
             if (fileInformationResultKind is FileInformationResultKind.VideoFile)
             {
-                VideoInformation videoInformation = await GetVideoInformationAsync(filePath);
-                VideoInformationSelectedItem = VideoInformationSelectorBar.Items[0];
-                VideoInformation = videoInformation;
+                videoInformation = await GetVideoInformationAsync(filePath);
+                VideoDisplayGeneralInfo = videoInformation.GeneralInfo;
+                VideoDisplayVideoInfoCount = videoInformation.VideoDetailInfoList.Count;
+                VideoDisplayVideoInfo = videoInformation.VideoDetailInfoList.Count is 0 ? new() : videoInformation.VideoDetailInfoList[0];
+                VideoDisplayVideoInfoSelectedIndex = 1;
 
                 if (!string.IsNullOrEmpty(videoInformation.VideoAllInformation))
                 {
-                    IsVideoAllInformationExisted = true;
+                    VideoDisplayAllInfo = videoInformation.VideoAllInformation;
+                    IsVideoDisplayAllInfoExisted = true;
                 }
             }
             else if (fileInformationResultKind is FileInformationResultKind.AudioFile)
@@ -942,8 +1071,8 @@ namespace ModernFormatConverter.Views.Pages
                     generalInfo.RecordedDate = string.IsNullOrEmpty(recordedDate) ? NotAvailableString : recordedDate;
                     string encodedApplication = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Encoded_Application", InfoKind.Text, InfoKind.Name));
                     generalInfo.EncodedApplication = string.IsNullOrEmpty(encodedApplication) ? NotAvailableString : encodedApplication;
-                    string encodedLibrary = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Encoded_Library", InfoKind.Text, InfoKind.Name));
-                    generalInfo.EncodedLibrary = string.IsNullOrEmpty(encodedLibrary) ? NotAvailableString : encodedLibrary;
+                    string generalEncodedLibrary = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Encoded_Library", InfoKind.Text, InfoKind.Name));
+                    generalInfo.EncodedLibrary = string.IsNullOrEmpty(generalEncodedLibrary) ? NotAvailableString : generalEncodedLibrary;
                     videoInformation.GeneralInfo = generalInfo;
 
                     int videoCount = MediaInfoLibrary.MediaInfo_Count_Get(handle, StreamKind.Video, -1);
@@ -955,7 +1084,7 @@ namespace ModernFormatConverter.Views.Pages
                         string videoFormat = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "Format", InfoKind.Text, InfoKind.Name));
                         videoDetailInfo.Format = string.IsNullOrEmpty(videoFormat) ? NotAvailableString : videoFormat;
                         string formatInfo = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "Format_Info", InfoKind.Text, InfoKind.Name));
-                        videoDetailInfo.FormatInfo = string.IsNullOrEmpty(videoFormat) ? NotAvailableString : formatInfo;
+                        videoDetailInfo.FormatInfo = string.IsNullOrEmpty(formatInfo) ? NotAvailableString : formatInfo;
                         string videoFormatProfile = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "Format_Profile", InfoKind.Text, InfoKind.Name));
                         videoDetailInfo.FormatProfile = string.IsNullOrEmpty(videoFormatProfile) ? NotAvailableString : videoFormatProfile;
                         string videoCodecID = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "CodecID", InfoKind.Text, InfoKind.Name));
@@ -996,6 +1125,8 @@ namespace ModernFormatConverter.Views.Pages
                         videoDetailInfo.SourceStreamSize = string.IsNullOrEmpty(sourceStreamSize) ? NotAvailableString : sourceStreamSize;
                         string colorRange = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "colour_range", InfoKind.Text, InfoKind.Name));
                         videoDetailInfo.ColorRange = string.IsNullOrEmpty(colorRange) ? NotAvailableString : colorRange;
+                        string videoEncodedLibrary = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "Encoded_Library", InfoKind.Text, InfoKind.Name));
+                        videoDetailInfo.EncodedLibrary = string.IsNullOrEmpty(videoEncodedLibrary) ? NotAvailableString : videoEncodedLibrary;
                         string colorParimaries = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "colour_primaries", InfoKind.Text, InfoKind.Name));
                         videoDetailInfo.ColorParimaries = string.IsNullOrEmpty(colorParimaries) ? NotAvailableString : colorParimaries;
                         string transferCharacteristics = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "transfer_characteristics", InfoKind.Text, InfoKind.Name));
