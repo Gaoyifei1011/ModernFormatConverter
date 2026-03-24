@@ -295,6 +295,54 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
+        private AudioDetailInfo _videoDisplayAudioInfo;
+
+        public AudioDetailInfo VideoDisplayAudioInfo
+        {
+            get { return _videoDisplayAudioInfo; }
+
+            set
+            {
+                if (!Equals(_videoDisplayVideoInfo, value))
+                {
+                    _videoDisplayAudioInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDisplayAudioInfo)));
+                }
+            }
+        }
+
+        private int _videoDisplayAudioInfoSelectedIndex;
+
+        public int VideoDisplayAudioInfoSelectedIndex
+        {
+            get { return _videoDisplayAudioInfoSelectedIndex; }
+
+            set
+            {
+                if (!Equals(_videoDisplayAudioInfoSelectedIndex, value))
+                {
+                    _videoDisplayAudioInfoSelectedIndex = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDisplayAudioInfoSelectedIndex)));
+                }
+            }
+        }
+
+        private int _videoDisplayAudioInfoCount;
+
+        public int VideoDisplayAudioInfoCount
+        {
+            get { return _videoDisplayAudioInfoCount; }
+
+            set
+            {
+                if (!Equals(_videoDisplayAudioInfoCount, value))
+                {
+                    _videoDisplayAudioInfoCount = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDisplayAudioInfoCount)));
+                }
+            }
+        }
+
         private string _videoDisplayAllInfo;
 
         public string VideoDisplayAllInfo
@@ -702,9 +750,9 @@ namespace ModernFormatConverter.Views.Pages
         }
 
         /// <summary>
-        /// 前一个视频流信息
+        /// 视频信息的前一个视频流信息
         /// </summary>
-        private void OnForwardDisplayVideoInfoClicked(object sender, RoutedEventArgs args)
+        private void OnForwardVideoDisplayVideoInfoClicked(object sender, RoutedEventArgs args)
         {
             if (videoInformation is not null && Equals(videoInformation.VideoDetailInfoList.Count, VideoDisplayVideoInfoCount) && VideoDisplayVideoInfoSelectedIndex > 1 && VideoDisplayVideoInfoSelectedIndex <= VideoDisplayVideoInfoCount)
             {
@@ -714,7 +762,7 @@ namespace ModernFormatConverter.Views.Pages
         }
 
         /// <summary>
-        /// 选中值发生变化时触发的事件
+        /// 视频信息的视频流选中值发生变化时触发的事件
         /// </summary>
         private void OnVideoDisplayVideoInfoSelectedIndexValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
         {
@@ -745,14 +793,69 @@ namespace ModernFormatConverter.Views.Pages
         }
 
         /// <summary>
-        /// 后一个视频流信息
+        /// 视频信息的后一个视频流信息
         /// </summary>
-        private void OnNextDisplayVideoInfoClicked(object sender, RoutedEventArgs args)
+        private void OnNextVideoDisplayVideoInfoClicked(object sender, RoutedEventArgs args)
         {
             if (videoInformation is not null && Equals(videoInformation.VideoDetailInfoList.Count, VideoDisplayVideoInfoCount) && VideoDisplayVideoInfoSelectedIndex >= 1 && VideoDisplayVideoInfoSelectedIndex < VideoDisplayVideoInfoCount)
             {
-                VideoDisplayVideoInfoSelectedIndex--;
+                VideoDisplayVideoInfoSelectedIndex++;
                 VideoDisplayVideoInfo = videoInformation.VideoDetailInfoList[VideoDisplayVideoInfoSelectedIndex - 1];
+            }
+        }
+
+        /// <summary>
+        /// 视频信息的前一个音频流信息
+        /// </summary>
+        private void OnForwardVideoDisplayAudioInfoClicked(object sender, RoutedEventArgs args)
+        {
+            if (videoInformation is not null && Equals(videoInformation.AudioDetailInfoList.Count, VideoDisplayAudioInfoCount) && VideoDisplayAudioInfoSelectedIndex > 1 && VideoDisplayAudioInfoSelectedIndex <= VideoDisplayAudioInfoCount)
+            {
+                VideoDisplayAudioInfoSelectedIndex--;
+                VideoDisplayAudioInfo = videoInformation.AudioDetailInfoList[VideoDisplayAudioInfoSelectedIndex - 1];
+            }
+        }
+
+        /// <summary>
+        /// 视频信息的音频流信息选中值发生变化时触发的事件
+        /// </summary>
+        private void OnVideoDisplayAudioInfoSelectedIndexValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
+            {
+                int newValue = Convert.ToInt32(args.NewValue);
+                VideoDisplayAudioInfoSelectedIndex = newValue;
+                VideoDisplayAudioInfoSelectedIndex = Convert.ToInt32(args.OldValue);
+
+                if (videoInformation is not null && Equals(videoInformation.AudioDetailInfoList.Count, VideoDisplayAudioInfoCount))
+                {
+                    if (newValue > VideoDisplayAudioInfoCount)
+                    {
+                        VideoDisplayAudioInfoSelectedIndex = VideoDisplayAudioInfoCount;
+                    }
+                    else if (newValue < 1)
+                    {
+                        VideoDisplayAudioInfoSelectedIndex = 1;
+                    }
+                    else
+                    {
+                        VideoDisplayAudioInfoSelectedIndex = newValue;
+                    }
+
+                    VideoDisplayAudioInfo = videoInformation.AudioDetailInfoList[VideoDisplayAudioInfoSelectedIndex - 1];
+                }
+            }
+        }
+
+        /// <summary>
+        /// 视频信息的后一个音频流信息
+        /// </summary>
+        private void OnNextVideoDisplayAudioInfoClicked(object sender, RoutedEventArgs args)
+        {
+            if (videoInformation is not null && Equals(videoInformation.AudioDetailInfoList.Count, VideoDisplayAudioInfoCount) && VideoDisplayAudioInfoSelectedIndex >= 1 && VideoDisplayAudioInfoSelectedIndex < VideoDisplayAudioInfoCount)
+            {
+                VideoDisplayAudioInfoSelectedIndex++;
+                VideoDisplayAudioInfo = videoInformation.AudioDetailInfoList[VideoDisplayAudioInfoSelectedIndex - 1];
             }
         }
 
@@ -795,6 +898,9 @@ namespace ModernFormatConverter.Views.Pages
             VideoDisplayVideoInfo = new();
             VideoDisplayVideoInfoSelectedIndex = 0;
             VideoDisplayVideoInfoCount = 0;
+            VideoDisplayAudioInfo = new();
+            VideoDisplayAudioInfoSelectedIndex = 0;
+            VideoDisplayAudioInfoCount = 0;
             VideoDisplayAllInfo = string.Empty;
             IsVideoDisplayAllInfoExisted = false;
             IsAudioAllInformationExisted = false;
@@ -819,6 +925,9 @@ namespace ModernFormatConverter.Views.Pages
                 VideoDisplayVideoInfoCount = videoInformation.VideoDetailInfoList.Count;
                 VideoDisplayVideoInfo = videoInformation.VideoDetailInfoList.Count is 0 ? new() : videoInformation.VideoDetailInfoList[0];
                 VideoDisplayVideoInfoSelectedIndex = 1;
+                VideoDisplayAudioInfoCount = videoInformation.AudioDetailInfoList.Count;
+                VideoDisplayAudioInfo = videoInformation.AudioDetailInfoList.Count is 0 ? new() : videoInformation.AudioDetailInfoList[0];
+                VideoDisplayAudioInfoSelectedIndex = 1;
 
                 if (!string.IsNullOrEmpty(videoInformation.VideoAllInformation))
                 {
