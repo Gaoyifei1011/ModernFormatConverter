@@ -343,6 +343,54 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
+        private TextDetailInfo _videoDisplayTextInfo;
+
+        public TextDetailInfo VideoDisplayTextInfo
+        {
+            get { return _videoDisplayTextInfo; }
+
+            set
+            {
+                if (!Equals(_videoDisplayVideoInfo, value))
+                {
+                    _videoDisplayTextInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDisplayTextInfo)));
+                }
+            }
+        }
+
+        private int _videoDisplayTextInfoSelectedIndex;
+
+        public int VideoDisplayTextInfoSelectedIndex
+        {
+            get { return _videoDisplayTextInfoSelectedIndex; }
+
+            set
+            {
+                if (!Equals(_videoDisplayTextInfoSelectedIndex, value))
+                {
+                    _videoDisplayTextInfoSelectedIndex = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDisplayTextInfoSelectedIndex)));
+                }
+            }
+        }
+
+        private int _videoDisplayTextInfoCount;
+
+        public int VideoDisplayTextInfoCount
+        {
+            get { return _videoDisplayTextInfoCount; }
+
+            set
+            {
+                if (!Equals(_videoDisplayTextInfoCount, value))
+                {
+                    _videoDisplayTextInfoCount = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDisplayTextInfoCount)));
+                }
+            }
+        }
+
         private string _videoDisplayAllInfo;
 
         public string VideoDisplayAllInfo
@@ -754,7 +802,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnForwardVideoDisplayVideoInfoClicked(object sender, RoutedEventArgs args)
         {
-            if (videoInformation is not null && Equals(videoInformation.VideoDetailInfoList.Count, VideoDisplayVideoInfoCount) && VideoDisplayVideoInfoSelectedIndex > 1 && VideoDisplayVideoInfoSelectedIndex <= VideoDisplayVideoInfoCount)
+            if (videoInformation is not null && videoInformation.VideoDetailInfoList.Count > 0 && Equals(videoInformation.VideoDetailInfoList.Count, VideoDisplayVideoInfoCount) && VideoDisplayVideoInfoSelectedIndex > 1 && VideoDisplayVideoInfoSelectedIndex <= VideoDisplayVideoInfoCount)
             {
                 VideoDisplayVideoInfoSelectedIndex--;
                 VideoDisplayVideoInfo = videoInformation.VideoDetailInfoList[VideoDisplayVideoInfoSelectedIndex - 1];
@@ -772,7 +820,7 @@ namespace ModernFormatConverter.Views.Pages
                 VideoDisplayVideoInfoSelectedIndex = newValue;
                 VideoDisplayVideoInfoSelectedIndex = Convert.ToInt32(args.OldValue);
 
-                if (videoInformation is not null && Equals(videoInformation.VideoDetailInfoList.Count, VideoDisplayVideoInfoCount))
+                if (videoInformation is not null && videoInformation.VideoDetailInfoList.Count > 0 && Equals(videoInformation.VideoDetailInfoList.Count, VideoDisplayVideoInfoCount))
                 {
                     if (newValue > VideoDisplayVideoInfoCount)
                     {
@@ -809,7 +857,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnForwardVideoDisplayAudioInfoClicked(object sender, RoutedEventArgs args)
         {
-            if (videoInformation is not null && Equals(videoInformation.AudioDetailInfoList.Count, VideoDisplayAudioInfoCount) && VideoDisplayAudioInfoSelectedIndex > 1 && VideoDisplayAudioInfoSelectedIndex <= VideoDisplayAudioInfoCount)
+            if (videoInformation is not null && videoInformation.VideoDetailInfoList.Count > 0 && Equals(videoInformation.AudioDetailInfoList.Count, VideoDisplayAudioInfoCount) && VideoDisplayAudioInfoSelectedIndex > 1 && VideoDisplayAudioInfoSelectedIndex <= VideoDisplayAudioInfoCount)
             {
                 VideoDisplayAudioInfoSelectedIndex--;
                 VideoDisplayAudioInfo = videoInformation.AudioDetailInfoList[VideoDisplayAudioInfoSelectedIndex - 1];
@@ -827,7 +875,7 @@ namespace ModernFormatConverter.Views.Pages
                 VideoDisplayAudioInfoSelectedIndex = newValue;
                 VideoDisplayAudioInfoSelectedIndex = Convert.ToInt32(args.OldValue);
 
-                if (videoInformation is not null && Equals(videoInformation.AudioDetailInfoList.Count, VideoDisplayAudioInfoCount))
+                if (videoInformation is not null && videoInformation.AudioDetailInfoList.Count > 0 && Equals(videoInformation.AudioDetailInfoList.Count, VideoDisplayAudioInfoCount))
                 {
                     if (newValue > VideoDisplayAudioInfoCount)
                     {
@@ -852,10 +900,65 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnNextVideoDisplayAudioInfoClicked(object sender, RoutedEventArgs args)
         {
-            if (videoInformation is not null && Equals(videoInformation.AudioDetailInfoList.Count, VideoDisplayAudioInfoCount) && VideoDisplayAudioInfoSelectedIndex >= 1 && VideoDisplayAudioInfoSelectedIndex < VideoDisplayAudioInfoCount)
+            if (videoInformation is not null && videoInformation.AudioDetailInfoList.Count > 0 && Equals(videoInformation.AudioDetailInfoList.Count, VideoDisplayAudioInfoCount) && VideoDisplayAudioInfoSelectedIndex >= 1 && VideoDisplayAudioInfoSelectedIndex < VideoDisplayAudioInfoCount)
             {
                 VideoDisplayAudioInfoSelectedIndex++;
                 VideoDisplayAudioInfo = videoInformation.AudioDetailInfoList[VideoDisplayAudioInfoSelectedIndex - 1];
+            }
+        }
+
+        /// <summary>
+        /// 视频信息的前一个文本流信息
+        /// </summary>
+        private void OnForwardVideoDisplayTextInfoClicked(object sender, RoutedEventArgs args)
+        {
+            if (videoInformation is not null && videoInformation.TextDetailInfoList.Count > 0 && Equals(videoInformation.TextDetailInfoList.Count, VideoDisplayTextInfoCount) && VideoDisplayTextInfoSelectedIndex > 1 && VideoDisplayTextInfoSelectedIndex <= VideoDisplayTextInfoCount)
+            {
+                VideoDisplayTextInfoSelectedIndex--;
+                VideoDisplayTextInfo = videoInformation.TextDetailInfoList[VideoDisplayTextInfoSelectedIndex - 1];
+            }
+        }
+
+        /// <summary>
+        /// 视频信息的文本流信息选中值发生变化时触发的事件
+        /// </summary>
+        private void OnVideoDisplayTextInfoSelectedIndexValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
+            {
+                int newValue = Convert.ToInt32(args.NewValue);
+                VideoDisplayTextInfoSelectedIndex = newValue;
+                VideoDisplayTextInfoSelectedIndex = Convert.ToInt32(args.OldValue);
+
+                if (videoInformation is not null && videoInformation.TextDetailInfoList.Count > 0 && Equals(videoInformation.TextDetailInfoList.Count, VideoDisplayTextInfoCount))
+                {
+                    if (newValue > VideoDisplayTextInfoCount)
+                    {
+                        VideoDisplayTextInfoSelectedIndex = VideoDisplayTextInfoCount;
+                    }
+                    else if (newValue < 1)
+                    {
+                        VideoDisplayTextInfoSelectedIndex = 1;
+                    }
+                    else
+                    {
+                        VideoDisplayTextInfoSelectedIndex = newValue;
+                    }
+
+                    VideoDisplayTextInfo = videoInformation.TextDetailInfoList[VideoDisplayTextInfoSelectedIndex - 1];
+                }
+            }
+        }
+
+        /// <summary>
+        /// 视频信息的后一个文本流信息
+        /// </summary>
+        private void OnNextVideoDisplayTextInfoClicked(object sender, RoutedEventArgs args)
+        {
+            if (videoInformation is not null && videoInformation.TextDetailInfoList.Count > 0 && Equals(videoInformation.TextDetailInfoList.Count, VideoDisplayTextInfoCount) && VideoDisplayTextInfoSelectedIndex >= 1 && VideoDisplayTextInfoSelectedIndex < VideoDisplayTextInfoCount)
+            {
+                VideoDisplayTextInfoSelectedIndex++;
+                VideoDisplayTextInfo = videoInformation.TextDetailInfoList[VideoDisplayTextInfoSelectedIndex - 1];
             }
         }
 
@@ -901,6 +1004,9 @@ namespace ModernFormatConverter.Views.Pages
             VideoDisplayAudioInfo = new();
             VideoDisplayAudioInfoSelectedIndex = 0;
             VideoDisplayAudioInfoCount = 0;
+            VideoDisplayTextInfo = new();
+            VideoDisplayTextInfoSelectedIndex = 0;
+            VideoDisplayTextInfoCount = 0;
             VideoDisplayAllInfo = string.Empty;
             IsVideoDisplayAllInfoExisted = false;
             IsAudioAllInformationExisted = false;
@@ -928,6 +1034,9 @@ namespace ModernFormatConverter.Views.Pages
                 VideoDisplayAudioInfoCount = videoInformation.AudioDetailInfoList.Count;
                 VideoDisplayAudioInfo = videoInformation.AudioDetailInfoList.Count is 0 ? new() : videoInformation.AudioDetailInfoList[0];
                 VideoDisplayAudioInfoSelectedIndex = 1;
+                VideoDisplayTextInfoCount = videoInformation.TextDetailInfoList.Count;
+                VideoDisplayTextInfo = videoInformation.TextDetailInfoList.Count is 0 ? new() : videoInformation.TextDetailInfoList[0];
+                VideoDisplayTextInfoSelectedIndex = 1;
 
                 if (!string.IsNullOrEmpty(videoInformation.VideoAllInformation))
                 {
@@ -1256,7 +1365,7 @@ namespace ModernFormatConverter.Views.Pages
                         string audioFormat = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "Format", InfoKind.Text, InfoKind.Name));
                         audioDetailInfo.Format = string.IsNullOrEmpty(audioFormat) ? NotAvailableString : audioFormat;
                         string formatInfo = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "Format_Info", InfoKind.Text, InfoKind.Name));
-                        audioDetailInfo.FormatInfo = string.IsNullOrEmpty(audioFormat) ? NotAvailableString : formatInfo;
+                        audioDetailInfo.FormatInfo = string.IsNullOrEmpty(formatInfo) ? NotAvailableString : formatInfo;
                         string audioCodecID = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "CodecID", InfoKind.Text, InfoKind.Name));
                         audioDetailInfo.CodecID = string.IsNullOrEmpty(audioCodecID) ? NotAvailableString : audioCodecID;
                         string audioDuration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "Duration", InfoKind.Text, InfoKind.Name));
