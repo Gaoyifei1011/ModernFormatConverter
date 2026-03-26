@@ -54,6 +54,7 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string SpaceUsageDescriptionString = ResourceService.FileInformationResource.GetString("SpaceUsageDescription");
         private string filePath;
         private VideoInformation videoInformation;
+        private AudioInformation audioInformation;
 
         private FileInformationResultKind _fileInformationResultKind;
 
@@ -439,34 +440,98 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
-        private AudioInformation _audioInformation;
+        private GeneralInfo _audioDisplayGeneralInfo;
 
-        public AudioInformation AudioInformation
+        public GeneralInfo AudioDisplayGeneralInfo
         {
-            get { return _audioInformation; }
+            get { return _audioDisplayGeneralInfo; }
 
             set
             {
-                if (!string.Equals(_audioInformation, value))
+                if (!Equals(_audioDisplayGeneralInfo, value))
                 {
-                    _audioInformation = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioInformation)));
+                    _audioDisplayGeneralInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioDisplayGeneralInfo)));
                 }
             }
         }
 
-        private bool _IsAudioAllInformationExisted;
+        private AudioDetailInfo _audioDisplayAudioInfo;
 
-        public bool IsAudioAllInformationExisted
+        public AudioDetailInfo AudioDisplayAudioInfo
         {
-            get { return _IsAudioAllInformationExisted; }
+            get { return _audioDisplayAudioInfo; }
 
             set
             {
-                if (!Equals(_IsAudioAllInformationExisted, value))
+                if (!Equals(_videoDisplayVideoInfo, value))
                 {
-                    _IsAudioAllInformationExisted = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsAudioAllInformationExisted)));
+                    _audioDisplayAudioInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioDisplayAudioInfo)));
+                }
+            }
+        }
+
+        private int _audioDisplayAudioInfoSelectedIndex;
+
+        public int AudioDisplayAudioInfoSelectedIndex
+        {
+            get { return _audioDisplayAudioInfoSelectedIndex; }
+
+            set
+            {
+                if (!Equals(_audioDisplayAudioInfoSelectedIndex, value))
+                {
+                    _audioDisplayAudioInfoSelectedIndex = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioDisplayAudioInfoSelectedIndex)));
+                }
+            }
+        }
+
+        private int _audioDisplayAudioInfoCount;
+
+        public int AudioDisplayAudioInfoCount
+        {
+            get { return _audioDisplayAudioInfoCount; }
+
+            set
+            {
+                if (!Equals(_audioDisplayAudioInfoCount, value))
+                {
+                    _audioDisplayAudioInfoCount = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioDisplayAudioInfoCount)));
+                }
+            }
+        }
+
+        private string _audioDisplayAllInfo;
+
+        public string AudioDisplayAllInfo
+        {
+            get { return _audioDisplayAllInfo; }
+
+            set
+            {
+                if (!Equals(_audioDisplayAllInfo, value))
+                {
+                    _audioDisplayAllInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioDisplayAllInfo)));
+                }
+            }
+        }
+
+        private bool _isAudioDisplayAllInfoExisted;
+
+        public bool IsAudioDisplayAllInfoExisted
+        {
+            get { return _isAudioDisplayAllInfoExisted; }
+
+            set
+            {
+                if (!Equals(_isAudioDisplayAllInfoExisted, value))
+                {
+                    _isAudioDisplayAllInfoExisted = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsAudioDisplayAllInfoExisted)));
                 }
             }
         }
@@ -790,6 +855,14 @@ namespace ModernFormatConverter.Views.Pages
         }
 
         /// <summary>
+        /// 复制视频信息到剪贴板
+        /// </summary>
+        private void OnVideoInformationCopyClicked(object sender, RoutedEventArgs args)
+        {
+            // TODO：未完成
+        }
+
+        /// <summary>
         /// 视频信息选中项发生变化时触发的事件
         /// </summary>
         private void OnVideoInformationSelectorBarSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
@@ -963,11 +1036,74 @@ namespace ModernFormatConverter.Views.Pages
         }
 
         /// <summary>
+        /// 复制音频信息到剪贴板
+        /// </summary>
+        private void OnAudioInformationCopyClicked(object sender, RoutedEventArgs args)
+        {
+            // TODO：未完成
+        }
+
+        /// <summary>
         /// 音频信息选中项发生变化时触发的事件
         /// </summary>
         private void OnAudioInformationSelectorBarSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
         {
             AudioInformationSelectedItem = sender.SelectedItem;
+        }
+
+        /// <summary>
+        /// 音频信息的前一个音频流信息
+        /// </summary>
+        private void OnForwardAudioDisplayAudioInfoClicked(object sender, RoutedEventArgs args)
+        {
+            if (audioInformation is not null && audioInformation.AudioDetailInfoList.Count > 0 && Equals(audioInformation.AudioDetailInfoList.Count, AudioDisplayAudioInfoCount) && AudioDisplayAudioInfoSelectedIndex > 1 && AudioDisplayAudioInfoSelectedIndex <= AudioDisplayAudioInfoCount)
+            {
+                AudioDisplayAudioInfoSelectedIndex--;
+                AudioDisplayAudioInfo = audioInformation.AudioDetailInfoList[AudioDisplayAudioInfoSelectedIndex - 1];
+            }
+        }
+
+        /// <summary>
+        /// 音频信息的音频流信息选中值发生变化时触发的事件
+        /// </summary>
+        private void OnAudioDisplayAudioInfoSelectedIndexValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
+            {
+                int newValue = Convert.ToInt32(args.NewValue);
+                AudioDisplayAudioInfoSelectedIndex = newValue;
+                AudioDisplayAudioInfoSelectedIndex = Convert.ToInt32(args.OldValue);
+
+                if (audioInformation is not null && audioInformation.AudioDetailInfoList.Count > 0 && Equals(audioInformation.AudioDetailInfoList.Count, AudioDisplayAudioInfoCount))
+                {
+                    if (newValue > AudioDisplayAudioInfoCount)
+                    {
+                        AudioDisplayAudioInfoSelectedIndex = AudioDisplayAudioInfoCount;
+                    }
+                    else if (newValue < 1)
+                    {
+                        AudioDisplayAudioInfoSelectedIndex = 1;
+                    }
+                    else
+                    {
+                        AudioDisplayAudioInfoSelectedIndex = newValue;
+                    }
+
+                    AudioDisplayAudioInfo = audioInformation.AudioDetailInfoList[AudioDisplayAudioInfoSelectedIndex - 1];
+                }
+            }
+        }
+
+        /// <summary>
+        /// 音频信息的后一个音频流信息
+        /// </summary>
+        private void OnNextAudioDisplayAudioInfoClicked(object sender, RoutedEventArgs args)
+        {
+            if (audioInformation is not null && audioInformation.AudioDetailInfoList.Count > 0 && Equals(audioInformation.AudioDetailInfoList.Count, AudioDisplayAudioInfoCount) && AudioDisplayAudioInfoSelectedIndex >= 1 && AudioDisplayAudioInfoSelectedIndex < AudioDisplayAudioInfoCount)
+            {
+                AudioDisplayAudioInfoSelectedIndex++;
+                AudioDisplayAudioInfo = audioInformation.AudioDetailInfoList[AudioDisplayAudioInfoSelectedIndex - 1];
+            }
         }
 
         /// <summary>
@@ -1009,10 +1145,16 @@ namespace ModernFormatConverter.Views.Pages
             VideoDisplayTextInfoCount = 0;
             VideoDisplayAllInfo = string.Empty;
             IsVideoDisplayAllInfoExisted = false;
-            IsAudioAllInformationExisted = false;
+            audioInformation = null;
+            AudioInformationSelectedItem = AudioInformationSelectorBar.Items[0];
+            AudioDisplayGeneralInfo = new();
+            AudioDisplayAudioInfo = new();
+            AudioDisplayAudioInfoSelectedIndex = 0;
+            AudioDisplayAudioInfoCount = 0;
+            AudioDisplayAllInfo = string.Empty;
+            IsAudioDisplayAllInfoExisted = false;
             IsTextAllInformationExisted = false;
             IsImageAllInformationExisted = false;
-            AudioInformation = new();
             TextInformation = new();
             ImageAllInformation = string.Empty;
             await GetThumbnailAsync(filePath);
@@ -1029,13 +1171,13 @@ namespace ModernFormatConverter.Views.Pages
                 videoInformation = await GetVideoInformationAsync(filePath);
                 VideoDisplayGeneralInfo = videoInformation.GeneralInfo;
                 VideoDisplayVideoInfoCount = videoInformation.VideoDetailInfoList.Count;
-                VideoDisplayVideoInfo = videoInformation.VideoDetailInfoList.Count is 0 ? new() : videoInformation.VideoDetailInfoList[0];
+                VideoDisplayVideoInfo = videoInformation.VideoDetailInfoList.Count is 0 ? VideoDisplayVideoInfo : videoInformation.VideoDetailInfoList[0];
                 VideoDisplayVideoInfoSelectedIndex = 1;
                 VideoDisplayAudioInfoCount = videoInformation.AudioDetailInfoList.Count;
-                VideoDisplayAudioInfo = videoInformation.AudioDetailInfoList.Count is 0 ? new() : videoInformation.AudioDetailInfoList[0];
+                VideoDisplayAudioInfo = videoInformation.AudioDetailInfoList.Count is 0 ? VideoDisplayAudioInfo : videoInformation.AudioDetailInfoList[0];
                 VideoDisplayAudioInfoSelectedIndex = 1;
                 VideoDisplayTextInfoCount = videoInformation.TextDetailInfoList.Count;
-                VideoDisplayTextInfo = videoInformation.TextDetailInfoList.Count is 0 ? new() : videoInformation.TextDetailInfoList[0];
+                VideoDisplayTextInfo = videoInformation.TextDetailInfoList.Count is 0 ? VideoDisplayTextInfo : videoInformation.TextDetailInfoList[0];
                 VideoDisplayTextInfoSelectedIndex = 1;
 
                 if (!string.IsNullOrEmpty(videoInformation.VideoAllInformation))
@@ -1046,12 +1188,16 @@ namespace ModernFormatConverter.Views.Pages
             }
             else if (fileInformationResultKind is FileInformationResultKind.AudioFile)
             {
-                AudioInformation audioInformation = await GetAudioInformationAsync(filePath);
-                AudioInformationSelectedItem = AudioInformationSelectorBar.Items[0];
+                audioInformation = await GetAudioInformationAsync(filePath);
+                AudioDisplayGeneralInfo = audioInformation.GeneralInfo;
+                AudioDisplayAudioInfoCount = audioInformation.AudioDetailInfoList.Count;
+                AudioDisplayAudioInfo = audioInformation.AudioDetailInfoList.Count is 0 ? AudioDisplayAudioInfo : audioInformation.AudioDetailInfoList[0];
+                AudioDisplayAudioInfoSelectedIndex = 1;
 
                 if (!string.IsNullOrEmpty(audioInformation.AudioAllInformation))
                 {
-                    IsAudioAllInformationExisted = true;
+                    AudioDisplayAllInfo = audioInformation.AudioAllInformation;
+                    IsAudioDisplayAllInfoExisted = true;
                 }
             }
             else if (fileInformationResultKind is FileInformationResultKind.TextFile)
@@ -1059,6 +1205,7 @@ namespace ModernFormatConverter.Views.Pages
                 TextInformation textInformation = await GetTextInformationAsync(filePath);
                 TextInformationSelectedItem = TextInformationSelectorBar.Items[0];
 
+                // TODO：未完成
                 if (!string.IsNullOrEmpty(textInformation.TextAllInformation))
                 {
                     IsTextAllInformationExisted = true;
@@ -1069,10 +1216,10 @@ namespace ModernFormatConverter.Views.Pages
                 ImageInformation imageInformation = await GetImageInformationAsync(filePath);
                 ImageInformationSelectedItem = ImageInformationSelectorBar.Items[0];
 
+                // TODO：未完成
                 if (!string.IsNullOrEmpty(imageInformation.ImageAllInformation))
                 {
                     IsImageAllInformationExisted = true;
-                    ImageAllInformation = imageInformation.ImageAllInformation;
                 }
             }
 
@@ -1451,24 +1598,32 @@ namespace ModernFormatConverter.Views.Pages
                     generalInfo.CompleteName = string.IsNullOrEmpty(completeName) ? NotAvailableString : completeName;
                     string generalFormat = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Format", InfoKind.Text, InfoKind.Name));
                     generalInfo.Format = string.IsNullOrEmpty(generalFormat) ? NotAvailableString : generalFormat;
+                    string generalFormatVersion = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Format_Version", InfoKind.Text, InfoKind.Name));
+                    generalInfo.FormatVersion = string.IsNullOrEmpty(generalFormatVersion) ? NotAvailableString : generalFormatVersion;
                     string generalFormatProfile = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Format_Profile", InfoKind.Text, InfoKind.Name));
                     generalInfo.FormatProfile = string.IsNullOrEmpty(generalFormatProfile) ? NotAvailableString : generalFormatProfile;
                     string generalCodecID = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "CodecID", InfoKind.Text, InfoKind.Name));
                     generalInfo.CodecID = string.IsNullOrEmpty(generalCodecID) ? NotAvailableString : generalCodecID;
                     string fileSize = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "FileSize", InfoKind.Text, InfoKind.Name));
                     generalInfo.FileSize = string.IsNullOrEmpty(fileSize) ? NotAvailableString : fileSize;
+                    string uniqueID = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "UniqueID", InfoKind.Text, InfoKind.Name));
+                    generalInfo.UniqueID = string.IsNullOrEmpty(uniqueID) ? NotAvailableString : uniqueID;
                     string encodedDate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Encoded_Date", InfoKind.Text, InfoKind.Name));
                     generalInfo.EncodedDate = string.IsNullOrEmpty(encodedDate) ? NotAvailableString : encodedDate;
                     string generalDuration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Duration", InfoKind.Text, InfoKind.Name));
                     generalInfo.Duration = string.IsNullOrEmpty(generalDuration) ? NotAvailableString : generalDuration;
                     string overallBitRate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "OverallBitRate", InfoKind.Text, InfoKind.Name));
-                    generalInfo.Duration = string.IsNullOrEmpty(overallBitRate) ? NotAvailableString : overallBitRate;
+                    generalInfo.OverallBitRate = string.IsNullOrEmpty(overallBitRate) ? NotAvailableString : overallBitRate;
                     string generalFrameRate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "FrameRate", InfoKind.Text, InfoKind.Name));
                     generalInfo.FrameRate = string.IsNullOrEmpty(generalFrameRate) ? NotAvailableString : generalFrameRate;
                     string generalStreamSize = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "StreamSize", InfoKind.Text, InfoKind.Name));
                     generalInfo.StreamSize = string.IsNullOrEmpty(generalStreamSize) ? NotAvailableString : generalStreamSize;
                     string recordedDate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Recorded_Date", InfoKind.Text, InfoKind.Name));
-                    generalInfo.EncodedDate = string.IsNullOrEmpty(recordedDate) ? NotAvailableString : recordedDate;
+                    generalInfo.RecordedDate = string.IsNullOrEmpty(recordedDate) ? NotAvailableString : recordedDate;
+                    string encodedApplication = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Encoded_Application", InfoKind.Text, InfoKind.Name));
+                    generalInfo.EncodedApplication = string.IsNullOrEmpty(encodedApplication) ? NotAvailableString : encodedApplication;
+                    string generalEncodedLibrary = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Encoded_Library", InfoKind.Text, InfoKind.Name));
+                    generalInfo.EncodedLibrary = string.IsNullOrEmpty(generalEncodedLibrary) ? NotAvailableString : generalEncodedLibrary;
                     string album = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Album", InfoKind.Text, InfoKind.Name));
                     generalInfo.Album = string.IsNullOrEmpty(album) ? NotAvailableString : album;
                     string trackName = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "TrackName", InfoKind.Text, InfoKind.Name));
@@ -1486,7 +1641,7 @@ namespace ModernFormatConverter.Views.Pages
                         string audioFormat = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "Format", InfoKind.Text, InfoKind.Name));
                         audioDetailInfo.Format = string.IsNullOrEmpty(audioFormat) ? NotAvailableString : audioFormat;
                         string formatInfo = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "Format_Info", InfoKind.Text, InfoKind.Name));
-                        audioDetailInfo.FormatInfo = string.IsNullOrEmpty(audioFormat) ? NotAvailableString : formatInfo;
+                        audioDetailInfo.FormatInfo = string.IsNullOrEmpty(formatInfo) ? NotAvailableString : formatInfo;
                         string audioCodecID = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "CodecID", InfoKind.Text, InfoKind.Name));
                         audioDetailInfo.CodecID = string.IsNullOrEmpty(audioCodecID) ? NotAvailableString : audioCodecID;
                         string audioDuration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "Duration", InfoKind.Text, InfoKind.Name));
@@ -1658,6 +1813,9 @@ namespace ModernFormatConverter.Views.Pages
             return fileInformationReusltKind is not FileInformationResultKind.Parsing;
         }
 
+        /// <summary>
+        /// 获取选中项对应内容显示状态
+        /// </summary>
         private Visibility GetSelectedSelectorBarItem(SelectorBarItem selectedItem, SelectorBarItem selectorBarItem)
         {
             return Equals(selectedItem, selectorBarItem) ? Visibility.Visible : Visibility.Collapsed;
