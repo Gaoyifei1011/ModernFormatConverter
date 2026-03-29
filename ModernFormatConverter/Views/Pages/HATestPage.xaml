@@ -122,7 +122,7 @@
 
                             <Grid>
                                 <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.CustomCommandResource.GetString('ViewMore')}" />
+                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.HATestResource.GetString('ViewMore')}" />
                             </Grid>
                         </ToolTip>
                     </ToolTipService.ToolTip>

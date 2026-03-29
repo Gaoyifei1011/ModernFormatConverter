@@ -56,6 +56,7 @@ ForwardDisplayTextInfo=前一个文本流信息
 ForwardDisplayVideoInfo=前一个视频流信息
 FrameRate=帧速率
 FrameRateMode=帧速率模式
+FunctionInstruction=功能说明
 GeneralInformation=基本信息
 Height=高度
 ImageInformation=图像信息

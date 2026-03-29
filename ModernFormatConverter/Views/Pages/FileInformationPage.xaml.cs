@@ -1,5 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using ModernFormatConverter.Extensions.DataType.Class;
@@ -797,6 +798,14 @@ namespace ModernFormatConverter.Views.Pages
                 await GetFileInformationAsync(filePath);
             }
             openFileDialog.Dispose();
+        }
+
+        /// <summary>
+        /// 查看使用说明
+        /// </summary>
+        private void OnFunctionInstructionClicked(object sender, RoutedEventArgs args)
+        {
+            FlyoutBase.ShowAttachedFlyout(ViewMoreButton);
         }
 
         /// <summary>
