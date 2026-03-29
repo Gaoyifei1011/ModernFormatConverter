@@ -1690,7 +1690,7 @@
                                             Grid.Column="0"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CodecID')}"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Duration')}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1698,47 +1698,47 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayTextInfo.CodecID, Mode=OneWay}"
-                                            TextWrapping="Wrap" />
-
-                                        <TextBlock
-                                            Grid.Row="3"
-                                            Grid.Column="0"
-                                            HorizontalAlignment="Left"
-                                            IsTextSelectionEnabled="True"
-                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CodecIDInfo')}"
-                                            TextWrapping="Wrap" />
-
-                                        <TextBlock
-                                            Grid.Row="3"
-                                            Grid.Column="1"
-                                            HorizontalAlignment="Left"
-                                            IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayTextInfo.CodecIDInfo, Mode=OneWay}"
-                                            TextWrapping="Wrap" />
-
-                                        <TextBlock
-                                            Grid.Row="4"
-                                            Grid.Column="0"
-                                            HorizontalAlignment="Left"
-                                            IsTextSelectionEnabled="True"
-                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Duration')}"
-                                            TextWrapping="Wrap" />
-
-                                        <TextBlock
-                                            Grid.Row="4"
-                                            Grid.Column="1"
-                                            HorizontalAlignment="Left"
-                                            IsTextSelectionEnabled="True"
                                             Text="{x:Bind VideoDisplayTextInfo.Duration, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
+                                            Grid.Row="3"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('StartTime')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="3"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayTextInfo.StartTime, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="4"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('EndTime')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="4"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayTextInfo.EndTime, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
                                             Grid.Row="5"
                                             Grid.Column="0"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('BitRate')}"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CompressionMode')}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1746,7 +1746,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayTextInfo.BitRate, Mode=OneWay}"
+                                            Text="{x:Bind VideoDisplayTextInfo.CompressionMode, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1754,7 +1754,7 @@
                                             Grid.Column="0"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CountOfElements')}"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CountOfEvents')}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1762,7 +1762,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayTextInfo.CountOfElements, Mode=OneWay}"
+                                            Text="{x:Bind VideoDisplayTextInfo.CountOfEvents, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1770,7 +1770,7 @@
                                             Grid.Column="0"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('StreamSize')}"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('MinimumDurationPerEvent')}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1778,7 +1778,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayTextInfo.StreamSize, Mode=OneWay}"
+                                            Text="{x:Bind VideoDisplayTextInfo.MinimumDurationPerEvent, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1786,7 +1786,7 @@
                                             Grid.Column="0"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Default')}"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CountOfLines')}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1794,75 +1794,24 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayTextInfo.Default, Mode=OneWay}"
+                                            Text="{x:Bind VideoDisplayTextInfo.CountOfLines, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
-                                        <StackPanel
+                                        <TextBlock
                                             Grid.Row="9"
-                                            Grid.ColumnSpan="2"
-                                            Margin="0,5,0,-4"
-                                            HorizontalAlignment="Center"
-                                            Orientation="Horizontal"
-                                            Spacing="3">
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('MaximumCountOfLinesPerEvent')}"
+                                            TextWrapping="Wrap" />
 
-                                            <Button
-                                                Width="32"
-                                                Height="32"
-                                                Padding="0"
-                                                Click="{x:Bind OnForwardVideoDisplayTextInfoClicked}"
-                                                CornerRadius="{StaticResource ControlCornerRadius}">
-
-                                                <FontIcon FontSize="16" Glyph="&#xE76B;" />
-
-                                                <ToolTipService.ToolTip>
-                                                    <ToolTip
-                                                        MaxWidth="9999"
-                                                        Padding="0"
-                                                        Background="Transparent">
-
-                                                        <Grid>
-                                                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardDisplayTextInfo')}" />
-                                                        </Grid>
-                                                    </ToolTip>
-                                                </ToolTipService.ToolTip>
-                                            </Button>
-
-                                            <NumberBox ValueChanged="{x:Bind OnVideoDisplayTextInfoSelectedIndexValueChanged}" Value="{x:Bind VideoDisplayTextInfoSelectedIndex, Mode=OneWay}">
-                                                <NumberBox.Resources>
-                                                    <x:Double x:Key="TextControlThemeMinWidth">0</x:Double>
-                                                </NumberBox.Resources>
-                                            </NumberBox>
-
-                                            <TextBlock Margin="0,0,3,2" VerticalAlignment="Center">
-
-                                                <Run Text="/" />
-                                                <Run Text="{x:Bind VideoDisplayTextInfoCount, Mode=OneWay}" />
-                                            </TextBlock>
-
-                                            <Button
-                                                Width="32"
-                                                Height="32"
-                                                Padding="0"
-                                                Click="{x:Bind OnNextVideoDisplayTextInfoClicked}"
-                                                CornerRadius="{StaticResource ControlCornerRadius}">
-
-                                                <FontIcon FontSize="16" Glyph="&#xE76C;" />
-
-                                                <ToolTipService.ToolTip>
-                                                    <ToolTip
-                                                        MaxWidth="9999"
-                                                        Padding="0"
-                                                        Background="Transparent">
-
-                                                        <Grid>
-                                                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextDisplayTextInfo')}" />
-                                                        </Grid>
-                                                    </ToolTip>
-                                                </ToolTipService.ToolTip>
-                                            </Button>
-                                        </StackPanel>
+                                        <TextBlock
+                                            Grid.Row="9"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind VideoDisplayTextInfo.MaximumCountOfLinesPerEvent, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
                                     </Grid>
                                 </Grid>
 
@@ -2686,26 +2635,215 @@
                                 SelectedItem="{x:Bind TextInformationSelectedItem, Mode=OneWay}"
                                 SelectionChanged="{x:Bind OnTextInformationSelectorBarSelectionChanged}">
 
-                                <SelectorBarItem Padding="12,5" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Basic')}" />
                                 <SelectorBarItem Padding="12,5" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Text')}" />
                                 <SelectorBarItem Padding="12,5" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Overview')}" />
                             </SelectorBar>
 
                             <Grid Grid.Row="1">
-                                <Grid Visibility="{x:Bind GetSelectedSelectorBarItem(TextInformationSelectedItem, TextInformationSelectorBar.Items[2]), Mode=OneWay}">
+                                <Grid Visibility="{x:Bind GetSelectedSelectorBarItem(TextInformationSelectedItem, TextInformationSelectorBar.Items[0]), Mode=OneWay}">
+                                    <Grid RowSpacing="3" Visibility="{x:Bind IsTextDisplayInfoExisted, Mode=OneWay}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ID')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind TextDisplayInfo.ID, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Format')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind TextDisplayInfo.Format, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="2"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Duration')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="2"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind TextDisplayInfo.Duration, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="3"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('StartTime')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="3"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind TextDisplayInfo.StartTime, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="4"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('EndTime')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="4"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind TextDisplayInfo.EndTime, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="5"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CompressionMode')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="5"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind TextDisplayInfo.CompressionMode, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="6"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CountOfEvents')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="6"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind TextDisplayInfo.CountOfEvents, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="7"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('MinimumDurationPerEvent')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="7"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind TextDisplayInfo.MinimumDurationPerEvent, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="8"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CountOfLines')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="8"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind TextDisplayInfo.CountOfLines, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="9"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('MaximumCountOfLinesPerEvent')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="9"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind TextDisplayInfo.MaximumCountOfLinesPerEvent, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+                                    </Grid>
+
+                                    <Grid Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsTextDisplayInfoExisted), Mode=OneWay}">
+
+                                        <TextBlock
+                                            Margin="0,5,0,3"
+                                            HorizontalAlignment="Center"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('EmptyTextInfo')}" />
+                                    </Grid>
+                                </Grid>
+
+                                <Grid Visibility="{x:Bind GetSelectedSelectorBarItem(TextInformationSelectedItem, TextInformationSelectorBar.Items[1]), Mode=OneWay}">
 
                                     <TextBlock
                                         Margin="0,5,0,3"
                                         HorizontalAlignment="Center"
                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('EmptyTextInfo')}"
-                                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsTextAllInformationExisted), Mode=OneWay}" />
+                                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsTextDisplayAllInfoExisted), Mode=OneWay}" />
 
                                     <TextBlock
                                         Margin="0,5,0,3"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind TextInformation.TextAllInformation, Mode=OneWay}"
+                                        Text="{x:Bind TextDisplayAllInfo, Mode=OneWay}"
                                         TextWrapping="Wrap"
-                                        Visibility="{x:Bind IsTextAllInformationExisted, Mode=OneWay}" />
+                                        Visibility="{x:Bind IsTextDisplayAllInfoExisted, Mode=OneWay}" />
                                 </Grid>
                             </Grid>
                         </Grid>

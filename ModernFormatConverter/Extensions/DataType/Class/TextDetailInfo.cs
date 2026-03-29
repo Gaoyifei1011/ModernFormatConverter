@@ -9,18 +9,20 @@
 
         public string Format { get; set; }
 
-        public string CodecID { get; set; }
-
-        public string CodecIDInfo { get; set; }
-
         public string Duration { get; set; }
 
-        public string BitRate { get; set; }
+        public string StartTime { get; set; }
 
-        public string CountOfElements { get; set; }
+        public string EndTime { get; set; }
 
-        public string StreamSize { get; set; }
+        public string CompressionMode { get; set; }
 
-        public string Default { get; set; }
+        public string CountOfEvents { get; set; }
+
+        public string MinimumDurationPerEvent { get; set; }
+
+        public string CountOfLines { get; set; }
+
+        public string MaximumCountOfLinesPerEvent { get; set; }
     }
 }

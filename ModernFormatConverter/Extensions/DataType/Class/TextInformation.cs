@@ -5,7 +5,7 @@
     /// </summary>
     public class TextInformation
     {
-        public TextDetailInfo TextInfo { get; set; }
+        public TextDetailInfo TextDetailInfo { get; set; }
 
         public string TextAllInformation { get; set; }
     }
