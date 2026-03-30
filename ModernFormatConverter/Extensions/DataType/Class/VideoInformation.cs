@@ -15,6 +15,6 @@ namespace ModernFormatConverter.Extensions.DataType.Class
 
         public List<TextDetailInfo> TextDetailInfoList { get; } = [];
 
-        public string VideoAllInformation { get; set; }
+        public string VideoOverviewInformation { get; set; }
     }
 }

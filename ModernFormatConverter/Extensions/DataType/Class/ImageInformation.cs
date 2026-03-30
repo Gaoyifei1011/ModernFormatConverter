@@ -7,6 +7,6 @@
     {
         public ImageDetailInfo ImageInfo { get; set; }
 
-        public string ImageAllInformation { get; set; }
+        public string ImageOverviewInformation { get; set; }
     }
 }

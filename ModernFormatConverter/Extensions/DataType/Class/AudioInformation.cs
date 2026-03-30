@@ -11,6 +11,6 @@ namespace ModernFormatConverter.Extensions.DataType.Class
 
         public List<AudioDetailInfo> AudioDetailInfoList { get; } = [];
 
-        public string AudioAllInformation { get; set; }
+        public string AudioOverviewInformation { get; set; }
     }
 }

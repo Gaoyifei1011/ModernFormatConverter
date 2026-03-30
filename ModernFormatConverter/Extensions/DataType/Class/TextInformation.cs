@@ -7,6 +7,6 @@
     {
         public TextDetailInfo TextDetailInfo { get; set; }
 
-        public string TextAllInformation { get; set; }
+        public string TextOverviewInformation { get; set; }
     }
 }
