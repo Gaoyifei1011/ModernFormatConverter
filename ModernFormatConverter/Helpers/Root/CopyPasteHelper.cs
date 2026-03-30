@@ -17,8 +17,15 @@ namespace ModernFormatConverter.Helpers.Root
         {
             try
             {
-                Clipboard.SetText(content);
-                return true;
+                if (!string.IsNullOrEmpty(content))
+                {
+                    Clipboard.SetText(content);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception e)
             {

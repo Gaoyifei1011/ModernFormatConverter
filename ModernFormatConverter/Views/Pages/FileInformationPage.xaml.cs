@@ -40,7 +40,34 @@ namespace ModernFormatConverter.Views.Pages
     /// </summary>
     public sealed partial class FileInformationPage : Page, INotifyPropertyChanged
     {
+        private readonly string AlbumString = ResourceService.FileInformationResource.GetString("Album");
+        private readonly string AlternateGroupString = ResourceService.FileInformationResource.GetString("AlternateGroup");
+        private readonly string BitDepthString = ResourceService.FileInformationResource.GetString("BitDepth");
+        private readonly string BitRateString = ResourceService.FileInformationResource.GetString("BitRate");
+        private readonly string BitRateMaximumString = ResourceService.FileInformationResource.GetString("BitRateMaximum");
+        private readonly string BitRateModeString = ResourceService.FileInformationResource.GetString("BitRateMode");
+        private readonly string BitsPixelFrameString = ResourceService.FileInformationResource.GetString("BitsPixelFrame");
+        private readonly string ChannelString = ResourceService.FileInformationResource.GetString("Channel");
+        private readonly string ChannelLayoutString = ResourceService.FileInformationResource.GetString("ChannelLayout");
+        private readonly string ChromaSubsamplingString = ResourceService.FileInformationResource.GetString("ChromaSubsampling");
+        private readonly string CodecConfigurationBoxString = ResourceService.FileInformationResource.GetString("CodecConfigurationBox");
+        private readonly string CodecIDString = ResourceService.FileInformationResource.GetString("CodecID");
+        private readonly string CodecIDInfoString = ResourceService.FileInformationResource.GetString("CodecIDInfo");
+        private readonly string ColorParimariesString = ResourceService.FileInformationResource.GetString("ColorParimaries");
+        private readonly string ColorRangeString = ResourceService.FileInformationResource.GetString("ColorRange");
+        private readonly string ColorSpaceString = ResourceService.FileInformationResource.GetString("ColorSpace");
+        private readonly string CompleteNameString = ResourceService.FileInformationResource.GetString("CompleteName");
+        private readonly string CompressionModeString = ResourceService.FileInformationResource.GetString("CompressionMode");
+        private readonly string CountOfEventsString = ResourceService.FileInformationResource.GetString("CountOfEvents");
+        private readonly string CountOfLinesString = ResourceService.FileInformationResource.GetString("CountOfLines");
+        private readonly string DefaultString = ResourceService.FileInformationResource.GetString("Default");
+        private readonly string DisplayAspectRatioString = ResourceService.FileInformationResource.GetString("DisplayAspectRatio");
         private readonly string DragOverContentString = ResourceService.FileInformationResource.GetString("DragOverContent");
+        private readonly string DurationString = ResourceService.FileInformationResource.GetString("Duration");
+        private readonly string EncodedApplicationString = ResourceService.FileInformationResource.GetString("EncodedApplication");
+        private readonly string EncodedDateString = ResourceService.FileInformationResource.GetString("EncodedDate");
+        private readonly string EncodedLibraryString = ResourceService.FileInformationResource.GetString("EncodedLibrary");
+        private readonly string EndTimeString = ResourceService.FileInformationResource.GetString("EndTime");
         private readonly string FileAccessTimeString = ResourceService.FileInformationResource.GetString("FileAccessTime");
         private readonly string FileCreateTimeString = ResourceService.FileInformationResource.GetString("FileCreateTime");
         private readonly string FileModifyTimeString = ResourceService.FileInformationResource.GetString("FileModifyTime");
@@ -49,16 +76,42 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string FileSizeDescriptionString = ResourceService.FileInformationResource.GetString("FileSizeDescription");
         private readonly string FileSpaceUsageString = ResourceService.FileInformationResource.GetString("FileSpaceUsage");
         private readonly string FileTypeString = ResourceService.FileInformationResource.GetString("FileType");
+        private readonly string FormatString = ResourceService.FileInformationResource.GetString("Format");
+        private readonly string FormatInfoString = ResourceService.FileInformationResource.GetString("FormatInfo");
+        private readonly string FormatProfileString = ResourceService.FileInformationResource.GetString("FormatProfile");
+        private readonly string FormatVersionString = ResourceService.FileInformationResource.GetString("FormatVersion");
+        private readonly string FrameRateString = ResourceService.FileInformationResource.GetString("FrameRate");
+        private readonly string FrameRateModeString = ResourceService.FileInformationResource.GetString("FrameRateMode");
+        private readonly string HeightString = ResourceService.FileInformationResource.GetString("Height");
+        private readonly string IDString = ResourceService.FileInformationResource.GetString("ID");
+        private readonly string MaximumCountOfLinesPerEventString = ResourceService.FileInformationResource.GetString("MaximumCountOfLinesPerEvent");
+        private readonly string MaximumFrameRateString = ResourceService.FileInformationResource.GetString("MaximumFrameRate");
+        private readonly string MatrixCoefficientsString = ResourceService.FileInformationResource.GetString("MatrixCoefficients");
+        private readonly string MinimumDurationPerEventString = ResourceService.FileInformationResource.GetString("MinimumDurationPerEvent");
+        private readonly string MinimumFrameRateString = ResourceService.FileInformationResource.GetString("MinimumFrameRate");
         private readonly string NoMultiFileString = ResourceService.FileInformationResource.GetString("NoMultiFile");
         private readonly string NoString = ResourceService.FileInformationResource.GetString("No");
         private readonly string NotAvailableString = ResourceService.FileInformationResource.GetString("NotAvailable");
+        private readonly string OverallBitRateString = ResourceService.FileInformationResource.GetString("OverallBitRate");
         private readonly string ParsingFileInformationString = ResourceService.FileInformationResource.GetString("ParsingFileInformation");
+        private readonly string PerformerString = ResourceService.FileInformationResource.GetString("Performer");
+        private readonly string RecordedDateString = ResourceService.FileInformationResource.GetString("RecordedDate");
+        private readonly string SamplingRateString = ResourceService.FileInformationResource.GetString("SamplingRate");
         private readonly string SelectFileString = ResourceService.FileInformationResource.GetString("SelectFile");
+        private readonly string SourceDurationString = ResourceService.FileInformationResource.GetString("SourceDuration");
+        private readonly string SourceStreamSizeString = ResourceService.FileInformationResource.GetString("SourceStreamSize");
         private readonly string SpaceUsageDescriptionString = ResourceService.FileInformationResource.GetString("SpaceUsageDescription");
+        private readonly string StartTimeString = ResourceService.FileInformationResource.GetString("StartTime");
+        private readonly string StreamSizeString = ResourceService.FileInformationResource.GetString("StreamSize");
+        private readonly string TrackNameString = ResourceService.FileInformationResource.GetString("TrackName");
+        private readonly string TransferCharacteristicsString = ResourceService.FileInformationResource.GetString("TransferCharacteristics");
+        private readonly string UniqueIDString = ResourceService.FileInformationResource.GetString("UniqueID");
+        private readonly string WidthString = ResourceService.FileInformationResource.GetString("Width");
         private readonly string YesString = ResourceService.FileInformationResource.GetString("Yes");
         private string filePath;
         private VideoInformation videoInformation;
         private AudioInformation audioInformation;
+        private TextInformation textInformation;
 
         private FileInformationResultKind _fileInformationResultKind;
 
@@ -880,30 +933,203 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 复制基本信息到剪贴板
         /// </summary>
-        private async void OnGeneralInformationCopyClicked(object sender, RoutedEventArgs args)
+        private async void OnGeneralInfoCopyClicked(object sender, RoutedEventArgs args)
         {
-            string generalInformation = await Task.Run(() =>
+            string generalInfo = await Task.Run(() =>
             {
-                StringBuilder generalInformationBuilder = new();
-                generalInformationBuilder.AppendLine(string.Format("{0}\t{1}", FileNameString, FileName));
-                generalInformationBuilder.AppendLine(string.Format("{0}\t{1}", FileTypeString, FileType));
-                generalInformationBuilder.AppendLine(string.Format("{0}\t{1}", FileSizeString, FileSize));
-                generalInformationBuilder.AppendLine(string.Format("{0}\t{1}", FileSpaceUsageString, FileSpaceUsage));
-                generalInformationBuilder.AppendLine(string.Format("{0}\t{1}", FileCreateTimeString, FileCreateTime));
-                generalInformationBuilder.AppendLine(string.Format("{0}\t{1}", FileModifyTimeString, FileModifyTime));
-                generalInformationBuilder.AppendLine(string.Format("{0}\t{1}", FileAccessTimeString, FileAccessTime));
-                return generalInformationBuilder.ToString();
+                StringBuilder generalInfoBuilder = new();
+                generalInfoBuilder.AppendLine(string.Format("{0}\t{1}", FileNameString, FileName));
+                generalInfoBuilder.AppendLine(string.Format("{0}\t{1}", FileTypeString, FileType));
+                generalInfoBuilder.AppendLine(string.Format("{0}\t{1}", FileSizeString, FileSize));
+                generalInfoBuilder.AppendLine(string.Format("{0}\t{1}", FileSpaceUsageString, FileSpaceUsage));
+                generalInfoBuilder.AppendLine(string.Format("{0}\t{1}", FileCreateTimeString, FileCreateTime));
+                generalInfoBuilder.AppendLine(string.Format("{0}\t{1}", FileModifyTimeString, FileModifyTime));
+                generalInfoBuilder.AppendLine(string.Format("{0}\t{1}", FileAccessTimeString, FileAccessTime));
+                return generalInfoBuilder.ToString();
             });
 
-            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(generalInformation)));
+            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(generalInfo)));
         }
 
         /// <summary>
-        /// 复制视频信息到剪贴板
+        /// 复制视频基本信息到剪贴板
         /// </summary>
-        private void OnVideoInformationCopyClicked(object sender, RoutedEventArgs args)
+        private async Task OnVideoDisplayGeneralInfoClicked(object sender, RoutedEventArgs args)
         {
-            // TODO：未完成
+            string videoDisplayGeneralInfo = await Task.Run(() =>
+            {
+                if (videoInformation is not null && videoInformation.GeneralInfo is not null)
+                {
+                    StringBuilder videoDisplayGeneralInfoBuilder = new();
+                    videoDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", CompleteNameString, videoInformation.GeneralInfo.CompleteName));
+                    videoDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatString, videoInformation.GeneralInfo.Format));
+                    videoDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatVersionString, videoInformation.GeneralInfo.FormatVersion));
+                    videoDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatProfileString, videoInformation.GeneralInfo.FormatProfile));
+                    videoDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", CodecIDString, videoInformation.GeneralInfo.CodecID));
+                    videoDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", UniqueIDString, videoInformation.GeneralInfo.UniqueID));
+                    videoDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", EncodedDateString, videoInformation.GeneralInfo.EncodedDate));
+                    videoDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", DurationString, videoInformation.GeneralInfo.Duration));
+                    videoDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", OverallBitRateString, videoInformation.GeneralInfo.OverallBitRate));
+                    videoDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", FrameRateString, videoInformation.GeneralInfo.FrameRate));
+                    videoDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", StreamSizeString, videoInformation.GeneralInfo.StreamSize));
+                    videoDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", RecordedDateString, videoInformation.GeneralInfo.RecordedDate));
+                    videoDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", EncodedApplicationString, videoInformation.GeneralInfo.EncodedApplication));
+                    videoDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", EncodedLibraryString, videoInformation.GeneralInfo.EncodedLibrary));
+                    return videoDisplayGeneralInfoBuilder.ToString();
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            });
+
+            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(videoDisplayGeneralInfo)));
+        }
+
+        /// <summary>
+        /// 复制视频视频信息到剪贴板
+        /// </summary>
+        private async Task OnVideoDisplayVideoInfoClicked(object sender, RoutedEventArgs args)
+        {
+            string videoDisplayVideoInfo = await Task.Run(() =>
+            {
+                if (videoInformation is not null && videoInformation.VideoDetailInfoList.Count > 0)
+                {
+                    StringBuilder videoDisplayVideoInfoBuilder = new();
+
+                    foreach (VideoDetailInfo videoDetailInfo in videoInformation.VideoDetailInfoList)
+                    {
+                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", IDString, videoDetailInfo.ID));
+                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatString, videoDetailInfo.Format));
+                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatInfoString, videoDetailInfo.FormatInfo));
+                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatProfileString, videoDetailInfo.FormatProfile));
+                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", CodecIDString, videoDetailInfo.CodecID));
+                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", CodecIDInfoString, videoDetailInfo.CodecIDInfo));
+                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", DurationString, videoDetailInfo.Duration));
+                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", SourceDurationString, videoDetailInfo.SourceDuration));
+                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", BitRateString, videoDetailInfo.BitRate));
+                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", WidthString, videoDetailInfo.Width));
+                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", HeightString, videoDetailInfo.Height));
+                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", DisplayAspectRatioString, videoDetailInfo.DisplayAspectRatio));
+                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", FrameRateString, videoDetailInfo.FrameRate));
+                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", FrameRateModeString, videoDetailInfo.FrameRateMode));
+                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", MinimumFrameRateString, videoDetailInfo.MinimumFrameRate));
+                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", MaximumFrameRateString, videoDetailInfo.MaximumFrameRate));
+                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", ColorSpaceString, videoDetailInfo.ColorSpace));
+                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", ChromaSubsamplingString, videoDetailInfo.ChromaSubsampling));
+                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", BitDepthString, videoDetailInfo.BitDepth));
+                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", BitsPixelFrameString, videoDetailInfo.BitsPixelFrame));
+                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", StreamSizeString, videoDetailInfo.StreamSize));
+                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", SourceStreamSizeString, videoDetailInfo.SourceStreamSize));
+                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", EncodedLibraryString, videoDetailInfo.EncodedLibrary));
+                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", ColorRangeString, videoDetailInfo.ColorRange));
+                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", ColorParimariesString, videoDetailInfo.ColorParimaries));
+                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", TransferCharacteristicsString, videoDetailInfo.TransferCharacteristics));
+                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", MatrixCoefficientsString, videoDetailInfo.MatrixCoefficients));
+                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", CodecConfigurationBoxString, videoDetailInfo.CodecConfigurationBox));
+                        videoDisplayVideoInfoBuilder.AppendLine();
+                    }
+
+                    return videoDisplayVideoInfoBuilder.ToString();
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            });
+
+            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(videoDisplayVideoInfo)));
+        }
+
+        /// <summary>
+        /// 复制视频音频信息到剪贴板
+        /// </summary>
+        private async Task OnVideoDisplayAudioInfoClicked(object sender, RoutedEventArgs args)
+        {
+            string videoDisplayAudioInfo = await Task.Run(() =>
+            {
+                if (videoInformation is not null && videoInformation.AudioDetailInfoList.Count > 0)
+                {
+                    StringBuilder videoDisplayAudioInfoBuilder = new();
+
+                    foreach (AudioDetailInfo audioDetailInfo in videoInformation.AudioDetailInfoList)
+                    {
+                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", IDString, audioDetailInfo.ID));
+                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatString, audioDetailInfo.Format));
+                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatInfoString, audioDetailInfo.FormatInfo));
+                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", CodecIDString, audioDetailInfo.CodecID));
+                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", DurationString, audioDetailInfo.Duration));
+                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", BitRateModeString, audioDetailInfo.BitRateMode));
+                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", BitRateString, audioDetailInfo.BitRate));
+                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", BitRateMaximumString, audioDetailInfo.BitRateMaximum));
+                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", ChannelString, audioDetailInfo.Channel));
+                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", ChannelLayoutString, audioDetailInfo.ChannelLayout));
+                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", SamplingRateString, audioDetailInfo.SamplingRate));
+                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", FrameRateString, audioDetailInfo.FrameRate));
+                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", CompressionModeString, audioDetailInfo.CompressionMode));
+                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", StreamSizeString, audioDetailInfo.StreamSize));
+                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", DefaultString, audioDetailInfo.Default));
+                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", AlternateGroupString, audioDetailInfo.AlternateGroup));
+                        videoDisplayAudioInfoBuilder.AppendLine();
+                    }
+
+                    return videoDisplayAudioInfoBuilder.ToString();
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            });
+
+            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(videoDisplayAudioInfo)));
+        }
+
+        /// <summary>
+        /// 复制视频文本信息到剪贴板
+        /// </summary>
+        private async Task OnVideoDisplayTextInfoClicked(object sender, RoutedEventArgs args)
+        {
+            string videoDisplayTextInfo = await Task.Run(() =>
+            {
+                if (videoInformation is not null && videoInformation.TextDetailInfoList.Count > 0)
+                {
+                    StringBuilder videoDisplayTextInfoBuilder = new();
+
+                    foreach (TextDetailInfo textDetailInfo in videoInformation.TextDetailInfoList)
+                    {
+                        videoDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", IDString, textDetailInfo.ID));
+                        videoDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatString, textDetailInfo.Format));
+                        videoDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", DurationString, textDetailInfo.Duration));
+                        videoDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", StartTimeString, textDetailInfo.StartTime));
+                        videoDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", EndTimeString, textDetailInfo.EndTime));
+                        videoDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", CompressionModeString, textDetailInfo.CompressionMode));
+                        videoDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", CountOfEventsString, textDetailInfo.CountOfEvents));
+                        videoDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", MinimumDurationPerEventString, textDetailInfo.MinimumDurationPerEvent));
+                        videoDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", CountOfLinesString, textDetailInfo.CountOfLines));
+                        videoDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", MaximumCountOfLinesPerEventString, textDetailInfo.MaximumCountOfLinesPerEvent));
+                        videoDisplayTextInfoBuilder.AppendLine();
+                    }
+
+                    return videoDisplayTextInfoBuilder.ToString();
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            });
+
+            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(videoDisplayTextInfo)));
+        }
+
+        /// <summary>
+        /// 复制视频总览信息到剪贴板
+        /// </summary>
+        private async Task OnVideoDisplayOverviewInfoClicked(object sender, RoutedEventArgs args)
+        {
+            if (videoInformation is not null && !string.IsNullOrEmpty(videoInformation.VideoOverviewInformation))
+            {
+                await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(videoInformation.VideoOverviewInformation)));
+            }
         }
 
         /// <summary>
@@ -1080,11 +1306,95 @@ namespace ModernFormatConverter.Views.Pages
         }
 
         /// <summary>
-        /// 复制音频信息到剪贴板
+        /// 复制音频基本信息到剪贴板
         /// </summary>
-        private void OnAudioInformationCopyClicked(object sender, RoutedEventArgs args)
+        private async void OnAudioDisplayGeneralInfoClicked(object sender, RoutedEventArgs args)
         {
-            // TODO：未完成
+            string audioDisplayGeneralInfo = await Task.Run(() =>
+            {
+                if (audioInformation is not null && audioInformation.GeneralInfo is not null)
+                {
+                    StringBuilder audioDisplayGeneralInfoBuilder = new();
+                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", CompleteNameString, audioInformation.GeneralInfo.CompleteName));
+                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatString, audioInformation.GeneralInfo.Format));
+                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatVersionString, audioInformation.GeneralInfo.FormatVersion));
+                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatProfileString, audioInformation.GeneralInfo.FormatProfile));
+                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", CodecIDString, audioInformation.GeneralInfo.CodecID));
+                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", UniqueIDString, audioInformation.GeneralInfo.UniqueID));
+                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", EncodedDateString, audioInformation.GeneralInfo.EncodedDate));
+                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", DurationString, audioInformation.GeneralInfo.Duration));
+                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", OverallBitRateString, audioInformation.GeneralInfo.OverallBitRate));
+                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", FrameRateString, audioInformation.GeneralInfo.FrameRate));
+                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", StreamSizeString, audioInformation.GeneralInfo.StreamSize));
+                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", RecordedDateString, audioInformation.GeneralInfo.RecordedDate));
+                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", EncodedApplicationString, audioInformation.GeneralInfo.EncodedApplication));
+                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", EncodedLibraryString, audioInformation.GeneralInfo.EncodedLibrary));
+                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", AlbumString, audioInformation.GeneralInfo.Album));
+                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", TrackNameString, audioInformation.GeneralInfo.TrackName));
+                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", PerformerString, audioInformation.GeneralInfo.Performer));
+                    return audioDisplayGeneralInfoBuilder.ToString();
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            });
+
+            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(audioDisplayGeneralInfo)));
+        }
+
+        /// <summary>
+        /// 复制音频音频信息到剪贴板
+        /// </summary>
+        private async void OnAudioDisplayAudioInfoClicked(object sender, RoutedEventArgs args)
+        {
+            string audioDisplayAudioInfo = await Task.Run(() =>
+            {
+                if (audioInformation is not null && audioInformation.AudioDetailInfoList.Count > 0)
+                {
+                    StringBuilder audioDisplayAudioInfoBuilder = new();
+
+                    foreach (AudioDetailInfo audioDetailInfo in audioInformation.AudioDetailInfoList)
+                    {
+                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", IDString, audioDetailInfo.ID));
+                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatString, audioDetailInfo.Format));
+                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatInfoString, audioDetailInfo.FormatInfo));
+                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", CodecIDString, audioDetailInfo.CodecID));
+                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", DurationString, audioDetailInfo.Duration));
+                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", BitRateModeString, audioDetailInfo.BitRateMode));
+                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", BitRateString, audioDetailInfo.BitRate));
+                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", BitRateMaximumString, audioDetailInfo.BitRateMaximum));
+                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", ChannelString, audioDetailInfo.Channel));
+                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", ChannelLayoutString, audioDetailInfo.ChannelLayout));
+                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", SamplingRateString, audioDetailInfo.SamplingRate));
+                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", FrameRateString, audioDetailInfo.FrameRate));
+                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", CompressionModeString, audioDetailInfo.CompressionMode));
+                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", StreamSizeString, audioDetailInfo.StreamSize));
+                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", DefaultString, audioDetailInfo.Default));
+                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", AlternateGroupString, audioDetailInfo.AlternateGroup));
+                        audioDisplayAudioInfoBuilder.AppendLine();
+                    }
+
+                    return audioDisplayAudioInfoBuilder.ToString();
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            });
+
+            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(audioDisplayAudioInfo)));
+        }
+
+        /// <summary>
+        /// 复制音频总览信息到剪贴板
+        /// </summary>
+        private async Task OnAudioDisplayOverviewInfoClicked(object sender, RoutedEventArgs args)
+        {
+            if (audioInformation is not null && !string.IsNullOrEmpty(audioInformation.AudioOverviewInformation))
+            {
+                await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(audioInformation.AudioOverviewInformation)));
+            }
         }
 
         /// <summary>
@@ -1151,11 +1461,45 @@ namespace ModernFormatConverter.Views.Pages
         }
 
         /// <summary>
-        /// 复制文本信息到剪贴板
+        /// 复制文本文本信息到剪贴板
         /// </summary>
-        private void OnTextInformationCopyClicked(object sender, RoutedEventArgs args)
+        private async Task OnTextDisplayTextInfoClicked(object sender, RoutedEventArgs args)
         {
-            // TODO：未完成
+            string textDisplayTextInfo = await Task.Run(() =>
+            {
+                if (textInformation is not null)
+                {
+                    StringBuilder textDisplayTextInfoBuilder = new();
+                    textDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", IDString, textInformation.TextDetailInfo.ID));
+                    textDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatString, textInformation.TextDetailInfo.Format));
+                    textDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", DurationString, textInformation.TextDetailInfo.Duration));
+                    textDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", StartTimeString, textInformation.TextDetailInfo.StartTime));
+                    textDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", EndTimeString, textInformation.TextDetailInfo.EndTime));
+                    textDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", CompressionModeString, textInformation.TextDetailInfo.CompressionMode));
+                    textDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", CountOfEventsString, textInformation.TextDetailInfo.CountOfEvents));
+                    textDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", MinimumDurationPerEventString, textInformation.TextDetailInfo.MinimumDurationPerEvent));
+                    textDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", CountOfLinesString, textInformation.TextDetailInfo.CountOfLines));
+                    textDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", MaximumCountOfLinesPerEventString, textInformation.TextDetailInfo.MaximumCountOfLinesPerEvent));
+                    return textDisplayTextInfoBuilder.ToString();
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            });
+
+            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(textDisplayTextInfo)));
+        }
+
+        /// <summary>
+        /// 复制文本总览信息到剪贴板
+        /// </summary>
+        private async Task OnTextDisplayOverviewInfoClicked(object sender, RoutedEventArgs args)
+        {
+            if (textInformation is not null && !string.IsNullOrEmpty(textInformation.TextOverviewInformation))
+            {
+                await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(textInformation.TextOverviewInformation)));
+            }
         }
 
         /// <summary>
@@ -1213,6 +1557,7 @@ namespace ModernFormatConverter.Views.Pages
             AudioDisplayAudioInfoCount = 0;
             AudioDisplayOverviewInfo = string.Empty;
             IsAudioDisplayOverviewInfoExisted = false;
+            textInformation = null;
             TextDisplayInfo = new();
             IsTextDisplayOverviewInfoExisted = false;
             TextDisplayOverviewInfo = string.Empty;
@@ -1264,7 +1609,7 @@ namespace ModernFormatConverter.Views.Pages
             }
             else if (fileInformationResultKind is FileInformationResultKind.TextFile)
             {
-                TextInformation textInformation = await GetTextInformationAsync(filePath);
+                textInformation = await GetTextInformationAsync(filePath);
                 TextInformationSelectedItem = TextInformationSelectorBar.Items[0];
                 if (textInformation.TextDetailInfo is not null)
                 {

@@ -296,7 +296,7 @@
                                     DefaultLabelPosition="Right">
 
                                     <CommandBar.PrimaryCommands>
-                                        <AppBarButton Click="{x:Bind OnGeneralInformationCopyClicked}" Label="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Copy')}">
+                                        <AppBarButton Click="{x:Bind OnGeneralInfoCopyClicked}" Label="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Copy')}">
 
                                             <AppBarButton.Icon>
                                                 <FontIcon Glyph="&#xE8C8;" />
@@ -471,11 +471,62 @@
                                     DefaultLabelPosition="Right">
 
                                     <CommandBar.PrimaryCommands>
-                                        <AppBarButton Click="{x:Bind OnVideoInformationCopyClicked}" Label="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Copy')}">
+                                        <AppBarButton Label="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Copy')}">
 
                                             <AppBarButton.Icon>
                                                 <FontIcon Glyph="&#xE8C8;" />
                                             </AppBarButton.Icon>
+
+                                            <AppBarButton.Flyout>
+                                                <MenuFlyout Placement="Bottom">
+                                                    <MenuFlyoutItem Click="{x:Bind OnVideoDisplayGeneralInfoClicked}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyGeneralInfo')}">
+
+                                                        <MenuFlyoutItem.Icon>
+                                                            <FontIcon Glyph="&#xE700;" />
+                                                        </MenuFlyoutItem.Icon>
+                                                    </MenuFlyoutItem>
+
+                                                    <MenuFlyoutItem
+                                                        Click="{x:Bind OnVideoDisplayVideoInfoClicked}"
+                                                        Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyVideoInfo')}"
+                                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(VideoDisplayVideoInfoCount), Mode=OneWay}">
+
+                                                        <MenuFlyoutItem.Icon>
+                                                            <FontIcon Glyph="&#xE714;" />
+                                                        </MenuFlyoutItem.Icon>
+                                                    </MenuFlyoutItem>
+
+                                                    <MenuFlyoutItem
+                                                        Click="{x:Bind OnVideoDisplayAudioInfoClicked}"
+                                                        Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyAudioInfo')}"
+                                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(VideoDisplayAudioInfoCount), Mode=OneWay}">
+
+                                                        <MenuFlyoutItem.Icon>
+                                                            <FontIcon Glyph="&#xE8D6;" />
+                                                        </MenuFlyoutItem.Icon>
+                                                    </MenuFlyoutItem>
+
+                                                    <MenuFlyoutItem
+                                                        Click="{x:Bind OnVideoDisplayTextInfoClicked}"
+                                                        Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyTextInfo')}"
+                                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(VideoDisplayTextInfoCount), Mode=OneWay}">
+
+                                                        <MenuFlyoutItem.Icon>
+                                                            <FontIcon Glyph="&#xE8A5;" />
+                                                        </MenuFlyoutItem.Icon>
+                                                    </MenuFlyoutItem>
+
+                                                    <MenuFlyoutItem
+                                                        Click="{x:Bind OnVideoDisplayOverviewInfoClicked}"
+                                                        Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyOverviewInfo')}"
+                                                        Visibility="{x:Bind IsVideoDisplayOverviewInfoExisted, Mode=OneWay}">
+
+                                                        <MenuFlyoutItem.Icon>
+                                                            <FontIcon Glyph="&#xE8A9;" />
+                                                        </MenuFlyoutItem.Icon>
+                                                    </MenuFlyoutItem>
+                                                </MenuFlyout>
+                                            </AppBarButton.Flyout>
                                         </AppBarButton>
                                     </CommandBar.PrimaryCommands>
                                 </CommandBar>
@@ -2003,11 +2054,42 @@
                                     DefaultLabelPosition="Right">
 
                                     <CommandBar.PrimaryCommands>
-                                        <AppBarButton Click="{x:Bind OnAudioInformationCopyClicked}" Label="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Copy')}">
+                                        <AppBarButton Label="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Copy')}">
 
                                             <AppBarButton.Icon>
                                                 <FontIcon Glyph="&#xE8C8;" />
                                             </AppBarButton.Icon>
+
+                                            <AppBarButton.Flyout>
+                                                <MenuFlyout Placement="Bottom">
+                                                    <MenuFlyoutItem Click="{x:Bind OnAudioDisplayGeneralInfoClicked}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyGeneralInfo')}">
+
+                                                        <MenuFlyoutItem.Icon>
+                                                            <FontIcon Glyph="&#xE700;" />
+                                                        </MenuFlyoutItem.Icon>
+                                                    </MenuFlyoutItem>
+
+                                                    <MenuFlyoutItem
+                                                        Click="{x:Bind OnAudioDisplayAudioInfoClicked}"
+                                                        Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyAudioInfo')}"
+                                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(AudioDisplayAudioInfoCount), Mode=OneWay}">
+
+                                                        <MenuFlyoutItem.Icon>
+                                                            <FontIcon Glyph="&#xE8D6;" />
+                                                        </MenuFlyoutItem.Icon>
+                                                    </MenuFlyoutItem>
+
+                                                    <MenuFlyoutItem
+                                                        Click="{x:Bind OnAudioDisplayOverviewInfoClicked}"
+                                                        Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyOverviewInfo')}"
+                                                        Visibility="{x:Bind IsAudioDisplayOverviewInfoExisted, Mode=OneWay}">
+
+                                                        <MenuFlyoutItem.Icon>
+                                                            <FontIcon Glyph="&#xE8A9;" />
+                                                        </MenuFlyoutItem.Icon>
+                                                    </MenuFlyoutItem>
+                                                </MenuFlyout>
+                                            </AppBarButton.Flyout>
                                         </AppBarButton>
                                     </CommandBar.PrimaryCommands>
                                 </CommandBar>
@@ -2764,11 +2846,36 @@
                                     DefaultLabelPosition="Right">
 
                                     <CommandBar.PrimaryCommands>
-                                        <AppBarButton Click="{x:Bind OnTextInformationCopyClicked}" Label="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Copy')}">
+                                        <AppBarButton Label="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Copy')}">
 
                                             <AppBarButton.Icon>
                                                 <FontIcon Glyph="&#xE8C8;" />
                                             </AppBarButton.Icon>
+
+                                            <AppBarButton.Flyout>
+                                                <MenuFlyout Placement="Bottom">
+
+                                                    <MenuFlyoutItem
+                                                        Click="{x:Bind OnTextDisplayTextInfoClicked}"
+                                                        Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyTextInfo')}"
+                                                        Visibility="{x:Bind IsTextDisplayInfoExisted, Mode=OneWay}">
+
+                                                        <MenuFlyoutItem.Icon>
+                                                            <FontIcon Glyph="&#xE8A5;" />
+                                                        </MenuFlyoutItem.Icon>
+                                                    </MenuFlyoutItem>
+
+                                                    <MenuFlyoutItem
+                                                        Click="{x:Bind OnTextDisplayOverviewInfoClicked}"
+                                                        Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyOverviewInfo')}"
+                                                        Visibility="{x:Bind IsTextDisplayOverviewInfoExisted, Mode=OneWay}">
+
+                                                        <MenuFlyoutItem.Icon>
+                                                            <FontIcon Glyph="&#xE8A9;" />
+                                                        </MenuFlyoutItem.Icon>
+                                                    </MenuFlyoutItem>
+                                                </MenuFlyout>
+                                            </AppBarButton.Flyout>
                                         </AppBarButton>
                                     </CommandBar.PrimaryCommands>
                                 </CommandBar>
