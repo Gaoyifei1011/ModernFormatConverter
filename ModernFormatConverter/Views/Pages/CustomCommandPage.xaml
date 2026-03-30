@@ -140,6 +140,7 @@
             <TextBox
                 x:Name="CommandResultTextBox"
                 Padding="16,5,20,6"
+                FontFamily="Consolas"
                 FontSize="15"
                 IsReadOnly="True"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
