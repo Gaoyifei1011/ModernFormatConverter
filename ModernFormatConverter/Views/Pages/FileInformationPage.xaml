@@ -1713,6 +1713,7 @@
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
 
                                         <Grid.ColumnDefinitions>
@@ -1879,6 +1880,73 @@
                                             IsTextSelectionEnabled="True"
                                             Text="{x:Bind VideoDisplayTextInfo.MaximumCountOfLinesPerEvent, Mode=OneWay}"
                                             TextWrapping="Wrap" />
+
+                                        <StackPanel
+                                            Grid.Row="10"
+                                            Grid.ColumnSpan="2"
+                                            Margin="0,5,0,-4"
+                                            HorizontalAlignment="Center"
+                                            Orientation="Horizontal"
+                                            Spacing="3">
+
+                                            <Button
+                                                Width="32"
+                                                Height="32"
+                                                Padding="0"
+                                                Click="{x:Bind OnForwardVideoDisplayTextInfoClicked}"
+                                                CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                                <FontIcon FontSize="16" Glyph="&#xE76B;" />
+
+                                                <ToolTipService.ToolTip>
+                                                    <ToolTip
+                                                        MaxWidth="9999"
+                                                        Padding="0"
+                                                        Background="Transparent">
+
+                                                        <Grid>
+                                                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardDisplayTextInfo')}" />
+                                                        </Grid>
+                                                    </ToolTip>
+                                                </ToolTipService.ToolTip>
+                                            </Button>
+
+                                            <NumberBox ValueChanged="{x:Bind OnVideoDisplayTextInfoSelectedIndexValueChanged}" Value="{x:Bind VideoDisplayTextInfoSelectedIndex, Mode=OneWay}">
+                                                <NumberBox.Resources>
+                                                    <x:Double x:Key="TextControlThemeMinWidth">0</x:Double>
+                                                </NumberBox.Resources>
+                                            </NumberBox>
+
+                                            <TextBlock Margin="0,0,3,2" VerticalAlignment="Center">
+
+                                                <Run Text="/" />
+                                                <Run Text="{x:Bind VideoDisplayTextInfoCount, Mode=OneWay}" />
+                                            </TextBlock>
+
+                                            <Button
+                                                Width="32"
+                                                Height="32"
+                                                Padding="0"
+                                                Click="{x:Bind OnNextVideoDisplayTextInfoClicked}"
+                                                CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                                <FontIcon FontSize="16" Glyph="&#xE76C;" />
+
+                                                <ToolTipService.ToolTip>
+                                                    <ToolTip
+                                                        MaxWidth="9999"
+                                                        Padding="0"
+                                                        Background="Transparent">
+
+                                                        <Grid>
+                                                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextDisplayTextInfo')}" />
+                                                        </Grid>
+                                                    </ToolTip>
+                                                </ToolTipService.ToolTip>
+                                            </Button>
+                                        </StackPanel>
                                     </Grid>
                                 </Grid>
 
@@ -1888,14 +1956,15 @@
                                         Margin="0,5,0,3"
                                         HorizontalAlignment="Center"
                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('EmptyOverviewInfo')}"
-                                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsVideoDisplayAllInfoExisted), Mode=OneWay}" />
+                                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsVideoDisplayOverviewInfoExisted), Mode=OneWay}" />
 
                                     <TextBlock
                                         Margin="0,5,0,3"
+                                        FontFamily="Consolas"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoDisplayAllInfo, Mode=OneWay}"
+                                        Text="{x:Bind VideoDisplayOverviewInfo, Mode=OneWay}"
                                         TextWrapping="Wrap"
-                                        Visibility="{x:Bind IsVideoDisplayAllInfoExisted, Mode=OneWay}" />
+                                        Visibility="{x:Bind IsVideoDisplayOverviewInfoExisted, Mode=OneWay}" />
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -2648,14 +2717,15 @@
                                         Margin="0,5,0,3"
                                         HorizontalAlignment="Center"
                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('EmptyOverviewInfo')}"
-                                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsAudioDisplayAllInfoExisted), Mode=OneWay}" />
+                                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsAudioDisplayOverviewInfoExisted), Mode=OneWay}" />
 
                                     <TextBlock
                                         Margin="0,5,0,3"
+                                        FontFamily="Consolas"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind AudioDisplayAllInfo, Mode=OneWay}"
+                                        Text="{x:Bind AudioDisplayOverviewInfo, Mode=OneWay}"
                                         TextWrapping="Wrap"
-                                        Visibility="{x:Bind IsAudioDisplayAllInfoExisted, Mode=OneWay}" />
+                                        Visibility="{x:Bind IsAudioDisplayOverviewInfoExisted, Mode=OneWay}" />
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -2674,6 +2744,7 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
                                 <FontIcon
@@ -2686,6 +2757,21 @@
                                     Grid.Column="1"
                                     VerticalAlignment="Center"
                                     Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('TextInformation')}" />
+
+                                <CommandBar
+                                    Grid.Column="2"
+                                    Margin="0,0,-15,0"
+                                    DefaultLabelPosition="Right">
+
+                                    <CommandBar.PrimaryCommands>
+                                        <AppBarButton Click="{x:Bind OnTextInformationCopyClicked}" Label="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Copy')}">
+
+                                            <AppBarButton.Icon>
+                                                <FontIcon Glyph="&#xE8C8;" />
+                                            </AppBarButton.Icon>
+                                        </AppBarButton>
+                                    </CommandBar.PrimaryCommands>
+                                </CommandBar>
                             </Grid>
                         </Expander.Header>
 
@@ -2903,14 +2989,15 @@
                                         Margin="0,5,0,3"
                                         HorizontalAlignment="Center"
                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('EmptyTextInfo')}"
-                                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsTextDisplayAllInfoExisted), Mode=OneWay}" />
+                                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsTextDisplayOverviewInfoExisted), Mode=OneWay}" />
 
                                     <TextBlock
                                         Margin="0,5,0,3"
+                                        FontFamily="Consolas"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind TextDisplayAllInfo, Mode=OneWay}"
+                                        Text="{x:Bind TextDisplayOverviewInfo, Mode=OneWay}"
                                         TextWrapping="Wrap"
-                                        Visibility="{x:Bind IsTextDisplayAllInfoExisted, Mode=OneWay}" />
+                                        Visibility="{x:Bind IsTextDisplayOverviewInfoExisted, Mode=OneWay}" />
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -2929,6 +3016,7 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
                                 <FontIcon
@@ -2941,6 +3029,21 @@
                                     Grid.Column="1"
                                     VerticalAlignment="Center"
                                     Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ImageInformation')}" />
+
+                                <CommandBar
+                                    Grid.Column="2"
+                                    Margin="0,0,-15,0"
+                                    DefaultLabelPosition="Right">
+
+                                    <CommandBar.PrimaryCommands>
+                                        <AppBarButton Click="{x:Bind OnImageInformationCopyClicked}" Label="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Copy')}">
+
+                                            <AppBarButton.Icon>
+                                                <FontIcon Glyph="&#xE8C8;" />
+                                            </AppBarButton.Icon>
+                                        </AppBarButton>
+                                    </CommandBar.PrimaryCommands>
+                                </CommandBar>
                             </Grid>
                         </Expander.Header>
 
@@ -2969,14 +3072,15 @@
                                         Margin="0,5,0,3"
                                         HorizontalAlignment="Center"
                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('EmptyImageInfo')}"
-                                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsImageAllInformationExisted), Mode=OneWay}" />
+                                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsImageOverviewInformationExisted), Mode=OneWay}" />
 
                                     <TextBlock
                                         Margin="0,5,0,3"
+                                        FontFamily="Consolas"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind ImageAllInformation, Mode=OneWay}"
+                                        Text="{x:Bind ImageOverviewInformation, Mode=OneWay}"
                                         TextWrapping="Wrap"
-                                        Visibility="{x:Bind IsImageAllInformationExisted, Mode=OneWay}" />
+                                        Visibility="{x:Bind IsImageOverviewInformationExisted, Mode=OneWay}" />
                                 </Grid>
                             </Grid>
                         </Grid>
