@@ -289,194 +289,194 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
-        private GeneralInfo _videoDisplayGeneralInfo;
+        private GeneralInfo _videoGeneralInfo;
 
-        public GeneralInfo VideoDisplayGeneralInfo
+        public GeneralInfo VideoGeneralInfo
         {
-            get { return _videoDisplayGeneralInfo; }
+            get { return _videoGeneralInfo; }
 
             set
             {
-                if (!Equals(_videoDisplayGeneralInfo, value))
+                if (!Equals(_videoGeneralInfo, value))
                 {
-                    _videoDisplayGeneralInfo = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDisplayGeneralInfo)));
+                    _videoGeneralInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoGeneralInfo)));
                 }
             }
         }
 
-        private VideoDetailInfo _videoDisplayVideoInfo;
+        private VideoDetailInfo _videoDetailVideoInfo;
 
-        public VideoDetailInfo VideoDisplayVideoInfo
+        public VideoDetailInfo VideoDetailVideoInfo
         {
-            get { return _videoDisplayVideoInfo; }
+            get { return _videoDetailVideoInfo; }
 
             set
             {
-                if (!Equals(_videoDisplayVideoInfo, value))
+                if (!Equals(_videoDetailVideoInfo, value))
                 {
-                    _videoDisplayVideoInfo = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDisplayVideoInfo)));
+                    _videoDetailVideoInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDetailVideoInfo)));
                 }
             }
         }
 
-        private int _videoDisplayVideoInfoSelectedIndex;
+        private int _videoDetailVideoInfoSelectedIndex;
 
-        public int VideoDisplayVideoInfoSelectedIndex
+        public int VideoDetailVideoInfoSelectedIndex
         {
-            get { return _videoDisplayVideoInfoSelectedIndex; }
+            get { return _videoDetailVideoInfoSelectedIndex; }
 
             set
             {
-                if (!Equals(_videoDisplayVideoInfoSelectedIndex, value))
+                if (!Equals(_videoDetailVideoInfoSelectedIndex, value))
                 {
-                    _videoDisplayVideoInfoSelectedIndex = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDisplayVideoInfoSelectedIndex)));
+                    _videoDetailVideoInfoSelectedIndex = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDetailVideoInfoSelectedIndex)));
                 }
             }
         }
 
-        private int _videoDisplayVideoInfoCount;
+        private int _videoDetailVideoInfoCount;
 
-        public int VideoDisplayVideoInfoCount
+        public int VideoDetailVideoInfoCount
         {
-            get { return _videoDisplayVideoInfoCount; }
+            get { return _videoDetailVideoInfoCount; }
 
             set
             {
-                if (!Equals(_videoDisplayVideoInfoCount, value))
+                if (!Equals(_videoDetailVideoInfoCount, value))
                 {
-                    _videoDisplayVideoInfoCount = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDisplayVideoInfoCount)));
+                    _videoDetailVideoInfoCount = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDetailVideoInfoCount)));
                 }
             }
         }
 
-        private AudioDetailInfo _videoDisplayAudioInfo;
+        private AudioDetailInfo _videoDetailAudioInfo;
 
-        public AudioDetailInfo VideoDisplayAudioInfo
+        public AudioDetailInfo VideoDetailAudioInfo
         {
-            get { return _videoDisplayAudioInfo; }
+            get { return _videoDetailAudioInfo; }
 
             set
             {
-                if (!Equals(_videoDisplayVideoInfo, value))
+                if (!Equals(_videoDetailVideoInfo, value))
                 {
-                    _videoDisplayAudioInfo = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDisplayAudioInfo)));
+                    _videoDetailAudioInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDetailAudioInfo)));
                 }
             }
         }
 
-        private int _videoDisplayAudioInfoSelectedIndex;
+        private int _videoDetailAudioInfoSelectedIndex;
 
-        public int VideoDisplayAudioInfoSelectedIndex
+        public int VideoDetailAudioInfoSelectedIndex
         {
-            get { return _videoDisplayAudioInfoSelectedIndex; }
+            get { return _videoDetailAudioInfoSelectedIndex; }
 
             set
             {
-                if (!Equals(_videoDisplayAudioInfoSelectedIndex, value))
+                if (!Equals(_videoDetailAudioInfoSelectedIndex, value))
                 {
-                    _videoDisplayAudioInfoSelectedIndex = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDisplayAudioInfoSelectedIndex)));
+                    _videoDetailAudioInfoSelectedIndex = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDetailAudioInfoSelectedIndex)));
                 }
             }
         }
 
-        private int _videoDisplayAudioInfoCount;
+        private int _videoDetailAudioInfoCount;
 
-        public int VideoDisplayAudioInfoCount
+        public int VideoDetailAudioInfoCount
         {
-            get { return _videoDisplayAudioInfoCount; }
+            get { return _videoDetailAudioInfoCount; }
 
             set
             {
-                if (!Equals(_videoDisplayAudioInfoCount, value))
+                if (!Equals(_videoDetailAudioInfoCount, value))
                 {
-                    _videoDisplayAudioInfoCount = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDisplayAudioInfoCount)));
+                    _videoDetailAudioInfoCount = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDetailAudioInfoCount)));
                 }
             }
         }
 
-        private TextDetailInfo _videoDisplayTextInfo;
+        private TextDetailInfo _videoDetailTextInfo;
 
-        public TextDetailInfo VideoDisplayTextInfo
+        public TextDetailInfo VideoDetailTextInfo
         {
-            get { return _videoDisplayTextInfo; }
+            get { return _videoDetailTextInfo; }
 
             set
             {
-                if (!Equals(_videoDisplayVideoInfo, value))
+                if (!Equals(_videoDetailVideoInfo, value))
                 {
-                    _videoDisplayTextInfo = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDisplayTextInfo)));
+                    _videoDetailTextInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDetailTextInfo)));
                 }
             }
         }
 
-        private int _videoDisplayTextInfoSelectedIndex;
+        private int _videoDetailTextInfoSelectedIndex;
 
-        public int VideoDisplayTextInfoSelectedIndex
+        public int VideoDetailTextInfoSelectedIndex
         {
-            get { return _videoDisplayTextInfoSelectedIndex; }
+            get { return _videoDetailTextInfoSelectedIndex; }
 
             set
             {
-                if (!Equals(_videoDisplayTextInfoSelectedIndex, value))
+                if (!Equals(_videoDetailTextInfoSelectedIndex, value))
                 {
-                    _videoDisplayTextInfoSelectedIndex = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDisplayTextInfoSelectedIndex)));
+                    _videoDetailTextInfoSelectedIndex = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDetailTextInfoSelectedIndex)));
                 }
             }
         }
 
-        private int _videoDisplayTextInfoCount;
+        private int _videoDetailTextInfoCount;
 
-        public int VideoDisplayTextInfoCount
+        public int VideoDetailTextInfoCount
         {
-            get { return _videoDisplayTextInfoCount; }
+            get { return _videoDetailTextInfoCount; }
 
             set
             {
-                if (!Equals(_videoDisplayTextInfoCount, value))
+                if (!Equals(_videoDetailTextInfoCount, value))
                 {
-                    _videoDisplayTextInfoCount = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDisplayTextInfoCount)));
+                    _videoDetailTextInfoCount = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDetailTextInfoCount)));
                 }
             }
         }
 
-        private string _videoDisplayOverviewInfo;
+        private string _videoOverviewInfo;
 
-        public string VideoDisplayOverviewInfo
+        public string VideoOverviewInfo
         {
-            get { return _videoDisplayOverviewInfo; }
+            get { return _videoOverviewInfo; }
 
             set
             {
-                if (!Equals(_videoDisplayOverviewInfo, value))
+                if (!Equals(_videoOverviewInfo, value))
                 {
-                    _videoDisplayOverviewInfo = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDisplayOverviewInfo)));
+                    _videoOverviewInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoOverviewInfo)));
                 }
             }
         }
 
-        private bool _isVideoDisplayOverviewInfoExisted;
+        private bool _isVideoOverviewInfoExisted;
 
-        public bool IsVideoDisplayOverviewInfoExisted
+        public bool IsVideoOverviewInfoExisted
         {
-            get { return _isVideoDisplayOverviewInfoExisted; }
+            get { return _isVideoOverviewInfoExisted; }
 
             set
             {
-                if (!Equals(_isVideoDisplayOverviewInfoExisted, value))
+                if (!Equals(_isVideoOverviewInfoExisted, value))
                 {
-                    _isVideoDisplayOverviewInfoExisted = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsVideoDisplayOverviewInfoExisted)));
+                    _isVideoOverviewInfoExisted = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsVideoOverviewInfoExisted)));
                 }
             }
         }
@@ -497,98 +497,98 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
-        private GeneralInfo _audioDisplayGeneralInfo;
+        private GeneralInfo _audioGeneralInfo;
 
-        public GeneralInfo AudioDisplayGeneralInfo
+        public GeneralInfo AudioGeneralInfo
         {
-            get { return _audioDisplayGeneralInfo; }
+            get { return _audioGeneralInfo; }
 
             set
             {
-                if (!Equals(_audioDisplayGeneralInfo, value))
+                if (!Equals(_audioGeneralInfo, value))
                 {
-                    _audioDisplayGeneralInfo = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioDisplayGeneralInfo)));
+                    _audioGeneralInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioGeneralInfo)));
                 }
             }
         }
 
-        private AudioDetailInfo _audioDisplayAudioInfo;
+        private AudioDetailInfo _audioDetailAudioInfo;
 
-        public AudioDetailInfo AudioDisplayAudioInfo
+        public AudioDetailInfo AudioDetailAudioInfo
         {
-            get { return _audioDisplayAudioInfo; }
+            get { return _audioDetailAudioInfo; }
 
             set
             {
-                if (!Equals(_videoDisplayVideoInfo, value))
+                if (!Equals(_videoDetailVideoInfo, value))
                 {
-                    _audioDisplayAudioInfo = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioDisplayAudioInfo)));
+                    _audioDetailAudioInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioDetailAudioInfo)));
                 }
             }
         }
 
-        private int _audioDisplayAudioInfoSelectedIndex;
+        private int _audioDetailAudioInfoSelectedIndex;
 
-        public int AudioDisplayAudioInfoSelectedIndex
+        public int AudioDetailAudioInfoSelectedIndex
         {
-            get { return _audioDisplayAudioInfoSelectedIndex; }
+            get { return _audioDetailAudioInfoSelectedIndex; }
 
             set
             {
-                if (!Equals(_audioDisplayAudioInfoSelectedIndex, value))
+                if (!Equals(_audioDetailAudioInfoSelectedIndex, value))
                 {
-                    _audioDisplayAudioInfoSelectedIndex = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioDisplayAudioInfoSelectedIndex)));
+                    _audioDetailAudioInfoSelectedIndex = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioDetailAudioInfoSelectedIndex)));
                 }
             }
         }
 
-        private int _audioDisplayAudioInfoCount;
+        private int _audioDetailAudioInfoCount;
 
-        public int AudioDisplayAudioInfoCount
+        public int AudioDetailAudioInfoCount
         {
-            get { return _audioDisplayAudioInfoCount; }
+            get { return _audioDetailAudioInfoCount; }
 
             set
             {
-                if (!Equals(_audioDisplayAudioInfoCount, value))
+                if (!Equals(_audioDetailAudioInfoCount, value))
                 {
-                    _audioDisplayAudioInfoCount = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioDisplayAudioInfoCount)));
+                    _audioDetailAudioInfoCount = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioDetailAudioInfoCount)));
                 }
             }
         }
 
-        private string _audioDisplayOverviewInfo;
+        private string _audioOverviewInfo;
 
-        public string AudioDisplayOverviewInfo
+        public string AudioOverviewInfo
         {
-            get { return _audioDisplayOverviewInfo; }
+            get { return _audioOverviewInfo; }
 
             set
             {
-                if (!Equals(_audioDisplayOverviewInfo, value))
+                if (!Equals(_audioOverviewInfo, value))
                 {
-                    _audioDisplayOverviewInfo = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioDisplayOverviewInfo)));
+                    _audioOverviewInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioOverviewInfo)));
                 }
             }
         }
 
-        private bool _isAudioDisplayOverviewInfoExisted;
+        private bool _isAudioOverviewInfoExisted;
 
-        public bool IsAudioDisplayOverviewInfoExisted
+        public bool IsAudioOverviewInfoExisted
         {
-            get { return _isAudioDisplayOverviewInfoExisted; }
+            get { return _isAudioOverviewInfoExisted; }
 
             set
             {
-                if (!Equals(_isAudioDisplayOverviewInfoExisted, value))
+                if (!Equals(_isAudioOverviewInfoExisted, value))
                 {
-                    _isAudioDisplayOverviewInfoExisted = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsAudioDisplayOverviewInfoExisted)));
+                    _isAudioOverviewInfoExisted = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsAudioOverviewInfoExisted)));
                 }
             }
         }
@@ -641,34 +641,34 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
-        private string _textDisplayOverviewInfo;
+        private string _textOverviewInfo;
 
-        public string TextDisplayOverviewInfo
+        public string TextOverviewInfo
         {
-            get { return _textDisplayOverviewInfo; }
+            get { return _textOverviewInfo; }
 
             set
             {
-                if (!string.Equals(_textDisplayOverviewInfo, value))
+                if (!string.Equals(_textOverviewInfo, value))
                 {
-                    _textDisplayOverviewInfo = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TextDisplayOverviewInfo)));
+                    _textOverviewInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TextOverviewInfo)));
                 }
             }
         }
 
-        private bool _isTextDisplayOverviewInfoExisted;
+        private bool _isTextOverviewInfoExisted;
 
-        public bool IsTextDisplayOverviewInfoExisted
+        public bool IsTextOverviewInfoExisted
         {
-            get { return _isTextDisplayOverviewInfoExisted; }
+            get { return _isTextOverviewInfoExisted; }
 
             set
             {
-                if (!Equals(_isTextDisplayOverviewInfoExisted, value))
+                if (!Equals(_isTextOverviewInfoExisted, value))
                 {
-                    _isTextDisplayOverviewInfoExisted = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsTextDisplayOverviewInfoExisted)));
+                    _isTextOverviewInfoExisted = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsTextOverviewInfoExisted)));
                 }
             }
         }
@@ -681,7 +681,7 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                if (!Equals(_textInformationSelectedItem, value))
+                if (!Equals(_imageInformationSelectedItem, value))
                 {
                     _imageInformationSelectedItem = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageInformationSelectedItem)));
@@ -954,28 +954,28 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 复制视频基本信息到剪贴板
         /// </summary>
-        private async Task OnVideoDisplayGeneralInfoClicked(object sender, RoutedEventArgs args)
+        private async Task OnVideoGeneralInfoClicked(object sender, RoutedEventArgs args)
         {
-            string videoDisplayGeneralInfo = await Task.Run(() =>
+            string videoGeneralInfo = await Task.Run(() =>
             {
                 if (videoInformation is not null && videoInformation.GeneralInfo is not null)
                 {
-                    StringBuilder videoDisplayGeneralInfoBuilder = new();
-                    videoDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", CompleteNameString, videoInformation.GeneralInfo.CompleteName));
-                    videoDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatString, videoInformation.GeneralInfo.Format));
-                    videoDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatVersionString, videoInformation.GeneralInfo.FormatVersion));
-                    videoDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatProfileString, videoInformation.GeneralInfo.FormatProfile));
-                    videoDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", CodecIDString, videoInformation.GeneralInfo.CodecID));
-                    videoDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", UniqueIDString, videoInformation.GeneralInfo.UniqueID));
-                    videoDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", EncodedDateString, videoInformation.GeneralInfo.EncodedDate));
-                    videoDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", DurationString, videoInformation.GeneralInfo.Duration));
-                    videoDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", OverallBitRateString, videoInformation.GeneralInfo.OverallBitRate));
-                    videoDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", FrameRateString, videoInformation.GeneralInfo.FrameRate));
-                    videoDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", StreamSizeString, videoInformation.GeneralInfo.StreamSize));
-                    videoDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", RecordedDateString, videoInformation.GeneralInfo.RecordedDate));
-                    videoDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", EncodedApplicationString, videoInformation.GeneralInfo.EncodedApplication));
-                    videoDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", EncodedLibraryString, videoInformation.GeneralInfo.EncodedLibrary));
-                    return videoDisplayGeneralInfoBuilder.ToString();
+                    StringBuilder videoGeneralInfoBuilder = new();
+                    videoGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", CompleteNameString, videoInformation.GeneralInfo.CompleteName));
+                    videoGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatString, videoInformation.GeneralInfo.Format));
+                    videoGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatVersionString, videoInformation.GeneralInfo.FormatVersion));
+                    videoGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatProfileString, videoInformation.GeneralInfo.FormatProfile));
+                    videoGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", CodecIDString, videoInformation.GeneralInfo.CodecID));
+                    videoGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", UniqueIDString, videoInformation.GeneralInfo.UniqueID));
+                    videoGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", EncodedDateString, videoInformation.GeneralInfo.EncodedDate));
+                    videoGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", DurationString, videoInformation.GeneralInfo.Duration));
+                    videoGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", OverallBitRateString, videoInformation.GeneralInfo.OverallBitRate));
+                    videoGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", FrameRateString, videoInformation.GeneralInfo.FrameRate));
+                    videoGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", StreamSizeString, videoInformation.GeneralInfo.StreamSize));
+                    videoGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", RecordedDateString, videoInformation.GeneralInfo.RecordedDate));
+                    videoGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", EncodedApplicationString, videoInformation.GeneralInfo.EncodedApplication));
+                    videoGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", EncodedLibraryString, videoInformation.GeneralInfo.EncodedLibrary));
+                    return videoGeneralInfoBuilder.ToString();
                 }
                 else
                 {
@@ -983,54 +983,54 @@ namespace ModernFormatConverter.Views.Pages
                 }
             });
 
-            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(videoDisplayGeneralInfo)));
+            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(videoGeneralInfo)));
         }
 
         /// <summary>
         /// 复制视频视频信息到剪贴板
         /// </summary>
-        private async Task OnVideoDisplayVideoInfoClicked(object sender, RoutedEventArgs args)
+        private async Task OnVideoDetailVideoInfoClicked(object sender, RoutedEventArgs args)
         {
-            string videoDisplayVideoInfo = await Task.Run(() =>
+            string videoDetailVideoInfo = await Task.Run(() =>
             {
                 if (videoInformation is not null && videoInformation.VideoDetailInfoList.Count > 0)
                 {
-                    StringBuilder videoDisplayVideoInfoBuilder = new();
+                    StringBuilder videoDetailVideoInfoBuilder = new();
 
                     foreach (VideoDetailInfo videoDetailInfo in videoInformation.VideoDetailInfoList)
                     {
-                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", IDString, videoDetailInfo.ID));
-                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatString, videoDetailInfo.Format));
-                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatInfoString, videoDetailInfo.FormatInfo));
-                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatProfileString, videoDetailInfo.FormatProfile));
-                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", CodecIDString, videoDetailInfo.CodecID));
-                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", CodecIDInfoString, videoDetailInfo.CodecIDInfo));
-                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", DurationString, videoDetailInfo.Duration));
-                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", SourceDurationString, videoDetailInfo.SourceDuration));
-                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", BitRateString, videoDetailInfo.BitRate));
-                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", WidthString, videoDetailInfo.Width));
-                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", HeightString, videoDetailInfo.Height));
-                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", DisplayAspectRatioString, videoDetailInfo.DisplayAspectRatio));
-                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", FrameRateString, videoDetailInfo.FrameRate));
-                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", FrameRateModeString, videoDetailInfo.FrameRateMode));
-                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", MinimumFrameRateString, videoDetailInfo.MinimumFrameRate));
-                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", MaximumFrameRateString, videoDetailInfo.MaximumFrameRate));
-                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", ColorSpaceString, videoDetailInfo.ColorSpace));
-                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", ChromaSubsamplingString, videoDetailInfo.ChromaSubsampling));
-                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", BitDepthString, videoDetailInfo.BitDepth));
-                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", BitsPixelFrameString, videoDetailInfo.BitsPixelFrame));
-                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", StreamSizeString, videoDetailInfo.StreamSize));
-                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", SourceStreamSizeString, videoDetailInfo.SourceStreamSize));
-                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", EncodedLibraryString, videoDetailInfo.EncodedLibrary));
-                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", ColorRangeString, videoDetailInfo.ColorRange));
-                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", ColorParimariesString, videoDetailInfo.ColorParimaries));
-                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", TransferCharacteristicsString, videoDetailInfo.TransferCharacteristics));
-                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", MatrixCoefficientsString, videoDetailInfo.MatrixCoefficients));
-                        videoDisplayVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", CodecConfigurationBoxString, videoDetailInfo.CodecConfigurationBox));
-                        videoDisplayVideoInfoBuilder.AppendLine();
+                        videoDetailVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", IDString, videoDetailInfo.ID));
+                        videoDetailVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatString, videoDetailInfo.Format));
+                        videoDetailVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatInfoString, videoDetailInfo.FormatInfo));
+                        videoDetailVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatProfileString, videoDetailInfo.FormatProfile));
+                        videoDetailVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", CodecIDString, videoDetailInfo.CodecID));
+                        videoDetailVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", CodecIDInfoString, videoDetailInfo.CodecIDInfo));
+                        videoDetailVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", DurationString, videoDetailInfo.Duration));
+                        videoDetailVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", SourceDurationString, videoDetailInfo.SourceDuration));
+                        videoDetailVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", BitRateString, videoDetailInfo.BitRate));
+                        videoDetailVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", WidthString, videoDetailInfo.Width));
+                        videoDetailVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", HeightString, videoDetailInfo.Height));
+                        videoDetailVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", DisplayAspectRatioString, videoDetailInfo.DisplayAspectRatio));
+                        videoDetailVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", FrameRateString, videoDetailInfo.FrameRate));
+                        videoDetailVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", FrameRateModeString, videoDetailInfo.FrameRateMode));
+                        videoDetailVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", MinimumFrameRateString, videoDetailInfo.MinimumFrameRate));
+                        videoDetailVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", MaximumFrameRateString, videoDetailInfo.MaximumFrameRate));
+                        videoDetailVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", ColorSpaceString, videoDetailInfo.ColorSpace));
+                        videoDetailVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", ChromaSubsamplingString, videoDetailInfo.ChromaSubsampling));
+                        videoDetailVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", BitDepthString, videoDetailInfo.BitDepth));
+                        videoDetailVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", BitsPixelFrameString, videoDetailInfo.BitsPixelFrame));
+                        videoDetailVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", StreamSizeString, videoDetailInfo.StreamSize));
+                        videoDetailVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", SourceStreamSizeString, videoDetailInfo.SourceStreamSize));
+                        videoDetailVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", EncodedLibraryString, videoDetailInfo.EncodedLibrary));
+                        videoDetailVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", ColorRangeString, videoDetailInfo.ColorRange));
+                        videoDetailVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", ColorParimariesString, videoDetailInfo.ColorParimaries));
+                        videoDetailVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", TransferCharacteristicsString, videoDetailInfo.TransferCharacteristics));
+                        videoDetailVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", MatrixCoefficientsString, videoDetailInfo.MatrixCoefficients));
+                        videoDetailVideoInfoBuilder.AppendLine(string.Format("{0}\t{1}", CodecConfigurationBoxString, videoDetailInfo.CodecConfigurationBox));
+                        videoDetailVideoInfoBuilder.AppendLine();
                     }
 
-                    return videoDisplayVideoInfoBuilder.ToString();
+                    return videoDetailVideoInfoBuilder.ToString();
                 }
                 else
                 {
@@ -1038,42 +1038,42 @@ namespace ModernFormatConverter.Views.Pages
                 }
             });
 
-            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(videoDisplayVideoInfo)));
+            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(videoDetailVideoInfo)));
         }
 
         /// <summary>
         /// 复制视频音频信息到剪贴板
         /// </summary>
-        private async Task OnVideoDisplayAudioInfoClicked(object sender, RoutedEventArgs args)
+        private async Task OnVideoDetailAudioInfoClicked(object sender, RoutedEventArgs args)
         {
-            string videoDisplayAudioInfo = await Task.Run(() =>
+            string videoDetailAudioInfo = await Task.Run(() =>
             {
                 if (videoInformation is not null && videoInformation.AudioDetailInfoList.Count > 0)
                 {
-                    StringBuilder videoDisplayAudioInfoBuilder = new();
+                    StringBuilder videoDetailAudioInfoBuilder = new();
 
                     foreach (AudioDetailInfo audioDetailInfo in videoInformation.AudioDetailInfoList)
                     {
-                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", IDString, audioDetailInfo.ID));
-                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatString, audioDetailInfo.Format));
-                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatInfoString, audioDetailInfo.FormatInfo));
-                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", CodecIDString, audioDetailInfo.CodecID));
-                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", DurationString, audioDetailInfo.Duration));
-                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", BitRateModeString, audioDetailInfo.BitRateMode));
-                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", BitRateString, audioDetailInfo.BitRate));
-                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", BitRateMaximumString, audioDetailInfo.BitRateMaximum));
-                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", ChannelString, audioDetailInfo.Channel));
-                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", ChannelLayoutString, audioDetailInfo.ChannelLayout));
-                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", SamplingRateString, audioDetailInfo.SamplingRate));
-                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", FrameRateString, audioDetailInfo.FrameRate));
-                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", CompressionModeString, audioDetailInfo.CompressionMode));
-                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", StreamSizeString, audioDetailInfo.StreamSize));
-                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", DefaultString, audioDetailInfo.Default));
-                        videoDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", AlternateGroupString, audioDetailInfo.AlternateGroup));
-                        videoDisplayAudioInfoBuilder.AppendLine();
+                        videoDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", IDString, audioDetailInfo.ID));
+                        videoDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatString, audioDetailInfo.Format));
+                        videoDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatInfoString, audioDetailInfo.FormatInfo));
+                        videoDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", CodecIDString, audioDetailInfo.CodecID));
+                        videoDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", DurationString, audioDetailInfo.Duration));
+                        videoDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", BitRateModeString, audioDetailInfo.BitRateMode));
+                        videoDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", BitRateString, audioDetailInfo.BitRate));
+                        videoDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", BitRateMaximumString, audioDetailInfo.BitRateMaximum));
+                        videoDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", ChannelString, audioDetailInfo.Channel));
+                        videoDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", ChannelLayoutString, audioDetailInfo.ChannelLayout));
+                        videoDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", SamplingRateString, audioDetailInfo.SamplingRate));
+                        videoDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", FrameRateString, audioDetailInfo.FrameRate));
+                        videoDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", CompressionModeString, audioDetailInfo.CompressionMode));
+                        videoDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", StreamSizeString, audioDetailInfo.StreamSize));
+                        videoDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", DefaultString, audioDetailInfo.Default));
+                        videoDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", AlternateGroupString, audioDetailInfo.AlternateGroup));
+                        videoDetailAudioInfoBuilder.AppendLine();
                     }
 
-                    return videoDisplayAudioInfoBuilder.ToString();
+                    return videoDetailAudioInfoBuilder.ToString();
                 }
                 else
                 {
@@ -1081,36 +1081,36 @@ namespace ModernFormatConverter.Views.Pages
                 }
             });
 
-            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(videoDisplayAudioInfo)));
+            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(videoDetailAudioInfo)));
         }
 
         /// <summary>
         /// 复制视频文本信息到剪贴板
         /// </summary>
-        private async Task OnVideoDisplayTextInfoClicked(object sender, RoutedEventArgs args)
+        private async Task OnVideoDetailTextInfoClicked(object sender, RoutedEventArgs args)
         {
-            string videoDisplayTextInfo = await Task.Run(() =>
+            string videoDetailTextInfo = await Task.Run(() =>
             {
                 if (videoInformation is not null && videoInformation.TextDetailInfoList.Count > 0)
                 {
-                    StringBuilder videoDisplayTextInfoBuilder = new();
+                    StringBuilder videoDetailTextInfoBuilder = new();
 
                     foreach (TextDetailInfo textDetailInfo in videoInformation.TextDetailInfoList)
                     {
-                        videoDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", IDString, textDetailInfo.ID));
-                        videoDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatString, textDetailInfo.Format));
-                        videoDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", DurationString, textDetailInfo.Duration));
-                        videoDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", StartTimeString, textDetailInfo.StartTime));
-                        videoDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", EndTimeString, textDetailInfo.EndTime));
-                        videoDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", CompressionModeString, textDetailInfo.CompressionMode));
-                        videoDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", CountOfEventsString, textDetailInfo.CountOfEvents));
-                        videoDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", MinimumDurationPerEventString, textDetailInfo.MinimumDurationPerEvent));
-                        videoDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", CountOfLinesString, textDetailInfo.CountOfLines));
-                        videoDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", MaximumCountOfLinesPerEventString, textDetailInfo.MaximumCountOfLinesPerEvent));
-                        videoDisplayTextInfoBuilder.AppendLine();
+                        videoDetailTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", IDString, textDetailInfo.ID));
+                        videoDetailTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatString, textDetailInfo.Format));
+                        videoDetailTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", DurationString, textDetailInfo.Duration));
+                        videoDetailTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", StartTimeString, textDetailInfo.StartTime));
+                        videoDetailTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", EndTimeString, textDetailInfo.EndTime));
+                        videoDetailTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", CompressionModeString, textDetailInfo.CompressionMode));
+                        videoDetailTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", CountOfEventsString, textDetailInfo.CountOfEvents));
+                        videoDetailTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", MinimumDurationPerEventString, textDetailInfo.MinimumDurationPerEvent));
+                        videoDetailTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", CountOfLinesString, textDetailInfo.CountOfLines));
+                        videoDetailTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", MaximumCountOfLinesPerEventString, textDetailInfo.MaximumCountOfLinesPerEvent));
+                        videoDetailTextInfoBuilder.AppendLine();
                     }
 
-                    return videoDisplayTextInfoBuilder.ToString();
+                    return videoDetailTextInfoBuilder.ToString();
                 }
                 else
                 {
@@ -1118,13 +1118,13 @@ namespace ModernFormatConverter.Views.Pages
                 }
             });
 
-            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(videoDisplayTextInfo)));
+            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(videoDetailTextInfo)));
         }
 
         /// <summary>
         /// 复制视频总览信息到剪贴板
         /// </summary>
-        private async Task OnVideoDisplayOverviewInfoClicked(object sender, RoutedEventArgs args)
+        private async Task OnVideoOverviewInfoClicked(object sender, RoutedEventArgs args)
         {
             if (videoInformation is not null && !string.IsNullOrEmpty(videoInformation.VideoOverviewInformation))
             {
@@ -1143,42 +1143,42 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 视频信息的前一个视频流信息
         /// </summary>
-        private void OnForwardVideoDisplayVideoInfoClicked(object sender, RoutedEventArgs args)
+        private void OnForwardVideoDetailVideoInfoClicked(object sender, RoutedEventArgs args)
         {
-            if (videoInformation is not null && videoInformation.VideoDetailInfoList.Count > 0 && Equals(videoInformation.VideoDetailInfoList.Count, VideoDisplayVideoInfoCount) && VideoDisplayVideoInfoSelectedIndex > 1 && VideoDisplayVideoInfoSelectedIndex <= VideoDisplayVideoInfoCount)
+            if (videoInformation is not null && videoInformation.VideoDetailInfoList.Count > 0 && Equals(videoInformation.VideoDetailInfoList.Count, VideoDetailVideoInfoCount) && VideoDetailVideoInfoSelectedIndex > 1 && VideoDetailVideoInfoSelectedIndex <= VideoDetailVideoInfoCount)
             {
-                VideoDisplayVideoInfoSelectedIndex--;
-                VideoDisplayVideoInfo = videoInformation.VideoDetailInfoList[VideoDisplayVideoInfoSelectedIndex - 1];
+                VideoDetailVideoInfoSelectedIndex--;
+                VideoDetailVideoInfo = videoInformation.VideoDetailInfoList[VideoDetailVideoInfoSelectedIndex - 1];
             }
         }
 
         /// <summary>
         /// 视频信息的视频流选中值发生变化时触发的事件
         /// </summary>
-        private void OnVideoDisplayVideoInfoSelectedIndexValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        private void OnVideoDetailVideoInfoSelectedIndexValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
         {
             if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
             {
                 int newValue = Convert.ToInt32(args.NewValue);
-                VideoDisplayVideoInfoSelectedIndex = newValue;
-                VideoDisplayVideoInfoSelectedIndex = Convert.ToInt32(args.OldValue);
+                VideoDetailVideoInfoSelectedIndex = newValue;
+                VideoDetailVideoInfoSelectedIndex = Convert.ToInt32(args.OldValue);
 
-                if (videoInformation is not null && videoInformation.VideoDetailInfoList.Count > 0 && Equals(videoInformation.VideoDetailInfoList.Count, VideoDisplayVideoInfoCount))
+                if (videoInformation is not null && videoInformation.VideoDetailInfoList.Count > 0 && Equals(videoInformation.VideoDetailInfoList.Count, VideoDetailVideoInfoCount))
                 {
-                    if (newValue > VideoDisplayVideoInfoCount)
+                    if (newValue > VideoDetailVideoInfoCount)
                     {
-                        VideoDisplayVideoInfoSelectedIndex = VideoDisplayVideoInfoCount;
+                        VideoDetailVideoInfoSelectedIndex = VideoDetailVideoInfoCount;
                     }
                     else if (newValue < 1)
                     {
-                        VideoDisplayVideoInfoSelectedIndex = 1;
+                        VideoDetailVideoInfoSelectedIndex = 1;
                     }
                     else
                     {
-                        VideoDisplayVideoInfoSelectedIndex = newValue;
+                        VideoDetailVideoInfoSelectedIndex = newValue;
                     }
 
-                    VideoDisplayVideoInfo = videoInformation.VideoDetailInfoList[VideoDisplayVideoInfoSelectedIndex - 1];
+                    VideoDetailVideoInfo = videoInformation.VideoDetailInfoList[VideoDetailVideoInfoSelectedIndex - 1];
                 }
             }
         }
@@ -1186,54 +1186,54 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 视频信息的后一个视频流信息
         /// </summary>
-        private void OnNextVideoDisplayVideoInfoClicked(object sender, RoutedEventArgs args)
+        private void OnNextVideoDetailVideoInfoClicked(object sender, RoutedEventArgs args)
         {
-            if (videoInformation is not null && Equals(videoInformation.VideoDetailInfoList.Count, VideoDisplayVideoInfoCount) && VideoDisplayVideoInfoSelectedIndex >= 1 && VideoDisplayVideoInfoSelectedIndex < VideoDisplayVideoInfoCount)
+            if (videoInformation is not null && Equals(videoInformation.VideoDetailInfoList.Count, VideoDetailVideoInfoCount) && VideoDetailVideoInfoSelectedIndex >= 1 && VideoDetailVideoInfoSelectedIndex < VideoDetailVideoInfoCount)
             {
-                VideoDisplayVideoInfoSelectedIndex++;
-                VideoDisplayVideoInfo = videoInformation.VideoDetailInfoList[VideoDisplayVideoInfoSelectedIndex - 1];
+                VideoDetailVideoInfoSelectedIndex++;
+                VideoDetailVideoInfo = videoInformation.VideoDetailInfoList[VideoDetailVideoInfoSelectedIndex - 1];
             }
         }
 
         /// <summary>
         /// 视频信息的前一个音频流信息
         /// </summary>
-        private void OnForwardVideoDisplayAudioInfoClicked(object sender, RoutedEventArgs args)
+        private void OnForwardVideoDetailAudioInfoClicked(object sender, RoutedEventArgs args)
         {
-            if (videoInformation is not null && videoInformation.VideoDetailInfoList.Count > 0 && Equals(videoInformation.AudioDetailInfoList.Count, VideoDisplayAudioInfoCount) && VideoDisplayAudioInfoSelectedIndex > 1 && VideoDisplayAudioInfoSelectedIndex <= VideoDisplayAudioInfoCount)
+            if (videoInformation is not null && videoInformation.VideoDetailInfoList.Count > 0 && Equals(videoInformation.AudioDetailInfoList.Count, VideoDetailAudioInfoCount) && VideoDetailAudioInfoSelectedIndex > 1 && VideoDetailAudioInfoSelectedIndex <= VideoDetailAudioInfoCount)
             {
-                VideoDisplayAudioInfoSelectedIndex--;
-                VideoDisplayAudioInfo = videoInformation.AudioDetailInfoList[VideoDisplayAudioInfoSelectedIndex - 1];
+                VideoDetailAudioInfoSelectedIndex--;
+                VideoDetailAudioInfo = videoInformation.AudioDetailInfoList[VideoDetailAudioInfoSelectedIndex - 1];
             }
         }
 
         /// <summary>
         /// 视频信息的音频流信息选中值发生变化时触发的事件
         /// </summary>
-        private void OnVideoDisplayAudioInfoSelectedIndexValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        private void OnVideoDetailAudioInfoSelectedIndexValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
         {
             if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
             {
                 int newValue = Convert.ToInt32(args.NewValue);
-                VideoDisplayAudioInfoSelectedIndex = newValue;
-                VideoDisplayAudioInfoSelectedIndex = Convert.ToInt32(args.OldValue);
+                VideoDetailAudioInfoSelectedIndex = newValue;
+                VideoDetailAudioInfoSelectedIndex = Convert.ToInt32(args.OldValue);
 
-                if (videoInformation is not null && videoInformation.AudioDetailInfoList.Count > 0 && Equals(videoInformation.AudioDetailInfoList.Count, VideoDisplayAudioInfoCount))
+                if (videoInformation is not null && videoInformation.AudioDetailInfoList.Count > 0 && Equals(videoInformation.AudioDetailInfoList.Count, VideoDetailAudioInfoCount))
                 {
-                    if (newValue > VideoDisplayAudioInfoCount)
+                    if (newValue > VideoDetailAudioInfoCount)
                     {
-                        VideoDisplayAudioInfoSelectedIndex = VideoDisplayAudioInfoCount;
+                        VideoDetailAudioInfoSelectedIndex = VideoDetailAudioInfoCount;
                     }
                     else if (newValue < 1)
                     {
-                        VideoDisplayAudioInfoSelectedIndex = 1;
+                        VideoDetailAudioInfoSelectedIndex = 1;
                     }
                     else
                     {
-                        VideoDisplayAudioInfoSelectedIndex = newValue;
+                        VideoDetailAudioInfoSelectedIndex = newValue;
                     }
 
-                    VideoDisplayAudioInfo = videoInformation.AudioDetailInfoList[VideoDisplayAudioInfoSelectedIndex - 1];
+                    VideoDetailAudioInfo = videoInformation.AudioDetailInfoList[VideoDetailAudioInfoSelectedIndex - 1];
                 }
             }
         }
@@ -1241,54 +1241,54 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 视频信息的后一个音频流信息
         /// </summary>
-        private void OnNextVideoDisplayAudioInfoClicked(object sender, RoutedEventArgs args)
+        private void OnNextVideoDetailAudioInfoClicked(object sender, RoutedEventArgs args)
         {
-            if (videoInformation is not null && videoInformation.AudioDetailInfoList.Count > 0 && Equals(videoInformation.AudioDetailInfoList.Count, VideoDisplayAudioInfoCount) && VideoDisplayAudioInfoSelectedIndex >= 1 && VideoDisplayAudioInfoSelectedIndex < VideoDisplayAudioInfoCount)
+            if (videoInformation is not null && videoInformation.AudioDetailInfoList.Count > 0 && Equals(videoInformation.AudioDetailInfoList.Count, VideoDetailAudioInfoCount) && VideoDetailAudioInfoSelectedIndex >= 1 && VideoDetailAudioInfoSelectedIndex < VideoDetailAudioInfoCount)
             {
-                VideoDisplayAudioInfoSelectedIndex++;
-                VideoDisplayAudioInfo = videoInformation.AudioDetailInfoList[VideoDisplayAudioInfoSelectedIndex - 1];
+                VideoDetailAudioInfoSelectedIndex++;
+                VideoDetailAudioInfo = videoInformation.AudioDetailInfoList[VideoDetailAudioInfoSelectedIndex - 1];
             }
         }
 
         /// <summary>
         /// 视频信息的前一个文本流信息
         /// </summary>
-        private void OnForwardVideoDisplayTextInfoClicked(object sender, RoutedEventArgs args)
+        private void OnForwardVideoDetailTextInfoClicked(object sender, RoutedEventArgs args)
         {
-            if (videoInformation is not null && videoInformation.TextDetailInfoList.Count > 0 && Equals(videoInformation.TextDetailInfoList.Count, VideoDisplayTextInfoCount) && VideoDisplayTextInfoSelectedIndex > 1 && VideoDisplayTextInfoSelectedIndex <= VideoDisplayTextInfoCount)
+            if (videoInformation is not null && videoInformation.TextDetailInfoList.Count > 0 && Equals(videoInformation.TextDetailInfoList.Count, VideoDetailTextInfoCount) && VideoDetailTextInfoSelectedIndex > 1 && VideoDetailTextInfoSelectedIndex <= VideoDetailTextInfoCount)
             {
-                VideoDisplayTextInfoSelectedIndex--;
-                VideoDisplayTextInfo = videoInformation.TextDetailInfoList[VideoDisplayTextInfoSelectedIndex - 1];
+                VideoDetailTextInfoSelectedIndex--;
+                VideoDetailTextInfo = videoInformation.TextDetailInfoList[VideoDetailTextInfoSelectedIndex - 1];
             }
         }
 
         /// <summary>
         /// 视频信息的文本流信息选中值发生变化时触发的事件
         /// </summary>
-        private void OnVideoDisplayTextInfoSelectedIndexValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        private void OnVideoDetailTextInfoSelectedIndexValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
         {
             if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
             {
                 int newValue = Convert.ToInt32(args.NewValue);
-                VideoDisplayTextInfoSelectedIndex = newValue;
-                VideoDisplayTextInfoSelectedIndex = Convert.ToInt32(args.OldValue);
+                VideoDetailTextInfoSelectedIndex = newValue;
+                VideoDetailTextInfoSelectedIndex = Convert.ToInt32(args.OldValue);
 
-                if (videoInformation is not null && videoInformation.TextDetailInfoList.Count > 0 && Equals(videoInformation.TextDetailInfoList.Count, VideoDisplayTextInfoCount))
+                if (videoInformation is not null && videoInformation.TextDetailInfoList.Count > 0 && Equals(videoInformation.TextDetailInfoList.Count, VideoDetailTextInfoCount))
                 {
-                    if (newValue > VideoDisplayTextInfoCount)
+                    if (newValue > VideoDetailTextInfoCount)
                     {
-                        VideoDisplayTextInfoSelectedIndex = VideoDisplayTextInfoCount;
+                        VideoDetailTextInfoSelectedIndex = VideoDetailTextInfoCount;
                     }
                     else if (newValue < 1)
                     {
-                        VideoDisplayTextInfoSelectedIndex = 1;
+                        VideoDetailTextInfoSelectedIndex = 1;
                     }
                     else
                     {
-                        VideoDisplayTextInfoSelectedIndex = newValue;
+                        VideoDetailTextInfoSelectedIndex = newValue;
                     }
 
-                    VideoDisplayTextInfo = videoInformation.TextDetailInfoList[VideoDisplayTextInfoSelectedIndex - 1];
+                    VideoDetailTextInfo = videoInformation.TextDetailInfoList[VideoDetailTextInfoSelectedIndex - 1];
                 }
             }
         }
@@ -1296,43 +1296,43 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 视频信息的后一个文本流信息
         /// </summary>
-        private void OnNextVideoDisplayTextInfoClicked(object sender, RoutedEventArgs args)
+        private void OnNextVideoDetailTextInfoClicked(object sender, RoutedEventArgs args)
         {
-            if (videoInformation is not null && videoInformation.TextDetailInfoList.Count > 0 && Equals(videoInformation.TextDetailInfoList.Count, VideoDisplayTextInfoCount) && VideoDisplayTextInfoSelectedIndex >= 1 && VideoDisplayTextInfoSelectedIndex < VideoDisplayTextInfoCount)
+            if (videoInformation is not null && videoInformation.TextDetailInfoList.Count > 0 && Equals(videoInformation.TextDetailInfoList.Count, VideoDetailTextInfoCount) && VideoDetailTextInfoSelectedIndex >= 1 && VideoDetailTextInfoSelectedIndex < VideoDetailTextInfoCount)
             {
-                VideoDisplayTextInfoSelectedIndex++;
-                VideoDisplayTextInfo = videoInformation.TextDetailInfoList[VideoDisplayTextInfoSelectedIndex - 1];
+                VideoDetailTextInfoSelectedIndex++;
+                VideoDetailTextInfo = videoInformation.TextDetailInfoList[VideoDetailTextInfoSelectedIndex - 1];
             }
         }
 
         /// <summary>
         /// 复制音频基本信息到剪贴板
         /// </summary>
-        private async void OnAudioDisplayGeneralInfoClicked(object sender, RoutedEventArgs args)
+        private async void OnAudioGeneralInfoClicked(object sender, RoutedEventArgs args)
         {
-            string audioDisplayGeneralInfo = await Task.Run(() =>
+            string audioGeneralInfo = await Task.Run(() =>
             {
                 if (audioInformation is not null && audioInformation.GeneralInfo is not null)
                 {
-                    StringBuilder audioDisplayGeneralInfoBuilder = new();
-                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", CompleteNameString, audioInformation.GeneralInfo.CompleteName));
-                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatString, audioInformation.GeneralInfo.Format));
-                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatVersionString, audioInformation.GeneralInfo.FormatVersion));
-                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatProfileString, audioInformation.GeneralInfo.FormatProfile));
-                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", CodecIDString, audioInformation.GeneralInfo.CodecID));
-                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", UniqueIDString, audioInformation.GeneralInfo.UniqueID));
-                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", EncodedDateString, audioInformation.GeneralInfo.EncodedDate));
-                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", DurationString, audioInformation.GeneralInfo.Duration));
-                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", OverallBitRateString, audioInformation.GeneralInfo.OverallBitRate));
-                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", FrameRateString, audioInformation.GeneralInfo.FrameRate));
-                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", StreamSizeString, audioInformation.GeneralInfo.StreamSize));
-                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", RecordedDateString, audioInformation.GeneralInfo.RecordedDate));
-                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", EncodedApplicationString, audioInformation.GeneralInfo.EncodedApplication));
-                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", EncodedLibraryString, audioInformation.GeneralInfo.EncodedLibrary));
-                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", AlbumString, audioInformation.GeneralInfo.Album));
-                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", TrackNameString, audioInformation.GeneralInfo.TrackName));
-                    audioDisplayGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", PerformerString, audioInformation.GeneralInfo.Performer));
-                    return audioDisplayGeneralInfoBuilder.ToString();
+                    StringBuilder audioGeneralInfoBuilder = new();
+                    audioGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", CompleteNameString, audioInformation.GeneralInfo.CompleteName));
+                    audioGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatString, audioInformation.GeneralInfo.Format));
+                    audioGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatVersionString, audioInformation.GeneralInfo.FormatVersion));
+                    audioGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatProfileString, audioInformation.GeneralInfo.FormatProfile));
+                    audioGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", CodecIDString, audioInformation.GeneralInfo.CodecID));
+                    audioGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", UniqueIDString, audioInformation.GeneralInfo.UniqueID));
+                    audioGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", EncodedDateString, audioInformation.GeneralInfo.EncodedDate));
+                    audioGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", DurationString, audioInformation.GeneralInfo.Duration));
+                    audioGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", OverallBitRateString, audioInformation.GeneralInfo.OverallBitRate));
+                    audioGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", FrameRateString, audioInformation.GeneralInfo.FrameRate));
+                    audioGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", StreamSizeString, audioInformation.GeneralInfo.StreamSize));
+                    audioGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", RecordedDateString, audioInformation.GeneralInfo.RecordedDate));
+                    audioGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", EncodedApplicationString, audioInformation.GeneralInfo.EncodedApplication));
+                    audioGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", EncodedLibraryString, audioInformation.GeneralInfo.EncodedLibrary));
+                    audioGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", AlbumString, audioInformation.GeneralInfo.Album));
+                    audioGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", TrackNameString, audioInformation.GeneralInfo.TrackName));
+                    audioGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", PerformerString, audioInformation.GeneralInfo.Performer));
+                    return audioGeneralInfoBuilder.ToString();
                 }
                 else
                 {
@@ -1340,42 +1340,42 @@ namespace ModernFormatConverter.Views.Pages
                 }
             });
 
-            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(audioDisplayGeneralInfo)));
+            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(audioGeneralInfo)));
         }
 
         /// <summary>
         /// 复制音频音频信息到剪贴板
         /// </summary>
-        private async void OnAudioDisplayAudioInfoClicked(object sender, RoutedEventArgs args)
+        private async void OnAudioDetailAudioInfoClicked(object sender, RoutedEventArgs args)
         {
-            string audioDisplayAudioInfo = await Task.Run(() =>
+            string audioDetailAudioInfo = await Task.Run(() =>
             {
                 if (audioInformation is not null && audioInformation.AudioDetailInfoList.Count > 0)
                 {
-                    StringBuilder audioDisplayAudioInfoBuilder = new();
+                    StringBuilder audioDetailAudioInfoBuilder = new();
 
                     foreach (AudioDetailInfo audioDetailInfo in audioInformation.AudioDetailInfoList)
                     {
-                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", IDString, audioDetailInfo.ID));
-                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatString, audioDetailInfo.Format));
-                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatInfoString, audioDetailInfo.FormatInfo));
-                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", CodecIDString, audioDetailInfo.CodecID));
-                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", DurationString, audioDetailInfo.Duration));
-                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", BitRateModeString, audioDetailInfo.BitRateMode));
-                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", BitRateString, audioDetailInfo.BitRate));
-                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", BitRateMaximumString, audioDetailInfo.BitRateMaximum));
-                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", ChannelString, audioDetailInfo.Channel));
-                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", ChannelLayoutString, audioDetailInfo.ChannelLayout));
-                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", SamplingRateString, audioDetailInfo.SamplingRate));
-                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", FrameRateString, audioDetailInfo.FrameRate));
-                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", CompressionModeString, audioDetailInfo.CompressionMode));
-                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", StreamSizeString, audioDetailInfo.StreamSize));
-                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", DefaultString, audioDetailInfo.Default));
-                        audioDisplayAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", AlternateGroupString, audioDetailInfo.AlternateGroup));
-                        audioDisplayAudioInfoBuilder.AppendLine();
+                        audioDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", IDString, audioDetailInfo.ID));
+                        audioDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatString, audioDetailInfo.Format));
+                        audioDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatInfoString, audioDetailInfo.FormatInfo));
+                        audioDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", CodecIDString, audioDetailInfo.CodecID));
+                        audioDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", DurationString, audioDetailInfo.Duration));
+                        audioDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", BitRateModeString, audioDetailInfo.BitRateMode));
+                        audioDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", BitRateString, audioDetailInfo.BitRate));
+                        audioDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", BitRateMaximumString, audioDetailInfo.BitRateMaximum));
+                        audioDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", ChannelString, audioDetailInfo.Channel));
+                        audioDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", ChannelLayoutString, audioDetailInfo.ChannelLayout));
+                        audioDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", SamplingRateString, audioDetailInfo.SamplingRate));
+                        audioDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", FrameRateString, audioDetailInfo.FrameRate));
+                        audioDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", CompressionModeString, audioDetailInfo.CompressionMode));
+                        audioDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", StreamSizeString, audioDetailInfo.StreamSize));
+                        audioDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", DefaultString, audioDetailInfo.Default));
+                        audioDetailAudioInfoBuilder.AppendLine(string.Format("{0}\t{1}", AlternateGroupString, audioDetailInfo.AlternateGroup));
+                        audioDetailAudioInfoBuilder.AppendLine();
                     }
 
-                    return audioDisplayAudioInfoBuilder.ToString();
+                    return audioDetailAudioInfoBuilder.ToString();
                 }
                 else
                 {
@@ -1383,13 +1383,13 @@ namespace ModernFormatConverter.Views.Pages
                 }
             });
 
-            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(audioDisplayAudioInfo)));
+            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(audioDetailAudioInfo)));
         }
 
         /// <summary>
         /// 复制音频总览信息到剪贴板
         /// </summary>
-        private async Task OnAudioDisplayOverviewInfoClicked(object sender, RoutedEventArgs args)
+        private async Task OnAudioOverviewInfoClicked(object sender, RoutedEventArgs args)
         {
             if (audioInformation is not null && !string.IsNullOrEmpty(audioInformation.AudioOverviewInformation))
             {
@@ -1408,42 +1408,42 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 音频信息的前一个音频流信息
         /// </summary>
-        private void OnForwardAudioDisplayAudioInfoClicked(object sender, RoutedEventArgs args)
+        private void OnForwardAudioDetailAudioInfoClicked(object sender, RoutedEventArgs args)
         {
-            if (audioInformation is not null && audioInformation.AudioDetailInfoList.Count > 0 && Equals(audioInformation.AudioDetailInfoList.Count, AudioDisplayAudioInfoCount) && AudioDisplayAudioInfoSelectedIndex > 1 && AudioDisplayAudioInfoSelectedIndex <= AudioDisplayAudioInfoCount)
+            if (audioInformation is not null && audioInformation.AudioDetailInfoList.Count > 0 && Equals(audioInformation.AudioDetailInfoList.Count, AudioDetailAudioInfoCount) && AudioDetailAudioInfoSelectedIndex > 1 && AudioDetailAudioInfoSelectedIndex <= AudioDetailAudioInfoCount)
             {
-                AudioDisplayAudioInfoSelectedIndex--;
-                AudioDisplayAudioInfo = audioInformation.AudioDetailInfoList[AudioDisplayAudioInfoSelectedIndex - 1];
+                AudioDetailAudioInfoSelectedIndex--;
+                AudioDetailAudioInfo = audioInformation.AudioDetailInfoList[AudioDetailAudioInfoSelectedIndex - 1];
             }
         }
 
         /// <summary>
         /// 音频信息的音频流信息选中值发生变化时触发的事件
         /// </summary>
-        private void OnAudioDisplayAudioInfoSelectedIndexValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        private void OnAudioDetailAudioInfoSelectedIndexValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
         {
             if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
             {
                 int newValue = Convert.ToInt32(args.NewValue);
-                AudioDisplayAudioInfoSelectedIndex = newValue;
-                AudioDisplayAudioInfoSelectedIndex = Convert.ToInt32(args.OldValue);
+                AudioDetailAudioInfoSelectedIndex = newValue;
+                AudioDetailAudioInfoSelectedIndex = Convert.ToInt32(args.OldValue);
 
-                if (audioInformation is not null && audioInformation.AudioDetailInfoList.Count > 0 && Equals(audioInformation.AudioDetailInfoList.Count, AudioDisplayAudioInfoCount))
+                if (audioInformation is not null && audioInformation.AudioDetailInfoList.Count > 0 && Equals(audioInformation.AudioDetailInfoList.Count, AudioDetailAudioInfoCount))
                 {
-                    if (newValue > AudioDisplayAudioInfoCount)
+                    if (newValue > AudioDetailAudioInfoCount)
                     {
-                        AudioDisplayAudioInfoSelectedIndex = AudioDisplayAudioInfoCount;
+                        AudioDetailAudioInfoSelectedIndex = AudioDetailAudioInfoCount;
                     }
                     else if (newValue < 1)
                     {
-                        AudioDisplayAudioInfoSelectedIndex = 1;
+                        AudioDetailAudioInfoSelectedIndex = 1;
                     }
                     else
                     {
-                        AudioDisplayAudioInfoSelectedIndex = newValue;
+                        AudioDetailAudioInfoSelectedIndex = newValue;
                     }
 
-                    AudioDisplayAudioInfo = audioInformation.AudioDetailInfoList[AudioDisplayAudioInfoSelectedIndex - 1];
+                    AudioDetailAudioInfo = audioInformation.AudioDetailInfoList[AudioDetailAudioInfoSelectedIndex - 1];
                 }
             }
         }
@@ -1451,36 +1451,36 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 音频信息的后一个音频流信息
         /// </summary>
-        private void OnNextAudioDisplayAudioInfoClicked(object sender, RoutedEventArgs args)
+        private void OnNextAudioDetailAudioInfoClicked(object sender, RoutedEventArgs args)
         {
-            if (audioInformation is not null && audioInformation.AudioDetailInfoList.Count > 0 && Equals(audioInformation.AudioDetailInfoList.Count, AudioDisplayAudioInfoCount) && AudioDisplayAudioInfoSelectedIndex >= 1 && AudioDisplayAudioInfoSelectedIndex < AudioDisplayAudioInfoCount)
+            if (audioInformation is not null && audioInformation.AudioDetailInfoList.Count > 0 && Equals(audioInformation.AudioDetailInfoList.Count, AudioDetailAudioInfoCount) && AudioDetailAudioInfoSelectedIndex >= 1 && AudioDetailAudioInfoSelectedIndex < AudioDetailAudioInfoCount)
             {
-                AudioDisplayAudioInfoSelectedIndex++;
-                AudioDisplayAudioInfo = audioInformation.AudioDetailInfoList[AudioDisplayAudioInfoSelectedIndex - 1];
+                AudioDetailAudioInfoSelectedIndex++;
+                AudioDetailAudioInfo = audioInformation.AudioDetailInfoList[AudioDetailAudioInfoSelectedIndex - 1];
             }
         }
 
         /// <summary>
         /// 复制文本文本信息到剪贴板
         /// </summary>
-        private async Task OnTextDisplayTextInfoClicked(object sender, RoutedEventArgs args)
+        private async Task OnTextDetailTextInfoClicked(object sender, RoutedEventArgs args)
         {
-            string textDisplayTextInfo = await Task.Run(() =>
+            string textDetailTextInfo = await Task.Run(() =>
             {
                 if (textInformation is not null)
                 {
-                    StringBuilder textDisplayTextInfoBuilder = new();
-                    textDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", IDString, textInformation.TextDetailInfo.ID));
-                    textDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatString, textInformation.TextDetailInfo.Format));
-                    textDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", DurationString, textInformation.TextDetailInfo.Duration));
-                    textDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", StartTimeString, textInformation.TextDetailInfo.StartTime));
-                    textDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", EndTimeString, textInformation.TextDetailInfo.EndTime));
-                    textDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", CompressionModeString, textInformation.TextDetailInfo.CompressionMode));
-                    textDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", CountOfEventsString, textInformation.TextDetailInfo.CountOfEvents));
-                    textDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", MinimumDurationPerEventString, textInformation.TextDetailInfo.MinimumDurationPerEvent));
-                    textDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", CountOfLinesString, textInformation.TextDetailInfo.CountOfLines));
-                    textDisplayTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", MaximumCountOfLinesPerEventString, textInformation.TextDetailInfo.MaximumCountOfLinesPerEvent));
-                    return textDisplayTextInfoBuilder.ToString();
+                    StringBuilder textDetailTextInfoBuilder = new();
+                    textDetailTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", IDString, textInformation.TextDetailInfo.ID));
+                    textDetailTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatString, textInformation.TextDetailInfo.Format));
+                    textDetailTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", DurationString, textInformation.TextDetailInfo.Duration));
+                    textDetailTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", StartTimeString, textInformation.TextDetailInfo.StartTime));
+                    textDetailTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", EndTimeString, textInformation.TextDetailInfo.EndTime));
+                    textDetailTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", CompressionModeString, textInformation.TextDetailInfo.CompressionMode));
+                    textDetailTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", CountOfEventsString, textInformation.TextDetailInfo.CountOfEvents));
+                    textDetailTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", MinimumDurationPerEventString, textInformation.TextDetailInfo.MinimumDurationPerEvent));
+                    textDetailTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", CountOfLinesString, textInformation.TextDetailInfo.CountOfLines));
+                    textDetailTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", MaximumCountOfLinesPerEventString, textInformation.TextDetailInfo.MaximumCountOfLinesPerEvent));
+                    return textDetailTextInfoBuilder.ToString();
                 }
                 else
                 {
@@ -1488,13 +1488,13 @@ namespace ModernFormatConverter.Views.Pages
                 }
             });
 
-            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(textDisplayTextInfo)));
+            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(textDetailTextInfo)));
         }
 
         /// <summary>
         /// 复制文本总览信息到剪贴板
         /// </summary>
-        private async Task OnTextDisplayOverviewInfoClicked(object sender, RoutedEventArgs args)
+        private async Task OnTextOverviewInfoClicked(object sender, RoutedEventArgs args)
         {
             if (textInformation is not null && !string.IsNullOrEmpty(textInformation.TextOverviewInformation))
             {
@@ -1537,31 +1537,31 @@ namespace ModernFormatConverter.Views.Pages
             FileThumbnailImage = null;
             videoInformation = null;
             VideoInformationSelectedItem = VideoInformationSelectorBar.Items[0];
-            VideoDisplayGeneralInfo = new();
-            VideoDisplayVideoInfo = new();
-            VideoDisplayVideoInfoSelectedIndex = 0;
-            VideoDisplayVideoInfoCount = 0;
-            VideoDisplayAudioInfo = new();
-            VideoDisplayAudioInfoSelectedIndex = 0;
-            VideoDisplayAudioInfoCount = 0;
-            VideoDisplayTextInfo = new();
-            VideoDisplayTextInfoSelectedIndex = 0;
-            VideoDisplayTextInfoCount = 0;
-            VideoDisplayOverviewInfo = string.Empty;
-            IsVideoDisplayOverviewInfoExisted = false;
+            VideoGeneralInfo = new();
+            VideoDetailVideoInfo = new();
+            VideoDetailVideoInfoSelectedIndex = 0;
+            VideoDetailVideoInfoCount = 0;
+            VideoDetailAudioInfo = new();
+            VideoDetailAudioInfoSelectedIndex = 0;
+            VideoDetailAudioInfoCount = 0;
+            VideoDetailTextInfo = new();
+            VideoDetailTextInfoSelectedIndex = 0;
+            VideoDetailTextInfoCount = 0;
+            VideoOverviewInfo = string.Empty;
+            IsVideoOverviewInfoExisted = false;
             audioInformation = null;
             AudioInformationSelectedItem = AudioInformationSelectorBar.Items[0];
-            AudioDisplayGeneralInfo = new();
-            AudioDisplayAudioInfo = new();
-            AudioDisplayAudioInfoSelectedIndex = 0;
-            AudioDisplayAudioInfoCount = 0;
-            AudioDisplayOverviewInfo = string.Empty;
-            IsAudioDisplayOverviewInfoExisted = false;
+            AudioGeneralInfo = new();
+            AudioDetailAudioInfo = new();
+            AudioDetailAudioInfoSelectedIndex = 0;
+            AudioDetailAudioInfoCount = 0;
+            AudioOverviewInfo = string.Empty;
+            IsAudioOverviewInfoExisted = false;
             textInformation = null;
             TextDisplayInfo = new();
-            IsTextDisplayOverviewInfoExisted = false;
-            TextDisplayOverviewInfo = string.Empty;
-            IsTextDisplayOverviewInfoExisted = false;
+            IsTextOverviewInfoExisted = false;
+            TextOverviewInfo = string.Empty;
+            IsTextOverviewInfoExisted = false;
             IsImageOverviewInformationExisted = false;
             ImageOverviewInformation = string.Empty;
             await GetThumbnailAsync(filePath);
@@ -1576,35 +1576,35 @@ namespace ModernFormatConverter.Views.Pages
             if (fileInformationResultKind is FileInformationResultKind.VideoFile)
             {
                 videoInformation = await GetVideoInformationAsync(filePath);
-                VideoDisplayGeneralInfo = videoInformation.GeneralInfo;
-                VideoDisplayVideoInfoCount = videoInformation.VideoDetailInfoList.Count;
-                VideoDisplayVideoInfo = videoInformation.VideoDetailInfoList.Count is 0 ? VideoDisplayVideoInfo : videoInformation.VideoDetailInfoList[0];
-                VideoDisplayVideoInfoSelectedIndex = 1;
-                VideoDisplayAudioInfoCount = videoInformation.AudioDetailInfoList.Count;
-                VideoDisplayAudioInfo = videoInformation.AudioDetailInfoList.Count is 0 ? VideoDisplayAudioInfo : videoInformation.AudioDetailInfoList[0];
-                VideoDisplayAudioInfoSelectedIndex = 1;
-                VideoDisplayTextInfoCount = videoInformation.TextDetailInfoList.Count;
-                VideoDisplayTextInfo = videoInformation.TextDetailInfoList.Count is 0 ? VideoDisplayTextInfo : videoInformation.TextDetailInfoList[0];
-                VideoDisplayTextInfoSelectedIndex = 1;
+                VideoGeneralInfo = videoInformation.GeneralInfo;
+                VideoDetailVideoInfoCount = videoInformation.VideoDetailInfoList.Count;
+                VideoDetailVideoInfo = videoInformation.VideoDetailInfoList.Count is 0 ? VideoDetailVideoInfo : videoInformation.VideoDetailInfoList[0];
+                VideoDetailVideoInfoSelectedIndex = 1;
+                VideoDetailAudioInfoCount = videoInformation.AudioDetailInfoList.Count;
+                VideoDetailAudioInfo = videoInformation.AudioDetailInfoList.Count is 0 ? VideoDetailAudioInfo : videoInformation.AudioDetailInfoList[0];
+                VideoDetailAudioInfoSelectedIndex = 1;
+                VideoDetailTextInfoCount = videoInformation.TextDetailInfoList.Count;
+                VideoDetailTextInfo = videoInformation.TextDetailInfoList.Count is 0 ? VideoDetailTextInfo : videoInformation.TextDetailInfoList[0];
+                VideoDetailTextInfoSelectedIndex = 1;
 
                 if (!string.IsNullOrEmpty(videoInformation.VideoOverviewInformation))
                 {
-                    VideoDisplayOverviewInfo = videoInformation.VideoOverviewInformation;
-                    IsVideoDisplayOverviewInfoExisted = true;
+                    VideoOverviewInfo = videoInformation.VideoOverviewInformation;
+                    IsVideoOverviewInfoExisted = true;
                 }
             }
             else if (fileInformationResultKind is FileInformationResultKind.AudioFile)
             {
                 audioInformation = await GetAudioInformationAsync(filePath);
-                AudioDisplayGeneralInfo = audioInformation.GeneralInfo;
-                AudioDisplayAudioInfoCount = audioInformation.AudioDetailInfoList.Count;
-                AudioDisplayAudioInfo = audioInformation.AudioDetailInfoList.Count is 0 ? AudioDisplayAudioInfo : audioInformation.AudioDetailInfoList[0];
-                AudioDisplayAudioInfoSelectedIndex = 1;
+                AudioGeneralInfo = audioInformation.GeneralInfo;
+                AudioDetailAudioInfoCount = audioInformation.AudioDetailInfoList.Count;
+                AudioDetailAudioInfo = audioInformation.AudioDetailInfoList.Count is 0 ? AudioDetailAudioInfo : audioInformation.AudioDetailInfoList[0];
+                AudioDetailAudioInfoSelectedIndex = 1;
 
                 if (!string.IsNullOrEmpty(audioInformation.AudioOverviewInformation))
                 {
-                    AudioDisplayOverviewInfo = audioInformation.AudioOverviewInformation;
-                    IsAudioDisplayOverviewInfoExisted = true;
+                    AudioOverviewInfo = audioInformation.AudioOverviewInformation;
+                    IsAudioOverviewInfoExisted = true;
                 }
             }
             else if (fileInformationResultKind is FileInformationResultKind.TextFile)
@@ -1619,8 +1619,8 @@ namespace ModernFormatConverter.Views.Pages
 
                 if (!string.IsNullOrEmpty(textInformation.TextOverviewInformation))
                 {
-                    TextDisplayOverviewInfo = textInformation.TextOverviewInformation;
-                    IsTextDisplayOverviewInfoExisted = true;
+                    TextOverviewInfo = textInformation.TextOverviewInformation;
+                    IsTextOverviewInfoExisted = true;
                 }
             }
             else if (fileInformationResultKind is FileInformationResultKind.ImageFile)

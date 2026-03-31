@@ -479,7 +479,7 @@
 
                                             <AppBarButton.Flyout>
                                                 <MenuFlyout Placement="Bottom">
-                                                    <MenuFlyoutItem Click="{x:Bind OnVideoDisplayGeneralInfoClicked}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyGeneralInfo')}">
+                                                    <MenuFlyoutItem Click="{x:Bind OnVideoGeneralInfoClicked}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyGeneralInfo')}">
 
                                                         <MenuFlyoutItem.Icon>
                                                             <FontIcon Glyph="&#xE700;" />
@@ -487,9 +487,9 @@
                                                     </MenuFlyoutItem>
 
                                                     <MenuFlyoutItem
-                                                        Click="{x:Bind OnVideoDisplayVideoInfoClicked}"
+                                                        Click="{x:Bind OnVideoDetailVideoInfoClicked}"
                                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyVideoInfo')}"
-                                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(VideoDisplayVideoInfoCount), Mode=OneWay}">
+                                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(VideoDetailVideoInfoCount), Mode=OneWay}">
 
                                                         <MenuFlyoutItem.Icon>
                                                             <FontIcon Glyph="&#xE714;" />
@@ -497,9 +497,9 @@
                                                     </MenuFlyoutItem>
 
                                                     <MenuFlyoutItem
-                                                        Click="{x:Bind OnVideoDisplayAudioInfoClicked}"
+                                                        Click="{x:Bind OnVideoDetailAudioInfoClicked}"
                                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyAudioInfo')}"
-                                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(VideoDisplayAudioInfoCount), Mode=OneWay}">
+                                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(VideoDetailAudioInfoCount), Mode=OneWay}">
 
                                                         <MenuFlyoutItem.Icon>
                                                             <FontIcon Glyph="&#xE8D6;" />
@@ -507,9 +507,9 @@
                                                     </MenuFlyoutItem>
 
                                                     <MenuFlyoutItem
-                                                        Click="{x:Bind OnVideoDisplayTextInfoClicked}"
+                                                        Click="{x:Bind OnVideoDetailTextInfoClicked}"
                                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyTextInfo')}"
-                                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(VideoDisplayTextInfoCount), Mode=OneWay}">
+                                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(VideoDetailTextInfoCount), Mode=OneWay}">
 
                                                         <MenuFlyoutItem.Icon>
                                                             <FontIcon Glyph="&#xE8A5;" />
@@ -517,9 +517,9 @@
                                                     </MenuFlyoutItem>
 
                                                     <MenuFlyoutItem
-                                                        Click="{x:Bind OnVideoDisplayOverviewInfoClicked}"
+                                                        Click="{x:Bind OnVideoOverviewInfoClicked}"
                                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyOverviewInfo')}"
-                                                        Visibility="{x:Bind IsVideoDisplayOverviewInfoExisted, Mode=OneWay}">
+                                                        Visibility="{x:Bind IsVideoOverviewInfoExisted, Mode=OneWay}">
 
                                                         <MenuFlyoutItem.Icon>
                                                             <FontIcon Glyph="&#xE8A9;" />
@@ -594,7 +594,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoDisplayGeneralInfo.CompleteName, Mode=OneWay}"
+                                        Text="{x:Bind VideoGeneralInfo.CompleteName, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -610,7 +610,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoDisplayGeneralInfo.Format, Mode=OneWay}"
+                                        Text="{x:Bind VideoGeneralInfo.Format, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -626,7 +626,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoDisplayGeneralInfo.FormatVersion, Mode=OneWay}"
+                                        Text="{x:Bind VideoGeneralInfo.FormatVersion, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -642,7 +642,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoDisplayGeneralInfo.FormatProfile, Mode=OneWay}"
+                                        Text="{x:Bind VideoGeneralInfo.FormatProfile, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -658,7 +658,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoDisplayGeneralInfo.CodecID, Mode=OneWay}"
+                                        Text="{x:Bind VideoGeneralInfo.CodecID, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -674,7 +674,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoDisplayGeneralInfo.FileSize, Mode=OneWay}"
+                                        Text="{x:Bind VideoGeneralInfo.FileSize, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -690,7 +690,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoDisplayGeneralInfo.UniqueID, Mode=OneWay}"
+                                        Text="{x:Bind VideoGeneralInfo.UniqueID, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -706,7 +706,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoDisplayGeneralInfo.EncodedDate, Mode=OneWay}"
+                                        Text="{x:Bind VideoGeneralInfo.EncodedDate, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -722,7 +722,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoDisplayGeneralInfo.Duration, Mode=OneWay}"
+                                        Text="{x:Bind VideoGeneralInfo.Duration, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -738,7 +738,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoDisplayGeneralInfo.OverallBitRate, Mode=OneWay}"
+                                        Text="{x:Bind VideoGeneralInfo.OverallBitRate, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -754,7 +754,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoDisplayGeneralInfo.FrameRate, Mode=OneWay}"
+                                        Text="{x:Bind VideoGeneralInfo.FrameRate, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -770,7 +770,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoDisplayGeneralInfo.StreamSize, Mode=OneWay}"
+                                        Text="{x:Bind VideoGeneralInfo.StreamSize, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -786,7 +786,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoDisplayGeneralInfo.RecordedDate, Mode=OneWay}"
+                                        Text="{x:Bind VideoGeneralInfo.RecordedDate, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -802,7 +802,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoDisplayGeneralInfo.EncodedApplication, Mode=OneWay}"
+                                        Text="{x:Bind VideoGeneralInfo.EncodedApplication, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -818,7 +818,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoDisplayGeneralInfo.EncodedLibrary, Mode=OneWay}"
+                                        Text="{x:Bind VideoGeneralInfo.EncodedLibrary, Mode=OneWay}"
                                         TextWrapping="Wrap" />
                                 </Grid>
 
@@ -828,9 +828,9 @@
                                         Margin="0,5,0,3"
                                         HorizontalAlignment="Center"
                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('EmptyVideoInfo')}"
-                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(VideoDisplayVideoInfoCount), Mode=OneWay}" />
+                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(VideoDetailVideoInfoCount), Mode=OneWay}" />
 
-                                    <Grid RowSpacing="3" Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(VideoDisplayVideoInfoCount), Mode=OneWay}">
+                                    <Grid RowSpacing="3" Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(VideoDetailVideoInfoCount), Mode=OneWay}">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
@@ -881,7 +881,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayVideoInfo.ID, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailVideoInfo.ID, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -897,7 +897,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayVideoInfo.Format, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailVideoInfo.Format, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -913,7 +913,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayVideoInfo.FormatInfo, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailVideoInfo.FormatInfo, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -929,7 +929,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayVideoInfo.FormatProfile, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailVideoInfo.FormatProfile, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -945,7 +945,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayVideoInfo.CodecID, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailVideoInfo.CodecID, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -961,7 +961,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayVideoInfo.CodecIDInfo, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailVideoInfo.CodecIDInfo, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -977,7 +977,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayVideoInfo.Duration, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailVideoInfo.Duration, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -993,7 +993,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayVideoInfo.SourceDuration, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailVideoInfo.SourceDuration, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1009,7 +1009,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayVideoInfo.BitRate, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailVideoInfo.BitRate, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1025,7 +1025,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayVideoInfo.Width, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailVideoInfo.Width, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1041,7 +1041,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayVideoInfo.Height, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailVideoInfo.Height, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1057,7 +1057,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayVideoInfo.DisplayAspectRatio, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailVideoInfo.DisplayAspectRatio, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1073,7 +1073,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayVideoInfo.FrameRate, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailVideoInfo.FrameRate, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1089,7 +1089,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayVideoInfo.FrameRateMode, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailVideoInfo.FrameRateMode, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1105,7 +1105,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayVideoInfo.MinimumFrameRate, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailVideoInfo.MinimumFrameRate, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1121,7 +1121,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayVideoInfo.MaximumFrameRate, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailVideoInfo.MaximumFrameRate, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1137,7 +1137,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayVideoInfo.ColorSpace, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailVideoInfo.ColorSpace, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1153,7 +1153,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayVideoInfo.ChromaSubsampling, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailVideoInfo.ChromaSubsampling, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1169,7 +1169,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayVideoInfo.BitDepth, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailVideoInfo.BitDepth, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1185,7 +1185,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayVideoInfo.BitsPixelFrame, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailVideoInfo.BitsPixelFrame, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1201,7 +1201,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayVideoInfo.StreamSize, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailVideoInfo.StreamSize, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1217,7 +1217,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayVideoInfo.SourceStreamSize, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailVideoInfo.SourceStreamSize, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1233,7 +1233,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayVideoInfo.EncodedLibrary, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailVideoInfo.EncodedLibrary, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1249,7 +1249,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayVideoInfo.ColorRange, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailVideoInfo.ColorRange, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1265,7 +1265,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayVideoInfo.ColorParimaries, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailVideoInfo.ColorParimaries, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1281,7 +1281,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayVideoInfo.TransferCharacteristics, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailVideoInfo.TransferCharacteristics, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1297,7 +1297,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayVideoInfo.MatrixCoefficients, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailVideoInfo.MatrixCoefficients, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1313,7 +1313,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayVideoInfo.CodecConfigurationBox, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailVideoInfo.CodecConfigurationBox, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <StackPanel
@@ -1328,7 +1328,7 @@
                                                 Width="32"
                                                 Height="32"
                                                 Padding="0"
-                                                Click="{x:Bind OnForwardVideoDisplayVideoInfoClicked}"
+                                                Click="{x:Bind OnForwardVideoDetailVideoInfoClicked}"
                                                 CornerRadius="{StaticResource ControlCornerRadius}">
 
                                                 <FontIcon FontSize="16" Glyph="&#xE76B;" />
@@ -1341,13 +1341,13 @@
 
                                                         <Grid>
                                                             <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardDisplayVideoInfo')}" />
+                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardDetailVideoInfo')}" />
                                                         </Grid>
                                                     </ToolTip>
                                                 </ToolTipService.ToolTip>
                                             </Button>
 
-                                            <NumberBox ValueChanged="{x:Bind OnVideoDisplayVideoInfoSelectedIndexValueChanged}" Value="{x:Bind VideoDisplayVideoInfoSelectedIndex, Mode=OneWay}">
+                                            <NumberBox ValueChanged="{x:Bind OnVideoDetailVideoInfoSelectedIndexValueChanged}" Value="{x:Bind VideoDetailVideoInfoSelectedIndex, Mode=OneWay}">
                                                 <NumberBox.Resources>
                                                     <x:Double x:Key="TextControlThemeMinWidth">0</x:Double>
                                                 </NumberBox.Resources>
@@ -1356,14 +1356,14 @@
                                             <TextBlock Margin="0,0,3,2" VerticalAlignment="Center">
 
                                                 <Run Text="/" />
-                                                <Run Text="{x:Bind VideoDisplayVideoInfoCount, Mode=OneWay}" />
+                                                <Run Text="{x:Bind VideoDetailVideoInfoCount, Mode=OneWay}" />
                                             </TextBlock>
 
                                             <Button
                                                 Width="32"
                                                 Height="32"
                                                 Padding="0"
-                                                Click="{x:Bind OnNextVideoDisplayVideoInfoClicked}"
+                                                Click="{x:Bind OnNextVideoDetailVideoInfoClicked}"
                                                 CornerRadius="{StaticResource ControlCornerRadius}">
 
                                                 <FontIcon FontSize="16" Glyph="&#xE76C;" />
@@ -1376,7 +1376,7 @@
 
                                                         <Grid>
                                                             <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextDisplayVideoInfo')}" />
+                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextDetailVideoInfo')}" />
                                                         </Grid>
                                                     </ToolTip>
                                                 </ToolTipService.ToolTip>
@@ -1391,9 +1391,9 @@
                                         Margin="0,5,0,3"
                                         HorizontalAlignment="Center"
                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('EmptyAudioInfo')}"
-                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(VideoDisplayAudioInfoCount), Mode=OneWay}" />
+                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(VideoDetailAudioInfoCount), Mode=OneWay}" />
 
-                                    <Grid RowSpacing="3" Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(VideoDisplayAudioInfoCount), Mode=OneWay}">
+                                    <Grid RowSpacing="3" Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(VideoDetailAudioInfoCount), Mode=OneWay}">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
@@ -1432,7 +1432,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayAudioInfo.ID, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailAudioInfo.ID, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1448,7 +1448,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayAudioInfo.Format, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailAudioInfo.Format, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1464,7 +1464,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayAudioInfo.FormatInfo, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailAudioInfo.FormatInfo, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1480,7 +1480,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayAudioInfo.CodecID, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailAudioInfo.CodecID, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1496,7 +1496,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayAudioInfo.Duration, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailAudioInfo.Duration, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1512,7 +1512,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayAudioInfo.BitRateMode, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailAudioInfo.BitRateMode, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1528,7 +1528,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayAudioInfo.BitRate, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailAudioInfo.BitRate, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1544,7 +1544,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayAudioInfo.BitRateMaximum, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailAudioInfo.BitRateMaximum, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1560,7 +1560,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayAudioInfo.Channel, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailAudioInfo.Channel, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1576,7 +1576,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayAudioInfo.ChannelLayout, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailAudioInfo.ChannelLayout, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1592,7 +1592,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayAudioInfo.SamplingRate, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailAudioInfo.SamplingRate, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1608,7 +1608,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayAudioInfo.FrameRate, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailAudioInfo.FrameRate, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1624,7 +1624,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayAudioInfo.CompressionMode, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailAudioInfo.CompressionMode, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1640,7 +1640,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayAudioInfo.StreamSize, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailAudioInfo.StreamSize, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1656,7 +1656,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayAudioInfo.Default, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailAudioInfo.Default, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1672,7 +1672,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayAudioInfo.AlternateGroup, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailAudioInfo.AlternateGroup, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <StackPanel
@@ -1687,7 +1687,7 @@
                                                 Width="32"
                                                 Height="32"
                                                 Padding="0"
-                                                Click="{x:Bind OnForwardVideoDisplayAudioInfoClicked}"
+                                                Click="{x:Bind OnForwardVideoDetailAudioInfoClicked}"
                                                 CornerRadius="{StaticResource ControlCornerRadius}">
 
                                                 <FontIcon FontSize="16" Glyph="&#xE76B;" />
@@ -1700,13 +1700,13 @@
 
                                                         <Grid>
                                                             <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardDisplayAudioInfo')}" />
+                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardDetailAudioInfo')}" />
                                                         </Grid>
                                                     </ToolTip>
                                                 </ToolTipService.ToolTip>
                                             </Button>
 
-                                            <NumberBox ValueChanged="{x:Bind OnVideoDisplayAudioInfoSelectedIndexValueChanged}" Value="{x:Bind VideoDisplayAudioInfoSelectedIndex, Mode=OneWay}">
+                                            <NumberBox ValueChanged="{x:Bind OnVideoDetailAudioInfoSelectedIndexValueChanged}" Value="{x:Bind VideoDetailAudioInfoSelectedIndex, Mode=OneWay}">
                                                 <NumberBox.Resources>
                                                     <x:Double x:Key="TextControlThemeMinWidth">0</x:Double>
                                                 </NumberBox.Resources>
@@ -1715,14 +1715,14 @@
                                             <TextBlock Margin="0,0,3,2" VerticalAlignment="Center">
 
                                                 <Run Text="/" />
-                                                <Run Text="{x:Bind VideoDisplayAudioInfoCount, Mode=OneWay}" />
+                                                <Run Text="{x:Bind VideoDetailAudioInfoCount, Mode=OneWay}" />
                                             </TextBlock>
 
                                             <Button
                                                 Width="32"
                                                 Height="32"
                                                 Padding="0"
-                                                Click="{x:Bind OnNextVideoDisplayAudioInfoClicked}"
+                                                Click="{x:Bind OnNextVideoDetailAudioInfoClicked}"
                                                 CornerRadius="{StaticResource ControlCornerRadius}">
 
                                                 <FontIcon FontSize="16" Glyph="&#xE76C;" />
@@ -1735,7 +1735,7 @@
 
                                                         <Grid>
                                                             <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextDisplayAudioInfo')}" />
+                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextDetailAudioInfo')}" />
                                                         </Grid>
                                                     </ToolTip>
                                                 </ToolTipService.ToolTip>
@@ -1750,9 +1750,9 @@
                                         Margin="0,5,0,3"
                                         HorizontalAlignment="Center"
                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('EmptyTextInfo')}"
-                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(VideoDisplayTextInfoCount), Mode=OneWay}" />
+                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(VideoDetailTextInfoCount), Mode=OneWay}" />
 
-                                    <Grid RowSpacing="3" Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(VideoDisplayTextInfoCount), Mode=OneWay}">
+                                    <Grid RowSpacing="3" Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(VideoDetailTextInfoCount), Mode=OneWay}">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
@@ -1785,7 +1785,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayTextInfo.ID, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailTextInfo.ID, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1801,7 +1801,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayTextInfo.Format, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailTextInfo.Format, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1817,7 +1817,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayTextInfo.Duration, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailTextInfo.Duration, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1833,7 +1833,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayTextInfo.StartTime, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailTextInfo.StartTime, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1849,7 +1849,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayTextInfo.EndTime, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailTextInfo.EndTime, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1865,7 +1865,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayTextInfo.CompressionMode, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailTextInfo.CompressionMode, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1881,7 +1881,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayTextInfo.CountOfEvents, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailTextInfo.CountOfEvents, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1897,7 +1897,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayTextInfo.MinimumDurationPerEvent, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailTextInfo.MinimumDurationPerEvent, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1913,7 +1913,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayTextInfo.CountOfLines, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailTextInfo.CountOfLines, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -1929,7 +1929,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind VideoDisplayTextInfo.MaximumCountOfLinesPerEvent, Mode=OneWay}"
+                                            Text="{x:Bind VideoDetailTextInfo.MaximumCountOfLinesPerEvent, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <StackPanel
@@ -1944,7 +1944,7 @@
                                                 Width="32"
                                                 Height="32"
                                                 Padding="0"
-                                                Click="{x:Bind OnForwardVideoDisplayTextInfoClicked}"
+                                                Click="{x:Bind OnForwardVideoDetailTextInfoClicked}"
                                                 CornerRadius="{StaticResource ControlCornerRadius}">
 
                                                 <FontIcon FontSize="16" Glyph="&#xE76B;" />
@@ -1957,13 +1957,13 @@
 
                                                         <Grid>
                                                             <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardDisplayTextInfo')}" />
+                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardDetailTextInfo')}" />
                                                         </Grid>
                                                     </ToolTip>
                                                 </ToolTipService.ToolTip>
                                             </Button>
 
-                                            <NumberBox ValueChanged="{x:Bind OnVideoDisplayTextInfoSelectedIndexValueChanged}" Value="{x:Bind VideoDisplayTextInfoSelectedIndex, Mode=OneWay}">
+                                            <NumberBox ValueChanged="{x:Bind OnVideoDetailTextInfoSelectedIndexValueChanged}" Value="{x:Bind VideoDetailTextInfoSelectedIndex, Mode=OneWay}">
                                                 <NumberBox.Resources>
                                                     <x:Double x:Key="TextControlThemeMinWidth">0</x:Double>
                                                 </NumberBox.Resources>
@@ -1972,14 +1972,14 @@
                                             <TextBlock Margin="0,0,3,2" VerticalAlignment="Center">
 
                                                 <Run Text="/" />
-                                                <Run Text="{x:Bind VideoDisplayTextInfoCount, Mode=OneWay}" />
+                                                <Run Text="{x:Bind VideoDetailTextInfoCount, Mode=OneWay}" />
                                             </TextBlock>
 
                                             <Button
                                                 Width="32"
                                                 Height="32"
                                                 Padding="0"
-                                                Click="{x:Bind OnNextVideoDisplayTextInfoClicked}"
+                                                Click="{x:Bind OnNextVideoDetailTextInfoClicked}"
                                                 CornerRadius="{StaticResource ControlCornerRadius}">
 
                                                 <FontIcon FontSize="16" Glyph="&#xE76C;" />
@@ -1992,7 +1992,7 @@
 
                                                         <Grid>
                                                             <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextDisplayTextInfo')}" />
+                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextDetailTextInfo')}" />
                                                         </Grid>
                                                     </ToolTip>
                                                 </ToolTipService.ToolTip>
@@ -2007,15 +2007,15 @@
                                         Margin="0,5,0,3"
                                         HorizontalAlignment="Center"
                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('EmptyOverviewInfo')}"
-                                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsVideoDisplayOverviewInfoExisted), Mode=OneWay}" />
+                                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsVideoOverviewInfoExisted), Mode=OneWay}" />
 
                                     <TextBlock
                                         Margin="0,5,0,3"
                                         FontFamily="Consolas"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind VideoDisplayOverviewInfo, Mode=OneWay}"
+                                        Text="{x:Bind VideoOverviewInfo, Mode=OneWay}"
                                         TextWrapping="Wrap"
-                                        Visibility="{x:Bind IsVideoDisplayOverviewInfoExisted, Mode=OneWay}" />
+                                        Visibility="{x:Bind IsVideoOverviewInfoExisted, Mode=OneWay}" />
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -2062,7 +2062,7 @@
 
                                             <AppBarButton.Flyout>
                                                 <MenuFlyout Placement="Bottom">
-                                                    <MenuFlyoutItem Click="{x:Bind OnAudioDisplayGeneralInfoClicked}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyGeneralInfo')}">
+                                                    <MenuFlyoutItem Click="{x:Bind OnAudioGeneralInfoClicked}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyGeneralInfo')}">
 
                                                         <MenuFlyoutItem.Icon>
                                                             <FontIcon Glyph="&#xE700;" />
@@ -2070,9 +2070,9 @@
                                                     </MenuFlyoutItem>
 
                                                     <MenuFlyoutItem
-                                                        Click="{x:Bind OnAudioDisplayAudioInfoClicked}"
+                                                        Click="{x:Bind OnAudioDetailAudioInfoClicked}"
                                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyAudioInfo')}"
-                                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(AudioDisplayAudioInfoCount), Mode=OneWay}">
+                                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(AudioDetailAudioInfoCount), Mode=OneWay}">
 
                                                         <MenuFlyoutItem.Icon>
                                                             <FontIcon Glyph="&#xE8D6;" />
@@ -2080,9 +2080,9 @@
                                                     </MenuFlyoutItem>
 
                                                     <MenuFlyoutItem
-                                                        Click="{x:Bind OnAudioDisplayOverviewInfoClicked}"
+                                                        Click="{x:Bind OnAudioOverviewInfoClicked}"
                                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyOverviewInfo')}"
-                                                        Visibility="{x:Bind IsAudioDisplayOverviewInfoExisted, Mode=OneWay}">
+                                                        Visibility="{x:Bind IsAudioOverviewInfoExisted, Mode=OneWay}">
 
                                                         <MenuFlyoutItem.Icon>
                                                             <FontIcon Glyph="&#xE8A9;" />
@@ -2158,7 +2158,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind AudioDisplayGeneralInfo.CompleteName, Mode=OneWay}"
+                                        Text="{x:Bind AudioGeneralInfo.CompleteName, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -2174,7 +2174,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind AudioDisplayGeneralInfo.Format, Mode=OneWay}"
+                                        Text="{x:Bind AudioGeneralInfo.Format, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -2190,7 +2190,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind AudioDisplayGeneralInfo.FormatVersion, Mode=OneWay}"
+                                        Text="{x:Bind AudioGeneralInfo.FormatVersion, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -2206,7 +2206,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind AudioDisplayGeneralInfo.FormatProfile, Mode=OneWay}"
+                                        Text="{x:Bind AudioGeneralInfo.FormatProfile, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -2222,7 +2222,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind AudioDisplayGeneralInfo.CodecID, Mode=OneWay}"
+                                        Text="{x:Bind AudioGeneralInfo.CodecID, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -2238,7 +2238,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind AudioDisplayGeneralInfo.FileSize, Mode=OneWay}"
+                                        Text="{x:Bind AudioGeneralInfo.FileSize, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -2254,7 +2254,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind AudioDisplayGeneralInfo.UniqueID, Mode=OneWay}"
+                                        Text="{x:Bind AudioGeneralInfo.UniqueID, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -2270,7 +2270,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind AudioDisplayGeneralInfo.EncodedDate, Mode=OneWay}"
+                                        Text="{x:Bind AudioGeneralInfo.EncodedDate, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -2286,7 +2286,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind AudioDisplayGeneralInfo.Duration, Mode=OneWay}"
+                                        Text="{x:Bind AudioGeneralInfo.Duration, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -2302,7 +2302,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind AudioDisplayGeneralInfo.OverallBitRate, Mode=OneWay}"
+                                        Text="{x:Bind AudioGeneralInfo.OverallBitRate, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -2318,7 +2318,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind AudioDisplayGeneralInfo.FrameRate, Mode=OneWay}"
+                                        Text="{x:Bind AudioGeneralInfo.FrameRate, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -2334,7 +2334,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind AudioDisplayGeneralInfo.StreamSize, Mode=OneWay}"
+                                        Text="{x:Bind AudioGeneralInfo.StreamSize, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -2350,7 +2350,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind AudioDisplayGeneralInfo.RecordedDate, Mode=OneWay}"
+                                        Text="{x:Bind AudioGeneralInfo.RecordedDate, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -2366,7 +2366,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind AudioDisplayGeneralInfo.EncodedApplication, Mode=OneWay}"
+                                        Text="{x:Bind AudioGeneralInfo.EncodedApplication, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -2382,7 +2382,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind AudioDisplayGeneralInfo.EncodedLibrary, Mode=OneWay}"
+                                        Text="{x:Bind AudioGeneralInfo.EncodedLibrary, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -2398,7 +2398,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind AudioDisplayGeneralInfo.Album, Mode=OneWay}"
+                                        Text="{x:Bind AudioGeneralInfo.Album, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -2414,7 +2414,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind AudioDisplayGeneralInfo.TrackName, Mode=OneWay}"
+                                        Text="{x:Bind AudioGeneralInfo.TrackName, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <TextBlock
@@ -2430,7 +2430,7 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind AudioDisplayGeneralInfo.Performer, Mode=OneWay}"
+                                        Text="{x:Bind AudioGeneralInfo.Performer, Mode=OneWay}"
                                         TextWrapping="Wrap" />
                                 </Grid>
 
@@ -2440,9 +2440,9 @@
                                         Margin="0,5,0,3"
                                         HorizontalAlignment="Center"
                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('EmptyAudioInfo')}"
-                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(AudioDisplayAudioInfoCount), Mode=OneWay}" />
+                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(AudioDetailAudioInfoCount), Mode=OneWay}" />
 
-                                    <Grid RowSpacing="3" Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(AudioDisplayAudioInfoCount), Mode=OneWay}">
+                                    <Grid RowSpacing="3" Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(AudioDetailAudioInfoCount), Mode=OneWay}">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
@@ -2481,7 +2481,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind AudioDisplayAudioInfo.ID, Mode=OneWay}"
+                                            Text="{x:Bind AudioDetailAudioInfo.ID, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -2497,7 +2497,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind AudioDisplayAudioInfo.Format, Mode=OneWay}"
+                                            Text="{x:Bind AudioDetailAudioInfo.Format, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -2513,7 +2513,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind AudioDisplayAudioInfo.FormatInfo, Mode=OneWay}"
+                                            Text="{x:Bind AudioDetailAudioInfo.FormatInfo, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -2529,7 +2529,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind AudioDisplayAudioInfo.CodecID, Mode=OneWay}"
+                                            Text="{x:Bind AudioDetailAudioInfo.CodecID, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -2545,7 +2545,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind AudioDisplayAudioInfo.Duration, Mode=OneWay}"
+                                            Text="{x:Bind AudioDetailAudioInfo.Duration, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -2561,7 +2561,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind AudioDisplayAudioInfo.BitRateMode, Mode=OneWay}"
+                                            Text="{x:Bind AudioDetailAudioInfo.BitRateMode, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -2577,7 +2577,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind AudioDisplayAudioInfo.BitRate, Mode=OneWay}"
+                                            Text="{x:Bind AudioDetailAudioInfo.BitRate, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -2593,7 +2593,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind AudioDisplayAudioInfo.BitRateMaximum, Mode=OneWay}"
+                                            Text="{x:Bind AudioDetailAudioInfo.BitRateMaximum, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -2609,7 +2609,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind AudioDisplayAudioInfo.Channel, Mode=OneWay}"
+                                            Text="{x:Bind AudioDetailAudioInfo.Channel, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -2625,7 +2625,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind AudioDisplayAudioInfo.ChannelLayout, Mode=OneWay}"
+                                            Text="{x:Bind AudioDetailAudioInfo.ChannelLayout, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -2641,7 +2641,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind AudioDisplayAudioInfo.SamplingRate, Mode=OneWay}"
+                                            Text="{x:Bind AudioDetailAudioInfo.SamplingRate, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -2657,7 +2657,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind AudioDisplayAudioInfo.FrameRate, Mode=OneWay}"
+                                            Text="{x:Bind AudioDetailAudioInfo.FrameRate, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -2673,7 +2673,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind AudioDisplayAudioInfo.CompressionMode, Mode=OneWay}"
+                                            Text="{x:Bind AudioDetailAudioInfo.CompressionMode, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -2689,7 +2689,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind AudioDisplayAudioInfo.StreamSize, Mode=OneWay}"
+                                            Text="{x:Bind AudioDetailAudioInfo.StreamSize, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -2705,7 +2705,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind AudioDisplayAudioInfo.Default, Mode=OneWay}"
+                                            Text="{x:Bind AudioDetailAudioInfo.Default, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -2721,7 +2721,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind AudioDisplayAudioInfo.AlternateGroup, Mode=OneWay}"
+                                            Text="{x:Bind AudioDetailAudioInfo.AlternateGroup, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <StackPanel
@@ -2736,7 +2736,7 @@
                                                 Width="32"
                                                 Height="32"
                                                 Padding="0"
-                                                Click="{x:Bind OnForwardAudioDisplayAudioInfoClicked}"
+                                                Click="{x:Bind OnForwardAudioDetailAudioInfoClicked}"
                                                 CornerRadius="{StaticResource ControlCornerRadius}">
 
                                                 <FontIcon FontSize="16" Glyph="&#xE76B;" />
@@ -2749,13 +2749,13 @@
 
                                                         <Grid>
                                                             <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardDisplayAudioInfo')}" />
+                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardDetailAudioInfo')}" />
                                                         </Grid>
                                                     </ToolTip>
                                                 </ToolTipService.ToolTip>
                                             </Button>
 
-                                            <NumberBox ValueChanged="{x:Bind OnAudioDisplayAudioInfoSelectedIndexValueChanged}" Value="{x:Bind AudioDisplayAudioInfoSelectedIndex, Mode=OneWay}">
+                                            <NumberBox ValueChanged="{x:Bind OnAudioDetailAudioInfoSelectedIndexValueChanged}" Value="{x:Bind AudioDetailAudioInfoSelectedIndex, Mode=OneWay}">
                                                 <NumberBox.Resources>
                                                     <x:Double x:Key="TextControlThemeMinWidth">0</x:Double>
                                                 </NumberBox.Resources>
@@ -2764,14 +2764,14 @@
                                             <TextBlock Margin="0,0,3,2" VerticalAlignment="Center">
 
                                                 <Run Text="/" />
-                                                <Run Text="{x:Bind AudioDisplayAudioInfoCount, Mode=OneWay}" />
+                                                <Run Text="{x:Bind AudioDetailAudioInfoCount, Mode=OneWay}" />
                                             </TextBlock>
 
                                             <Button
                                                 Width="32"
                                                 Height="32"
                                                 Padding="0"
-                                                Click="{x:Bind OnNextAudioDisplayAudioInfoClicked}"
+                                                Click="{x:Bind OnNextAudioDetailAudioInfoClicked}"
                                                 CornerRadius="{StaticResource ControlCornerRadius}">
 
                                                 <FontIcon FontSize="16" Glyph="&#xE76C;" />
@@ -2784,7 +2784,7 @@
 
                                                         <Grid>
                                                             <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextDisplayAudioInfo')}" />
+                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextDetailAudioInfo')}" />
                                                         </Grid>
                                                     </ToolTip>
                                                 </ToolTipService.ToolTip>
@@ -2799,15 +2799,15 @@
                                         Margin="0,5,0,3"
                                         HorizontalAlignment="Center"
                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('EmptyOverviewInfo')}"
-                                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsAudioDisplayOverviewInfoExisted), Mode=OneWay}" />
+                                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsAudioOverviewInfoExisted), Mode=OneWay}" />
 
                                     <TextBlock
                                         Margin="0,5,0,3"
                                         FontFamily="Consolas"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind AudioDisplayOverviewInfo, Mode=OneWay}"
+                                        Text="{x:Bind AudioOverviewInfo, Mode=OneWay}"
                                         TextWrapping="Wrap"
-                                        Visibility="{x:Bind IsAudioDisplayOverviewInfoExisted, Mode=OneWay}" />
+                                        Visibility="{x:Bind IsAudioOverviewInfoExisted, Mode=OneWay}" />
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -2856,7 +2856,7 @@
                                                 <MenuFlyout Placement="Bottom">
 
                                                     <MenuFlyoutItem
-                                                        Click="{x:Bind OnTextDisplayTextInfoClicked}"
+                                                        Click="{x:Bind OnTextDetailTextInfoClicked}"
                                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyTextInfo')}"
                                                         Visibility="{x:Bind IsTextDisplayInfoExisted, Mode=OneWay}">
 
@@ -2866,9 +2866,9 @@
                                                     </MenuFlyoutItem>
 
                                                     <MenuFlyoutItem
-                                                        Click="{x:Bind OnTextDisplayOverviewInfoClicked}"
+                                                        Click="{x:Bind OnTextOverviewInfoClicked}"
                                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyOverviewInfo')}"
-                                                        Visibility="{x:Bind IsTextDisplayOverviewInfoExisted, Mode=OneWay}">
+                                                        Visibility="{x:Bind IsTextOverviewInfoExisted, Mode=OneWay}">
 
                                                         <MenuFlyoutItem.Icon>
                                                             <FontIcon Glyph="&#xE8A9;" />
@@ -3096,15 +3096,15 @@
                                         Margin="0,5,0,3"
                                         HorizontalAlignment="Center"
                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('EmptyTextInfo')}"
-                                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsTextDisplayOverviewInfoExisted), Mode=OneWay}" />
+                                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsTextOverviewInfoExisted), Mode=OneWay}" />
 
                                     <TextBlock
                                         Margin="0,5,0,3"
                                         FontFamily="Consolas"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind TextDisplayOverviewInfo, Mode=OneWay}"
+                                        Text="{x:Bind TextOverviewInfo, Mode=OneWay}"
                                         TextWrapping="Wrap"
-                                        Visibility="{x:Bind IsTextDisplayOverviewInfoExisted, Mode=OneWay}" />
+                                        Visibility="{x:Bind IsTextOverviewInfoExisted, Mode=OneWay}" />
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -3168,12 +3168,13 @@
                                 SelectionChanged="{x:Bind OnImageInformationSelectorBarSelectionChanged}">
 
                                 <SelectorBarItem Padding="12,5" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Basic')}" />
-                                <SelectorBarItem Padding="12,5" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Text')}" />
+                                <SelectorBarItem Padding="12,5" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Image')}" />
+                                <SelectorBarItem Padding="12,5" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Exif')}" />
                                 <SelectorBarItem Padding="12,5" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Overview')}" />
                             </SelectorBar>
 
                             <Grid Grid.Row="1">
-                                <Grid Visibility="{x:Bind GetSelectedSelectorBarItem(ImageInformationSelectedItem, ImageInformationSelectorBar.Items[2]), Mode=OneWay}">
+                                <Grid Visibility="{x:Bind GetSelectedSelectorBarItem(ImageInformationSelectedItem, ImageInformationSelectorBar.Items[3]), Mode=OneWay}">
 
                                     <TextBlock
                                         Margin="0,5,0,3"
