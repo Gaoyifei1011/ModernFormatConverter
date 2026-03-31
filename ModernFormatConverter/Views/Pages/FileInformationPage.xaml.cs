@@ -609,34 +609,34 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
-        private TextDetailInfo _textDisplayInfo;
+        private TextDetailInfo _textDetailInfo;
 
-        public TextDetailInfo TextDisplayInfo
+        public TextDetailInfo TextDetailInfo
         {
-            get { return _textDisplayInfo; }
+            get { return _textDetailInfo; }
 
             set
             {
-                if (!Equals(_textDisplayInfo, value))
+                if (!Equals(_textDetailInfo, value))
                 {
-                    _textDisplayInfo = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TextDisplayInfo)));
+                    _textDetailInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TextDetailInfo)));
                 }
             }
         }
 
-        private bool _isTextDisplayInfoExisted;
+        private bool _isTextDetailInfoExisted;
 
-        public bool IsTextDisplayInfoExisted
+        public bool IsTextDetailInfoExisted
         {
-            get { return _isTextDisplayInfoExisted; }
+            get { return _isTextDetailInfoExisted; }
 
             set
             {
-                if (!Equals(_isTextDisplayInfoExisted, value))
+                if (!Equals(_isTextDetailInfoExisted, value))
                 {
-                    _isTextDisplayInfoExisted = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsTextDisplayInfoExisted)));
+                    _isTextDetailInfoExisted = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsTextDetailInfoExisted)));
                 }
             }
         }
@@ -1558,7 +1558,7 @@ namespace ModernFormatConverter.Views.Pages
             AudioOverviewInfo = string.Empty;
             IsAudioOverviewInfoExisted = false;
             textInformation = null;
-            TextDisplayInfo = new();
+            TextDetailInfo = new();
             IsTextOverviewInfoExisted = false;
             TextOverviewInfo = string.Empty;
             IsTextOverviewInfoExisted = false;
@@ -1613,8 +1613,8 @@ namespace ModernFormatConverter.Views.Pages
                 TextInformationSelectedItem = TextInformationSelectorBar.Items[0];
                 if (textInformation.TextDetailInfo is not null)
                 {
-                    TextDisplayInfo = textInformation.TextDetailInfo;
-                    IsTextDisplayInfoExisted = true;
+                    TextDetailInfo = textInformation.TextDetailInfo;
+                    IsTextDetailInfoExisted = true;
                 }
 
                 if (!string.IsNullOrEmpty(textInformation.TextOverviewInformation))

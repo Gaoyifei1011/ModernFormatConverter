@@ -2858,7 +2858,7 @@
                                                     <MenuFlyoutItem
                                                         Click="{x:Bind OnTextDetailTextInfoClicked}"
                                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyTextInfo')}"
-                                                        Visibility="{x:Bind IsTextDisplayInfoExisted, Mode=OneWay}">
+                                                        Visibility="{x:Bind IsTextDetailInfoExisted, Mode=OneWay}">
 
                                                         <MenuFlyoutItem.Icon>
                                                             <FontIcon Glyph="&#xE8A5;" />
@@ -2901,7 +2901,7 @@
 
                             <Grid Grid.Row="1">
                                 <Grid Visibility="{x:Bind GetSelectedSelectorBarItem(TextInformationSelectedItem, TextInformationSelectorBar.Items[0]), Mode=OneWay}">
-                                    <Grid RowSpacing="3" Visibility="{x:Bind IsTextDisplayInfoExisted, Mode=OneWay}">
+                                    <Grid RowSpacing="3" Visibility="{x:Bind IsTextDetailInfoExisted, Mode=OneWay}">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
@@ -2933,7 +2933,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind TextDisplayInfo.ID, Mode=OneWay}"
+                                            Text="{x:Bind TextDetailInfo.ID, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -2949,7 +2949,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind TextDisplayInfo.Format, Mode=OneWay}"
+                                            Text="{x:Bind TextDetailInfo.Format, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -2965,7 +2965,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind TextDisplayInfo.Duration, Mode=OneWay}"
+                                            Text="{x:Bind TextDetailInfo.Duration, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -2981,7 +2981,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind TextDisplayInfo.StartTime, Mode=OneWay}"
+                                            Text="{x:Bind TextDetailInfo.StartTime, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -2997,7 +2997,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind TextDisplayInfo.EndTime, Mode=OneWay}"
+                                            Text="{x:Bind TextDetailInfo.EndTime, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -3013,7 +3013,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind TextDisplayInfo.CompressionMode, Mode=OneWay}"
+                                            Text="{x:Bind TextDetailInfo.CompressionMode, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -3029,7 +3029,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind TextDisplayInfo.CountOfEvents, Mode=OneWay}"
+                                            Text="{x:Bind TextDetailInfo.CountOfEvents, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -3045,7 +3045,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind TextDisplayInfo.MinimumDurationPerEvent, Mode=OneWay}"
+                                            Text="{x:Bind TextDetailInfo.MinimumDurationPerEvent, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -3061,7 +3061,7 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind TextDisplayInfo.CountOfLines, Mode=OneWay}"
+                                            Text="{x:Bind TextDetailInfo.CountOfLines, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -3077,11 +3077,11 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind TextDisplayInfo.MaximumCountOfLinesPerEvent, Mode=OneWay}"
+                                            Text="{x:Bind TextDetailInfo.MaximumCountOfLinesPerEvent, Mode=OneWay}"
                                             TextWrapping="Wrap" />
                                     </Grid>
 
-                                    <Grid Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsTextDisplayInfoExisted), Mode=OneWay}">
+                                    <Grid Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsTextDetailInfoExisted), Mode=OneWay}">
 
                                         <TextBlock
                                             Margin="0,5,0,3"
