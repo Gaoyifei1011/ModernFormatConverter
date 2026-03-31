@@ -76,10 +76,11 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string FileSizeDescriptionString = ResourceService.FileInformationResource.GetString("FileSizeDescription");
         private readonly string FileSpaceUsageString = ResourceService.FileInformationResource.GetString("FileSpaceUsage");
         private readonly string FileTypeString = ResourceService.FileInformationResource.GetString("FileType");
-        private readonly string FormatString = ResourceService.FileInformationResource.GetString("Format");
+        private readonly string FormatCompressionString = ResourceService.FileInformationResource.GetString("FormatCompression");
         private readonly string FormatInfoString = ResourceService.FileInformationResource.GetString("FormatInfo");
         private readonly string FormatProfileString = ResourceService.FileInformationResource.GetString("FormatProfile");
         private readonly string FormatVersionString = ResourceService.FileInformationResource.GetString("FormatVersion");
+        private readonly string FormatString = ResourceService.FileInformationResource.GetString("Format");
         private readonly string FrameRateString = ResourceService.FileInformationResource.GetString("FrameRate");
         private readonly string FrameRateModeString = ResourceService.FileInformationResource.GetString("FrameRateMode");
         private readonly string HeightString = ResourceService.FileInformationResource.GetString("Height");
@@ -112,6 +113,7 @@ namespace ModernFormatConverter.Views.Pages
         private VideoInformation videoInformation;
         private AudioInformation audioInformation;
         private TextInformation textInformation;
+        private ImageInformation imageInformation;
 
         private FileInformationResultKind _fileInformationResultKind;
 
@@ -689,34 +691,114 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
-        private string _imageOverviewInformation;
+        private GeneralInfo _imageGeneralInfo;
 
-        public string ImageOverviewInformation
+        public GeneralInfo ImageGeneralInfo
         {
-            get { return _imageOverviewInformation; }
+            get { return _imageGeneralInfo; }
 
             set
             {
-                if (!string.Equals(_imageOverviewInformation, value))
+                if (!Equals(_imageGeneralInfo, value))
                 {
-                    _imageOverviewInformation = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageOverviewInformation)));
+                    _imageGeneralInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageGeneralInfo)));
                 }
             }
         }
 
-        private bool _IsImageOverviewInformationExisted;
+        private ImageDetailInfo _imageDetailInfo;
 
-        public bool IsImageOverviewInformationExisted
+        public ImageDetailInfo ImageDetailInfo
         {
-            get { return _IsImageOverviewInformationExisted; }
+            get { return _imageDetailInfo; }
 
             set
             {
-                if (!Equals(_IsImageOverviewInformationExisted, value))
+                if (!Equals(_imageDetailInfo, value))
                 {
-                    _IsImageOverviewInformationExisted = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsImageOverviewInformationExisted)));
+                    _imageDetailInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageDetailInfo)));
+                }
+            }
+        }
+
+        private int _imageDetailInfoSelectedIndex;
+
+        public int ImageDetailInfoSelectedIndex
+        {
+            get { return _imageDetailInfoSelectedIndex; }
+
+            set
+            {
+                if (!Equals(_imageDetailInfoSelectedIndex, value))
+                {
+                    _imageDetailInfoSelectedIndex = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageDetailInfoSelectedIndex)));
+                }
+            }
+        }
+
+        private int _imageDetailInfoCount;
+
+        public int ImageDetailInfoCount
+        {
+            get { return _imageDetailInfoCount; }
+
+            set
+            {
+                if (!Equals(_imageDetailInfoCount, value))
+                {
+                    _imageDetailInfoCount = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageDetailInfoCount)));
+                }
+            }
+        }
+
+        private ExifInfo _imageExifInfo;
+
+        public ExifInfo ImageExifInfo
+        {
+            get { return _imageExifInfo; }
+
+            set
+            {
+                if (!Equals(_imageExifInfo, value))
+                {
+                    _imageExifInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageExifInfo)));
+                }
+            }
+        }
+
+        private string _imageOverviewInfo;
+
+        public string ImageOverviewInfo
+        {
+            get { return _imageOverviewInfo; }
+
+            set
+            {
+                if (!string.Equals(_imageOverviewInfo, value))
+                {
+                    _imageOverviewInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageOverviewInfo)));
+                }
+            }
+        }
+
+        private bool _IsImageOverviewInfoExisted;
+
+        public bool IsImageOverviewInfoExisted
+        {
+            get { return _IsImageOverviewInfoExisted; }
+
+            set
+            {
+                if (!Equals(_IsImageOverviewInfoExisted, value))
+                {
+                    _IsImageOverviewInfoExisted = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsImageOverviewInfoExisted)));
                 }
             }
         }
@@ -954,7 +1036,7 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 复制视频基本信息到剪贴板
         /// </summary>
-        private async Task OnVideoGeneralInfoClicked(object sender, RoutedEventArgs args)
+        private async Task OnVideoGeneralInfoCopyClicked(object sender, RoutedEventArgs args)
         {
             string videoGeneralInfo = await Task.Run(() =>
             {
@@ -989,7 +1071,7 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 复制视频视频信息到剪贴板
         /// </summary>
-        private async Task OnVideoDetailVideoInfoClicked(object sender, RoutedEventArgs args)
+        private async Task OnVideoDetailVideoInfoCopyClicked(object sender, RoutedEventArgs args)
         {
             string videoDetailVideoInfo = await Task.Run(() =>
             {
@@ -1044,7 +1126,7 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 复制视频音频信息到剪贴板
         /// </summary>
-        private async Task OnVideoDetailAudioInfoClicked(object sender, RoutedEventArgs args)
+        private async Task OnVideoDetailAudioInfoCopyClicked(object sender, RoutedEventArgs args)
         {
             string videoDetailAudioInfo = await Task.Run(() =>
             {
@@ -1087,7 +1169,7 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 复制视频文本信息到剪贴板
         /// </summary>
-        private async Task OnVideoDetailTextInfoClicked(object sender, RoutedEventArgs args)
+        private async Task OnVideoDetailTextInfoCopyClicked(object sender, RoutedEventArgs args)
         {
             string videoDetailTextInfo = await Task.Run(() =>
             {
@@ -1097,7 +1179,6 @@ namespace ModernFormatConverter.Views.Pages
 
                     foreach (TextDetailInfo textDetailInfo in videoInformation.TextDetailInfoList)
                     {
-                        videoDetailTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", IDString, textDetailInfo.ID));
                         videoDetailTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatString, textDetailInfo.Format));
                         videoDetailTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", DurationString, textDetailInfo.Duration));
                         videoDetailTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", StartTimeString, textDetailInfo.StartTime));
@@ -1124,7 +1205,7 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 复制视频总览信息到剪贴板
         /// </summary>
-        private async Task OnVideoOverviewInfoClicked(object sender, RoutedEventArgs args)
+        private async Task OnVideoOverviewInfoCopyClicked(object sender, RoutedEventArgs args)
         {
             if (videoInformation is not null && !string.IsNullOrEmpty(videoInformation.VideoOverviewInformation))
             {
@@ -1308,7 +1389,7 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 复制音频基本信息到剪贴板
         /// </summary>
-        private async void OnAudioGeneralInfoClicked(object sender, RoutedEventArgs args)
+        private async void OnAudioGeneralInfoCopyClicked(object sender, RoutedEventArgs args)
         {
             string audioGeneralInfo = await Task.Run(() =>
             {
@@ -1346,7 +1427,7 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 复制音频音频信息到剪贴板
         /// </summary>
-        private async void OnAudioDetailAudioInfoClicked(object sender, RoutedEventArgs args)
+        private async void OnAudioDetailAudioInfoCopyClicked(object sender, RoutedEventArgs args)
         {
             string audioDetailAudioInfo = await Task.Run(() =>
             {
@@ -1389,7 +1470,7 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 复制音频总览信息到剪贴板
         /// </summary>
-        private async Task OnAudioOverviewInfoClicked(object sender, RoutedEventArgs args)
+        private async Task OnAudioOverviewInfoCopyClicked(object sender, RoutedEventArgs args)
         {
             if (audioInformation is not null && !string.IsNullOrEmpty(audioInformation.AudioOverviewInformation))
             {
@@ -1463,14 +1544,13 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 复制文本文本信息到剪贴板
         /// </summary>
-        private async Task OnTextDetailTextInfoClicked(object sender, RoutedEventArgs args)
+        private async void OnTextDetailTextInfoCopyClicked(object sender, RoutedEventArgs args)
         {
             string textDetailTextInfo = await Task.Run(() =>
             {
                 if (textInformation is not null)
                 {
                     StringBuilder textDetailTextInfoBuilder = new();
-                    textDetailTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", IDString, textInformation.TextDetailInfo.ID));
                     textDetailTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatString, textInformation.TextDetailInfo.Format));
                     textDetailTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", DurationString, textInformation.TextDetailInfo.Duration));
                     textDetailTextInfoBuilder.AppendLine(string.Format("{0}\t{1}", StartTimeString, textInformation.TextDetailInfo.StartTime));
@@ -1494,7 +1574,7 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 复制文本总览信息到剪贴板
         /// </summary>
-        private async Task OnTextOverviewInfoClicked(object sender, RoutedEventArgs args)
+        private async void OnTextOverviewInfoCopyClicked(object sender, RoutedEventArgs args)
         {
             if (textInformation is not null && !string.IsNullOrEmpty(textInformation.TextOverviewInformation))
             {
@@ -1511,11 +1591,83 @@ namespace ModernFormatConverter.Views.Pages
         }
 
         /// <summary>
-        /// 复制图像信息到剪贴板
+        /// 复制图像基本信息到剪贴板
         /// </summary>
-        private void OnImageInformationCopyClicked(object sender, RoutedEventArgs args)
+        private async void OnImageGeneralInfoCopyClicked(object sender, RoutedEventArgs args)
+        {
+            string imageGeneralInfo = await Task.Run(() =>
+            {
+                if (imageInformation is not null && imageInformation.GeneralInfo is not null)
+                {
+                    StringBuilder imageGeneralInfoBuilder = new();
+                    imageGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", CompleteNameString, imageInformation.GeneralInfo.CompleteName));
+                    imageGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatString, imageInformation.GeneralInfo.Format));
+                    imageGeneralInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatVersionString, imageInformation.GeneralInfo.FileSize));
+                    return imageGeneralInfoBuilder.ToString();
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            });
+
+            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(imageGeneralInfo)));
+        }
+
+        /// <summary>
+        /// 复制图像图像信息到剪贴板
+        /// </summary>
+        private async void OnImageDetailInfoCopyClicked(object sender, RoutedEventArgs args)
+        {
+            string imageDetailInfo = await Task.Run(() =>
+            {
+                if (imageInformation is not null && imageInformation.ImageDetailInfoList.Count > 0)
+                {
+                    StringBuilder imageDetailInfoBuilder = new();
+
+                    foreach (ImageDetailInfo imageDetailInfo in imageInformation.ImageDetailInfoList)
+                    {
+                        imageDetailInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatString, imageDetailInfo.Format));
+                        imageDetailInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatInfoString, imageDetailInfo.FormatInfo));
+                        imageDetailInfoBuilder.AppendLine(string.Format("{0}\t{1}", FormatCompressionString, imageDetailInfo.FormatCompression));
+                        imageDetailInfoBuilder.AppendLine(string.Format("{0}\t{1}", WidthString, imageDetailInfo.Width));
+                        imageDetailInfoBuilder.AppendLine(string.Format("{0}\t{1}", HeightString, imageDetailInfo.Height));
+                        imageDetailInfoBuilder.AppendLine(string.Format("{0}\t{1}", ColorSpaceString, imageDetailInfo.ColorSpace));
+                        imageDetailInfoBuilder.AppendLine(string.Format("{0}\t{1}", ChromaSubsamplingString, imageDetailInfo.ChromaSubsampling));
+                        imageDetailInfoBuilder.AppendLine(string.Format("{0}\t{1}", BitDepthString, imageDetailInfo.BitDepth));
+                        imageDetailInfoBuilder.AppendLine(string.Format("{0}\t{1}", CompressionModeString, imageDetailInfo.CompressionMode));
+                        imageDetailInfoBuilder.AppendLine(string.Format("{0}\t{1}", StreamSizeString, imageDetailInfo.StreamSize));
+                        imageDetailInfoBuilder.AppendLine();
+                    }
+
+                    return imageDetailInfoBuilder.ToString();
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            });
+
+            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(imageDetailInfo)));
+        }
+
+        /// <summary>
+        /// 复制图像 EXIF 信息到剪贴板
+        /// </summary>
+        private void OnImageExifInfoCopyClicked(object sender, RoutedEventArgs args)
         {
             // TODO：未完成
+        }
+
+        /// <summary>
+        /// 复制图像总览信息到剪贴板
+        /// </summary>
+        private async Task OnImageOverviewInfoCopyClicked(object sender, RoutedEventArgs args)
+        {
+            if (imageInformation is not null && !string.IsNullOrEmpty(imageInformation.ImageOverviewInformation))
+            {
+                await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(imageInformation.ImageOverviewInformation)));
+            }
         }
 
         /// <summary>
@@ -1524,6 +1676,61 @@ namespace ModernFormatConverter.Views.Pages
         private void OnImageInformationSelectorBarSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
         {
             ImageInformationSelectedItem = sender.SelectedItem;
+        }
+
+        /// <summary>
+        /// 图片信息的前一个图片流信息
+        /// </summary>
+        private void OnForwardImageDetailInfoClicked(object sender, RoutedEventArgs args)
+        {
+            if (imageInformation is not null && imageInformation.ImageDetailInfoList.Count > 0 && Equals(imageInformation.ImageDetailInfoList.Count, ImageDetailInfoCount) && ImageDetailInfoSelectedIndex > 1 && ImageDetailInfoSelectedIndex <= ImageDetailInfoCount)
+            {
+                ImageDetailInfoSelectedIndex--;
+                ImageDetailInfo = imageInformation.ImageDetailInfoList[ImageDetailInfoSelectedIndex - 1];
+            }
+        }
+
+        /// <summary>
+        /// 图片信息的图片流选中值发生变化时触发的事件
+        /// </summary>
+        private void OnImageDetailInfoSelectedIndexValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
+            {
+                int newValue = Convert.ToInt32(args.NewValue);
+                ImageDetailInfoSelectedIndex = newValue;
+                ImageDetailInfoSelectedIndex = Convert.ToInt32(args.OldValue);
+
+                if (imageInformation is not null && imageInformation.ImageDetailInfoList.Count > 0 && Equals(imageInformation.ImageDetailInfoList.Count, ImageDetailInfoCount))
+                {
+                    if (newValue > ImageDetailInfoCount)
+                    {
+                        ImageDetailInfoSelectedIndex = ImageDetailInfoCount;
+                    }
+                    else if (newValue < 1)
+                    {
+                        ImageDetailInfoSelectedIndex = 1;
+                    }
+                    else
+                    {
+                        ImageDetailInfoSelectedIndex = newValue;
+                    }
+
+                    ImageDetailInfo = imageInformation.ImageDetailInfoList[ImageDetailInfoSelectedIndex - 1];
+                }
+            }
+        }
+
+        /// <summary>
+        /// 图片信息的后一个图片流信息
+        /// </summary>
+        private void OnNextImageDetailInfoClicked(object sender, RoutedEventArgs args)
+        {
+            if (imageInformation is not null && Equals(imageInformation.ImageDetailInfoList.Count, ImageDetailInfoCount) && ImageDetailInfoSelectedIndex >= 1 && ImageDetailInfoSelectedIndex < ImageDetailInfoCount)
+            {
+                ImageDetailInfoSelectedIndex++;
+                ImageDetailInfo = imageInformation.ImageDetailInfoList[ImageDetailInfoSelectedIndex - 1];
+            }
         }
 
         #endregion 第二部分：文件信息页面——挂载的事件
@@ -1562,8 +1769,14 @@ namespace ModernFormatConverter.Views.Pages
             IsTextOverviewInfoExisted = false;
             TextOverviewInfo = string.Empty;
             IsTextOverviewInfoExisted = false;
-            IsImageOverviewInformationExisted = false;
-            ImageOverviewInformation = string.Empty;
+            imageInformation = null;
+            ImageInformationSelectedItem = ImageInformationSelectorBar.Items[0];
+            ImageGeneralInfo = new();
+            ImageDetailInfo = new();
+            ImageDetailInfoSelectedIndex = 0;
+            ImageDetailInfoCount = 0;
+            ImageOverviewInfo = string.Empty;
+            IsImageOverviewInfoExisted = false;
             await GetThumbnailAsync(filePath);
             FileInformationModel fileInformation = await GetGeneralInformationAsync(filePath);
             FileType = string.IsNullOrEmpty(fileInformation.FileType) ? NotAvailableString : fileInformation.FileType;
@@ -1625,13 +1838,17 @@ namespace ModernFormatConverter.Views.Pages
             }
             else if (fileInformationResultKind is FileInformationResultKind.ImageFile)
             {
-                ImageInformation imageInformation = await GetImageInformationAsync(filePath);
+                imageInformation = await GetImageInformationAsync(filePath);
                 ImageInformationSelectedItem = ImageInformationSelectorBar.Items[0];
+                ImageGeneralInfo = imageInformation.GeneralInfo;
+                ImageDetailInfoCount = imageInformation.ImageDetailInfoList.Count;
+                ImageDetailInfo = imageInformation.ImageDetailInfoList.Count is 0 ? ImageDetailInfo : imageInformation.ImageDetailInfoList[0];
+                ImageDetailInfoSelectedIndex = 1;
 
-                // TODO：未完成
                 if (!string.IsNullOrEmpty(imageInformation.ImageOverviewInformation))
                 {
-                    IsImageOverviewInformationExisted = true;
+                    ImageOverviewInfo = imageInformation.ImageOverviewInformation;
+                    IsImageOverviewInfoExisted = true;
                 }
             }
 
@@ -2009,8 +2226,6 @@ namespace ModernFormatConverter.Views.Pages
                         for (int index = 0; index < textCount; index++)
                         {
                             TextDetailInfo textDetailInfo = new();
-                            string id = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, index, "ID", InfoKind.Text, InfoKind.Name));
-                            textDetailInfo.ID = string.IsNullOrEmpty(id) ? NotAvailableString : id;
                             string textFormat = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, index, "Format", InfoKind.Text, InfoKind.Name));
                             textDetailInfo.Format = string.IsNullOrEmpty(textFormat) ? NotAvailableString : textFormat;
                             string textDuration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, index, "Duration", InfoKind.Text, InfoKind.Name));
@@ -2235,8 +2450,6 @@ namespace ModernFormatConverter.Views.Pages
                     if (MediaInfoLibrary.MediaInfo_New() is nint handle && handle is not 0 && MediaInfoLibrary.MediaInfo_Open(handle, filePath) is not 0)
                     {
                         TextDetailInfo textDetailInfo = new();
-                        string id = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, 0, "ID", InfoKind.Text, InfoKind.Name));
-                        textDetailInfo.ID = string.IsNullOrEmpty(id) ? NotAvailableString : id;
                         string format = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, 0, "Format", InfoKind.Text, InfoKind.Name));
                         textDetailInfo.Format = string.IsNullOrEmpty(format) ? NotAvailableString : format;
                         string duration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, 0, "Duration", InfoKind.Text, InfoKind.Name));
@@ -2318,6 +2531,45 @@ namespace ModernFormatConverter.Views.Pages
                 {
                     if (MediaInfoLibrary.MediaInfo_New() is nint handle && handle is not 0 && MediaInfoLibrary.MediaInfo_Open(handle, filePath) is not 0)
                     {
+                        GeneralInfo generalInfo = new();
+                        string completeName = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "CompleteName", InfoKind.Text, InfoKind.Name));
+                        generalInfo.CompleteName = string.IsNullOrEmpty(completeName) ? NotAvailableString : completeName;
+                        string generalFormat = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Format", InfoKind.Text, InfoKind.Name));
+                        generalInfo.Format = string.IsNullOrEmpty(generalFormat) ? NotAvailableString : generalFormat;
+                        string fileSize = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "FileSize", InfoKind.Text, InfoKind.Name));
+                        generalInfo.FileSize = int.TryParse(fileSize, out int fileSizeValue) ? VolumeSizeHelper.ConvertVolumeSizeToString(fileSizeValue) : string.IsNullOrEmpty(fileSize) ? NotAvailableString : fileSize;
+                        imageInformation.GeneralInfo = generalInfo;
+
+                        int imageCount = MediaInfoLibrary.MediaInfo_Count_Get(handle, StreamKind.Image, -1);
+                        for (int index = 0; index < imageCount; index++)
+                        {
+                            ImageDetailInfo imageDetailInfo = new();
+                            string imageFormat = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Image, index, "Format", InfoKind.Text, InfoKind.Name));
+                            imageDetailInfo.Format = string.IsNullOrEmpty(imageFormat) ? NotAvailableString : imageFormat;
+                            string formatInfo = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Image, index, "Format/Info", InfoKind.Text, InfoKind.Name));
+                            imageDetailInfo.FormatInfo = string.IsNullOrEmpty(formatInfo) ? NotAvailableString : formatInfo;
+                            string formatCompression = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Image, index, "Format_Compression", InfoKind.Text, InfoKind.Name));
+                            imageDetailInfo.FormatCompression = string.IsNullOrEmpty(formatCompression) ? NotAvailableString : formatCompression;
+                            string width = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Image, index, "Width", InfoKind.Text, InfoKind.Name));
+                            imageDetailInfo.Width = string.IsNullOrEmpty(width) ? NotAvailableString : width;
+                            string height = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Image, index, "Height", InfoKind.Text, InfoKind.Name));
+                            imageDetailInfo.Height = string.IsNullOrEmpty(height) ? NotAvailableString : height;
+                            string colorSpace = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Image, index, "ColorSpace", InfoKind.Text, InfoKind.Name));
+                            imageDetailInfo.ColorSpace = string.IsNullOrEmpty(colorSpace) ? NotAvailableString : colorSpace;
+                            string chromaSubsampling = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Image, index, "ChromaSubsampling", InfoKind.Text, InfoKind.Name));
+                            imageDetailInfo.ChromaSubsampling = string.IsNullOrEmpty(chromaSubsampling) ? NotAvailableString : chromaSubsampling;
+                            string bitDepth = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Image, index, "BitDepth/String", InfoKind.Text, InfoKind.Name));
+                            imageDetailInfo.BitDepth = string.IsNullOrEmpty(bitDepth) ? NotAvailableString : bitDepth;
+                            string compressionMode = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Image, 0, "Compression_Mode", InfoKind.Text, InfoKind.Name));
+                            imageDetailInfo.CompressionMode = string.IsNullOrEmpty(compressionMode) ? NotAvailableString : compressionMode;
+                            string imageStreamSize = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Image, index, "StreamSize", InfoKind.Text, InfoKind.Name));
+                            imageDetailInfo.StreamSize = int.TryParse(imageStreamSize, out int imageStreamSizeValue) ? VolumeSizeHelper.ConvertVolumeSizeToString(imageStreamSizeValue) : string.IsNullOrEmpty(imageStreamSize) ? NotAvailableString : imageStreamSize;
+                            imageInformation.ImageDetailInfoList.Add(imageDetailInfo);
+                        }
+
+                        // TODO：未完成
+                        imageInformation.ExifInfo = new();
+
                         string imageOverviewInformation = await GetOverviewInformationAsync(handle);
                         imageInformation.ImageOverviewInformation = string.IsNullOrEmpty(imageOverviewInformation) ? NotAvailableString : imageOverviewInformation;
                     }

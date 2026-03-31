@@ -479,7 +479,7 @@
 
                                             <AppBarButton.Flyout>
                                                 <MenuFlyout Placement="Bottom">
-                                                    <MenuFlyoutItem Click="{x:Bind OnVideoGeneralInfoClicked}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyGeneralInfo')}">
+                                                    <MenuFlyoutItem Click="{x:Bind OnVideoGeneralInfoCopyClicked}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyGeneralInfo')}">
 
                                                         <MenuFlyoutItem.Icon>
                                                             <FontIcon Glyph="&#xE700;" />
@@ -487,7 +487,7 @@
                                                     </MenuFlyoutItem>
 
                                                     <MenuFlyoutItem
-                                                        Click="{x:Bind OnVideoDetailVideoInfoClicked}"
+                                                        Click="{x:Bind OnVideoDetailVideoInfoCopyClicked}"
                                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyVideoInfo')}"
                                                         Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(VideoDetailVideoInfoCount), Mode=OneWay}">
 
@@ -497,7 +497,7 @@
                                                     </MenuFlyoutItem>
 
                                                     <MenuFlyoutItem
-                                                        Click="{x:Bind OnVideoDetailAudioInfoClicked}"
+                                                        Click="{x:Bind OnVideoDetailAudioInfoCopyClicked}"
                                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyAudioInfo')}"
                                                         Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(VideoDetailAudioInfoCount), Mode=OneWay}">
 
@@ -507,7 +507,7 @@
                                                     </MenuFlyoutItem>
 
                                                     <MenuFlyoutItem
-                                                        Click="{x:Bind OnVideoDetailTextInfoClicked}"
+                                                        Click="{x:Bind OnVideoDetailTextInfoCopyClicked}"
                                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyTextInfo')}"
                                                         Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(VideoDetailTextInfoCount), Mode=OneWay}">
 
@@ -517,7 +517,7 @@
                                                     </MenuFlyoutItem>
 
                                                     <MenuFlyoutItem
-                                                        Click="{x:Bind OnVideoOverviewInfoClicked}"
+                                                        Click="{x:Bind OnVideoOverviewInfoCopyClicked}"
                                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyOverviewInfo')}"
                                                         Visibility="{x:Bind IsVideoOverviewInfoExisted, Mode=OneWay}">
 
@@ -1341,7 +1341,7 @@
 
                                                         <Grid>
                                                             <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardDetailVideoInfo')}" />
+                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardVideoInfo')}" />
                                                         </Grid>
                                                     </ToolTip>
                                                 </ToolTipService.ToolTip>
@@ -1376,7 +1376,7 @@
 
                                                         <Grid>
                                                             <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextDetailVideoInfo')}" />
+                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextVideoInfo')}" />
                                                         </Grid>
                                                     </ToolTip>
                                                 </ToolTipService.ToolTip>
@@ -1700,7 +1700,7 @@
 
                                                         <Grid>
                                                             <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardDetailAudioInfo')}" />
+                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardAudioInfo')}" />
                                                         </Grid>
                                                     </ToolTip>
                                                 </ToolTipService.ToolTip>
@@ -1735,7 +1735,7 @@
 
                                                         <Grid>
                                                             <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextDetailAudioInfo')}" />
+                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextAudioInfo')}" />
                                                         </Grid>
                                                     </ToolTip>
                                                 </ToolTipService.ToolTip>
@@ -1957,7 +1957,7 @@
 
                                                         <Grid>
                                                             <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardDetailTextInfo')}" />
+                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardTextInfo')}" />
                                                         </Grid>
                                                     </ToolTip>
                                                 </ToolTipService.ToolTip>
@@ -1992,7 +1992,7 @@
 
                                                         <Grid>
                                                             <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextDetailTextInfo')}" />
+                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextTextInfo')}" />
                                                         </Grid>
                                                     </ToolTip>
                                                 </ToolTipService.ToolTip>
@@ -2062,7 +2062,7 @@
 
                                             <AppBarButton.Flyout>
                                                 <MenuFlyout Placement="Bottom">
-                                                    <MenuFlyoutItem Click="{x:Bind OnAudioGeneralInfoClicked}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyGeneralInfo')}">
+                                                    <MenuFlyoutItem Click="{x:Bind OnAudioGeneralInfoCopyClicked}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyGeneralInfo')}">
 
                                                         <MenuFlyoutItem.Icon>
                                                             <FontIcon Glyph="&#xE700;" />
@@ -2070,7 +2070,7 @@
                                                     </MenuFlyoutItem>
 
                                                     <MenuFlyoutItem
-                                                        Click="{x:Bind OnAudioDetailAudioInfoClicked}"
+                                                        Click="{x:Bind OnAudioDetailAudioInfoCopyClicked}"
                                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyAudioInfo')}"
                                                         Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(AudioDetailAudioInfoCount), Mode=OneWay}">
 
@@ -2080,7 +2080,7 @@
                                                     </MenuFlyoutItem>
 
                                                     <MenuFlyoutItem
-                                                        Click="{x:Bind OnAudioOverviewInfoClicked}"
+                                                        Click="{x:Bind OnAudioOverviewInfoCopyClicked}"
                                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyOverviewInfo')}"
                                                         Visibility="{x:Bind IsAudioOverviewInfoExisted, Mode=OneWay}">
 
@@ -2749,7 +2749,7 @@
 
                                                         <Grid>
                                                             <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardDetailAudioInfo')}" />
+                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardAudioInfo')}" />
                                                         </Grid>
                                                     </ToolTip>
                                                 </ToolTipService.ToolTip>
@@ -2784,7 +2784,7 @@
 
                                                         <Grid>
                                                             <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextDetailAudioInfo')}" />
+                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextAudioInfo')}" />
                                                         </Grid>
                                                     </ToolTip>
                                                 </ToolTipService.ToolTip>
@@ -2856,7 +2856,7 @@
                                                 <MenuFlyout Placement="Bottom">
 
                                                     <MenuFlyoutItem
-                                                        Click="{x:Bind OnTextDetailTextInfoClicked}"
+                                                        Click="{x:Bind OnTextDetailTextInfoCopyClicked}"
                                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyTextInfo')}"
                                                         Visibility="{x:Bind IsTextDetailInfoExisted, Mode=OneWay}">
 
@@ -2866,7 +2866,7 @@
                                                     </MenuFlyoutItem>
 
                                                     <MenuFlyoutItem
-                                                        Click="{x:Bind OnTextOverviewInfoClicked}"
+                                                        Click="{x:Bind OnTextOverviewInfoCopyClicked}"
                                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyOverviewInfo')}"
                                                         Visibility="{x:Bind IsTextOverviewInfoExisted, Mode=OneWay}">
 
@@ -2925,7 +2925,7 @@
                                             Grid.Column="0"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ID')}"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Format')}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
@@ -2933,27 +2933,11 @@
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
-                                            Text="{x:Bind TextDetailInfo.ID, Mode=OneWay}"
-                                            TextWrapping="Wrap" />
-
-                                        <TextBlock
-                                            Grid.Row="1"
-                                            Grid.Column="0"
-                                            HorizontalAlignment="Left"
-                                            IsTextSelectionEnabled="True"
-                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Format')}"
-                                            TextWrapping="Wrap" />
-
-                                        <TextBlock
-                                            Grid.Row="1"
-                                            Grid.Column="1"
-                                            HorizontalAlignment="Left"
-                                            IsTextSelectionEnabled="True"
                                             Text="{x:Bind TextDetailInfo.Format, Mode=OneWay}"
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
-                                            Grid.Row="2"
+                                            Grid.Row="1"
                                             Grid.Column="0"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
@@ -2961,7 +2945,7 @@
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
-                                            Grid.Row="2"
+                                            Grid.Row="1"
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
@@ -2969,7 +2953,7 @@
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
-                                            Grid.Row="3"
+                                            Grid.Row="2"
                                             Grid.Column="0"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
@@ -2977,7 +2961,7 @@
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
-                                            Grid.Row="3"
+                                            Grid.Row="2"
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
@@ -2985,7 +2969,7 @@
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
-                                            Grid.Row="4"
+                                            Grid.Row="3"
                                             Grid.Column="0"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
@@ -2993,7 +2977,7 @@
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
-                                            Grid.Row="4"
+                                            Grid.Row="3"
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
@@ -3001,7 +2985,7 @@
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
-                                            Grid.Row="5"
+                                            Grid.Row="4"
                                             Grid.Column="0"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
@@ -3009,7 +2993,7 @@
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
-                                            Grid.Row="5"
+                                            Grid.Row="4"
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
@@ -3017,7 +3001,7 @@
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
-                                            Grid.Row="6"
+                                            Grid.Row="5"
                                             Grid.Column="0"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
@@ -3025,7 +3009,7 @@
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
-                                            Grid.Row="6"
+                                            Grid.Row="5"
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
@@ -3033,7 +3017,7 @@
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
-                                            Grid.Row="7"
+                                            Grid.Row="6"
                                             Grid.Column="0"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
@@ -3041,7 +3025,7 @@
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
-                                            Grid.Row="7"
+                                            Grid.Row="6"
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
@@ -3049,7 +3033,7 @@
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
-                                            Grid.Row="8"
+                                            Grid.Row="7"
                                             Grid.Column="0"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
@@ -3057,7 +3041,7 @@
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
-                                            Grid.Row="8"
+                                            Grid.Row="7"
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
@@ -3065,7 +3049,7 @@
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
-                                            Grid.Row="9"
+                                            Grid.Row="8"
                                             Grid.Column="0"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
@@ -3073,7 +3057,7 @@
                                             TextWrapping="Wrap" />
 
                                         <TextBlock
-                                            Grid.Row="9"
+                                            Grid.Row="8"
                                             Grid.Column="1"
                                             HorizontalAlignment="Left"
                                             IsTextSelectionEnabled="True"
@@ -3143,11 +3127,47 @@
                                     DefaultLabelPosition="Right">
 
                                     <CommandBar.PrimaryCommands>
-                                        <AppBarButton Click="{x:Bind OnImageInformationCopyClicked}" Label="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Copy')}">
+                                        <AppBarButton Label="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Copy')}">
 
                                             <AppBarButton.Icon>
                                                 <FontIcon Glyph="&#xE8C8;" />
                                             </AppBarButton.Icon>
+
+                                            <AppBarButton.Flyout>
+                                                <MenuFlyout Placement="Bottom">
+
+                                                    <MenuFlyoutItem Click="{x:Bind OnImageGeneralInfoCopyClicked}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyGeneralInfo')}">
+
+                                                        <MenuFlyoutItem.Icon>
+                                                            <FontIcon Glyph="&#xE700;" />
+                                                        </MenuFlyoutItem.Icon>
+                                                    </MenuFlyoutItem>
+
+                                                    <MenuFlyoutItem Click="{x:Bind OnImageDetailInfoCopyClicked}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyImageInfo')}">
+
+                                                        <MenuFlyoutItem.Icon>
+                                                            <FontIcon Glyph="&#xE8B9;" />
+                                                        </MenuFlyoutItem.Icon>
+                                                    </MenuFlyoutItem>
+
+                                                    <MenuFlyoutItem Click="{x:Bind OnImageExifInfoCopyClicked}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyExifInfo')}">
+
+                                                        <MenuFlyoutItem.Icon>
+                                                            <FontIcon Glyph="&#xE722;" />
+                                                        </MenuFlyoutItem.Icon>
+                                                    </MenuFlyoutItem>
+
+                                                    <MenuFlyoutItem
+                                                        Click="{x:Bind OnImageOverviewInfoCopyClicked}"
+                                                        Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CopyOverviewInfo')}"
+                                                        Visibility="{x:Bind IsImageOverviewInfoExisted, Mode=OneWay}">
+
+                                                        <MenuFlyoutItem.Icon>
+                                                            <FontIcon Glyph="&#xE8A9;" />
+                                                        </MenuFlyoutItem.Icon>
+                                                    </MenuFlyoutItem>
+                                                </MenuFlyout>
+                                            </AppBarButton.Flyout>
                                         </AppBarButton>
                                     </CommandBar.PrimaryCommands>
                                 </CommandBar>
@@ -3174,21 +3194,339 @@
                             </SelectorBar>
 
                             <Grid Grid.Row="1">
+                                <Grid RowSpacing="3" Visibility="{x:Bind GetSelectedSelectorBarItem(ImageInformationSelectedItem, ImageInformationSelectorBar.Items[0]), Mode=OneWay}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Left"
+                                        IsTextSelectionEnabled="True"
+                                        Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CompleteName')}"
+                                        TextWrapping="Wrap" />
+
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Left"
+                                        IsTextSelectionEnabled="True"
+                                        Text="{x:Bind ImageGeneralInfo.CompleteName, Mode=OneWay}"
+                                        TextWrapping="Wrap" />
+
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Left"
+                                        IsTextSelectionEnabled="True"
+                                        Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Format')}"
+                                        TextWrapping="Wrap" />
+
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Left"
+                                        IsTextSelectionEnabled="True"
+                                        Text="{x:Bind ImageGeneralInfo.Format, Mode=OneWay}"
+                                        TextWrapping="Wrap" />
+
+                                    <TextBlock
+                                        Grid.Row="2"
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Left"
+                                        IsTextSelectionEnabled="True"
+                                        Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('FileSize')}"
+                                        TextWrapping="Wrap" />
+
+                                    <TextBlock
+                                        Grid.Row="2"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Left"
+                                        IsTextSelectionEnabled="True"
+                                        Text="{x:Bind ImageGeneralInfo.FileSize, Mode=OneWay}"
+                                        TextWrapping="Wrap" />
+                                </Grid>
+
+                                <Grid Visibility="{x:Bind GetSelectedSelectorBarItem(ImageInformationSelectedItem, ImageInformationSelectorBar.Items[1]), Mode=OneWay}">
+
+                                    <TextBlock
+                                        Margin="0,5,0,3"
+                                        HorizontalAlignment="Center"
+                                        Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('EmptyImageInfo')}"
+                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(ImageDetailInfoCount), Mode=OneWay}" />
+
+                                    <Grid RowSpacing="3" Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(ImageDetailInfoCount), Mode=OneWay}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Format')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind ImageDetailInfo.Format, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('FormatInfo')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind ImageDetailInfo.FormatInfo, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="2"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('FormatCompression')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="2"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind ImageDetailInfo.FormatCompression, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="3"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Width')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="3"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind ImageDetailInfo.Width, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="4"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Height')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="4"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind ImageDetailInfo.Height, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="5"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ColorSpace')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="5"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind ImageDetailInfo.ColorSpace, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="6"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ChromaSubsampling')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="6"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind ImageDetailInfo.ChromaSubsampling, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="7"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('BitDepth')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="7"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind ImageDetailInfo.BitDepth, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="8"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CompressionMode')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="8"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind ImageDetailInfo.CompressionMode, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="9"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('StreamSize')}"
+                                            TextWrapping="Wrap" />
+
+                                        <TextBlock
+                                            Grid.Row="9"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{x:Bind ImageDetailInfo.StreamSize, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+
+                                        <StackPanel
+                                            Grid.Row="10"
+                                            Grid.ColumnSpan="2"
+                                            Margin="0,5,0,-4"
+                                            HorizontalAlignment="Center"
+                                            Orientation="Horizontal"
+                                            Spacing="3">
+
+                                            <Button
+                                                Width="32"
+                                                Height="32"
+                                                Padding="0"
+                                                Click="{x:Bind OnForwardImageDetailInfoClicked}"
+                                                CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                                <FontIcon FontSize="16" Glyph="&#xE76B;" />
+
+                                                <ToolTipService.ToolTip>
+                                                    <ToolTip
+                                                        MaxWidth="9999"
+                                                        Padding="0"
+                                                        Background="Transparent">
+
+                                                        <Grid>
+                                                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardImageInfo')}" />
+                                                        </Grid>
+                                                    </ToolTip>
+                                                </ToolTipService.ToolTip>
+                                            </Button>
+
+                                            <NumberBox ValueChanged="{x:Bind OnImageDetailInfoSelectedIndexValueChanged}" Value="{x:Bind ImageDetailInfoSelectedIndex, Mode=OneWay}">
+                                                <NumberBox.Resources>
+                                                    <x:Double x:Key="TextControlThemeMinWidth">0</x:Double>
+                                                </NumberBox.Resources>
+                                            </NumberBox>
+
+                                            <TextBlock Margin="0,0,3,2" VerticalAlignment="Center">
+
+                                                <Run Text="/" />
+                                                <Run Text="{x:Bind ImageDetailInfoCount, Mode=OneWay}" />
+                                            </TextBlock>
+
+                                            <Button
+                                                Width="32"
+                                                Height="32"
+                                                Padding="0"
+                                                Click="{x:Bind OnNextImageDetailInfoClicked}"
+                                                CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                                <FontIcon FontSize="16" Glyph="&#xE76C;" />
+
+                                                <ToolTipService.ToolTip>
+                                                    <ToolTip
+                                                        MaxWidth="9999"
+                                                        Padding="0"
+                                                        Background="Transparent">
+
+                                                        <Grid>
+                                                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextImageInfo')}" />
+                                                        </Grid>
+                                                    </ToolTip>
+                                                </ToolTipService.ToolTip>
+                                            </Button>
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+
                                 <Grid Visibility="{x:Bind GetSelectedSelectorBarItem(ImageInformationSelectedItem, ImageInformationSelectorBar.Items[3]), Mode=OneWay}">
 
                                     <TextBlock
                                         Margin="0,5,0,3"
                                         HorizontalAlignment="Center"
                                         Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('EmptyImageInfo')}"
-                                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsImageOverviewInformationExisted), Mode=OneWay}" />
+                                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsImageOverviewInfoExisted), Mode=OneWay}" />
 
                                     <TextBlock
                                         Margin="0,5,0,3"
                                         FontFamily="Consolas"
                                         IsTextSelectionEnabled="True"
-                                        Text="{x:Bind ImageOverviewInformation, Mode=OneWay}"
+                                        Text="{x:Bind ImageOverviewInfo, Mode=OneWay}"
                                         TextWrapping="Wrap"
-                                        Visibility="{x:Bind IsImageOverviewInformationExisted, Mode=OneWay}" />
+                                        Visibility="{x:Bind IsImageOverviewInfoExisted, Mode=OneWay}" />
                                 </Grid>
                             </Grid>
                         </Grid>
