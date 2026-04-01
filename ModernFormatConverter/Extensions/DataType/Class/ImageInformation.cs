@@ -11,6 +11,7 @@ namespace ModernFormatConverter.Extensions.DataType.Class
 
         public List<ImageDetailInfo> ImageDetailInfoList { get; set; } = [];
 
+        public ImageExifInfo ImageExifInfo { get; set; }
 
         public string ImageOverviewInformation { get; set; }
     }

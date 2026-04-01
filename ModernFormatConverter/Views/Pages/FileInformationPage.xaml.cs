@@ -21,6 +21,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -42,24 +43,38 @@ namespace ModernFormatConverter.Views.Pages
     {
         private readonly string AlbumString = ResourceService.FileInformationResource.GetString("Album");
         private readonly string AlternateGroupString = ResourceService.FileInformationResource.GetString("AlternateGroup");
+        private readonly string ApertureString = ResourceService.FileInformationResource.GetString("Aperture");
+        private readonly string AperturePriorityString = ResourceService.FileInformationResource.GetString("AperturePriority");
+        private readonly string AverageString = ResourceService.FileInformationResource.GetString("Average");
+        private readonly string BimodalAverageString = ResourceService.FileInformationResource.GetString("BimodalAverage");
         private readonly string BitDepthString = ResourceService.FileInformationResource.GetString("BitDepth");
         private readonly string BitRateString = ResourceService.FileInformationResource.GetString("BitRate");
         private readonly string BitRateMaximumString = ResourceService.FileInformationResource.GetString("BitRateMaximum");
         private readonly string BitRateModeString = ResourceService.FileInformationResource.GetString("BitRateMode");
         private readonly string BitsPixelFrameString = ResourceService.FileInformationResource.GetString("BitsPixelFrame");
+        private readonly string BrightnessString = ResourceService.FileInformationResource.GetString("Brightness");
+        private readonly string CameraManufacturerString = ResourceService.FileInformationResource.GetString("CameraManufacturer");
+        private readonly string CameraModelString = ResourceService.FileInformationResource.GetString("CameraModel");
+        private readonly string CentimeterString = ResourceService.FileInformationResource.GetString("Centimeter");
+        private readonly string CfaPatternString = ResourceService.FileInformationResource.GetString("CfaPattern");
         private readonly string ChannelString = ResourceService.FileInformationResource.GetString("Channel");
         private readonly string ChannelLayoutString = ResourceService.FileInformationResource.GetString("ChannelLayout");
         private readonly string ChromaSubsamplingString = ResourceService.FileInformationResource.GetString("ChromaSubsampling");
         private readonly string CodecConfigurationBoxString = ResourceService.FileInformationResource.GetString("CodecConfigurationBox");
         private readonly string CodecIDString = ResourceService.FileInformationResource.GetString("CodecID");
         private readonly string CodecIDInfoString = ResourceService.FileInformationResource.GetString("CodecIDInfo");
+        private readonly string ColorIndicatesString = ResourceService.FileInformationResource.GetString("ColorIndicates");
         private readonly string ColorParimariesString = ResourceService.FileInformationResource.GetString("ColorParimaries");
         private readonly string ColorRangeString = ResourceService.FileInformationResource.GetString("ColorRange");
         private readonly string ColorSpaceString = ResourceService.FileInformationResource.GetString("ColorSpace");
         private readonly string CompleteNameString = ResourceService.FileInformationResource.GetString("CompleteName");
+        private readonly string CompressionBitsPerPixelString = ResourceService.FileInformationResource.GetString("CompressionBitsPerPixel");
+        private readonly string CompressionConfigString = ResourceService.FileInformationResource.GetString("CompressionConfig");
         private readonly string CompressionModeString = ResourceService.FileInformationResource.GetString("CompressionMode");
         private readonly string CountOfEventsString = ResourceService.FileInformationResource.GetString("CountOfEvents");
         private readonly string CountOfLinesString = ResourceService.FileInformationResource.GetString("CountOfLines");
+        private readonly string CreateProgramString = ResourceService.FileInformationResource.GetString("CreateProgram");
+        private readonly string ShootingDateString = ResourceService.FileInformationResource.GetString("ShootingDate");
         private readonly string DefaultString = ResourceService.FileInformationResource.GetString("Default");
         private readonly string DisplayAspectRatioString = ResourceService.FileInformationResource.GetString("DisplayAspectRatio");
         private readonly string DragOverContentString = ResourceService.FileInformationResource.GetString("DragOverContent");
@@ -68,6 +83,10 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string EncodedDateString = ResourceService.FileInformationResource.GetString("EncodedDate");
         private readonly string EncodedLibraryString = ResourceService.FileInformationResource.GetString("EncodedLibrary");
         private readonly string EndTimeString = ResourceService.FileInformationResource.GetString("EndTime");
+        private readonly string ExposureCompensationString = ResourceService.FileInformationResource.GetString("ExposureCompensation");
+        private readonly string ExposureIndexString = ResourceService.FileInformationResource.GetString("ExposureIndex");
+        private readonly string ExposureProgramString = ResourceService.FileInformationResource.GetString("ExposureProgram");
+        private readonly string ExposureTimeString = ResourceService.FileInformationResource.GetString("ExposureTime");
         private readonly string FileAccessTimeString = ResourceService.FileInformationResource.GetString("FileAccessTime");
         private readonly string FileCreateTimeString = ResourceService.FileInformationResource.GetString("FileCreateTime");
         private readonly string FileModifyTimeString = ResourceService.FileInformationResource.GetString("FileModifyTime");
@@ -76,6 +95,20 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string FileSizeDescriptionString = ResourceService.FileInformationResource.GetString("FileSizeDescription");
         private readonly string FileSpaceUsageString = ResourceService.FileInformationResource.GetString("FileSpaceUsage");
         private readonly string FileTypeString = ResourceService.FileInformationResource.GetString("FileType");
+        private readonly string FlashString = ResourceService.FileInformationResource.GetString("Flash");
+        private readonly string FlashEnergyString = ResourceService.FileInformationResource.GetString("FlashEnergy");
+        private readonly string FlashLampString = ResourceService.FileInformationResource.GetString("FlashLamp");
+        private readonly string FlashModeString = ResourceService.FileInformationResource.GetString("FlashMode");
+        private readonly string FlashPixVersionString = ResourceService.FileInformationResource.GetString("FlashPixVersion");
+        private readonly string FlashWithoutStrobeReturnLightString = ResourceService.FileInformationResource.GetString("FlashWithoutStrobeReturnLight");
+        private readonly string FlashWithStrobeReturnLightString = ResourceService.FileInformationResource.GetString("FlashWithStrobeReturnLight");
+        private readonly string FluorescentLampString = ResourceService.FileInformationResource.GetString("FluorescentLamp");
+        private readonly string FNumberString = ResourceService.FileInformationResource.GetString("FNumber");
+        private readonly string FocalLengthString = ResourceService.FileInformationResource.GetString("FocalLength");
+        private readonly string FocalResUnitString = ResourceService.FileInformationResource.GetString("FocalResUnit");
+        private readonly string FocalXResString = ResourceService.FileInformationResource.GetString("FocalXRes");
+        private readonly string FocalYResString = ResourceService.FileInformationResource.GetString("FocalYRes");
+        private readonly string FootString = ResourceService.FileInformationResource.GetString("Foot");
         private readonly string FormatCompressionString = ResourceService.FileInformationResource.GetString("FormatCompression");
         private readonly string FormatInfoString = ResourceService.FileInformationResource.GetString("FormatInfo");
         private readonly string FormatProfileString = ResourceService.FileInformationResource.GetString("FormatProfile");
@@ -83,32 +116,74 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string FormatString = ResourceService.FileInformationResource.GetString("Format");
         private readonly string FrameRateString = ResourceService.FileInformationResource.GetString("FrameRate");
         private readonly string FrameRateModeString = ResourceService.FileInformationResource.GetString("FrameRateMode");
+        private readonly string FstopString = ResourceService.FileInformationResource.GetString("Fstop");
         private readonly string HeightString = ResourceService.FileInformationResource.GetString("Height");
+        private readonly string HorizontalModeString = ResourceService.FileInformationResource.GetString("HorizontalMode");
         private readonly string IDString = ResourceService.FileInformationResource.GetString("ID");
+        private readonly string IncandescentLampString = ResourceService.FileInformationResource.GetString("IncandescentLamp");
+        private readonly string InchString = ResourceService.FileInformationResource.GetString("Inch");
+        private readonly string InteropString = ResourceService.FileInformationResource.GetString("Interop");
+        private readonly string ISOSpeedString = ResourceService.FileInformationResource.GetString("ISOSpeed");
+        private readonly string LightSourceString = ResourceService.FileInformationResource.GetString("LightSource");
+        private readonly string ManualString = ResourceService.FileInformationResource.GetString("Manual");
+        private readonly string MatrixCoefficientsString = ResourceService.FileInformationResource.GetString("MatrixCoefficients");
+        private readonly string MaxApertureString = ResourceService.FileInformationResource.GetString("MaxAperture");
         private readonly string MaximumCountOfLinesPerEventString = ResourceService.FileInformationResource.GetString("MaximumCountOfLinesPerEvent");
         private readonly string MaximumFrameRateString = ResourceService.FileInformationResource.GetString("MaximumFrameRate");
-        private readonly string MatrixCoefficientsString = ResourceService.FileInformationResource.GetString("MatrixCoefficients");
+        private readonly string MeteringModeString = ResourceService.FileInformationResource.GetString("MeteringMode");
         private readonly string MinimumDurationPerEventString = ResourceService.FileInformationResource.GetString("MinimumDurationPerEvent");
         private readonly string MinimumFrameRateString = ResourceService.FileInformationResource.GetString("MinimumFrameRate");
+        private readonly string MultiSpotString = ResourceService.FileInformationResource.GetString("MultiSpot");
+        private readonly string NoFlashString = ResourceService.FileInformationResource.GetString("NoFlash");
         private readonly string NoMultiFileString = ResourceService.FileInformationResource.GetString("NoMultiFile");
+        private readonly string NormalString = ResourceService.FileInformationResource.GetString("Normal");
         private readonly string NoString = ResourceService.FileInformationResource.GetString("No");
+        private readonly string NoUnitString = ResourceService.FileInformationResource.GetString("NoUnit");
         private readonly string NotAvailableString = ResourceService.FileInformationResource.GetString("NotAvailable");
+        private readonly string OECFString = ResourceService.FileInformationResource.GetString("OECF");
+        private readonly string OneChipColorAreaSensorString = ResourceService.FileInformationResource.GetString("OneChipColorAreaSensor");
+        private readonly string OperationProgramString = ResourceService.FileInformationResource.GetString("OperationProgram");
+        private readonly string OtherString = ResourceService.FileInformationResource.GetString("Other");
         private readonly string OverallBitRateString = ResourceService.FileInformationResource.GetString("OverallBitRate");
         private readonly string ParsingFileInformationString = ResourceService.FileInformationResource.GetString("ParsingFileInformation");
+        private readonly string PartialString = ResourceService.FileInformationResource.GetString("Partial");
         private readonly string PerformerString = ResourceService.FileInformationResource.GetString("Performer");
+        private readonly string PatternString = ResourceService.FileInformationResource.GetString("Pattern");
         private readonly string RecordedDateString = ResourceService.FileInformationResource.GetString("RecordedDate");
+        private readonly string ReservedString = ResourceService.FileInformationResource.GetString("Reserved");
         private readonly string SamplingRateString = ResourceService.FileInformationResource.GetString("SamplingRate");
+        private readonly string SecondString = ResourceService.FileInformationResource.GetString("Second");
         private readonly string SelectFileString = ResourceService.FileInformationResource.GetString("SelectFile");
+        private readonly string SenseMethodString = ResourceService.FileInformationResource.GetString("SenseMethod");
+        private readonly string SceneTypeString = ResourceService.FileInformationResource.GetString("SceneType");
+        private readonly string ShutterPriorityString = ResourceService.FileInformationResource.GetString("ShutterPriority");
+        private readonly string ShutterSpeedString = ResourceService.FileInformationResource.GetString("ShutterSpeed");
         private readonly string SourceDurationString = ResourceService.FileInformationResource.GetString("SourceDuration");
         private readonly string SourceStreamSizeString = ResourceService.FileInformationResource.GetString("SourceStreamSize");
         private readonly string SpaceUsageDescriptionString = ResourceService.FileInformationResource.GetString("SpaceUsageDescription");
+        private readonly string SpectralSenseString = ResourceService.FileInformationResource.GetString("SpectralSense");
+        private readonly string SpatialFrequencyResponseString = ResourceService.FileInformationResource.GetString("SpatialFrequencyResponse");
+        private readonly string SpotString = ResourceService.FileInformationResource.GetString("Spot");
+        private readonly string StandardLightAString = ResourceService.FileInformationResource.GetString("StandardLightA");
+        private readonly string StandardLightBString = ResourceService.FileInformationResource.GetString("StandardLightB");
+        private readonly string StandardLightCString = ResourceService.FileInformationResource.GetString("StandardLightC");
+        private readonly string StandardLightD55String = ResourceService.FileInformationResource.GetString("StandardLightD55");
+        private readonly string StandardLightD65String = ResourceService.FileInformationResource.GetString("StandardLightD65");
+        private readonly string StandardLightD75String = ResourceService.FileInformationResource.GetString("StandardLightD75");
         private readonly string StartTimeString = ResourceService.FileInformationResource.GetString("StartTime");
         private readonly string StreamSizeString = ResourceService.FileInformationResource.GetString("StreamSize");
+        private readonly string SubjectDistString = ResourceService.FileInformationResource.GetString("SubjectDist");
+        private readonly string SunlightString = ResourceService.FileInformationResource.GetString("Sunlight");
         private readonly string TrackNameString = ResourceService.FileInformationResource.GetString("TrackName");
         private readonly string TransferCharacteristicsString = ResourceService.FileInformationResource.GetString("TransferCharacteristics");
         private readonly string UniqueIDString = ResourceService.FileInformationResource.GetString("UniqueID");
+        private readonly string UnknownString = ResourceService.FileInformationResource.GetString("Unknown");
+        private readonly string VerticalModeString = ResourceService.FileInformationResource.GetString("VerticalMode");
+        private readonly string VersionString = ResourceService.FileInformationResource.GetString("Version");
         private readonly string WidthString = ResourceService.FileInformationResource.GetString("Width");
+        private readonly string XResolutionString = ResourceService.FileInformationResource.GetString("XResolution");
         private readonly string YesString = ResourceService.FileInformationResource.GetString("Yes");
+        private readonly string YResolutionString = ResourceService.FileInformationResource.GetString("YResolution");
         private string filePath;
         private VideoInformation videoInformation;
         private AudioInformation audioInformation;
@@ -755,9 +830,9 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
-        private ExifInfo _imageExifInfo;
+        private ImageExifInfo _imageExifInfo;
 
-        public ExifInfo ImageExifInfo
+        public ImageExifInfo ImageExifInfo
         {
             get { return _imageExifInfo; }
 
@@ -767,6 +842,22 @@ namespace ModernFormatConverter.Views.Pages
                 {
                     _imageExifInfo = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageExifInfo)));
+                }
+            }
+        }
+
+        private bool _isImageExifInfoExisted;
+
+        public bool IsImageExifInfoExisted
+        {
+            get { return _isImageExifInfoExisted; }
+
+            set
+            {
+                if (!Equals(_isImageExifInfoExisted, value))
+                {
+                    _isImageExifInfoExisted = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsImageExifInfoExisted)));
                 }
             }
         }
@@ -1036,7 +1127,7 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 复制视频基本信息到剪贴板
         /// </summary>
-        private async Task OnVideoGeneralInfoCopyClicked(object sender, RoutedEventArgs args)
+        private async void OnVideoGeneralInfoCopyClicked(object sender, RoutedEventArgs args)
         {
             string videoGeneralInfo = await Task.Run(() =>
             {
@@ -1071,7 +1162,7 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 复制视频视频信息到剪贴板
         /// </summary>
-        private async Task OnVideoDetailVideoInfoCopyClicked(object sender, RoutedEventArgs args)
+        private async void OnVideoDetailVideoInfoCopyClicked(object sender, RoutedEventArgs args)
         {
             string videoDetailVideoInfo = await Task.Run(() =>
             {
@@ -1126,7 +1217,7 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 复制视频音频信息到剪贴板
         /// </summary>
-        private async Task OnVideoDetailAudioInfoCopyClicked(object sender, RoutedEventArgs args)
+        private async void OnVideoDetailAudioInfoCopyClicked(object sender, RoutedEventArgs args)
         {
             string videoDetailAudioInfo = await Task.Run(() =>
             {
@@ -1169,7 +1260,7 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 复制视频文本信息到剪贴板
         /// </summary>
-        private async Task OnVideoDetailTextInfoCopyClicked(object sender, RoutedEventArgs args)
+        private async void OnVideoDetailTextInfoCopyClicked(object sender, RoutedEventArgs args)
         {
             string videoDetailTextInfo = await Task.Run(() =>
             {
@@ -1205,7 +1296,7 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 复制视频总览信息到剪贴板
         /// </summary>
-        private async Task OnVideoOverviewInfoCopyClicked(object sender, RoutedEventArgs args)
+        private async void OnVideoOverviewInfoCopyClicked(object sender, RoutedEventArgs args)
         {
             if (videoInformation is not null && !string.IsNullOrEmpty(videoInformation.VideoOverviewInformation))
             {
@@ -1470,7 +1561,7 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 复制音频总览信息到剪贴板
         /// </summary>
-        private async Task OnAudioOverviewInfoCopyClicked(object sender, RoutedEventArgs args)
+        private async void OnAudioOverviewInfoCopyClicked(object sender, RoutedEventArgs args)
         {
             if (audioInformation is not null && !string.IsNullOrEmpty(audioInformation.AudioOverviewInformation))
             {
@@ -1654,15 +1745,67 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 复制图像 EXIF 信息到剪贴板
         /// </summary>
-        private void OnImageExifInfoCopyClicked(object sender, RoutedEventArgs args)
+        private async void OnImageExifInfoCopyClicked(object sender, RoutedEventArgs args)
         {
-            // TODO：未完成
+            string imageExifInfo = await Task.Run(() =>
+            {
+                if (imageInformation is not null && imageInformation.ImageExifInfo is not null)
+                {
+                    StringBuilder imageExifInfoBuilder = new();
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", CameraManufacturerString, imageInformation.ImageExifInfo.CameraManufacturer));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", CameraModelString, imageInformation.ImageExifInfo.CameraModel));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", FstopString, imageInformation.ImageExifInfo.Fstop));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", ExposureTimeString, imageInformation.ImageExifInfo.ExposureTime));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", ShootingDateString, imageInformation.ImageExifInfo.ShootingDate));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", ShutterSpeedString, imageInformation.ImageExifInfo.ShutterSpeed));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", MeteringModeString, imageInformation.ImageExifInfo.MeteringMode));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", FlashModeString, imageInformation.ImageExifInfo.FlashMode));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", XResolutionString, imageInformation.ImageExifInfo.XResolution));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", YResolutionString, imageInformation.ImageExifInfo.YResolution));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", WidthString, imageInformation.ImageExifInfo.Width));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", HeightString, imageInformation.ImageExifInfo.Height));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", FNumberString, imageInformation.ImageExifInfo.FNumber));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", ExposureProgramString, imageInformation.ImageExifInfo.ExposureProgram));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", SpectralSenseString, imageInformation.ImageExifInfo.SpectralSense));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", ISOSpeedString, imageInformation.ImageExifInfo.ISOSpeed));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", OECFString, imageInformation.ImageExifInfo.OECF));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", VersionString, imageInformation.ImageExifInfo.Version));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", CompressionConfigString, imageInformation.ImageExifInfo.CompressionConfig));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", CompressionBitsPerPixelString, imageInformation.ImageExifInfo.CompressionBitsPerPixel));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", ApertureString, imageInformation.ImageExifInfo.Aperture));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", BrightnessString, imageInformation.ImageExifInfo.Brightness));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", ExposureCompensationString, imageInformation.ImageExifInfo.ExposureCompensation));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", MaxApertureString, imageInformation.ImageExifInfo.MaxAperture));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", SubjectDistString, imageInformation.ImageExifInfo.SubjectDist));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", LightSourceString, imageInformation.ImageExifInfo.LightSource));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", FocalLengthString, imageInformation.ImageExifInfo.FocalLength));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", FlashPixVersionString, imageInformation.ImageExifInfo.FlashPixVersion));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", ColorIndicatesString, imageInformation.ImageExifInfo.ColorIndicates));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", InteropString, imageInformation.ImageExifInfo.Interop));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", FlashEnergyString, imageInformation.ImageExifInfo.FlashEnergy));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", SpatialFrequencyResponseString, imageInformation.ImageExifInfo.SpatialFrequencyResponse));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", FocalXResString, imageInformation.ImageExifInfo.FocalXRes));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", FocalYResString, imageInformation.ImageExifInfo.FocalYRes));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", FocalResUnitString, imageInformation.ImageExifInfo.FocalResUnit));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", ExposureIndexString, imageInformation.ImageExifInfo.ExposureIndex));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", SenseMethodString, imageInformation.ImageExifInfo.SenseMethod));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", SceneTypeString, imageInformation.ImageExifInfo.SceneType));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", CfaPatternString, imageInformation.ImageExifInfo.CfaPattern));
+                    return imageExifInfoBuilder.ToString();
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            });
+
+            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(CopyPasteHelper.CopyToClipboard(imageExifInfo)));
         }
 
         /// <summary>
         /// 复制图像总览信息到剪贴板
         /// </summary>
-        private async Task OnImageOverviewInfoCopyClicked(object sender, RoutedEventArgs args)
+        private async void OnImageOverviewInfoCopyClicked(object sender, RoutedEventArgs args)
         {
             if (imageInformation is not null && !string.IsNullOrEmpty(imageInformation.ImageOverviewInformation))
             {
@@ -1775,6 +1918,8 @@ namespace ModernFormatConverter.Views.Pages
             ImageDetailInfo = new();
             ImageDetailInfoSelectedIndex = 0;
             ImageDetailInfoCount = 0;
+            ImageExifInfo = new();
+            IsImageExifInfoExisted = false;
             ImageOverviewInfo = string.Empty;
             IsImageOverviewInfoExisted = false;
             await GetThumbnailAsync(filePath);
@@ -1844,6 +1989,12 @@ namespace ModernFormatConverter.Views.Pages
                 ImageDetailInfoCount = imageInformation.ImageDetailInfoList.Count;
                 ImageDetailInfo = imageInformation.ImageDetailInfoList.Count is 0 ? ImageDetailInfo : imageInformation.ImageDetailInfoList[0];
                 ImageDetailInfoSelectedIndex = 1;
+                ImageExifInfo = imageInformation.ImageExifInfo;
+                if (imageInformation.ImageExifInfo is not null)
+                {
+                    ImageExifInfo = imageInformation.ImageExifInfo;
+                    IsImageExifInfoExisted = true;
+                }
 
                 if (!string.IsNullOrEmpty(imageInformation.ImageOverviewInformation))
                 {
@@ -2567,8 +2718,52 @@ namespace ModernFormatConverter.Views.Pages
                             imageInformation.ImageDetailInfoList.Add(imageDetailInfo);
                         }
 
-                        // TODO：未完成
-                        imageInformation.ExifInfo = new();
+                        Metadata metadata = GetExifMetadata(filePath);
+                        if (metadata is not null)
+                        {
+                            imageInformation.ImageExifInfo = new()
+                            {
+                                CameraManufacturer = string.IsNullOrEmpty(metadata.EquipmentMake.DisplayValue) ? NotAvailableString : metadata.EquipmentMake.DisplayValue,
+                                CameraModel = string.IsNullOrEmpty(metadata.CameraModel.DisplayValue) ? NotAvailableString : metadata.CameraModel.DisplayValue,
+                                Fstop = string.IsNullOrEmpty(metadata.Fstop.DisplayValue) ? NotAvailableString : metadata.Fstop.DisplayValue,
+                                ExposureTime = string.IsNullOrEmpty(metadata.ExposureTime.DisplayValue) ? NotAvailableString : metadata.ExposureTime.DisplayValue,
+                                ShootingDate = string.IsNullOrEmpty(metadata.DatePictureTaken.DisplayValue) ? NotAvailableString : metadata.DatePictureTaken.DisplayValue,
+                                ShutterSpeed = string.IsNullOrEmpty(metadata.ShutterSpeed.DisplayValue) ? NotAvailableString : metadata.ShutterSpeed.DisplayValue,
+                                MeteringMode = string.IsNullOrEmpty(metadata.MeteringMode.DisplayValue) ? NotAvailableString : metadata.MeteringMode.DisplayValue,
+                                FlashMode = string.IsNullOrEmpty(metadata.Flash.DisplayValue) ? NotAvailableString : metadata.Flash.DisplayValue,
+                                XResolution = string.IsNullOrEmpty(metadata.XResolution.DisplayValue) ? NotAvailableString : metadata.XResolution.DisplayValue,
+                                YResolution = string.IsNullOrEmpty(metadata.YResolution.DisplayValue) ? NotAvailableString : metadata.YResolution.DisplayValue,
+                                Width = string.IsNullOrEmpty(metadata.ImageWidth.DisplayValue) ? NotAvailableString : metadata.ImageWidth.DisplayValue,
+                                Height = string.IsNullOrEmpty(metadata.ImageHeight.DisplayValue) ? NotAvailableString : metadata.ImageHeight.DisplayValue,
+                                FNumber = string.IsNullOrEmpty(metadata.FNumber.DisplayValue) ? NotAvailableString : metadata.FNumber.DisplayValue,
+                                ExposureProgram = string.IsNullOrEmpty(metadata.ExposureProg.DisplayValue) ? NotAvailableString : metadata.ExposureProg.DisplayValue,
+                                SpectralSense = string.IsNullOrEmpty(metadata.SpectralSense.DisplayValue) ? NotAvailableString : metadata.SpectralSense.DisplayValue,
+                                ISOSpeed = string.IsNullOrEmpty(metadata.ISOSpeed.DisplayValue) ? NotAvailableString : metadata.ISOSpeed.DisplayValue,
+                                OECF = string.IsNullOrEmpty(metadata.OECF.DisplayValue) ? NotAvailableString : metadata.OECF.DisplayValue,
+                                Version = string.IsNullOrEmpty(metadata.Ver.DisplayValue) ? NotAvailableString : metadata.Ver.DisplayValue,
+                                CompressionConfig = string.IsNullOrEmpty(metadata.CompConfig.DisplayValue) ? NotAvailableString : metadata.CompConfig.DisplayValue,
+                                CompressionBitsPerPixel = string.IsNullOrEmpty(metadata.CompBPP.DisplayValue) ? NotAvailableString : metadata.CompBPP.DisplayValue,
+                                Aperture = string.IsNullOrEmpty(metadata.Aperture.DisplayValue) ? NotAvailableString : metadata.Aperture.DisplayValue,
+                                Brightness = string.IsNullOrEmpty(metadata.Brightness.DisplayValue) ? NotAvailableString : metadata.Brightness.DisplayValue,
+                                ExposureCompensation = string.IsNullOrEmpty(metadata.ExposureBias.DisplayValue) ? NotAvailableString : metadata.ExposureBias.DisplayValue,
+                                MaxAperture = string.IsNullOrEmpty(metadata.MaxAperture.DisplayValue) ? NotAvailableString : metadata.MaxAperture.DisplayValue,
+                                SubjectDist = string.IsNullOrEmpty(metadata.SubjectDist.DisplayValue) ? NotAvailableString : metadata.SubjectDist.DisplayValue,
+                                LightSource = string.IsNullOrEmpty(metadata.LightSource.DisplayValue) ? NotAvailableString : metadata.LightSource.DisplayValue,
+                                FocalLength = string.IsNullOrEmpty(metadata.FocalLength.DisplayValue) ? NotAvailableString : metadata.FocalLength.DisplayValue,
+                                FlashPixVersion = string.IsNullOrEmpty(metadata.FPXVer.DisplayValue) ? NotAvailableString : metadata.FPXVer.DisplayValue,
+                                ColorIndicates = string.IsNullOrEmpty(metadata.ColorSpace.DisplayValue) ? NotAvailableString : metadata.ColorSpace.DisplayValue,
+                                Interop = string.IsNullOrEmpty(metadata.Interop.DisplayValue) ? NotAvailableString : metadata.Interop.DisplayValue,
+                                FlashEnergy = string.IsNullOrEmpty(metadata.FlashEnergy.DisplayValue) ? NotAvailableString : metadata.FlashEnergy.DisplayValue,
+                                SpatialFrequencyResponse = string.IsNullOrEmpty(metadata.SpatialFR.DisplayValue) ? NotAvailableString : metadata.SpatialFR.DisplayValue,
+                                FocalXRes = string.IsNullOrEmpty(metadata.FocalXRes.DisplayValue) ? NotAvailableString : metadata.FocalXRes.DisplayValue,
+                                FocalYRes = string.IsNullOrEmpty(metadata.FocalYRes.DisplayValue) ? NotAvailableString : metadata.FocalYRes.DisplayValue,
+                                FocalResUnit = string.IsNullOrEmpty(metadata.FocalResUnit.DisplayValue) ? NotAvailableString : metadata.FocalResUnit.DisplayValue,
+                                ExposureIndex = string.IsNullOrEmpty(metadata.ExposureIndex.DisplayValue) ? NotAvailableString : metadata.ExposureIndex.DisplayValue,
+                                SenseMethod = string.IsNullOrEmpty(metadata.SensingMethod.DisplayValue) ? NotAvailableString : metadata.SensingMethod.DisplayValue,
+                                SceneType = string.IsNullOrEmpty(metadata.SceneType.DisplayValue) ? NotAvailableString : metadata.SceneType.DisplayValue,
+                                CfaPattern = string.IsNullOrEmpty(metadata.CfaPattern.DisplayValue) ? NotAvailableString : metadata.CfaPattern.DisplayValue,
+                            };
+                        }
 
                         string imageOverviewInformation = await GetOverviewInformationAsync(handle);
                         imageInformation.ImageOverviewInformation = string.IsNullOrEmpty(imageOverviewInformation) ? NotAvailableString : imageOverviewInformation;
@@ -2657,6 +2852,446 @@ namespace ModernFormatConverter.Views.Pages
 
                 return overviewInformation;
             });
+        }
+
+        /// <summary>
+        /// 获取图片的 EXIF 信息
+        /// </summary>
+        private Metadata GetExifMetadata(string imagePath)
+        {
+            try
+            {
+                if (File.Exists(imagePath))
+                {
+                    System.Drawing.Image image = System.Drawing.Image.FromFile(imagePath);
+                    int[] imagePropertyIdList = image.PropertyIdList;
+                    PropertyItem[] imagePropertyItemList = new PropertyItem[imagePropertyIdList.Length];
+
+                    Metadata metadata = new();
+                    metadata.EquipmentMake.Hex = "10f";
+                    metadata.CameraModel.Hex = "110";
+                    metadata.DatePictureTaken.Hex = "9003";
+                    metadata.ExposureTime.Hex = "829a";
+                    metadata.Fstop.Hex = "829d";
+                    metadata.ShutterSpeed.Hex = "9201";
+                    metadata.MeteringMode.Hex = "9207";
+                    metadata.Flash.Hex = "9209";
+                    metadata.FNumber.Hex = "829d";
+                    metadata.ExposureProg.Hex = string.Empty;
+                    metadata.SpectralSense.Hex = "8824";
+                    metadata.ISOSpeed.Hex = "8827";
+                    metadata.OECF.Hex = "8828";
+                    metadata.Ver.Hex = "9000";
+                    metadata.CompConfig.Hex = "9101";
+                    metadata.CompBPP.Hex = "9102";
+                    metadata.Aperture.Hex = "9202";
+                    metadata.Brightness.Hex = "9203";
+                    metadata.ExposureBias.Hex = "9204";
+                    metadata.MaxAperture.Hex = "9205";
+                    metadata.SubjectDist.Hex = "9206";
+                    metadata.LightSource.Hex = "9208";
+                    metadata.FocalLength.Hex = "920a";
+                    metadata.FPXVer.Hex = "a000";
+                    metadata.ColorSpace.Hex = "a001";
+                    metadata.FocalXRes.Hex = "a20e";
+                    metadata.FocalYRes.Hex = "a20f";
+                    metadata.FocalResUnit.Hex = "a210";
+                    metadata.ExposureIndex.Hex = "a215";
+                    metadata.SensingMethod.Hex = "a217";
+                    metadata.SceneType.Hex = "a301";
+                    metadata.CfaPattern.Hex = "a302";
+
+                    int index = 0;
+                    int imagePropertyIdListCount = imagePropertyIdList.Length;
+                    if (imagePropertyIdListCount is not 0)
+                    {
+                        foreach (int imagePropertyId in imagePropertyIdList)
+                        {
+                            string hexVal = string.Empty;
+                            imagePropertyItemList[index] = image.GetPropertyItem(imagePropertyId);
+                            string imagePropertyIdString = image.GetPropertyItem(imagePropertyId).Id.ToString("x");
+                            switch (imagePropertyIdString)
+                            {
+                                case "10f":
+                                    {
+                                        metadata.EquipmentMake.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        metadata.EquipmentMake.DisplayValue = Encoding.ASCII.GetString(imagePropertyItemList[index].Value);
+                                        break;
+                                    }
+                                case "110":
+                                    {
+                                        metadata.CameraModel.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        metadata.CameraModel.DisplayValue = Encoding.ASCII.GetString(imagePropertyItemList[index].Value);
+                                        break;
+                                    }
+                                case "9003":
+                                    {
+                                        metadata.DatePictureTaken.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        string displayValue = Encoding.ASCII.GetString(imagePropertyItemList[index].Value).Trim('\0');
+                                        metadata.DatePictureTaken.DisplayValue = DateTime.TryParseExact(displayValue, "yyyy:MM:dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateTime) ? dateTime.ToString("yyyy/MM/dd HH:mm:ss") : displayValue;
+                                        break;
+                                    }
+                                case "9207":
+                                    {
+                                        metadata.MeteringMode.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        metadata.MeteringMode.DisplayValue = LookupExifValue("MeteringMode", BitConverter.ToInt16(image.GetPropertyItem(imagePropertyId).Value, 0).ToString());
+                                        break;
+                                    }
+                                case "9209":
+                                    {
+                                        metadata.Flash.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        metadata.Flash.DisplayValue = LookupExifValue("Flash", BitConverter.ToInt16(image.GetPropertyItem(imagePropertyId).Value, 0).ToString());
+                                        break;
+                                    }
+                                case "829a":
+                                    {
+                                        byte[] value = image.GetPropertyItem(imagePropertyId).Value;
+                                        metadata.ExposureTime.RawValueAsString = BitConverter.ToString(value);
+                                        uint numerator = BitConverter.ToUInt32(value, 0);
+                                        uint denominator = BitConverter.ToUInt32(value, 4);
+                                        string displayValue;
+                                        if (denominator is 0)
+                                        {
+                                            displayValue = NotAvailableString;
+                                        }
+                                        else
+                                        {
+                                            double exposure = (double)numerator / denominator;
+                                            if (exposure >= 1)
+                                            {
+                                                displayValue = string.Format("{0:0.###} {1}", exposure, SecondString);
+                                            }
+                                            else
+                                            {
+                                                int reciprocal = (int)Math.Round(1.0 / exposure);
+                                                displayValue = string.Format("1/{0} {1}", reciprocal, SecondString);
+                                            }
+                                        }
+                                        metadata.ExposureTime.DisplayValue = displayValue;
+                                        break;
+                                    }
+                                case "829d":
+                                    {
+                                        metadata.Fstop.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        int int1;
+                                        int int2;
+                                        int1 = BitConverter.ToInt32(image.GetPropertyItem(imagePropertyId).Value, 0);
+                                        int2 = BitConverter.ToInt32(image.GetPropertyItem(imagePropertyId).Value, 4);
+                                        metadata.Fstop.DisplayValue = string.Format("F/{0:0.0}", (double)int1 / int2);
+                                        metadata.FNumber.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        metadata.FNumber.DisplayValue = BitConverter.ToInt16(image.GetPropertyItem(imagePropertyId).Value, 0).ToString();
+                                        break;
+                                    }
+                                case "9201":
+                                    {
+                                        metadata.ShutterSpeed.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        string stringValue = BitConverter.ToInt32(image.GetPropertyItem(imagePropertyId).Value, 0).ToString();
+                                        metadata.ShutterSpeed.DisplayValue = "1/" + stringValue;
+                                        break;
+                                    }
+                                case "8822":
+                                    {
+                                        metadata.ExposureProg.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        metadata.ExposureProg.DisplayValue = LookupExifValue("ExposureProg", BitConverter.ToInt16(image.GetPropertyItem(imagePropertyId).Value, 0).ToString());
+                                        break;
+                                    }
+                                case "8824":
+                                    {
+                                        metadata.SpectralSense.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        metadata.SpectralSense.DisplayValue = Encoding.ASCII.GetString(imagePropertyItemList[index].Value);
+                                        break;
+                                    }
+                                case "8827":
+                                    {
+                                        hexVal = string.Empty;
+                                        metadata.ISOSpeed.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        hexVal = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value).Substring(0, 2);
+                                        metadata.ISOSpeed.DisplayValue = Convert.ToInt32(hexVal, 16).ToString();
+                                        break;
+                                    }
+                                case "8828":
+                                    {
+                                        metadata.OECF.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        metadata.OECF.DisplayValue = Encoding.ASCII.GetString(imagePropertyItemList[index].Value);
+                                        break;
+                                    }
+                                case "9000":
+                                    {
+                                        metadata.Ver.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        metadata.Ver.DisplayValue = Encoding.ASCII.GetString(imagePropertyItemList[index].Value).Substring(1, 1) + "." + Encoding.ASCII.GetString(imagePropertyItemList[index].Value).Substring(2, 2);
+                                        break;
+                                    }
+                                case "9101":
+                                    {
+                                        metadata.CompConfig.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        metadata.CompConfig.DisplayValue = LookupExifValue("CompConfig", BitConverter.ToInt16(image.GetPropertyItem(imagePropertyId).Value, 0).ToString());
+                                        break;
+                                    }
+                                case "9102":
+                                    {
+                                        byte[] value = image.GetPropertyItem(imagePropertyId).Value;
+                                        uint numerator = BitConverter.ToUInt32(value, 0);
+                                        uint denominator = BitConverter.ToUInt32(value, 4);
+                                        metadata.CompBPP.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        metadata.CompBPP.DisplayValue = denominator is 0 ? NotAvailableString : string.Format("{0:0.##}", (double)numerator / denominator);
+                                        break;
+                                    }
+                                case "9202":
+                                    {
+                                        hexVal = string.Empty;
+                                        metadata.Aperture.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        hexVal = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value).Substring(0, 2);
+                                        hexVal = Convert.ToInt32(hexVal, 16).ToString();
+                                        hexVal += "00";
+                                        metadata.Aperture.DisplayValue = hexVal.Substring(0, 1) + "." + hexVal.Substring(1, 2);
+                                        break;
+                                    }
+                                case "9203":
+                                    {
+                                        hexVal = string.Empty;
+                                        metadata.Brightness.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        hexVal = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value).Substring(0, 2);
+                                        hexVal = Convert.ToInt32(hexVal, 16).ToString();
+                                        hexVal += "00";
+                                        metadata.Brightness.DisplayValue = hexVal.Substring(0, 1) + "." + hexVal.Substring(1, 2);
+                                        break;
+                                    }
+                                case "9204":
+                                    {
+                                        metadata.ExposureBias.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        metadata.ExposureBias.DisplayValue = BitConverter.ToInt16(image.GetPropertyItem(imagePropertyId).Value, 0).ToString();
+                                        break;
+                                    }
+                                case "9205":
+                                    {
+                                        hexVal = string.Empty;
+                                        metadata.MaxAperture.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        hexVal = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value).Substring(0, 2);
+                                        hexVal = Convert.ToInt32(hexVal, 16).ToString();
+                                        hexVal += "00";
+                                        metadata.MaxAperture.DisplayValue = hexVal.Substring(0, 1) + "." + hexVal.Substring(1, 2);
+                                        break;
+                                    }
+                                case "9206":
+                                    {
+                                        metadata.SubjectDist.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        metadata.SubjectDist.DisplayValue = Encoding.ASCII.GetString(imagePropertyItemList[index].Value);
+                                        break;
+                                    }
+                                case "9208":
+                                    {
+                                        metadata.LightSource.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        metadata.LightSource.DisplayValue = LookupExifValue("LightSource", BitConverter.ToInt16(image.GetPropertyItem(imagePropertyId).Value, 0).ToString());
+                                        break;
+                                    }
+                                case "920a":
+                                    {
+                                        hexVal = string.Empty;
+                                        metadata.FocalLength.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        hexVal = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value).Substring(0, 2);
+                                        hexVal = Convert.ToInt32(hexVal, 16).ToString();
+                                        hexVal += "00";
+                                        metadata.FocalLength.DisplayValue = hexVal.Substring(0, 1) + "." + hexVal.Substring(1, 2);
+                                        break;
+                                    }
+                                case "a000":
+                                    {
+                                        metadata.FPXVer.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        metadata.FPXVer.DisplayValue = Encoding.ASCII.GetString(imagePropertyItemList[index].Value).Substring(1, 1) + "." + Encoding.ASCII.GetString(imagePropertyItemList[index].Value).Substring(2, 2);
+                                        break;
+                                    }
+                                case "a001":
+                                    {
+                                        metadata.ColorSpace.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        if (BitConverter.ToInt16(image.GetPropertyItem(imagePropertyId).Value, 0).ToString() is "1")
+                                        {
+                                            metadata.ColorSpace.DisplayValue = "RGB";
+                                        }
+                                        if (BitConverter.ToInt16(image.GetPropertyItem(imagePropertyId).Value, 0).ToString() is "65535")
+                                        {
+                                            metadata.ColorSpace.DisplayValue = "Uncalibrated";
+                                        }
+                                        break;
+                                    }
+                                case "a20e":
+                                    {
+                                        metadata.FocalXRes.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        metadata.FocalXRes.DisplayValue = BitConverter.ToInt16(image.GetPropertyItem(imagePropertyId).Value, 0).ToString();
+                                        break;
+                                    }
+                                case "a20f":
+                                    {
+                                        metadata.FocalYRes.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        metadata.FocalYRes.DisplayValue = BitConverter.ToInt16(image.GetPropertyItem(imagePropertyId).Value, 0).ToString();
+                                        break;
+                                    }
+                                case "a210":
+                                    {
+                                        string aa;
+                                        metadata.FocalResUnit.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        aa = BitConverter.ToInt16(image.GetPropertyItem(imagePropertyId).Value, 0).ToString(); ;
+                                        if (aa is "1")
+                                        {
+                                            metadata.FocalResUnit.DisplayValue = NoUnitString;
+                                        }
+                                        else if (aa is "2")
+                                        {
+                                            metadata.FocalResUnit.DisplayValue = FootString;
+                                        }
+                                        else if (aa is "3")
+                                        {
+                                            metadata.FocalResUnit.DisplayValue = CentimeterString;
+                                        }
+                                        break;
+                                    }
+                                case "a215":
+                                    {
+                                        metadata.ExposureIndex.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        metadata.ExposureIndex.DisplayValue = Encoding.ASCII.GetString(imagePropertyItemList[index].Value);
+                                        break;
+                                    }
+                                case "a217":
+                                    {
+                                        string aa;
+                                        aa = BitConverter.ToInt16(image.GetPropertyItem(imagePropertyId).Value, 0).ToString();
+                                        metadata.SensingMethod.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        if (aa is "2")
+                                        {
+                                            metadata.SensingMethod.DisplayValue = OneChipColorAreaSensorString;
+                                        }
+                                        break;
+                                    }
+                                case "a301":
+                                    {
+                                        metadata.SceneType.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        metadata.SceneType.DisplayValue = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        break;
+                                    }
+                                case "a302":
+                                    {
+                                        metadata.CfaPattern.RawValueAsString = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        metadata.CfaPattern.DisplayValue = BitConverter.ToString(image.GetPropertyItem(imagePropertyId).Value);
+                                        break;
+                                    }
+                            }
+                            index++;
+                        }
+                    }
+                    metadata.XResolution.DisplayValue = Convert.ToString(image.HorizontalResolution);
+                    metadata.YResolution.DisplayValue = Convert.ToString(image.VerticalResolution);
+                    metadata.ImageHeight.DisplayValue = Convert.ToString(image.Height);
+                    metadata.ImageWidth.DisplayValue = Convert.ToString(image.Width);
+                    image.Dispose();
+                    return metadata;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(FileInformationPage), nameof(GetExifMetadata), 1, e);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 查找 EXIF 元素值
+        /// </summary>
+        private string LookupExifValue(string description, string value)
+        {
+            string descriptionValue = null;
+
+            switch (description)
+            {
+                case "MeteringMode":
+                    {
+                        switch (value)
+                        {
+                            case "0": descriptionValue = UnknownString; break;
+                            case "1": descriptionValue = AverageString; break;
+                            case "2": descriptionValue = BimodalAverageString; break;
+                            case "3": descriptionValue = SpotString; break;
+                            case "4": descriptionValue = MultiSpotString; break;
+                            case "5": descriptionValue = PatternString; break;
+                            case "6": descriptionValue = PartialString; break;
+                            case "255": descriptionValue = OtherString; break;
+                        }
+                        break;
+                    }
+                case "ResolutionUnit":
+                    {
+                        switch (value)
+                        {
+                            case "1": descriptionValue = NoUnitString; break;
+                            case "2": descriptionValue = InchString; break;
+                            case "3": descriptionValue = CentimeterString; break;
+                        }
+                        break;
+                    }
+                case "Flash":
+                    {
+                        switch (value)
+                        {
+                            case "0": descriptionValue = NoFlashString; break;
+                            case "1": descriptionValue = FlashString; break;
+                            case "5": descriptionValue = FlashWithoutStrobeReturnLightString; break;
+                            case "7": descriptionValue = FlashWithStrobeReturnLightString; break;
+                        }
+                        break;
+                    }
+                case "ExposureProg":
+                    {
+                        switch (value)
+                        {
+                            case "0": descriptionValue = UnknownString; break;
+                            case "1": descriptionValue = ManualString; break;
+                            case "2": descriptionValue = NormalString; break;
+                            case "3": descriptionValue = AperturePriorityString; break;
+                            case "4": descriptionValue = ShutterPriorityString; break;
+                            case "5": descriptionValue = CreateProgramString; break;
+                            case "6": descriptionValue = OperationProgramString; break;
+                            case "7": descriptionValue = VerticalModeString; break;
+                            case "8": descriptionValue = HorizontalModeString; break;
+                            case "9": descriptionValue = ReservedString; break;
+                        }
+                        break;
+                    }
+                case "CompConfig":
+                    {
+                        switch (value)
+                        {
+                            case "513": descriptionValue = "YCbCr"; break;
+                        }
+                        break;
+                    }
+                case "Aperture":
+                    {
+                        descriptionValue = value;
+                        break;
+                    }
+                case "LightSource":
+                    {
+                        switch (value)
+                        {
+                            case "0": descriptionValue = UnknownString; break;
+                            case "1": descriptionValue = SunlightString; break;
+                            case "2": descriptionValue = FluorescentLampString; break;
+                            case "3": descriptionValue = IncandescentLampString; break;
+                            case "10": descriptionValue = FlashLampString; break;
+                            case "17": descriptionValue = StandardLightAString; break;
+                            case "18": descriptionValue = StandardLightBString; break;
+                            case "19": descriptionValue = StandardLightCString; break;
+                            case "20": descriptionValue = StandardLightD55String; break;
+                            case "21": descriptionValue = StandardLightD65String; break;
+                            case "22": descriptionValue = StandardLightD75String; break;
+                            case "255": descriptionValue = OtherString; break;
+                        }
+                        break;
+                    }
+            }
+            return descriptionValue;
         }
 
         private static MemoryStream CreateShellIDList(StringCollection fileNameCollection)
