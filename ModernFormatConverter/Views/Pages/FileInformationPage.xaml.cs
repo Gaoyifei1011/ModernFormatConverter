@@ -96,12 +96,27 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string FileSpaceUsageString = ResourceService.FileInformationResource.GetString("FileSpaceUsage");
         private readonly string FileTypeString = ResourceService.FileInformationResource.GetString("FileType");
         private readonly string FlashString = ResourceService.FileInformationResource.GetString("Flash");
+        private readonly string FlashAutoString = ResourceService.FileInformationResource.GetString("FlashAuto");
+        private readonly string FlashAutoNoStrobeReturnLightString = ResourceService.FileInformationResource.GetString("FlashAutoNoStrobeReturnLight");
+        private readonly string FlashAutoRedEyeString = ResourceService.FileInformationResource.GetString("FlashAutoRedEye");
+        private readonly string FlashAutoRedEyeNoStrobeReturnLightString = ResourceService.FileInformationResource.GetString("FlashAutoRedEyeNoStrobeReturnLight");
+        private readonly string FlashAutoRedEyeStrobeReturnLightString = ResourceService.FileInformationResource.GetString("FlashAutoRedEyeStrobeReturnLight");
+        private readonly string FlashAutoStrobeReturnLightString = ResourceService.FileInformationResource.GetString("FlashAutoStrobeReturnLight");
         private readonly string FlashEnergyString = ResourceService.FileInformationResource.GetString("FlashEnergy");
+        private readonly string FlashForceString = ResourceService.FileInformationResource.GetString("FlashForce");
+        private readonly string FlashForceNoStrobeReturnLightString = ResourceService.FileInformationResource.GetString("FlashForceNoStrobeReturnLight");
+        private readonly string FlashForceRedEyeString = ResourceService.FileInformationResource.GetString("FlashForceRedEye");
+        private readonly string FlashForceRedEyeNoStrobeReturnLightString = ResourceService.FileInformationResource.GetString("FlashForceRedEyeNoStrobeReturnLight");
+        private readonly string FlashForceRedEyeStrobeReturnLightString = ResourceService.FileInformationResource.GetString("FlashForceRedEyeStrobeReturnLight");
+        private readonly string FlashForceStrobeReturnLightString = ResourceService.FileInformationResource.GetString("FlashForceStrobeReturnLight");
         private readonly string FlashLampString = ResourceService.FileInformationResource.GetString("FlashLamp");
         private readonly string FlashModeString = ResourceService.FileInformationResource.GetString("FlashMode");
+        private readonly string FlashNoStrobeReturnLightString = ResourceService.FileInformationResource.GetString("FlashNoStrobeReturnLight");
+        private readonly string FlashRedEyeString = ResourceService.FileInformationResource.GetString("FlashRedEye");
+        private readonly string FlashRedEyeNoStrobeReturnLightString = ResourceService.FileInformationResource.GetString("FlashRedEyeNoStrobeReturnLight");
+        private readonly string FlashRedEyeStrobeReturnLightString = ResourceService.FileInformationResource.GetString("FlashRedEyeStrobeReturnLight");
+        private readonly string FlashStrobeReturnLightString = ResourceService.FileInformationResource.GetString("FlashStrobeReturnLight");
         private readonly string FlashPixVersionString = ResourceService.FileInformationResource.GetString("FlashPixVersion");
-        private readonly string FlashWithoutStrobeReturnLightString = ResourceService.FileInformationResource.GetString("FlashWithoutStrobeReturnLight");
-        private readonly string FlashWithStrobeReturnLightString = ResourceService.FileInformationResource.GetString("FlashWithStrobeReturnLight");
         private readonly string FluorescentLampString = ResourceService.FileInformationResource.GetString("FluorescentLamp");
         private readonly string FNumberString = ResourceService.FileInformationResource.GetString("FNumber");
         private readonly string FocalLengthString = ResourceService.FileInformationResource.GetString("FocalLength");
@@ -135,6 +150,9 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string MinimumFrameRateString = ResourceService.FileInformationResource.GetString("MinimumFrameRate");
         private readonly string MultiSpotString = ResourceService.FileInformationResource.GetString("MultiSpot");
         private readonly string NoFlashString = ResourceService.FileInformationResource.GetString("NoFlash");
+        private readonly string NoFlashAutoString = ResourceService.FileInformationResource.GetString("NoFlashAuto");
+        private readonly string NoFlashFeatureString = ResourceService.FileInformationResource.GetString("NoFlashFeature");
+        private readonly string NoFlashForceString = ResourceService.FileInformationResource.GetString("NoFlashForce");
         private readonly string NoMultiFileString = ResourceService.FileInformationResource.GetString("NoMultiFile");
         private readonly string NormalString = ResourceService.FileInformationResource.GetString("Normal");
         private readonly string NoString = ResourceService.FileInformationResource.GetString("No");
@@ -2863,6 +2881,7 @@ namespace ModernFormatConverter.Views.Pages
             {
                 if (File.Exists(imagePath))
                 {
+                    // TODO：不支持 .HEIC 和 WEBP（暂未想到好的解决方案，使用 COM API IWICImagingFactory?）
                     System.Drawing.Image image = System.Drawing.Image.FromFile(imagePath);
                     int[] imagePropertyIdList = image.PropertyIdList;
                     PropertyItem[] imagePropertyItemList = new PropertyItem[imagePropertyIdList.Length];
@@ -3236,8 +3255,26 @@ namespace ModernFormatConverter.Views.Pages
                         {
                             case "0": descriptionValue = NoFlashString; break;
                             case "1": descriptionValue = FlashString; break;
-                            case "5": descriptionValue = FlashWithoutStrobeReturnLightString; break;
-                            case "7": descriptionValue = FlashWithStrobeReturnLightString; break;
+                            case "5": descriptionValue = FlashNoStrobeReturnLightString; break;
+                            case "7": descriptionValue = FlashStrobeReturnLightString; break;
+                            case "9": descriptionValue = FlashForceString; break;
+                            case "13": descriptionValue = FlashForceNoStrobeReturnLightString; break;
+                            case "15": descriptionValue = FlashForceStrobeReturnLightString; break;
+                            case "16": descriptionValue = FlashForceString; break;
+                            case "24": descriptionValue = NoFlashAutoString; break;
+                            case "25": descriptionValue = FlashAutoString; break;
+                            case "29": descriptionValue = FlashAutoNoStrobeReturnLightString; break;
+                            case "31": descriptionValue = FlashAutoStrobeReturnLightString; break;
+                            case "32": descriptionValue = NoFlashFeatureString; break;
+                            case "65": descriptionValue = FlashRedEyeString; break;
+                            case "69": descriptionValue = FlashRedEyeNoStrobeReturnLightString; break;
+                            case "71": descriptionValue = FlashRedEyeStrobeReturnLightString; break;
+                            case "73": descriptionValue = FlashForceRedEyeString; break;
+                            case "77": descriptionValue = FlashForceRedEyeNoStrobeReturnLightString; break;
+                            case "79": descriptionValue = FlashForceRedEyeStrobeReturnLightString; break;
+                            case "89": descriptionValue = FlashAutoRedEyeString; break;
+                            case "93": descriptionValue = FlashAutoRedEyeNoStrobeReturnLightString; break;
+                            case "95": descriptionValue = FlashAutoRedEyeStrobeReturnLightString; break;
                         }
                         break;
                     }
