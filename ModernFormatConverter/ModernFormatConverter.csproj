@@ -232,7 +232,9 @@
     <Reference Include="$(Pkgmicrosoft_windows_sdk_net_ref)\winmd\*.winmd" Private="false" Visible="false" />
     <Reference Include="$(WindowsSdkPath)\UnionMetadata\$(TargetPlatformVersion)\Facade\Windows.WinMD" Private="false" Visible="false" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PresentationCore" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
 
   <ItemGroup>

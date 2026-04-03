@@ -3500,677 +3500,703 @@
                                             Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('EmptyImageInfo')}"
                                             Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsImageExifInfoExisted), Mode=OneWay}" />
 
-                                        <Grid RowSpacing="3" Visibility="{x:Bind IsImageExifInfoExisted, Mode=OneWay}">
+                                        <Grid Visibility="{x:Bind IsImageExifInfoExisted, Mode=OneWay}">
                                             <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
                                                 <RowDefinition Height="Auto" />
                                                 <RowDefinition Height="Auto" />
                                             </Grid.RowDefinitions>
 
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-
-                                            <TextBlock
+                                            <Grid
                                                 Grid.Row="0"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CameraManufacturer')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="0"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.CameraManufacturer, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="1"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CameraModel')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="1"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.CameraModel, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="2"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Fstop')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="2"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.Fstop, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="3"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ExposureTime')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="3"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.ExposureTime, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="4"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ShootingDate')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="4"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.ShootingDate, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="5"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ShutterSpeed')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="5"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.ShutterSpeed, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="6"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('MeteringMode')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="6"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.MeteringMode, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="7"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('FlashMode')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="7"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.FlashMode, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="8"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('XResolution')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="8"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.XResolution, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="9"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('YResolution')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="9"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.YResolution, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="10"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Width')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="10"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.Width, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="11"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Height')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="11"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.Height, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="12"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('FNumber')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="12"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.FNumber, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="13"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ExposureProgram')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="13"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.ExposureProgram, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="14"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('SpectralSense')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="14"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.SpectralSense, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="15"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ISOSpeed')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="15"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.ISOSpeed, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="16"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('OECF')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="16"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.OECF, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="17"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Version')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="17"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.Version, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="18"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CompressionConfig')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="18"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.CompressionConfig, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="19"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CompressionBitsPerPixel')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="19"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.CompressionBitsPerPixel, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="20"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Aperture')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="20"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.Aperture, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="21"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Brightness')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="21"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.Brightness, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="22"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ExposureCompensation')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="22"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.ExposureCompensation, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="23"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('MaxAperture')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="23"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.MaxAperture, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="24"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('SubjectDist')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="24"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.SubjectDist, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="25"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('LightSource')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="25"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.LightSource, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="26"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('FocalLength')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="26"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.FocalLength, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="27"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('FlashPixVersion')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="27"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.FlashPixVersion, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="28"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ColorIndicates')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="28"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.ColorIndicates, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="29"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Interop')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="29"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.Interop, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="30"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('FlashEnergy')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="30"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.FlashEnergy, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="31"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('SpatialFrequencyResponse')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="31"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.SpatialFrequencyResponse, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="32"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('FocalXRes')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="32"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.FocalXRes, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="33"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('FocalYRes')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="33"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.FocalYRes, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="34"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('FocalResUnit')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="34"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.FocalResUnit, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="35"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ExposureIndex')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="35"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.ExposureIndex, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="36"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('SenseMethod')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="36"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.SenseMethod, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="37"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('SceneType')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="37"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.SceneType, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="38"
-                                                Grid.Column="0"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CfaPattern')}"
-                                                TextWrapping="Wrap" />
-
-                                            <TextBlock
-                                                Grid.Row="38"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Left"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ImageExifInfo.CfaPattern, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
+                                                Margin="0,0,0,10"
+                                                RowSpacing="3">
+
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBlock
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Grid.ColumnSpan="2"
+                                                    HorizontalAlignment="Left"
+                                                    FontSize="16"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('IFD0')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="1"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CameraManufacturer')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="1"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.CameraManufacturer, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="2"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CameraModel')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="2"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.CameraModel, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="3"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('DateTaken')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="3"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.DateTaken, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="4"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('XResolution')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="4"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.XResolution, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="5"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('YResolution')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="5"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.YResolution, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="6"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Width')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="6"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.Width, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="7"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Height')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="7"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.Height, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="8"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ResolutionUnit')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="8"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.ResolutionUnit, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+                                            </Grid>
+
+                                            <Grid Grid.Row="1" RowSpacing="3">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBlock
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Grid.ColumnSpan="2"
+                                                    HorizontalAlignment="Left"
+                                                    FontSize="16"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ExifIFD')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="1"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ExposureTime')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="1"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.ExposureTime, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="2"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ShutterSpeed')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="2"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.ShutterSpeed, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="3"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('MeteringMode')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="3"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.MeteringMode, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="4"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('FlashMode')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="4"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.FlashMode, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="5"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('FNumber')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="5"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.FNumber, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="6"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ExposureProgram')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="6"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.ExposureProgram, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="7"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('SpectralSense')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="7"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.SpectralSense, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="8"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ISOSpeed')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="8"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.ISOSpeed, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="9"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('OECF')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="9"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.OECF, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="10"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Version')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="10"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.Version, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="11"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CompressionConfig')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="11"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.CompressionConfig, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="12"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CompressionBitsPerPixel')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="12"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.CompressionBitsPerPixel, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="13"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Aperture')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="13"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.Aperture, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="14"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Brightness')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="14"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.Brightness, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="15"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ExposureCompensation')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="15"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.ExposureCompensation, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="16"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('MaxAperture')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="16"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.MaxAperture, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="17"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('SubjectDist')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="17"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.SubjectDist, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="18"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('LightSource')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="18"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.LightSource, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="19"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('FocalLength')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="19"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.FocalLength, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="20"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('FlashPixVersion')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="20"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.FlashPixVersion, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="21"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ColorIndicates')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="21"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.ColorIndicates, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="22"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Interop')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="22"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.Interop, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="23"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('FlashEnergy')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="23"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.FlashEnergy, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="24"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('SpatialFrequencyResponse')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="24"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.SpatialFrequencyResponse, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="25"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('FocalLengthIn35mmFormat')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="25"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.FocalLengthIn35mmFormat, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="26"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ExposureIndex')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="26"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.ExposureIndex, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="27"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('SenseMethod')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="27"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.SenseMethod, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="28"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('SceneType')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="28"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.SceneType, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="29"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('CfaPattern')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="29"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.CfaPattern, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="30"
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('WhiteBalance')}"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBlock
+                                                    Grid.Row="30"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ImageExifInfo.WhiteBalance, Mode=OneWay}"
+                                                    TextWrapping="Wrap" />
+                                            </Grid>
                                         </Grid>
                                     </Grid>
 

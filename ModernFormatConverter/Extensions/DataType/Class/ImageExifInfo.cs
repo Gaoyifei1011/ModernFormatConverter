@@ -16,11 +16,6 @@
         public string CameraModel { get; set; }
 
         /// <summary>
-        /// 光圈值
-        /// </summary>
-        public string Fstop { get; set; }
-
-        /// <summary>
         /// 曝光时间
         /// </summary>
         public string ExposureTime { get; set; }
@@ -28,7 +23,7 @@
         /// <summary>
         /// 拍摄日期
         /// </summary>
-        public string ShootingDate { get; set; }
+        public string DateTaken { get; set; }
 
         /// <summary>
         /// 快门速度
@@ -54,6 +49,11 @@
         /// 垂直分辨率
         /// </summary>
         public string YResolution { get; set; }
+
+        /// <summary>
+        /// 分辨率单位
+        /// </summary>
+        public string ResolutionUnit { get; set; }
 
         /// <summary>
         /// 宽度
@@ -181,6 +181,11 @@
         public string FocalResUnit { get; set; }
 
         /// <summary>
+        /// 35mm 焦距
+        /// </summary>
+        public string FocalLengthIn35mmFormat { get; set; }
+
+        /// <summary>
         /// 曝光指数
         /// </summary>
         public string ExposureIndex { get; set; }
@@ -199,5 +204,10 @@
         /// 色彩滤镜阵列
         /// </summary>
         public string CfaPattern { get; set; }
+
+        /// <summary>
+        /// 白平衡
+        /// </summary>
+        public string WhiteBalance { get; set; }
     }
 }
