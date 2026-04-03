@@ -1048,9 +1048,13 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 查看使用说明
         /// </summary>
-        private void OnFunctionInstructionClicked(object sender, RoutedEventArgs args)
+        private async void OnUseInstructionClicked(object sender, RoutedEventArgs args)
         {
-            FlyoutBase.ShowAttachedFlyout(ViewMoreButton);
+            await Task.Delay(300);
+            if (!FileInformationSplitView.IsPaneOpen)
+            {
+                FileInformationSplitView.IsPaneOpen = true;
+            }
         }
 
         /// <summary>
@@ -1891,6 +1895,17 @@ namespace ModernFormatConverter.Views.Pages
             {
                 ImageDetailInfoSelectedIndex++;
                 ImageDetailInfo = imageInformation.ImageDetailInfoList[ImageDetailInfoSelectedIndex - 1];
+            }
+        }
+
+        /// <summary>
+        /// 点击关闭按钮关闭使用说明
+        /// </summary>
+        private void OnCloseClicked(object sender, RoutedEventArgs args)
+        {
+            if (FileInformationSplitView.IsPaneOpen)
+            {
+                FileInformationSplitView.IsPaneOpen = false;
             }
         }
 
