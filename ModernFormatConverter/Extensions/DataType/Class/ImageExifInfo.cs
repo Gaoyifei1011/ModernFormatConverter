@@ -5,6 +5,8 @@
     /// </summary>
     public class ImageExifInfo
     {
+        #region IFD0
+
         /// <summary>
         /// 照相机制造商
         /// </summary>
@@ -16,14 +18,43 @@
         public string CameraModel { get; set; }
 
         /// <summary>
-        /// 曝光时间
-        /// </summary>
-        public string ExposureTime { get; set; }
-
-        /// <summary>
         /// 拍摄日期
         /// </summary>
         public string DateTaken { get; set; }
+
+        /// <summary>
+        /// 水平分辨率
+        /// </summary>
+        public string XResolution { get; set; }
+
+        /// <summary>
+        /// 垂直分辨率
+        /// </summary>
+        public string YResolution { get; set; }
+
+        /// <summary>
+        /// 宽度
+        /// </summary>
+        public string Width { get; set; }
+
+        /// <summary>
+        /// 高度
+        /// </summary>
+        public string Height { get; set; }
+
+        /// <summary>
+        /// 分辨率单位
+        /// </summary>
+        public string ResolutionUnit { get; set; }
+
+        #endregion IFD0
+
+        #region ExifIFD
+
+        /// <summary>
+        /// 曝光时间
+        /// </summary>
+        public string ExposureTime { get; set; }
 
         /// <summary>
         /// 快门速度
@@ -39,31 +70,6 @@
         /// 闪光灯模式
         /// </summary>
         public string FlashMode { get; set; }
-
-        /// <summary>
-        /// 水平分辨率
-        /// </summary>
-        public string XResolution { get; set; }
-
-        /// <summary>
-        /// 垂直分辨率
-        /// </summary>
-        public string YResolution { get; set; }
-
-        /// <summary>
-        /// 分辨率单位
-        /// </summary>
-        public string ResolutionUnit { get; set; }
-
-        /// <summary>
-        /// 宽度
-        /// </summary>
-        public string Width { get; set; }
-
-        /// <summary>
-        /// 高度
-        /// </summary>
-        public string Height { get; set; }
 
         /// <summary>
         /// 光圈 F 值
@@ -128,7 +134,7 @@
         /// <summary>
         /// 目标距离
         /// </summary>
-        public string SubjectDist { get; set; }
+        public string SubjectDistance { get; set; }
 
         /// <summary>
         /// 光源
@@ -166,21 +172,6 @@
         public string SpatialFrequencyResponse { get; set; }
 
         /// <summary>
-        /// 焦距水平分辨率
-        /// </summary>
-        public string FocalXRes { get; set; }
-
-        /// <summary>
-        /// 焦距垂直分辨率
-        /// </summary>
-        public string FocalYRes { get; set; }
-
-        /// <summary>
-        /// 焦距分辨率单位
-        /// </summary>
-        public string FocalResUnit { get; set; }
-
-        /// <summary>
         /// 35mm 焦距
         /// </summary>
         public string FocalLengthIn35mmFormat { get; set; }
@@ -209,5 +200,7 @@
         /// 白平衡
         /// </summary>
         public string WhiteBalance { get; set; }
+
+        #endregion ExifIFD
     }
 }

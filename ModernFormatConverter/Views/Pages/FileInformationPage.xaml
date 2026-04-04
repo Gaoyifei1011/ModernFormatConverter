@@ -3978,7 +3978,7 @@
                                                     Grid.Column="0"
                                                     HorizontalAlignment="Left"
                                                     IsTextSelectionEnabled="True"
-                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('SubjectDist')}"
+                                                    Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('SubjectDistance')}"
                                                     TextWrapping="Wrap" />
 
                                                 <TextBlock
@@ -3986,7 +3986,7 @@
                                                     Grid.Column="1"
                                                     HorizontalAlignment="Left"
                                                     IsTextSelectionEnabled="True"
-                                                    Text="{x:Bind ImageExifInfo.SubjectDist, Mode=OneWay}"
+                                                    Text="{x:Bind ImageExifInfo.SubjectDistance, Mode=OneWay}"
                                                     TextWrapping="Wrap" />
 
                                                 <TextBlock

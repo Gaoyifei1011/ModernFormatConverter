@@ -85,6 +85,7 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string EncodedDateString = ResourceService.FileInformationResource.GetString("EncodedDate");
         private readonly string EncodedLibraryString = ResourceService.FileInformationResource.GetString("EncodedLibrary");
         private readonly string EndTimeString = ResourceService.FileInformationResource.GetString("EndTime");
+        private readonly string ExifIFDString = ResourceService.FileInformationResource.GetString("ExifIFD");
         private readonly string ExposureCompensationString = ResourceService.FileInformationResource.GetString("ExposureCompensation");
         private readonly string ExposureIndexString = ResourceService.FileInformationResource.GetString("ExposureIndex");
         private readonly string ExposureProgramString = ResourceService.FileInformationResource.GetString("ExposureProgram");
@@ -121,10 +122,8 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string FlashPixVersionString = ResourceService.FileInformationResource.GetString("FlashPixVersion");
         private readonly string FluorescentLampString = ResourceService.FileInformationResource.GetString("FluorescentLamp");
         private readonly string FNumberString = ResourceService.FileInformationResource.GetString("FNumber");
+        private readonly string FocalLengthIn35mmFormatString = ResourceService.FileInformationResource.GetString("FocalLengthIn35mmFormat");
         private readonly string FocalLengthString = ResourceService.FileInformationResource.GetString("FocalLength");
-        private readonly string FocalResUnitString = ResourceService.FileInformationResource.GetString("FocalResUnit");
-        private readonly string FocalXResString = ResourceService.FileInformationResource.GetString("FocalXRes");
-        private readonly string FocalYResString = ResourceService.FileInformationResource.GetString("FocalYRes");
         private readonly string FormatCompressionString = ResourceService.FileInformationResource.GetString("FormatCompression");
         private readonly string FormatInfoString = ResourceService.FileInformationResource.GetString("FormatInfo");
         private readonly string FormatProfileString = ResourceService.FileInformationResource.GetString("FormatProfile");
@@ -135,6 +134,7 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string HeightString = ResourceService.FileInformationResource.GetString("Height");
         private readonly string HorizontalModeString = ResourceService.FileInformationResource.GetString("HorizontalMode");
         private readonly string IDString = ResourceService.FileInformationResource.GetString("ID");
+        private readonly string IFD0String = ResourceService.FileInformationResource.GetString("IFD0");
         private readonly string IncandescentLampString = ResourceService.FileInformationResource.GetString("IncandescentLamp");
         private readonly string InchString = ResourceService.FileInformationResource.GetString("Inch");
         private readonly string InteropString = ResourceService.FileInformationResource.GetString("Interop");
@@ -171,6 +171,7 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string PatternString = ResourceService.FileInformationResource.GetString("Pattern");
         private readonly string RecordedDateString = ResourceService.FileInformationResource.GetString("RecordedDate");
         private readonly string ReservedString = ResourceService.FileInformationResource.GetString("Reserved");
+        private readonly string ResolutionUnitString = ResourceService.FileInformationResource.GetString("ResolutionUnit");
         private readonly string SamplingRateString = ResourceService.FileInformationResource.GetString("SamplingRate");
         private readonly string SecondString = ResourceService.FileInformationResource.GetString("Second");
         private readonly string SelectFileString = ResourceService.FileInformationResource.GetString("SelectFile");
@@ -192,7 +193,7 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string StandardLightD75String = ResourceService.FileInformationResource.GetString("StandardLightD75");
         private readonly string StartTimeString = ResourceService.FileInformationResource.GetString("StartTime");
         private readonly string StreamSizeString = ResourceService.FileInformationResource.GetString("StreamSize");
-        private readonly string SubjectDistString = ResourceService.FileInformationResource.GetString("SubjectDist");
+        private readonly string SubjectDistanceString = ResourceService.FileInformationResource.GetString("SubjectDistance");
         private readonly string SunlightString = ResourceService.FileInformationResource.GetString("Sunlight");
         private readonly string ThreeChipColorAreaSensorString = ResourceService.FileInformationResource.GetString("ThreeChipColorAreaSensor");
         private readonly string TrackNameString = ResourceService.FileInformationResource.GetString("TrackName");
@@ -203,6 +204,7 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string UnknownString = ResourceService.FileInformationResource.GetString("Unknown");
         private readonly string VerticalModeString = ResourceService.FileInformationResource.GetString("VerticalMode");
         private readonly string VersionString = ResourceService.FileInformationResource.GetString("Version");
+        private readonly string WhiteBalanceString = ResourceService.FileInformationResource.GetString("WhiteBalance");
         private readonly string WidthString = ResourceService.FileInformationResource.GetString("Width");
         private readonly string XResolutionString = ResourceService.FileInformationResource.GetString("XResolution");
         private readonly string YesString = ResourceService.FileInformationResource.GetString("Yes");
@@ -1779,17 +1781,21 @@ namespace ModernFormatConverter.Views.Pages
                 if (imageInformation is not null && imageInformation.ImageExifInfo is not null)
                 {
                     StringBuilder imageExifInfoBuilder = new();
+                    imageExifInfoBuilder.AppendLine(IFD0String);
                     imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", CameraManufacturerString, imageInformation.ImageExifInfo.CameraManufacturer));
                     imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", CameraModelString, imageInformation.ImageExifInfo.CameraModel));
-                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", ExposureTimeString, imageInformation.ImageExifInfo.ExposureTime));
                     imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", DateTakenString, imageInformation.ImageExifInfo.DateTaken));
-                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", ShutterSpeedString, imageInformation.ImageExifInfo.ShutterSpeed));
-                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", MeteringModeString, imageInformation.ImageExifInfo.MeteringMode));
-                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", FlashModeString, imageInformation.ImageExifInfo.FlashMode));
                     imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", XResolutionString, imageInformation.ImageExifInfo.XResolution));
                     imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", YResolutionString, imageInformation.ImageExifInfo.YResolution));
                     imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", WidthString, imageInformation.ImageExifInfo.Width));
                     imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", HeightString, imageInformation.ImageExifInfo.Height));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", ResolutionUnitString, imageInformation.ImageExifInfo.ResolutionUnit));
+                    imageExifInfoBuilder.AppendLine();
+                    imageExifInfoBuilder.AppendLine(ExifIFDString);
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", ExposureTimeString, imageInformation.ImageExifInfo.ExposureTime));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", ShutterSpeedString, imageInformation.ImageExifInfo.ShutterSpeed));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", MeteringModeString, imageInformation.ImageExifInfo.MeteringMode));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", FlashModeString, imageInformation.ImageExifInfo.FlashMode));
                     imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", FNumberString, imageInformation.ImageExifInfo.FNumber));
                     imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", ExposureProgramString, imageInformation.ImageExifInfo.ExposureProgram));
                     imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", SpectralSenseString, imageInformation.ImageExifInfo.SpectralSense));
@@ -1802,7 +1808,7 @@ namespace ModernFormatConverter.Views.Pages
                     imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", BrightnessString, imageInformation.ImageExifInfo.Brightness));
                     imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", ExposureCompensationString, imageInformation.ImageExifInfo.ExposureCompensation));
                     imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", MaxApertureString, imageInformation.ImageExifInfo.MaxAperture));
-                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", SubjectDistString, imageInformation.ImageExifInfo.SubjectDist));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", SubjectDistanceString, imageInformation.ImageExifInfo.SubjectDistance));
                     imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", LightSourceString, imageInformation.ImageExifInfo.LightSource));
                     imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", FocalLengthString, imageInformation.ImageExifInfo.FocalLength));
                     imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", FlashPixVersionString, imageInformation.ImageExifInfo.FlashPixVersion));
@@ -1810,13 +1816,12 @@ namespace ModernFormatConverter.Views.Pages
                     imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", InteropString, imageInformation.ImageExifInfo.Interop));
                     imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", FlashEnergyString, imageInformation.ImageExifInfo.FlashEnergy));
                     imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", SpatialFrequencyResponseString, imageInformation.ImageExifInfo.SpatialFrequencyResponse));
-                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", FocalXResString, imageInformation.ImageExifInfo.FocalXRes));
-                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", FocalYResString, imageInformation.ImageExifInfo.FocalYRes));
-                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", FocalResUnitString, imageInformation.ImageExifInfo.FocalResUnit));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", FocalLengthIn35mmFormatString, imageInformation.ImageExifInfo.FocalLengthIn35mmFormat));
                     imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", ExposureIndexString, imageInformation.ImageExifInfo.ExposureIndex));
                     imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", SenseMethodString, imageInformation.ImageExifInfo.SenseMethod));
                     imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", SceneTypeString, imageInformation.ImageExifInfo.SceneType));
                     imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", CfaPatternString, imageInformation.ImageExifInfo.CfaPattern));
+                    imageExifInfoBuilder.AppendLine(string.Format("{0}\t{1}", WhiteBalanceString, imageInformation.ImageExifInfo.WhiteBalance));
                     return imageExifInfoBuilder.ToString();
                 }
                 else
@@ -2755,50 +2760,9 @@ namespace ModernFormatConverter.Views.Pages
                             imageInformation.ImageDetailInfoList.Add(imageDetailInfo);
                         }
 
-                        Metadata metadata = GetExifMetadata(filePath);
-                        if (metadata is not null)
+                        if (GetExifMetadata(filePath) is ImageExifInfo imageExifInfo)
                         {
-                            imageInformation.ImageExifInfo = new()
-                            {
-                                CameraManufacturer = string.IsNullOrEmpty(metadata.CameraManufacturer) ? NotAvailableString : metadata.CameraManufacturer,
-                                CameraModel = string.IsNullOrEmpty(metadata.CameraModel) ? NotAvailableString : metadata.CameraModel,
-                                ExposureTime = string.IsNullOrEmpty(metadata.ExposureTime) ? NotAvailableString : metadata.ExposureTime,
-                                DateTaken = string.IsNullOrEmpty(metadata.DateTaken) ? NotAvailableString : metadata.DateTaken,
-                                ShutterSpeed = string.IsNullOrEmpty(metadata.ShutterSpeed) ? NotAvailableString : metadata.ShutterSpeed,
-                                MeteringMode = string.IsNullOrEmpty(metadata.MeteringMode) ? NotAvailableString : metadata.MeteringMode,
-                                FlashMode = string.IsNullOrEmpty(metadata.FlashMode) ? NotAvailableString : metadata.FlashMode,
-                                ResolutionUnit = string.IsNullOrEmpty(metadata.ResolutionUnit) ? NotAvailableString : metadata.ResolutionUnit,
-                                XResolution = string.IsNullOrEmpty(metadata.XResolution) ? NotAvailableString : metadata.XResolution,
-                                YResolution = string.IsNullOrEmpty(metadata.YResolution) ? NotAvailableString : metadata.YResolution,
-                                Width = string.IsNullOrEmpty(metadata.ImageWidth) ? NotAvailableString : metadata.ImageWidth,
-                                Height = string.IsNullOrEmpty(metadata.ImageHeight) ? NotAvailableString : metadata.ImageHeight,
-                                FNumber = string.IsNullOrEmpty(metadata.FNumber) ? NotAvailableString : metadata.FNumber,
-                                ExposureProgram = string.IsNullOrEmpty(metadata.ExposureProgram) ? NotAvailableString : metadata.ExposureProgram,
-                                SpectralSense = string.IsNullOrEmpty(metadata.SpectralSense) ? NotAvailableString : metadata.SpectralSense,
-                                ISOSpeed = string.IsNullOrEmpty(metadata.ISOSpeed) ? NotAvailableString : metadata.ISOSpeed,
-                                OECF = string.IsNullOrEmpty(metadata.OECF) ? NotAvailableString : metadata.OECF,
-                                Version = string.IsNullOrEmpty(metadata.Ver) ? NotAvailableString : metadata.Ver,
-                                CompressionConfig = string.IsNullOrEmpty(metadata.CompressionConfig) ? NotAvailableString : metadata.CompressionConfig,
-                                CompressionBitsPerPixel = string.IsNullOrEmpty(metadata.CompressionBitsPerPixel) ? NotAvailableString : metadata.CompressionBitsPerPixel,
-                                Aperture = string.IsNullOrEmpty(metadata.Aperture) ? NotAvailableString : metadata.Aperture,
-                                Brightness = string.IsNullOrEmpty(metadata.Brightness) ? NotAvailableString : metadata.Brightness,
-                                ExposureCompensation = string.IsNullOrEmpty(metadata.ExposureCompensation) ? NotAvailableString : metadata.ExposureCompensation,
-                                MaxAperture = string.IsNullOrEmpty(metadata.MaxAperture) ? NotAvailableString : metadata.MaxAperture,
-                                SubjectDist = string.IsNullOrEmpty(metadata.SubjectDist) ? NotAvailableString : metadata.SubjectDist,
-                                LightSource = string.IsNullOrEmpty(metadata.LightSource) ? NotAvailableString : metadata.LightSource,
-                                FocalLength = string.IsNullOrEmpty(metadata.FocalLength) ? NotAvailableString : metadata.FocalLength,
-                                FlashPixVersion = string.IsNullOrEmpty(metadata.FPXVer) ? NotAvailableString : metadata.FPXVer,
-                                ColorIndicates = string.IsNullOrEmpty(metadata.ColorSpace) ? NotAvailableString : metadata.ColorSpace,
-                                Interop = string.IsNullOrEmpty(metadata.Interop) ? NotAvailableString : metadata.Interop,
-                                FlashEnergy = string.IsNullOrEmpty(metadata.FlashEnergy) ? NotAvailableString : metadata.FlashEnergy,
-                                SpatialFrequencyResponse = string.IsNullOrEmpty(metadata.SpatialFR) ? NotAvailableString : metadata.SpatialFR,
-                                FocalLengthIn35mmFormat = string.IsNullOrEmpty(metadata.FocalLengthIn35mmFormat) ? NotAvailableString : metadata.FocalLengthIn35mmFormat,
-                                ExposureIndex = string.IsNullOrEmpty(metadata.ExposureIndex) ? NotAvailableString : metadata.ExposureIndex,
-                                SenseMethod = string.IsNullOrEmpty(metadata.SensingMethod) ? NotAvailableString : metadata.SensingMethod,
-                                SceneType = string.IsNullOrEmpty(metadata.SceneType) ? NotAvailableString : metadata.SceneType,
-                                CfaPattern = string.IsNullOrEmpty(metadata.CfaPattern) ? NotAvailableString : metadata.CfaPattern,
-                                WhiteBalance = string.IsNullOrEmpty(metadata.WhiteBalance) ? NotAvailableString : metadata.WhiteBalance
-                            };
+                            imageInformation.ImageExifInfo = imageExifInfo;
                         }
 
                         string imageOverviewInformation = await GetOverviewInformationAsync(handle);
@@ -2893,7 +2857,7 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 获取图片的 EXIF 信息
         /// </summary>
-        private Metadata GetExifMetadata(string imagePath)
+        private ImageExifInfo GetExifMetadata(string imagePath)
         {
             try
             {
@@ -2904,19 +2868,19 @@ namespace ModernFormatConverter.Views.Pages
                     {
                         BitmapFrame bitmapFrame = bitmapDecoder.Frames[0];
                         BitmapMetadata bitmapMetadata = bitmapFrame.Metadata as BitmapMetadata;
-                        Metadata metadata = new();
+                        ImageExifInfo imageExifInfo = new();
                         string fileExtension = Path.GetExtension(filePath);
-                        metadata.CameraManufacturer = bitmapMetadata.CameraManufacturer;
-                        metadata.CameraModel = bitmapMetadata.CameraModel;
-                        metadata.DateTaken = bitmapMetadata.DateTaken;
-                        metadata.XResolution = Convert.ToString(bitmapFrame.DpiX);
-                        metadata.YResolution = Convert.ToString(bitmapFrame.DpiY);
-                        metadata.ImageWidth = Convert.ToString(bitmapFrame.PixelWidth);
-                        metadata.ImageHeight = Convert.ToString(bitmapFrame.PixelHeight);
-                        string resolutionUnitQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.ResolutionUnit), false);
+                        imageExifInfo.CameraManufacturer = bitmapMetadata.CameraManufacturer;
+                        imageExifInfo.CameraModel = bitmapMetadata.CameraModel;
+                        imageExifInfo.DateTaken = bitmapMetadata.DateTaken;
+                        imageExifInfo.XResolution = Convert.ToString(bitmapFrame.DpiX);
+                        imageExifInfo.YResolution = Convert.ToString(bitmapFrame.DpiY);
+                        imageExifInfo.Width = Convert.ToString(bitmapFrame.PixelWidth);
+                        imageExifInfo.Height = Convert.ToString(bitmapFrame.PixelHeight);
+                        string resolutionUnitQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.ResolutionUnit), false);
                         if (bitmapMetadata.ContainsQuery(resolutionUnitQueryContent) && bitmapMetadata.GetQuery(resolutionUnitQueryContent) is ushort resolutionUnit)
                         {
-                            metadata.ResolutionUnit = resolutionUnit switch
+                            imageExifInfo.ResolutionUnit = resolutionUnit switch
                             {
                                 1 => NoUnitString,
                                 2 => InchString,
@@ -2926,9 +2890,9 @@ namespace ModernFormatConverter.Views.Pages
                         }
                         else
                         {
-                            metadata.ResolutionUnit = NotAvailableString;
+                            imageExifInfo.ResolutionUnit = NotAvailableString;
                         }
-                        string exposureTimeQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.ExposureTime), true);
+                        string exposureTimeQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.ExposureTime), true);
                         if (bitmapMetadata.ContainsQuery(exposureTimeQueryContent) && bitmapMetadata.GetQuery(exposureTimeQueryContent) is ulong exposureTime)
                         {
                             uint numerator = (uint)(exposureTime & 0xFFFFFFFFF);
@@ -2946,18 +2910,18 @@ namespace ModernFormatConverter.Views.Pages
                                     int reciprocal = (int)Math.Round(1.0 / exposure);
                                     exposureTimeString = string.Format("1/{0} {1}", reciprocal, SecondString);
                                 }
-                                metadata.ExposureTime = exposureTimeString;
+                                imageExifInfo.ExposureTime = exposureTimeString;
                             }
                             else
                             {
-                                metadata.ExposureTime = NotAvailableString;
+                                imageExifInfo.ExposureTime = NotAvailableString;
                             }
                         }
                         else
                         {
-                            metadata.ExposureTime = NotAvailableString;
+                            imageExifInfo.ExposureTime = NotAvailableString;
                         }
-                        string shutterSpeedQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.ShutterSpeed), true);
+                        string shutterSpeedQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.ShutterSpeed), true);
                         if (bitmapMetadata.ContainsQuery(shutterSpeedQueryContent) && bitmapMetadata.GetQuery(shutterSpeedQueryContent) is long shutterSpeed)
                         {
                             uint numerator = (uint)(shutterSpeed & 0xFFFFFFFFF);
@@ -2976,21 +2940,21 @@ namespace ModernFormatConverter.Views.Pages
                                     int reciprocal = (int)Math.Round(1.0 / exposure);
                                     shutterSpeedString = string.Format("1/{0} {1}", reciprocal, SecondString);
                                 }
-                                metadata.ShutterSpeed = shutterSpeedString;
+                                imageExifInfo.ShutterSpeed = shutterSpeedString;
                             }
                             else
                             {
-                                metadata.ShutterSpeed = NotAvailableString;
+                                imageExifInfo.ShutterSpeed = NotAvailableString;
                             }
                         }
                         else
                         {
-                            metadata.ShutterSpeed = NotAvailableString;
+                            imageExifInfo.ShutterSpeed = NotAvailableString;
                         }
-                        string meteringModeQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.MeteringMode), true);
+                        string meteringModeQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.MeteringMode), true);
                         if (bitmapMetadata.ContainsQuery(meteringModeQueryContent) && bitmapMetadata.GetQuery(meteringModeQueryContent) is ushort meteringMode)
                         {
-                            metadata.MeteringMode = meteringMode switch
+                            imageExifInfo.MeteringMode = meteringMode switch
                             {
                                 0 => UnknownString,
                                 1 => AverageString,
@@ -3005,12 +2969,12 @@ namespace ModernFormatConverter.Views.Pages
                         }
                         else
                         {
-                            metadata.MeteringMode = NotAvailableString;
+                            imageExifInfo.MeteringMode = NotAvailableString;
                         }
-                        string flashModeQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.FlashMode), true);
+                        string flashModeQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.FlashMode), true);
                         if (bitmapMetadata.ContainsQuery(flashModeQueryContent) && bitmapMetadata.GetQuery(flashModeQueryContent) is ushort flashMode)
                         {
-                            metadata.FlashMode = flashMode switch
+                            imageExifInfo.FlashMode = flashMode switch
                             {
                                 0 => NoFlashString,
                                 1 => FlashString,
@@ -3039,23 +3003,23 @@ namespace ModernFormatConverter.Views.Pages
                         }
                         else
                         {
-                            metadata.FlashMode = NotAvailableString;
+                            imageExifInfo.FlashMode = NotAvailableString;
                         }
-                        string fNumberQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.FNumber), true);
+                        string fNumberQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.FNumber), true);
                         if (bitmapMetadata.ContainsQuery(fNumberQueryContent) && bitmapMetadata.GetQuery(fNumberQueryContent) is ulong fNumber)
                         {
                             uint numerator = (uint)(fNumber & 0xFFFFFFFF);
                             uint denominator = (uint)(fNumber >> 32);
-                            metadata.FNumber = denominator > 0 ? string.Format("F/{0:0.0}", (double)numerator / denominator) : NotAvailableString;
+                            imageExifInfo.FNumber = denominator > 0 ? string.Format("F/{0:0.0}", (double)numerator / denominator) : NotAvailableString;
                         }
                         else
                         {
-                            metadata.FNumber = NotAvailableString;
+                            imageExifInfo.FNumber = NotAvailableString;
                         }
-                        string exposureProgramQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.ExposureProgram), true);
+                        string exposureProgramQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.ExposureProgram), true);
                         if (bitmapMetadata.ContainsQuery(exposureProgramQueryContent) && bitmapMetadata.GetQuery(exposureProgramQueryContent) is ushort exposureProgram)
                         {
-                            metadata.ExposureProgram = exposureProgram switch
+                            imageExifInfo.ExposureProgram = exposureProgram switch
                             {
                                 0 => UnknownString,
                                 1 => ManualString,
@@ -3070,40 +3034,39 @@ namespace ModernFormatConverter.Views.Pages
                                 _ => NotAvailableString,
                             };
                         }
-                        string spectralSenseQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.SpectralSense), true);
-                        metadata.SpectralSense = bitmapMetadata.ContainsQuery(spectralSenseQueryContent) && bitmapMetadata.GetQuery(spectralSenseQueryContent) is string spectralSense ? spectralSense : NotAvailableString;
-                        string isoSpeedQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.ISOSpeed), true);
-                        metadata.ISOSpeed = bitmapMetadata.ContainsQuery(isoSpeedQueryContent) && bitmapMetadata.GetQuery(isoSpeedQueryContent) is ushort isoSpeed ? Convert.ToString(isoSpeed) : NotAvailableString;
-                        string ocefQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.OECF), true);
+                        string spectralSenseQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.SpectralSense), true);
+                        imageExifInfo.SpectralSense = bitmapMetadata.ContainsQuery(spectralSenseQueryContent) && bitmapMetadata.GetQuery(spectralSenseQueryContent) is string spectralSense ? spectralSense : NotAvailableString;
+                        string isoSpeedQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.ISOSpeed), true);
+                        imageExifInfo.ISOSpeed = bitmapMetadata.ContainsQuery(isoSpeedQueryContent) && bitmapMetadata.GetQuery(isoSpeedQueryContent) is ushort isoSpeed ? Convert.ToString(isoSpeed) : NotAvailableString;
+                        string ocefQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.OECF), true);
                         if (bitmapMetadata.ContainsQuery(ocefQueryContent) && bitmapMetadata.GetQuery(ocefQueryContent) is BitmapMetadataBlob ocefMetadataBlob)
                         {
                             byte[] ocefBlobBytes = ocefMetadataBlob.GetBlobValue();
-                            metadata.OECF = Encoding.ASCII.GetString(ocefBlobBytes);
+                            imageExifInfo.OECF = Encoding.ASCII.GetString(ocefBlobBytes);
                         }
                         else
                         {
-                            metadata.OECF = NotAvailableString;
+                            imageExifInfo.OECF = NotAvailableString;
                         }
-                        string verQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.Ver), true);
-                        var test = bitmapMetadata.GetQuery(verQueryContent);
-                        metadata.Ver = bitmapMetadata.ContainsQuery(verQueryContent) && bitmapMetadata.GetQuery(verQueryContent) is string ver ? ver : NotAvailableString;
-                        if (bitmapMetadata.ContainsQuery(verQueryContent) && bitmapMetadata.GetQuery(verQueryContent) is object verObject)
+                        string versionQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.Version), true);
+                        imageExifInfo.Version = bitmapMetadata.ContainsQuery(versionQueryContent) && bitmapMetadata.GetQuery(versionQueryContent) is string version ? version : NotAvailableString;
+                        if (bitmapMetadata.ContainsQuery(versionQueryContent) && bitmapMetadata.GetQuery(versionQueryContent) is object versionObject)
                         {
-                            if (verObject is string verString)
+                            if (versionObject is string versionString)
                             {
-                                metadata.Ver = verString;
+                                imageExifInfo.Version = versionString;
                             }
-                            else if (verObject is BitmapMetadataBlob verMetadataBlob)
+                            else if (versionObject is BitmapMetadataBlob verMetadataBlob)
                             {
-                                byte[] verBytes = verMetadataBlob.GetBlobValue();
-                                metadata.Ver = Encoding.ASCII.GetString(verBytes, 0, 4);
+                                byte[] versionBytes = verMetadataBlob.GetBlobValue();
+                                imageExifInfo.Version = Encoding.ASCII.GetString(versionBytes, 0, 4);
                             }
                             else
                             {
-                                metadata.Ver = NotAvailableString;
+                                imageExifInfo.Version = NotAvailableString;
                             }
                         }
-                        string compressionConfigQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.CompressionConfig), true);
+                        string compressionConfigQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.CompressionConfig), true);
                         if (bitmapMetadata.ContainsQuery(compressionConfigQueryContent) && bitmapMetadata.GetQuery(compressionConfigQueryContent) is BitmapMetadataBlob compressionConfigMetadataBlob)
                         {
                             byte[] compressionConfigBytes = compressionConfigMetadataBlob.GetBlobValue();
@@ -3126,82 +3089,82 @@ namespace ModernFormatConverter.Views.Pages
                                     compConfigBuilder.Append($"[{compressionConfig}] ");
                                 }
                             }
-                            metadata.CompressionConfig = compConfigBuilder.ToString();
+                            imageExifInfo.CompressionConfig = compConfigBuilder.ToString();
                         }
                         else
                         {
-                            metadata.CompressionConfig = NotAvailableString;
+                            imageExifInfo.CompressionConfig = NotAvailableString;
                         }
-                        string compressionBitsPerPixelQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.CompressionBitsPerPixel), true);
+                        string compressionBitsPerPixelQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.CompressionBitsPerPixel), true);
                         if (bitmapMetadata.ContainsQuery(compressionBitsPerPixelQueryContent) && bitmapMetadata.GetQuery(compressionBitsPerPixelQueryContent) is ulong compressionBitsPerPixel)
                         {
                             uint numerator = (uint)(compressionBitsPerPixel & 0xFFFFFFFF);
                             uint denominator = (uint)(compressionBitsPerPixel >> 32);
-                            metadata.CompressionBitsPerPixel = denominator > 0 ? string.Format("{0:0.##}", (double)numerator / denominator) : NotAvailableString;
+                            imageExifInfo.CompressionBitsPerPixel = denominator > 0 ? string.Format("{0:0.##}", (double)numerator / denominator) : NotAvailableString;
                         }
                         else
                         {
-                            metadata.CompressionBitsPerPixel = NotAvailableString;
+                            imageExifInfo.CompressionBitsPerPixel = NotAvailableString;
                         }
-                        string apertureQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.Aperture), true);
+                        string apertureQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.Aperture), true);
                         if (bitmapMetadata.ContainsQuery(apertureQueryContent) && bitmapMetadata.GetQuery(apertureQueryContent) is ulong aperture)
                         {
                             uint numerator = (uint)(aperture & 0xFFFFFFFF);
                             uint denominator = (uint)(aperture >> 32);
-                            metadata.Aperture = denominator is not 0 ? Convert.ToString((double)numerator / denominator) : NotAvailableString;
+                            imageExifInfo.Aperture = denominator is not 0 ? Convert.ToString((double)numerator / denominator) : NotAvailableString;
                         }
                         else
                         {
-                            metadata.Aperture = NotAvailableString;
+                            imageExifInfo.Aperture = NotAvailableString;
                         }
-                        string brightnessQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.Brightness), true);
+                        string brightnessQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.Brightness), true);
                         if (bitmapMetadata.ContainsQuery(brightnessQueryContent) && bitmapMetadata.GetQuery(brightnessQueryContent) is long brightness)
                         {
                             uint numerator = (uint)(brightness & 0xFFFFFFFF);
                             uint denominator = (uint)(brightness >> 32);
-                            metadata.Brightness = denominator is not 0 ? Convert.ToString((double)numerator / denominator) : NotAvailableString;
+                            imageExifInfo.Brightness = denominator is not 0 ? Convert.ToString((double)numerator / denominator) : NotAvailableString;
                         }
                         else
                         {
-                            metadata.Brightness = NotAvailableString;
+                            imageExifInfo.Brightness = NotAvailableString;
                         }
-                        string exposureCompensationQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.ExposureCompensation), true);
+                        string exposureCompensationQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.ExposureCompensation), true);
                         if (bitmapMetadata.ContainsQuery(exposureCompensationQueryContent) && bitmapMetadata.GetQuery(exposureCompensationQueryContent) is long exposureCompensation)
                         {
                             uint numerator = (uint)(exposureCompensation & 0xFFFFFFFF);
                             uint denominator = (uint)(exposureCompensation >> 32);
-                            metadata.ExposureCompensation = denominator is not 0 ? Convert.ToString((double)numerator / denominator) : NotAvailableString;
+                            imageExifInfo.ExposureCompensation = denominator is not 0 ? Convert.ToString((double)numerator / denominator) : NotAvailableString;
                         }
                         else
                         {
-                            metadata.ExposureCompensation = NotAvailableString;
+                            imageExifInfo.ExposureCompensation = NotAvailableString;
                         }
-                        string maxApertureQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.MaxAperture), true);
+                        string maxApertureQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.MaxAperture), true);
                         if (bitmapMetadata.ContainsQuery(maxApertureQueryContent) && bitmapMetadata.GetQuery(maxApertureQueryContent) is ulong maxAperture)
                         {
                             uint numerator = (uint)(maxAperture & 0xFFFFFFFF);
                             uint denominator = (uint)(maxAperture >> 32);
-                            metadata.MaxAperture = denominator is not 0 ? Convert.ToString((double)numerator / denominator) : NotAvailableString;
+                            imageExifInfo.MaxAperture = denominator is not 0 ? Convert.ToString((double)numerator / denominator) : NotAvailableString;
                         }
                         else
                         {
-                            metadata.MaxAperture = NotAvailableString;
+                            imageExifInfo.MaxAperture = NotAvailableString;
                         }
-                        string subjectDistQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.SubjectDist), true);
+                        string subjectDistQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.SubjectDistance), true);
                         if (bitmapMetadata.ContainsQuery(subjectDistQueryContent) && bitmapMetadata.GetQuery(subjectDistQueryContent) is ulong subjectDist)
                         {
                             uint numerator = (uint)(subjectDist & 0xFFFFFFFF);
                             uint denominator = (uint)(subjectDist >> 32);
-                            metadata.SubjectDist = denominator is not 0 ? string.Format("{0} {1}", Convert.ToString((double)numerator / denominator), MeterString) : NotAvailableString;
+                            imageExifInfo.SubjectDistance = denominator is not 0 ? string.Format("{0} {1}", Convert.ToString((double)numerator / denominator), MeterString) : NotAvailableString;
                         }
                         else
                         {
-                            metadata.SubjectDist = NotAvailableString;
+                            imageExifInfo.SubjectDistance = NotAvailableString;
                         }
-                        string lightSourceQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.LightSource), true);
+                        string lightSourceQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.LightSource), true);
                         if (bitmapMetadata.ContainsQuery(lightSourceQueryContent) && bitmapMetadata.GetQuery(lightSourceQueryContent) is ushort lightSource)
                         {
-                            metadata.LightSource = lightSource switch
+                            imageExifInfo.LightSource = lightSource switch
                             {
                                 0 => UnknownString,
                                 1 => SunlightString,
@@ -3220,44 +3183,44 @@ namespace ModernFormatConverter.Views.Pages
                         }
                         else
                         {
-                            metadata.LightSource = NotAvailableString;
+                            imageExifInfo.LightSource = NotAvailableString;
                         }
-                        string focalLengthQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.FocalLength), true);
+                        string focalLengthQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.FocalLength), true);
                         if (bitmapMetadata.ContainsQuery(focalLengthQueryContent) && bitmapMetadata.GetQuery(focalLengthQueryContent) is ulong focalLength)
                         {
                             uint numerator = (uint)(focalLength & 0xFFFFFFFF);
                             uint denominator = (uint)(focalLength >> 32);
-                            metadata.FocalLength = denominator is not 0 ? string.Format("{0} {1}", Convert.ToString((double)numerator / denominator), MillimeterString) : NotAvailableString;
+                            imageExifInfo.FocalLength = denominator is not 0 ? string.Format("{0} {1}", Convert.ToString((double)numerator / denominator), MillimeterString) : NotAvailableString;
                         }
                         else
                         {
-                            metadata.FocalLength = NotAvailableString;
+                            imageExifInfo.FocalLength = NotAvailableString;
                         }
-                        string fpxVerQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.FPXVer), true);
-                        if (bitmapMetadata.ContainsQuery(fpxVerQueryContent) && bitmapMetadata.GetQuery(fpxVerQueryContent) is object fpxVerObject)
+                        string flashPixVersionQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.FlashPixVersion), true);
+                        if (bitmapMetadata.ContainsQuery(flashPixVersionQueryContent) && bitmapMetadata.GetQuery(flashPixVersionQueryContent) is object flashPixVersionObject)
                         {
-                            if (fpxVerObject is string fpxVerString)
+                            if (flashPixVersionObject is string flashPixVersionString)
                             {
-                                metadata.FPXVer = fpxVerString;
+                                imageExifInfo.FlashPixVersion = flashPixVersionString;
                             }
-                            else if (fpxVerObject is BitmapMetadataBlob fpxVerMetadataBlob)
+                            else if (flashPixVersionObject is BitmapMetadataBlob flashPixVersionMetadataBlob)
                             {
-                                byte[] fpxVerBytes = fpxVerMetadataBlob.GetBlobValue();
-                                metadata.FPXVer = Encoding.ASCII.GetString(fpxVerBytes, 0, 4);
+                                byte[] flashPixVersionBytes = flashPixVersionMetadataBlob.GetBlobValue();
+                                imageExifInfo.FlashPixVersion = Encoding.ASCII.GetString(flashPixVersionBytes, 0, 4);
                             }
                             else
                             {
-                                metadata.FPXVer = NotAvailableString;
+                                imageExifInfo.FlashPixVersion = NotAvailableString;
                             }
                         }
                         else
                         {
-                            metadata.FPXVer = NotAvailableString;
+                            imageExifInfo.FlashPixVersion = NotAvailableString;
                         }
-                        string colorSpaceQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.ColorSpace), true);
-                        if (bitmapMetadata.ContainsQuery(colorSpaceQueryContent) && bitmapMetadata.GetQuery(colorSpaceQueryContent) is ushort colorSpace)
+                        string colorIndicatesQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.ColorIndicates), true);
+                        if (bitmapMetadata.ContainsQuery(colorIndicatesQueryContent) && bitmapMetadata.GetQuery(colorIndicatesQueryContent) is ushort colorIndicates)
                         {
-                            metadata.ColorSpace = colorSpace switch
+                            imageExifInfo.ColorIndicates = colorIndicates switch
                             {
                                 1 => "sRGB",
                                 65535 => "Uncalibrated",
@@ -3266,56 +3229,56 @@ namespace ModernFormatConverter.Views.Pages
                         }
                         else
                         {
-                            metadata.ColorSpace = NotAvailableString;
+                            imageExifInfo.ColorIndicates = NotAvailableString;
                         }
-                        string interopQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.Interop), true);
+                        string interopQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.Interop), true);
                         if (bitmapMetadata.ContainsQuery(interopQueryContent) && bitmapMetadata.GetQuery(interopQueryContent) is BitmapMetadataBlob interopMetadataBlob)
                         {
                             byte[] interopBytes = interopMetadataBlob.GetBlobValue();
-                            metadata.Interop = Encoding.ASCII.GetString(interopBytes, 0, 4);
+                            imageExifInfo.Interop = Encoding.ASCII.GetString(interopBytes, 0, 4);
                         }
                         else
                         {
-                            metadata.Interop = NotAvailableString;
+                            imageExifInfo.Interop = NotAvailableString;
                         }
-                        string flashEnergyQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.FlashEnergy), true);
+                        string flashEnergyQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.FlashEnergy), true);
                         if (bitmapMetadata.ContainsQuery(flashEnergyQueryContent) && bitmapMetadata.GetQuery(flashEnergyQueryContent) is ulong flashEnergy)
                         {
                             uint numerator = (uint)(flashEnergy & 0xFFFFFFFF);
                             uint denominator = (uint)(flashEnergy >> 32);
-                            metadata.FlashEnergy = denominator is not 0 ? Convert.ToString((double)numerator / denominator) : NotAvailableString;
+                            imageExifInfo.FlashEnergy = denominator is not 0 ? Convert.ToString((double)numerator / denominator) : NotAvailableString;
                         }
                         else
                         {
-                            metadata.FlashEnergy = NotAvailableString;
+                            imageExifInfo.FlashEnergy = NotAvailableString;
                         }
-                        string spatialFRQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.SpatialFR), true);
-                        if (bitmapMetadata.ContainsQuery(spatialFRQueryContent) && bitmapMetadata.GetQuery(spatialFRQueryContent) is BitmapMetadataBlob spatialFRMetadataBlob)
+                        string spatialFrequencyResponseQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.SpatialFrequencyResponse), true);
+                        if (bitmapMetadata.ContainsQuery(spatialFrequencyResponseQueryContent) && bitmapMetadata.GetQuery(spatialFrequencyResponseQueryContent) is BitmapMetadataBlob spatialFrequencyResponseMetadataBlob)
                         {
-                            byte[] spatialFRBytes = spatialFRMetadataBlob.GetBlobValue();
-                            metadata.SpatialFR = Encoding.ASCII.GetString(spatialFRBytes);
+                            byte[] spatialFrequencyResponseBytes = spatialFrequencyResponseMetadataBlob.GetBlobValue();
+                            imageExifInfo.SpatialFrequencyResponse = Encoding.ASCII.GetString(spatialFrequencyResponseBytes);
                         }
                         else
                         {
-                            metadata.SpatialFR = NotAvailableString;
+                            imageExifInfo.SpatialFrequencyResponse = NotAvailableString;
                         }
-                        string focalLengthIn35mmFormatQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.FocalLengthIn35mmFormat), true);
-                        metadata.FocalLengthIn35mmFormat = bitmapMetadata.ContainsQuery(focalLengthIn35mmFormatQueryContent) && bitmapMetadata.GetQuery(focalLengthIn35mmFormatQueryContent) is ushort focalLengthIn35mmFormat ? string.Format("{0} {1}", focalLengthIn35mmFormat, MillimeterString) : NotAvailableString;
-                        string exposureIndexQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.ExposureIndex), true);
+                        string focalLengthIn35mmFormatQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.FocalLengthIn35mmFormat), true);
+                        imageExifInfo.FocalLengthIn35mmFormat = bitmapMetadata.ContainsQuery(focalLengthIn35mmFormatQueryContent) && bitmapMetadata.GetQuery(focalLengthIn35mmFormatQueryContent) is ushort focalLengthIn35mmFormat ? string.Format("{0} {1}", focalLengthIn35mmFormat, MillimeterString) : NotAvailableString;
+                        string exposureIndexQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.ExposureIndex), true);
                         if (bitmapMetadata.ContainsQuery(exposureIndexQueryContent) && bitmapMetadata.GetQuery(exposureIndexQueryContent) is ulong exposureIndex)
                         {
                             uint numerator = (uint)(exposureIndex & 0xFFFFFFFFF);
                             uint denominator = (uint)(exposureIndex >> 32);
-                            metadata.ExposureIndex = denominator is not 0 ? Convert.ToString((double)numerator / denominator) : NotAvailableString;
+                            imageExifInfo.ExposureIndex = denominator is not 0 ? Convert.ToString((double)numerator / denominator) : NotAvailableString;
                         }
                         else
                         {
-                            metadata.ExposureIndex = NotAvailableString;
+                            imageExifInfo.ExposureIndex = NotAvailableString;
                         }
-                        string sensingMethodQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.SensingMethod), true);
-                        if (bitmapMetadata.ContainsQuery(sensingMethodQueryContent) && bitmapMetadata.GetQuery(sensingMethodQueryContent) is ushort sensingMethod)
+                        string senseMethodQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.SenseMethod), true);
+                        if (bitmapMetadata.ContainsQuery(senseMethodQueryContent) && bitmapMetadata.GetQuery(senseMethodQueryContent) is ushort senseMethod)
                         {
-                            metadata.SensingMethod = sensingMethod switch
+                            imageExifInfo.SenseMethod = senseMethod switch
                             {
                                 1 => UnknownString,
                                 2 => OneChipColorAreaSensorString,
@@ -3329,13 +3292,12 @@ namespace ModernFormatConverter.Views.Pages
                         }
                         else
                         {
-                            metadata.SensingMethod = NotAvailableString;
+                            imageExifInfo.SenseMethod = NotAvailableString;
                         }
-
-                        string senceTypeQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.SceneType), true);
+                        string senceTypeQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.SceneType), true);
                         if (bitmapMetadata.ContainsQuery(senceTypeQueryContent) && bitmapMetadata.GetQuery(senceTypeQueryContent) is byte senceType)
                         {
-                            metadata.SceneType = senceType switch
+                            imageExifInfo.SceneType = senceType switch
                             {
                                 1 => DirectlyPhotographedString,
                                 _ => UnknownString,
@@ -3343,22 +3305,22 @@ namespace ModernFormatConverter.Views.Pages
                         }
                         else
                         {
-                            metadata.SceneType = NotAvailableString;
+                            imageExifInfo.SceneType = NotAvailableString;
                         }
-                        string cfaPatternQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.CfaPattern), true);
+                        string cfaPatternQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.CfaPattern), true);
                         if (bitmapMetadata.ContainsQuery(cfaPatternQueryContent) && bitmapMetadata.GetQuery(cfaPatternQueryContent) is BitmapMetadataBlob cfaPatternMetadataBlob)
                         {
                             byte[] cfaPatternBytes = cfaPatternMetadataBlob.GetBlobValue();
-                            metadata.CfaPattern = Encoding.ASCII.GetString(cfaPatternBytes);
+                            imageExifInfo.CfaPattern = Encoding.ASCII.GetString(cfaPatternBytes);
                         }
                         else
                         {
-                            metadata.CfaPattern = NotAvailableString;
+                            imageExifInfo.CfaPattern = NotAvailableString;
                         }
-                        string whiteBalanceQueryContent = GenerateWICQueryContent(fileExtension, nameof(Metadata.WhiteBalance), true);
+                        string whiteBalanceQueryContent = GenerateWICQueryContent(fileExtension, nameof(imageExifInfo.WhiteBalance), true);
                         if (bitmapMetadata.ContainsQuery(whiteBalanceQueryContent) && bitmapMetadata.GetQuery(whiteBalanceQueryContent) is ushort whiteBalance)
                         {
-                            metadata.WhiteBalance = whiteBalance switch
+                            imageExifInfo.WhiteBalance = whiteBalance switch
                             {
                                 0 => AutoString,
                                 1 => ManualString,
@@ -3367,9 +3329,9 @@ namespace ModernFormatConverter.Views.Pages
                         }
                         else
                         {
-                            metadata.WhiteBalance = NotAvailableString;
+                            imageExifInfo.WhiteBalance = NotAvailableString;
                         }
-                        return metadata;
+                        return imageExifInfo;
                     }
                     else
                     {
@@ -3409,192 +3371,192 @@ namespace ModernFormatConverter.Views.Pages
 
             switch (queryContent)
             {
-                case nameof(Metadata.CameraManufacturer):
+                case nameof(ImageExifInfo.CameraManufacturer):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=271}");
                         break;
                     }
-                case nameof(Metadata.CameraModel):
+                case nameof(ImageExifInfo.CameraModel):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=272}");
                         break;
                     }
-                case nameof(Metadata.XResolution):
+                case nameof(ImageExifInfo.XResolution):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=282}");
                         break;
                     }
-                case nameof(Metadata.YResolution):
+                case nameof(ImageExifInfo.YResolution):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=283}");
                         break;
                     }
-                case nameof(Metadata.ResolutionUnit):
+                case nameof(ImageExifInfo.ResolutionUnit):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=296}");
                         break;
                     }
-                case nameof(Metadata.ImageWidth):
+                case nameof(ImageExifInfo.Width):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=256}");
                         break;
                     }
-                case nameof(Metadata.ImageHeight):
+                case nameof(ImageExifInfo.Height):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=257}");
                         break;
                     }
-                case nameof(Metadata.ExposureTime):
+                case nameof(ImageExifInfo.ExposureTime):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=33434}");
                         break;
                     }
-                case nameof(Metadata.FNumber):
+                case nameof(ImageExifInfo.FNumber):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=33437}");
                         break;
                     }
-                case nameof(Metadata.ISOSpeed):
+                case nameof(ImageExifInfo.ISOSpeed):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=34855}");
                         break;
                     }
-                case nameof(Metadata.ExposureProgram):
+                case nameof(ImageExifInfo.ExposureProgram):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=34850}");
                         break;
                     }
-                case nameof(Metadata.SpectralSense):
+                case nameof(ImageExifInfo.SpectralSense):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=34852}");
                         break;
                     }
-                case nameof(Metadata.OECF):
+                case nameof(ImageExifInfo.OECF):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=34856}");
                         break;
                     }
-                case nameof(Metadata.Ver):
+                case nameof(ImageExifInfo.Version):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=36864}");
                         break;
                     }
-                case nameof(Metadata.DateTaken):
+                case nameof(ImageExifInfo.DateTaken):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=36867}");
                         break;
                     }
-                case nameof(Metadata.CompressionConfig):
+                case nameof(ImageExifInfo.CompressionConfig):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=37121}");
                         break;
                     }
-                case nameof(Metadata.CompressionBitsPerPixel):
+                case nameof(ImageExifInfo.CompressionBitsPerPixel):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=37122}");
                         break;
                     }
-                case nameof(Metadata.ShutterSpeed):
+                case nameof(ImageExifInfo.ShutterSpeed):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=37377}");
                         break;
                     }
-                case nameof(Metadata.Aperture):
+                case nameof(ImageExifInfo.Aperture):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=37378}");
                         break;
                     }
-                case nameof(Metadata.Brightness):
+                case nameof(ImageExifInfo.Brightness):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=37379}");
                         break;
                     }
-                case nameof(Metadata.ExposureCompensation):
+                case nameof(ImageExifInfo.ExposureCompensation):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=37380}");
                         break;
                     }
-                case nameof(Metadata.MaxAperture):
+                case nameof(ImageExifInfo.MaxAperture):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=37381}");
                         break;
                     }
-                case nameof(Metadata.SubjectDist):
+                case nameof(ImageExifInfo.SubjectDistance):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=37382}");
                         break;
                     }
-                case nameof(Metadata.MeteringMode):
+                case nameof(ImageExifInfo.MeteringMode):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=37383}");
                         break;
                     }
-                case nameof(Metadata.LightSource):
+                case nameof(ImageExifInfo.LightSource):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=37384}");
                         break;
                     }
-                case nameof(Metadata.FlashMode):
+                case nameof(ImageExifInfo.FlashMode):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=37385}");
                         break;
                     }
-                case nameof(Metadata.FocalLength):
+                case nameof(ImageExifInfo.FocalLength):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=37386}");
                         break;
                     }
-                case nameof(Metadata.FlashEnergy):
+                case nameof(ImageExifInfo.FlashEnergy):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=41483}");
                         break;
                     }
-                case nameof(Metadata.SpatialFR):
+                case nameof(ImageExifInfo.SpatialFrequencyResponse):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=41484}");
                         break;
                     }
-                case nameof(Metadata.FocalLengthIn35mmFormat):
+                case nameof(ImageExifInfo.FocalLengthIn35mmFormat):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=41989}");
                         break;
                     }
-                case nameof(Metadata.ExposureIndex):
+                case nameof(ImageExifInfo.ExposureIndex):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=41493}");
                         break;
                     }
-                case nameof(Metadata.SensingMethod):
+                case nameof(ImageExifInfo.SenseMethod):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=41495}");
                         break;
                     }
-                case nameof(Metadata.ColorSpace):
+                case nameof(ImageExifInfo.ColorIndicates):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=40961}");
                         break;
                     }
-                case nameof(Metadata.FPXVer):
+                case nameof(ImageExifInfo.FlashPixVersion):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=40960}");
                         break;
                     }
-                case nameof(Metadata.Interop):
+                case nameof(ImageExifInfo.Interop):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=40965}");
                         break;
                     }
-                case nameof(Metadata.SceneType):
+                case nameof(ImageExifInfo.SceneType):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=41729}");
                         break;
                     }
-                case nameof(Metadata.CfaPattern):
+                case nameof(ImageExifInfo.CfaPattern):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=41730}");
                         break;
                     }
-                case nameof(Metadata.WhiteBalance):
+                case nameof(ImageExifInfo.WhiteBalance):
                     {
                         generatedQueryContentBuilder.Append("/{ushort=41987}");
                         break;
