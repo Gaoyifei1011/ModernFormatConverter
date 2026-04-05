@@ -2894,14 +2894,16 @@ namespace ModernFormatConverter.Views.Pages
                     {
                         BitmapFrame bitmapFrame = bitmapDecoder.Frames[0];
                         BitmapMetadata bitmapMetadata = bitmapFrame.Metadata as BitmapMetadata;
-                        ImageExifInfo imageExifInfo = new();
-                        imageExifInfo.CameraManufacturer = string.IsNullOrEmpty(bitmapMetadata.CameraManufacturer) ? NotAvailableString : bitmapMetadata.CameraManufacturer;
-                        imageExifInfo.CameraModel = string.IsNullOrEmpty(bitmapMetadata.CameraModel) ? NotAvailableString : bitmapMetadata.CameraModel;
-                        imageExifInfo.DateTaken = string.IsNullOrEmpty(bitmapMetadata.DateTaken) ? NotAvailableString : bitmapMetadata.DateTaken;
-                        imageExifInfo.XResolution = Convert.ToString(Convert.ToInt32(bitmapFrame.DpiX));
-                        imageExifInfo.YResolution = Convert.ToString(Convert.ToInt32(bitmapFrame.DpiY));
-                        imageExifInfo.Width = Convert.ToString(bitmapFrame.PixelWidth);
-                        imageExifInfo.Height = Convert.ToString(bitmapFrame.PixelHeight);
+                        ImageExifInfo imageExifInfo = new()
+                        {
+                            CameraManufacturer = string.IsNullOrEmpty(bitmapMetadata.CameraManufacturer) ? NotAvailableString : bitmapMetadata.CameraManufacturer,
+                            CameraModel = string.IsNullOrEmpty(bitmapMetadata.CameraModel) ? NotAvailableString : bitmapMetadata.CameraModel,
+                            DateTaken = string.IsNullOrEmpty(bitmapMetadata.DateTaken) ? NotAvailableString : bitmapMetadata.DateTaken,
+                            XResolution = Convert.ToString(Convert.ToInt32(bitmapFrame.DpiX)),
+                            YResolution = Convert.ToString(Convert.ToInt32(bitmapFrame.DpiY)),
+                            Width = Convert.ToString(bitmapFrame.PixelWidth),
+                            Height = Convert.ToString(bitmapFrame.PixelHeight)
+                        };
                         string resolutionUnitQueryContent = GenerateWICQueryContent(bitmapMetadata, nameof(imageExifInfo.ResolutionUnit));
                         if (bitmapMetadata.ContainsQuery(resolutionUnitQueryContent) && bitmapMetadata.GetQuery(resolutionUnitQueryContent) is ushort resolutionUnit)
                         {
@@ -2965,11 +2967,11 @@ namespace ModernFormatConverter.Views.Pages
                                     int reciprocal = (int)Math.Round(1.0 / exposure);
                                     shutterSpeedString = string.Format("1/{0} {1}", reciprocal, SecondString);
                                 }
-                                imageExifInfo.ShutterSpeed = shutterSpeedString;
+                                imageExifInfo.ShutterSpeed = NotAvailableString;
                             }
                             else
                             {
-                                imageExifInfo.ShutterSpeed = NotAvailableString;
+                                imageExifInfo.ShutterSpeed = "0";
                             }
                         }
                         else
@@ -3125,7 +3127,7 @@ namespace ModernFormatConverter.Views.Pages
                         {
                             uint numerator = (uint)(compressionBitsPerPixel & 0xFFFFFFFF);
                             uint denominator = (uint)(compressionBitsPerPixel >> 32);
-                            imageExifInfo.CompressionBitsPerPixel = denominator > 0 ? string.Format("{0:0.##}", (double)numerator / denominator) : NotAvailableString;
+                            imageExifInfo.CompressionBitsPerPixel = denominator > 0 ? string.Format("{0:0.##}", (double)numerator / denominator) : "0";
                         }
                         else
                         {
@@ -3136,7 +3138,7 @@ namespace ModernFormatConverter.Views.Pages
                         {
                             uint numerator = (uint)(aperture & 0xFFFFFFFF);
                             uint denominator = (uint)(aperture >> 32);
-                            imageExifInfo.Aperture = denominator is not 0 ? Convert.ToString((double)numerator / denominator) : NotAvailableString;
+                            imageExifInfo.Aperture = denominator is not 0 ? Convert.ToString((double)numerator / denominator) : "0";
                         }
                         else
                         {
@@ -3147,7 +3149,7 @@ namespace ModernFormatConverter.Views.Pages
                         {
                             uint numerator = (uint)(brightness & 0xFFFFFFFF);
                             uint denominator = (uint)(brightness >> 32);
-                            imageExifInfo.Brightness = denominator is not 0 ? Convert.ToString((double)numerator / denominator) : NotAvailableString;
+                            imageExifInfo.Brightness = denominator is not 0 ? Convert.ToString((double)numerator / denominator) : "0";
                         }
                         else
                         {
@@ -3158,7 +3160,7 @@ namespace ModernFormatConverter.Views.Pages
                         {
                             uint numerator = (uint)(exposureCompensation & 0xFFFFFFFF);
                             uint denominator = (uint)(exposureCompensation >> 32);
-                            imageExifInfo.ExposureCompensation = denominator is not 0 ? Convert.ToString((double)numerator / denominator) : NotAvailableString;
+                            imageExifInfo.ExposureCompensation = denominator is not 0 ? Convert.ToString((double)numerator / denominator) : "0";
                         }
                         else
                         {
@@ -3169,7 +3171,7 @@ namespace ModernFormatConverter.Views.Pages
                         {
                             uint numerator = (uint)(maxAperture & 0xFFFFFFFF);
                             uint denominator = (uint)(maxAperture >> 32);
-                            imageExifInfo.MaxAperture = denominator is not 0 ? Convert.ToString((double)numerator / denominator) : NotAvailableString;
+                            imageExifInfo.MaxAperture = denominator is not 0 ? Convert.ToString((double)numerator / denominator) : "0";
                         }
                         else
                         {
@@ -3180,7 +3182,7 @@ namespace ModernFormatConverter.Views.Pages
                         {
                             uint numerator = (uint)(subjectDist & 0xFFFFFFFF);
                             uint denominator = (uint)(subjectDist >> 32);
-                            imageExifInfo.SubjectDistance = denominator is not 0 ? string.Format("{0} {1}", Convert.ToString((double)numerator / denominator), MeterString) : NotAvailableString;
+                            imageExifInfo.SubjectDistance = denominator is not 0 ? string.Format("{0} {1}", Convert.ToString((double)numerator / denominator), MeterString) : string.Format("{0} {1}", "0", MeterString);
                         }
                         else
                         {
@@ -3215,7 +3217,7 @@ namespace ModernFormatConverter.Views.Pages
                         {
                             uint numerator = (uint)(focalLength & 0xFFFFFFFF);
                             uint denominator = (uint)(focalLength >> 32);
-                            imageExifInfo.FocalLength = denominator is not 0 ? string.Format("{0} {1}", Convert.ToString((double)numerator / denominator), MillimeterString) : NotAvailableString;
+                            imageExifInfo.FocalLength = denominator is not 0 ? string.Format("{0} {1}", Convert.ToString((double)numerator / denominator), MillimeterString) : string.Format("{0} {1}", "0", MillimeterString);
                         }
                         else
                         {
@@ -3261,7 +3263,7 @@ namespace ModernFormatConverter.Views.Pages
                         {
                             uint numerator = (uint)(flashEnergy & 0xFFFFFFFF);
                             uint denominator = (uint)(flashEnergy >> 32);
-                            imageExifInfo.FlashEnergy = denominator is not 0 ? Convert.ToString((double)numerator / denominator) : NotAvailableString;
+                            imageExifInfo.FlashEnergy = denominator is not 0 ? Convert.ToString((double)numerator / denominator) : "0";
                         }
                         else
                         {
@@ -3284,7 +3286,7 @@ namespace ModernFormatConverter.Views.Pages
                         {
                             uint numerator = (uint)(exposureIndex & 0xFFFFFFFFF);
                             uint denominator = (uint)(exposureIndex >> 32);
-                            imageExifInfo.ExposureIndex = denominator is not 0 ? Convert.ToString((double)numerator / denominator) : NotAvailableString;
+                            imageExifInfo.ExposureIndex = denominator is not 0 ? Convert.ToString((double)numerator / denominator) : "0";
                         }
                         else
                         {
@@ -3369,17 +3371,10 @@ namespace ModernFormatConverter.Views.Pages
                             uint minuteDenominator = (uint)(gpsLatitude[1] & 0xFFFFFFFF);
                             uint secondNumerator = (uint)(gpsLatitude[2] >> 32);
                             uint secondDenominator = (uint)(gpsLatitude[2] & 0xFFFFFFFF);
-                            if (degreeNumerator is 0 || minuteNumerator is 0 || secondNumerator is 0)
-                            {
-                                imageExifInfo.GPSLatitude = NotAvailableString;
-                            }
-                            else
-                            {
-                                uint degree = degreeDenominator / degreeNumerator;
-                                uint minute = minuteDenominator / minuteNumerator;
-                                uint second = secondDenominator / secondNumerator;
-                                imageExifInfo.GPSLatitude = (degree + minute / 60.0 + second / 3600.0).ToString("F6", CultureInfo.InvariantCulture);
-                            }
+                            uint degree = degreeNumerator is not 0 ? degreeDenominator / degreeNumerator : 0;
+                            uint minute = minuteNumerator is not 0 ? minuteDenominator / minuteNumerator : 0;
+                            uint second = secondNumerator is not 0 ? secondDenominator / secondNumerator : 0;
+                            imageExifInfo.GPSLatitude = (degree + minute / 60.0 + second / 3600.0).ToString("F6", CultureInfo.InvariantCulture);
                         }
                         else
                         {
@@ -3408,17 +3403,10 @@ namespace ModernFormatConverter.Views.Pages
                             uint minuteDenominator = (uint)(gpsLongitude[1] & 0xFFFFFFFF);
                             uint secondNumerator = (uint)(gpsLongitude[2] >> 32);
                             uint secondDenominator = (uint)(gpsLongitude[2] & 0xFFFFFFFF);
-                            if (degreeNumerator is 0 || minuteNumerator is 0 || secondNumerator is 0)
-                            {
-                                imageExifInfo.GPSLongitude = NotAvailableString;
-                            }
-                            else
-                            {
-                                uint degree = degreeDenominator / degreeNumerator;
-                                uint minute = minuteDenominator / minuteNumerator;
-                                uint second = secondDenominator / secondNumerator;
-                                imageExifInfo.GPSLongitude = (degree + minute / 60.0 + second / 3600.0).ToString("F6", CultureInfo.InvariantCulture);
-                            }
+                            uint degree = degreeNumerator is not 0 ? degreeDenominator / degreeNumerator : 0;
+                            uint minute = minuteNumerator is not 0 ? minuteDenominator / minuteNumerator : 0;
+                            uint second = secondNumerator is not 0 ? secondDenominator / secondNumerator : 0;
+                            imageExifInfo.GPSLongitude = (degree + minute / 60.0 + second / 3600.0).ToString("F6", CultureInfo.InvariantCulture);
                         }
                         else
                         {
@@ -3443,7 +3431,7 @@ namespace ModernFormatConverter.Views.Pages
                         {
                             uint numerator = (uint)(gpsAltitude >> 32);
                             uint denominator = (uint)(gpsAltitude & 0xFFFFFFFF);
-                            imageExifInfo.GPSAltitude = denominator is not 0 ? Convert.ToString((double)numerator / denominator) : NotAvailableString;
+                            imageExifInfo.GPSAltitude = denominator is not 0 ? string.Format("{0} {1}", Convert.ToString((double)numerator / denominator), MeterString) : string.Format("{0} {1}", "0", MeterString);
                         }
                         else
                         {
@@ -3464,9 +3452,9 @@ namespace ModernFormatConverter.Views.Pages
                             }
                             else
                             {
-                                uint hour = hourDenominator / hourNumerator;
-                                uint minute = minuteDenominator / minuteNumerator;
-                                uint second = secondDenominator / secondNumerator;
+                                uint hour = hourNumerator is not 0 ? hourDenominator / hourNumerator : 0;
+                                uint minute = minuteNumerator is not 0 ? minuteDenominator / minuteNumerator : 0;
+                                uint second = secondNumerator is not 0 ? secondDenominator / secondNumerator : 0;
                                 imageExifInfo.GPSTimeStamp = string.Format("{0}:{1}:{2}", hour, minute, second);
                             }
                         }
