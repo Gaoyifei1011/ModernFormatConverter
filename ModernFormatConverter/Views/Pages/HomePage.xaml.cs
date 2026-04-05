@@ -1,9 +1,12 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml.Controls;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.Views.Windows;
+using ModernFormatConverter.WindowsAPI.PInvoke.User32;
 using System;
 using System.Collections.Generic;
+using System.Windows.Media.Media3D;
 
 // 抑制 IDE0060 警告
 #pragma warning disable IDE0060
@@ -92,19 +95,95 @@ namespace ModernFormatConverter.Views.Pages
                 {
                     if (string.Equals(controlItem.Tag, ConversionToolsList[0].Tag, StringComparison.OrdinalIgnoreCase))
                     {
-                        // TODO：未完成
+                        VideoConversionWindow videoConversionWindow = new();
+                        if (IntPtr.Size is 8)
+                        {
+                            User32Library.SetWindowLongPtr((nint)videoConversionWindow.AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, MainWindow.Current.AppWindow.Id.Value);
+                        }
+                        else
+                        {
+                            User32Library.SetWindowLong((nint)videoConversionWindow.AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, MainWindow.Current.AppWindow.Id.Value);
+                        }
+                        OverlappedPresenter overlappedPresenter = OverlappedPresenter.CreateForDialog();
+                        overlappedPresenter.IsResizable = true;
+                        overlappedPresenter.IsMinimizable = false;
+                        overlappedPresenter.IsMaximizable = false;
+                        overlappedPresenter.IsModal = true;
+                        videoConversionWindow.AppWindow.SetPresenter(overlappedPresenter);
+                        videoConversionWindow.AppWindow.Show();
+                        videoConversionWindow.Closed += (sender, args) =>
+                        {
+                            MainWindow.Current.Activate();
+                        };
                     }
                     else if (string.Equals(controlItem.Tag, ConversionToolsList[1].Tag, StringComparison.OrdinalIgnoreCase))
                     {
-                        // TODO：未完成
+                        AudioConversionWindow audioConversionWindow = new();
+                        if (IntPtr.Size is 8)
+                        {
+                            User32Library.SetWindowLongPtr((nint)audioConversionWindow.AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, MainWindow.Current.AppWindow.Id.Value);
+                        }
+                        else
+                        {
+                            User32Library.SetWindowLong((nint)audioConversionWindow.AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, MainWindow.Current.AppWindow.Id.Value);
+                        }
+                        OverlappedPresenter overlappedPresenter = OverlappedPresenter.CreateForDialog();
+                        overlappedPresenter.IsResizable = true;
+                        overlappedPresenter.IsMinimizable = false;
+                        overlappedPresenter.IsMaximizable = false;
+                        overlappedPresenter.IsModal = true;
+                        audioConversionWindow.AppWindow.SetPresenter(overlappedPresenter);
+                        audioConversionWindow.AppWindow.Show();
+                        audioConversionWindow.Closed += (sender, args) =>
+                        {
+                            MainWindow.Current.Activate();
+                        };
                     }
                     else if (string.Equals(controlItem.Tag, ConversionToolsList[2].Tag, StringComparison.OrdinalIgnoreCase))
                     {
-                        // TODO：未完成
+                        PhotoConversionWindow photoConversionWindow = new();
+                        if (IntPtr.Size is 8)
+                        {
+                            User32Library.SetWindowLongPtr((nint)photoConversionWindow.AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, MainWindow.Current.AppWindow.Id.Value);
+                        }
+                        else
+                        {
+                            User32Library.SetWindowLong((nint)photoConversionWindow.AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, MainWindow.Current.AppWindow.Id.Value);
+                        }
+                        OverlappedPresenter overlappedPresenter = OverlappedPresenter.CreateForDialog();
+                        overlappedPresenter.IsResizable = true;
+                        overlappedPresenter.IsMinimizable = false;
+                        overlappedPresenter.IsMaximizable = false;
+                        overlappedPresenter.IsModal = true;
+                        photoConversionWindow.AppWindow.SetPresenter(overlappedPresenter);
+                        photoConversionWindow.AppWindow.Show();
+                        photoConversionWindow.Closed += (sender, args) =>
+                        {
+                            MainWindow.Current.Activate();
+                        };
                     }
                     else if (string.Equals(controlItem.Tag, ConversionToolsList[3].Tag, StringComparison.OrdinalIgnoreCase))
                     {
-                        // TODO：未完成
+                        DocumentConversionWindow documentConversionWindow = new();
+                        if (IntPtr.Size is 8)
+                        {
+                            User32Library.SetWindowLongPtr((nint)documentConversionWindow.AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, MainWindow.Current.AppWindow.Id.Value);
+                        }
+                        else
+                        {
+                            User32Library.SetWindowLong((nint)documentConversionWindow.AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, MainWindow.Current.AppWindow.Id.Value);
+                        }
+                        OverlappedPresenter overlappedPresenter = OverlappedPresenter.CreateForDialog();
+                        overlappedPresenter.IsResizable = true;
+                        overlappedPresenter.IsMinimizable = false;
+                        overlappedPresenter.IsMaximizable = false;
+                        overlappedPresenter.IsModal = true;
+                        documentConversionWindow.AppWindow.SetPresenter(overlappedPresenter);
+                        documentConversionWindow.AppWindow.Show();
+                        documentConversionWindow.Closed += (sender, args) =>
+                        {
+                            MainWindow.Current.Activate();
+                        };
                     }
                 }
                 else if (OtherToolsList.Contains(controlItem))
