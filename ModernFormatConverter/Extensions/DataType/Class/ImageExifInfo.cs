@@ -157,11 +157,6 @@
         public string ColorIndicates { get; set; }
 
         /// <summary>
-        /// 互操作性索引
-        /// </summary>
-        public string Interop { get; set; }
-
-        /// <summary>
         /// 闪光灯能量
         /// </summary>
         public string FlashEnergy { get; set; }
@@ -202,5 +197,54 @@
         public string WhiteBalance { get; set; }
 
         #endregion ExifIFD
+
+        #region GPS
+
+        /// <summary>
+        /// GPS 纬度参考方向
+        /// </summary>
+        public string GPSLatitudeRef { get; set; }
+
+        /// <summary>
+        /// GPS 纬度
+        /// </summary>
+        public string GPSLatitude { get; set; }
+
+        /// <summary>
+        /// GPS 经度参考方向
+        /// </summary>
+        public string GPSLongitudeRef { get; set; }
+
+        /// <summary>
+        /// GPS 经度
+        /// </summary>
+        public string GPSLongitude { get; set; }
+
+        /// <summary>
+        /// GPS 海拔高度参考方向
+        /// </summary>
+        public string GPSAltitudeRef { get; set; }
+
+        /// <summary>
+        /// GPS 海拔高度
+        /// </summary>
+        public string GPSAltitude { get; set; }
+
+        /// <summary>
+        /// GPS 时间戳
+        /// </summary>
+        public string GPSTimeStamp { get; set; }
+
+        /// <summary>
+        /// GPS 处理方法
+        /// </summary>
+        public string GPSProcessingMethod { get; set; }
+
+        /// <summary>
+        /// GPS 定位日期
+        /// </summary>
+        public string GPSDateStamp { get; set; }
+
+        #endregion GPS
     }
 }
