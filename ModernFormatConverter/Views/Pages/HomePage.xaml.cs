@@ -15,24 +15,37 @@ namespace ModernFormatConverter.Views.Pages
     /// </summary>
     public sealed partial class HomePage : Page
     {
-        // 视频工具列表
-        private List<ControlItemModel> VideoToolsList { get; } =
+        // 转换工具列表
+        private List<ControlItemModel> ConversionToolsList { get; } =
         [
-        ];
-
-        // 音频工具列表
-        private List<ControlItemModel> AudioToolsList { get; } =
-        [
-        ];
-
-        // 图片工具列表
-        private List<ControlItemModel> PhotoToolsList { get; } =
-        [
-        ];
-
-        // 文档工具列表
-        private List<ControlItemModel> DocumentToolsList { get; } =
-        [
+            new ControlItemModel()
+            {
+                Title = ResourceService.HomeResource.GetString("VideoConversion"),
+                Description = ResourceService.HomeResource.GetString("VideoConversionDescription"),
+                ImagePath = "ms-appx:///Assets/ControlIcon/VideoConversion.png",
+                Tag = "VideoConversion"
+            },
+            new ControlItemModel()
+            {
+                Title = ResourceService.HomeResource.GetString("AudioConversion"),
+                Description = ResourceService.HomeResource.GetString("AudioConversionDescription"),
+                ImagePath = "ms-appx:///Assets/ControlIcon/AudioConversion.png",
+                Tag = "AudioConversion"
+            },
+            new ControlItemModel()
+            {
+                Title = ResourceService.HomeResource.GetString("PhotoConversion"),
+                Description = ResourceService.HomeResource.GetString("PhotoConversionDescription"),
+                ImagePath = "ms-appx:///Assets/ControlIcon/PhotoConversion.png",
+                Tag = "PhotoConversion"
+            },
+            new ControlItemModel()
+            {
+                Title = ResourceService.HomeResource.GetString("DocumentConversion"),
+                Description = ResourceService.HomeResource.GetString("DocumentConversionDescription"),
+                ImagePath = "ms-appx:///Assets/ControlIcon/DocumentConversion.png",
+                Tag = "DocumentConversion"
+            }
         ];
 
         // 其他工具列表
@@ -75,13 +88,35 @@ namespace ModernFormatConverter.Views.Pages
         {
             if (args.ClickedItem is ControlItemModel controlItem)
             {
-                if (OtherToolsList.Contains(controlItem) && MainWindow.Current.NavigationItemList.Find(item => string.Equals(item.NavigationTag, controlItem.Tag, StringComparison.OrdinalIgnoreCase)) is NavigationModel navigationItem)
+                if (ConversionToolsList.Contains(controlItem))
                 {
-                    MainWindow.Current.NavigateTo(navigationItem.NavigationPage);
+                    if (string.Equals(controlItem.Tag, ConversionToolsList[0].Tag, StringComparison.OrdinalIgnoreCase))
+                    {
+                        // TODO：未完成
+                    }
+                    else if (string.Equals(controlItem.Tag, ConversionToolsList[1].Tag, StringComparison.OrdinalIgnoreCase))
+                    {
+                        // TODO：未完成
+                    }
+                    else if (string.Equals(controlItem.Tag, ConversionToolsList[2].Tag, StringComparison.OrdinalIgnoreCase))
+                    {
+                        // TODO：未完成
+                    }
+                    else if (string.Equals(controlItem.Tag, ConversionToolsList[3].Tag, StringComparison.OrdinalIgnoreCase))
+                    {
+                        // TODO：未完成
+                    }
                 }
-                else
+                else if (OtherToolsList.Contains(controlItem))
                 {
-                    MainWindow.Current.NavigateTo(MainWindow.Current.NavigationItemList[1].NavigationPage);
+                    if (MainWindow.Current.NavigationItemList.Find(item => string.Equals(item.NavigationTag, controlItem.Tag, StringComparison.OrdinalIgnoreCase)) is NavigationModel navigationItem)
+                    {
+                        MainWindow.Current.NavigateTo(navigationItem.NavigationPage);
+                    }
+                    else
+                    {
+                        MainWindow.Current.NavigateTo(MainWindow.Current.NavigationItemList[1].NavigationPage);
+                    }
                 }
             }
         }

@@ -162,7 +162,7 @@
                 IsSwipeEnabled="False"
                 ItemClick="{x:Bind OnItemClick}"
                 ItemTemplate="{StaticResource ControlItemTemplate}"
-                ItemsSource="{x:Bind VideoToolsList}"
+                ItemsSource="{x:Bind ConversionToolsList}"
                 SelectionMode="None"
                 TabIndex="1">
 
@@ -178,82 +178,7 @@
                         VerticalAlignment="Center"
                         FontSize="18"
                         Style="{StaticResource BodyTextBlockStyle}"
-                        Text="{x:Bind rootservice:ResourceService.HomeResource.GetString('VideoTools')}" />
-                </GridView.Header>
-            </GridView>
-
-            <GridView
-                IsItemClickEnabled="True"
-                IsSwipeEnabled="False"
-                ItemClick="{x:Bind OnItemClick}"
-                ItemTemplate="{StaticResource ControlItemTemplate}"
-                ItemsSource="{x:Bind AudioToolsList}"
-                SelectionMode="None"
-                TabIndex="1">
-
-                <GridView.ItemContainerStyle>
-                    <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
-                        <Setter Property="Margin" Value="0,0,12,12" />
-                    </Style>
-                </GridView.ItemContainerStyle>
-
-                <GridView.Header>
-                    <TextBlock
-                        Margin="0,0,0,6"
-                        VerticalAlignment="Center"
-                        FontSize="18"
-                        Style="{StaticResource BodyTextBlockStyle}"
-                        Text="{x:Bind rootservice:ResourceService.HomeResource.GetString('AudioTools')}" />
-                </GridView.Header>
-            </GridView>
-
-            <GridView
-                IsItemClickEnabled="True"
-                IsSwipeEnabled="False"
-                ItemClick="{x:Bind OnItemClick}"
-                ItemTemplate="{StaticResource ControlItemTemplate}"
-                ItemsSource="{x:Bind PhotoToolsList}"
-                SelectionMode="None"
-                TabIndex="1">
-
-                <GridView.ItemContainerStyle>
-                    <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
-                        <Setter Property="Margin" Value="0,0,12,12" />
-                    </Style>
-                </GridView.ItemContainerStyle>
-
-                <GridView.Header>
-                    <TextBlock
-                        Margin="0,0,0,6"
-                        VerticalAlignment="Center"
-                        FontSize="18"
-                        Style="{StaticResource BodyTextBlockStyle}"
-                        Text="{x:Bind rootservice:ResourceService.HomeResource.GetString('PhotoTools')}" />
-                </GridView.Header>
-            </GridView>
-
-            <GridView
-                IsItemClickEnabled="True"
-                IsSwipeEnabled="False"
-                ItemClick="{x:Bind OnItemClick}"
-                ItemTemplate="{StaticResource ControlItemTemplate}"
-                ItemsSource="{x:Bind DocumentToolsList}"
-                SelectionMode="None"
-                TabIndex="1">
-
-                <GridView.ItemContainerStyle>
-                    <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
-                        <Setter Property="Margin" Value="0,0,12,12" />
-                    </Style>
-                </GridView.ItemContainerStyle>
-
-                <GridView.Header>
-                    <TextBlock
-                        Margin="0,0,0,6"
-                        VerticalAlignment="Center"
-                        FontSize="18"
-                        Style="{StaticResource BodyTextBlockStyle}"
-                        Text="{x:Bind rootservice:ResourceService.HomeResource.GetString('DocumentTools')}" />
+                        Text="{x:Bind rootservice:ResourceService.HomeResource.GetString('ConversionTools')}" />
                 </GridView.Header>
             </GridView>
 

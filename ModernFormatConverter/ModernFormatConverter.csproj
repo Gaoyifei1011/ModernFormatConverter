@@ -77,16 +77,16 @@
       <EmbedInteropTypes>true</EmbedInteropTypes>
     </COMReference>
 
+    <Content Include="Assets\ControlIcon\AudioConversion.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\CustomCommand.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\ControlIcon\Document.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\ControlIcon\DocumentConversion.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\ControlIcon\FileInformation.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\HATest.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\Home.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\ControlIcon\FileInformation.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\ControlIcon\Music.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\ControlIcon\Photo.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\ControlIcon\PhotoConversion.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\Settings.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\TaskManager.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\ControlIcon\Video.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\ControlIcon\VideoConversion.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Cover.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\LargeTile.scale-100.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\LargeTile.scale-125.png" CopyToOutputDirectory="Always" />
