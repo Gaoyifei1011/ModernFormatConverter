@@ -3,10 +3,8 @@ using Microsoft.UI.Xaml.Controls;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.Views.Windows;
-using ModernFormatConverter.WindowsAPI.PInvoke.User32;
 using System;
 using System.Collections.Generic;
-using System.Windows.Media.Media3D;
 
 // 抑制 IDE0060 警告
 #pragma warning disable IDE0060
@@ -95,95 +93,47 @@ namespace ModernFormatConverter.Views.Pages
                 {
                     if (string.Equals(controlItem.Tag, ConversionToolsList[0].Tag, StringComparison.OrdinalIgnoreCase))
                     {
-                        VideoConversionWindow videoConversionWindow = new();
-                        if (IntPtr.Size is 8)
-                        {
-                            User32Library.SetWindowLongPtr((nint)videoConversionWindow.AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, MainWindow.Current.AppWindow.Id.Value);
-                        }
-                        else
-                        {
-                            User32Library.SetWindowLong((nint)videoConversionWindow.AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, MainWindow.Current.AppWindow.Id.Value);
-                        }
                         OverlappedPresenter overlappedPresenter = OverlappedPresenter.CreateForDialog();
                         overlappedPresenter.IsResizable = true;
                         overlappedPresenter.IsMinimizable = false;
                         overlappedPresenter.IsMaximizable = false;
                         overlappedPresenter.IsModal = true;
-                        videoConversionWindow.AppWindow.SetPresenter(overlappedPresenter);
-                        videoConversionWindow.AppWindow.Show();
-                        videoConversionWindow.Closed += (sender, args) =>
-                        {
-                            MainWindow.Current.Activate();
-                        };
+                        AppWindow videoConversionAppWindow = AppWindow.Create(overlappedPresenter, MainWindow.Current.AppWindow.Id);
+                        VideoConversionPage videoConversionPage = new(videoConversionAppWindow);
+                        videoConversionAppWindow.Show();
                     }
                     else if (string.Equals(controlItem.Tag, ConversionToolsList[1].Tag, StringComparison.OrdinalIgnoreCase))
                     {
-                        AudioConversionWindow audioConversionWindow = new();
-                        if (IntPtr.Size is 8)
-                        {
-                            User32Library.SetWindowLongPtr((nint)audioConversionWindow.AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, MainWindow.Current.AppWindow.Id.Value);
-                        }
-                        else
-                        {
-                            User32Library.SetWindowLong((nint)audioConversionWindow.AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, MainWindow.Current.AppWindow.Id.Value);
-                        }
                         OverlappedPresenter overlappedPresenter = OverlappedPresenter.CreateForDialog();
                         overlappedPresenter.IsResizable = true;
                         overlappedPresenter.IsMinimizable = false;
                         overlappedPresenter.IsMaximizable = false;
                         overlappedPresenter.IsModal = true;
-                        audioConversionWindow.AppWindow.SetPresenter(overlappedPresenter);
-                        audioConversionWindow.AppWindow.Show();
-                        audioConversionWindow.Closed += (sender, args) =>
-                        {
-                            MainWindow.Current.Activate();
-                        };
+                        AppWindow audioConversionAppWindow = AppWindow.Create(overlappedPresenter, MainWindow.Current.AppWindow.Id);
+                        AudioConversionPage audioConversionPage = new(audioConversionAppWindow);
+                        audioConversionAppWindow.Show();
                     }
                     else if (string.Equals(controlItem.Tag, ConversionToolsList[2].Tag, StringComparison.OrdinalIgnoreCase))
                     {
-                        PhotoConversionWindow photoConversionWindow = new();
-                        if (IntPtr.Size is 8)
-                        {
-                            User32Library.SetWindowLongPtr((nint)photoConversionWindow.AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, MainWindow.Current.AppWindow.Id.Value);
-                        }
-                        else
-                        {
-                            User32Library.SetWindowLong((nint)photoConversionWindow.AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, MainWindow.Current.AppWindow.Id.Value);
-                        }
                         OverlappedPresenter overlappedPresenter = OverlappedPresenter.CreateForDialog();
                         overlappedPresenter.IsResizable = true;
                         overlappedPresenter.IsMinimizable = false;
                         overlappedPresenter.IsMaximizable = false;
                         overlappedPresenter.IsModal = true;
-                        photoConversionWindow.AppWindow.SetPresenter(overlappedPresenter);
-                        photoConversionWindow.AppWindow.Show();
-                        photoConversionWindow.Closed += (sender, args) =>
-                        {
-                            MainWindow.Current.Activate();
-                        };
+                        AppWindow photoConversionAppWindow = AppWindow.Create(overlappedPresenter, MainWindow.Current.AppWindow.Id);
+                        PhotoConversionPage photoConversionPage = new(photoConversionAppWindow);
+                        photoConversionAppWindow.Show();
                     }
                     else if (string.Equals(controlItem.Tag, ConversionToolsList[3].Tag, StringComparison.OrdinalIgnoreCase))
                     {
-                        DocumentConversionWindow documentConversionWindow = new();
-                        if (IntPtr.Size is 8)
-                        {
-                            User32Library.SetWindowLongPtr((nint)documentConversionWindow.AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, MainWindow.Current.AppWindow.Id.Value);
-                        }
-                        else
-                        {
-                            User32Library.SetWindowLong((nint)documentConversionWindow.AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, MainWindow.Current.AppWindow.Id.Value);
-                        }
                         OverlappedPresenter overlappedPresenter = OverlappedPresenter.CreateForDialog();
                         overlappedPresenter.IsResizable = true;
                         overlappedPresenter.IsMinimizable = false;
                         overlappedPresenter.IsMaximizable = false;
                         overlappedPresenter.IsModal = true;
-                        documentConversionWindow.AppWindow.SetPresenter(overlappedPresenter);
-                        documentConversionWindow.AppWindow.Show();
-                        documentConversionWindow.Closed += (sender, args) =>
-                        {
-                            MainWindow.Current.Activate();
-                        };
+                        AppWindow documentConversionAppWindow = AppWindow.Create(overlappedPresenter, MainWindow.Current.AppWindow.Id);
+                        DocumentConversionPage documentConversionPage = new(documentConversionAppWindow);
+                        documentConversionAppWindow.Show();
                     }
                 }
                 else if (OtherToolsList.Contains(controlItem))

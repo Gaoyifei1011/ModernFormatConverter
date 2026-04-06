@@ -10,9 +10,13 @@ namespace ModernFormatConverter.Services.Root
     {
         private static Assembly CurrentAssembly { get; } = Assembly.GetExecutingAssembly();
 
+        public static ResourceManager AudioConversionResource { get; } = new("ModernFormatConverter.Strings.AudioConversion", CurrentAssembly);
+
         public static ResourceManager CustomCommandResource { get; } = new("ModernFormatConverter.Strings.CustomCommand", CurrentAssembly);
 
         public static ResourceManager DialogResource { get; } = new("ModernFormatConverter.Strings.Dialog", CurrentAssembly);
+
+        public static ResourceManager DocumentConversionResource { get; } = new("ModernFormatConverter.Strings.DocumentConversion", CurrentAssembly);
 
         public static ResourceManager FileInformationResource { get; } = new("ModernFormatConverter.Strings.FileInformation", CurrentAssembly);
 
@@ -21,6 +25,8 @@ namespace ModernFormatConverter.Services.Root
         public static ResourceManager HomeResource { get; } = new("ModernFormatConverter.Strings.Home", CurrentAssembly);
 
         public static ResourceManager NotificationTipResource { get; } = new("ModernFormatConverter.Strings.NotificationTip", CurrentAssembly);
+
+        public static ResourceManager PhotoConversionResource { get; } = new("ModernFormatConverter.Strings.PhotoConversion", CurrentAssembly);
 
         public static ResourceManager SettingsAboutResource { get; } = new("ModernFormatConverter.Strings.SettingsAbout", CurrentAssembly);
 
@@ -31,6 +37,8 @@ namespace ModernFormatConverter.Services.Root
         public static ResourceManager SettingsResource { get; } = new("ModernFormatConverter.Strings.Settings", CurrentAssembly);
 
         public static ResourceManager TaskManagerResource { get; } = new("ModernFormatConverter.Strings.TaskManager", CurrentAssembly);
+
+        public static ResourceManager VideoConversionResource { get; } = new("ModernFormatConverter.Strings.VideoConversion", CurrentAssembly);
 
         public static ResourceManager WindowResource { get; } = new("ModernFormatConverter.Strings.Window", CurrentAssembly);
     }
