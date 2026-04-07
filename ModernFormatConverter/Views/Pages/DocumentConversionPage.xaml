@@ -2,93 +2,38 @@
     x:Class="ModernFormatConverter.Views.Pages.DocumentConversionPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:converter="using:ModernFormatConverter.Helpers.Converters"
+    xmlns:collection="using:System.Collections"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:rootservice="using:ModernFormatConverter.Services.Root"
-    x:Name="DocumentConversion"
-    ActualThemeChanged="{x:Bind OnActualThemeChanged}"
-    Loaded="{x:Bind OnLoaded}"
     mc:Ignorable="d">
 
     <Page.Resources>
         <ResourceDictionary>
-            <MenuFlyout x:Name="TitlebarMenuFlyout" Placement="BottomEdgeAlignedLeft">
-
-                <MenuFlyoutItem
-                    Height="28"
-                    Padding="11,0"
-                    FontSize="12"
-                    IsEnabled="False"
-                    Text="{x:Bind rootservice:ResourceService.DocumentConversionResource.GetString('Restore')}">
-
-                    <MenuFlyoutItem.Icon>
-                        <FontIcon Margin="6" Glyph="&#xE923;" />
-                    </MenuFlyoutItem.Icon>
-                </MenuFlyoutItem>
-
-                <MenuFlyoutItem
-                    Height="28"
-                    Padding="11,0"
-                    Click="{x:Bind OnMoveClicked}"
-                    FontSize="12"
-                    Tag="{x:Bind TitlebarMenuFlyout}"
-                    Text="{x:Bind rootservice:ResourceService.DocumentConversionResource.GetString('Move')}" />
-
-                <MenuFlyoutItem
-                    Height="28"
-                    Padding="11,0"
-                    Click="{x:Bind OnSizeClicked}"
-                    FontSize="12"
-                    Tag="{x:Bind TitlebarMenuFlyout}"
-                    Text="{x:Bind rootservice:ResourceService.DocumentConversionResource.GetString('Size')}" />
-
-                <MenuFlyoutItem
-                    Height="28"
-                    Padding="11,0"
-                    FontSize="12"
-                    IsEnabled="False"
-                    Text="{x:Bind rootservice:ResourceService.DocumentConversionResource.GetString('Minimize')}">
-
-                    <MenuFlyoutItem.Icon>
-                        <FontIcon Margin="6" Glyph="&#xE921;" />
-                    </MenuFlyoutItem.Icon>
-                </MenuFlyoutItem>
-
-                <MenuFlyoutItem
-                    Height="28"
-                    Padding="11,0"
-                    FontSize="12"
-                    IsEnabled="False"
-                    Text="{x:Bind rootservice:ResourceService.DocumentConversionResource.GetString('Maximize')}">
-
-                    <MenuFlyoutItem.Icon>
-                        <FontIcon Margin="6" Glyph="&#xE922;" />
-                    </MenuFlyoutItem.Icon>
-                </MenuFlyoutItem>
-
-                <MenuFlyoutSeparator Width="200" />
-
-                <MenuFlyoutItem
-                    Height="28"
-                    Padding="11,0"
-                    Click="{x:Bind OnCloseClicked}"
-                    FontSize="12"
-                    Text="{x:Bind rootservice:ResourceService.DocumentConversionResource.GetString('Close')}">
-
-                    <MenuFlyoutItem.Icon>
-                        <FontIcon Margin="6" Glyph="&#xE8BB;" />
-                    </MenuFlyoutItem.Icon>
-
-                    <MenuFlyoutItem.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="F4" Modifiers="Menu" />
-                    </MenuFlyoutItem.KeyboardAccelerators>
-                </MenuFlyoutItem>
-            </MenuFlyout>
+            <x:Double x:Key="BreadcrumbBarChevronFontSize">16</x:Double>
+            <Thickness x:Key="BreadcrumbBarChevronPadding">8,0</Thickness>
         </ResourceDictionary>
     </Page.Resources>
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <BreadcrumbBar
+            Grid.Row="0"
+            Margin="2,0,2,2"
+            VerticalAlignment="Center"
+            ItemClicked="{x:Bind OnItemClicked}"
+            ItemsSource="{x:Bind BreadCollection}">
+
+            <BreadcrumbBar.ItemTemplate>
+                <DataTemplate x:DataType="collection:DictionaryEntry">
+                    <TextBlock FontSize="22" Text="{x:Bind (x:String)Value}" />
+                </DataTemplate>
+            </BreadcrumbBar.ItemTemplate>
+        </BreadcrumbBar>
+
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="BackgroundDefault">

@@ -1,5 +1,5 @@
-﻿using Microsoft.UI.Windowing;
-using Microsoft.UI.Xaml.Controls;
+﻿using Microsoft.UI.Xaml.Controls;
+using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.Views.Windows;
@@ -93,47 +93,23 @@ namespace ModernFormatConverter.Views.Pages
                 {
                     if (string.Equals(controlItem.Tag, ConversionToolsList[0].Tag, StringComparison.OrdinalIgnoreCase))
                     {
-                        OverlappedPresenter overlappedPresenter = OverlappedPresenter.CreateForDialog();
-                        overlappedPresenter.IsResizable = true;
-                        overlappedPresenter.IsMinimizable = false;
-                        overlappedPresenter.IsMaximizable = false;
-                        overlappedPresenter.IsModal = true;
-                        AppWindow videoConversionAppWindow = AppWindow.Create(overlappedPresenter, MainWindow.Current.AppWindow.Id);
-                        VideoConversionPage videoConversionPage = new(videoConversionAppWindow);
-                        videoConversionAppWindow.Show();
+                        ConversionToolsPage conversionToolsPage = new(MainWindow.Current, ConversionToolsKind.VideoConversion);
+                        conversionToolsPage.AppWindow.Show();
                     }
                     else if (string.Equals(controlItem.Tag, ConversionToolsList[1].Tag, StringComparison.OrdinalIgnoreCase))
                     {
-                        OverlappedPresenter overlappedPresenter = OverlappedPresenter.CreateForDialog();
-                        overlappedPresenter.IsResizable = true;
-                        overlappedPresenter.IsMinimizable = false;
-                        overlappedPresenter.IsMaximizable = false;
-                        overlappedPresenter.IsModal = true;
-                        AppWindow audioConversionAppWindow = AppWindow.Create(overlappedPresenter, MainWindow.Current.AppWindow.Id);
-                        AudioConversionPage audioConversionPage = new(audioConversionAppWindow);
-                        audioConversionAppWindow.Show();
+                        ConversionToolsPage conversionToolsPage = new(MainWindow.Current, ConversionToolsKind.AudioConversion);
+                        conversionToolsPage.AppWindow.Show();
                     }
                     else if (string.Equals(controlItem.Tag, ConversionToolsList[2].Tag, StringComparison.OrdinalIgnoreCase))
                     {
-                        OverlappedPresenter overlappedPresenter = OverlappedPresenter.CreateForDialog();
-                        overlappedPresenter.IsResizable = true;
-                        overlappedPresenter.IsMinimizable = false;
-                        overlappedPresenter.IsMaximizable = false;
-                        overlappedPresenter.IsModal = true;
-                        AppWindow photoConversionAppWindow = AppWindow.Create(overlappedPresenter, MainWindow.Current.AppWindow.Id);
-                        PhotoConversionPage photoConversionPage = new(photoConversionAppWindow);
-                        photoConversionAppWindow.Show();
+                        ConversionToolsPage conversionToolsPage = new(MainWindow.Current, ConversionToolsKind.PhotoConversion);
+                        conversionToolsPage.AppWindow.Show();
                     }
                     else if (string.Equals(controlItem.Tag, ConversionToolsList[3].Tag, StringComparison.OrdinalIgnoreCase))
                     {
-                        OverlappedPresenter overlappedPresenter = OverlappedPresenter.CreateForDialog();
-                        overlappedPresenter.IsResizable = true;
-                        overlappedPresenter.IsMinimizable = false;
-                        overlappedPresenter.IsMaximizable = false;
-                        overlappedPresenter.IsModal = true;
-                        AppWindow documentConversionAppWindow = AppWindow.Create(overlappedPresenter, MainWindow.Current.AppWindow.Id);
-                        DocumentConversionPage documentConversionPage = new(documentConversionAppWindow);
-                        documentConversionAppWindow.Show();
+                        ConversionToolsPage conversionToolsPage = new(MainWindow.Current, ConversionToolsKind.DocumentConversion);
+                        conversionToolsPage.AppWindow.Show();
                     }
                 }
                 else if (OtherToolsList.Contains(controlItem))
