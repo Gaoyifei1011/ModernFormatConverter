@@ -70,6 +70,7 @@ namespace ModernFormatConverter.Views.Pages
         protected override async void OnNavigatedTo(NavigationEventArgs args)
         {
             base.OnNavigatedTo(args);
+            SettingsFrame.ContentTransitions = SuppressNavigationTransitionCollection;
 
             // 第一次导航
             if (GetCurrentPageType() is null)

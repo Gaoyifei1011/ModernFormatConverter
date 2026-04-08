@@ -57,6 +57,7 @@ namespace ModernFormatConverter.Views.Pages
         protected override void OnNavigatedTo(NavigationEventArgs args)
         {
             base.OnNavigatedTo(args);
+            VideoConversionFrame.ContentTransitions = SuppressNavigationTransitionCollection;
 
             // 第一次导航
             if (GetCurrentPageType() is null)
