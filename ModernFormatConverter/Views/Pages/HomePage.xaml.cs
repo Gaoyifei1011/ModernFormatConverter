@@ -5,6 +5,7 @@ using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.Views.Windows;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 // 抑制 IDE0060 警告
 #pragma warning disable IDE0060
@@ -85,7 +86,7 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 点击条目时进入条目对应的页面
         /// </summary>
-        private void OnItemClick(object sender, ItemClickEventArgs args)
+        private async void OnItemClick(object sender, ItemClickEventArgs args)
         {
             if (args.ClickedItem is ControlItemModel controlItem)
             {
@@ -94,22 +95,22 @@ namespace ModernFormatConverter.Views.Pages
                     if (string.Equals(controlItem.Tag, ConversionToolsList[0].Tag, StringComparison.OrdinalIgnoreCase))
                     {
                         ConversionToolsPage conversionToolsPage = new(MainWindow.Current, ConversionToolsKind.VideoConversion);
-                        conversionToolsPage.AppWindow.Show();
+                        ContentDialogResult contentDialogResult = await conversionToolsPage.ShowAsync();
                     }
                     else if (string.Equals(controlItem.Tag, ConversionToolsList[1].Tag, StringComparison.OrdinalIgnoreCase))
                     {
                         ConversionToolsPage conversionToolsPage = new(MainWindow.Current, ConversionToolsKind.AudioConversion);
-                        conversionToolsPage.AppWindow.Show();
+                        ContentDialogResult contentDialogResult = await conversionToolsPage.ShowAsync();
                     }
                     else if (string.Equals(controlItem.Tag, ConversionToolsList[2].Tag, StringComparison.OrdinalIgnoreCase))
                     {
                         ConversionToolsPage conversionToolsPage = new(MainWindow.Current, ConversionToolsKind.PhotoConversion);
-                        conversionToolsPage.AppWindow.Show();
+                        ContentDialogResult contentDialogResult = await conversionToolsPage.ShowAsync();
                     }
                     else if (string.Equals(controlItem.Tag, ConversionToolsList[3].Tag, StringComparison.OrdinalIgnoreCase))
                     {
                         ConversionToolsPage conversionToolsPage = new(MainWindow.Current, ConversionToolsKind.DocumentConversion);
-                        conversionToolsPage.AppWindow.Show();
+                        ContentDialogResult contentDialogResult = await conversionToolsPage.ShowAsync();
                     }
                 }
                 else if (OtherToolsList.Contains(controlItem))

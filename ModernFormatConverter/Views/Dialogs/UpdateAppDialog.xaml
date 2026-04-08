@@ -2,7 +2,6 @@
     x:Class="ModernFormatConverter.Views.Dialogs.UpdateAppDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:converter="using:ModernFormatConverter.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:enum="using:ModernFormatConverter.Extensions.DataType.Enums"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -43,70 +42,70 @@
             Margin="0,0,0,5"
             Text="{x:Bind rootservice:ResourceService.DialogResource.GetString('UpdateInitialize')}"
             TextWrapping="Wrap"
-            Visibility="{x:Bind converter:ValueCheckConverterHelper.CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Initialize), Mode=OneWay}" />
+            Visibility="{x:Bind CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Initialize), Mode=OneWay}" />
 
         <TextBlock
             Grid.Row="0"
             Margin="0,0,0,5"
             Text="{x:Bind rootservice:ResourceService.DialogResource.GetString('UpdatePending')}"
             TextWrapping="Wrap"
-            Visibility="{x:Bind converter:ValueCheckConverterHelper.CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Pending), Mode=OneWay}" />
+            Visibility="{x:Bind CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Pending), Mode=OneWay}" />
 
         <TextBlock
             Grid.Row="0"
             Margin="0,0,0,5"
             Text="{x:Bind UpdateDownloadString, Mode=OneWay}"
             TextWrapping="Wrap"
-            Visibility="{x:Bind converter:ValueCheckConverterHelper.CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Downloading), Mode=OneWay}" />
+            Visibility="{x:Bind CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Downloading), Mode=OneWay}" />
 
         <TextBlock
             Grid.Row="0"
             Margin="0,0,0,5"
             Text="{x:Bind rootservice:ResourceService.DialogResource.GetString('UpdateCanceling')}"
             TextWrapping="Wrap"
-            Visibility="{x:Bind converter:ValueCheckConverterHelper.CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Canceling), Mode=OneWay}" />
+            Visibility="{x:Bind CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Canceling), Mode=OneWay}" />
 
         <TextBlock
             Grid.Row="0"
             Margin="0,0,0,5"
             Text="{x:Bind rootservice:ResourceService.DialogResource.GetString('UpdateCanceled')}"
             TextWrapping="Wrap"
-            Visibility="{x:Bind converter:ValueCheckConverterHelper.CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Canceled), Mode=OneWay}" />
+            Visibility="{x:Bind CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Canceled), Mode=OneWay}" />
 
         <TextBlock
             Grid.Row="0"
             Margin="0,0,0,5"
             Text="{x:Bind rootservice:ResourceService.DialogResource.GetString('UpdateFailed')}"
             TextWrapping="Wrap"
-            Visibility="{x:Bind converter:ValueCheckConverterHelper.CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Failed), Mode=OneWay}" />
+            Visibility="{x:Bind CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Failed), Mode=OneWay}" />
 
         <TextBlock
             Grid.Row="0"
             Margin="0,0,0,5"
             Text="{x:Bind rootservice:ResourceService.DialogResource.GetString('UpdateDeploying')}"
             TextWrapping="Wrap"
-            Visibility="{x:Bind converter:ValueCheckConverterHelper.CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Deploying), Mode=OneWay}" />
+            Visibility="{x:Bind CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Deploying), Mode=OneWay}" />
 
         <TextBlock
             Grid.Row="0"
             Margin="0,0,0,5"
             Text="{x:Bind rootservice:ResourceService.DialogResource.GetString('UpdateSuccessfully')}"
             TextWrapping="Wrap"
-            Visibility="{x:Bind converter:ValueCheckConverterHelper.CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Successfully), Mode=OneWay}" />
+            Visibility="{x:Bind CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Successfully), Mode=OneWay}" />
 
         <TextBlock
             Grid.Row="1"
             Margin="0,0,0,5"
             Text="{x:Bind rootservice:ResourceService.DialogResource.GetString('UpdateErrorLowBattery')}"
             TextWrapping="Wrap"
-            Visibility="{x:Bind converter:ValueCheckConverterHelper.CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Failed), Mode=OneWay}" />
+            Visibility="{x:Bind CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Failed), Mode=OneWay}" />
 
         <TextBlock
             Grid.Row="2"
             Margin="0,0,0,5"
             Text="{x:Bind rootservice:ResourceService.DialogResource.GetString('UpdateErrorWiFiNotConnected')}"
             TextWrapping="Wrap"
-            Visibility="{x:Bind converter:ValueCheckConverterHelper.CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Failed), Mode=OneWay}" />
+            Visibility="{x:Bind CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Failed), Mode=OneWay}" />
 
         <ProgressBar
             Grid.Row="3"

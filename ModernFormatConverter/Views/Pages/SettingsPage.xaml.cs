@@ -70,7 +70,6 @@ namespace ModernFormatConverter.Views.Pages
         protected override async void OnNavigatedTo(NavigationEventArgs args)
         {
             base.OnNavigatedTo(args);
-            SettingsFrame.ContentTransitions = SuppressNavigationTransitionCollection;
 
             // 第一次导航
             if (GetCurrentPageType() is null)
@@ -332,10 +331,7 @@ namespace ModernFormatConverter.Views.Pages
         {
             try
             {
-                if (slideDirection.HasValue)
-                {
-                    SettingsFrame.ContentTransitions = slideDirection.Value ? RightSlideNavigationTransitionCollection : LeftSlideNavigationTransitionCollection;
-                }
+                SettingsFrame.ContentTransitions = slideDirection.HasValue ? slideDirection.Value ? RightSlideNavigationTransitionCollection : LeftSlideNavigationTransitionCollection : SuppressNavigationTransitionCollection; ;
 
                 // 导航到该项目对应的页面
                 SettingsFrame.Navigate(navigationPageType, parameter);

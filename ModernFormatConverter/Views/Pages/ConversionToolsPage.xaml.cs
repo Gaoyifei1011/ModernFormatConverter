@@ -39,14 +39,17 @@ namespace ModernFormatConverter.Views.Pages
     {
         private readonly string TitleString = ResourceService.ConversionToolsResource.GetString("Title");
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
+        private DesktopWindowXamlSource desktopWindowXamlSource = new();
         private readonly OverlappedPresenter overlappedPresenter;
         private readonly SUBCLASSPROC conversionToolsWindowSubClassProc;
         private readonly ContentIsland contentIsland;
         private readonly InputKeyboardSource inputKeyboardSource;
         private readonly InputPointerSource inputPointerSource;
-        private DesktopWindowXamlSource desktopWindowXamlSource = new();
+        private TaskCompletionSource<ContentDialogResult> taskCompletionSource;
 
         public AppWindow AppWindow { get; }
+
+        public static ConversionToolsPage Current { get; private set; }
 
         private string _windowTitle;
 
@@ -105,6 +108,7 @@ namespace ModernFormatConverter.Views.Pages
             InitializeComponent();
 
             // 窗口部分初始化
+            Current = this;
             WindowTitle = TitleString;
             overlappedPresenter = OverlappedPresenter.CreateForDialog();
             overlappedPresenter.IsResizable = true;
@@ -484,6 +488,7 @@ namespace ModernFormatConverter.Views.Pages
                     {
                         synchronizationContext.Post(async (_) =>
                         {
+                            Current = null;
                             desktopWindowXamlSource?.Dispose();
                             desktopWindowXamlSource = null;
                             AlwaysShowBackdropService.PropertyChanged -= OnServicePropertyChanged;
@@ -493,6 +498,8 @@ namespace ModernFormatConverter.Views.Pages
                             inputPointerSource.PointerReleased -= OnPointerReleased;
                             Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, conversionToolsWindowSubClassProc, 0);
                             MainWindow.Current.Activate();
+                            // TODO：未完成，目前仅测试
+                            taskCompletionSource?.TrySetResult(ContentDialogResult.Primary);
                         }, null);
                         break;
                     }
@@ -595,6 +602,24 @@ namespace ModernFormatConverter.Views.Pages
             {
                 LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(ConversionToolsFrame), nameof(NavigateTo), 1, e);
             }
+        }
+
+        /// <summary>
+        /// 显示模态对话框
+        /// </summary>
+        public Task<ContentDialogResult> ShowAsync()
+        {
+            taskCompletionSource = new();
+            AppWindow.Show();
+            return taskCompletionSource.Task;
+        }
+
+        /// <summary>
+        /// 关闭窗口
+        /// </summary>
+        public void Close()
+        {
+            User32Library.SendMessage((nint)AppWindow.Id.Value, WindowMessage.WM_CLOSE, 0, 0);
         }
 
         /// <summary>

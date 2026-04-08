@@ -22,6 +22,22 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string ParameterSettingsString = ResourceService.DocumentConversionResource.GetString("ParameterSettings");
         private readonly string SelectFileString = ResourceService.DocumentConversionResource.GetString("SelectFile");
 
+        private bool _isBackEnabled;
+
+        public bool IsBackEnabled
+        {
+            get { return _isBackEnabled; }
+
+            set
+            {
+                if (!Equals(_isBackEnabled, value))
+                {
+                    _isBackEnabled = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsBackEnabled)));
+                }
+            }
+        }
+
         public List<Type> PageList { get; } = [typeof(DocumentConversionParameterSettingsPage), typeof(DocumentConversionSelectFilePage)];
 
         public WinRTObservableCollection<DictionaryEntry> BreadCollection { get; } = [];
@@ -41,7 +57,6 @@ namespace ModernFormatConverter.Views.Pages
         protected override void OnNavigatedTo(NavigationEventArgs args)
         {
             base.OnNavigatedTo(args);
-            DocumentConversionFrame.ContentTransitions = SuppressNavigationTransitionCollection;
 
             // 第一次导航
             if (GetCurrentPageType() is null)
@@ -59,6 +74,10 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnBackClicked(object sender, RoutedEventArgs args)
         {
+            if (BreadCollection.Count is 2 && Equals(GetCurrentPageType(), typeof(VideoConversionSelectFilePage)))
+            {
+                NavigateTo(PageList[0], null, false);
+            }
         }
 
         /// <summary>
@@ -66,6 +85,10 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnItemClicked(BreadcrumbBar sender, BreadcrumbBarItemClickedEventArgs args)
         {
+            if (args.Item is DictionaryEntry bread && BreadCollection.Count is 2 && Equals(bread.Key, BreadCollection[0].Key))
+            {
+                NavigateTo(PageList[0], null, false);
+            }
         }
 
         /// <summary>
@@ -75,6 +98,7 @@ namespace ModernFormatConverter.Views.Pages
         {
             if (BreadCollection.Count is 0 && Equals(GetCurrentPageType(), PageList[0]))
             {
+                IsBackEnabled = false;
                 BreadCollection.Add(new DictionaryEntry
                 {
                     Key = "ParameterSettings",
@@ -83,11 +107,17 @@ namespace ModernFormatConverter.Views.Pages
             }
             else if (BreadCollection.Count is 1 && Equals(GetCurrentPageType(), PageList[1]))
             {
+                IsBackEnabled = true;
                 BreadCollection.Add(new DictionaryEntry()
                 {
                     Key = "SelectFile",
                     Value = SelectFileString
                 });
+            }
+            else if (BreadCollection.Count is 2 && Equals(GetCurrentPageType(), PageList[0]))
+            {
+                IsBackEnabled = false;
+                BreadCollection.RemoveAt(1);
             }
         }
 
@@ -99,19 +129,35 @@ namespace ModernFormatConverter.Views.Pages
             args.Handled = true;
         }
 
+        /// <summary>
+        /// 下一步
+        /// </summary>
+        private void OnNextStepClicked(object sender, RoutedEventArgs args)
+        {
+            if (BreadCollection.Count is 1 && Equals(GetCurrentPageType(), typeof(VideoConversionParameterSettingsPage)))
+            {
+                NavigateTo(PageList[1], null, true);
+            }
+        }
+
+        /// <summary>
+        /// 确定
+        /// </summary>
+        private void OnOkClicked(object sender, RoutedEventArgs args)
+        {
+            ConversionToolsPage.Current?.Close();
+        }
+
         #endregion 第二部分：视频转换页面——挂载的事件
 
         /// <summary>
         /// 页面向前导航
         /// </summary>
-        public void NavigateTo(Type navigationPageType, object parameter = null, bool? slideDirection = null)
+        private void NavigateTo(Type navigationPageType, object parameter = null, bool? slideDirection = null)
         {
             try
             {
-                if (slideDirection.HasValue)
-                {
-                    DocumentConversionFrame.ContentTransitions = slideDirection.Value ? RightSlideNavigationTransitionCollection : LeftSlideNavigationTransitionCollection;
-                }
+                DocumentConversionFrame.ContentTransitions = slideDirection.HasValue ? slideDirection.Value ? RightSlideNavigationTransitionCollection : LeftSlideNavigationTransitionCollection : SuppressNavigationTransitionCollection;
 
                 // 导航到该项目对应的页面
                 DocumentConversionFrame.Navigate(navigationPageType, parameter);
@@ -125,9 +171,17 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 获取当前导航到的页
         /// </summary>
-        public Type GetCurrentPageType()
+        private Type GetCurrentPageType()
         {
             return DocumentConversionFrame.CurrentSourcePageType;
+        }
+
+        /// <summary>
+        /// 获取选中的步骤
+        /// </summary>
+        private Visibility GetSelectedStep(int selectedStep, int comparedSelectedStep)
+        {
+            return Equals(selectedStep, comparedSelectedStep) ? Visibility.Visible : Visibility.Collapsed;
         }
     }
 }

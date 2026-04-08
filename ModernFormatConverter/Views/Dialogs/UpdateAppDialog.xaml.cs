@@ -326,6 +326,14 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
+        /// 检查更新应用状态
+        /// </summary>
+        private Visibility CheckUpdateAppResultKind(UpdateAppResultKind updateAppResultKind, UpdateAppResultKind comparedUpdateAppResultKind)
+        {
+            return Equals(updateAppResultKind, comparedUpdateAppResultKind) ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        /// <summary>
         /// 检查应用是否正在更新中
         /// </summary>
         private bool GetIsNotUpdating(UpdateAppResultKind updateAppResultKind)
