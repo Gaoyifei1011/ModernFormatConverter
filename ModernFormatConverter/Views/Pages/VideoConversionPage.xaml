@@ -11,6 +11,30 @@
         <ResourceDictionary>
             <x:Double x:Key="BreadcrumbBarChevronFontSize">16</x:Double>
             <Thickness x:Key="BreadcrumbBarChevronPadding">8,0</Thickness>
+
+            <TransitionCollection x:Name="SuppressNavigationTransitionCollection">
+                <NavigationThemeTransition>
+                    <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                        <SuppressNavigationTransitionInfo />
+                    </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                </NavigationThemeTransition>
+            </TransitionCollection>
+
+            <TransitionCollection x:Name="LeftSlideNavigationTransitionCollection">
+                <NavigationThemeTransition>
+                    <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                        <SlideNavigationTransitionInfo Effect="FromLeft" />
+                    </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                </NavigationThemeTransition>
+            </TransitionCollection>
+
+            <TransitionCollection x:Name="RightSlideNavigationTransitionCollection">
+                <NavigationThemeTransition>
+                    <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                        <SlideNavigationTransitionInfo Effect="FromRight" />
+                    </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                </NavigationThemeTransition>
+            </TransitionCollection>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -18,11 +42,12 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <BreadcrumbBar
             Grid.Row="0"
-            Margin="2,0,2,2"
+            Margin="14,6,0,6"
             VerticalAlignment="Center"
             ItemClicked="{x:Bind OnItemClicked}"
             ItemsSource="{x:Bind BreadCollection}">
@@ -33,5 +58,11 @@
                 </DataTemplate>
             </BreadcrumbBar.ItemTemplate>
         </BreadcrumbBar>
+
+        <Frame
+            x:Name="VideoConversionFrame"
+            Grid.Row="1"
+            Navigated="{x:Bind OnNavigated}"
+            NavigationFailed="{x:Bind OnNavigationFailed}" />
     </Grid>
 </Page>

@@ -16,6 +16,14 @@
 
     <Page.Resources>
         <ResourceDictionary>
+            <TransitionCollection x:Name="SuppressNavigationTransitionCollection">
+                <NavigationThemeTransition>
+                    <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                        <SuppressNavigationTransitionInfo />
+                    </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                </NavigationThemeTransition>
+            </TransitionCollection>
+
             <x:Double x:Key="BreadcrumbBarChevronFontSize">16</x:Double>
             <Thickness x:Key="BreadcrumbBarChevronPadding">8,0</Thickness>
 
@@ -104,7 +112,8 @@
             Grid.Row="0"
             CanReorderTabs="False"
             IsAddTabButtonVisible="False"
-            SelectedIndex="{x:Bind GetSelectedConversionToolsKind(ConversionToolsKind), Mode=OneWay}">
+            SelectedIndex="{x:Bind SelectedIndex, Mode=OneWay}"
+            SelectionChanged="{x:Bind OnSelectionChanged}">
 
             <TabView.Resources>
                 <ResourceDictionary>
@@ -168,7 +177,14 @@
         <Frame
             x:Name="ConversionToolsFrame"
             Grid.Row="1"
-            Background="{ThemeResource LayerFillColorDefaultBrush}" />
+            Background="{ThemeResource LayerFillColorDefaultBrush}"
+            NavigationFailed="{x:Bind OnNavigationFailed}">
+            <Frame.ContentTransitions>
+                <TransitionCollection>
+                    <NavigationThemeTransition />
+                </TransitionCollection>
+            </Frame.ContentTransitions>
+        </Frame>
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>

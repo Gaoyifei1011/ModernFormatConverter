@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Navigation;
 using ModernFormatConverter.Extensions.Backdrop;
 using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Services.Root;
@@ -17,8 +18,7 @@ using ModernFormatConverter.WindowsAPI.PInvoke.Comctl32;
 using ModernFormatConverter.WindowsAPI.PInvoke.User32;
 using ModernFormatConverter.WindowsAPI.PInvoke.Uxtheme;
 using System;
-using System.Collections;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
@@ -80,23 +80,23 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
-        private ConversionToolsKind _conversionToolsKind;
+        private int _selectedIndex;
 
-        public ConversionToolsKind ConversionToolsKind
+        public int SelectedIndex
         {
-            get { return _conversionToolsKind; }
+            get { return _selectedIndex; }
 
             set
             {
-                if (!Equals(_conversionToolsKind, value))
+                if (!Equals(_selectedIndex, value))
                 {
-                    _conversionToolsKind = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ConversionToolsKind)));
+                    _selectedIndex = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedIndex)));
                 }
             }
         }
 
-        public ObservableCollection<DictionaryEntry> BreadCollection { get; } = [];
+        private List<Type> PageList { get; } = [typeof(VideoConversionPage), typeof(AudioConversionPage), typeof(PhotoConversionPage), typeof(DocumentConversionPage)];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -138,7 +138,7 @@ namespace ModernFormatConverter.Views.Pages
             conversionToolsWindowSubClassProc = new SUBCLASSPROC(ConversionToolsWindowSubClassProc);
             Comctl32Library.SetWindowSubclass((nint)AppWindow.Id.Value, conversionToolsWindowSubClassProc, 0, 0);
 
-            ConversionToolsKind = conversionToolsKind;
+            SelectedIndex = Convert.ToInt32(conversionToolsKind);
             SetWindowTheme();
             SetSystemBackdrop();
         }
@@ -233,10 +233,42 @@ namespace ModernFormatConverter.Views.Pages
         }
 
         /// <summary>
-        /// 单击痕迹栏条目时发生的事件
+        /// 选项卡控件选中项发生变化时触发的事件
         /// </summary>
-        private void OnItemClicked(BreadcrumbBar sender, BreadcrumbBarItemClickedEventArgs args)
+        private void OnSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
+            if (args.AddedItems.Count > 0)
+            {
+                SelectedIndex = (sender as TabView).SelectedIndex;
+                Type currentPage = GetCurrentPageType();
+                int currentIndex = PageList.FindIndex(item => Equals(item, currentPage));
+                if (SelectedIndex is 0)
+                {
+                    NavigateTo(PageList[0]);
+                }
+                else if (SelectedIndex is 1 && !Equals(currentPage, PageList[1]))
+                {
+                    NavigateTo(PageList[1]);
+                }
+                else if (SelectedIndex is 2 && !Equals(currentPage, PageList[2]))
+                {
+                    NavigateTo(PageList[2]);
+                }
+                else if (SelectedIndex is 3 && !Equals(currentPage, PageList[3]))
+                {
+                    NavigateTo(PageList[3]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 导航失败时发生
+        /// </summary>
+        private void OnNavigationFailed(object sender, NavigationFailedEventArgs args)
+        {
+            args.Handled = true;
+            SelectedIndex = PageList.FindIndex(item => Equals(item, GetCurrentPageType()));
+            LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(ConversionToolsFrame), nameof(OnNavigationFailed), 1, args.Exception);
         }
 
         #endregion 第四部分：内容挂载的事件
@@ -547,6 +579,32 @@ namespace ModernFormatConverter.Views.Pages
 
         #endregion 第七部分：窗口过程
 
+        /// <summary>
+        /// 页面向前导航
+        /// </summary>
+        private void NavigateTo(Type navigationPageType, object parameter = null)
+        {
+            try
+            {
+                ConversionToolsFrame.ContentTransitions = SuppressNavigationTransitionCollection;
+
+                // 导航到该项目对应的页面
+                ConversionToolsFrame.Navigate(navigationPageType, parameter);
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(ConversionToolsFrame), nameof(NavigateTo), 1, e);
+            }
+        }
+
+        /// <summary>
+        /// 获取当前导航到的页
+        /// </summary>
+        private Type GetCurrentPageType()
+        {
+            return ConversionToolsFrame.CurrentSourcePageType;
+        }
+
         private uint HIWORD(uint dword)
         {
             return (dword >> 16) & 0xffff;
@@ -555,11 +613,6 @@ namespace ModernFormatConverter.Views.Pages
         private uint LOWORD(uint dword)
         {
             return dword & 0xffff;
-        }
-
-        private int GetSelectedConversionToolsKind(ConversionToolsKind conversionToolsKind)
-        {
-            return Convert.ToInt32(conversionToolsKind);
         }
     }
 }
