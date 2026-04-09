@@ -145,6 +145,10 @@ namespace ModernFormatConverter.Views.Pages
             SelectedIndex = Convert.ToInt32(conversionToolsKind);
             SetWindowTheme();
             SetSystemBackdrop();
+            AppWindow.Closing += (sender, args) =>
+            {
+                mainWindow.Activate();
+            };
         }
 
         #region 第一部分：窗口辅助类挂载的事件
@@ -497,7 +501,6 @@ namespace ModernFormatConverter.Views.Pages
                             inputKeyboardSource.SystemKeyDown -= OnSystemKeyDown;
                             inputPointerSource.PointerReleased -= OnPointerReleased;
                             Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, conversionToolsWindowSubClassProc, 0);
-                            MainWindow.Current.Activate();
                             // TODO：未完成，目前仅测试
                             taskCompletionSource?.TrySetResult(ContentDialogResult.Primary);
                         }, null);

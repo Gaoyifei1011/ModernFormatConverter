@@ -1,13 +1,8 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Navigation;
 using ModernFormatConverter.Extensions.DataType.Class;
-using ModernFormatConverter.Services.Root;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using ModernFormatConverter.Models;
 using System.ComponentModel;
-using System.Diagnostics;
 
 // 抑制 CA1806，CA1822，IDE0060 警告
 #pragma warning disable CA1806,CA1822,IDE0060
@@ -19,28 +14,23 @@ namespace ModernFormatConverter.Views.Pages
     /// </summary>
     public sealed partial class PhotoConversionPage : Page, INotifyPropertyChanged
     {
-        private readonly string ParameterSettingsString = ResourceService.PhotoConversionResource.GetString("ParameterSettings");
-        private readonly string SelectFileString = ResourceService.PhotoConversionResource.GetString("SelectFile");
+        private ConversionTypeModel _selectedConversionType;
 
-        private bool _isBackEnabled;
-
-        public bool IsBackEnabled
+        public ConversionTypeModel SelectedConversionType
         {
-            get { return _isBackEnabled; }
+            get { return _selectedConversionType; }
 
             set
             {
-                if (!Equals(_isBackEnabled, value))
+                if (!Equals(_selectedConversionType, value))
                 {
-                    _isBackEnabled = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsBackEnabled)));
+                    _selectedConversionType = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedConversionType)));
                 }
             }
         }
 
-        public List<Type> PageList { get; } = [typeof(PhotoConversionParameterSettingsPage), typeof(PhotoConversionSelectFilePage)];
-
-        public WinRTObservableCollection<DictionaryEntry> BreadCollection { get; } = [];
+        public WinRTObservableCollection<ConversionTypeModel> ConversionTypeCollection { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -49,96 +39,22 @@ namespace ModernFormatConverter.Views.Pages
             InitializeComponent();
         }
 
-        #region 第一部分：重写父类事件
+        #region 第一部分：图片转换页面——挂载的事件
 
         /// <summary>
-        /// 导航到该页面触发的事件
+        /// 图片转换列表选中项发生变化时触发的事件
         /// </summary>
-        protected override void OnNavigatedTo(NavigationEventArgs args)
+        private void OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
-            base.OnNavigatedTo(args);
-            PhotoConversionFrame.ContentTransitions = SuppressNavigationTransitionCollection;
-
-            // 第一次导航
-            if (GetCurrentPageType() is null)
-            {
-                NavigateTo(PageList[0], null, null);
-            }
-        }
-
-        #endregion 第一部分：重写父类事件
-
-        #region 第二部分：视频转换页面——挂载的事件
-
-        /// <summary>
-        /// 当后退按钮收到交互（如单击或点击）时发生
-        /// </summary>
-        private void OnBackClicked(object sender, RoutedEventArgs args)
-        {
-            if (BreadCollection.Count is 2 && Equals(GetCurrentPageType(), typeof(VideoConversionSelectFilePage)))
-            {
-                NavigateTo(PageList[0], null, false);
-            }
+            SelectedConversionType = args.SelectedItem as ConversionTypeModel;
         }
 
         /// <summary>
-        /// 单击痕迹栏条目时发生的事件
+        /// 打开输出配置
         /// </summary>
-        private void OnItemClicked(BreadcrumbBar sender, BreadcrumbBarItemClickedEventArgs args)
+        private void OnOutputConfigurationClicked(object sender, RoutedEventArgs args)
         {
-            if (args.Item is DictionaryEntry bread && BreadCollection.Count is 2 && Equals(bread.Key, BreadCollection[0].Key))
-            {
-                NavigateTo(PageList[0], null, false);
-            }
-        }
-
-        /// <summary>
-        /// 导航完成后发生
-        /// </summary>
-        private void OnNavigated(object sender, NavigationEventArgs args)
-        {
-            if (BreadCollection.Count is 0 && Equals(GetCurrentPageType(), PageList[0]))
-            {
-                IsBackEnabled = false;
-                BreadCollection.Add(new DictionaryEntry
-                {
-                    Key = "ParameterSettings",
-                    Value = ParameterSettingsString
-                });
-            }
-            else if (BreadCollection.Count is 1 && Equals(GetCurrentPageType(), PageList[1]))
-            {
-                IsBackEnabled = true;
-                BreadCollection.Add(new DictionaryEntry()
-                {
-                    Key = "SelectFile",
-                    Value = SelectFileString
-                });
-            }
-            else if (BreadCollection.Count is 2 && Equals(GetCurrentPageType(), PageList[0]))
-            {
-                IsBackEnabled = false;
-                BreadCollection.RemoveAt(1);
-            }
-        }
-
-        /// <summary>
-        /// 导航失败时发生
-        /// </summary>
-        private void OnNavigationFailed(object sender, NavigationFailedEventArgs args)
-        {
-            args.Handled = true;
-        }
-
-        /// <summary>
-        /// 下一步
-        /// </summary>
-        private void OnNextStepClicked(object sender, RoutedEventArgs args)
-        {
-            if (BreadCollection.Count is 1 && Equals(GetCurrentPageType(), typeof(VideoConversionParameterSettingsPage)))
-            {
-                NavigateTo(PageList[1], null, true);
-            }
+            // TODO：未完成
         }
 
         /// <summary>
@@ -149,40 +65,6 @@ namespace ModernFormatConverter.Views.Pages
             ConversionToolsPage.Current?.Close();
         }
 
-        #endregion 第二部分：视频转换页面——挂载的事件
-
-        /// <summary>
-        /// 页面向前导航
-        /// </summary>
-        private void NavigateTo(Type navigationPageType, object parameter = null, bool? slideDirection = null)
-        {
-            try
-            {
-                PhotoConversionFrame.ContentTransitions = slideDirection.HasValue ? slideDirection.Value ? RightSlideNavigationTransitionCollection : LeftSlideNavigationTransitionCollection : SuppressNavigationTransitionCollection; ;
-
-                // 导航到该项目对应的页面
-                PhotoConversionFrame.Navigate(navigationPageType, parameter);
-            }
-            catch (Exception e)
-            {
-                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(PhotoConversionPage), nameof(NavigateTo), 1, e);
-            }
-        }
-
-        /// <summary>
-        /// 获取当前导航到的页
-        /// </summary>
-        private Type GetCurrentPageType()
-        {
-            return PhotoConversionFrame.CurrentSourcePageType;
-        }
-
-        /// <summary>
-        /// 获取选中的步骤
-        /// </summary>
-        private Visibility GetSelectedStep(int selectedStep, int comparedSelectedStep)
-        {
-            return Equals(selectedStep, comparedSelectedStep) ? Visibility.Visible : Visibility.Collapsed;
-        }
+        #endregion 第一部分：图片转换页面——挂载的事件
     }
 }

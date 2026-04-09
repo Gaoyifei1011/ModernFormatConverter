@@ -1,5 +1,13 @@
 ﻿Back=Back
-NextStep=Next step
-OK=OK
-ParameterSettings=Parameter settings
+OutputConfiguration=Output configuration
 SelectFile=Select file
+VideoAngleAdjustment=Video angle adjustment
+VideoConcat=Video concat
+VideoExportFrame=Video export frame
+VideoFormatConversion=Video format conversion
+VideoMixedFlow=Video mixed flow
+VideoSeparation=Video separation
+VideoSplit=Video split
+VideoSpeedAdjustment=Video speed adjustment
+VideoRewind=Video rewind
+VideoSplitScreen=Video split screen

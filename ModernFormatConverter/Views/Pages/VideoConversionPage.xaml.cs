@@ -1,13 +1,10 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Navigation;
 using ModernFormatConverter.Extensions.DataType.Class;
+using ModernFormatConverter.Extensions.DataType.Enums;
+using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 
 // 抑制 CA1806，CA1822，IDE0060 警告
 #pragma warning disable CA1806,CA1822,IDE0060
@@ -19,126 +16,109 @@ namespace ModernFormatConverter.Views.Pages
     /// </summary>
     public sealed partial class VideoConversionPage : Page, INotifyPropertyChanged
     {
-        private readonly string ParameterSettingsString = ResourceService.VideoConversionResource.GetString("ParameterSettings");
-        private readonly string SelectFileString = ResourceService.VideoConversionResource.GetString("SelectFile");
+        private readonly string VideoAngleAdjustmentString = ResourceService.VideoConversionResource.GetString("VideoAngleAdjustment");
+        private readonly string VideoConcatString = ResourceService.VideoConversionResource.GetString("VideoConcat");
+        private readonly string VideoExportFrameString = ResourceService.VideoConversionResource.GetString("VideoExportFrame");
+        private readonly string VideoFormatConversionString = ResourceService.VideoConversionResource.GetString("VideoFormatConversion");
+        private readonly string VideoMixedFlowString = ResourceService.VideoConversionResource.GetString("VideoMixedFlow");
+        private readonly string VideoSeparationString = ResourceService.VideoConversionResource.GetString("VideoSeparation");
+        private readonly string VideoSplitString = ResourceService.VideoConversionResource.GetString("VideoSplit");
+        private readonly string VideoSpeedAdjustmentString = ResourceService.VideoConversionResource.GetString("VideoSpeedAdjustment");
+        private readonly string VideoRewindString = ResourceService.VideoConversionResource.GetString("VideoRewind");
+        private readonly string VideoSplitScreenString = ResourceService.VideoConversionResource.GetString("VideoSplitScreen");
 
-        private bool _isBackEnabled;
+        private ConversionTypeModel _selectedConversionType;
 
-        public bool IsBackEnabled
+        public ConversionTypeModel SelectedConversionType
         {
-            get { return _isBackEnabled; }
+            get { return _selectedConversionType; }
 
             set
             {
-                if (!Equals(_isBackEnabled, value))
+                if (!Equals(_selectedConversionType, value))
                 {
-                    _isBackEnabled = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsBackEnabled)));
+                    _selectedConversionType = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedConversionType)));
                 }
             }
         }
 
-        public List<Type> PageList { get; } = [typeof(VideoConversionParameterSettingsPage), typeof(VideoConversionSelectFilePage)];
-
-        public WinRTObservableCollection<DictionaryEntry> BreadCollection { get; } = [];
+        public WinRTObservableCollection<ConversionTypeModel> ConversionTypeCollection { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public VideoConversionPage()
         {
             InitializeComponent();
+            ConversionTypeCollection.Add(new ConversionTypeModel
+            {
+                ConversionType = VideoFormatConversionString,
+                ConversionTypeKind = VideoConversionTypeKind.VideoFormatConversion
+            });
+            ConversionTypeCollection.Add(new ConversionTypeModel
+            {
+                ConversionType = VideoConcatString,
+                ConversionTypeKind = VideoConversionTypeKind.VideoConcat
+            });
+            ConversionTypeCollection.Add(new ConversionTypeModel
+            {
+                ConversionType = VideoMixedFlowString,
+                ConversionTypeKind = VideoConversionTypeKind.VideoMixedFlow
+            });
+            ConversionTypeCollection.Add(new ConversionTypeModel
+            {
+                ConversionType = VideoSplitString,
+                ConversionTypeKind = VideoConversionTypeKind.VideoSplit
+            });
+            ConversionTypeCollection.Add(new ConversionTypeModel
+            {
+                ConversionType = VideoSeparationString,
+                ConversionTypeKind = VideoConversionTypeKind.VideoSeparation
+            });
+            ConversionTypeCollection.Add(new ConversionTypeModel
+            {
+                ConversionType = VideoExportFrameString,
+                ConversionTypeKind = VideoConversionTypeKind.VideoExportFrame
+            });
+            ConversionTypeCollection.Add(new ConversionTypeModel
+            {
+                ConversionType = VideoSpeedAdjustmentString,
+                ConversionTypeKind = VideoConversionTypeKind.VideoSpeedAdjustment
+            });
+            ConversionTypeCollection.Add(new ConversionTypeModel
+            {
+                ConversionType = VideoAngleAdjustmentString,
+                ConversionTypeKind = VideoConversionTypeKind.VideoAngleAdjustment
+            });
+            ConversionTypeCollection.Add(new ConversionTypeModel
+            {
+                ConversionType = VideoRewindString,
+                ConversionTypeKind = VideoConversionTypeKind.VideoRewind
+            });
+            ConversionTypeCollection.Add(new ConversionTypeModel
+            {
+                ConversionType = VideoSplitScreenString,
+                ConversionTypeKind = VideoConversionTypeKind.VideoSplitScreen
+            });
+            SelectedConversionType = ConversionTypeCollection[0];
         }
 
-        #region 第一部分：重写父类事件
+        #region 第一部分：视频转换页面——挂载的事件
 
         /// <summary>
-        /// 导航到该页面触发的事件
+        /// 视频转换列表选中项发生变化时触发的事件
         /// </summary>
-        protected override void OnNavigatedTo(NavigationEventArgs args)
+        private void OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
-            base.OnNavigatedTo(args);
-            VideoConversionFrame.ContentTransitions = SuppressNavigationTransitionCollection;
-
-            // 第一次导航
-            if (GetCurrentPageType() is null)
-            {
-                NavigateTo(PageList[0], null, null);
-            }
-        }
-
-        #endregion 第一部分：重写父类事件
-
-        #region 第二部分：视频转换页面——挂载的事件
-
-        /// <summary>
-        /// 当后退按钮收到交互（如单击或点击）时发生
-        /// </summary>
-        private void OnBackClicked(object sender, RoutedEventArgs args)
-        {
-            if (BreadCollection.Count is 2 && Equals(GetCurrentPageType(), typeof(VideoConversionSelectFilePage)))
-            {
-                NavigateTo(PageList[0], null, false);
-            }
-        }
-
-        /// <summary>
-        /// 单击痕迹栏条目时发生的事件
-        /// </summary>
-        private void OnItemClicked(BreadcrumbBar sender, BreadcrumbBarItemClickedEventArgs args)
-        {
-            if (args.Item is DictionaryEntry bread && BreadCollection.Count is 2 && Equals(bread.Key, BreadCollection[0].Key))
-            {
-                NavigateTo(PageList[0], null, false);
-            }
-        }
-
-        /// <summary>
-        /// 导航完成后发生
-        /// </summary>
-        private void OnNavigated(object sender, NavigationEventArgs args)
-        {
-            if (BreadCollection.Count is 0 && Equals(GetCurrentPageType(), PageList[0]))
-            {
-                IsBackEnabled = false;
-                BreadCollection.Add(new DictionaryEntry
-                {
-                    Key = "ParameterSettings",
-                    Value = ParameterSettingsString
-                });
-            }
-            else if (BreadCollection.Count is 1 && Equals(GetCurrentPageType(), PageList[1]))
-            {
-                IsBackEnabled = true;
-                BreadCollection.Add(new DictionaryEntry()
-                {
-                    Key = "SelectFile",
-                    Value = SelectFileString
-                });
-            }
-            else if (BreadCollection.Count is 2 && Equals(GetCurrentPageType(), PageList[0]))
-            {
-                IsBackEnabled = false;
-                BreadCollection.RemoveAt(1);
-            }
+            SelectedConversionType = args.SelectedItem as ConversionTypeModel;
         }
 
         /// <summary>
-        /// 导航失败时发生
+        /// 打开输出配置
         /// </summary>
-        private void OnNavigationFailed(object sender, NavigationFailedEventArgs args)
+        private void OnOutputConfigurationClicked(object sender, RoutedEventArgs args)
         {
-            args.Handled = true;
-        }
-
-        /// <summary>
-        /// 下一步
-        /// </summary>
-        private void OnNextStepClicked(object sender, RoutedEventArgs args)
-        {
-            if (BreadCollection.Count is 1 && Equals(GetCurrentPageType(), typeof(VideoConversionParameterSettingsPage)))
-            {
-                NavigateTo(PageList[1], null, true);
-            }
+            // TODO：未完成
         }
 
         /// <summary>
@@ -149,40 +129,6 @@ namespace ModernFormatConverter.Views.Pages
             ConversionToolsPage.Current?.Close();
         }
 
-        #endregion 第二部分：视频转换页面——挂载的事件
-
-        /// <summary>
-        /// 页面向前导航
-        /// </summary>
-        private void NavigateTo(Type navigationPageType, object parameter = null, bool? slideDirection = null)
-        {
-            try
-            {
-                VideoConversionFrame.ContentTransitions = slideDirection.HasValue ? slideDirection.Value ? RightSlideNavigationTransitionCollection : LeftSlideNavigationTransitionCollection : SuppressNavigationTransitionCollection;
-
-                // 导航到该项目对应的页面
-                VideoConversionFrame.Navigate(navigationPageType, parameter);
-            }
-            catch (Exception e)
-            {
-                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionPage), nameof(NavigateTo), 1, e);
-            }
-        }
-
-        /// <summary>
-        /// 获取当前导航到的页
-        /// </summary>
-        private Type GetCurrentPageType()
-        {
-            return VideoConversionFrame.CurrentSourcePageType;
-        }
-
-        /// <summary>
-        /// 获取选中的步骤
-        /// </summary>
-        private Visibility GetSelectedStep(int selectedStep, int comparedSelectedStep)
-        {
-            return Equals(selectedStep, comparedSelectedStep) ? Visibility.Visible : Visibility.Collapsed;
-        }
+        #endregion 第一部分：视频转换页面——挂载的事件
     }
 }

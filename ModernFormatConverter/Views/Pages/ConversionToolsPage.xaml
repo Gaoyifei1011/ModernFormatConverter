@@ -110,6 +110,7 @@
 
         <TabView
             Grid.Row="0"
+            Margin="0,0,180,0"
             CanReorderTabs="False"
             IsAddTabButtonVisible="False"
             SelectedIndex="{x:Bind SelectedIndex, Mode=OneWay}"

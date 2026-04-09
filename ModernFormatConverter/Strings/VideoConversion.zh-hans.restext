@@ -1,5 +1,13 @@
-﻿Back=返回
-NextStep=下一步
-OK=确定
-ParameterSettings=参数设置
+﻿OK=确定
+OutputConfiguration=输出配置
 SelectFile=选择文件
+VideoAngleAdjustment=视频角度调整
+VideoConcat=视频合并
+VideoExportFrame=视频导出图片
+VideoFormatConversion=视频格式转换
+VideoMixedFlow=视频混流
+VideoSeparation=视频分离
+VideoSplit=视频剪切
+VideoSpeedAdjustment=视频调速
+VideoRewind=视频倒放
+VideoSplitScreen=视频分屏
