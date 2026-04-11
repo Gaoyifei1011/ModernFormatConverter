@@ -13,6 +13,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources>
                     <XamlControlsResources.MergedDictionaries>
+                        <ResourceDictionary Source="ms-appx:///Styles/AppBarButton.xaml" />
                         <ResourceDictionary Source="ms-appx:///Styles/NavigationView.xaml" />
                         <ResourceDictionary Source="ms-appx:///Styles/TextBox.xaml" />
 

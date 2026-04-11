@@ -194,6 +194,7 @@
     <EmbeddedResource Include="Strings\Window.zh-hans.restext" />
 
     <None Remove="MainApp.xaml" />
+    <None Remove="Styles\AppBarButton.xaml" />
     <None Remove="Styles\NavigationView.xaml" />
     <None Remove="Styles\TextBox.xaml" />
     <None Remove="Views\Dialogs\AppInformationDialog.xaml" />
@@ -219,6 +220,7 @@
     <None Update="Views\Pages\VideoConversionPage.xaml" />
     <None Remove="Views\Windows\MainWindow.xaml" />
 
+    <Page Include="Styles\AppBarButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\NavigationView.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\TextBox.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Dialogs\AppInformationDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
