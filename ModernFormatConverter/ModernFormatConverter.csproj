@@ -202,6 +202,7 @@
     <None Remove="Views\Dialogs\UpdateAppDialog.xaml" />
     <None Remove="Views\NotificationTips\CopyPasteNotificationTip.xaml" />
     <None Remove="Views\NotificationTips\OperationResultNotificationTip.xaml" />
+    <None Update="Views\Dialogs\VideoOutputConfigurationDialog.xaml" />
     <None Update="Views\Pages\AudioConversionPage.xaml" />
     <None Update="Views\Pages\ConversionToolsPage.xaml" />
     <None Update="Views\Pages\CustomCommandPage.xaml" />
@@ -224,6 +225,7 @@
     <Page Include="Views\Dialogs\LicenseDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Dialogs\RestartAppsDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Dialogs\UpdateAppDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Dialogs\VideoOutputConfigurationDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\NotificationTips\CopyPasteNotificationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\NotificationTips\OperationResultNotificationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\AudioConversionPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />

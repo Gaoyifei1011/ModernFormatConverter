@@ -37,8 +37,8 @@
             SelectionChanged="{x:Bind OnSelectionChanged}">
 
             <NavigationView.MenuItemTemplate>
-                <DataTemplate x:DataType="model:ConversionTypeModel">
-                    <TextBlock Text="{x:Bind ConversionType}" />
+                <DataTemplate x:DataType="model:VideoConversionTypeModel">
+                    <TextBlock Text="{x:Bind VideoConversionType}" />
                 </DataTemplate>
             </NavigationView.MenuItemTemplate>
 
@@ -52,7 +52,7 @@
                     Grid.Row="0"
                     Margin="16,15,30,0"
                     FontSize="22"
-                    Text="{x:Bind SelectedConversionType.ConversionType, Mode=OneWay}" />
+                    Text="{x:Bind SelectedConversionType.VideoConversionType, Mode=OneWay}" />
             </Grid>
         </NavigationView>
 

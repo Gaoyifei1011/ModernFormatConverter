@@ -14,9 +14,9 @@ namespace ModernFormatConverter.Views.Pages
     /// </summary>
     public sealed partial class AudioConversionPage : Page, INotifyPropertyChanged
     {
-        private ConversionTypeModel _selectedConversionType;
+        private VideoConversionTypeModel _selectedConversionType;
 
-        public ConversionTypeModel SelectedConversionType
+        public VideoConversionTypeModel SelectedConversionType
         {
             get { return _selectedConversionType; }
 
@@ -30,7 +30,7 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
-        public WinRTObservableCollection<ConversionTypeModel> ConversionTypeCollection { get; } = [];
+        public WinRTObservableCollection<VideoConversionTypeModel> ConversionTypeCollection { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -46,7 +46,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
-            SelectedConversionType = args.SelectedItem as ConversionTypeModel;
+            SelectedConversionType = args.SelectedItem as VideoConversionTypeModel;
         }
 
         /// <summary>

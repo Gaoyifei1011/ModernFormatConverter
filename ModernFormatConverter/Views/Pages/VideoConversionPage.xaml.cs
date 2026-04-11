@@ -43,62 +43,62 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
-        public WinRTObservableCollection<ConversionTypeModel> ConversionTypeCollection { get; } = [];
+        public WinRTObservableCollection<VideoConversionTypeModel> ConversionTypeCollection { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public VideoConversionPage()
         {
             InitializeComponent();
-            ConversionTypeCollection.Add(new ConversionTypeModel
+            ConversionTypeCollection.Add(new VideoConversionTypeModel
             {
-                ConversionType = VideoFormatConversionString,
-                ConversionTypeKind = VideoConversionTypeKind.VideoFormatConversion
+                VideoConversionType = VideoFormatConversionString,
+                VideoConversionTypeKind = VideoConversionTypeKind.VideoFormatConversion
             });
-            ConversionTypeCollection.Add(new ConversionTypeModel
+            ConversionTypeCollection.Add(new VideoConversionTypeModel
             {
-                ConversionType = VideoConcatString,
-                ConversionTypeKind = VideoConversionTypeKind.VideoConcat
+                VideoConversionType = VideoConcatString,
+                VideoConversionTypeKind = VideoConversionTypeKind.VideoConcat
             });
-            ConversionTypeCollection.Add(new ConversionTypeModel
+            ConversionTypeCollection.Add(new VideoConversionTypeModel
             {
-                ConversionType = VideoMixedFlowString,
-                ConversionTypeKind = VideoConversionTypeKind.VideoMixedFlow
+                VideoConversionType = VideoMixedFlowString,
+                VideoConversionTypeKind = VideoConversionTypeKind.VideoMixedFlow
             });
-            ConversionTypeCollection.Add(new ConversionTypeModel
+            ConversionTypeCollection.Add(new VideoConversionTypeModel
             {
-                ConversionType = VideoSplitString,
-                ConversionTypeKind = VideoConversionTypeKind.VideoSplit
+                VideoConversionType = VideoSplitString,
+                VideoConversionTypeKind = VideoConversionTypeKind.VideoSplit
             });
-            ConversionTypeCollection.Add(new ConversionTypeModel
+            ConversionTypeCollection.Add(new VideoConversionTypeModel
             {
-                ConversionType = VideoSeparationString,
-                ConversionTypeKind = VideoConversionTypeKind.VideoSeparation
+                VideoConversionType = VideoSeparationString,
+                VideoConversionTypeKind = VideoConversionTypeKind.VideoSeparation
             });
-            ConversionTypeCollection.Add(new ConversionTypeModel
+            ConversionTypeCollection.Add(new VideoConversionTypeModel
             {
-                ConversionType = VideoExportFrameString,
-                ConversionTypeKind = VideoConversionTypeKind.VideoExportFrame
+                VideoConversionType = VideoExportFrameString,
+                VideoConversionTypeKind = VideoConversionTypeKind.VideoExportFrame
             });
-            ConversionTypeCollection.Add(new ConversionTypeModel
+            ConversionTypeCollection.Add(new VideoConversionTypeModel
             {
-                ConversionType = VideoSpeedAdjustmentString,
-                ConversionTypeKind = VideoConversionTypeKind.VideoSpeedAdjustment
+                VideoConversionType = VideoSpeedAdjustmentString,
+                VideoConversionTypeKind = VideoConversionTypeKind.VideoSpeedAdjustment
             });
-            ConversionTypeCollection.Add(new ConversionTypeModel
+            ConversionTypeCollection.Add(new VideoConversionTypeModel
             {
-                ConversionType = VideoAngleAdjustmentString,
-                ConversionTypeKind = VideoConversionTypeKind.VideoAngleAdjustment
+                VideoConversionType = VideoAngleAdjustmentString,
+                VideoConversionTypeKind = VideoConversionTypeKind.VideoAngleAdjustment
             });
-            ConversionTypeCollection.Add(new ConversionTypeModel
+            ConversionTypeCollection.Add(new VideoConversionTypeModel
             {
-                ConversionType = VideoRewindString,
-                ConversionTypeKind = VideoConversionTypeKind.VideoRewind
+                VideoConversionType = VideoRewindString,
+                VideoConversionTypeKind = VideoConversionTypeKind.VideoRewind
             });
-            ConversionTypeCollection.Add(new ConversionTypeModel
+            ConversionTypeCollection.Add(new VideoConversionTypeModel
             {
-                ConversionType = VideoSplitScreenString,
-                ConversionTypeKind = VideoConversionTypeKind.VideoSplitScreen
+                VideoConversionType = VideoSplitScreenString,
+                VideoConversionTypeKind = VideoConversionTypeKind.VideoSplitScreen
             });
             SelectedConversionType = ConversionTypeCollection[0];
         }
@@ -110,7 +110,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
-            SelectedConversionType = args.SelectedItem as ConversionTypeModel;
+            SelectedConversionType = args.SelectedItem as VideoConversionTypeModel;
         }
 
         /// <summary>
