@@ -206,7 +206,6 @@
     <None Remove="Views\Dialogs\UpdateAppDialog.xaml" />
     <None Remove="Views\NotificationTips\CopyPasteNotificationTip.xaml" />
     <None Remove="Views\NotificationTips\OperationResultNotificationTip.xaml" />
-    <None Update="Views\Dialogs\VideoOutputConfigurationDialog.xaml" />
     <None Update="Views\Pages\AudioConversionPage.xaml" />
     <None Update="Views\Pages\ConversionToolsPage.xaml" />
     <None Update="Views\Pages\CustomCommandPage.xaml" />
@@ -222,6 +221,7 @@
     <None Update="Views\Pages\TaskManagerPage.xaml" />
     <None Update="Views\Pages\VideoConversionPage.xaml" />
     <None Remove="Views\Windows\MainWindow.xaml" />
+    <None Update="Views\Windows\VideoFormatConversionWindow.xaml" />
 
     <Page Include="Styles\AppBarButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\NavigationView.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -230,7 +230,6 @@
     <Page Include="Views\Dialogs\LicenseDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Dialogs\RestartAppsDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Dialogs\UpdateAppDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Views\Dialogs\VideoOutputConfigurationDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\NotificationTips\CopyPasteNotificationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\NotificationTips\OperationResultNotificationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\AudioConversionPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -249,6 +248,7 @@
     <Page Include="Views\Pages\VideoConversionPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\MainWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     
+    <Page Include="Views\Windows\VideoFormatConversionWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <PRIResource Include="Strings\en-us\Resources.resjson" />
 		<PRIResource Include="Strings\zh-hans\Resources.resjson" />
     
