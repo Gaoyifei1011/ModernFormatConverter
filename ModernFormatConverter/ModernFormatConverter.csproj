@@ -189,6 +189,9 @@
     <EmbeddedResource Include="Strings\VideoConversion.en-us.restext" />
     <EmbeddedResource Include="Strings\VideoConversion.restext" />
     <EmbeddedResource Include="Strings\VideoConversion.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\VideoFormatConversion.en-us.restext" />
+    <EmbeddedResource Include="Strings\VideoFormatConversion.restext" />
+    <EmbeddedResource Include="Strings\VideoFormatConversion.zh-hans.restext" />
     <EmbeddedResource Include="Strings\Window.en-us.restext" />
     <EmbeddedResource Include="Strings\Window.restext" />
     <EmbeddedResource Include="Strings\Window.zh-hans.restext" />
