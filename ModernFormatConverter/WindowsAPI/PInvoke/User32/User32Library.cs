@@ -69,6 +69,26 @@ namespace ModernFormatConverter.WindowsAPI.PInvoke.User32
         public static extern bool SetProcessDefaultLayout(uint dwDefaultLayout);
 
         /// <summary>
+        /// 更改指定窗口的属性。 该函数还将指定偏移量处的32位（long类型）值设置到额外的窗口内存中。
+        /// </summary>
+        /// <param name="hWnd">窗口的句柄，间接地是窗口所属的类。</param>
+        /// <param name="nIndex">要设置的值的从零开始的偏移量。 有效值的范围为零到额外窗口内存的字节数，减去整数的大小。</param>
+        /// <param name="dwNewLong">替换值。</param>
+        /// <returns>如果函数成功，则返回值是指定 32 位整数的上一个值。如果函数失败，则返回值为零。 </returns>
+        [DllImport(User32, EntryPoint = "SetWindowLongW", SetLastError = false)]
+        public static extern nint SetWindowLong(nint hWnd, WindowLongIndexFlags nIndex, ulong dwNewLong);
+
+        /// <summary>
+        /// 更改指定窗口的属性。 该函数还将指定偏移量处的64位（long类型）值设置到额外的窗口内存中。
+        /// </summary>
+        /// <param name="hWnd">窗口的句柄，间接地是窗口所属的类。</param>
+        /// <param name="nIndex">要设置的值的从零开始的偏移量。 有效值的范围为零到额外窗口内存的字节数，减去整数的大小。</param>
+        /// <param name="dwNewLong">替换值。</param>
+        /// <returns>如果函数成功，则返回值是指定偏移量的上一个值。如果函数失败，则返回值为零。 </returns>
+        [DllImport(User32, EntryPoint = "SetWindowLongPtrW", SetLastError = false)]
+        public static extern nint SetWindowLongPtr(nint hWnd, WindowLongIndexFlags nIndex, ulong dwNewLong);
+
+        /// <summary>
         /// 更改子窗口、弹出窗口或顶级窗口的大小、位置和 Z 顺序。 这些窗口根据屏幕上的外观进行排序。 最上面的窗口接收最高排名，是 Z 顺序中的第一个窗口。
         /// </summary>
         /// <param name="hWnd">更改子窗口、弹出窗口或顶级窗口的大小、位置和 Z 顺序。 这些窗口根据屏幕上的外观进行排序。 最上面的窗口接收最高排名，是 Z 顺序中的第一个窗口。</param>
