@@ -6,14 +6,13 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using ModernFormatConverter.Extensions.Backdrop;
 using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.Services.Settings;
-using ModernFormatConverter.Views.Windows;
+using ModernFormatConverter.Views.Pages;
 using ModernFormatConverter.WindowsAPI.PInvoke.Comctl32;
 using ModernFormatConverter.WindowsAPI.PInvoke.User32;
 using ModernFormatConverter.WindowsAPI.PInvoke.Uxtheme;
@@ -30,16 +29,15 @@ using Windows.UI;
 // 抑制 CA1806，CA1822，IDE0060 警告
 #pragma warning disable CA1806,CA1822,IDE0060
 
-namespace ModernFormatConverter.Views.Pages
+namespace ModernFormatConverter.Views.Windows
 {
     /// <summary>
-    /// 转换工具页面
+    /// 转换工具窗口
     /// </summary>
-    public sealed partial class ConversionToolsPage : Page, INotifyPropertyChanged
+    public sealed partial class ConversionToolsWindow : Window, INotifyPropertyChanged
     {
         private readonly string TitleString = ResourceService.ConversionToolsResource.GetString("Title");
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
-        private DesktopWindowXamlSource desktopWindowXamlSource = new();
         private readonly OverlappedPresenter overlappedPresenter;
         private readonly SUBCLASSPROC conversionToolsWindowSubClassProc;
         private readonly ContentIsland contentIsland;
@@ -47,9 +45,7 @@ namespace ModernFormatConverter.Views.Pages
         private readonly InputPointerSource inputPointerSource;
         private TaskCompletionSource<ContentDialogResult> taskCompletionSource;
 
-        public AppWindow AppWindow { get; }
-
-        public static ConversionToolsPage Current { get; private set; }
+        public new static ConversionToolsWindow Current { get; private set; }
 
         private string _windowTitle;
 
@@ -63,6 +59,22 @@ namespace ModernFormatConverter.Views.Pages
                 {
                     _windowTitle = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowTitle)));
+                }
+            }
+        }
+
+        private SystemBackdrop _windowSystemBackdrop;
+
+        public SystemBackdrop WindowSystemBackdrop
+        {
+            get { return _windowSystemBackdrop; }
+
+            set
+            {
+                if (!Equals(_windowSystemBackdrop, value))
+                {
+                    _windowSystemBackdrop = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowSystemBackdrop)));
                 }
             }
         }
@@ -103,28 +115,32 @@ namespace ModernFormatConverter.Views.Pages
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ConversionToolsPage(MainWindow mainWindow, ConversionToolsKind conversionToolsKind)
+        public ConversionToolsWindow(MainWindow mainWindow, ConversionToolsKind conversionToolsKind)
         {
             InitializeComponent();
 
             // 窗口部分初始化
             Current = this;
             WindowTitle = TitleString;
+            if (IntPtr.Size is 8)
+            {
+                User32Library.SetWindowLongPtr((nint)AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, mainWindow.AppWindow.Id.Value);
+            }
+            else
+            {
+                User32Library.SetWindowLong((nint)AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, mainWindow.AppWindow.Id.Value);
+            }
             overlappedPresenter = OverlappedPresenter.CreateForDialog();
+            ExtendsContentIntoTitleBar = true;
             overlappedPresenter.IsResizable = true;
             overlappedPresenter.IsMinimizable = false;
             overlappedPresenter.IsMaximizable = false;
             overlappedPresenter.IsModal = true;
-            AppWindow = AppWindow.Create(overlappedPresenter, MainWindow.Current.AppWindow.Id);
-            AppWindow.Title = WindowTitle;
-            AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+            AppWindow.SetPresenter(overlappedPresenter);
             AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
             AppWindow.TitleBar.InactiveBackgroundColor = Colors.Transparent;
             AppWindow.TitleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
-            desktopWindowXamlSource.Content = this;
-            desktopWindowXamlSource.Initialize(AppWindow.Id);
-            desktopWindowXamlSource.SiteBridge.ResizePolicy = ContentSizePolicy.ResizeContentToParentWindow;
-            contentIsland = ContentIsland.FindAllForCompositor(ElementCompositionPreview.GetElementVisual(this).Compositor)[0];
+            contentIsland = ContentIsland.FindAllForCompositor(Compositor)[0];
             inputKeyboardSource = InputKeyboardSource.GetForIsland(contentIsland);
             inputPointerSource = InputPointerSource.GetForIsland(contentIsland);
 
@@ -320,33 +336,33 @@ namespace ModernFormatConverter.Views.Pages
         {
             if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[1]))
             {
-                desktopWindowXamlSource?.SystemBackdrop = new MaterialBackdrop(MicaKind.Base);
-                VisualStateManager.GoToState(this, "BackgroundTransparent", false);
+                WindowSystemBackdrop = new MaterialBackdrop(MicaKind.Base);
+                VisualStateManager.GoToState(ConversionToolsPage, "BackgroundTransparent", false);
             }
             else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[2]))
             {
-                desktopWindowXamlSource?.SystemBackdrop = new MaterialBackdrop(MicaKind.BaseAlt);
-                VisualStateManager.GoToState(this, "BackgroundTransparent", false);
+                WindowSystemBackdrop = new MaterialBackdrop(MicaKind.BaseAlt);
+                VisualStateManager.GoToState(ConversionToolsPage, "BackgroundTransparent", false);
             }
             else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[3]))
             {
-                desktopWindowXamlSource?.SystemBackdrop = new MaterialBackdrop(DesktopAcrylicKind.Default);
-                VisualStateManager.GoToState(this, "BackgroundTransparent", false);
+                WindowSystemBackdrop = new MaterialBackdrop(DesktopAcrylicKind.Default);
+                VisualStateManager.GoToState(ConversionToolsPage, "BackgroundTransparent", false);
             }
             else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[4]))
             {
-                desktopWindowXamlSource?.SystemBackdrop = new MaterialBackdrop(DesktopAcrylicKind.Base);
-                VisualStateManager.GoToState(this, "BackgroundTransparent", false);
+                WindowSystemBackdrop = new MaterialBackdrop(DesktopAcrylicKind.Base);
+                VisualStateManager.GoToState(ConversionToolsPage, "BackgroundTransparent", false);
             }
             else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[5]))
             {
-                desktopWindowXamlSource?.SystemBackdrop = new MaterialBackdrop(DesktopAcrylicKind.Thin);
-                VisualStateManager.GoToState(this, "BackgroundTransparent", false);
+                WindowSystemBackdrop = new MaterialBackdrop(DesktopAcrylicKind.Thin);
+                VisualStateManager.GoToState(ConversionToolsPage, "BackgroundTransparent", false);
             }
             else
             {
-                desktopWindowXamlSource?.SystemBackdrop = null;
-                VisualStateManager.GoToState(this, "BackgroundDefault", false);
+                WindowSystemBackdrop = null;
+                VisualStateManager.GoToState(ConversionToolsPage, "BackgroundDefault", false);
             }
         }
 
@@ -459,7 +475,7 @@ namespace ModernFormatConverter.Views.Pages
                                 TitlebarMenuFlyout.Hide();
                             }
 
-                            if (IsLoaded)
+                            if (ConversionToolsPage.IsLoaded)
                             {
                                 double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
                                 overlappedPresenter.PreferredMinimumWidth = Convert.ToInt32(1000 * dpi);
@@ -469,13 +485,13 @@ namespace ModernFormatConverter.Views.Pages
                         break;
                     }
                 // 窗口激活状态发生变化时触发的消息
-                case WindowMessage.WM_ACTIVATE:
+                case WindowMessage.WM_ACTIVATEAPP:
                     {
                         synchronizationContext.Post((_) =>
                         {
                             try
                             {
-                                if (desktopWindowXamlSource?.SystemBackdrop is MaterialBackdrop materialBackdrop && materialBackdrop.BackdropConfiguration is not null)
+                                if (WindowSystemBackdrop is MaterialBackdrop materialBackdrop && materialBackdrop.BackdropConfiguration is not null)
                                 {
                                     materialBackdrop.BackdropConfiguration.IsInputActive = AlwaysShowBackdropService.AlwaysShowBackdropValue || wParam is not 0;
                                 }
@@ -490,20 +506,15 @@ namespace ModernFormatConverter.Views.Pages
                 // 窗口关闭时触发的消息
                 case WindowMessage.WM_CLOSE:
                     {
-                        synchronizationContext.Post(async (_) =>
-                        {
-                            Current = null;
-                            desktopWindowXamlSource?.Dispose();
-                            desktopWindowXamlSource = null;
-                            AlwaysShowBackdropService.PropertyChanged -= OnServicePropertyChanged;
-                            ThemeService.PropertyChanged -= OnServicePropertyChanged;
-                            BackdropService.PropertyChanged -= OnServicePropertyChanged;
-                            inputKeyboardSource.SystemKeyDown -= OnSystemKeyDown;
-                            inputPointerSource.PointerReleased -= OnPointerReleased;
-                            Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, conversionToolsWindowSubClassProc, 0);
-                            // TODO：未完成，目前仅测试
-                            taskCompletionSource?.TrySetResult(ContentDialogResult.Primary);
-                        }, null);
+                        Current = null;
+                        AlwaysShowBackdropService.PropertyChanged -= OnServicePropertyChanged;
+                        ThemeService.PropertyChanged -= OnServicePropertyChanged;
+                        BackdropService.PropertyChanged -= OnServicePropertyChanged;
+                        inputKeyboardSource.SystemKeyDown -= OnSystemKeyDown;
+                        inputPointerSource.PointerReleased -= OnPointerReleased;
+                        Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, conversionToolsWindowSubClassProc, 0);
+                        // TODO：未完成，目前仅测试
+                        taskCompletionSource?.TrySetResult(ContentDialogResult.Primary);
                         break;
                     }
                 // 当用户按下鼠标左键时，光标位于窗口的非工作区内的消息
@@ -589,45 +600,6 @@ namespace ModernFormatConverter.Views.Pages
 
         #endregion 第七部分：窗口过程
 
-        #region 第八部分：显示对话框和应用通知
-
-        /// <summary>
-        /// 显示内容对话框
-        /// </summary>
-        public async Task<ContentDialogResult> ShowDialogAsync(ContentDialog contentDialog)
-        {
-            ContentDialogResult dialogResult = ContentDialogResult.None;
-            bool isDialogOpening = false;
-            if (contentDialog is not null && Content is not null)
-            {
-                foreach (Popup popup in VisualTreeHelper.GetOpenPopupsForXamlRoot(XamlRoot))
-                {
-                    if (popup.Child is ContentDialog)
-                    {
-                        isDialogOpening = true;
-                        break;
-                    }
-                }
-
-                if (!isDialogOpening)
-                {
-                    try
-                    {
-                        contentDialog.XamlRoot = XamlRoot;
-                        dialogResult = await contentDialog.ShowAsync();
-                    }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(ConversionToolsPage), nameof(ShowDialogAsync), 1, e);
-                    }
-                }
-            }
-
-            return dialogResult;
-        }
-
-        #endregion 第八部分：显示对话框和应用通知
-
         /// <summary>
         /// 页面向前导航
         /// </summary>
@@ -659,7 +631,7 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 关闭窗口
         /// </summary>
-        public void Close()
+        public void CloseWindow()
         {
             User32Library.SendMessage((nint)AppWindow.Id.Value, WindowMessage.WM_CLOSE, 0, 0);
         }
