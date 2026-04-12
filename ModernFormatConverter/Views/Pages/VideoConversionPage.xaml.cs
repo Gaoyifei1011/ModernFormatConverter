@@ -1,10 +1,21 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Xaml.Navigation;
 using ModernFormatConverter.Extensions.DataType.Class;
 using ModernFormatConverter.Extensions.DataType.Enums;
+using ModernFormatConverter.Helpers.Root;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
+using ModernFormatConverter.Views.Dialogs;
+using ModernFormatConverter.Views.Windows;
+using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Threading.Tasks;
 
 // 抑制 CA1806，CA1822，IDE0060 警告
 #pragma warning disable CA1806,CA1822,IDE0060
@@ -27,9 +38,9 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string VideoRewindString = ResourceService.VideoConversionResource.GetString("VideoRewind");
         private readonly string VideoSplitScreenString = ResourceService.VideoConversionResource.GetString("VideoSplitScreen");
 
-        private ConversionTypeModel _selectedConversionType;
+        private VideoConversionTypeModel _selectedConversionType;
 
-        public ConversionTypeModel SelectedConversionType
+        public VideoConversionTypeModel SelectedConversionType
         {
             get { return _selectedConversionType; }
 
@@ -103,7 +114,71 @@ namespace ModernFormatConverter.Views.Pages
             SelectedConversionType = ConversionTypeCollection[0];
         }
 
-        #region 第一部分：视频转换页面——挂载的事件
+        /// <summary>
+        /// 仅测试
+        /// </summary>
+        protected override async void OnNavigatedTo(NavigationEventArgs args)
+        {
+            base.OnNavigatedTo(args);
+
+            //ConversionTypeCollection[0].VideoConversionFileCollection.Add(new VideoConversionFileModel()
+            //{
+            //    FileName = @"F:\电视剧\不遇云裳不遇你06.mp4",
+            //    FileThumbnailSource = await GetThumbnailAsync(@"F:\电视剧\不遇云裳不遇你06.mp4"),
+            //    VideoConversionTaskName = "转换到 MP4"
+            //});
+            //ConversionTypeCollection[0].VideoConversionFileCollection.Add(new VideoConversionFileModel()
+            //{
+            //    FileName = @"F:\电视剧\竖屏短剧\反派师尊师姐求你们了.mp4",
+            //    FileThumbnailSource = await GetThumbnailAsync(@"F:\电视剧\竖屏短剧\反派师尊师姐求你们了.mp4"),
+            //    VideoConversionTaskName = "转换到 MP4"
+            //});
+            //ConversionTypeCollection[0].VideoConversionFileCollection.Add(new VideoConversionFileModel()
+            //{
+            //    FileName = @"F:\电视剧\竖屏短剧\烽火狼烟全息北伐录.mp4",
+            //    FileThumbnailSource = await GetThumbnailAsync(@"F:\电视剧\竖屏短剧\烽火狼烟全息北伐录.mp4"),
+            //    VideoConversionTaskName = "转换到 AVI"
+            //});
+            //ConversionTypeCollection[0].VideoConversionFileCollection.Add(new VideoConversionFileModel()
+            //{
+            //    FileName = @"F:\电视剧\竖屏短剧\芙蓉映照千秋岁.mp4",
+            //    FileThumbnailSource = await GetThumbnailAsync(@"F:\电视剧\竖屏短剧\芙蓉映照千秋岁.mp4"),
+            //    VideoConversionTaskName = "转换到 MKV"
+            //});
+            //ConversionTypeCollection[0].VideoConversionFileCollection.Add(new VideoConversionFileModel()
+            //{
+            //    FileName = @"F:\电视剧\竖屏短剧\欢宴.mp4",
+            //    FileThumbnailSource = await GetThumbnailAsync(@"F:\电视剧\竖屏短剧\欢宴.mp4"),
+            //    VideoConversionTaskName = "转换到 MOV"
+            //});
+        }
+
+        #region 第一部分：ExecuteCommand 命令调用时挂载的事件
+
+        /// <summary>
+        /// 移除选中项
+        /// </summary>
+        private void OnRemoveExecuteRequested(object sender, ExecuteRequestedEventArgs args)
+        {
+            SelectedConversionType.VideoConversionFileCollection.Remove(args.Parameter as VideoConversionFileModel);
+        }
+
+        /// <summary>
+        /// 配置选中项转换参数
+        /// </summary>
+        private async void OnOutputConfigurationExecuteRequested(object sender, ExecuteRequestedEventArgs args)
+        {
+            // TODO：未完成
+            if (args.Parameter is VideoConversionFileModel videoConversionFile)
+            {
+                VideoFormatConversionWindow videoFormatConversionWindow = new(ConversionToolsWindow.Current, videoConversionFile);
+                await videoFormatConversionWindow.ShowAsync();
+            }
+        }
+
+        #endregion 第一部分：ExecuteCommand 命令调用时挂载的事件
+
+        #region 第二部分：视频转换页面——挂载的事件
 
         /// <summary>
         /// 视频转换列表选中项发生变化时触发的事件
@@ -116,9 +191,10 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 打开输出配置
         /// </summary>
-        private void OnOutputConfigurationClicked(object sender, RoutedEventArgs args)
+        private async void OnOutputConfigurationClicked(object sender, RoutedEventArgs args)
         {
-            // TODO：未完成
+            VideoFormatConversionWindow videoFormatConversionWindow = new(ConversionToolsWindow.Current, SelectedConversionType.VideoConversionTypeKind, SelectedConversionType.VideoConversionFileCollection);
+            await videoFormatConversionWindow.ShowAsync();
         }
 
         /// <summary>
@@ -126,9 +202,56 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnOkClicked(object sender, RoutedEventArgs args)
         {
-            ConversionToolsPage.Current?.Close();
+            ConversionToolsWindow.Current.CloseWindow();
         }
 
-        #endregion 第一部分：视频转换页面——挂载的事件
+        #endregion 第二部分：视频转换页面——挂载的事件
+
+        /// <summary>
+        /// 获取文件缩略图
+        /// </summary>
+        private async Task<BitmapImage> GetThumbnailAsync(string filePath)
+        {
+            MemoryStream memoryStream = null;
+            try
+            {
+                Bitmap thumbnailBitmap = ThumbnailHelper.GetThumbnailBitmap(filePath, 100);
+
+                if (thumbnailBitmap is not null)
+                {
+                    memoryStream = new();
+                    thumbnailBitmap.Save(memoryStream, ImageFormat.Png);
+                    memoryStream.Seek(0, SeekOrigin.Begin);
+                    thumbnailBitmap.Dispose();
+                }
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionPage), nameof(GetThumbnailAsync), 1, e);
+            }
+
+            if (memoryStream is not null)
+            {
+                try
+                {
+                    BitmapImage bitmapImage = new();
+                    bitmapImage.SetSource(memoryStream.AsRandomAccessStream());
+                    return bitmapImage;
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionPage), nameof(GetThumbnailAsync), 2, e);
+                    return null;
+                }
+                finally
+                {
+                    memoryStream?.Dispose();
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

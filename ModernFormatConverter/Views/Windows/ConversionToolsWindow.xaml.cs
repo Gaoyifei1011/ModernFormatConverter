@@ -292,7 +292,7 @@ namespace ModernFormatConverter.Views.Windows
         {
             args.Handled = true;
             SelectedIndex = PageList.FindIndex(item => Equals(item, GetCurrentPageType()));
-            LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(ConversionToolsFrame), nameof(OnNavigationFailed), 1, args.Exception);
+            LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(ConversionToolsWindow), nameof(OnNavigationFailed), 1, args.Exception);
         }
 
         #endregion 第四部分：内容挂载的事件
@@ -498,7 +498,7 @@ namespace ModernFormatConverter.Views.Windows
                             }
                             catch (Exception e)
                             {
-                                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(ConversionToolsPage), nameof(ConversionToolsWindowSubClassProc), 1, e);
+                                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(ConversionToolsWindow), nameof(ConversionToolsWindowSubClassProc), 1, e);
                             }
                         }, null);
                         break;
@@ -614,7 +614,7 @@ namespace ModernFormatConverter.Views.Windows
             }
             catch (Exception e)
             {
-                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(ConversionToolsFrame), nameof(NavigateTo), 1, e);
+                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(ConversionToolsWindow), nameof(NavigateTo), 1, e);
             }
         }
 

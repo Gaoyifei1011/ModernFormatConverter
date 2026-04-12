@@ -247,7 +247,6 @@
     <Page Include="Views\Pages\VideoConversionPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\ConversionToolsWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\MainWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    
     <Page Include="Views\Windows\VideoFormatConversionWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
 
     <PRIResource Include="Strings\en-us\Resources.resjson" />

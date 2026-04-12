@@ -2,6 +2,7 @@
 using Microsoft.UI.Xaml.Controls;
 using ModernFormatConverter.Extensions.DataType.Class;
 using ModernFormatConverter.Models;
+using ModernFormatConverter.Views.Windows;
 using System.ComponentModel;
 
 // 抑制 CA1806，CA1822，IDE0060 警告
@@ -62,7 +63,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnOkClicked(object sender, RoutedEventArgs args)
         {
-            ConversionToolsPage.Current?.Close();
+            ConversionToolsWindow.Current.CloseWindow();
         }
 
         #endregion 第一部分：文档转换页面——挂载的事件

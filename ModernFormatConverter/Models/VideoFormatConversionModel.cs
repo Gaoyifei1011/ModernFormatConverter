@@ -13,12 +13,12 @@ namespace ModernFormatConverter.Models
         /// <summary>
         /// 格式转换类型
         /// </summary>
-        public string VideoFormatConversion { get; set; }
+        public string FormatConversionType { get; set; }
 
         /// <summary>
         /// 大小限制
         /// </summary>
-        public string FileSizeLimitation { get; set; }
+        public string SizeLimitation { get; set; }
 
         /// <summary>
         /// 视频编码

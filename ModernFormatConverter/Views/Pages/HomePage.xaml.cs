@@ -5,7 +5,6 @@ using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.Views.Windows;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 // 抑制 IDE0060 警告
 #pragma warning disable IDE0060
@@ -94,23 +93,23 @@ namespace ModernFormatConverter.Views.Pages
                 {
                     if (string.Equals(controlItem.Tag, ConversionToolsList[0].Tag, StringComparison.OrdinalIgnoreCase))
                     {
-                        ConversionToolsPage conversionToolsPage = new(MainWindow.Current, ConversionToolsKind.VideoConversion);
-                        ContentDialogResult contentDialogResult = await conversionToolsPage.ShowAsync();
+                        ConversionToolsWindow conversionToolsWindow = new(MainWindow.Current, ConversionToolsKind.VideoConversion);
+                        ContentDialogResult contentDialogResult = await conversionToolsWindow.ShowAsync();
                     }
                     else if (string.Equals(controlItem.Tag, ConversionToolsList[1].Tag, StringComparison.OrdinalIgnoreCase))
                     {
-                        ConversionToolsPage conversionToolsPage = new(MainWindow.Current, ConversionToolsKind.AudioConversion);
-                        ContentDialogResult contentDialogResult = await conversionToolsPage.ShowAsync();
+                        ConversionToolsWindow conversionToolsWindow = new(MainWindow.Current, ConversionToolsKind.AudioConversion);
+                        ContentDialogResult contentDialogResult = await conversionToolsWindow.ShowAsync();
                     }
                     else if (string.Equals(controlItem.Tag, ConversionToolsList[2].Tag, StringComparison.OrdinalIgnoreCase))
                     {
-                        ConversionToolsPage conversionToolsPage = new(MainWindow.Current, ConversionToolsKind.PhotoConversion);
-                        ContentDialogResult contentDialogResult = await conversionToolsPage.ShowAsync();
+                        ConversionToolsWindow conversionToolsWindow = new(MainWindow.Current, ConversionToolsKind.PhotoConversion);
+                        ContentDialogResult contentDialogResult = await conversionToolsWindow.ShowAsync();
                     }
                     else if (string.Equals(controlItem.Tag, ConversionToolsList[3].Tag, StringComparison.OrdinalIgnoreCase))
                     {
-                        ConversionToolsPage conversionToolsPage = new(MainWindow.Current, ConversionToolsKind.DocumentConversion);
-                        ContentDialogResult contentDialogResult = await conversionToolsPage.ShowAsync();
+                        ConversionToolsWindow conversionToolsWindow = new(MainWindow.Current, ConversionToolsKind.DocumentConversion);
+                        ContentDialogResult contentDialogResult = await conversionToolsWindow.ShowAsync();
                     }
                 }
                 else if (OtherToolsList.Contains(controlItem))

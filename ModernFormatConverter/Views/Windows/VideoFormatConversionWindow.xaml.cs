@@ -682,7 +682,7 @@ namespace ModernFormatConverter.Views.Dialogs
                             }
                             catch (Exception e)
                             {
-                                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(ConversionToolsPage), nameof(ConversionToolsWindowSubClassProc), 1, e);
+                                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoFormatConversionWindow), nameof(ConversionToolsWindowSubClassProc), 1, e);
                             }
                         }, null);
                         break;
