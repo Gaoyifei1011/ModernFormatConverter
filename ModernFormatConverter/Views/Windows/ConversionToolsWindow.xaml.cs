@@ -619,13 +619,13 @@ namespace ModernFormatConverter.Views.Windows
         }
 
         /// <summary>
-        /// 显示模态对话框
+        /// 显示模态窗口
         /// </summary>
-        public Task<ContentDialogResult> ShowAsync()
+        public async Task<ContentDialogResult> ShowAsync()
         {
             taskCompletionSource = new();
             AppWindow.Show();
-            return taskCompletionSource.Task;
+            return await taskCompletionSource.Task;
         }
 
         /// <summary>

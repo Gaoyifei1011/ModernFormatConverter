@@ -9,11 +9,16 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:page="using:ModernFormatConverter.Views.Pages"
     xmlns:rootservice="using:ModernFormatConverter.Services.Root"
+    xmlns:window="using:ModernFormatConverter.Views.Windows"
     Title="{x:Bind WindowTitle, Mode=OneWay}"
     SystemBackdrop="{x:Bind WindowSystemBackdrop, Mode=OneWay}"
     mc:Ignorable="d">
 
-    <Page x:Name="ConversionToolsPage">
+    <Page
+        x:Name="ConversionToolsPage"
+        FlowDirection="{x:Bind ((FrameworkElement)window:MainWindow.Current.Content).FlowDirection, Mode=OneWay}"
+        RequestedTheme="{x:Bind WindowTheme, Mode=OneWay}">
+
         <Page.Resources>
             <ResourceDictionary>
                 <TransitionCollection x:Name="SuppressNavigationTransitionCollection">
