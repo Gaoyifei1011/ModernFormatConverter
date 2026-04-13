@@ -6,24 +6,20 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:rootservice="using:ModernFormatConverter.Services.Root"
     xmlns:system="using:System"
+    xmlns:window="using:ModernFormatConverter.Views.Windows"
     Title="{x:Bind WindowTitle, Mode=OneWay}"
     SystemBackdrop="{x:Bind WindowSystemBackdrop, Mode=OneWay}"
     mc:Ignorable="d">
 
-    <Page x:Name="ConversionToolsPage">
+    <Page
+        x:Name="ConversionToolsPage"
+        ActualThemeChanged="{x:Bind OnActualThemeChanged}"
+        FlowDirection="{x:Bind ((FrameworkElement)window:MainWindow.Current.Content).FlowDirection, Mode=OneWay}"
+        Loaded="{x:Bind OnLoaded}"
+        RequestedTheme="{x:Bind WindowTheme, Mode=OneWay}">
+
         <Page.Resources>
             <ResourceDictionary>
-                <TransitionCollection x:Name="SuppressNavigationTransitionCollection">
-                    <NavigationThemeTransition>
-                        <NavigationThemeTransition.DefaultNavigationTransitionInfo>
-                            <SuppressNavigationTransitionInfo />
-                        </NavigationThemeTransition.DefaultNavigationTransitionInfo>
-                    </NavigationThemeTransition>
-                </TransitionCollection>
-
-                <x:Double x:Key="BreadcrumbBarChevronFontSize">16</x:Double>
-                <Thickness x:Key="BreadcrumbBarChevronPadding">8,0</Thickness>
-
                 <MenuFlyout x:Name="TitlebarMenuFlyout" Placement="BottomEdgeAlignedLeft">
 
                     <MenuFlyoutItem
@@ -99,7 +95,7 @@
             </ResourceDictionary>
         </Page.Resources>
 
-        <Grid ActualThemeChanged="{x:Bind OnActualThemeChanged}" Loaded="{x:Bind OnLoaded}">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -527,6 +523,7 @@
                         </DropDownButton>
                     </Grid>
 
+                    <!--  视频编码  -->
                     <Grid
                         Height="60"
                         Margin="0,0,0,2"
@@ -856,6 +853,123 @@
                             </Grid>
                         </StackPanel>
                     </Expander>
+
+                    <!--  比特率  -->
+                    <Grid
+                        Height="60"
+                        Margin="0,0,0,2"
+                        Padding="16,0"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource ControlCornerRadius}">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="0,0,0,2"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('BitRate')}" />
+
+                        <DropDownButton
+                            Grid.Column="3"
+                            VerticalAlignment="Center"
+                            Content="{x:Bind SelectedBitRate.Value, Mode=OneWay}">
+
+                            <DropDownButton.Flyout>
+                                <MenuFlyout Placement="Bottom">
+                                    <RadioMenuFlyoutItem
+                                        Click="{x:Bind OnBitRateRadioGroupSelectClicked}"
+                                        GroupName="BitRateRadioGroup"
+                                        IsChecked="{x:Bind x:Object.Equals(SelectedBitRate.Key, BitRateList[0].Key), Mode=OneWay}"
+                                        Tag="{x:Bind BitRateList[0]}"
+                                        Text="{x:Bind system:Convert.ToString(BitRateList[0].Value)}" />
+
+                                    <RadioMenuFlyoutItem
+                                        Click="{x:Bind OnBitRateRadioGroupSelectClicked}"
+                                        GroupName="BitRateRadioGroup"
+                                        IsChecked="{x:Bind x:Object.Equals(SelectedBitRate.Key, BitRateList[1].Key), Mode=OneWay}"
+                                        Tag="{x:Bind BitRateList[1]}"
+                                        Text="{x:Bind system:Convert.ToString(BitRateList[1].Value)}" />
+
+                                    <RadioMenuFlyoutItem
+                                        Click="{x:Bind OnBitRateRadioGroupSelectClicked}"
+                                        GroupName="BitRateRadioGroup"
+                                        IsChecked="{x:Bind x:Object.Equals(SelectedBitRate.Key, BitRateList[2].Key), Mode=OneWay}"
+                                        Tag="{x:Bind BitRateList[2]}"
+                                        Text="{x:Bind system:Convert.ToString(BitRateList[2].Value)}" />
+
+                                    <RadioMenuFlyoutItem
+                                        Click="{x:Bind OnBitRateRadioGroupSelectClicked}"
+                                        GroupName="BitRateRadioGroup"
+                                        IsChecked="{x:Bind x:Object.Equals(SelectedBitRate.Key, BitRateList[3].Key), Mode=OneWay}"
+                                        Tag="{x:Bind BitRateList[3]}"
+                                        Text="{x:Bind system:Convert.ToString(BitRateList[3].Value)}" />
+
+                                    <RadioMenuFlyoutItem
+                                        Click="{x:Bind OnBitRateRadioGroupSelectClicked}"
+                                        GroupName="BitRateRadioGroup"
+                                        IsChecked="{x:Bind x:Object.Equals(SelectedBitRate.Key, BitRateList[4].Key), Mode=OneWay}"
+                                        Tag="{x:Bind BitRateList[4]}"
+                                        Text="{x:Bind system:Convert.ToString(BitRateList[4].Value)}" />
+
+                                    <RadioMenuFlyoutItem
+                                        Click="{x:Bind OnBitRateRadioGroupSelectClicked}"
+                                        GroupName="BitRateRadioGroup"
+                                        IsChecked="{x:Bind x:Object.Equals(SelectedBitRate.Key, BitRateList[5].Key), Mode=OneWay}"
+                                        Tag="{x:Bind BitRateList[5]}"
+                                        Text="{x:Bind system:Convert.ToString(BitRateList[5].Value)}" />
+
+                                    <RadioMenuFlyoutItem
+                                        Click="{x:Bind OnBitRateRadioGroupSelectClicked}"
+                                        GroupName="BitRateRadioGroup"
+                                        IsChecked="{x:Bind x:Object.Equals(SelectedBitRate.Key, BitRateList[6].Key), Mode=OneWay}"
+                                        Tag="{x:Bind BitRateList[6]}"
+                                        Text="{x:Bind system:Convert.ToString(BitRateList[6].Value)}" />
+
+                                    <RadioMenuFlyoutItem
+                                        Click="{x:Bind OnBitRateRadioGroupSelectClicked}"
+                                        GroupName="BitRateRadioGroup"
+                                        IsChecked="{x:Bind x:Object.Equals(SelectedBitRate.Key, BitRateList[7].Key), Mode=OneWay}"
+                                        Tag="{x:Bind BitRateList[7]}"
+                                        Text="{x:Bind system:Convert.ToString(BitRateList[7].Value)}" />
+
+                                    <RadioMenuFlyoutItem
+                                        Click="{x:Bind OnBitRateRadioGroupSelectClicked}"
+                                        GroupName="BitRateRadioGroup"
+                                        IsChecked="{x:Bind x:Object.Equals(SelectedBitRate.Key, BitRateList[8].Key), Mode=OneWay}"
+                                        Tag="{x:Bind BitRateList[8]}"
+                                        Text="{x:Bind system:Convert.ToString(BitRateList[8].Value)}" />
+
+                                    <RadioMenuFlyoutItem
+                                        Click="{x:Bind OnBitRateRadioGroupSelectClicked}"
+                                        GroupName="BitRateRadioGroup"
+                                        IsChecked="{x:Bind x:Object.Equals(SelectedBitRate.Key, BitRateList[9].Key), Mode=OneWay}"
+                                        Tag="{x:Bind BitRateList[9]}"
+                                        Text="{x:Bind system:Convert.ToString(BitRateList[9].Value)}" />
+
+                                    <RadioMenuFlyoutItem
+                                        Click="{x:Bind OnBitRateRadioGroupSelectClicked}"
+                                        GroupName="BitRateRadioGroup"
+                                        IsChecked="{x:Bind x:Object.Equals(SelectedBitRate.Key, BitRateList[10].Key), Mode=OneWay}"
+                                        Tag="{x:Bind BitRateList[10]}"
+                                        Text="{x:Bind system:Convert.ToString(BitRateList[10].Value)}" />
+
+                                    <RadioMenuFlyoutItem
+                                        Click="{x:Bind OnBitRateRadioGroupSelectClicked}"
+                                        GroupName="BitRateRadioGroup"
+                                        IsChecked="{x:Bind x:Object.Equals(SelectedBitRate.Key, BitRateList[11].Key), Mode=OneWay}"
+                                        Tag="{x:Bind BitRateList[11]}"
+                                        Text="{x:Bind system:Convert.ToString(BitRateList[11].Value)}" />
+                                </MenuFlyout>
+                            </DropDownButton.Flyout>
+                        </DropDownButton>
+                    </Grid>
 
                     <TextBlock
                         x:Name="AudioHeader"

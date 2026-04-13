@@ -1,5 +1,7 @@
 ﻿Close=关闭
+CopyAppInformation=复制应用信息
 DoNetVersion=.NET Framework 版本：
+LoadingAppInformation=正在加载应用信息中，请稍候...
 Maximize=最大化
 MediaInfoVersion=MediaInfo 版本：
 Minimize=最小化

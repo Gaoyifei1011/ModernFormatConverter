@@ -154,7 +154,7 @@ namespace ModernFormatConverter.Views.Windows
             // 标题栏和右键菜单设置
             SetClassicMenuTheme((Content as FrameworkElement).ActualTheme);
 
-            // 为应用主窗口添加窗口过程
+            // 为窗口添加窗口过程
             conversionToolsWindowSubClassProc = new SUBCLASSPROC(ConversionToolsWindowSubClassProc);
             Comctl32Library.SetWindowSubclass((nint)AppWindow.Id.Value, conversionToolsWindowSubClassProc, 0, 0);
 

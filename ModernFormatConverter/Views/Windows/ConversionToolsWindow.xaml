@@ -16,7 +16,9 @@
 
     <Page
         x:Name="ConversionToolsPage"
+        ActualThemeChanged="{x:Bind OnActualThemeChanged}"
         FlowDirection="{x:Bind ((FrameworkElement)window:MainWindow.Current.Content).FlowDirection, Mode=OneWay}"
+        Loaded="{x:Bind OnLoaded}"
         RequestedTheme="{x:Bind WindowTheme, Mode=OneWay}">
 
         <Page.Resources>
@@ -107,7 +109,7 @@
             </ResourceDictionary>
         </Page.Resources>
 
-        <Grid ActualThemeChanged="{x:Bind OnActualThemeChanged}" Loaded="{x:Bind OnLoaded}">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />

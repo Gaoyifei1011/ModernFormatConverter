@@ -45,10 +45,11 @@ namespace ModernFormatConverter.Views.Windows
         private readonly string WinUIVersionString = ResourceService.AppInformationResource.GetString("WinUIVersion");
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly OverlappedPresenter overlappedPresenter;
-        private readonly SUBCLASSPROC conversionToolsWindowSubClassProc;
+        private readonly SUBCLASSPROC appInformationWindowSubClassProc;
         private readonly ContentIsland contentIsland;
         private readonly InputKeyboardSource inputKeyboardSource;
         private readonly InputPointerSource inputPointerSource;
+        private MainWindow mainWindow;
         private TaskCompletionSource<ContentDialogResult> taskCompletionSource;
 
         private string _windowTitle;
@@ -115,6 +116,7 @@ namespace ModernFormatConverter.Views.Windows
             {
                 User32Library.SetWindowLong((nint)AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, mainWindow.AppWindow.Id.Value);
             }
+            this.mainWindow = mainWindow;
             overlappedPresenter = AppWindow.Presenter as OverlappedPresenter;
             overlappedPresenter.IsMaximizable = false;
             overlappedPresenter.IsMinimizable = false;
@@ -142,9 +144,9 @@ namespace ModernFormatConverter.Views.Windows
             // 标题栏和右键菜单设置
             SetClassicMenuTheme((Content as FrameworkElement).ActualTheme);
 
-            // 为应用主窗口添加窗口过程
-            conversionToolsWindowSubClassProc = new SUBCLASSPROC(ConversionToolsWindowSubClassProc);
-            Comctl32Library.SetWindowSubclass((nint)AppWindow.Id.Value, conversionToolsWindowSubClassProc, 0, 0);
+            // 为窗口添加窗口过程
+            appInformationWindowSubClassProc = new SUBCLASSPROC(AppInformationWindowSubClassProc);
+            Comctl32Library.SetWindowSubclass((nint)AppWindow.Id.Value, appInformationWindowSubClassProc, 0, 0);
 
             SetWindowTheme();
             AppWindow.Closing += (sender, args) =>
@@ -232,10 +234,12 @@ namespace ModernFormatConverter.Views.Windows
         #region 第四部分：内容挂载的事件
 
         /// <summary>
-        /// 应用信息初始化触发的事件
+        /// 加载完成后触发的事件
         /// </summary>
         private async void OnLoaded(object sender, RoutedEventArgs args)
         {
+            SetPopupControlTheme(WindowTheme);
+
             List<KeyValuePair<string, Version>> dependencyInformationList = [];
             await Task.Run(() =>
             {
@@ -318,7 +322,7 @@ namespace ModernFormatConverter.Views.Windows
             }
 
             CloseWindow();
-            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(copyResult));
+            await mainWindow.ShowNotificationAsync(new CopyPasteNotificationTip(copyResult));
         }
 
         /// <summary>
@@ -408,7 +412,7 @@ namespace ModernFormatConverter.Views.Windows
         /// <summary>
         /// 应用窗口消息处理
         /// </summary>
-        private nint ConversionToolsWindowSubClassProc(nint hWnd, WindowMessage Msg, nuint wParam, nint lParam, uint uIdSubclass, nint dwRefData)
+        private nint AppInformationWindowSubClassProc(nint hWnd, WindowMessage Msg, nuint wParam, nint lParam, uint uIdSubclass, nint dwRefData)
         {
             switch (Msg)
             {
@@ -421,6 +425,14 @@ namespace ModernFormatConverter.Views.Windows
                             {
                                 TitlebarMenuFlyout.Hide();
                             }
+
+                            double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
+                            int width = Convert.ToInt32(480 * dpi);
+                            int height = Convert.ToInt32(280 * dpi);
+                            User32Library.GetWindowRect((nint)mainWindow.AppWindow.Id.Value, out RECT parentRect);
+                            int childX = parentRect.left + (parentRect.right - parentRect.left - width) / 2;
+                            int childY = parentRect.top + (parentRect.bottom - parentRect.top - height) / 2;
+                            User32Library.SetWindowPos((nint)AppWindow.Id.Value, 0, childX, childY, width, height, SetWindowPosFlags.SWP_NOREPOSITION | SetWindowPosFlags.SWP_NOZORDER);
                         }, null);
                         break;
                     }
@@ -434,22 +446,24 @@ namespace ModernFormatConverter.Views.Windows
                                 TitlebarMenuFlyout.Hide();
                             }
 
-                            if (AppInformationPage.IsLoaded)
-                            {
-                                double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
-                                overlappedPresenter.PreferredMinimumWidth = Convert.ToInt32(480 * dpi);
-                                overlappedPresenter.PreferredMinimumHeight = Convert.ToInt32(280 * dpi);
-                            }
+                            double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
+                            int width = Convert.ToInt32(480 * dpi);
+                            int height = Convert.ToInt32(280 * dpi);
+                            User32Library.GetWindowRect((nint)mainWindow.AppWindow.Id.Value, out RECT parentRect);
+                            int childX = parentRect.left + (parentRect.right - parentRect.left - width) / 2;
+                            int childY = parentRect.top + (parentRect.bottom - parentRect.top - height) / 2;
+                            User32Library.SetWindowPos((nint)AppWindow.Id.Value, 0, childX, childY, width, height, SetWindowPosFlags.SWP_NOREPOSITION | SetWindowPosFlags.SWP_NOZORDER);
                         }, null);
                         break;
                     }
                 // 窗口关闭时触发的消息
                 case WindowMessage.WM_CLOSE:
                     {
+                        mainWindow = null;
                         ThemeService.PropertyChanged -= OnServicePropertyChanged;
                         inputKeyboardSource.SystemKeyDown -= OnSystemKeyDown;
                         inputPointerSource.PointerReleased -= OnPointerReleased;
-                        Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, conversionToolsWindowSubClassProc, 0);
+                        Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, appInformationWindowSubClassProc, 0);
                         break;
                     }
                 // 当用户按下鼠标左键时，光标位于窗口的非工作区内的消息
@@ -495,8 +509,13 @@ namespace ModernFormatConverter.Views.Windows
                 // 窗口 DPI 发生变化后触发的消息
                 case WindowMessage.WM_DPICHANGED:
                     {
-                        overlappedPresenter.PreferredMinimumWidth = Convert.ToInt32(480 * Convert.ToDouble(wParam) / 96);
-                        overlappedPresenter.PreferredMinimumHeight = Convert.ToInt32(280 * Convert.ToDouble(wParam) / 96);
+                        double dpi = Convert.ToDouble(wParam) / 96;
+                        int width = Convert.ToInt32(480 * dpi);
+                        int height = Convert.ToInt32(280 * dpi);
+                        User32Library.GetWindowRect((nint)mainWindow.AppWindow.Id.Value, out RECT parentRect);
+                        int childX = parentRect.left + (parentRect.right - parentRect.left - width) / 2;
+                        int childY = parentRect.top + (parentRect.bottom - parentRect.top - height) / 2;
+                        User32Library.SetWindowPos((nint)AppWindow.Id.Value, 0, childX, childY, width, height, SetWindowPosFlags.SWP_NOREPOSITION | SetWindowPosFlags.SWP_NOZORDER);
                         break;
                     }
                 // 选择窗口右键菜单的条目时接收到的消息

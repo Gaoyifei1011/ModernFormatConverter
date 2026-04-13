@@ -1,5 +1,7 @@
 ﻿Close=Close
+CopyAppInformation=Copy app information
 DoNetVersion=.NET Framework version:
+LoadingAppInformation=Loading app information, please wait...
 Maximize=Maximize
 MediaInfoVersion=MediaInfo version:
 Minimize=Minimize
