@@ -6,7 +6,6 @@ using Microsoft.UI.Xaml.Navigation;
 using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Helpers.Root;
 using ModernFormatConverter.Services.Root;
-using ModernFormatConverter.Views.Dialogs;
 using ModernFormatConverter.Views.NotificationTips;
 using ModernFormatConverter.Views.Windows;
 using ModernFormatConverter.WindowsAPI.PInvoke.Kernel32;
@@ -146,7 +145,8 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnRestartAppsClicked(object sender, RoutedEventArgs args)
         {
-            await MainWindow.Current.ShowDialogAsync(new RestartAppsDialog());
+            RestartAppsWindow restartAppsWindow = new(MainWindow.Current);
+            await restartAppsWindow.ShowAsync();
         }
 
         /// <summary>

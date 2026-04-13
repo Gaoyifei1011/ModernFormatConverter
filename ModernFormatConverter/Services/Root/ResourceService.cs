@@ -34,6 +34,8 @@ namespace ModernFormatConverter.Services.Root
 
         public static ResourceManager PhotoConversionResource { get; } = new("ModernFormatConverter.Strings.PhotoConversion", CurrentAssembly);
 
+        public static ResourceManager RestartAppsResource { get; } = new("ModernFormatConverter.Strings.RestartApps", CurrentAssembly);
+
         public static ResourceManager SettingsAboutResource { get; } = new("ModernFormatConverter.Strings.SettingsAbout", CurrentAssembly);
 
         public static ResourceManager SettingsAdvancedResource { get; } = new("ModernFormatConverter.Strings.SettingsAdvanced", CurrentAssembly);

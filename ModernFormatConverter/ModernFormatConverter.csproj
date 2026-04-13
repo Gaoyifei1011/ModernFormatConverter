@@ -177,6 +177,9 @@
     <EmbeddedResource Include="Strings\PhotoConversion.restext" />
     <EmbeddedResource Include="Strings\PhotoConversion.zh-hans.restext" />
     <EmbeddedResource Include="Strings\Resources.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
+    <EmbeddedResource Include="Strings\RestartApps.en-us.restext" />
+    <EmbeddedResource Include="Strings\RestartApps.restext" />
+    <EmbeddedResource Include="Strings\RestartApps.zh-hans.restext" />
     <EmbeddedResource Include="Strings\Settings.en-us.restext" />
     <EmbeddedResource Include="Strings\Settings.restext" />
     <EmbeddedResource Include="Strings\Settings.zh-hans.restext" />
@@ -232,7 +235,7 @@
     <Page Include="Styles\AppBarButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\NavigationView.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\TextBox.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Views\Dialogs\RestartAppsDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Windows\RestartAppsWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Dialogs\UpdateAppDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\NotificationTips\CopyPasteNotificationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\NotificationTips\OperationResultNotificationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
