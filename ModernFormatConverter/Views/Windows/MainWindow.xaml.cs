@@ -869,42 +869,7 @@ namespace ModernFormatConverter.Views.Windows
 
         #endregion 第八部分：窗口导航方法
 
-        #region 第九部分：显示对话框和应用通知
-
-        /// <summary>
-        /// 显示内容对话框
-        /// </summary>
-        public async Task<ContentDialogResult> ShowDialogAsync(ContentDialog contentDialog)
-        {
-            ContentDialogResult dialogResult = ContentDialogResult.None;
-            bool isDialogOpening = false;
-            if (contentDialog is not null && Content is not null)
-            {
-                foreach (Popup popup in VisualTreeHelper.GetOpenPopupsForXamlRoot(Content.XamlRoot))
-                {
-                    if (popup.Child is ContentDialog)
-                    {
-                        isDialogOpening = true;
-                        break;
-                    }
-                }
-
-                if (!isDialogOpening)
-                {
-                    try
-                    {
-                        contentDialog.XamlRoot = Content.XamlRoot;
-                        dialogResult = await contentDialog.ShowAsync();
-                    }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(MainWindow), nameof(ShowDialogAsync), 1, e);
-                    }
-                }
-            }
-
-            return dialogResult;
-        }
+        #region 第九部分：显示应用通知
 
         /// <summary>
         /// 使用教学提示显示应用内通知
@@ -932,7 +897,7 @@ namespace ModernFormatConverter.Views.Windows
             }
         }
 
-        #endregion 第九部分：显示对话框和应用通知
+        #endregion 第九部分：显示应用通知
 
         private uint HIWORD(uint dword)
         {
