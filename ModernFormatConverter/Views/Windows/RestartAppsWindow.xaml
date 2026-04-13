@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:rootservice="using:ModernFormatConverter.Services.Root"
-    Title="{x:Bind rootservice:ResourceService.LicenseResource.GetString('Title')}"
+    Title="{x:Bind rootservice:ResourceService.RestartAppsResource.GetString('RestartApps')}"
     mc:Ignorable="d">
 
     <Page
@@ -44,7 +44,7 @@
                         FontWeight="SemiBold"
                         Foreground="{ThemeResource ContentDialogForeground}"
                         IsTabStop="False"
-                        Text="{x:Bind rootservice:ResourceService.LicenseResource.GetString('Title')}" />
+                        Text="{x:Bind rootservice:ResourceService.RestartAppsResource.GetString('RestartApps')}" />
 
                     <TextBlock
                         Grid.Row="1"

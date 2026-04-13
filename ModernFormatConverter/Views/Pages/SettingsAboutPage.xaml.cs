@@ -2,7 +2,6 @@
 using Microsoft.UI.Xaml.Controls;
 using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Services.Root;
-using ModernFormatConverter.Views.Dialogs;
 using ModernFormatConverter.Views.NotificationTips;
 using ModernFormatConverter.Views.Windows;
 using System;
@@ -206,12 +205,16 @@ namespace ModernFormatConverter.Views.Pages
                     {
                         LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(SettingsAboutPage), nameof(OnCheckUpdateClicked), 1, e);
                         IsChecking = false;
-                        await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.CheckUpdate, 2));
+                        synchronizationContext.Post(async (_) =>
+                        {
+                            await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.CheckUpdate, 2));
+                        }, null);
                     }
 
                     if (!isNewest)
                     {
-                        await MainWindow.Current.ShowDialogAsync(new UpdateAppDialog());
+                        UpdateAppWindow updateAppWindow = new(MainWindow.Current);
+                        await updateAppWindow.ShowAsync();
                     }
                 }
                 else

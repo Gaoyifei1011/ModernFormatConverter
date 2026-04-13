@@ -373,15 +373,5 @@ namespace ModernFormatConverter.Views.Windows
         {
             User32Library.SendMessage((nint)AppWindow.Id.Value, WindowMessage.WM_CLOSE, 0, 0);
         }
-
-        private uint HIWORD(uint dword)
-        {
-            return (dword >> 16) & 0xffff;
-        }
-
-        private uint LOWORD(uint dword)
-        {
-            return dword & 0xffff;
-        }
     }
 }
