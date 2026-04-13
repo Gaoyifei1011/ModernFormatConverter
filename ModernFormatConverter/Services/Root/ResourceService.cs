@@ -18,8 +18,6 @@ namespace ModernFormatConverter.Services.Root
 
         public static ResourceManager CustomCommandResource { get; } = new("ModernFormatConverter.Strings.CustomCommand", CurrentAssembly);
 
-        public static ResourceManager DialogResource { get; } = new("ModernFormatConverter.Strings.Dialog", CurrentAssembly);
-
         public static ResourceManager DocumentConversionResource { get; } = new("ModernFormatConverter.Strings.DocumentConversion", CurrentAssembly);
 
         public static ResourceManager FileInformationResource { get; } = new("ModernFormatConverter.Strings.FileInformation", CurrentAssembly);
@@ -45,6 +43,8 @@ namespace ModernFormatConverter.Services.Root
         public static ResourceManager SettingsResource { get; } = new("ModernFormatConverter.Strings.Settings", CurrentAssembly);
 
         public static ResourceManager TaskManagerResource { get; } = new("ModernFormatConverter.Strings.TaskManager", CurrentAssembly);
+
+        public static ResourceManager UpdateAppResource { get; } = new("ModernFormatConverter.Strings.UpdateApp", CurrentAssembly);
 
         public static ResourceManager VideoConversionResource { get; } = new("ModernFormatConverter.Strings.VideoConversion", CurrentAssembly);
 

@@ -1,0 +1,199 @@
+﻿<Window
+    x:Class="ModernFormatConverter.Views.Windows.UpdateAppWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:enum="using:ModernFormatConverter.Extensions.DataType.Enums"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:rootservice="using:ModernFormatConverter.Services.Root"
+    xmlns:window="using:ModernFormatConverter.Views.Windows"
+    Title="{x:Bind rootservice:ResourceService.UpdateAppResource.GetString('UpdateApp')}"
+    mc:Ignorable="d">
+
+    <Page
+        x:Name="UpdateAppPage"
+        ActualThemeChanged="{x:Bind OnActualThemeChanged}"
+        FlowDirection="{x:Bind ((FrameworkElement)MainWindow.Content).FlowDirection, Mode=OneWay}"
+        Loaded="{x:Bind OnLoaded}"
+        RequestedTheme="{x:Bind WindowTheme, Mode=OneWay}">
+
+        <Page.Resources>
+            <SolidColorBrush x:Key="HyperlinkButtonBackgroundPointerOver" Color="Transparent" />
+            <SolidColorBrush x:Key="HyperlinkButtonBackgroundPressed" Color="Transparent" />
+        </Page.Resources>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <ScrollViewer
+                HorizontalScrollBarVisibility="Disabled"
+                IsTabStop="False"
+                VerticalScrollBarVisibility="Disabled"
+                ZoomMode="Disabled">
+
+                <Grid
+                    Padding="{ThemeResource ContentDialogPadding}"
+                    HorizontalAlignment="Stretch"
+                    Background="{ThemeResource ContentDialogTopOverlay}">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Margin="{ThemeResource ContentDialogTitleMargin}"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        FontFamily="{StaticResource ContentControlThemeFontFamily}"
+                        FontSize="20"
+                        FontWeight="SemiBold"
+                        Foreground="{ThemeResource ContentDialogForeground}"
+                        IsTabStop="False"
+                        Text="{x:Bind rootservice:ResourceService.UpdateAppResource.GetString('UpdateApp')}" />
+
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Margin="0,0,0,5"
+                            Text="{x:Bind rootservice:ResourceService.UpdateAppResource.GetString('UpdateInitialize')}"
+                            TextWrapping="Wrap"
+                            Visibility="{x:Bind CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Initialize), Mode=OneWay}" />
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Margin="0,0,0,5"
+                            Text="{x:Bind rootservice:ResourceService.UpdateAppResource.GetString('UpdatePending')}"
+                            TextWrapping="Wrap"
+                            Visibility="{x:Bind CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Pending), Mode=OneWay}" />
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Margin="0,0,0,5"
+                            Text="{x:Bind UpdateDownloadString, Mode=OneWay}"
+                            TextWrapping="Wrap"
+                            Visibility="{x:Bind CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Downloading), Mode=OneWay}" />
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Margin="0,0,0,5"
+                            Text="{x:Bind rootservice:ResourceService.UpdateAppResource.GetString('UpdateCanceling')}"
+                            TextWrapping="Wrap"
+                            Visibility="{x:Bind CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Canceling), Mode=OneWay}" />
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Margin="0,0,0,5"
+                            Text="{x:Bind rootservice:ResourceService.UpdateAppResource.GetString('UpdateCanceled')}"
+                            TextWrapping="Wrap"
+                            Visibility="{x:Bind CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Canceled), Mode=OneWay}" />
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Margin="0,0,0,5"
+                            Text="{x:Bind rootservice:ResourceService.UpdateAppResource.GetString('UpdateFailed')}"
+                            TextWrapping="Wrap"
+                            Visibility="{x:Bind CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Failed), Mode=OneWay}" />
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Margin="0,0,0,5"
+                            Text="{x:Bind rootservice:ResourceService.UpdateAppResource.GetString('UpdateDeploying')}"
+                            TextWrapping="Wrap"
+                            Visibility="{x:Bind CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Deploying), Mode=OneWay}" />
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Margin="0,0,0,5"
+                            Text="{x:Bind rootservice:ResourceService.UpdateAppResource.GetString('UpdateSuccessfully')}"
+                            TextWrapping="Wrap"
+                            Visibility="{x:Bind CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Successfully), Mode=OneWay}" />
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Margin="0,0,0,5"
+                            Text="{x:Bind rootservice:ResourceService.UpdateAppResource.GetString('UpdateErrorLowBattery')}"
+                            TextWrapping="Wrap"
+                            Visibility="{x:Bind CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Failed), Mode=OneWay}" />
+
+                        <TextBlock
+                            Grid.Row="2"
+                            Margin="0,0,0,5"
+                            Text="{x:Bind rootservice:ResourceService.UpdateAppResource.GetString('UpdateErrorWiFiNotConnected')}"
+                            TextWrapping="Wrap"
+                            Visibility="{x:Bind CheckUpdateAppResultKind(UpdateAppResultKind, enum:UpdateAppResultKind.Failed), Mode=OneWay}" />
+
+                        <ProgressBar
+                            Grid.Row="3"
+                            Margin="0,7,0,5"
+                            IsIndeterminate="True"
+                            ShowPaused="{x:Bind x:Object.Equals(UpdateAppResultKind, enum:UpdateAppResultKind.Canceling), Mode=OneWay}"
+                            Visibility="{x:Bind GetUpdateProgressState(UpdateAppResultKind), Mode=OneWay}" />
+
+                        <MenuFlyoutSeparator Grid.Row="4" Margin="4,5,4,0" />
+
+                        <TextBlock
+                            Grid.Row="5"
+                            Margin="0,5,0,-15"
+                            Padding="0">
+
+                            <!--  未完成  -->
+                            <Hyperlink NavigateUri="https://apps.microsoft.com/detail" UnderlineStyle="None">
+                                <Run Text="{x:Bind rootservice:ResourceService.UpdateAppResource.GetString('UpdateFromMicrosoftStore')}" />
+                            </Hyperlink>
+                        </TextBlock>
+                    </Grid>
+                </Grid>
+            </ScrollViewer>
+
+            <Grid
+                Grid.Row="1"
+                Padding="{ThemeResource ContentDialogPadding}"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Bottom"
+                Background="{ThemeResource ContentDialogBackground}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="0,1,0,0"
+                ColumnSpacing="10"
+                XYFocusKeyboardNavigation="Enabled">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button
+                    Grid.Column="0"
+                    HorizontalAlignment="Stretch"
+                    Click="{x:Bind OnUpdateClicked}"
+                    Content="{x:Bind PrimaryText, Mode=OneWay}"
+                    ElementSoundMode="FocusOnly"
+                    IsEnabled="{x:Bind GetIsNotUpdating(UpdateAppResultKind), Mode=OneWay}"
+                    IsTabStop="False"
+                    Style="{StaticResource AccentButtonStyle}" />
+
+                <Button
+                    Grid.Column="1"
+                    HorizontalAlignment="Stretch"
+                    Click="{x:Bind OnCancelOrCloseClicked}"
+                    Content="{x:Bind CloseText, Mode=OneWay}"
+                    ElementSoundMode="FocusOnly"
+                    IsEnabled="{x:Bind GetIsNotCanceling(UpdateAppResultKind), Mode=OneWay}"
+                    IsTabStop="False" />
+            </Grid>
+        </Grid>
+    </Page>
+</Window>

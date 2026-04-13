@@ -152,9 +152,6 @@
     <EmbeddedResource Include="Strings\CustomCommand.en-us.restext" />
     <EmbeddedResource Include="Strings\CustomCommand.restext" />
     <EmbeddedResource Include="Strings\CustomCommand.zh-hans.restext" />
-    <EmbeddedResource Include="Strings\Dialog.en-us.restext" />
-    <EmbeddedResource Include="Strings\Dialog.restext" />
-    <EmbeddedResource Include="Strings\Dialog.zh-hans.restext" />
     <EmbeddedResource Include="Strings\DocumentConversion.en-us.restext" />
     <EmbeddedResource Include="Strings\DocumentConversion.restext" />
     <EmbeddedResource Include="Strings\DocumentConversion.zh-hans.restext" />
@@ -195,6 +192,9 @@
     <EmbeddedResource Include="Strings\TaskManager.en-us.restext" />
     <EmbeddedResource Include="Strings\TaskManager.restext" />
     <EmbeddedResource Include="Strings\TaskManager.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\UpdateApp.en-us.restext" />
+    <EmbeddedResource Include="Strings\UpdateApp.restext" />
+    <EmbeddedResource Include="Strings\UpdateApp.zh-hans.restext" />
     <EmbeddedResource Include="Strings\VideoConversion.en-us.restext" />
     <EmbeddedResource Include="Strings\VideoConversion.restext" />
     <EmbeddedResource Include="Strings\VideoConversion.zh-hans.restext" />
@@ -209,8 +209,6 @@
     <None Remove="Styles\AppBarButton.xaml" />
     <None Remove="Styles\NavigationView.xaml" />
     <None Remove="Styles\TextBox.xaml" />
-    <None Remove="Views\Dialogs\RestartAppsDialog.xaml" />
-    <None Remove="Views\Dialogs\UpdateAppDialog.xaml" />
     <None Remove="Views\NotificationTips\CopyPasteNotificationTip.xaml" />
     <None Remove="Views\NotificationTips\OperationResultNotificationTip.xaml" />
     <None Update="Views\Pages\AudioConversionPage.xaml" />
@@ -228,15 +226,14 @@
     <None Update="Views\Pages\VideoConversionPage.xaml" />
     <None Update="Views\Windows\AppInformationWindow.xaml" />
     <None Update="Views\Windows\ConversionToolsWindow.xaml" />
-    <None Remove="Views\Dialogs\LicenseWindow.xaml" />
+    <None Remove="Views\Windows\LicenseWindow.xaml" />
     <None Remove="Views\Windows\MainWindow.xaml" />
+    <None Remove="Views\Windows\RestartAppsWindow.xaml" />
     <None Update="Views\Windows\VideoFormatConversionWindow.xaml" />
 
     <Page Include="Styles\AppBarButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\NavigationView.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\TextBox.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Views\Windows\RestartAppsWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Views\Dialogs\UpdateAppDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\NotificationTips\CopyPasteNotificationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\NotificationTips\OperationResultNotificationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\AudioConversionPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -256,6 +253,8 @@
     <Page Include="Views\Windows\ConversionToolsWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\LicenseWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\MainWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Windows\RestartAppsWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Windows\UpdateAppWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\VideoFormatConversionWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
 
     <PRIResource Include="Strings\en-us\Resources.resjson" />
