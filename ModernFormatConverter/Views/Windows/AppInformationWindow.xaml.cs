@@ -25,7 +25,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Foundation;
 using Windows.System;
 
 // 抑制 CA1806，CA1822，IDE0060 警告
@@ -168,43 +167,7 @@ namespace ModernFormatConverter.Views.Windows
 
         #endregion 第一部分：窗口辅助类挂载的事件
 
-        #region 第二部分：窗口右键菜单事件
-
-        /// <summary>
-        /// 窗口移动
-        /// </summary>
-        private void OnMoveClicked(object sender, RoutedEventArgs args)
-        {
-            if (sender is MenuFlyoutItem menuFlyoutItem && menuFlyoutItem.Tag is MenuFlyout menuFlyout)
-            {
-                menuFlyout.Hide();
-                User32Library.SendMessage((nint)AppWindow.Id.Value, WindowMessage.WM_SYSCOMMAND, (nuint)SYSTEMCOMMAND.SC_MOVE, 0);
-            }
-        }
-
-        /// <summary>
-        /// 窗口大小
-        /// </summary>
-        private void OnSizeClicked(object sender, RoutedEventArgs args)
-        {
-            if (sender is MenuFlyoutItem menuFlyoutItem && menuFlyoutItem.Tag is MenuFlyout menuFlyout)
-            {
-                menuFlyout.Hide();
-                User32Library.SendMessage((nint)AppWindow.Id.Value, WindowMessage.WM_SYSCOMMAND, (nuint)SYSTEMCOMMAND.SC_SIZE, 0);
-            }
-        }
-
-        /// <summary>
-        /// 窗口关闭
-        /// </summary>
-        private void OnCloseClicked(object sender, RoutedEventArgs args)
-        {
-            User32Library.SendMessage((nint)AppWindow.Id.Value, WindowMessage.WM_SYSCOMMAND, (nuint)SYSTEMCOMMAND.SC_CLOSE, 0);
-        }
-
-        #endregion 第二部分：窗口右键菜单事件
-
-        #region 第三部分：窗口内容挂载的事件
+        #region 第二部分：窗口内容挂载的事件
 
         /// <summary>
         /// 应用主题变化时设置标题栏按钮的颜色
@@ -214,9 +177,9 @@ namespace ModernFormatConverter.Views.Windows
             SetClassicMenuTheme(sender.ActualTheme);
         }
 
-        #endregion 第三部分：窗口内容挂载的事件
+        #endregion 第二部分：窗口内容挂载的事件
 
-        #region 第四部分：内容挂载的事件
+        #region 第三部分：内容挂载的事件
 
         /// <summary>
         /// 加载完成后触发的事件
@@ -311,16 +274,16 @@ namespace ModernFormatConverter.Views.Windows
         }
 
         /// <summary>
-        /// 关闭窗口
+        /// 关闭
         /// </summary>
-        private void OnCloseWindowClicked(object sender, RoutedEventArgs args)
+        private void OnCloseClicked(object sender, RoutedEventArgs args)
         {
             CloseWindow();
         }
 
-        #endregion 第四部分：内容挂载的事件
+        #endregion 第三部分：内容挂载的事件
 
-        #region 第五部分：自定义事件
+        #region 第四部分：自定义事件
 
         /// <summary>
         /// 设置选项发生变化时触发的事件
@@ -336,9 +299,9 @@ namespace ModernFormatConverter.Views.Windows
             }, null);
         }
 
-        #endregion 第五部分：自定义事件
+        #endregion 第四部分：自定义事件
 
-        #region 第六部分：窗口及内容属性设置
+        #region 第五部分：窗口及内容属性设置
 
         /// <summary>
         /// 设置应用显示的主题
@@ -390,9 +353,9 @@ namespace ModernFormatConverter.Views.Windows
             }
         }
 
-        #endregion 第六部分：窗口及内容属性设置
+        #endregion 第五部分：窗口及内容属性设置
 
-        #region 第七部分：窗口过程
+        #region 第六部分：窗口过程
 
         /// <summary>
         /// 应用窗口消息处理
@@ -406,11 +369,6 @@ namespace ModernFormatConverter.Views.Windows
                     {
                         synchronizationContext.Post((_) =>
                         {
-                            if (TitlebarMenuFlyout.IsOpen)
-                            {
-                                TitlebarMenuFlyout.Hide();
-                            }
-
                             double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
                             int width = Convert.ToInt32(480 * dpi);
                             int height = Convert.ToInt32(280 * dpi);
@@ -426,11 +384,6 @@ namespace ModernFormatConverter.Views.Windows
                     {
                         synchronizationContext.Post((_) =>
                         {
-                            if (TitlebarMenuFlyout.IsOpen)
-                            {
-                                TitlebarMenuFlyout.Hide();
-                            }
-
                             double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
                             int width = Convert.ToInt32(480 * dpi);
                             int height = Convert.ToInt32(280 * dpi);
@@ -450,32 +403,9 @@ namespace ModernFormatConverter.Views.Windows
                         Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, appInformationWindowSubClassProc, 0);
                         break;
                     }
-                // 当用户按下鼠标左键时，光标位于窗口的非工作区内的消息
-                case WindowMessage.WM_NCLBUTTONDOWN:
-                    {
-                        if (TitlebarMenuFlyout.IsOpen)
-                        {
-                            TitlebarMenuFlyout.Hide();
-                        }
-                        break;
-                    }
                 // 当用户按下鼠标右键并释放时，光标位于窗口的非工作区内的消息
                 case WindowMessage.WM_NCRBUTTONUP:
                     {
-                        if (wParam is 2 && Content is not null && Content.XamlRoot is not null)
-                        {
-                            System.Drawing.Point cursorPos = new((int)LOWORD((uint)lParam), (int)HIWORD((uint)lParam));
-                            User32Library.MapWindowPoints(0, hWnd, ref cursorPos, 2); ;
-                            double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
-
-                            FlyoutShowOptions options = new()
-                            {
-                                ShowMode = FlyoutShowMode.Standard,
-                                Position = Environment.OSVersion.Version.Build > 22000 ? new Point(cursorPos.X / dpi, cursorPos.Y / dpi) : new Point(cursorPos.X, cursorPos.Y)
-                            };
-
-                            TitlebarMenuFlyout.ShowAt(Content, options);
-                        }
                         return 0;
                     }
                 // 应用主题设置跟随系统发生变化时，当系统主题设置发生变化时修改修改应用背景色
@@ -509,24 +439,12 @@ namespace ModernFormatConverter.Views.Windows
 
                         if (sysCommand is SYSTEMCOMMAND.SC_MOUSEMENU)
                         {
-                            FlyoutShowOptions options = new()
-                            {
-                                Position = new Point(0, 15),
-                                ShowMode = FlyoutShowMode.Standard
-                            };
-                            TitlebarMenuFlyout.ShowAt(null, options);
                             return 0;
                         }
                         else if (sysCommand is SYSTEMCOMMAND.SC_KEYMENU)
                         {
                             if (lParam is (int)System.Windows.Forms.Keys.Space)
                             {
-                                FlyoutShowOptions options = new()
-                                {
-                                    Position = new Point(0, 45),
-                                    ShowMode = FlyoutShowMode.Standard
-                                };
-                                TitlebarMenuFlyout.ShowAt(null, options);
                                 return 0;
                             }
                         }
@@ -536,7 +454,7 @@ namespace ModernFormatConverter.Views.Windows
             return Comctl32Library.DefSubclassProc(hWnd, Msg, wParam, lParam);
         }
 
-        #endregion 第七部分：窗口过程
+        #endregion 第六部分：窗口过程
 
         /// <summary>
         /// 显示模态窗口

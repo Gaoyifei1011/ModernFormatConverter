@@ -2,12 +2,7 @@
 CopyAppInformation=复制应用信息
 DoNetVersion=.NET Framework 版本：
 LoadingAppInformation=正在加载应用信息中，请稍候...
-Maximize=最大化
 MediaInfoVersion=MediaInfo 版本：
-Minimize=最小化
-Move=移动
-Restore=还原
-Size=大小
 Title=应用信息
 WindowsAppSDKVersion=Windows 应用 SDK 版本：
 WinUIVersion=WinUI 版本：

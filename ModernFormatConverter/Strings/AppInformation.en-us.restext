@@ -2,12 +2,7 @@
 CopyAppInformation=Copy app information
 DoNetVersion=.NET Framework version:
 LoadingAppInformation=Loading app information, please wait...
-Maximize=Maximize
 MediaInfoVersion=MediaInfo version:
-Minimize=Minimize
-Move=Move
-Restore=Restore
-Size=Size
 Title=App information
 WindowsAppSDKVersion=Windows App SDK version: 
 WinUIVersion=WinUI version:

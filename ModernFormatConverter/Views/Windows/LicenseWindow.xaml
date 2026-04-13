@@ -5,7 +5,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:rootservice="using:ModernFormatConverter.Services.Root"
-    xmlns:window="using:ModernFormatConverter.Views.Windows"
     Title="{x:Bind rootservice:ResourceService.LicenseResource.GetString('Title')}"
     mc:Ignorable="d">
 
@@ -15,83 +14,6 @@
         FlowDirection="{x:Bind ((FrameworkElement)MainWindow.Content).FlowDirection, Mode=OneWay}"
         Loaded="{x:Bind OnLoaded}"
         RequestedTheme="{x:Bind WindowTheme, Mode=OneWay}">
-
-        <Page.Resources>
-            <ResourceDictionary>
-                <MenuFlyout x:Name="TitlebarMenuFlyout" Placement="BottomEdgeAlignedLeft">
-
-                    <MenuFlyoutItem
-                        Height="28"
-                        Padding="11,0"
-                        FontSize="12"
-                        IsEnabled="False"
-                        Text="{x:Bind rootservice:ResourceService.LicenseResource.GetString('Restore')}">
-
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon Margin="6" Glyph="&#xE923;" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-
-                    <MenuFlyoutItem
-                        Height="28"
-                        Padding="11,0"
-                        Click="{x:Bind OnMoveClicked}"
-                        FontSize="12"
-                        Tag="{x:Bind TitlebarMenuFlyout}"
-                        Text="{x:Bind rootservice:ResourceService.LicenseResource.GetString('Move')}" />
-
-                    <MenuFlyoutItem
-                        Height="28"
-                        Padding="11,0"
-                        Click="{x:Bind OnSizeClicked}"
-                        FontSize="12"
-                        Tag="{x:Bind TitlebarMenuFlyout}"
-                        Text="{x:Bind rootservice:ResourceService.LicenseResource.GetString('Size')}" />
-
-                    <MenuFlyoutItem
-                        Height="28"
-                        Padding="11,0"
-                        FontSize="12"
-                        IsEnabled="False"
-                        Text="{x:Bind rootservice:ResourceService.LicenseResource.GetString('Minimize')}">
-
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon Margin="6" Glyph="&#xE921;" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-
-                    <MenuFlyoutItem
-                        Height="28"
-                        Padding="11,0"
-                        FontSize="12"
-                        IsEnabled="False"
-                        Text="{x:Bind rootservice:ResourceService.LicenseResource.GetString('Maximize')}">
-
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon Margin="6" Glyph="&#xE922;" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-
-                    <MenuFlyoutSeparator Width="200" />
-
-                    <MenuFlyoutItem
-                        Height="28"
-                        Padding="11,0"
-                        Click="{x:Bind OnCloseClicked}"
-                        FontSize="12"
-                        Text="{x:Bind rootservice:ResourceService.LicenseResource.GetString('Close')}">
-
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon Margin="6" Glyph="&#xE8BB;" />
-                        </MenuFlyoutItem.Icon>
-
-                        <MenuFlyoutItem.KeyboardAccelerators>
-                            <KeyboardAccelerator Key="F4" Modifiers="Menu" />
-                        </MenuFlyoutItem.KeyboardAccelerators>
-                    </MenuFlyoutItem>
-                </MenuFlyout>
-            </ResourceDictionary>
-        </Page.Resources>
 
         <Grid>
             <Grid.RowDefinitions>
@@ -164,7 +86,7 @@
                 <Button
                     Grid.Column="1"
                     HorizontalAlignment="Stretch"
-                    Click="{x:Bind OnCloseWindowClicked}"
+                    Click="{x:Bind OnCloseClicked}"
                     Content="{x:Bind rootservice:ResourceService.LicenseResource.GetString('Close')}"
                     ElementSoundMode="FocusOnly"
                     IsTabStop="False" />
