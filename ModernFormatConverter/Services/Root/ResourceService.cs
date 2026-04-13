@@ -10,6 +10,8 @@ namespace ModernFormatConverter.Services.Root
     {
         private static Assembly CurrentAssembly { get; } = Assembly.GetExecutingAssembly();
 
+        public static ResourceManager AppInformationResource { get; } = new("ModernFormatConverter.Strings.AppInformation", CurrentAssembly);
+
         public static ResourceManager AudioConversionResource { get; } = new("ModernFormatConverter.Strings.AudioConversion", CurrentAssembly);
 
         public static ResourceManager ConversionToolsResource { get; } = new("ModernFormatConverter.Strings.ConversionTools", CurrentAssembly);

@@ -93,7 +93,8 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnAppInformationClicked(object sender, RoutedEventArgs args)
         {
-            await MainWindow.Current.ShowDialogAsync(new AppInformationDialog());
+            AppInformationWindow appInformationWindow = new(MainWindow.Current);
+            await appInformationWindow.ShowAsync();
         }
 
         /// <summary>

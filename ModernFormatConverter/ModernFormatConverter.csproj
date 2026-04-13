@@ -140,6 +140,9 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" CopyToOutputDirectory="Always" />
 
+    <EmbeddedResource Include="Strings\AppInformation.en-us.restext" />
+    <EmbeddedResource Include="Strings\AppInformation.restext" />
+    <EmbeddedResource Include="Strings\AppInformation.zh-hans.restext" />    
     <EmbeddedResource Include="Strings\AudioConversion.en-us.restext" />
     <EmbeddedResource Include="Strings\AudioConversion.restext" />
     <EmbeddedResource Include="Strings\AudioConversion.zh-hans.restext" />
@@ -200,7 +203,6 @@
     <None Remove="Styles\AppBarButton.xaml" />
     <None Remove="Styles\NavigationView.xaml" />
     <None Remove="Styles\TextBox.xaml" />
-    <None Remove="Views\Dialogs\AppInformationDialog.xaml" />
     <None Remove="Views\Dialogs\LicenseDialog.xaml" />
     <None Remove="Views\Dialogs\RestartAppsDialog.xaml" />
     <None Remove="Views\Dialogs\UpdateAppDialog.xaml" />
@@ -219,6 +221,7 @@
     <None Remove="Views\Pages\SettingsPage.xaml" />
     <None Update="Views\Pages\TaskManagerPage.xaml" />
     <None Update="Views\Pages\VideoConversionPage.xaml" />
+    <None Update="Views\Windows\AppInformationWindow.xaml" />
     <None Update="Views\Windows\ConversionToolsWindow.xaml" />
     <None Remove="Views\Windows\MainWindow.xaml" />
     <None Update="Views\Windows\VideoFormatConversionWindow.xaml" />
@@ -226,7 +229,6 @@
     <Page Include="Styles\AppBarButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\NavigationView.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\TextBox.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Views\Dialogs\AppInformationDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Dialogs\LicenseDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Dialogs\RestartAppsDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Dialogs\UpdateAppDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -245,6 +247,7 @@
     <Page Include="Views\Pages\SettingsPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\TaskManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\VideoConversionPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Windows\AppInformationWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\ConversionToolsWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\MainWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\VideoFormatConversionWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
