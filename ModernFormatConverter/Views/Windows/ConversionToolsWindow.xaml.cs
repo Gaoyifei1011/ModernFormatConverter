@@ -36,7 +36,6 @@ namespace ModernFormatConverter.Views.Windows
     /// </summary>
     public sealed partial class ConversionToolsWindow : Window, INotifyPropertyChanged
     {
-        private readonly string TitleString = ResourceService.ConversionToolsResource.GetString("Title");
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly OverlappedPresenter overlappedPresenter;
         private readonly SUBCLASSPROC conversionToolsWindowSubClassProc;
@@ -47,21 +46,7 @@ namespace ModernFormatConverter.Views.Windows
 
         public new static ConversionToolsWindow Current { get; private set; }
 
-        private string _windowTitle;
-
-        public string WindowTitle
-        {
-            get { return _windowTitle; }
-
-            set
-            {
-                if (!string.Equals(_windowTitle, value))
-                {
-                    _windowTitle = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowTitle)));
-                }
-            }
-        }
+        private MainWindow MainWindow { get; set; }
 
         private SystemBackdrop _windowSystemBackdrop;
 
@@ -121,7 +106,7 @@ namespace ModernFormatConverter.Views.Windows
 
             // 窗口部分初始化
             Current = this;
-            WindowTitle = TitleString;
+            MainWindow = mainWindow;
             if (IntPtr.Size is 8)
             {
                 User32Library.SetWindowLongPtr((nint)AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, mainWindow.AppWindow.Id.Value);
@@ -163,7 +148,8 @@ namespace ModernFormatConverter.Views.Windows
             SetSystemBackdrop();
             AppWindow.Closing += (sender, args) =>
             {
-                mainWindow.Activate();
+                MainWindow.Activate();
+                MainWindow = null;
             };
         }
 

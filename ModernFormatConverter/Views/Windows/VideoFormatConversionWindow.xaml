@@ -7,7 +7,7 @@
     xmlns:rootservice="using:ModernFormatConverter.Services.Root"
     xmlns:system="using:System"
     xmlns:window="using:ModernFormatConverter.Views.Windows"
-    Title="{x:Bind WindowTitle, Mode=OneWay}"
+    Title="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Title')}"
     SystemBackdrop="{x:Bind WindowSystemBackdrop, Mode=OneWay}"
     mc:Ignorable="d">
 
@@ -106,7 +106,7 @@
             <!--  视频输出配置标题栏  -->
             <TitleBar
                 x:Name="AppTitlebar"
-                Title="{x:Bind WindowTitle, Mode=OneWay}"
+                Title="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Title')}"
                 Grid.Row="0"
                 Height="30"
                 Padding="0"

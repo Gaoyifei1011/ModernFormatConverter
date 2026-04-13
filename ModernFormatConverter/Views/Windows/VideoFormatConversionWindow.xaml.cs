@@ -28,8 +28,8 @@ using Windows.Foundation;
 using Windows.System;
 using Windows.UI;
 
-// 抑制 CA1822，IDE0060 警告
-#pragma warning disable CA1822,IDE0060
+// 抑制 CA1806，CA1822，IDE0060 警告
+#pragma warning disable CA1806,CA1822,IDE0060
 
 namespace ModernFormatConverter.Views.Dialogs
 {
@@ -40,32 +40,18 @@ namespace ModernFormatConverter.Views.Dialogs
     {
         private readonly string CopyString = ResourceService.VideoFormatConversionResource.GetString("Copy");
         private readonly string CustomString = ResourceService.VideoFormatConversionResource.GetString("Custom");
+        private readonly string DefaultString = ResourceService.VideoFormatConversionResource.GetString("Default");
         private readonly string DefaultSizeString = ResourceService.VideoFormatConversionResource.GetString("DefaultSize");
         private readonly string NoneString = ResourceService.VideoFormatConversionResource.GetString("None");
-        private readonly string TitleString = ResourceService.VideoFormatConversionResource.GetString("Title");
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private OverlappedPresenter overlappedPresenter;
-        private SUBCLASSPROC conversionToolsWindowSubClassProc;
+        private SUBCLASSPROC videoFormatConversionWindowSubClassProc;
         private ContentIsland contentIsland;
         private InputKeyboardSource inputKeyboardSource;
         private InputPointerSource inputPointerSource;
         private TaskCompletionSource<ContentDialogResult> taskCompletionSource;
 
-        private string _windowTitle;
-
-        public string WindowTitle
-        {
-            get { return _windowTitle; }
-
-            set
-            {
-                if (!string.Equals(_windowTitle, value))
-                {
-                    _windowTitle = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowTitle)));
-                }
-            }
-        }
+        private ConversionToolsWindow ConversionToolsWindow { get; set; }
 
         private SystemBackdrop _windowSystemBackdrop;
 
@@ -193,7 +179,18 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        public bool IsSaved { get; private set; }
+        private KeyValuePair<string, string> _selectedBitRate;
+
+        public KeyValuePair<string, string> SelectedBitRate
+        {
+            get { return _selectedBitRate; }
+
+            set
+            {
+                _selectedBitRate = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBitRate)));
+            }
+        }
 
         public List<KeyValuePair<string, string>> FormatConversionTypeList { get; } =
         [
@@ -216,9 +213,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
         public List<KeyValuePair<string, string>> SizeLimitationList { get; } = [];
 
+        public List<KeyValuePair<string, string>> VideoEncodingList { get; } = [];
+
         public List<KeyValuePair<string, string>> ScreenSizeList { get; } = [];
 
-        public List<KeyValuePair<string, string>> VideoEncodingList { get; } = [];
+        public List<KeyValuePair<string, string>> BitRateList { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -333,21 +332,13 @@ namespace ModernFormatConverter.Views.Dialogs
         #region 第四部分：内容挂载的事件
 
         /// <summary>
-        /// 导航控件加载完成后初始化内容，初始化导航控件属性、屏幕缩放比例值和应用的背景色
+        /// 加载完成后触发的事件
         /// </summary>
         private async void OnLoaded(object sender, RoutedEventArgs args)
         {
             // 设置标题栏主题
             SetTitleBarTheme((Content as FrameworkElement).ActualTheme);
             SetPopupControlTheme(WindowTheme);
-        }
-
-        /// <summary>
-        /// 关闭视频转换窗口
-        /// </summary>
-        private void OnCloseWindowClicked(object sender, RoutedEventArgs args)
-        {
-            User32Library.SendMessage((nint)AppWindow.Id.Value, WindowMessage.WM_CLOSE, 0, 0);
         }
 
         /// <summary>
@@ -374,7 +365,7 @@ namespace ModernFormatConverter.Views.Dialogs
         private void OnOkClicked(object sender, RoutedEventArgs args)
         {
             CloseWindow();
-            IsSaved = true;
+            taskCompletionSource?.TrySetResult(ContentDialogResult.Primary);
         }
 
         /// <summary>
@@ -439,6 +430,17 @@ namespace ModernFormatConverter.Views.Dialogs
                     ScreenWidth = 1;
                     ScreenHeight = 1;
                 }
+            }
+        }
+
+        /// <summary>
+        /// 比特率选中项发生变化时触发的事件
+        /// </summary>
+        private void OnBitRateRadioGroupSelectClicked(object sender, RoutedEventArgs args)
+        {
+            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is KeyValuePair<string, string> bitRate)
+            {
+                SelectedBitRate = bitRate;
             }
         }
 
@@ -633,7 +635,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// <summary>
         /// 应用窗口消息处理
         /// </summary>
-        private nint ConversionToolsWindowSubClassProc(nint hWnd, WindowMessage Msg, nuint wParam, nint lParam, uint uIdSubclass, nint dwRefData)
+        private nint VideoFormatConversionWindowSubClassProc(nint hWnd, WindowMessage Msg, nuint wParam, nint lParam, uint uIdSubclass, nint dwRefData)
         {
             switch (Msg)
             {
@@ -682,7 +684,7 @@ namespace ModernFormatConverter.Views.Dialogs
                             }
                             catch (Exception e)
                             {
-                                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoFormatConversionWindow), nameof(ConversionToolsWindowSubClassProc), 1, e);
+                                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoFormatConversionWindow), nameof(VideoFormatConversionWindowSubClassProc), 1, e);
                             }
                         }, null);
                         break;
@@ -695,7 +697,7 @@ namespace ModernFormatConverter.Views.Dialogs
                         BackdropService.PropertyChanged -= OnServicePropertyChanged;
                         inputKeyboardSource.SystemKeyDown -= OnSystemKeyDown;
                         inputPointerSource.PointerReleased -= OnPointerReleased;
-                        Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, conversionToolsWindowSubClassProc, 0);
+                        Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, videoFormatConversionWindowSubClassProc, 0);
                         // TODO：未完成，目前仅测试
                         taskCompletionSource?.TrySetResult(ContentDialogResult.Primary);
                         break;
@@ -844,6 +846,19 @@ namespace ModernFormatConverter.Views.Dialogs
             ScreenSizeList.Add(new KeyValuePair<string, string>("150%", "150%"));
             ScreenSizeList.Add(new KeyValuePair<string, string>("200%", "200%"));
             ScreenSizeList.Add(new KeyValuePair<string, string>("Custom", CustomString));
+
+            BitRateList.Add(new KeyValuePair<string, string>("Default", DefaultString));
+            BitRateList.Add(new KeyValuePair<string, string>("256K", "256K"));
+            BitRateList.Add(new KeyValuePair<string, string>("384K", "384K"));
+            BitRateList.Add(new KeyValuePair<string, string>("512K", "512K"));
+            BitRateList.Add(new KeyValuePair<string, string>("768K", "768K"));
+            BitRateList.Add(new KeyValuePair<string, string>("1M", "1M"));
+            BitRateList.Add(new KeyValuePair<string, string>("1.5M", "1.5M"));
+            BitRateList.Add(new KeyValuePair<string, string>("2M", "2M"));
+            BitRateList.Add(new KeyValuePair<string, string>("5M", "5M"));
+            BitRateList.Add(new KeyValuePair<string, string>("10M", "10M"));
+            BitRateList.Add(new KeyValuePair<string, string>("15M", "15M"));
+            BitRateList.Add(new KeyValuePair<string, string>("20M", "20M"));
         }
 
         /// <summary>
@@ -851,14 +866,14 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void InitializeUI(ConversionToolsWindow conversionToolsWindow)
         {
-            WindowTitle = TitleString;
+            ConversionToolsWindow = conversionToolsWindow;
             if (IntPtr.Size is 8)
             {
-                User32Library.SetWindowLongPtr((nint)AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, conversionToolsWindow.AppWindow.Id.Value);
+                User32Library.SetWindowLongPtr((nint)AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, ConversionToolsWindow.AppWindow.Id.Value);
             }
             else
             {
-                User32Library.SetWindowLong((nint)AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, conversionToolsWindow.AppWindow.Id.Value);
+                User32Library.SetWindowLong((nint)AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, ConversionToolsWindow.AppWindow.Id.Value);
             }
             overlappedPresenter = OverlappedPresenter.CreateForDialog();
             ExtendsContentIntoTitleBar = true;
@@ -873,7 +888,7 @@ namespace ModernFormatConverter.Views.Dialogs
             double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
             int width = Convert.ToInt32(768 * dpi);
             int height = Convert.ToInt32(560 * dpi);
-            User32Library.GetWindowRect((nint)conversionToolsWindow.AppWindow.Id.Value, out RECT parentRect);
+            User32Library.GetWindowRect((nint)ConversionToolsWindow.AppWindow.Id.Value, out RECT parentRect);
             int childX = parentRect.left + (parentRect.right - parentRect.left - width) / 2;
             int childY = parentRect.top + (parentRect.bottom - parentRect.top - height) / 2;
             User32Library.SetWindowPos((nint)AppWindow.Id.Value, 0, childX, childY, width, height, SetWindowPosFlags.SWP_NOREPOSITION | SetWindowPosFlags.SWP_NOZORDER);
@@ -892,26 +907,27 @@ namespace ModernFormatConverter.Views.Dialogs
             // 标题栏和右键菜单设置
             SetClassicMenuTheme((Content as FrameworkElement).ActualTheme);
 
-            // 为应用主窗口添加窗口过程
-            conversionToolsWindowSubClassProc = new SUBCLASSPROC(ConversionToolsWindowSubClassProc);
-            Comctl32Library.SetWindowSubclass((nint)AppWindow.Id.Value, conversionToolsWindowSubClassProc, 0, 0);
+            // 为窗口添加窗口过程
+            videoFormatConversionWindowSubClassProc = new SUBCLASSPROC(VideoFormatConversionWindowSubClassProc);
+            Comctl32Library.SetWindowSubclass((nint)AppWindow.Id.Value, videoFormatConversionWindowSubClassProc, 0, 0);
 
             SetWindowTheme();
             SetSystemBackdrop();
             AppWindow.Closing += (sender, args) =>
             {
-                conversionToolsWindow.Activate();
+                ConversionToolsWindow.Activate();
+                ConversionToolsWindow = null;
             };
         }
 
         /// <summary>
-        /// 显示模态对话框
+        /// 显示模态窗口
         /// </summary>
-        public Task<ContentDialogResult> ShowAsync()
+        public async Task<ContentDialogResult> ShowAsync()
         {
             taskCompletionSource = new();
             AppWindow.Show();
-            return taskCompletionSource.Task;
+            return await taskCompletionSource.Task;
         }
 
         /// <summary>

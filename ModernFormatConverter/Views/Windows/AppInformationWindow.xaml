@@ -8,14 +8,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:rootservice="using:ModernFormatConverter.Services.Root"
     xmlns:system="using:System"
-    xmlns:window="using:ModernFormatConverter.Views.Windows"
-    Title="{x:Bind WindowTitle, Mode=OneWay}"
+    Title="{x:Bind rootservice:ResourceService.AppInformationResource.GetString('Title')}"
     mc:Ignorable="d">
 
     <Page
         x:Name="AppInformationPage"
         ActualThemeChanged="{x:Bind OnActualThemeChanged}"
-        FlowDirection="{x:Bind ((FrameworkElement)window:MainWindow.Current.Content).FlowDirection, Mode=OneWay}"
+        FlowDirection="{x:Bind ((FrameworkElement)MainWindow.Content).FlowDirection, Mode=OneWay}"
         Loaded="{x:Bind OnLoaded}"
         RequestedTheme="{x:Bind WindowTheme, Mode=OneWay}">
 
@@ -125,7 +124,7 @@
                         FontWeight="SemiBold"
                         Foreground="{ThemeResource ContentDialogForeground}"
                         IsTabStop="False"
-                        Text="{x:Bind WindowTitle, Mode=OneWay}" />
+                        Text="{x:Bind rootservice:ResourceService.AppInformationResource.GetString('Title')}" />
 
                     <Grid Grid.Row="1">
                         <StackPanel

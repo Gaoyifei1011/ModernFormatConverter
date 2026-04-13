@@ -5,7 +5,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media;
-using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.Services.Settings;
 using ModernFormatConverter.WindowsAPI.PInvoke.Comctl32;
 using ModernFormatConverter.WindowsAPI.PInvoke.Dwmapi;
@@ -20,38 +19,25 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.System;
 
+// 抑制 CA1806，CA1822，IDE0060 警告
+#pragma warning disable CA1806,CA1822,IDE0060
+
 namespace ModernFormatConverter.Views.Windows
 {
     /// <summary>
-    /// 许可证文字内容对话框
+    /// 许可证文字内容窗口
     /// </summary>
     public sealed partial class LicenseWindow : Window, INotifyPropertyChanged
     {
-        private readonly string TitleString = ResourceService.LicenseResource.GetString("Title");
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly OverlappedPresenter overlappedPresenter;
         private readonly SUBCLASSPROC licenseWindowSubClassProc;
         private readonly ContentIsland contentIsland;
         private readonly InputKeyboardSource inputKeyboardSource;
         private readonly InputPointerSource inputPointerSource;
-        private MainWindow mainWindow;
         private TaskCompletionSource<ContentDialogResult> taskCompletionSource;
 
-        private string _windowTitle;
-
-        public string WindowTitle
-        {
-            get { return _windowTitle; }
-
-            set
-            {
-                if (!string.Equals(_windowTitle, value))
-                {
-                    _windowTitle = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowTitle)));
-                }
-            }
-        }
+        private MainWindow MainWindow { get; set; }
 
         private ElementTheme _windowTheme;
 
@@ -90,7 +76,7 @@ namespace ModernFormatConverter.Views.Windows
         public LicenseWindow(MainWindow mainWindow)
         {
             InitializeComponent();
-            WindowTitle = TitleString;
+            MainWindow = mainWindow;
             if (IntPtr.Size is 8)
             {
                 User32Library.SetWindowLongPtr((nint)AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, mainWindow.AppWindow.Id.Value);
@@ -99,7 +85,6 @@ namespace ModernFormatConverter.Views.Windows
             {
                 User32Library.SetWindowLong((nint)AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, mainWindow.AppWindow.Id.Value);
             }
-            this.mainWindow = mainWindow;
             overlappedPresenter = AppWindow.Presenter as OverlappedPresenter;
             overlappedPresenter.IsMaximizable = false;
             overlappedPresenter.IsMinimizable = false;
@@ -134,7 +119,8 @@ namespace ModernFormatConverter.Views.Windows
             SetWindowTheme();
             AppWindow.Closing += (sender, args) =>
             {
-                mainWindow.Activate();
+                MainWindow.Activate();
+                MainWindow = null;
             };
         }
 
@@ -328,7 +314,7 @@ namespace ModernFormatConverter.Views.Windows
                             double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
                             int width = Convert.ToInt32(550 * dpi);
                             int height = Convert.ToInt32(700 * dpi);
-                            User32Library.GetWindowRect((nint)mainWindow.AppWindow.Id.Value, out RECT parentRect);
+                            User32Library.GetWindowRect((nint)MainWindow.AppWindow.Id.Value, out RECT parentRect);
                             int childX = parentRect.left + (parentRect.right - parentRect.left - width) / 2;
                             int childY = parentRect.top + (parentRect.bottom - parentRect.top - height) / 2;
                             User32Library.SetWindowPos((nint)AppWindow.Id.Value, 0, childX, childY, width, height, SetWindowPosFlags.SWP_NOREPOSITION | SetWindowPosFlags.SWP_NOZORDER);
@@ -348,7 +334,7 @@ namespace ModernFormatConverter.Views.Windows
                             double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
                             int width = Convert.ToInt32(550 * dpi);
                             int height = Convert.ToInt32(700 * dpi);
-                            User32Library.GetWindowRect((nint)mainWindow.AppWindow.Id.Value, out RECT parentRect);
+                            User32Library.GetWindowRect((nint)MainWindow.AppWindow.Id.Value, out RECT parentRect);
                             int childX = parentRect.left + (parentRect.right - parentRect.left - width) / 2;
                             int childY = parentRect.top + (parentRect.bottom - parentRect.top - height) / 2;
                             User32Library.SetWindowPos((nint)AppWindow.Id.Value, 0, childX, childY, width, height, SetWindowPosFlags.SWP_NOREPOSITION | SetWindowPosFlags.SWP_NOZORDER);
@@ -358,7 +344,6 @@ namespace ModernFormatConverter.Views.Windows
                 // 窗口关闭时触发的消息
                 case WindowMessage.WM_CLOSE:
                     {
-                        mainWindow = null;
                         ThemeService.PropertyChanged -= OnServicePropertyChanged;
                         inputKeyboardSource.SystemKeyDown -= OnSystemKeyDown;
                         inputPointerSource.PointerReleased -= OnPointerReleased;
@@ -411,7 +396,7 @@ namespace ModernFormatConverter.Views.Windows
                         double dpi = Convert.ToDouble(wParam) / 96;
                         int width = Convert.ToInt32(550 * dpi);
                         int height = Convert.ToInt32(700 * dpi);
-                        User32Library.GetWindowRect((nint)mainWindow.AppWindow.Id.Value, out RECT parentRect);
+                        User32Library.GetWindowRect((nint)MainWindow.AppWindow.Id.Value, out RECT parentRect);
                         int childX = parentRect.left + (parentRect.right - parentRect.left - width) / 2;
                         int childY = parentRect.top + (parentRect.bottom - parentRect.top - height) / 2;
                         User32Library.SetWindowPos((nint)AppWindow.Id.Value, 0, childX, childY, width, height, SetWindowPosFlags.SWP_NOREPOSITION | SetWindowPosFlags.SWP_NOZORDER);
