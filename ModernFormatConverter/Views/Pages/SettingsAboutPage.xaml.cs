@@ -120,7 +120,8 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnShowLicenseClicked(object sender, RoutedEventArgs args)
         {
-            await MainWindow.Current.ShowDialogAsync(new LicenseDialog());
+            LicenseWindow licenseWindow = new(MainWindow.Current);
+            await licenseWindow.ShowAsync();
         }
 
         /// <summary>

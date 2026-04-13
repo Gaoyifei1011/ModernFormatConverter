@@ -28,6 +28,8 @@ namespace ModernFormatConverter.Services.Root
 
         public static ResourceManager HomeResource { get; } = new("ModernFormatConverter.Strings.Home", CurrentAssembly);
 
+        public static ResourceManager LicenseResource { get; } = new("ModernFormatConverter.Strings.License", CurrentAssembly);
+
         public static ResourceManager NotificationTipResource { get; } = new("ModernFormatConverter.Strings.NotificationTip", CurrentAssembly);
 
         public static ResourceManager PhotoConversionResource { get; } = new("ModernFormatConverter.Strings.PhotoConversion", CurrentAssembly);

@@ -1,0 +1,174 @@
+﻿<Window
+    x:Class="ModernFormatConverter.Views.Windows.LicenseWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:rootservice="using:ModernFormatConverter.Services.Root"
+    xmlns:window="using:ModernFormatConverter.Views.Windows"
+    Title="{x:Bind WindowTitle, Mode=OneWay}"
+    mc:Ignorable="d">
+
+    <Page
+        x:Name="LicensePage"
+        ActualThemeChanged="{x:Bind OnActualThemeChanged}"
+        FlowDirection="{x:Bind ((FrameworkElement)window:MainWindow.Current.Content).FlowDirection, Mode=OneWay}"
+        Loaded="{x:Bind OnLoaded}"
+        RequestedTheme="{x:Bind WindowTheme, Mode=OneWay}">
+
+        <Page.Resources>
+            <ResourceDictionary>
+                <MenuFlyout x:Name="TitlebarMenuFlyout" Placement="BottomEdgeAlignedLeft">
+
+                    <MenuFlyoutItem
+                        Height="28"
+                        Padding="11,0"
+                        FontSize="12"
+                        IsEnabled="False"
+                        Text="{x:Bind rootservice:ResourceService.LicenseResource.GetString('Restore')}">
+
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Margin="6" Glyph="&#xE923;" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+
+                    <MenuFlyoutItem
+                        Height="28"
+                        Padding="11,0"
+                        Click="{x:Bind OnMoveClicked}"
+                        FontSize="12"
+                        Tag="{x:Bind TitlebarMenuFlyout}"
+                        Text="{x:Bind rootservice:ResourceService.LicenseResource.GetString('Move')}" />
+
+                    <MenuFlyoutItem
+                        Height="28"
+                        Padding="11,0"
+                        Click="{x:Bind OnSizeClicked}"
+                        FontSize="12"
+                        Tag="{x:Bind TitlebarMenuFlyout}"
+                        Text="{x:Bind rootservice:ResourceService.LicenseResource.GetString('Size')}" />
+
+                    <MenuFlyoutItem
+                        Height="28"
+                        Padding="11,0"
+                        FontSize="12"
+                        IsEnabled="False"
+                        Text="{x:Bind rootservice:ResourceService.LicenseResource.GetString('Minimize')}">
+
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Margin="6" Glyph="&#xE921;" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+
+                    <MenuFlyoutItem
+                        Height="28"
+                        Padding="11,0"
+                        FontSize="12"
+                        IsEnabled="False"
+                        Text="{x:Bind rootservice:ResourceService.LicenseResource.GetString('Maximize')}">
+
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Margin="6" Glyph="&#xE922;" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+
+                    <MenuFlyoutSeparator Width="200" />
+
+                    <MenuFlyoutItem
+                        Height="28"
+                        Padding="11,0"
+                        Click="{x:Bind OnCloseClicked}"
+                        FontSize="12"
+                        Text="{x:Bind rootservice:ResourceService.LicenseResource.GetString('Close')}">
+
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Margin="6" Glyph="&#xE8BB;" />
+                        </MenuFlyoutItem.Icon>
+
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="F4" Modifiers="Menu" />
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+                </MenuFlyout>
+            </ResourceDictionary>
+        </Page.Resources>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <ScrollViewer
+                HorizontalScrollBarVisibility="Disabled"
+                IsTabStop="False"
+                VerticalScrollBarVisibility="Disabled"
+                ZoomMode="Disabled">
+
+                <Grid Padding="{ThemeResource ContentDialogPadding}" Background="{ThemeResource ContentDialogTopOverlay}">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Margin="{ThemeResource ContentDialogTitleMargin}"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        FontFamily="{StaticResource ContentControlThemeFontFamily}"
+                        FontSize="20"
+                        FontWeight="SemiBold"
+                        Foreground="{ThemeResource ContentDialogForeground}"
+                        IsTabStop="False"
+                        Text="{x:Bind WindowTitle, Mode=OneWay}" />
+
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <MenuFlyoutSeparator
+                            Grid.Row="0"
+                            Margin="0,0,0,10"
+                            Background="{ThemeResource SurfaceStrokeColorDefaultBrush}" />
+
+                        <TextBlock
+                            Grid.Row="1"
+                            IsTextSelectionEnabled="True"
+                            Text="{x:Bind LicenseText, Mode=OneWay}"
+                            TextAlignment="Justify"
+                            TextWrapping="Wrap" />
+                    </Grid>
+                </Grid>
+            </ScrollViewer>
+
+            <Grid
+                Grid.Row="1"
+                Padding="{ThemeResource ContentDialogPadding}"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Bottom"
+                Background="{ThemeResource ContentDialogBackground}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="0,1,0,0"
+                ColumnSpacing="10"
+                XYFocusKeyboardNavigation="Enabled">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button
+                    Grid.Column="1"
+                    HorizontalAlignment="Stretch"
+                    Click="{x:Bind OnCloseWindowClicked}"
+                    Content="{x:Bind rootservice:ResourceService.LicenseResource.GetString('Close')}"
+                    ElementSoundMode="FocusOnly"
+                    IsTabStop="False" />
+            </Grid>
+        </Grid>
+    </Page>
+</Window>
