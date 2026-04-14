@@ -170,16 +170,29 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePair<string, string> _selectedBitRate;
+        private KeyValuePair<string, string> _selectedVideoBitRate;
 
-        public KeyValuePair<string, string> SelectedBitRate
+        public KeyValuePair<string, string> SelectedVideoBitRate
         {
-            get { return _selectedBitRate; }
+            get { return _selectedVideoBitRate; }
 
             set
             {
-                _selectedBitRate = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBitRate)));
+                _selectedVideoBitRate = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedVideoBitRate)));
+            }
+        }
+
+        private bool _isConstantRatefactorEnabled;
+
+        public bool IsConstantRatefactorEnabled
+        {
+            get { return _isConstantRatefactorEnabled; }
+
+            set
+            {
+                _isConstantRatefactorEnabled = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsConstantRatefactorEnabled)));
             }
         }
 
@@ -208,7 +221,7 @@ namespace ModernFormatConverter.Views.Dialogs
 
         public List<KeyValuePair<string, string>> ScreenSizeList { get; } = [];
 
-        public List<KeyValuePair<string, string>> BitRateList { get; } = [];
+        public List<KeyValuePair<string, string>> VideoBitRateList { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -225,6 +238,7 @@ namespace ModernFormatConverter.Views.Dialogs
                 SelectedSizeLimitation = SizeLimitationList[0];
                 SelectedVideoEncoding = VideoEncodingList[0];
                 SelectedScreenSize = ScreenSizeList[0];
+                SelectedVideoBitRate = VideoBitRateList[0];
             }
         }
 
@@ -240,6 +254,7 @@ namespace ModernFormatConverter.Views.Dialogs
                 SelectedSizeLimitation = SizeLimitationList[0];
                 SelectedVideoEncoding = VideoEncodingList[0];
                 SelectedScreenSize = ScreenSizeList[0];
+                SelectedVideoBitRate = VideoBitRateList[0];
             }
         }
 
@@ -427,11 +442,11 @@ namespace ModernFormatConverter.Views.Dialogs
         /// <summary>
         /// 比特率选中项发生变化时触发的事件
         /// </summary>
-        private void OnBitRateRadioGroupSelectClicked(object sender, RoutedEventArgs args)
+        private void OnVideoBitRateRadioGroupSelectClicked(object sender, RoutedEventArgs args)
         {
-            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is KeyValuePair<string, string> bitRate)
+            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is KeyValuePair<string, string> videoBitRate)
             {
-                SelectedBitRate = bitRate;
+                SelectedVideoBitRate = videoBitRate;
             }
         }
 
@@ -838,18 +853,18 @@ namespace ModernFormatConverter.Views.Dialogs
             ScreenSizeList.Add(new KeyValuePair<string, string>("200%", "200%"));
             ScreenSizeList.Add(new KeyValuePair<string, string>("Custom", CustomString));
 
-            BitRateList.Add(new KeyValuePair<string, string>("Default", DefaultString));
-            BitRateList.Add(new KeyValuePair<string, string>("256K", "256K"));
-            BitRateList.Add(new KeyValuePair<string, string>("384K", "384K"));
-            BitRateList.Add(new KeyValuePair<string, string>("512K", "512K"));
-            BitRateList.Add(new KeyValuePair<string, string>("768K", "768K"));
-            BitRateList.Add(new KeyValuePair<string, string>("1M", "1M"));
-            BitRateList.Add(new KeyValuePair<string, string>("1.5M", "1.5M"));
-            BitRateList.Add(new KeyValuePair<string, string>("2M", "2M"));
-            BitRateList.Add(new KeyValuePair<string, string>("5M", "5M"));
-            BitRateList.Add(new KeyValuePair<string, string>("10M", "10M"));
-            BitRateList.Add(new KeyValuePair<string, string>("15M", "15M"));
-            BitRateList.Add(new KeyValuePair<string, string>("20M", "20M"));
+            VideoBitRateList.Add(new KeyValuePair<string, string>("Default", DefaultString));
+            VideoBitRateList.Add(new KeyValuePair<string, string>("256K", "256K"));
+            VideoBitRateList.Add(new KeyValuePair<string, string>("384K", "384K"));
+            VideoBitRateList.Add(new KeyValuePair<string, string>("512K", "512K"));
+            VideoBitRateList.Add(new KeyValuePair<string, string>("768K", "768K"));
+            VideoBitRateList.Add(new KeyValuePair<string, string>("1M", "1M"));
+            VideoBitRateList.Add(new KeyValuePair<string, string>("1.5M", "1.5M"));
+            VideoBitRateList.Add(new KeyValuePair<string, string>("2M", "2M"));
+            VideoBitRateList.Add(new KeyValuePair<string, string>("5M", "5M"));
+            VideoBitRateList.Add(new KeyValuePair<string, string>("10M", "10M"));
+            VideoBitRateList.Add(new KeyValuePair<string, string>("15M", "15M"));
+            VideoBitRateList.Add(new KeyValuePair<string, string>("20M", "20M"));
         }
 
         /// <summary>

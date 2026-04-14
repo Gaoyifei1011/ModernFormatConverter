@@ -36,9 +36,9 @@ namespace ModernFormatConverter.Models
         public string VideoBitRate { get; set; }
 
         /// <summary>
-        /// 恒定码率因子
+        /// 固定速率系数
         /// </summary>
-        public string ConstantRateFactor { get; set; }
+        public string ConstantRatefactor { get; set; }
 
         /// <summary>
         /// 编码选用的 GPU 类型

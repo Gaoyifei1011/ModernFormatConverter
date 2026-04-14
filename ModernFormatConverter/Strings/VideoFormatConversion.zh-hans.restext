@@ -1,8 +1,10 @@
 ﻿Audio=音频
+BitRate=比特率
 Close=关闭
 Copy=复制
 Custom=自定义
 CustomSize=自定义大小
+Default=默认
 DefaultSize=默认大小
 Edit=编辑
 FormatConversionType=格式转换类型

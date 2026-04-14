@@ -879,93 +879,93 @@
                         <DropDownButton
                             Grid.Column="3"
                             VerticalAlignment="Center"
-                            Content="{x:Bind SelectedBitRate.Value, Mode=OneWay}">
+                            Content="{x:Bind SelectedVideoBitRate.Value, Mode=OneWay}">
 
                             <DropDownButton.Flyout>
                                 <MenuFlyout Placement="Bottom">
                                     <RadioMenuFlyoutItem
-                                        Click="{x:Bind OnBitRateRadioGroupSelectClicked}"
-                                        GroupName="BitRateRadioGroup"
-                                        IsChecked="{x:Bind x:Object.Equals(SelectedBitRate.Key, BitRateList[0].Key), Mode=OneWay}"
-                                        Tag="{x:Bind BitRateList[0]}"
-                                        Text="{x:Bind system:Convert.ToString(BitRateList[0].Value)}" />
+                                        Click="{x:Bind OnVideoBitRateRadioGroupSelectClicked}"
+                                        GroupName="VideoBitRateRadioGroup"
+                                        IsChecked="{x:Bind x:Object.Equals(SelectedVideoBitRate.Key, VideoBitRateList[0].Key), Mode=OneWay}"
+                                        Tag="{x:Bind VideoBitRateList[0]}"
+                                        Text="{x:Bind system:Convert.ToString(VideoBitRateList[0].Value)}" />
 
                                     <RadioMenuFlyoutItem
-                                        Click="{x:Bind OnBitRateRadioGroupSelectClicked}"
-                                        GroupName="BitRateRadioGroup"
-                                        IsChecked="{x:Bind x:Object.Equals(SelectedBitRate.Key, BitRateList[1].Key), Mode=OneWay}"
-                                        Tag="{x:Bind BitRateList[1]}"
-                                        Text="{x:Bind system:Convert.ToString(BitRateList[1].Value)}" />
+                                        Click="{x:Bind OnVideoBitRateRadioGroupSelectClicked}"
+                                        GroupName="VideoBitRateRadioGroup"
+                                        IsChecked="{x:Bind x:Object.Equals(SelectedVideoBitRate.Key, VideoBitRateList[1].Key), Mode=OneWay}"
+                                        Tag="{x:Bind VideoBitRateList[1]}"
+                                        Text="{x:Bind system:Convert.ToString(VideoBitRateList[1].Value)}" />
 
                                     <RadioMenuFlyoutItem
-                                        Click="{x:Bind OnBitRateRadioGroupSelectClicked}"
-                                        GroupName="BitRateRadioGroup"
-                                        IsChecked="{x:Bind x:Object.Equals(SelectedBitRate.Key, BitRateList[2].Key), Mode=OneWay}"
-                                        Tag="{x:Bind BitRateList[2]}"
-                                        Text="{x:Bind system:Convert.ToString(BitRateList[2].Value)}" />
+                                        Click="{x:Bind OnVideoBitRateRadioGroupSelectClicked}"
+                                        GroupName="VideoBitRateRadioGroup"
+                                        IsChecked="{x:Bind x:Object.Equals(SelectedVideoBitRate.Key, VideoBitRateList[2].Key), Mode=OneWay}"
+                                        Tag="{x:Bind VideoBitRateList[2]}"
+                                        Text="{x:Bind system:Convert.ToString(VideoBitRateList[2].Value)}" />
 
                                     <RadioMenuFlyoutItem
-                                        Click="{x:Bind OnBitRateRadioGroupSelectClicked}"
-                                        GroupName="BitRateRadioGroup"
-                                        IsChecked="{x:Bind x:Object.Equals(SelectedBitRate.Key, BitRateList[3].Key), Mode=OneWay}"
-                                        Tag="{x:Bind BitRateList[3]}"
-                                        Text="{x:Bind system:Convert.ToString(BitRateList[3].Value)}" />
+                                        Click="{x:Bind OnVideoBitRateRadioGroupSelectClicked}"
+                                        GroupName="VideoBitRateRadioGroup"
+                                        IsChecked="{x:Bind x:Object.Equals(SelectedVideoBitRate.Key, VideoBitRateList[3].Key), Mode=OneWay}"
+                                        Tag="{x:Bind VideoBitRateList[3]}"
+                                        Text="{x:Bind system:Convert.ToString(VideoBitRateList[3].Value)}" />
 
                                     <RadioMenuFlyoutItem
-                                        Click="{x:Bind OnBitRateRadioGroupSelectClicked}"
-                                        GroupName="BitRateRadioGroup"
-                                        IsChecked="{x:Bind x:Object.Equals(SelectedBitRate.Key, BitRateList[4].Key), Mode=OneWay}"
-                                        Tag="{x:Bind BitRateList[4]}"
-                                        Text="{x:Bind system:Convert.ToString(BitRateList[4].Value)}" />
+                                        Click="{x:Bind OnVideoBitRateRadioGroupSelectClicked}"
+                                        GroupName="VideoBitRateRadioGroup"
+                                        IsChecked="{x:Bind x:Object.Equals(SelectedVideoBitRate.Key, VideoBitRateList[4].Key), Mode=OneWay}"
+                                        Tag="{x:Bind VideoBitRateList[4]}"
+                                        Text="{x:Bind system:Convert.ToString(VideoBitRateList[4].Value)}" />
 
                                     <RadioMenuFlyoutItem
-                                        Click="{x:Bind OnBitRateRadioGroupSelectClicked}"
-                                        GroupName="BitRateRadioGroup"
-                                        IsChecked="{x:Bind x:Object.Equals(SelectedBitRate.Key, BitRateList[5].Key), Mode=OneWay}"
-                                        Tag="{x:Bind BitRateList[5]}"
-                                        Text="{x:Bind system:Convert.ToString(BitRateList[5].Value)}" />
+                                        Click="{x:Bind OnVideoBitRateRadioGroupSelectClicked}"
+                                        GroupName="VideoBitRateRadioGroup"
+                                        IsChecked="{x:Bind x:Object.Equals(SelectedVideoBitRate.Key, VideoBitRateList[5].Key), Mode=OneWay}"
+                                        Tag="{x:Bind VideoBitRateList[5]}"
+                                        Text="{x:Bind system:Convert.ToString(VideoBitRateList[5].Value)}" />
 
                                     <RadioMenuFlyoutItem
-                                        Click="{x:Bind OnBitRateRadioGroupSelectClicked}"
-                                        GroupName="BitRateRadioGroup"
-                                        IsChecked="{x:Bind x:Object.Equals(SelectedBitRate.Key, BitRateList[6].Key), Mode=OneWay}"
-                                        Tag="{x:Bind BitRateList[6]}"
-                                        Text="{x:Bind system:Convert.ToString(BitRateList[6].Value)}" />
+                                        Click="{x:Bind OnVideoBitRateRadioGroupSelectClicked}"
+                                        GroupName="VideoBitRateRadioGroup"
+                                        IsChecked="{x:Bind x:Object.Equals(SelectedVideoBitRate.Key, VideoBitRateList[6].Key), Mode=OneWay}"
+                                        Tag="{x:Bind VideoBitRateList[6]}"
+                                        Text="{x:Bind system:Convert.ToString(VideoBitRateList[6].Value)}" />
 
                                     <RadioMenuFlyoutItem
-                                        Click="{x:Bind OnBitRateRadioGroupSelectClicked}"
-                                        GroupName="BitRateRadioGroup"
-                                        IsChecked="{x:Bind x:Object.Equals(SelectedBitRate.Key, BitRateList[7].Key), Mode=OneWay}"
-                                        Tag="{x:Bind BitRateList[7]}"
-                                        Text="{x:Bind system:Convert.ToString(BitRateList[7].Value)}" />
+                                        Click="{x:Bind OnVideoBitRateRadioGroupSelectClicked}"
+                                        GroupName="VideoBitRateRadioGroup"
+                                        IsChecked="{x:Bind x:Object.Equals(SelectedVideoBitRate.Key, VideoBitRateList[7].Key), Mode=OneWay}"
+                                        Tag="{x:Bind VideoBitRateList[7]}"
+                                        Text="{x:Bind system:Convert.ToString(VideoBitRateList[7].Value)}" />
 
                                     <RadioMenuFlyoutItem
-                                        Click="{x:Bind OnBitRateRadioGroupSelectClicked}"
-                                        GroupName="BitRateRadioGroup"
-                                        IsChecked="{x:Bind x:Object.Equals(SelectedBitRate.Key, BitRateList[8].Key), Mode=OneWay}"
-                                        Tag="{x:Bind BitRateList[8]}"
-                                        Text="{x:Bind system:Convert.ToString(BitRateList[8].Value)}" />
+                                        Click="{x:Bind OnVideoBitRateRadioGroupSelectClicked}"
+                                        GroupName="VideoBitRateRadioGroup"
+                                        IsChecked="{x:Bind x:Object.Equals(SelectedVideoBitRate.Key, VideoBitRateList[8].Key), Mode=OneWay}"
+                                        Tag="{x:Bind VideoBitRateList[8]}"
+                                        Text="{x:Bind system:Convert.ToString(VideoBitRateList[8].Value)}" />
 
                                     <RadioMenuFlyoutItem
-                                        Click="{x:Bind OnBitRateRadioGroupSelectClicked}"
-                                        GroupName="BitRateRadioGroup"
-                                        IsChecked="{x:Bind x:Object.Equals(SelectedBitRate.Key, BitRateList[9].Key), Mode=OneWay}"
-                                        Tag="{x:Bind BitRateList[9]}"
-                                        Text="{x:Bind system:Convert.ToString(BitRateList[9].Value)}" />
+                                        Click="{x:Bind OnVideoBitRateRadioGroupSelectClicked}"
+                                        GroupName="VideoBitRateRadioGroup"
+                                        IsChecked="{x:Bind x:Object.Equals(SelectedVideoBitRate.Key, VideoBitRateList[9].Key), Mode=OneWay}"
+                                        Tag="{x:Bind VideoBitRateList[9]}"
+                                        Text="{x:Bind system:Convert.ToString(VideoBitRateList[9].Value)}" />
 
                                     <RadioMenuFlyoutItem
-                                        Click="{x:Bind OnBitRateRadioGroupSelectClicked}"
-                                        GroupName="BitRateRadioGroup"
-                                        IsChecked="{x:Bind x:Object.Equals(SelectedBitRate.Key, BitRateList[10].Key), Mode=OneWay}"
-                                        Tag="{x:Bind BitRateList[10]}"
-                                        Text="{x:Bind system:Convert.ToString(BitRateList[10].Value)}" />
+                                        Click="{x:Bind OnVideoBitRateRadioGroupSelectClicked}"
+                                        GroupName="VideoBitRateRadioGroup"
+                                        IsChecked="{x:Bind x:Object.Equals(SelectedVideoBitRate.Key, VideoBitRateList[10].Key), Mode=OneWay}"
+                                        Tag="{x:Bind VideoBitRateList[10]}"
+                                        Text="{x:Bind system:Convert.ToString(VideoBitRateList[10].Value)}" />
 
                                     <RadioMenuFlyoutItem
-                                        Click="{x:Bind OnBitRateRadioGroupSelectClicked}"
-                                        GroupName="BitRateRadioGroup"
-                                        IsChecked="{x:Bind x:Object.Equals(SelectedBitRate.Key, BitRateList[11].Key), Mode=OneWay}"
-                                        Tag="{x:Bind BitRateList[11]}"
-                                        Text="{x:Bind system:Convert.ToString(BitRateList[11].Value)}" />
+                                        Click="{x:Bind OnVideoBitRateRadioGroupSelectClicked}"
+                                        GroupName="VideoBitRateRadioGroup"
+                                        IsChecked="{x:Bind x:Object.Equals(SelectedVideoBitRate.Key, VideoBitRateList[11].Key), Mode=OneWay}"
+                                        Tag="{x:Bind VideoBitRateList[11]}"
+                                        Text="{x:Bind system:Convert.ToString(VideoBitRateList[11].Value)}" />
                                 </MenuFlyout>
                             </DropDownButton.Flyout>
                         </DropDownButton>

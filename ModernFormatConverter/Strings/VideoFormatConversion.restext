@@ -1,8 +1,10 @@
 ﻿Audio=Audio
+BitRate=Bit rate
 Close=Close
 Copy=Copy
 Custom=Custom
 CustomSize=Custom size
+Default=Default
 DefaultSize=Default size
 Edit=Edit
 FormatConversionType=Format conversion type
