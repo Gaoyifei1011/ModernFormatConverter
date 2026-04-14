@@ -8,89 +8,86 @@
     Title="{x:Bind rootservice:ResourceService.LicenseResource.GetString('License')}"
     mc:Ignorable="d">
 
-    <Page
-        x:Name="LicensePage"
+    <Grid
         ActualThemeChanged="{x:Bind OnActualThemeChanged}"
         FlowDirection="{x:Bind ((FrameworkElement)MainWindow.Content).FlowDirection, Mode=OneWay}"
         Loaded="{x:Bind OnLoaded}"
         RequestedTheme="{x:Bind WindowTheme, Mode=OneWay}">
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-            <ScrollViewer
-                HorizontalScrollBarVisibility="Disabled"
-                IsTabStop="False"
-                VerticalScrollBarVisibility="Disabled"
-                ZoomMode="Disabled">
+        <ScrollViewer
+            HorizontalScrollBarVisibility="Disabled"
+            IsTabStop="False"
+            VerticalScrollBarVisibility="Disabled"
+            ZoomMode="Disabled">
 
-                <Grid Padding="{ThemeResource ContentDialogPadding}" Background="{ThemeResource ContentDialogTopOverlay}">
+            <Grid Padding="{ThemeResource ContentDialogPadding}" Background="{ThemeResource ContentDialogTopOverlay}">
 
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <TextBlock
+                    Grid.Row="0"
+                    Margin="{ThemeResource ContentDialogTitleMargin}"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    FontFamily="{StaticResource ContentControlThemeFontFamily}"
+                    FontSize="20"
+                    FontWeight="SemiBold"
+                    Foreground="{ThemeResource ContentDialogForeground}"
+                    IsTabStop="False"
+                    Text="{x:Bind rootservice:ResourceService.LicenseResource.GetString('License')}" />
+
+                <Grid Grid.Row="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <TextBlock
+                    <MenuFlyoutSeparator
                         Grid.Row="0"
-                        Margin="{ThemeResource ContentDialogTitleMargin}"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        FontFamily="{StaticResource ContentControlThemeFontFamily}"
-                        FontSize="20"
-                        FontWeight="SemiBold"
-                        Foreground="{ThemeResource ContentDialogForeground}"
-                        IsTabStop="False"
-                        Text="{x:Bind rootservice:ResourceService.LicenseResource.GetString('License')}" />
+                        Margin="0,0,0,10"
+                        Background="{ThemeResource SurfaceStrokeColorDefaultBrush}" />
 
-                    <Grid Grid.Row="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-
-                        <MenuFlyoutSeparator
-                            Grid.Row="0"
-                            Margin="0,0,0,10"
-                            Background="{ThemeResource SurfaceStrokeColorDefaultBrush}" />
-
-                        <TextBlock
-                            Grid.Row="1"
-                            IsTextSelectionEnabled="True"
-                            Text="{x:Bind LicenseText, Mode=OneWay}"
-                            TextAlignment="Justify"
-                            TextWrapping="Wrap" />
-                    </Grid>
+                    <TextBlock
+                        Grid.Row="1"
+                        IsTextSelectionEnabled="True"
+                        Text="{x:Bind LicenseText, Mode=OneWay}"
+                        TextAlignment="Justify"
+                        TextWrapping="Wrap" />
                 </Grid>
-            </ScrollViewer>
-
-            <Grid
-                Grid.Row="1"
-                Padding="{ThemeResource ContentDialogPadding}"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Bottom"
-                Background="{ThemeResource ContentDialogBackground}"
-                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                BorderThickness="0,1,0,0"
-                ColumnSpacing="10"
-                XYFocusKeyboardNavigation="Enabled">
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <Button
-                    Grid.Column="1"
-                    HorizontalAlignment="Stretch"
-                    Click="{x:Bind OnCloseClicked}"
-                    Content="{x:Bind rootservice:ResourceService.LicenseResource.GetString('Close')}"
-                    ElementSoundMode="FocusOnly"
-                    IsTabStop="False" />
             </Grid>
+        </ScrollViewer>
+
+        <Grid
+            Grid.Row="1"
+            Padding="{ThemeResource ContentDialogPadding}"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Bottom"
+            Background="{ThemeResource ContentDialogBackground}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="0,1,0,0"
+            ColumnSpacing="10"
+            XYFocusKeyboardNavigation="Enabled">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Button
+                Grid.Column="1"
+                HorizontalAlignment="Stretch"
+                Click="{x:Bind OnCloseClicked}"
+                Content="{x:Bind rootservice:ResourceService.LicenseResource.GetString('Close')}"
+                ElementSoundMode="FocusOnly"
+                IsTabStop="False" />
         </Grid>
-    </Page>
+    </Grid>
 </Window>

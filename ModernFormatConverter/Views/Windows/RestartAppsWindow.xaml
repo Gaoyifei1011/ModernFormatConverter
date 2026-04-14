@@ -8,86 +8,83 @@
     Title="{x:Bind rootservice:ResourceService.RestartAppsResource.GetString('RestartApps')}"
     mc:Ignorable="d">
 
-    <Page
-        x:Name="RestartAppsPage"
+    <Grid
         ActualThemeChanged="{x:Bind OnActualThemeChanged}"
         FlowDirection="{x:Bind ((FrameworkElement)MainWindow.Content).FlowDirection, Mode=OneWay}"
         Loaded="{x:Bind OnLoaded}"
         RequestedTheme="{x:Bind WindowTheme, Mode=OneWay}">
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-            <ScrollViewer
-                HorizontalScrollBarVisibility="Disabled"
-                IsTabStop="False"
-                VerticalScrollBarVisibility="Disabled"
-                ZoomMode="Disabled">
+        <ScrollViewer
+            HorizontalScrollBarVisibility="Disabled"
+            IsTabStop="False"
+            VerticalScrollBarVisibility="Disabled"
+            ZoomMode="Disabled">
 
-                <Grid Padding="{ThemeResource ContentDialogPadding}" Background="{ThemeResource ContentDialogTopOverlay}">
+            <Grid Padding="{ThemeResource ContentDialogPadding}" Background="{ThemeResource ContentDialogTopOverlay}">
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
-                    <TextBlock
-                        Grid.Row="0"
-                        Margin="{ThemeResource ContentDialogTitleMargin}"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        FontFamily="{StaticResource ContentControlThemeFontFamily}"
-                        FontSize="20"
-                        FontWeight="SemiBold"
-                        Foreground="{ThemeResource ContentDialogForeground}"
-                        IsTabStop="False"
-                        Text="{x:Bind rootservice:ResourceService.RestartAppsResource.GetString('RestartApps')}" />
-
-                    <TextBlock
-                        Grid.Row="1"
-                        Margin="0,0,0,5"
-                        Text="{x:Bind rootservice:ResourceService.RestartAppsResource.GetString('RestartContent')}"
-                        TextAlignment="Justify"
-                        TextWrapping="Wrap" />
-                </Grid>
-            </ScrollViewer>
-
-            <Grid
-                Grid.Row="1"
-                Padding="{ThemeResource ContentDialogPadding}"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Bottom"
-                Background="{ThemeResource ContentDialogBackground}"
-                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                BorderThickness="0,1,0,0"
-                ColumnSpacing="10"
-                XYFocusKeyboardNavigation="Enabled">
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <Button
-                    Grid.Column="0"
-                    HorizontalAlignment="Stretch"
-                    Click="{x:Bind OnRestartAppsClicked}"
-                    Content="{x:Bind rootservice:ResourceService.RestartAppsResource.GetString('OK')}"
-                    ElementSoundMode="FocusOnly"
+                <TextBlock
+                    Grid.Row="0"
+                    Margin="{ThemeResource ContentDialogTitleMargin}"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    FontFamily="{StaticResource ContentControlThemeFontFamily}"
+                    FontSize="20"
+                    FontWeight="SemiBold"
+                    Foreground="{ThemeResource ContentDialogForeground}"
                     IsTabStop="False"
-                    Style="{StaticResource AccentButtonStyle}" />
+                    Text="{x:Bind rootservice:ResourceService.RestartAppsResource.GetString('RestartApps')}" />
 
-                <Button
-                    Grid.Column="1"
-                    HorizontalAlignment="Stretch"
-                    Click="{x:Bind OnCancelClicked}"
-                    Content="{x:Bind rootservice:ResourceService.RestartAppsResource.GetString('Cancel')}"
-                    ElementSoundMode="FocusOnly"
-                    IsTabStop="False" />
+                <TextBlock
+                    Grid.Row="1"
+                    Margin="0,0,0,5"
+                    Text="{x:Bind rootservice:ResourceService.RestartAppsResource.GetString('RestartContent')}"
+                    TextAlignment="Justify"
+                    TextWrapping="Wrap" />
             </Grid>
+        </ScrollViewer>
+
+        <Grid
+            Grid.Row="1"
+            Padding="{ThemeResource ContentDialogPadding}"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Bottom"
+            Background="{ThemeResource ContentDialogBackground}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="0,1,0,0"
+            ColumnSpacing="10"
+            XYFocusKeyboardNavigation="Enabled">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Button
+                Grid.Column="0"
+                HorizontalAlignment="Stretch"
+                Click="{x:Bind OnRestartAppsClicked}"
+                Content="{x:Bind rootservice:ResourceService.RestartAppsResource.GetString('OK')}"
+                ElementSoundMode="FocusOnly"
+                IsTabStop="False"
+                Style="{StaticResource AccentButtonStyle}" />
+
+            <Button
+                Grid.Column="1"
+                HorizontalAlignment="Stretch"
+                Click="{x:Bind OnCancelClicked}"
+                Content="{x:Bind rootservice:ResourceService.RestartAppsResource.GetString('Cancel')}"
+                ElementSoundMode="FocusOnly"
+                IsTabStop="False" />
         </Grid>
-    </Page>
+    </Grid>
 </Window>
