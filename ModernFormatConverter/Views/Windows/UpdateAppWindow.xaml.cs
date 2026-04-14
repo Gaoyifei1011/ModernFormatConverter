@@ -10,14 +10,12 @@ using ModernFormatConverter.Helpers.Root;
 using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.Services.Settings;
 using ModernFormatConverter.WindowsAPI.PInvoke.Comctl32;
-using ModernFormatConverter.WindowsAPI.PInvoke.Dwmapi;
 using ModernFormatConverter.WindowsAPI.PInvoke.User32;
 using ModernFormatConverter.WindowsAPI.PInvoke.Uxtheme;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Services.Store;
@@ -39,13 +37,13 @@ namespace ModernFormatConverter.Views.Windows
         private readonly string UpdateString = ResourceService.UpdateAppResource.GetString("Update");
         private readonly string UpdateDownloadingString = ResourceService.UpdateAppResource.GetString("UpdateDownloading");
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
-        private Progress<StorePackageUpdateStatus> storePackageUpdateProgress = null;
-        private CancellationTokenSource cancellationTokenSource = null;
         private readonly OverlappedPresenter overlappedPresenter;
         private readonly SUBCLASSPROC licenseWindowSubClassProc;
         private readonly ContentIsland contentIsland;
         private readonly InputKeyboardSource inputKeyboardSource;
         private readonly InputPointerSource inputPointerSource;
+        private Progress<StorePackageUpdateStatus> storePackageUpdateProgress = null;
+        private CancellationTokenSource cancellationTokenSource = null;
         private TaskCompletionSource<ContentDialogResult> taskCompletionSource;
 
         private MainWindow MainWindow { get; set; }
@@ -158,8 +156,6 @@ namespace ModernFormatConverter.Views.Windows
             overlappedPresenter.IsModal = true;
             overlappedPresenter.SetBorderAndTitleBar(true, false);
             ResizeWindow(UpdateAppResultKind);
-            int cornerPreference = 2;
-            DwmapiLibrary.DwmSetWindowAttribute((nint)AppWindow.Id.Value, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref cornerPreference, Marshal.SizeOf<int>());
             contentIsland = ContentIsland.FindAllForCompositor(Compositor)[0];
             inputKeyboardSource = InputKeyboardSource.GetForIsland(contentIsland);
             inputPointerSource = InputPointerSource.GetForIsland(contentIsland);
@@ -177,11 +173,7 @@ namespace ModernFormatConverter.Views.Windows
             Comctl32Library.SetWindowSubclass((nint)AppWindow.Id.Value, licenseWindowSubClassProc, 0, 0);
 
             SetWindowTheme();
-            AppWindow.Closing += (sender, args) =>
-            {
-                MainWindow.Activate();
-                MainWindow = null;
-            };
+
             PrimaryText = UpdateString;
             CloseText = CloseString;
         }
@@ -436,7 +428,7 @@ namespace ModernFormatConverter.Views.Windows
             }
             else
             {
-                CloseWindow();
+                Close();
             }
         }
 
@@ -535,13 +527,16 @@ namespace ModernFormatConverter.Views.Windows
                         ResizeWindow(UpdateAppResultKind);
                         break;
                     }
-                // 窗口关闭时触发的消息
-                case WindowMessage.WM_CLOSE:
+                // 窗口销毁后触发的消息
+                case WindowMessage.WM_DESTROY:
                     {
                         ThemeService.PropertyChanged -= OnServicePropertyChanged;
                         inputKeyboardSource.SystemKeyDown -= OnSystemKeyDown;
                         inputPointerSource.PointerReleased -= OnPointerReleased;
                         Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, licenseWindowSubClassProc, 0);
+                        taskCompletionSource.TrySetResult(ContentDialogResult.None);
+                        MainWindow.Activate();
+                        MainWindow = null;
                         synchronizationContext.Post((_) =>
                         {
                             if (cancellationTokenSource is not null && (UpdateAppResultKind is UpdateAppResultKind.Pending || UpdateAppResultKind is UpdateAppResultKind.Downloading || UpdateAppResultKind is UpdateAppResultKind.Deploying))
@@ -614,14 +609,6 @@ namespace ModernFormatConverter.Views.Windows
             taskCompletionSource = new();
             AppWindow.Show();
             return await taskCompletionSource.Task;
-        }
-
-        /// <summary>
-        /// 关闭窗口
-        /// </summary>
-        public void CloseWindow()
-        {
-            User32Library.SendMessage((nint)AppWindow.Id.Value, WindowMessage.WM_CLOSE, 0, 0);
         }
 
         /// <summary>

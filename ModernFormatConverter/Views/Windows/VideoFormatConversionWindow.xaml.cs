@@ -370,7 +370,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnOkClicked(object sender, RoutedEventArgs args)
         {
-            CloseWindow();
+            Close();
             taskCompletionSource?.TrySetResult(ContentDialogResult.Primary);
         }
 
@@ -695,8 +695,8 @@ namespace ModernFormatConverter.Views.Dialogs
                         }, null);
                         break;
                     }
-                // 窗口关闭时触发的消息
-                case WindowMessage.WM_CLOSE:
+                // 窗口销毁后触发的消息
+                case WindowMessage.WM_DESTROY:
                     {
                         AlwaysShowBackdropService.PropertyChanged -= OnServicePropertyChanged;
                         ThemeService.PropertyChanged -= OnServicePropertyChanged;
@@ -705,7 +705,12 @@ namespace ModernFormatConverter.Views.Dialogs
                         inputPointerSource.PointerReleased -= OnPointerReleased;
                         Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, videoFormatConversionWindowSubClassProc, 0);
                         // TODO：未完成，目前仅测试
-                        taskCompletionSource?.TrySetResult(ContentDialogResult.Primary);
+                        if (!taskCompletionSource.Task.IsCompleted)
+                        {
+                            taskCompletionSource.TrySetResult(ContentDialogResult.None);
+                        }
+                        ConversionToolsWindow.Activate();
+                        ConversionToolsWindow = null;
                         break;
                     }
                 // 当用户按下鼠标左键时，光标位于窗口的非工作区内的消息
@@ -919,11 +924,6 @@ namespace ModernFormatConverter.Views.Dialogs
 
             SetWindowTheme();
             SetSystemBackdrop();
-            AppWindow.Closing += (sender, args) =>
-            {
-                ConversionToolsWindow.Activate();
-                ConversionToolsWindow = null;
-            };
         }
 
         /// <summary>
@@ -934,14 +934,6 @@ namespace ModernFormatConverter.Views.Dialogs
             taskCompletionSource = new();
             AppWindow.Show();
             return await taskCompletionSource.Task;
-        }
-
-        /// <summary>
-        /// 关闭窗口
-        /// </summary>
-        public void CloseWindow()
-        {
-            User32Library.SendMessage((nint)AppWindow.Id.Value, WindowMessage.WM_CLOSE, 0, 0);
         }
 
         /// <summary>

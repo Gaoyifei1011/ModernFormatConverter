@@ -60,7 +60,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnOkClicked(object sender, RoutedEventArgs args)
         {
-            ConversionToolsWindow.Current.CloseWindow();
+            ConversionToolsWindow.Current.Close();
         }
 
         #endregion 第一部分：音频转换页面——挂载的事件

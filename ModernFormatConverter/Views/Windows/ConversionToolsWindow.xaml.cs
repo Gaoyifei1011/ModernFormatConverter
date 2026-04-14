@@ -137,11 +137,6 @@ namespace ModernFormatConverter.Views.Windows
             SelectedIndex = Convert.ToInt32(conversionToolsKind);
             SetWindowTheme();
             SetSystemBackdrop();
-            AppWindow.Closing += (sender, args) =>
-            {
-                MainWindow.Activate();
-                MainWindow = null;
-            };
         }
 
         #region 第一部分：窗口辅助类挂载的事件
@@ -480,8 +475,8 @@ namespace ModernFormatConverter.Views.Windows
                         }, null);
                         break;
                     }
-                // 窗口关闭时触发的消息
-                case WindowMessage.WM_CLOSE:
+                // 窗口销毁后触发的消息
+                case WindowMessage.WM_DESTROY:
                     {
                         Current = null;
                         AlwaysShowBackdropService.PropertyChanged -= OnServicePropertyChanged;
@@ -491,7 +486,12 @@ namespace ModernFormatConverter.Views.Windows
                         inputPointerSource.PointerReleased -= OnPointerReleased;
                         Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, conversionToolsWindowSubClassProc, 0);
                         // TODO：未完成，目前仅测试
-                        taskCompletionSource?.TrySetResult(ContentDialogResult.Primary);
+                        if (!taskCompletionSource.Task.IsCompleted)
+                        {
+                            taskCompletionSource.TrySetResult(ContentDialogResult.None);
+                        }
+                        MainWindow.Activate();
+                        MainWindow = null;
                         break;
                     }
                 // 当用户按下鼠标左键时，光标位于窗口的非工作区内的消息
@@ -603,14 +603,6 @@ namespace ModernFormatConverter.Views.Windows
             taskCompletionSource = new();
             AppWindow.Show();
             return await taskCompletionSource.Task;
-        }
-
-        /// <summary>
-        /// 关闭窗口
-        /// </summary>
-        public void CloseWindow()
-        {
-            User32Library.SendMessage((nint)AppWindow.Id.Value, WindowMessage.WM_CLOSE, 0, 0);
         }
 
         /// <summary>

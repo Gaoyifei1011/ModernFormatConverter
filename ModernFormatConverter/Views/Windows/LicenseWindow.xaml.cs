@@ -7,12 +7,10 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media;
 using ModernFormatConverter.Services.Settings;
 using ModernFormatConverter.WindowsAPI.PInvoke.Comctl32;
-using ModernFormatConverter.WindowsAPI.PInvoke.Dwmapi;
 using ModernFormatConverter.WindowsAPI.PInvoke.User32;
 using ModernFormatConverter.WindowsAPI.PInvoke.Uxtheme;
 using System;
 using System.ComponentModel;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -91,8 +89,6 @@ namespace ModernFormatConverter.Views.Windows
             int childX = parentRect.left + (parentRect.right - parentRect.left - width) / 2;
             int childY = parentRect.top + (parentRect.bottom - parentRect.top - height) / 2;
             User32Library.SetWindowPos((nint)AppWindow.Id.Value, 0, childX, childY, width, height, SetWindowPosFlags.SWP_NOREPOSITION | SetWindowPosFlags.SWP_NOZORDER);
-            int cornerPreference = 2;
-            DwmapiLibrary.DwmSetWindowAttribute((nint)AppWindow.Id.Value, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref cornerPreference, Marshal.SizeOf<int>());
             contentIsland = ContentIsland.FindAllForCompositor(Compositor)[0];
             inputKeyboardSource = InputKeyboardSource.GetForIsland(contentIsland);
             inputPointerSource = InputPointerSource.GetForIsland(contentIsland);
@@ -110,11 +106,6 @@ namespace ModernFormatConverter.Views.Windows
             Comctl32Library.SetWindowSubclass((nint)AppWindow.Id.Value, licenseWindowSubClassProc, 0, 0);
 
             SetWindowTheme();
-            AppWindow.Closing += (sender, args) =>
-            {
-                MainWindow.Activate();
-                MainWindow = null;
-            };
         }
 
         #region 第一部分：窗口辅助类挂载的事件
@@ -172,7 +163,7 @@ namespace ModernFormatConverter.Views.Windows
         /// </summary>
         private void OnCloseClicked(object sender, RoutedEventArgs args)
         {
-            CloseWindow();
+            Close();
         }
 
         #endregion 第三部分：内容挂载的事件
@@ -288,13 +279,16 @@ namespace ModernFormatConverter.Views.Windows
                         }, null);
                         break;
                     }
-                // 窗口关闭时触发的消息
-                case WindowMessage.WM_CLOSE:
+                // 窗口销毁后触发的消息
+                case WindowMessage.WM_DESTROY:
                     {
                         ThemeService.PropertyChanged -= OnServicePropertyChanged;
                         inputKeyboardSource.SystemKeyDown -= OnSystemKeyDown;
                         inputPointerSource.PointerReleased -= OnPointerReleased;
                         Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, licenseWindowSubClassProc, 0);
+                        taskCompletionSource.TrySetResult(ContentDialogResult.None);
+                        MainWindow.Activate();
+                        MainWindow = null;
                         break;
                     }
                 // 当用户按下鼠标右键并释放时，光标位于窗口的非工作区内的消息
@@ -358,14 +352,6 @@ namespace ModernFormatConverter.Views.Windows
             taskCompletionSource = new();
             AppWindow.Show();
             return await taskCompletionSource.Task;
-        }
-
-        /// <summary>
-        /// 关闭窗口
-        /// </summary>
-        public void CloseWindow()
-        {
-            User32Library.SendMessage((nint)AppWindow.Id.Value, WindowMessage.WM_CLOSE, 0, 0);
         }
     }
 }
