@@ -92,9 +92,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePair<string, string> _selectedFormatConversionType;
+        private KeyValuePairModel _selectedFormatConversionType;
 
-        public KeyValuePair<string, string> SelectedFormatConversionType
+        public KeyValuePairModel SelectedFormatConversionType
         {
             get { return _selectedFormatConversionType; }
 
@@ -105,9 +105,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePair<string, string> _selectedSizeLimitation;
+        private KeyValuePairModel _selectedSizeLimitation;
 
-        public KeyValuePair<string, string> SelectedSizeLimitation
+        public KeyValuePairModel SelectedSizeLimitation
         {
             get { return _selectedSizeLimitation; }
 
@@ -118,9 +118,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePair<string, string> _selectedVideoEncoding;
+        private KeyValuePairModel _selectedVideoEncoding;
 
-        public KeyValuePair<string, string> SelectedVideoEncoding
+        public KeyValuePairModel SelectedVideoEncoding
         {
             get { return _selectedVideoEncoding; }
 
@@ -131,9 +131,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePair<string, string> _selectedScreenSize;
+        private KeyValuePairModel _selectedScreenSize;
 
-        public KeyValuePair<string, string> SelectedScreenSize
+        public KeyValuePairModel SelectedScreenSize
         {
             get { return _selectedScreenSize; }
 
@@ -170,9 +170,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePair<string, string> _selectedVideoBitRate;
+        private KeyValuePairModel _selectedVideoBitRate;
 
-        public KeyValuePair<string, string> SelectedVideoBitRate
+        public KeyValuePairModel SelectedVideoBitRate
         {
             get { return _selectedVideoBitRate; }
 
@@ -183,45 +183,58 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private bool _isConstantRatefactorEnabled;
+        private bool _useCRF;
 
-        public bool IsConstantRatefactorEnabled
+        public bool UseCRF
         {
-            get { return _isConstantRatefactorEnabled; }
+            get { return _useCRF; }
 
             set
             {
-                _isConstantRatefactorEnabled = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsConstantRatefactorEnabled)));
+                _useCRF = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseCRF)));
             }
         }
 
-        public List<KeyValuePair<string, string>> FormatConversionTypeList { get; } =
+        private int _crf = 10;
+
+        public int CRF
+        {
+            get { return _crf; }
+
+            set
+            {
+                _crf = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CRF)));
+            }
+        }
+
         [
-            new KeyValuePair<string, string>("MP4", ".mp4"),
-            new KeyValuePair<string, string>("MKV", ".mkv"),
-            new KeyValuePair<string, string>("GIF", ".gif"),
-            new KeyValuePair<string, string>("WebM", ".webm"),
-            new KeyValuePair<string, string>("AVI", ".avi"),
-            new KeyValuePair<string, string>("FLV", ".flv"),
-            new KeyValuePair<string, string>("MOV", ".mov"),
-            new KeyValuePair<string, string>("M3U8", ".m3u8"),
-            new KeyValuePair<string, string>("WMV", ".wmv"),
-            new KeyValuePair<string, string>("3GP", ".3gp"),
-            new KeyValuePair<string, string>("3G2", ".3g2"),
-            new KeyValuePair<string, string>("MPG", ".mpg"),
-            new KeyValuePair<string, string>("VOB", ".vob"),
-            new KeyValuePair<string, string>("OGG", ".ogg"),
-            new KeyValuePair<string, string>("SWF", ".swf"),
+            new KeyValuePairModel(){ Key = "MP4", Value = ".mp4" },
+            new KeyValuePairModel(){ Key = "MKV", Value = ".mkv" },
+            new KeyValuePairModel(){ Key = "GIF", Value = ".gif" },
+            new KeyValuePairModel(){ Key = "WebM", Value = ".webm" },
+            new KeyValuePairModel(){ Key = "AVI", Value = ".avi" },
+            new KeyValuePairModel(){ Key = "FLV", Value = ".flv" },
+            new KeyValuePairModel(){ Key = "MOV", Value = ".mov" },
+            new KeyValuePairModel(){ Key = "M3U8", Value = ".m3u8" },
+            new KeyValuePairModel(){ Key = "3GP", Value = ".3gp" },
+            new KeyValuePairModel(){ Key = "3G2", Value = ".3g2" },
+            new KeyValuePairModel(){ Key = "MPG", Value = ".mpg" },
+            new KeyValuePairModel(){ Key = "VOB", Value = ".vob" },
+            new KeyValuePairModel(){ Key = "OGG", Value = ".ogg" },
+            new KeyValuePairModel(){ Key = "SWF", Value = ".swf" },
         ];
 
-        public List<KeyValuePair<string, string>> SizeLimitationList { get; } = [];
+        public List<KeyValuePairModel> SizeLimitationList { get; } = [];
 
-        public List<KeyValuePair<string, string>> VideoEncodingList { get; } = [];
+        public List<KeyValuePairModel> VideoEncodingList { get; } = [];
 
-        public List<KeyValuePair<string, string>> ScreenSizeList { get; } = [];
+        public List<KeyValuePairModel> ScreenSizeList { get; } = [];
 
-        public List<KeyValuePair<string, string>> VideoBitRateList { get; } = [];
+        public List<KeyValuePairModel> VideoBitRateList { get; } = [];
+
+        public List<KeyValuePairModel> GPUList { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -235,10 +248,17 @@ namespace ModernFormatConverter.Views.Dialogs
             {
                 // TODO：未完成
                 SelectedFormatConversionType = FormatConversionTypeList[0];
+                SelectedFormatConversionType.IsChecked = true;
                 SelectedSizeLimitation = SizeLimitationList[0];
+                SelectedSizeLimitation.IsChecked = true;
                 SelectedVideoEncoding = VideoEncodingList[0];
+                SelectedVideoEncoding.IsChecked = true;
                 SelectedScreenSize = ScreenSizeList[0];
+                SelectedScreenSize.IsChecked = true;
                 SelectedVideoBitRate = VideoBitRateList[0];
+                SelectedVideoBitRate.IsChecked = true;
+                SelectedGPU = GPUList[0];
+                SelectedGPU.IsChecked = true;
             }
         }
 
@@ -251,10 +271,15 @@ namespace ModernFormatConverter.Views.Dialogs
             if (videoConversionFileCollection.All(item => item is VideoFormatConversionModel))
             {
                 SelectedFormatConversionType = FormatConversionTypeList[0];
+                SelectedFormatConversionType.IsChecked = true;
                 SelectedSizeLimitation = SizeLimitationList[0];
+                SelectedSizeLimitation.IsChecked = true;
                 SelectedVideoEncoding = VideoEncodingList[0];
+                SelectedVideoEncoding.IsChecked = true;
                 SelectedScreenSize = ScreenSizeList[0];
+                SelectedScreenSize.IsChecked = true;
                 SelectedVideoBitRate = VideoBitRateList[0];
+                SelectedVideoBitRate.IsChecked = true;
             }
         }
 
@@ -335,7 +360,131 @@ namespace ModernFormatConverter.Views.Dialogs
 
         #endregion 第三部分：窗口内容挂载的事件
 
-        #region 第四部分：内容挂载的事件
+        #region 第四部分：ExecuteCommand 命令调用时挂载的事件
+
+        /// <summary>
+        /// 修改格式转换类型
+        /// </summary>
+        private void OnFormatConversionTypeExecuteRequested(object sender, ExecuteRequestedEventArgs args)
+        {
+            if (FormatConversionTypeFlyout.IsOpen)
+            {
+                FormatConversionTypeFlyout.Hide();
+            }
+
+            if (args.Parameter is KeyValuePairModel formatConversionType)
+            {
+                foreach (KeyValuePairModel formatConversionTypeItem in FormatConversionTypeList)
+                {
+                    formatConversionTypeItem.IsChecked = false;
+                    if (string.Equals(formatConversionType.Key, formatConversionTypeItem.Key))
+                    {
+                        SelectedFormatConversionType = formatConversionTypeItem;
+                        formatConversionTypeItem.IsChecked = true;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 修改大小限制
+        /// </summary>
+        private void OnSizeLimitationExecuteRequested(object sender, ExecuteRequestedEventArgs args)
+        {
+            if (SizeLimitationFlyout.IsOpen)
+            {
+                SizeLimitationFlyout.Hide();
+            }
+
+            if (args.Parameter is KeyValuePairModel sizeLimitation)
+            {
+                foreach (KeyValuePairModel sizeLimitationItem in SizeLimitationList)
+                {
+                    sizeLimitationItem.IsChecked = false;
+                    if (string.Equals(sizeLimitation.Key, sizeLimitationItem.Key))
+                    {
+                        SelectedSizeLimitation = sizeLimitationItem;
+                        sizeLimitationItem.IsChecked = true;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 修改视频编码
+        /// </summary>
+        private void OnVideoEncodingExecuteRequested(object sender, ExecuteRequestedEventArgs args)
+        {
+            if (VideoEncodingFlyout.IsOpen)
+            {
+                VideoEncodingFlyout.Hide();
+            }
+
+            if (args.Parameter is KeyValuePairModel videoEncoding)
+            {
+                foreach (KeyValuePairModel videoEncodingItem in VideoEncodingList)
+                {
+                    videoEncodingItem.IsChecked = false;
+                    if (string.Equals(videoEncoding.Key, videoEncodingItem.Key))
+                    {
+                        SelectedVideoEncoding = videoEncodingItem;
+                        videoEncodingItem.IsChecked = true;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 修改屏幕大小
+        /// </summary>
+        private void OnScreenSizeExecuteRequested(object sender, ExecuteRequestedEventArgs args)
+        {
+            if (ScreenSizeFlyout.IsOpen)
+            {
+                ScreenSizeFlyout.Hide();
+            }
+
+            if (args.Parameter is KeyValuePairModel screenSize)
+            {
+                foreach (KeyValuePairModel screenSizeItem in ScreenSizeList)
+                {
+                    screenSizeItem.IsChecked = false;
+                    if (string.Equals(screenSize.Key, screenSizeItem.Key))
+                    {
+                        SelectedScreenSize = screenSizeItem;
+                        screenSizeItem.IsChecked = true;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 修改视频比特率
+        /// </summary>
+        private void OnVideoBitRateExecuteRequested(object sender, ExecuteRequestedEventArgs args)
+        {
+            if (VideoBitRateFlyout.IsOpen)
+            {
+                VideoBitRateFlyout.Hide();
+            }
+
+            if (args.Parameter is KeyValuePairModel videoBitRate)
+            {
+                foreach (KeyValuePairModel videoBitRateItem in VideoBitRateList)
+                {
+                    videoBitRateItem.IsChecked = false;
+                    if (string.Equals(videoBitRate.Key, videoBitRateItem.Key))
+                    {
+                        SelectedVideoBitRate = videoBitRateItem;
+                        videoBitRateItem.IsChecked = true;
+                    }
+                }
+            }
+        }
+
+        #endregion 第四部分：ExecuteCommand 命令调用时挂载的事件
+
+        #region 第五部分：内容挂载的事件
 
         /// <summary>
         /// 加载完成后触发的事件
@@ -391,62 +540,62 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
-        /// 格式转换类型选中项发生变化时触发的事件
+        /// 格式转换类型菜单打开时自动定位到选中项
         /// </summary>
-        private void OnFormatConversionTypeRadioGroupSelectClicked(object sender, RoutedEventArgs args)
+        private void OnFormatConversionTypeOpened(object sender, object args)
         {
-            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is KeyValuePair<string, string> formatConversionType)
+            foreach (KeyValuePairModel formatConversionType in FormatConversionTypeList)
             {
-                SelectedFormatConversionType = formatConversionType;
-            }
-        }
-
-        /// <summary>
-        /// 视频编码选中项发生变化时触发的事件
-        /// </summary>
-        private void OnVideoEncodingRadioGroupSelectClicked(object sender, RoutedEventArgs args)
-        {
-            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is KeyValuePair<string, string> videoEncoding)
-            {
-                SelectedVideoEncoding = videoEncoding;
-            }
-        }
-
-        /// <summary>
-        /// 大小限制选中项发生变化时触发的事件
-        /// </summary>
-        private void OnSizeLimitationRadioGroupSelectClicked(object sender, RoutedEventArgs args)
-        {
-            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is KeyValuePair<string, string> sizeLimitation)
-            {
-                SelectedSizeLimitation = sizeLimitation;
-            }
-        }
-
-        /// <summary>
-        /// 屏幕大小选中项发生变化时触发的事件
-        /// </summary>
-        private void OnScreenSizeRadioGroupSelectClicked(object sender, RoutedEventArgs args)
-        {
-            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is KeyValuePair<string, string> screenSize)
-            {
-                SelectedScreenSize = screenSize;
-                if (!Equals(SelectedScreenSize.Key, ScreenSizeList[17].Key))
+                if (formatConversionType.IsChecked)
                 {
-                    ScreenWidth = 1;
-                    ScreenHeight = 1;
+                    FormatConversionTypeListView.ScrollIntoView(formatConversionType);
+                    break;
                 }
             }
         }
 
         /// <summary>
-        /// 比特率选中项发生变化时触发的事件
+        /// 大小限制菜单打开时自动定位到选中项
         /// </summary>
-        private void OnVideoBitRateRadioGroupSelectClicked(object sender, RoutedEventArgs args)
+        private void OnSizeLimitationOpened(object sender, object args)
         {
-            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is KeyValuePair<string, string> videoBitRate)
+            foreach (KeyValuePairModel sizeLimitation in SizeLimitationList)
             {
-                SelectedVideoBitRate = videoBitRate;
+                if (sizeLimitation.IsChecked)
+                {
+                    SizeLimitationListView.ScrollIntoView(sizeLimitation);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 视频编码菜单打开时自动定位到选中项
+        /// </summary>
+        private void OnVideoEncodingOpened(object sender, object args)
+        {
+            foreach (KeyValuePairModel videoEncoding in VideoEncodingList)
+            {
+                if (videoEncoding.IsChecked)
+                {
+                    VideoEncodingListView.ScrollIntoView(videoEncoding);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 屏幕大小菜单打开时自动定位到选中项
+        /// </summary>
+        private void OnScreenSizeOpened(object sender, object args)
+        {
+            foreach (KeyValuePairModel screenSize in ScreenSizeList)
+            {
+                if (screenSize.IsChecked)
+                {
+                    ScreenSizeListView.ScrollIntoView(screenSize);
+                    break;
+                }
             }
         }
 
@@ -487,9 +636,68 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        #endregion 第四部分：内容挂载的事件
+        /// <summary>
+        /// 视频选择率菜单打开时自动定位到选中项
+        /// </summary>
+        private void OnVideoBitRateOpened(object sender, object args)
+        {
+            foreach (KeyValuePairModel videoBitRate in VideoBitRateList)
+            {
+                if (videoBitRate.IsChecked)
+                {
+                    VideoBitRateListView.ScrollIntoView(videoBitRate);
+                    break;
+                }
+            }
+        }
 
-        #region 第五部分：自定义事件
+        /// <summary>
+        /// 是否启用 CRF
+        /// </summary>
+        private void OnUseCRFToggled(object sender, RoutedEventArgs args)
+        {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                UseCRF = toggleSwitch.IsOn;
+                if (!UseCRF)
+                {
+                    CRF = 10;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 自定义屏幕宽度发生变化时触发的事件
+        /// </summary>
+        private void OnCRFValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN)
+            {
+                try
+                {
+                    if (args.NewValue < 10)
+                    {
+                        CRF = 10;
+                    }
+                    else if (args.NewValue > 50)
+                    {
+                        CRF = 50;
+                    }
+                    else
+                    {
+                        CRF = Convert.ToInt32(args.NewValue);
+                    }
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoFormatConversionWindow), nameof(OnCRFValueChanged), 1, e);
+                }
+            }
+        }
+
+        #endregion 第五部分：内容挂载的事件
+
+        #region 第六部分：自定义事件
 
         /// <summary>
         /// 设置选项发生变化时触发的事件
@@ -509,9 +717,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }, null);
         }
 
-        #endregion 第五部分：自定义事件
+        #endregion 第六部分：自定义事件
 
-        #region 第六部分：窗口及内容属性设置
+        #region 第七部分：窗口及内容属性设置
 
         /// <summary>
         /// 设置应用显示的主题
@@ -529,32 +737,32 @@ namespace ModernFormatConverter.Views.Dialogs
             if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[1]))
             {
                 WindowSystemBackdrop = new MaterialBackdrop(MicaKind.Base);
-                VisualStateManager.GoToState(ConversionToolsPage, "BackgroundTransparent", false);
+                VisualStateManager.GoToState(VideoFormatConversionPage, "BackgroundTransparent", false);
             }
             else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[2]))
             {
                 WindowSystemBackdrop = new MaterialBackdrop(MicaKind.BaseAlt);
-                VisualStateManager.GoToState(ConversionToolsPage, "BackgroundTransparent", false);
+                VisualStateManager.GoToState(VideoFormatConversionPage, "BackgroundTransparent", false);
             }
             else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[3]))
             {
                 WindowSystemBackdrop = new MaterialBackdrop(DesktopAcrylicKind.Default);
-                VisualStateManager.GoToState(ConversionToolsPage, "BackgroundTransparent", false);
+                VisualStateManager.GoToState(VideoFormatConversionPage, "BackgroundTransparent", false);
             }
             else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[4]))
             {
                 WindowSystemBackdrop = new MaterialBackdrop(DesktopAcrylicKind.Base);
-                VisualStateManager.GoToState(ConversionToolsPage, "BackgroundTransparent", false);
+                VisualStateManager.GoToState(VideoFormatConversionPage, "BackgroundTransparent", false);
             }
             else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[5]))
             {
                 WindowSystemBackdrop = new MaterialBackdrop(DesktopAcrylicKind.Thin);
-                VisualStateManager.GoToState(ConversionToolsPage, "BackgroundTransparent", false);
+                VisualStateManager.GoToState(VideoFormatConversionPage, "BackgroundTransparent", false);
             }
             else
             {
                 WindowSystemBackdrop = null;
-                VisualStateManager.GoToState(ConversionToolsPage, "BackgroundDefault", false);
+                VisualStateManager.GoToState(VideoFormatConversionPage, "BackgroundDefault", false);
             }
         }
 
@@ -634,9 +842,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        #endregion 第六部分：窗口及内容属性设置
+        #endregion 第七部分：窗口及内容属性设置
 
-        #region 第七部分：窗口过程
+        #region 第八部分：窗口过程
 
         /// <summary>
         /// 应用窗口消息处理
@@ -667,7 +875,7 @@ namespace ModernFormatConverter.Views.Dialogs
                                 TitlebarMenuFlyout.Hide();
                             }
 
-                            if (ConversionToolsPage.IsLoaded)
+                            if (VideoFormatConversionPage.IsLoaded)
                             {
                                 double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
                                 overlappedPresenter.PreferredMinimumWidth = Convert.ToInt32(768 * dpi);
@@ -781,7 +989,7 @@ namespace ModernFormatConverter.Views.Dialogs
                             {
                                 FlyoutShowOptions options = new()
                                 {
-                                    Position = new Point(0, 45),
+                                    Position = new Point(0, 30),
                                     ShowMode = FlyoutShowMode.Standard
                                 };
                                 TitlebarMenuFlyout.ShowAt(null, options);
@@ -794,82 +1002,72 @@ namespace ModernFormatConverter.Views.Dialogs
             return Comctl32Library.DefSubclassProc(hWnd, Msg, wParam, lParam);
         }
 
-        #endregion 第七部分：窗口过程
+        #endregion 第八部分：窗口过程
 
         /// <summary>
         /// 初始化数据
         /// </summary>
         private void InitializeData()
         {
-            SizeLimitationList.Add(new KeyValuePair<string, string>("None", NoneString));
-            SizeLimitationList.Add(new KeyValuePair<string, string>("10", "10MB"));
-            SizeLimitationList.Add(new KeyValuePair<string, string>("15", "15MB"));
-            SizeLimitationList.Add(new KeyValuePair<string, string>("20", "20MB"));
-            SizeLimitationList.Add(new KeyValuePair<string, string>("25", "25MB"));
-            SizeLimitationList.Add(new KeyValuePair<string, string>("30", "30MB"));
-            SizeLimitationList.Add(new KeyValuePair<string, string>("35", "35MB"));
-            SizeLimitationList.Add(new KeyValuePair<string, string>("40", "40MB"));
-            SizeLimitationList.Add(new KeyValuePair<string, string>("50", "50MB"));
-            SizeLimitationList.Add(new KeyValuePair<string, string>("60", "60MB"));
-            SizeLimitationList.Add(new KeyValuePair<string, string>("70", "70MB"));
-            SizeLimitationList.Add(new KeyValuePair<string, string>("80", "80MB"));
-            SizeLimitationList.Add(new KeyValuePair<string, string>("90", "90MB"));
-            SizeLimitationList.Add(new KeyValuePair<string, string>("100", "100MB"));
-            SizeLimitationList.Add(new KeyValuePair<string, string>("150", "150MB"));
-            SizeLimitationList.Add(new KeyValuePair<string, string>("200", "200MB"));
-            SizeLimitationList.Add(new KeyValuePair<string, string>("300", "300MB"));
-            SizeLimitationList.Add(new KeyValuePair<string, string>("500", "500MB"));
+            SizeLimitationList.Add(new KeyValuePairModel() { Key = "None", Value = NoneString });
+            SizeLimitationList.Add(new KeyValuePairModel() { Key = "10", Value = "10MB" });
+            SizeLimitationList.Add(new KeyValuePairModel() { Key = "15", Value = "15MB" });
+            SizeLimitationList.Add(new KeyValuePairModel() { Key = "20", Value = "20MB" });
+            SizeLimitationList.Add(new KeyValuePairModel() { Key = "25", Value = "25MB" });
+            SizeLimitationList.Add(new KeyValuePairModel() { Key = "30", Value = "30MB" });
+            SizeLimitationList.Add(new KeyValuePairModel() { Key = "35", Value = "35MB" });
+            SizeLimitationList.Add(new KeyValuePairModel() { Key = "40", Value = "40MB" });
+            SizeLimitationList.Add(new KeyValuePairModel() { Key = "50", Value = "50MB" });
+            SizeLimitationList.Add(new KeyValuePairModel() { Key = "60", Value = "60MB" });
+            SizeLimitationList.Add(new KeyValuePairModel() { Key = "70", Value = "70MB" });
+            SizeLimitationList.Add(new KeyValuePairModel() { Key = "80", Value = "80MB" });
+            SizeLimitationList.Add(new KeyValuePairModel() { Key = "90", Value = "90MB" });
+            SizeLimitationList.Add(new KeyValuePairModel() { Key = "100", Value = "100MB" });
+            SizeLimitationList.Add(new KeyValuePairModel() { Key = "150", Value = "150MB" });
+            SizeLimitationList.Add(new KeyValuePairModel() { Key = "200", Value = "200MB" });
+            SizeLimitationList.Add(new KeyValuePairModel() { Key = "300", Value = "300MB" });
+            SizeLimitationList.Add(new KeyValuePairModel() { Key = "500", Value = "500MB" });
 
-            VideoEncodingList.Add(new KeyValuePair<string, string>("Copy", CopyString));
-            VideoEncodingList.Add(new KeyValuePair<string, string>("VVC", "VVC(H266)"));
-            VideoEncodingList.Add(new KeyValuePair<string, string>("HEVC", "HEVC(H265)"));
-            VideoEncodingList.Add(new KeyValuePair<string, string>("AVC", "AVC(H264)"));
-            VideoEncodingList.Add(new KeyValuePair<string, string>("MPEG4_DivX", "MPEG4(DivX)"));
-            VideoEncodingList.Add(new KeyValuePair<string, string>("MPEG4_Xvid", "MPEG4(Xvid)"));
-            VideoEncodingList.Add(new KeyValuePair<string, string>("AV1", "AV1"));
-            VideoEncodingList.Add(new KeyValuePair<string, string>("VP9", "VP9"));
-            VideoEncodingList.Add(new KeyValuePair<string, string>("1280I", "1280i"));
-            VideoEncodingList.Add(new KeyValuePair<string, string>("1920I", "1920i"));
-            VideoEncodingList.Add(new KeyValuePair<string, string>("3840I", "3840i"));
-            VideoEncodingList.Add(new KeyValuePair<string, string>("25%", "25%"));
-            VideoEncodingList.Add(new KeyValuePair<string, string>("50%", "50%"));
-            VideoEncodingList.Add(new KeyValuePair<string, string>("75%", "75%"));
-            VideoEncodingList.Add(new KeyValuePair<string, string>("125%", "125%"));
-            VideoEncodingList.Add(new KeyValuePair<string, string>("150%", "150%"));
-            VideoEncodingList.Add(new KeyValuePair<string, string>("200%", "200%"));
-            VideoEncodingList.Add(new KeyValuePair<string, string>("Custom", CustomString));
+            VideoEncodingList.Add(new KeyValuePairModel() { Key = "Copy", Value = CopyString });
+            VideoEncodingList.Add(new KeyValuePairModel() { Key = "VVC", Value = "VVC(H266)" });
+            VideoEncodingList.Add(new KeyValuePairModel() { Key = "HEVC", Value = "HEVC(H265)" });
+            VideoEncodingList.Add(new KeyValuePairModel() { Key = "AVC", Value = "AVC(H264)" });
+            VideoEncodingList.Add(new KeyValuePairModel() { Key = "MPEG4_DivX", Value = "MPEG4(DivX)" });
+            VideoEncodingList.Add(new KeyValuePairModel() { Key = "MPEG4_Xvid", Value = "MPEG4(Xvid)" });
+            VideoEncodingList.Add(new KeyValuePairModel() { Key = "AV1", Value = "AV1" });
+            VideoEncodingList.Add(new KeyValuePairModel() { Key = "VP9", Value = "VP9" });
 
-            ScreenSizeList.Add(new KeyValuePair<string, string>("DefaultSize", DefaultSizeString));
-            ScreenSizeList.Add(new KeyValuePair<string, string>("360P", "360p"));
-            ScreenSizeList.Add(new KeyValuePair<string, string>("480P", "480p"));
-            ScreenSizeList.Add(new KeyValuePair<string, string>("720P", "720p"));
-            ScreenSizeList.Add(new KeyValuePair<string, string>("1080P", "1080p"));
-            ScreenSizeList.Add(new KeyValuePair<string, string>("2160P", "2160p"));
-            ScreenSizeList.Add(new KeyValuePair<string, string>("480I", "480i"));
-            ScreenSizeList.Add(new KeyValuePair<string, string>("720I", "720i"));
-            ScreenSizeList.Add(new KeyValuePair<string, string>("1280I", "1280i"));
-            ScreenSizeList.Add(new KeyValuePair<string, string>("1920I", "1920i"));
-            ScreenSizeList.Add(new KeyValuePair<string, string>("3840I", "3840i"));
-            ScreenSizeList.Add(new KeyValuePair<string, string>("25%", "25%"));
-            ScreenSizeList.Add(new KeyValuePair<string, string>("50%", "50%"));
-            ScreenSizeList.Add(new KeyValuePair<string, string>("75%", "75%"));
-            ScreenSizeList.Add(new KeyValuePair<string, string>("125%", "125%"));
-            ScreenSizeList.Add(new KeyValuePair<string, string>("150%", "150%"));
-            ScreenSizeList.Add(new KeyValuePair<string, string>("200%", "200%"));
-            ScreenSizeList.Add(new KeyValuePair<string, string>("Custom", CustomString));
+            ScreenSizeList.Add(new KeyValuePairModel() { Key = "DefaultSize", Value = DefaultSizeString });
+            ScreenSizeList.Add(new KeyValuePairModel() { Key = "360P", Value = "360p" });
+            ScreenSizeList.Add(new KeyValuePairModel() { Key = "480P", Value = "480p" });
+            ScreenSizeList.Add(new KeyValuePairModel() { Key = "720P", Value = "720p" });
+            ScreenSizeList.Add(new KeyValuePairModel() { Key = "1080P", Value = "1080p" });
+            ScreenSizeList.Add(new KeyValuePairModel() { Key = "2160P", Value = "2160p" });
+            ScreenSizeList.Add(new KeyValuePairModel() { Key = "480I", Value = "480i" });
+            ScreenSizeList.Add(new KeyValuePairModel() { Key = "720I", Value = "720i" });
+            ScreenSizeList.Add(new KeyValuePairModel() { Key = "1280I", Value = "1280i" });
+            ScreenSizeList.Add(new KeyValuePairModel() { Key = "1920I", Value = "1920i" });
+            ScreenSizeList.Add(new KeyValuePairModel() { Key = "3840I", Value = "3840i" });
+            ScreenSizeList.Add(new KeyValuePairModel() { Key = "25%", Value = "25%" });
+            ScreenSizeList.Add(new KeyValuePairModel() { Key = "50%", Value = "50%" });
+            ScreenSizeList.Add(new KeyValuePairModel() { Key = "75%", Value = "75%" });
+            ScreenSizeList.Add(new KeyValuePairModel() { Key = "125%", Value = "125%" });
+            ScreenSizeList.Add(new KeyValuePairModel() { Key = "150%", Value = "150%" });
+            ScreenSizeList.Add(new KeyValuePairModel() { Key = "200%", Value = "200%" });
+            ScreenSizeList.Add(new KeyValuePairModel() { Key = "Custom", Value = CustomString });
 
-            VideoBitRateList.Add(new KeyValuePair<string, string>("Default", DefaultString));
-            VideoBitRateList.Add(new KeyValuePair<string, string>("256K", "256K"));
-            VideoBitRateList.Add(new KeyValuePair<string, string>("384K", "384K"));
-            VideoBitRateList.Add(new KeyValuePair<string, string>("512K", "512K"));
-            VideoBitRateList.Add(new KeyValuePair<string, string>("768K", "768K"));
-            VideoBitRateList.Add(new KeyValuePair<string, string>("1M", "1M"));
-            VideoBitRateList.Add(new KeyValuePair<string, string>("1.5M", "1.5M"));
-            VideoBitRateList.Add(new KeyValuePair<string, string>("2M", "2M"));
-            VideoBitRateList.Add(new KeyValuePair<string, string>("5M", "5M"));
-            VideoBitRateList.Add(new KeyValuePair<string, string>("10M", "10M"));
-            VideoBitRateList.Add(new KeyValuePair<string, string>("15M", "15M"));
-            VideoBitRateList.Add(new KeyValuePair<string, string>("20M", "20M"));
+            VideoBitRateList.Add(new KeyValuePairModel() { Key = "Default", Value = DefaultString });
+            VideoBitRateList.Add(new KeyValuePairModel() { Key = "256K", Value = "256K" });
+            VideoBitRateList.Add(new KeyValuePairModel() { Key = "384K", Value = "384K" });
+            VideoBitRateList.Add(new KeyValuePairModel() { Key = "512K", Value = "512K" });
+            VideoBitRateList.Add(new KeyValuePairModel() { Key = "768K", Value = "768K" });
+            VideoBitRateList.Add(new KeyValuePairModel() { Key = "1M", Value = "1M" });
+            VideoBitRateList.Add(new KeyValuePairModel() { Key = "1.5M", Value = "1.5M" });
+            VideoBitRateList.Add(new KeyValuePairModel() { Key = "2M", Value = "2M" });
+            VideoBitRateList.Add(new KeyValuePairModel() { Key = "5M", Value = "5M" });
+            VideoBitRateList.Add(new KeyValuePairModel() { Key = "10M", Value = "10M" });
+            VideoBitRateList.Add(new KeyValuePairModel() { Key = "15M", Value = "15M" });
+            VideoBitRateList.Add(new KeyValuePairModel() { Key = "20M", Value = "20M" });
         }
 
         /// <summary>
