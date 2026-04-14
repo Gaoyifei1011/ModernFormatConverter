@@ -47,11 +47,8 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                if (!Equals(_theme, value))
-                {
-                    _theme = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Theme)));
-                }
+                _theme = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Theme)));
             }
         }
 
@@ -63,11 +60,8 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                if (!Equals(_backdrop, value))
-                {
-                    _backdrop = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Backdrop)));
-                }
+                _backdrop = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Backdrop)));
             }
         }
 
@@ -79,11 +73,8 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                if (!Equals(_alwaysShowBackdropValue, value))
-                {
-                    _alwaysShowBackdropValue = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AlwaysShowBackdropValue)));
-                }
+                _alwaysShowBackdropValue = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AlwaysShowBackdropValue)));
             }
         }
 
@@ -95,11 +86,8 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                if (!Equals(_alwaysShowBackdropEnabled, value))
-                {
-                    _alwaysShowBackdropEnabled = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AlwaysShowBackdropEnabled)));
-                }
+                _alwaysShowBackdropEnabled = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AlwaysShowBackdropEnabled)));
             }
         }
 
@@ -111,11 +99,8 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                if (!Equals(_advancedEffectsEnabled, value))
-                {
-                    _advancedEffectsEnabled = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AdvancedEffectsEnabled)));
-                }
+                _advancedEffectsEnabled = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AdvancedEffectsEnabled)));
             }
         }
 
@@ -127,11 +112,8 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                if (!Equals(_appLanguage, value))
-                {
-                    _appLanguage = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AppLanguage)));
-                }
+                _appLanguage = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AppLanguage)));
             }
         }
 

@@ -61,11 +61,8 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                if (!Equals(_windowSystemBackdrop, value))
-                {
-                    _windowSystemBackdrop = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowSystemBackdrop)));
-                }
+                _windowSystemBackdrop = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowSystemBackdrop)));
             }
         }
 
@@ -77,11 +74,8 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                if (!Equals(_windowTheme, value))
-                {
-                    _windowTheme = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowTheme)));
-                }
+                _windowTheme = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowTheme)));
             }
         }
 
@@ -106,11 +100,8 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                if (!Equals(_selectedFormatConversionType, value))
-                {
-                    _selectedFormatConversionType = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedFormatConversionType)));
-                }
+                _selectedFormatConversionType = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedFormatConversionType)));
             }
         }
 

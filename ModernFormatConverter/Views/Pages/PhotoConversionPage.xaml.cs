@@ -23,11 +23,8 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                if (!Equals(_selectedConversionType, value))
-                {
-                    _selectedConversionType = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedConversionType)));
-                }
+                _selectedConversionType = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedConversionType)));
             }
         }
 

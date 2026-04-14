@@ -60,11 +60,8 @@ namespace ModernFormatConverter.Views.Windows
 
             set
             {
-                if (!Equals(_windowTheme, value))
-                {
-                    _windowTheme = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowTheme)));
-                }
+                _windowTheme = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowTheme)));
             }
         }
 
@@ -76,11 +73,8 @@ namespace ModernFormatConverter.Views.Windows
 
             set
             {
-                if (!Equals(_isLoadCompleted, value))
-                {
-                    _isLoadCompleted = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsLoadCompleted)));
-                }
+                _isLoadCompleted = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsLoadCompleted)));
             }
         }
 

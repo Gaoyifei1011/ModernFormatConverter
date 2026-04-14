@@ -24,11 +24,8 @@ namespace ModernFormatConverter.Models
 
             set
             {
-                if (!Equals(_haTestKind, value))
-                {
-                    _haTestKind = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HATestKind)));
-                }
+                _haTestKind = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HATestKind)));
             }
         }
 
@@ -43,11 +40,8 @@ namespace ModernFormatConverter.Models
 
             set
             {
-                if (!Equals(_haTestResultKind, value))
-                {
-                    _haTestResultKind = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HATestResultKind)));
-                }
+                _haTestResultKind = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HATestResultKind)));
             }
         }
 
@@ -62,11 +56,8 @@ namespace ModernFormatConverter.Models
 
             set
             {
-                if (!Equals(_haTestFailedReason, value))
-                {
-                    _haTestFailedReason = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HATestFailedReason)));
-                }
+                _haTestFailedReason = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HATestFailedReason)));
             }
         }
 

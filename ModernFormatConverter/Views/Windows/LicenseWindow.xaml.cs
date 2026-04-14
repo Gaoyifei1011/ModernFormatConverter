@@ -46,11 +46,8 @@ namespace ModernFormatConverter.Views.Windows
 
             set
             {
-                if (!Equals(_windowTheme, value))
-                {
-                    _windowTheme = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowTheme)));
-                }
+                _windowTheme = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowTheme)));
             }
         }
 
@@ -62,11 +59,8 @@ namespace ModernFormatConverter.Views.Windows
 
             set
             {
-                if (!Equals(_licenseText, value))
-                {
-                    _licenseText = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LicenseText)));
-                }
+                _licenseText = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LicenseText)));
             }
         }
 

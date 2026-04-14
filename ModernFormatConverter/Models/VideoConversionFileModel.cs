@@ -19,11 +19,8 @@ namespace ModernFormatConverter.Models
 
             set
             {
-                if (!Equals(_fileThumbnailSource, value))
-                {
-                    _fileThumbnailSource = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FileThumbnailSource)));
-                }
+                _fileThumbnailSource = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FileThumbnailSource)));
             }
         }
 

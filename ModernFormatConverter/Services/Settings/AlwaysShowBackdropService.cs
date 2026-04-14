@@ -21,11 +21,8 @@ namespace ModernFormatConverter.Services.Settings
 
             private set
             {
-                if (!Equals(_alwaysShowBackdropValue, value))
-                {
-                    _alwaysShowBackdropValue = value;
-                    PropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(AlwaysShowBackdropValue)));
-                }
+                _alwaysShowBackdropValue = value;
+                PropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(AlwaysShowBackdropValue)));
             }
         }
 

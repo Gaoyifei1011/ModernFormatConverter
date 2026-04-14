@@ -44,11 +44,8 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                if (!Equals(_selectedItem, value))
-                {
-                    _selectedItem = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedItem)));
-                }
+                _selectedItem = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedItem)));
             }
         }
 

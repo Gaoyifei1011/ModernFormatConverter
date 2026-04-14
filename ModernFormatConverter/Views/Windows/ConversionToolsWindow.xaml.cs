@@ -56,11 +56,8 @@ namespace ModernFormatConverter.Views.Windows
 
             set
             {
-                if (!Equals(_windowSystemBackdrop, value))
-                {
-                    _windowSystemBackdrop = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowSystemBackdrop)));
-                }
+                _windowSystemBackdrop = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowSystemBackdrop)));
             }
         }
 
@@ -72,11 +69,8 @@ namespace ModernFormatConverter.Views.Windows
 
             set
             {
-                if (!Equals(_windowTheme, value))
-                {
-                    _windowTheme = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowTheme)));
-                }
+                _windowTheme = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowTheme)));
             }
         }
 
@@ -88,11 +82,8 @@ namespace ModernFormatConverter.Views.Windows
 
             set
             {
-                if (!Equals(_selectedIndex, value))
-                {
-                    _selectedIndex = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedIndex)));
-                }
+                _selectedIndex = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedIndex)));
             }
         }
 

@@ -58,11 +58,8 @@ namespace ModernFormatConverter.Views.Windows
 
             set
             {
-                if (!Equals(_windowTheme, value))
-                {
-                    _windowTheme = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowTheme)));
-                }
+                _windowTheme = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowTheme)));
             }
         }
 
@@ -74,11 +71,8 @@ namespace ModernFormatConverter.Views.Windows
 
             set
             {
-                if (!Equals(_updateAppResultKind, value))
-                {
-                    _updateAppResultKind = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UpdateAppResultKind)));
-                }
+                _updateAppResultKind = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UpdateAppResultKind)));
             }
         }
 
@@ -138,11 +132,8 @@ namespace ModernFormatConverter.Views.Windows
 
             set
             {
-                if (!Equals(_isCancelingUpdate, value))
-                {
-                    _isCancelingUpdate = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsCancelingUpdate)));
-                }
+                _isCancelingUpdate = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsCancelingUpdate)));
             }
         }
 
