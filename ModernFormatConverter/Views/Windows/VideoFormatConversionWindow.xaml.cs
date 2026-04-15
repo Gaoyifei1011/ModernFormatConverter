@@ -14,7 +14,9 @@ using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.Services.Settings;
 using ModernFormatConverter.Views.Windows;
+using ModernFormatConverter.WindowsAPI.ComTypes;
 using ModernFormatConverter.WindowsAPI.PInvoke.Comctl32;
+using ModernFormatConverter.WindowsAPI.PInvoke.Dxgi;
 using ModernFormatConverter.WindowsAPI.PInvoke.User32;
 using ModernFormatConverter.WindowsAPI.PInvoke.Uxtheme;
 using System;
@@ -209,6 +211,20 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
+        private KeyValuePairModel _selectedGPU;
+
+        public KeyValuePairModel SelectedGPU
+        {
+            get { return _selectedGPU; }
+
+            set
+            {
+                _selectedGPU = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedGPU)));
+            }
+        }
+
+        public List<KeyValuePairModel> FormatConversionTypeList { get; } =
         [
             new KeyValuePairModel(){ Key = "MP4", Value = ".mp4" },
             new KeyValuePairModel(){ Key = "MKV", Value = ".mkv" },
@@ -280,6 +296,8 @@ namespace ModernFormatConverter.Views.Dialogs
                 SelectedScreenSize.IsChecked = true;
                 SelectedVideoBitRate = VideoBitRateList[0];
                 SelectedVideoBitRate.IsChecked = true;
+                SelectedGPU = GPUList[0];
+                SelectedGPU.IsChecked = true;
             }
         }
 
@@ -477,6 +495,30 @@ namespace ModernFormatConverter.Views.Dialogs
                     {
                         SelectedVideoBitRate = videoBitRateItem;
                         videoBitRateItem.IsChecked = true;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 修改 GPU
+        /// </summary>
+        private void OnGPUExecuteRequested(object sender, ExecuteRequestedEventArgs args)
+        {
+            if (GPUFlyout.IsOpen)
+            {
+                GPUFlyout.Hide();
+            }
+
+            if (args.Parameter is KeyValuePairModel gpu)
+            {
+                foreach (KeyValuePairModel gpuItem in GPUList)
+                {
+                    gpuItem.IsChecked = false;
+                    if (string.Equals(gpu.Key, gpuItem.Key))
+                    {
+                        SelectedGPU = gpuItem;
+                        gpuItem.IsChecked = true;
                     }
                 }
             }
@@ -691,6 +733,21 @@ namespace ModernFormatConverter.Views.Dialogs
                 catch (Exception e)
                 {
                     LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoFormatConversionWindow), nameof(OnCRFValueChanged), 1, e);
+                }
+            }
+        }
+
+        /// <summary>
+        /// GPU 菜单打开时自动定位到选中项
+        /// </summary>
+        private void OnGPUOpened(object sender, object args)
+        {
+            foreach (KeyValuePairModel gpu in GPUList)
+            {
+                if (gpu.IsChecked)
+                {
+                    VideoBitRateListView.ScrollIntoView(gpu);
+                    break;
                 }
             }
         }
@@ -1068,6 +1125,45 @@ namespace ModernFormatConverter.Views.Dialogs
             VideoBitRateList.Add(new KeyValuePairModel() { Key = "10M", Value = "10M" });
             VideoBitRateList.Add(new KeyValuePairModel() { Key = "15M", Value = "15M" });
             VideoBitRateList.Add(new KeyValuePairModel() { Key = "20M", Value = "20M" });
+
+            uint iAdapterNum = 0;
+            Guid CLSID_DxgiFactory = new("7B7166EC-21C7-44AE-B21A-C9AE321AE369");
+            int DXGI_ERROR_NOT_FOUND = unchecked((int)0x887A0002);
+            List<uint> dxgiAdapterList = [];
+
+            if (DxgiLibrary.CreateDXGIFactory(CLSID_DxgiFactory, out IDXGIFactory dxgiFactory) is 0)
+            {
+                while (true)
+                {
+                    if (dxgiFactory.EnumAdapters(iAdapterNum, out IDXGIAdapter dxgiAdapter) != DXGI_ERROR_NOT_FOUND)
+                    {
+                        dxgiAdapter.GetDesc(out DXGI_ADAPTER_DESC dxgiAdapterDesc);
+                        dxgiAdapterList.Add(dxgiAdapterDesc.VendorId);
+                        iAdapterNum++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            GPUList.Add(new KeyValuePairModel() { Key = "None", Value = NoneString });
+
+            if (dxgiAdapterList.Contains(32902))
+            {
+                GPUList.Add(new KeyValuePairModel() { Key = "INTEL", Value = "INTEL" });
+            }
+
+            if (dxgiAdapterList.Contains(4318))
+            {
+                GPUList.Add(new KeyValuePairModel() { Key = "NVIDIA", Value = "NVIDIA" });
+            }
+
+            if (dxgiAdapterList.Contains(4098))
+            {
+                GPUList.Add(new KeyValuePairModel() { Key = "AMD", Value = "AMD" });
+            }
         }
 
         /// <summary>

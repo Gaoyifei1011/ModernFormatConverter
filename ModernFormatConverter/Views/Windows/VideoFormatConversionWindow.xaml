@@ -855,6 +855,88 @@
                             </Grid>
                         </StackPanel>
                     </Expander>
+
+                    <!--  GPU  -->
+                    <Grid
+                        Height="60"
+                        Margin="0,0,0,2"
+                        Padding="16,0"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource ControlCornerRadius}">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="0,0,0,2"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('GPU')}" />
+
+                        <DropDownButton
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Content="{x:Bind SelectedGPU.Value, Mode=OneWay}">
+
+                            <DropDownButton.Flyout>
+                                <Flyout
+                                    x:Name="GPUFlyout"
+                                    Opened="{x:Bind OnGPUOpened}"
+                                    Placement="Bottom"
+                                    ShouldConstrainToRootBounds="False">
+
+                                    <Flyout.FlyoutPresenterStyle>
+                                        <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                            <Setter Property="Padding" Value="0" />
+                                            <Setter Property="MinHeight" Value="0" />
+                                            <Setter Property="Background" Value="Transparent" />
+                                        </Style>
+                                    </Flyout.FlyoutPresenterStyle>
+
+                                    <Grid>
+                                        <SystemBackdropElement CornerRadius="{StaticResource OverlayCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+
+                                        <ListView
+                                            x:Name="GPUListView"
+                                            MaxHeight="300"
+                                            Background="Transparent"
+                                            ItemsSource="{x:Bind GPUList}"
+                                            SelectionMode="None">
+
+                                            <ListView.ItemContainerStyle>
+                                                <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                                    <Setter Property="Padding" Value="0" />
+                                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                    <Setter Property="Margin" Value="0,1" />
+                                                    <Setter Property="MinHeight" Value="0 " />
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+
+                                            <ItemsControl.ItemContainerTransitions>
+                                                <TransitionCollection />
+                                            </ItemsControl.ItemContainerTransitions>
+
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate x:DataType="model:KeyValuePairModel">
+                                                    <RadioMenuFlyoutItem
+                                                        Height="32"
+                                                        Padding="11,0"
+                                                        Command="{StaticResource GPUCommand}"
+                                                        CommandParameter="{x:Bind}"
+                                                        GroupName="GPURadioGroup"
+                                                        IsChecked="{x:Bind IsChecked, Mode=OneWay}"
+                                                        Text="{x:Bind Value}" />
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </Grid>
+                                </Flyout>
                             </DropDownButton.Flyout>
                         </DropDownButton>
                     </Grid>
