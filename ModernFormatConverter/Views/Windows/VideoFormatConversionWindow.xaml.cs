@@ -45,11 +45,16 @@ namespace ModernFormatConverter.Views.Dialogs
         private readonly string CustomString = ResourceService.VideoFormatConversionResource.GetString("Custom");
         private readonly string DefaultString = ResourceService.VideoFormatConversionResource.GetString("Default");
         private readonly string DefaultSizeString = ResourceService.VideoFormatConversionResource.GetString("DefaultSize");
+        private readonly string MonoString = ResourceService.VideoFormatConversionResource.GetString("Mono");
         private readonly string NoneString = ResourceService.VideoFormatConversionResource.GetString("None");
         private readonly string NoRotateString = ResourceService.VideoFormatConversionResource.GetString("NoRotate");
+        private readonly string QuadString = ResourceService.VideoFormatConversionResource.GetString("Quad");
         private readonly string RotateLeftString = ResourceService.VideoFormatConversionResource.GetString("RotateLeft");
         private readonly string RotateRightString = ResourceService.VideoFormatConversionResource.GetString("RotateRight");
         private readonly string SecondString = ResourceService.VideoFormatConversionResource.GetString("Second");
+        private readonly string StereoString = ResourceService.VideoFormatConversionResource.GetString("Stereo");
+        private readonly string Stereo51String = ResourceService.VideoFormatConversionResource.GetString("Stereo51");
+        private readonly string Stereo71String = ResourceService.VideoFormatConversionResource.GetString("Stereo71");
         private readonly string UnsideDownString = ResourceService.VideoFormatConversionResource.GetString("UnsideDown");
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private OverlappedPresenter overlappedPresenter;
@@ -386,6 +391,123 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
+        private KeyValuePairModel _selectedSoundTrack;
+
+        public KeyValuePairModel SelectedSoundTrack
+        {
+            get { return _selectedSoundTrack; }
+
+            set
+            {
+                _selectedSoundTrack = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedSoundTrack)));
+            }
+        }
+
+        private bool _closeSoundEffect;
+
+        public bool CloseSoundEffect
+        {
+            get { return _closeSoundEffect; }
+
+            set
+            {
+                _closeSoundEffect = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CloseSoundEffect)));
+            }
+        }
+
+        private KeyValuePairModel _selectedVolume;
+
+        public KeyValuePairModel SelectedVolume
+        {
+            get { return _selectedVolume; }
+
+            set
+            {
+                _selectedVolume = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedVolume)));
+            }
+        }
+
+        private bool _preserveAllSourceInputAudioStream;
+
+        public bool PreserveAllSourceInputAudioStream
+        {
+            get { return _preserveAllSourceInputAudioStream; }
+
+            set
+            {
+                _preserveAllSourceInputAudioStream = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PreserveAllSourceInputAudioStream)));
+            }
+        }
+
+        private KeyValuePairModel _selectedAudioFadeInEffect;
+
+        public KeyValuePairModel SelectedAudioFadeInEffect
+        {
+            get { return _selectedAudioFadeInEffect; }
+
+            set
+            {
+                _selectedAudioFadeInEffect = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedAudioFadeInEffect)));
+            }
+        }
+
+        private KeyValuePairModel _selectedAudioFadeOutEffect;
+
+        public KeyValuePairModel SelectedAudioFadeOutEffect
+        {
+            get { return _selectedAudioFadeOutEffect; }
+
+            set
+            {
+                _selectedAudioFadeOutEffect = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedAudioFadeOutEffect)));
+            }
+        }
+
+        private bool _echo;
+
+        public bool Echo
+        {
+            get { return _echo; }
+
+            set
+            {
+                _echo = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Echo)));
+            }
+        }
+
+        private bool _deNoise;
+
+        public bool DeNoise
+        {
+            get { return _deNoise; }
+
+            set
+            {
+                _deNoise = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeNoise)));
+            }
+        }
+
+        private bool _reverse;
+
+        public bool Reverse
+        {
+            get { return _reverse; }
+
+            set
+            {
+                _reverse = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Reverse)));
+            }
+        }
+
         public List<KeyValuePairModel> FormatConversionTypeList { get; } =
         [
             new KeyValuePairModel(){ Key = "MP4", Value = ".mp4" },
@@ -432,6 +554,14 @@ namespace ModernFormatConverter.Views.Dialogs
 
         public List<KeyValuePairModel> AudioBitRateList { get; } = [];
 
+        public List<KeyValuePairModel> SoundTrackList { get; } = [];
+
+        public List<KeyValuePairModel> VolumeList { get; } = [];
+
+        public List<KeyValuePairModel> AudioFadeInEffectList { get; } = [];
+
+        public List<KeyValuePairModel> AudioFadeOutEffectList { get; } = [];
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public VideoFormatConversionWindow(ConversionToolsWindow conversionToolsWindow, VideoConversionFileModel videoConversionFileModel)
@@ -475,6 +605,14 @@ namespace ModernFormatConverter.Views.Dialogs
                 SelectedSamplingRate.IsChecked = true;
                 SelectedAudioBitRate = AudioBitRateList[0];
                 SelectedAudioBitRate.IsChecked = true;
+                SelectedSoundTrack = SoundTrackList[0];
+                SelectedSoundTrack.IsChecked = true;
+                SelectedVolume = VolumeList[4];
+                SelectedVolume.IsChecked = true;
+                SelectedAudioFadeInEffect = AudioFadeInEffectList[0];
+                SelectedAudioFadeInEffect.IsChecked = true;
+                SelectedAudioFadeOutEffect = AudioFadeOutEffectList[0];
+                SelectedAudioFadeOutEffect.IsChecked = true;
             }
         }
 
@@ -516,6 +654,14 @@ namespace ModernFormatConverter.Views.Dialogs
                 SelectedSamplingRate.IsChecked = true;
                 SelectedAudioBitRate = AudioBitRateList[0];
                 SelectedAudioBitRate.IsChecked = true;
+                SelectedSoundTrack = SoundTrackList[0];
+                SelectedSoundTrack.IsChecked = true;
+                SelectedVolume = VolumeList[4];
+                SelectedVolume.IsChecked = true;
+                SelectedAudioFadeInEffect = AudioFadeInEffectList[0];
+                SelectedAudioFadeInEffect.IsChecked = true;
+                SelectedAudioFadeOutEffect = AudioFadeOutEffectList[0];
+                SelectedAudioFadeOutEffect.IsChecked = true;
             }
         }
 
@@ -839,7 +985,7 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
-        /// 修改淡入效果
+        /// 修改视频淡入效果
         /// </summary>
         private void OnVideoFadeInEffectExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
@@ -863,7 +1009,7 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
-        /// 修改淡出效果
+        /// 修改视频淡出效果
         /// </summary>
         private void OnVideoFadeOutEffectExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
@@ -953,6 +1099,102 @@ namespace ModernFormatConverter.Views.Dialogs
                     {
                         SelectedAudioBitRate = audioBitRateItem;
                         audioBitRateItem.IsChecked = true;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 修改声道
+        /// </summary>
+        private void OnSoundTrackExecuteRequested(object sender, ExecuteRequestedEventArgs args)
+        {
+            if (SoundTrackFlyout.IsOpen)
+            {
+                SoundTrackFlyout.Hide();
+            }
+
+            if (args.Parameter is KeyValuePairModel soundTrack)
+            {
+                foreach (KeyValuePairModel soundTrackItem in SoundTrackList)
+                {
+                    soundTrackItem.IsChecked = false;
+                    if (string.Equals(soundTrack.Key, soundTrackItem.Key))
+                    {
+                        SelectedSoundTrack = soundTrackItem;
+                        soundTrackItem.IsChecked = true;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 修改声道
+        /// </summary>
+        private void OnVolumeExecuteRequested(object sender, ExecuteRequestedEventArgs args)
+        {
+            if (VolumeFlyout.IsOpen)
+            {
+                VolumeFlyout.Hide();
+            }
+
+            if (args.Parameter is KeyValuePairModel volume)
+            {
+                foreach (KeyValuePairModel volumeItem in VolumeList)
+                {
+                    volumeItem.IsChecked = false;
+                    if (string.Equals(volume.Key, volumeItem.Key))
+                    {
+                        SelectedVolume = volumeItem;
+                        volumeItem.IsChecked = true;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 修改音频淡入效果
+        /// </summary>
+        private void OnAudioFadeInEffectExecuteRequested(object sender, ExecuteRequestedEventArgs args)
+        {
+            if (AudioFadeInEffectFlyout.IsOpen)
+            {
+                AudioFadeInEffectFlyout.Hide();
+            }
+
+            if (args.Parameter is KeyValuePairModel audioFadeInEffect)
+            {
+                foreach (KeyValuePairModel audioFadeInEffectItem in AudioFadeInEffectList)
+                {
+                    audioFadeInEffectItem.IsChecked = false;
+                    if (string.Equals(audioFadeInEffect.Key, audioFadeInEffectItem.Key))
+                    {
+                        SelectedAudioFadeInEffect = audioFadeInEffectItem;
+                        audioFadeInEffectItem.IsChecked = true;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 修改音频淡出效果
+        /// </summary>
+        private void OnAudioFadeOutEffectExecuteRequested(object sender, ExecuteRequestedEventArgs args)
+        {
+            if (AudioFadeOutEffectFlyout.IsOpen)
+            {
+                AudioFadeOutEffectFlyout.Hide();
+            }
+
+            if (args.Parameter is KeyValuePairModel audioFadeOutEffect)
+            {
+                foreach (KeyValuePairModel audioFadeOutEffectItem in AudioFadeOutEffectList)
+                {
+                    audioFadeOutEffectItem.IsChecked = false;
+                    if (string.Equals(audioFadeOutEffect.Key, audioFadeOutEffectItem.Key))
+                    {
+                        SelectedAudioFadeOutEffect = audioFadeOutEffectItem;
+                        audioFadeOutEffectItem.IsChecked = true;
                     }
                 }
             }
@@ -1269,7 +1511,7 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
-        /// 淡入效果菜单打开时自动定位到选中项
+        /// 视频淡入效果菜单打开时自动定位到选中项
         /// </summary>
         private void OnVideoFadeInEffectOpened(object sender, object args)
         {
@@ -1284,7 +1526,7 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
-        /// 淡出效果菜单打开时自动定位到选中项
+        /// 视频淡出效果菜单打开时自动定位到选中项
         /// </summary>
         private void OnVideoFadeOutEffectOpened(object sender, object args)
         {
@@ -1340,6 +1582,121 @@ namespace ModernFormatConverter.Views.Dialogs
                     AudioBitRateListView.ScrollIntoView(audioBitRate);
                     break;
                 }
+            }
+        }
+
+        /// <summary>
+        /// 声道菜单打开时自动定位到选中项
+        /// </summary>
+        private void OnSoundTrackOpened(object sender, object args)
+        {
+            foreach (KeyValuePairModel soundTrack in SoundTrackList)
+            {
+                if (soundTrack.IsChecked)
+                {
+                    SoundTrackListView.ScrollIntoView(soundTrack);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 是否关闭音效
+        /// </summary>
+        private void OnCloseSoundEffectToggled(object sender, RoutedEventArgs args)
+        {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                CloseSoundEffect = toggleSwitch.IsOn;
+            }
+        }
+
+        /// <summary>
+        /// 音量菜单打开时自动定位到选中项
+        /// </summary>
+        private void OnVolumeOpened(object sender, object args)
+        {
+            foreach (KeyValuePairModel volume in VolumeList)
+            {
+                if (volume.IsChecked)
+                {
+                    VolumeListView.ScrollIntoView(volume);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 是否保留所有源输入流
+        /// </summary>
+        private void OnPreserveAllSourceInputAudioStreamToggled(object sender, RoutedEventArgs args)
+        {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                PreserveAllSourceInputAudioStream = toggleSwitch.IsOn;
+            }
+        }
+
+        /// <summary>
+        /// 音频淡入效果菜单打开时自动定位到选中项
+        /// </summary>
+        private void OnAudioFadeInEffectOpened(object sender, object args)
+        {
+            foreach (KeyValuePairModel audioFadeInEffect in AudioFadeInEffectList)
+            {
+                if (audioFadeInEffect.IsChecked)
+                {
+                    AudioFadeInEffectListView.ScrollIntoView(audioFadeInEffect);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 音频淡出效果菜单打开时自动定位到选中项
+        /// </summary>
+        private void OnAudioFadeOutEffectOpened(object sender, object args)
+        {
+            foreach (KeyValuePairModel audioFadeOutEffect in AudioFadeOutEffectList)
+            {
+                if (audioFadeOutEffect.IsChecked)
+                {
+                    AudioFadeOutEffectListView.ScrollIntoView(audioFadeOutEffect);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 是否启用回声
+        /// </summary>
+        private void OnEchoToggled(object sender, RoutedEventArgs args)
+        {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                Echo = toggleSwitch.IsOn;
+            }
+        }
+
+        /// <summary>
+        /// 是否启用降噪
+        /// </summary>
+        private void OnDeNoiseToggled(object sender, RoutedEventArgs args)
+        {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                DeNoise = toggleSwitch.IsOn;
+            }
+        }
+
+        /// <summary>
+        /// 是否启用反向
+        /// </summary>
+        private void OnReverseToggled(object sender, RoutedEventArgs args)
+        {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                Reverse = toggleSwitch.IsOn;
             }
         }
 
@@ -1560,7 +1917,6 @@ namespace ModernFormatConverter.Views.Dialogs
                         inputKeyboardSource.SystemKeyDown -= OnSystemKeyDown;
                         inputPointerSource.PointerReleased -= OnPointerReleased;
                         Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, videoFormatConversionWindowSubClassProc, 0);
-                        // TODO：未完成，目前仅测试
                         if (!taskCompletionSource.Task.IsCompleted)
                         {
                             taskCompletionSource.TrySetResult(ContentDialogResult.None);
@@ -1825,6 +2181,37 @@ namespace ModernFormatConverter.Views.Dialogs
             AudioBitRateList.Add(new KeyValuePairModel() { Key = "224K", Value = "224K" });
             AudioBitRateList.Add(new KeyValuePairModel() { Key = "256K", Value = "256K" });
             AudioBitRateList.Add(new KeyValuePairModel() { Key = "320K", Value = "320K" });
+
+            SoundTrackList.Add(new KeyValuePairModel() { Key = "Default", Value = DefaultString });
+            SoundTrackList.Add(new KeyValuePairModel() { Key = "1", Value = string.Format("{0} {1}", 1, MonoString) });
+            SoundTrackList.Add(new KeyValuePairModel() { Key = "2", Value = string.Format("{0} {1}", 2, StereoString) });
+            SoundTrackList.Add(new KeyValuePairModel() { Key = "4", Value = string.Format("{0} {1}", 4, QuadString) });
+            SoundTrackList.Add(new KeyValuePairModel() { Key = "6", Value = string.Format("{0} {1}", 6, Stereo51String) });
+            SoundTrackList.Add(new KeyValuePairModel() { Key = "8", Value = string.Format("{0} {1}", 8, Stereo71String) });
+
+            VolumeList.Add(new KeyValuePairModel() { Key = "10%", Value = "10%" });
+            VolumeList.Add(new KeyValuePairModel() { Key = "25%", Value = "25%" });
+            VolumeList.Add(new KeyValuePairModel() { Key = "50%", Value = "50%" });
+            VolumeList.Add(new KeyValuePairModel() { Key = "75%", Value = "75%" });
+            VolumeList.Add(new KeyValuePairModel() { Key = "100%", Value = "100%" });
+            VolumeList.Add(new KeyValuePairModel() { Key = "150%", Value = "150%" });
+            VolumeList.Add(new KeyValuePairModel() { Key = "200%", Value = "200%" });
+            VolumeList.Add(new KeyValuePairModel() { Key = "300%", Value = "300%" });
+            VolumeList.Add(new KeyValuePairModel() { Key = "400%", Value = "400%" });
+
+            AudioFadeInEffectList.Add(new KeyValuePairModel() { Key = "None", Value = NoneString });
+            AudioFadeInEffectList.Add(new KeyValuePairModel() { Key = "1", Value = "1" + SecondString });
+            AudioFadeInEffectList.Add(new KeyValuePairModel() { Key = "2", Value = "2" + SecondString });
+            AudioFadeInEffectList.Add(new KeyValuePairModel() { Key = "3", Value = "3" + SecondString });
+            AudioFadeInEffectList.Add(new KeyValuePairModel() { Key = "4", Value = "4" + SecondString });
+            AudioFadeInEffectList.Add(new KeyValuePairModel() { Key = "5", Value = "5" + SecondString });
+
+            AudioFadeOutEffectList.Add(new KeyValuePairModel() { Key = "None", Value = NoneString });
+            AudioFadeOutEffectList.Add(new KeyValuePairModel() { Key = "1", Value = "1" + SecondString });
+            AudioFadeOutEffectList.Add(new KeyValuePairModel() { Key = "2", Value = "2" + SecondString });
+            AudioFadeOutEffectList.Add(new KeyValuePairModel() { Key = "3", Value = "3" + SecondString });
+            AudioFadeOutEffectList.Add(new KeyValuePairModel() { Key = "4", Value = "4" + SecondString });
+            AudioFadeOutEffectList.Add(new KeyValuePairModel() { Key = "5", Value = "5" + SecondString });
         }
 
         /// <summary>

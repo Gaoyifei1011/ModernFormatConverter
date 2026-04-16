@@ -112,6 +112,10 @@
                 <class:ExecuteCommand x:Name="AudioEncodingCommand" ExecuteRequested="{x:Bind OnAudioEncodingExecuteRequested}" />
                 <class:ExecuteCommand x:Name="SamplingRateCommand" ExecuteRequested="{x:Bind OnSamplingRateExecuteRequested}" />
                 <class:ExecuteCommand x:Name="AudioBitRateCommand" ExecuteRequested="{x:Bind OnAudioBitRateExecuteRequested}" />
+                <class:ExecuteCommand x:Name="SoundTrackCommand" ExecuteRequested="{x:Bind OnSoundTrackExecuteRequested}" />
+                <class:ExecuteCommand x:Name="VolumeCommand" ExecuteRequested="{x:Bind OnVolumeExecuteRequested}" />
+                <class:ExecuteCommand x:Name="AudioFadeInEffectCommand" ExecuteRequested="{x:Bind OnAudioFadeInEffectExecuteRequested}" />
+                <class:ExecuteCommand x:Name="AudioFadeOutEffectCommand" ExecuteRequested="{x:Bind OnAudioFadeOutEffectExecuteRequested}" />
             </ResourceDictionary>
         </Page.Resources>
 
@@ -1465,7 +1469,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('VideoFadeInEffect')}" />
+                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('FadeInEffect')}" />
 
                         <DropDownButton
                             Grid.Column="1"
@@ -1550,7 +1554,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('VideoFadeOutEffect')}" />
+                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('FadeOutEffect')}" />
 
                         <DropDownButton
                             Grid.Column="1"
@@ -1790,6 +1794,7 @@
                         </DropDownButton>
                     </Grid>
 
+                    <!--  音频分辨率  -->
                     <Grid
                         Height="60"
                         Margin="0,0,0,2"
@@ -1872,6 +1877,601 @@
                                 </Flyout>
                             </DropDownButton.Flyout>
                         </DropDownButton>
+                    </Grid>
+
+                    <!--  音频分辨率  -->
+                    <Grid
+                        Height="60"
+                        Margin="0,0,0,2"
+                        Padding="16,0"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource ControlCornerRadius}">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="0,0,0,2"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('SoundTrack')}" />
+
+                        <DropDownButton
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Content="{x:Bind SelectedSoundTrack.Value, Mode=OneWay}">
+
+                            <DropDownButton.Flyout>
+                                <Flyout
+                                    x:Name="SoundTrackFlyout"
+                                    Opened="{x:Bind OnSoundTrackOpened}"
+                                    Placement="Bottom"
+                                    ShouldConstrainToRootBounds="False">
+
+                                    <Flyout.FlyoutPresenterStyle>
+                                        <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                            <Setter Property="Padding" Value="0" />
+                                            <Setter Property="MinHeight" Value="0" />
+                                            <Setter Property="Background" Value="Transparent" />
+                                        </Style>
+                                    </Flyout.FlyoutPresenterStyle>
+
+                                    <Grid>
+                                        <SystemBackdropElement CornerRadius="{StaticResource OverlayCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+
+                                        <ListView
+                                            x:Name="SoundTrackListView"
+                                            MaxHeight="300"
+                                            Background="Transparent"
+                                            ItemsSource="{x:Bind SoundTrackList}"
+                                            SelectionMode="None">
+
+                                            <ListView.ItemContainerStyle>
+                                                <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                                    <Setter Property="Padding" Value="0" />
+                                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                    <Setter Property="Margin" Value="0,1" />
+                                                    <Setter Property="MinHeight" Value="0 " />
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+
+                                            <ItemsControl.ItemContainerTransitions>
+                                                <TransitionCollection />
+                                            </ItemsControl.ItemContainerTransitions>
+
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate x:DataType="model:KeyValuePairModel">
+                                                    <RadioMenuFlyoutItem
+                                                        Height="32"
+                                                        Padding="11,0"
+                                                        Command="{StaticResource SoundTrackCommand}"
+                                                        CommandParameter="{x:Bind}"
+                                                        GroupName="SoundTrackRadioGroup"
+                                                        IsChecked="{x:Bind IsChecked, Mode=OneWay}"
+                                                        Text="{x:Bind Value}" />
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </Grid>
+                                </Flyout>
+                            </DropDownButton.Flyout>
+                        </DropDownButton>
+                    </Grid>
+
+                    <!--  关闭音效  -->
+                    <Grid
+                        Grid.Row="2"
+                        Height="60"
+                        Margin="0,0,0,2"
+                        Padding="16,0"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource ControlCornerRadius}">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="0,0,0,2"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('CloseSoundEffect')}" />
+
+                        <StackPanel
+                            Grid.Column="2"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+
+                            <TextBlock
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('CloseSoundEffectOffContent')}"
+                                Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(CloseSoundEffect), Mode=OneWay}" />
+
+                            <TextBlock
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('CloseSoundEffectOnContent')}"
+                                Visibility="{x:Bind CloseSoundEffect, Mode=OneWay}" />
+
+                            <ToggleSwitch
+                                MinWidth="0"
+                                Margin="10,-2,-10,0"
+                                IsOn="{x:Bind CloseSoundEffect, Mode=OneWay}"
+                                OffContent=""
+                                OnContent=""
+                                Toggled="{x:Bind OnCloseSoundEffectToggled}" />
+                        </StackPanel>
+                    </Grid>
+
+                    <!--  音量  -->
+                    <Grid
+                        Height="60"
+                        Margin="0,0,0,2"
+                        Padding="16,0"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource ControlCornerRadius}">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="0,0,0,2"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Volume')}" />
+
+                        <DropDownButton
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Content="{x:Bind SelectedVolume.Value, Mode=OneWay}">
+
+                            <DropDownButton.Flyout>
+                                <Flyout
+                                    x:Name="VolumeFlyout"
+                                    Opened="{x:Bind OnVolumeOpened}"
+                                    Placement="Bottom"
+                                    ShouldConstrainToRootBounds="False">
+
+                                    <Flyout.FlyoutPresenterStyle>
+                                        <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                            <Setter Property="Padding" Value="0" />
+                                            <Setter Property="MinHeight" Value="0" />
+                                            <Setter Property="Background" Value="Transparent" />
+                                        </Style>
+                                    </Flyout.FlyoutPresenterStyle>
+
+                                    <Grid>
+                                        <SystemBackdropElement CornerRadius="{StaticResource OverlayCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+
+                                        <ListView
+                                            x:Name="VolumeListView"
+                                            MaxHeight="300"
+                                            Background="Transparent"
+                                            ItemsSource="{x:Bind VolumeList}"
+                                            SelectionMode="None">
+
+                                            <ListView.ItemContainerStyle>
+                                                <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                                    <Setter Property="Padding" Value="0" />
+                                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                    <Setter Property="Margin" Value="0,1" />
+                                                    <Setter Property="MinHeight" Value="0 " />
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+
+                                            <ItemsControl.ItemContainerTransitions>
+                                                <TransitionCollection />
+                                            </ItemsControl.ItemContainerTransitions>
+
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate x:DataType="model:KeyValuePairModel">
+                                                    <RadioMenuFlyoutItem
+                                                        Height="32"
+                                                        Padding="11,0"
+                                                        Command="{StaticResource VolumeCommand}"
+                                                        CommandParameter="{x:Bind}"
+                                                        GroupName="VolumeRadioGroup"
+                                                        IsChecked="{x:Bind IsChecked, Mode=OneWay}"
+                                                        Text="{x:Bind Value}" />
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </Grid>
+                                </Flyout>
+                            </DropDownButton.Flyout>
+                        </DropDownButton>
+                    </Grid>
+
+                    <!--  保留所有源输入流  -->
+                    <Grid
+                        Grid.Row="2"
+                        Height="60"
+                        Margin="0,0,0,2"
+                        Padding="16,0"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource ControlCornerRadius}">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="0,0,0,2"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('PreserveAllSourceInputAudioStream')}" />
+
+                        <StackPanel
+                            Grid.Column="2"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+
+                            <TextBlock
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('PreserveAllSourceInputAudioStreamOffContent')}"
+                                Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(PreserveAllSourceInputAudioStream), Mode=OneWay}" />
+
+                            <TextBlock
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('PreserveAllSourceInputAudioStreamOnContent')}"
+                                Visibility="{x:Bind PreserveAllSourceInputAudioStream, Mode=OneWay}" />
+
+                            <ToggleSwitch
+                                MinWidth="0"
+                                Margin="10,-2,-10,0"
+                                IsOn="{x:Bind PreserveAllSourceInputAudioStream, Mode=OneWay}"
+                                OffContent=""
+                                OnContent=""
+                                Toggled="{x:Bind OnPreserveAllSourceInputAudioStreamToggled}" />
+                        </StackPanel>
+                    </Grid>
+
+                    <!--  淡入效果  -->
+                    <Grid
+                        Height="60"
+                        Margin="0,0,0,2"
+                        Padding="16,0"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource ControlCornerRadius}">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="0,0,0,2"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('FadeInEffect')}" />
+
+                        <DropDownButton
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Content="{x:Bind SelectedAudioFadeInEffect.Value, Mode=OneWay}">
+
+                            <DropDownButton.Flyout>
+                                <Flyout
+                                    x:Name="AudioFadeInEffectFlyout"
+                                    Opened="{x:Bind OnAudioFadeInEffectOpened}"
+                                    Placement="Bottom"
+                                    ShouldConstrainToRootBounds="False">
+
+                                    <Flyout.FlyoutPresenterStyle>
+                                        <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                            <Setter Property="Padding" Value="0" />
+                                            <Setter Property="MinHeight" Value="0" />
+                                            <Setter Property="Background" Value="Transparent" />
+                                        </Style>
+                                    </Flyout.FlyoutPresenterStyle>
+
+                                    <Grid>
+                                        <SystemBackdropElement CornerRadius="{StaticResource OverlayCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+
+                                        <ListView
+                                            x:Name="AudioFadeInEffectListView"
+                                            MaxHeight="300"
+                                            Background="Transparent"
+                                            ItemsSource="{x:Bind AudioFadeInEffectList}"
+                                            SelectionMode="None">
+
+                                            <ListView.ItemContainerStyle>
+                                                <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                                    <Setter Property="Padding" Value="0" />
+                                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                    <Setter Property="Margin" Value="0,1" />
+                                                    <Setter Property="MinHeight" Value="0 " />
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+
+                                            <ItemsControl.ItemContainerTransitions>
+                                                <TransitionCollection />
+                                            </ItemsControl.ItemContainerTransitions>
+
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate x:DataType="model:KeyValuePairModel">
+                                                    <RadioMenuFlyoutItem
+                                                        Height="32"
+                                                        Padding="11,0"
+                                                        Command="{StaticResource AudioFadeInEffectCommand}"
+                                                        CommandParameter="{x:Bind}"
+                                                        GroupName="AudioFadeInEffectRadioGroup"
+                                                        IsChecked="{x:Bind IsChecked, Mode=OneWay}"
+                                                        Text="{x:Bind Value}" />
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </Grid>
+                                </Flyout>
+                            </DropDownButton.Flyout>
+                        </DropDownButton>
+                    </Grid>
+
+                    <!--  淡出效果  -->
+                    <Grid
+                        Height="60"
+                        Margin="0,0,0,2"
+                        Padding="16,0"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource ControlCornerRadius}">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="0,0,0,2"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('FadeOutEffect')}" />
+
+                        <DropDownButton
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Content="{x:Bind SelectedAudioFadeOutEffect.Value, Mode=OneWay}">
+
+                            <DropDownButton.Flyout>
+                                <Flyout
+                                    x:Name="AudioFadeOutEffectFlyout"
+                                    Opened="{x:Bind OnAudioFadeOutEffectOpened}"
+                                    Placement="Bottom"
+                                    ShouldConstrainToRootBounds="False">
+
+                                    <Flyout.FlyoutPresenterStyle>
+                                        <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                            <Setter Property="Padding" Value="0" />
+                                            <Setter Property="MinHeight" Value="0" />
+                                            <Setter Property="Background" Value="Transparent" />
+                                        </Style>
+                                    </Flyout.FlyoutPresenterStyle>
+
+                                    <Grid>
+                                        <SystemBackdropElement CornerRadius="{StaticResource OverlayCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+
+                                        <ListView
+                                            x:Name="AudioFadeOutEffectListView"
+                                            MaxHeight="300"
+                                            Background="Transparent"
+                                            ItemsSource="{x:Bind AudioFadeOutEffectList}"
+                                            SelectionMode="None">
+
+                                            <ListView.ItemContainerStyle>
+                                                <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                                    <Setter Property="Padding" Value="0" />
+                                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                    <Setter Property="Margin" Value="0,1" />
+                                                    <Setter Property="MinHeight" Value="0 " />
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+
+                                            <ItemsControl.ItemContainerTransitions>
+                                                <TransitionCollection />
+                                            </ItemsControl.ItemContainerTransitions>
+
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate x:DataType="model:KeyValuePairModel">
+                                                    <RadioMenuFlyoutItem
+                                                        Height="32"
+                                                        Padding="11,0"
+                                                        Command="{StaticResource AudioFadeOutEffectCommand}"
+                                                        CommandParameter="{x:Bind}"
+                                                        GroupName="AudioFadeOutEffectRadioGroup"
+                                                        IsChecked="{x:Bind IsChecked, Mode=OneWay}"
+                                                        Text="{x:Bind Value}" />
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </Grid>
+                                </Flyout>
+                            </DropDownButton.Flyout>
+                        </DropDownButton>
+                    </Grid>
+
+                    <!--  回声  -->
+                    <Grid
+                        Grid.Row="2"
+                        Height="60"
+                        Margin="0,0,0,2"
+                        Padding="16,0"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource ControlCornerRadius}">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="0,0,0,2"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Echo')}" />
+
+                        <StackPanel
+                            Grid.Column="2"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+
+                            <TextBlock
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('EchoOffContent')}"
+                                Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(Echo), Mode=OneWay}" />
+
+                            <TextBlock
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('EchoOnContent')}"
+                                Visibility="{x:Bind Echo, Mode=OneWay}" />
+
+                            <ToggleSwitch
+                                MinWidth="0"
+                                Margin="10,-2,-10,0"
+                                IsOn="{x:Bind Echo, Mode=OneWay}"
+                                OffContent=""
+                                OnContent=""
+                                Toggled="{x:Bind OnEchoToggled}" />
+                        </StackPanel>
+                    </Grid>
+
+                    <!--  降噪  -->
+                    <Grid
+                        Grid.Row="2"
+                        Height="60"
+                        Margin="0,0,0,2"
+                        Padding="16,0"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource ControlCornerRadius}">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="0,0,0,2"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('DeNoise')}" />
+
+                        <StackPanel
+                            Grid.Column="2"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+
+                            <TextBlock
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('DeNoiseOffContent')}"
+                                Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(DeNoise), Mode=OneWay}" />
+
+                            <TextBlock
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('DeNoiseOnContent')}"
+                                Visibility="{x:Bind DeNoise, Mode=OneWay}" />
+
+                            <ToggleSwitch
+                                MinWidth="0"
+                                Margin="10,-2,-10,0"
+                                IsOn="{x:Bind DeNoise, Mode=OneWay}"
+                                OffContent=""
+                                OnContent=""
+                                Toggled="{x:Bind OnDeNoiseToggled}" />
+                        </StackPanel>
+                    </Grid>
+
+                    <!--  反向  -->
+                    <Grid
+                        Grid.Row="2"
+                        Height="60"
+                        Margin="0,0,0,2"
+                        Padding="16,0"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource ControlCornerRadius}">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="0,0,0,2"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Reverse')}" />
+
+                        <StackPanel
+                            Grid.Column="2"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+
+                            <TextBlock
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('ReverseOffContent')}"
+                                Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(Reverse), Mode=OneWay}" />
+
+                            <TextBlock
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('ReverseOnContent')}"
+                                Visibility="{x:Bind Reverse, Mode=OneWay}" />
+
+                            <ToggleSwitch
+                                MinWidth="0"
+                                Margin="10,-2,-10,0"
+                                IsOn="{x:Bind Reverse, Mode=OneWay}"
+                                OffContent=""
+                                OnContent=""
+                                Toggled="{x:Bind OnReverseToggled}" />
+                        </StackPanel>
                     </Grid>
 
                     <TextBlock
