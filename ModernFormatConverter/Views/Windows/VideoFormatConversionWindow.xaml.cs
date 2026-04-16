@@ -26,6 +26,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI;
@@ -45,6 +46,11 @@ namespace ModernFormatConverter.Views.Dialogs
         private readonly string DefaultString = ResourceService.VideoFormatConversionResource.GetString("Default");
         private readonly string DefaultSizeString = ResourceService.VideoFormatConversionResource.GetString("DefaultSize");
         private readonly string NoneString = ResourceService.VideoFormatConversionResource.GetString("None");
+        private readonly string NoRotateString = ResourceService.VideoFormatConversionResource.GetString("NoRotate");
+        private readonly string RotateLeftString = ResourceService.VideoFormatConversionResource.GetString("RotateLeft");
+        private readonly string RotateRightString = ResourceService.VideoFormatConversionResource.GetString("RotateRight");
+        private readonly string SecondString = ResourceService.VideoFormatConversionResource.GetString("Second");
+        private readonly string UnsideDownString = ResourceService.VideoFormatConversionResource.GetString("UnsideDown");
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private OverlappedPresenter overlappedPresenter;
         private SUBCLASSPROC videoFormatConversionWindowSubClassProc;
@@ -224,6 +230,162 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
+        private KeyValuePairModel _selectedFramePerSecond;
+
+        public KeyValuePairModel SelectedFramePerSecond
+        {
+            get { return _selectedFramePerSecond; }
+
+            set
+            {
+                _selectedFramePerSecond = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedFramePerSecond)));
+            }
+        }
+
+        private KeyValuePairModel _selectedAspectRatio;
+
+        public KeyValuePairModel SelectedAspectRatio
+        {
+            get { return _selectedAspectRatio; }
+
+            set
+            {
+                _selectedAspectRatio = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedAspectRatio)));
+            }
+        }
+
+        private bool _secondaryEncoding;
+
+        public bool SecondaryEncoding
+        {
+            get { return _secondaryEncoding; }
+
+            set
+            {
+                _secondaryEncoding = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SecondaryEncoding)));
+            }
+        }
+
+        private KeyValuePairModel _selectedKeyFrameInterval;
+
+        public KeyValuePairModel SelectedKeyFrameInterval
+        {
+            get { return _selectedKeyFrameInterval; }
+
+            set
+            {
+                _selectedKeyFrameInterval = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedKeyFrameInterval)));
+            }
+        }
+
+        private bool _deInterlace;
+
+        public bool DeInterlace
+        {
+            get { return _deInterlace; }
+
+            set
+            {
+                _deInterlace = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeInterlace)));
+            }
+        }
+
+        private KeyValuePairModel _selectedRotation;
+
+        public KeyValuePairModel SelectedRotation
+        {
+            get { return _selectedRotation; }
+
+            set
+            {
+                _selectedRotation = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedRotation)));
+            }
+        }
+
+        private bool _mirrorReversal;
+
+        public bool MirrorReversal
+        {
+            get { return _mirrorReversal; }
+
+            set
+            {
+                _mirrorReversal = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MirrorReversal)));
+            }
+        }
+
+        private KeyValuePairModel _selectedVideoFadeInEffect;
+
+        public KeyValuePairModel SelectedVideoFadeInEffect
+        {
+            get { return _selectedVideoFadeInEffect; }
+
+            set
+            {
+                _selectedVideoFadeInEffect = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedVideoFadeInEffect)));
+            }
+        }
+
+        private KeyValuePairModel _selectedVideoFadeOutEffect;
+
+        public KeyValuePairModel SelectedVideoFadeOutEffect
+        {
+            get { return _selectedVideoFadeOutEffect; }
+
+            set
+            {
+                _selectedVideoFadeOutEffect = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedVideoFadeOutEffect)));
+            }
+        }
+
+        private KeyValuePairModel _selectedAudioEncoding;
+
+        public KeyValuePairModel SelectedAudioEncoding
+        {
+            get { return _selectedAudioEncoding; }
+
+            set
+            {
+                _selectedAudioEncoding = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedAudioEncoding)));
+            }
+        }
+
+        private KeyValuePairModel _selectedSamplingRate;
+
+        public KeyValuePairModel SelectedSamplingRate
+        {
+            get { return _selectedSamplingRate; }
+
+            set
+            {
+                _selectedSamplingRate = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedSamplingRate)));
+            }
+        }
+
+        private KeyValuePairModel _selectedAudioBitRate;
+
+        public KeyValuePairModel SelectedAudioBitRate
+        {
+            get { return _selectedAudioBitRate; }
+
+            set
+            {
+                _selectedAudioBitRate = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedAudioBitRate)));
+            }
+        }
+
         public List<KeyValuePairModel> FormatConversionTypeList { get; } =
         [
             new KeyValuePairModel(){ Key = "MP4", Value = ".mp4" },
@@ -252,6 +414,24 @@ namespace ModernFormatConverter.Views.Dialogs
 
         public List<KeyValuePairModel> GPUList { get; } = [];
 
+        public List<KeyValuePairModel> FramePerSecondList { get; } = [];
+
+        public List<KeyValuePairModel> AspectRatioList { get; } = [];
+
+        public List<KeyValuePairModel> KeyFrameIntervalList { get; } = [];
+
+        public List<KeyValuePairModel> RotationList { get; } = [];
+
+        public List<KeyValuePairModel> VideoFadeInEffectList { get; } = [];
+
+        public List<KeyValuePairModel> VideoFadeOutEffectList { get; } = [];
+
+        public List<KeyValuePairModel> AudioEncodingList { get; } = [];
+
+        public List<KeyValuePairModel> SamplingRateList { get; } = [];
+
+        public List<KeyValuePairModel> AudioBitRateList { get; } = [];
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public VideoFormatConversionWindow(ConversionToolsWindow conversionToolsWindow, VideoConversionFileModel videoConversionFileModel)
@@ -275,6 +455,26 @@ namespace ModernFormatConverter.Views.Dialogs
                 SelectedVideoBitRate.IsChecked = true;
                 SelectedGPU = GPUList[0];
                 SelectedGPU.IsChecked = true;
+                SelectedFramePerSecond = FramePerSecondList[0];
+                SelectedFramePerSecond.IsChecked = true;
+                SelectedAspectRatio = AspectRatioList[0];
+                SelectedAspectRatio.IsChecked = true;
+                SelectedKeyFrameInterval = KeyFrameIntervalList[0];
+                SelectedKeyFrameInterval.IsChecked = true;
+                SelectedRotation = RotationList[0];
+                SelectedRotation.IsChecked = true;
+                SelectedRotation = RotationList[0];
+                SelectedRotation.IsChecked = true;
+                SelectedVideoFadeInEffect = VideoFadeInEffectList[0];
+                SelectedVideoFadeInEffect.IsChecked = true;
+                SelectedVideoFadeOutEffect = VideoFadeOutEffectList[0];
+                SelectedVideoFadeOutEffect.IsChecked = true;
+                SelectedAudioEncoding = AudioEncodingList[0];
+                SelectedAudioEncoding.IsChecked = true;
+                SelectedSamplingRate = SamplingRateList[0];
+                SelectedSamplingRate.IsChecked = true;
+                SelectedAudioBitRate = AudioBitRateList[0];
+                SelectedAudioBitRate.IsChecked = true;
             }
         }
 
@@ -298,6 +498,24 @@ namespace ModernFormatConverter.Views.Dialogs
                 SelectedVideoBitRate.IsChecked = true;
                 SelectedGPU = GPUList[0];
                 SelectedGPU.IsChecked = true;
+                SelectedFramePerSecond = FramePerSecondList[0];
+                SelectedFramePerSecond.IsChecked = true;
+                SelectedAspectRatio = AspectRatioList[0];
+                SelectedAspectRatio.IsChecked = true;
+                SelectedKeyFrameInterval = KeyFrameIntervalList[0];
+                SelectedKeyFrameInterval.IsChecked = true;
+                SelectedRotation = RotationList[0];
+                SelectedRotation.IsChecked = true;
+                SelectedVideoFadeInEffect = VideoFadeInEffectList[0];
+                SelectedVideoFadeInEffect.IsChecked = true;
+                SelectedVideoFadeOutEffect = VideoFadeOutEffectList[0];
+                SelectedVideoFadeOutEffect.IsChecked = true;
+                SelectedAudioEncoding = AudioEncodingList[0];
+                SelectedAudioEncoding.IsChecked = true;
+                SelectedSamplingRate = SamplingRateList[0];
+                SelectedSamplingRate.IsChecked = true;
+                SelectedAudioBitRate = AudioBitRateList[0];
+                SelectedAudioBitRate.IsChecked = true;
             }
         }
 
@@ -524,6 +742,222 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
+        /// <summary>
+        /// 修改每秒帧数
+        /// </summary>
+        private void OnFramePerSecondExecuteRequested(object sender, ExecuteRequestedEventArgs args)
+        {
+            if (FramePerSecondFlyout.IsOpen)
+            {
+                FramePerSecondFlyout.Hide();
+            }
+
+            if (args.Parameter is KeyValuePairModel framePerSecond)
+            {
+                foreach (KeyValuePairModel framePerSecondItem in FramePerSecondList)
+                {
+                    framePerSecondItem.IsChecked = false;
+                    if (string.Equals(framePerSecond.Key, framePerSecondItem.Key))
+                    {
+                        SelectedFramePerSecond = framePerSecondItem;
+                        framePerSecondItem.IsChecked = true;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 修改宽高比
+        /// </summary>
+        private void OnAspectRatioExecuteRequested(object sender, ExecuteRequestedEventArgs args)
+        {
+            if (AspectRatioFlyout.IsOpen)
+            {
+                AspectRatioFlyout.Hide();
+            }
+
+            if (args.Parameter is KeyValuePairModel aspectRatio)
+            {
+                foreach (KeyValuePairModel aspectRatioItem in AspectRatioList)
+                {
+                    aspectRatioItem.IsChecked = false;
+                    if (string.Equals(aspectRatio.Key, aspectRatioItem.Key))
+                    {
+                        SelectedAspectRatio = aspectRatioItem;
+                        aspectRatioItem.IsChecked = true;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 修改关键帧间隔
+        /// </summary>
+        private void OnKeyFrameIntervalExecuteRequested(object sender, ExecuteRequestedEventArgs args)
+        {
+            if (KeyFrameIntervalFlyout.IsOpen)
+            {
+                KeyFrameIntervalFlyout.Hide();
+            }
+
+            if (args.Parameter is KeyValuePairModel keyFrameInterval)
+            {
+                foreach (KeyValuePairModel keyFrameIntervalItem in KeyFrameIntervalList)
+                {
+                    keyFrameIntervalItem.IsChecked = false;
+                    if (string.Equals(keyFrameInterval.Key, keyFrameIntervalItem.Key))
+                    {
+                        SelectedKeyFrameInterval = keyFrameIntervalItem;
+                        keyFrameIntervalItem.IsChecked = true;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 修改旋转
+        /// </summary>
+        private void OnRotationExecuteRequested(object sender, ExecuteRequestedEventArgs args)
+        {
+            if (RotationFlyout.IsOpen)
+            {
+                RotationFlyout.Hide();
+            }
+
+            if (args.Parameter is KeyValuePairModel rotation)
+            {
+                foreach (KeyValuePairModel rotationItem in RotationList)
+                {
+                    rotationItem.IsChecked = false;
+                    if (string.Equals(rotation.Key, rotationItem.Key))
+                    {
+                        SelectedRotation = rotationItem;
+                        rotationItem.IsChecked = true;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 修改淡入效果
+        /// </summary>
+        private void OnVideoFadeInEffectExecuteRequested(object sender, ExecuteRequestedEventArgs args)
+        {
+            if (VideoFadeInEffectFlyout.IsOpen)
+            {
+                VideoFadeInEffectFlyout.Hide();
+            }
+
+            if (args.Parameter is KeyValuePairModel videoFadeInEffect)
+            {
+                foreach (KeyValuePairModel videoFadeInEffectItem in VideoFadeInEffectList)
+                {
+                    videoFadeInEffectItem.IsChecked = false;
+                    if (string.Equals(videoFadeInEffect.Key, videoFadeInEffectItem.Key))
+                    {
+                        SelectedVideoFadeInEffect = videoFadeInEffectItem;
+                        videoFadeInEffectItem.IsChecked = true;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 修改淡出效果
+        /// </summary>
+        private void OnVideoFadeOutEffectExecuteRequested(object sender, ExecuteRequestedEventArgs args)
+        {
+            if (VideoFadeOutEffectFlyout.IsOpen)
+            {
+                VideoFadeOutEffectFlyout.Hide();
+            }
+
+            if (args.Parameter is KeyValuePairModel videoFadeOutEffect)
+            {
+                foreach (KeyValuePairModel videoFadeOutEffectItem in VideoFadeOutEffectList)
+                {
+                    videoFadeOutEffectItem.IsChecked = false;
+                    if (string.Equals(videoFadeOutEffect.Key, videoFadeOutEffectItem.Key))
+                    {
+                        SelectedVideoFadeOutEffect = videoFadeOutEffectItem;
+                        videoFadeOutEffectItem.IsChecked = true;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 修改音频编码
+        /// </summary>
+        private void OnAudioEncodingExecuteRequested(object sender, ExecuteRequestedEventArgs args)
+        {
+            if (AudioEncodingFlyout.IsOpen)
+            {
+                AudioEncodingFlyout.Hide();
+            }
+
+            if (args.Parameter is KeyValuePairModel audioEncoding)
+            {
+                foreach (KeyValuePairModel audioEncodingItem in AudioEncodingList)
+                {
+                    audioEncodingItem.IsChecked = false;
+                    if (string.Equals(audioEncoding.Key, audioEncodingItem.Key))
+                    {
+                        SelectedAudioEncoding = audioEncodingItem;
+                        audioEncodingItem.IsChecked = true;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 修改采样率
+        /// </summary>
+        private void OnSamplingRateExecuteRequested(object sender, ExecuteRequestedEventArgs args)
+        {
+            if (SamplingRateFlyout.IsOpen)
+            {
+                SamplingRateFlyout.Hide();
+            }
+
+            if (args.Parameter is KeyValuePairModel samplingRate)
+            {
+                foreach (KeyValuePairModel samplingRateItem in SamplingRateList)
+                {
+                    samplingRateItem.IsChecked = false;
+                    if (string.Equals(samplingRate.Key, samplingRateItem.Key))
+                    {
+                        SelectedSamplingRate = samplingRateItem;
+                        samplingRateItem.IsChecked = true;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 修改音频比特率
+        /// </summary>
+        private void OnAudioBitRateExecuteRequested(object sender, ExecuteRequestedEventArgs args)
+        {
+            if (AudioBitRateFlyout.IsOpen)
+            {
+                AudioBitRateFlyout.Hide();
+            }
+
+            if (args.Parameter is KeyValuePairModel audioBitRate)
+            {
+                foreach (KeyValuePairModel audioBitRateItem in AudioBitRateList)
+                {
+                    audioBitRateItem.IsChecked = false;
+                    if (string.Equals(audioBitRate.Key, audioBitRateItem.Key))
+                    {
+                        SelectedAudioBitRate = audioBitRateItem;
+                        audioBitRateItem.IsChecked = true;
+                    }
+                }
+            }
+        }
+
         #endregion 第四部分：ExecuteCommand 命令调用时挂载的事件
 
         #region 第五部分：内容挂载的事件
@@ -679,7 +1113,7 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
-        /// 视频选择率菜单打开时自动定位到选中项
+        /// 视频比特率菜单打开时自动定位到选中项
         /// </summary>
         private void OnVideoBitRateOpened(object sender, object args)
         {
@@ -709,26 +1143,15 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
-        /// 自定义屏幕宽度发生变化时触发的事件
+        /// CRF 发生变化时触发的事件
         /// </summary>
-        private void OnCRFValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        private void OnCRFValueChanged(object sender, RangeBaseValueChangedEventArgs args)
         {
             if (args.NewValue is not double.NaN)
             {
                 try
                 {
-                    if (args.NewValue < 10)
-                    {
-                        CRF = 10;
-                    }
-                    else if (args.NewValue > 50)
-                    {
-                        CRF = 50;
-                    }
-                    else
-                    {
-                        CRF = Convert.ToInt32(args.NewValue);
-                    }
+                    CRF = Convert.ToInt32(args.NewValue);
                 }
                 catch (Exception e)
                 {
@@ -747,6 +1170,174 @@ namespace ModernFormatConverter.Views.Dialogs
                 if (gpu.IsChecked)
                 {
                     VideoBitRateListView.ScrollIntoView(gpu);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 每秒帧数菜单打开时自动定位到选中项
+        /// </summary>
+        private void OnFramePerSecondOpened(object sender, object args)
+        {
+            foreach (KeyValuePairModel framePerSecond in FramePerSecondList)
+            {
+                if (framePerSecond.IsChecked)
+                {
+                    FramePerSecondListView.ScrollIntoView(framePerSecond);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 宽高比菜单打开时自动定位到选中项
+        /// </summary>
+        private void OnAspectRatioOpened(object sender, object args)
+        {
+            foreach (KeyValuePairModel aspectRatio in AspectRatioList)
+            {
+                if (aspectRatio.IsChecked)
+                {
+                    AspectRatioListView.ScrollIntoView(aspectRatio);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 是否启用二次编码
+        /// </summary>
+        private void OnSecondaryEncodingToggled(object sender, RoutedEventArgs args)
+        {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                SecondaryEncoding = toggleSwitch.IsOn;
+            }
+        }
+
+        /// <summary>
+        /// 关键帧间隔菜单打开时自动定位到选中项
+        /// </summary>
+        private void OnKeyFrameIntervalOpened(object sender, object args)
+        {
+            foreach (KeyValuePairModel keyFrameInterval in KeyFrameIntervalList)
+            {
+                if (keyFrameInterval.IsChecked)
+                {
+                    KeyFrameIntervalListView.ScrollIntoView(keyFrameInterval);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 是否启用反交错
+        /// </summary>
+        private void OnDeInterlaceToggled(object sender, RoutedEventArgs args)
+        {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                DeInterlace = toggleSwitch.IsOn;
+            }
+        }
+
+        /// <summary>
+        /// 旋转菜单打开时自动定位到选中项
+        /// </summary>
+        private void OnRotationOpened(object sender, object args)
+        {
+            foreach (KeyValuePairModel rotation in RotationList)
+            {
+                if (rotation.IsChecked)
+                {
+                    RotationListView.ScrollIntoView(rotation);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 是否启用镜像反转
+        /// </summary>
+        private void OnMirrorReversalToggled(object sender, RoutedEventArgs args)
+        {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                MirrorReversal = toggleSwitch.IsOn;
+            }
+        }
+
+        /// <summary>
+        /// 淡入效果菜单打开时自动定位到选中项
+        /// </summary>
+        private void OnVideoFadeInEffectOpened(object sender, object args)
+        {
+            foreach (KeyValuePairModel videoFadeInEffect in VideoFadeInEffectList)
+            {
+                if (videoFadeInEffect.IsChecked)
+                {
+                    VideoFadeInEffectListView.ScrollIntoView(videoFadeInEffect);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 淡出效果菜单打开时自动定位到选中项
+        /// </summary>
+        private void OnVideoFadeOutEffectOpened(object sender, object args)
+        {
+            foreach (KeyValuePairModel videoFadeOutEffect in VideoFadeOutEffectList)
+            {
+                if (videoFadeOutEffect.IsChecked)
+                {
+                    VideoFadeOutEffectListView.ScrollIntoView(videoFadeOutEffect);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 音频编码菜单打开时自动定位到选中项
+        /// </summary>
+        private void OnAudioEncodingOpened(object sender, object args)
+        {
+            foreach (KeyValuePairModel audioEncoding in AudioEncodingList)
+            {
+                if (audioEncoding.IsChecked)
+                {
+                    AudioEncodingListView.ScrollIntoView(audioEncoding);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 音频编码菜单打开时自动定位到选中项
+        /// </summary>
+        private void OnSamplingRateOpened(object sender, object args)
+        {
+            foreach (KeyValuePairModel samplingRate in SamplingRateList)
+            {
+                if (samplingRate.IsChecked)
+                {
+                    SamplingRateListView.ScrollIntoView(samplingRate);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 音频比特率菜单打开时自动定位到选中项
+        /// </summary>
+        private void OnAudioBitRateOpened(object sender, object args)
+        {
+            foreach (KeyValuePairModel audioBitRate in AudioBitRateList)
+            {
+                if (audioBitRate.IsChecked)
+                {
+                    AudioBitRateListView.ScrollIntoView(audioBitRate);
                     break;
                 }
             }
@@ -1164,6 +1755,76 @@ namespace ModernFormatConverter.Views.Dialogs
             {
                 GPUList.Add(new KeyValuePairModel() { Key = "AMD", Value = "AMD" });
             }
+
+            FramePerSecondList.Add(new KeyValuePairModel() { Key = "Default", Value = DefaultString });
+            FramePerSecondList.Add(new KeyValuePairModel() { Key = "12", Value = "12" });
+            FramePerSecondList.Add(new KeyValuePairModel() { Key = "15", Value = "15" });
+            FramePerSecondList.Add(new KeyValuePairModel() { Key = "18", Value = "18" });
+            FramePerSecondList.Add(new KeyValuePairModel() { Key = "20", Value = "20" });
+            FramePerSecondList.Add(new KeyValuePairModel() { Key = "23.976", Value = "23.976" });
+            FramePerSecondList.Add(new KeyValuePairModel() { Key = "24", Value = "24" });
+            FramePerSecondList.Add(new KeyValuePairModel() { Key = "25", Value = "25" });
+            FramePerSecondList.Add(new KeyValuePairModel() { Key = "29.97", Value = "29.97" });
+            FramePerSecondList.Add(new KeyValuePairModel() { Key = "30", Value = "30" });
+            FramePerSecondList.Add(new KeyValuePairModel() { Key = "50", Value = "50" });
+            FramePerSecondList.Add(new KeyValuePairModel() { Key = "60", Value = "60" });
+
+            AspectRatioList.Add(new KeyValuePairModel() { Key = "Default", Value = DefaultString });
+            AspectRatioList.Add(new KeyValuePairModel() { Key = "4:3", Value = "4:3" });
+            AspectRatioList.Add(new KeyValuePairModel() { Key = "16:9", Value = "16:9" });
+            AspectRatioList.Add(new KeyValuePairModel() { Key = "3:2", Value = "3:2" });
+            AspectRatioList.Add(new KeyValuePairModel() { Key = "5:4", Value = "5:4" });
+
+            KeyFrameIntervalList.Add(new KeyValuePairModel() { Key = "Default", Value = DefaultString });
+            KeyFrameIntervalList.Add(new KeyValuePairModel() { Key = "1", Value = "1" });
+            KeyFrameIntervalList.Add(new KeyValuePairModel() { Key = "2", Value = "2" });
+            KeyFrameIntervalList.Add(new KeyValuePairModel() { Key = "3", Value = "3" });
+            KeyFrameIntervalList.Add(new KeyValuePairModel() { Key = "4", Value = "4" });
+            KeyFrameIntervalList.Add(new KeyValuePairModel() { Key = "8", Value = "5" });
+            KeyFrameIntervalList.Add(new KeyValuePairModel() { Key = "6", Value = "6" });
+            KeyFrameIntervalList.Add(new KeyValuePairModel() { Key = "7", Value = "7" });
+            KeyFrameIntervalList.Add(new KeyValuePairModel() { Key = "8", Value = "8" });
+            KeyFrameIntervalList.Add(new KeyValuePairModel() { Key = "9", Value = "9" });
+            KeyFrameIntervalList.Add(new KeyValuePairModel() { Key = "10", Value = "10" });
+
+            RotationList.Add(new KeyValuePairModel() { Key = Convert.ToString(Rotation.Rotate0), Value = NoRotateString });
+            RotationList.Add(new KeyValuePairModel() { Key = Convert.ToString(Rotation.Rotate90), Value = RotateRightString });
+            RotationList.Add(new KeyValuePairModel() { Key = Convert.ToString(Rotation.Rotate180), Value = UnsideDownString });
+            RotationList.Add(new KeyValuePairModel() { Key = Convert.ToString(Rotation.Rotate270), Value = RotateLeftString });
+
+            VideoFadeInEffectList.Add(new KeyValuePairModel() { Key = "None", Value = NoneString });
+            VideoFadeInEffectList.Add(new KeyValuePairModel() { Key = "1", Value = "1" + SecondString });
+            VideoFadeInEffectList.Add(new KeyValuePairModel() { Key = "2", Value = "2" + SecondString });
+            VideoFadeInEffectList.Add(new KeyValuePairModel() { Key = "3", Value = "3" + SecondString });
+            VideoFadeInEffectList.Add(new KeyValuePairModel() { Key = "4", Value = "4" + SecondString });
+            VideoFadeInEffectList.Add(new KeyValuePairModel() { Key = "5", Value = "5" + SecondString });
+
+            VideoFadeOutEffectList.Add(new KeyValuePairModel() { Key = "None", Value = NoneString });
+            VideoFadeOutEffectList.Add(new KeyValuePairModel() { Key = "1", Value = "1" + SecondString });
+            VideoFadeOutEffectList.Add(new KeyValuePairModel() { Key = "2", Value = "2" + SecondString });
+            VideoFadeOutEffectList.Add(new KeyValuePairModel() { Key = "3", Value = "3" + SecondString });
+            VideoFadeOutEffectList.Add(new KeyValuePairModel() { Key = "4", Value = "4" + SecondString });
+            VideoFadeOutEffectList.Add(new KeyValuePairModel() { Key = "5", Value = "5" + SecondString });
+
+            AudioEncodingList.Add(new KeyValuePairModel() { Key = "Copy", Value = CopyString });
+            AudioEncodingList.Add(new KeyValuePairModel() { Key = "AAC", Value = "AAC" });
+            AudioEncodingList.Add(new KeyValuePairModel() { Key = "AC3", Value = "AC3" });
+
+            SamplingRateList.Add(new KeyValuePairModel() { Key = "Default", Value = DefaultString });
+            SamplingRateList.Add(new KeyValuePairModel() { Key = "22050", Value = "22050" });
+            SamplingRateList.Add(new KeyValuePairModel() { Key = "24000", Value = "24000" });
+            SamplingRateList.Add(new KeyValuePairModel() { Key = "44100", Value = "44100" });
+            SamplingRateList.Add(new KeyValuePairModel() { Key = "48000", Value = "48000" });
+
+            AudioBitRateList.Add(new KeyValuePairModel() { Key = "Default", Value = DefaultString });
+            AudioBitRateList.Add(new KeyValuePairModel() { Key = "24K", Value = "24K" });
+            AudioBitRateList.Add(new KeyValuePairModel() { Key = "32K", Value = "32K" });
+            AudioBitRateList.Add(new KeyValuePairModel() { Key = "64K", Value = "64K" });
+            AudioBitRateList.Add(new KeyValuePairModel() { Key = "128K", Value = "128K" });
+            AudioBitRateList.Add(new KeyValuePairModel() { Key = "192K", Value = "192K" });
+            AudioBitRateList.Add(new KeyValuePairModel() { Key = "224K", Value = "224K" });
+            AudioBitRateList.Add(new KeyValuePairModel() { Key = "256K", Value = "256K" });
+            AudioBitRateList.Add(new KeyValuePairModel() { Key = "320K", Value = "320K" });
         }
 
         /// <summary>

@@ -76,6 +76,11 @@ namespace ModernFormatConverter.Models
         public Rotation Rotation { get; set; }
 
         /// <summary>
+        /// 镜像反转
+        /// </summary>
+        public bool MirrorReversal { get; set; }
+
+        /// <summary>
         /// 淡入效果
         /// </summary>
         public bool VideoFadeInEffect { get; set; }
