@@ -274,7 +274,7 @@
     <Reference Include="$(PkgMicrosoft_WindowsAppSDK_WinUI)\metadata\Microsoft.UI.Text.winmd" Private="false" Visible="false" />
     <Reference Include="$(PkgMicrosoft_WindowsAppSDK_WinUI)\metadata\Microsoft.UI.Xaml.winmd" Private="false" Visible="false" />
     <Reference Include="$(PkgMicrosoft_Windows_SDK_NET_Ref)\winmd\*.winmd" Private="false" Visible="false" />
-    <Reference Include="$(WindowsSdkPath)\UnionMetadata\$(TargetPlatformVersion)\Facade\Windows.WinMD" Private="false" Visible="false" />
+    <Reference Include="$(WindowsSdkPath)\UnionMetadata\Facade\Windows.WinMD" Private="false" Visible="false" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore" />
     <Reference Include="System.Windows.Forms" />

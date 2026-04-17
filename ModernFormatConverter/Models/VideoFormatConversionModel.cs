@@ -164,9 +164,9 @@ namespace ModernFormatConverter.Models
         public bool PreserveAllSourceInputSubtitleStream { get; set; }
 
         /// <summary>
-        /// 附加字幕
+        /// 附加字幕路径
         /// </summary>
-        public string AdditionalSubtitles { get; set; }
+        public string AdditionalSubtitlePath { get; set; }
 
         /// <summary>
         /// 字幕嵌入类型

@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -41,20 +42,26 @@ namespace ModernFormatConverter.Views.Dialogs
     /// </summary>
     public sealed partial class VideoFormatConversionWindow : Window, INotifyPropertyChanged
     {
+        private readonly string AllFilesString = ResourceService.VideoFormatConversionResource.GetString("AllFiles");
         private readonly string CopyString = ResourceService.VideoFormatConversionResource.GetString("Copy");
         private readonly string CustomString = ResourceService.VideoFormatConversionResource.GetString("Custom");
         private readonly string DefaultString = ResourceService.VideoFormatConversionResource.GetString("Default");
         private readonly string DefaultSizeString = ResourceService.VideoFormatConversionResource.GetString("DefaultSize");
+        private readonly string LargeString = ResourceService.VideoFormatConversionResource.GetString("Large");
         private readonly string MonoString = ResourceService.VideoFormatConversionResource.GetString("Mono");
         private readonly string NoneString = ResourceService.VideoFormatConversionResource.GetString("None");
+        private readonly string NormalString = ResourceService.VideoFormatConversionResource.GetString("Normal");
         private readonly string NoRotateString = ResourceService.VideoFormatConversionResource.GetString("NoRotate");
         private readonly string QuadString = ResourceService.VideoFormatConversionResource.GetString("Quad");
         private readonly string RotateLeftString = ResourceService.VideoFormatConversionResource.GetString("RotateLeft");
         private readonly string RotateRightString = ResourceService.VideoFormatConversionResource.GetString("RotateRight");
         private readonly string SecondString = ResourceService.VideoFormatConversionResource.GetString("Second");
+        private readonly string SelectFileString = ResourceService.VideoFormatConversionResource.GetString("SelectFile");
+        private readonly string SmallString = ResourceService.VideoFormatConversionResource.GetString("Small");
         private readonly string StereoString = ResourceService.VideoFormatConversionResource.GetString("Stereo");
         private readonly string Stereo51String = ResourceService.VideoFormatConversionResource.GetString("Stereo51");
         private readonly string Stereo71String = ResourceService.VideoFormatConversionResource.GetString("Stereo71");
+        private readonly string SubtitleString = ResourceService.VideoFormatConversionResource.GetString("Subtitle");
         private readonly string UnsideDownString = ResourceService.VideoFormatConversionResource.GetString("UnsideDown");
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private OverlappedPresenter overlappedPresenter;
@@ -508,6 +515,71 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
+        private bool _preserveAllSourceInputSubtitleStream;
+
+        public bool PreserveAllSourceInputSubtitleStream
+        {
+            get { return _preserveAllSourceInputSubtitleStream; }
+
+            set
+            {
+                _preserveAllSourceInputSubtitleStream = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PreserveAllSourceInputSubtitleStream)));
+            }
+        }
+
+        private string _AdditionalSubtitlePath;
+
+        public string AdditionalSubtitlePath
+        {
+            get { return _AdditionalSubtitlePath; }
+
+            set
+            {
+                _AdditionalSubtitlePath = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AdditionalSubtitlePath)));
+            }
+        }
+
+        private string _subtitleNestType;
+
+        public string SubtitleNestType
+        {
+            get { return _subtitleNestType; }
+
+            set
+            {
+                _subtitleNestType = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SubtitleNestType)));
+            }
+        }
+
+        private KeyValuePairModel _selectedSubtitleNestType;
+
+        public KeyValuePairModel SelectedSubtitleNestType
+        {
+            get { return _selectedSubtitleNestType; }
+
+            set
+            {
+                _selectedSubtitleNestType = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedSubtitleNestType)));
+            }
+        }
+
+        private KeyValuePairModel _selectedFontSize;
+
+        public KeyValuePairModel SelectedFontSize
+        {
+            get { return _selectedFontSize; }
+
+            set
+            {
+                _selectedFontSize = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedFontSize)));
+            }
+        }
+
         public List<KeyValuePairModel> FormatConversionTypeList { get; } =
         [
             new KeyValuePairModel(){ Key = "MP4", Value = ".mp4" },
@@ -562,6 +634,10 @@ namespace ModernFormatConverter.Views.Dialogs
 
         public List<KeyValuePairModel> AudioFadeOutEffectList { get; } = [];
 
+        public List<KeyValuePairModel> SubtitleNestTypeList { get; } = [];
+
+        public List<KeyValuePairModel> FontSizeList { get; } = [];
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public VideoFormatConversionWindow(ConversionToolsWindow conversionToolsWindow, VideoConversionFileModel videoConversionFileModel)
@@ -613,6 +689,10 @@ namespace ModernFormatConverter.Views.Dialogs
                 SelectedAudioFadeInEffect.IsChecked = true;
                 SelectedAudioFadeOutEffect = AudioFadeOutEffectList[0];
                 SelectedAudioFadeOutEffect.IsChecked = true;
+                SelectedSubtitleNestType = SubtitleNestTypeList[0];
+                SelectedSubtitleNestType.IsChecked = true;
+                SelectedFontSize = FontSizeList[2];
+                SelectedFontSize.IsChecked = true;
             }
         }
 
@@ -662,6 +742,10 @@ namespace ModernFormatConverter.Views.Dialogs
                 SelectedAudioFadeInEffect.IsChecked = true;
                 SelectedAudioFadeOutEffect = AudioFadeOutEffectList[0];
                 SelectedAudioFadeOutEffect.IsChecked = true;
+                SelectedSubtitleNestType = SubtitleNestTypeList[0];
+                SelectedSubtitleNestType.IsChecked = true;
+                SelectedFontSize = FontSizeList[2];
+                SelectedFontSize.IsChecked = true;
             }
         }
 
@@ -1200,6 +1284,54 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
+        /// <summary>
+        /// 修改字幕嵌入类型
+        /// </summary>
+        private void OnSubtitleNestTypeExecuteRequested(object sender, ExecuteRequestedEventArgs args)
+        {
+            if (SubtitleNestTypeFlyout.IsOpen)
+            {
+                SubtitleNestTypeFlyout.Hide();
+            }
+
+            if (args.Parameter is KeyValuePairModel subtitleNestType)
+            {
+                foreach (KeyValuePairModel subtitleNestTypeItem in SubtitleNestTypeList)
+                {
+                    subtitleNestTypeItem.IsChecked = false;
+                    if (string.Equals(subtitleNestType.Key, subtitleNestTypeItem.Key))
+                    {
+                        SelectedSubtitleNestType = subtitleNestTypeItem;
+                        subtitleNestTypeItem.IsChecked = true;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 修改字体大小
+        /// </summary>
+        private void OnFontSizeExecuteRequested(object sender, ExecuteRequestedEventArgs args)
+        {
+            if (FontSizeFlyout.IsOpen)
+            {
+                FontSizeFlyout.Hide();
+            }
+
+            if (args.Parameter is KeyValuePairModel fontSize)
+            {
+                foreach (KeyValuePairModel fontSizeItem in FontSizeList)
+                {
+                    fontSizeItem.IsChecked = false;
+                    if (string.Equals(fontSize.Key, fontSizeItem.Key))
+                    {
+                        SelectedFontSize = fontSizeItem;
+                        fontSizeItem.IsChecked = true;
+                    }
+                }
+            }
+        }
+
         #endregion 第四部分：ExecuteCommand 命令调用时挂载的事件
 
         #region 第五部分：内容挂载的事件
@@ -1627,7 +1759,7 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
-        /// 是否保留所有源输入流
+        /// 是否保留所有源音频输入流
         /// </summary>
         private void OnPreserveAllSourceInputAudioStreamToggled(object sender, RoutedEventArgs args)
         {
@@ -1668,6 +1800,36 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
+        /// 字幕嵌入类型菜单打开时自动定位到选中项
+        /// </summary>
+        private void OnSubtitleNestTypeOpened(object sender, object args)
+        {
+            foreach (KeyValuePairModel subtitleNestType in SubtitleNestTypeList)
+            {
+                if (subtitleNestType.IsChecked)
+                {
+                    SubtitleNestTypeListView.ScrollIntoView(subtitleNestType);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 字体大小菜单打开时自动定位到选中项
+        /// </summary>
+        private void OnFontSizeOpened(object sender, object args)
+        {
+            foreach (KeyValuePairModel fontSize in FontSizeList)
+            {
+                if (fontSize.IsChecked)
+                {
+                    FontSizeListView.ScrollIntoView(fontSize);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
         /// 是否启用回声
         /// </summary>
         private void OnEchoToggled(object sender, RoutedEventArgs args)
@@ -1698,6 +1860,53 @@ namespace ModernFormatConverter.Views.Dialogs
             {
                 Reverse = toggleSwitch.IsOn;
             }
+        }
+
+        /// <summary>
+        /// 是否保留所有源字幕输入流
+        /// </summary>
+        private void OnPreserveAllSourceInputSubtitleStreamToggled(object sender, RoutedEventArgs args)
+        {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                PreserveAllSourceInputSubtitleStream = toggleSwitch.IsOn;
+            }
+        }
+
+        /// <summary>
+        /// 打开附加字幕目录
+        /// </summary>
+        private void OnAdditionalSubtitlePathClicked(object sender, RoutedEventArgs args)
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    Process.Start(Path.GetDirectoryName(AdditionalSubtitlePath));
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoFormatConversionWindow), nameof(OnAdditionalSubtitlePathClicked), 1, e);
+                }
+            });
+        }
+
+        /// <summary>
+        /// 选择附加字幕
+        /// </summary>
+        private void OnSelectAdditionalSubtitleClicked(object sender, RoutedEventArgs args)
+        {
+            System.Windows.Forms.OpenFileDialog openFileDialog = new()
+            {
+                Multiselect = false,
+                Title = SelectFileString,
+                Filter = string.Format("{0} (*.srt;*.ass;*.ssa)|*.srt;*.ass;*.ssa|{1} (*.*)|*.*", SubtitleString, AllFilesString)
+            };
+            if (openFileDialog.ShowDialog() is System.Windows.Forms.DialogResult.OK && !string.IsNullOrEmpty(openFileDialog.FileName) && File.Exists(openFileDialog.FileName))
+            {
+                AdditionalSubtitlePath = openFileDialog.FileName;
+            }
+            openFileDialog.Dispose();
         }
 
         #endregion 第五部分：内容挂载的事件
@@ -2212,6 +2421,19 @@ namespace ModernFormatConverter.Views.Dialogs
             AudioFadeOutEffectList.Add(new KeyValuePairModel() { Key = "3", Value = "3" + SecondString });
             AudioFadeOutEffectList.Add(new KeyValuePairModel() { Key = "4", Value = "4" + SecondString });
             AudioFadeOutEffectList.Add(new KeyValuePairModel() { Key = "5", Value = "5" + SecondString });
+
+            SubtitleNestTypeList.Add(new KeyValuePairModel() { Key = "Default", Value = DefaultString });
+            SubtitleNestTypeList.Add(new KeyValuePairModel() { Key = "None", Value = NoneString });
+            SubtitleNestTypeList.Add(new KeyValuePairModel() { Key = "Embedded", Value = "Embedded" });
+            SubtitleNestTypeList.Add(new KeyValuePairModel() { Key = "Ansi", Value = "Ansi" });
+            SubtitleNestTypeList.Add(new KeyValuePairModel() { Key = "Unicode", Value = "Unicode" });
+            SubtitleNestTypeList.Add(new KeyValuePairModel() { Key = "UTF8", Value = "UTF8" });
+
+            FontSizeList.Add(new KeyValuePairModel() { Key = "1", Value = string.Format("{0} {1}", 1, SmallString) });
+            FontSizeList.Add(new KeyValuePairModel() { Key = "2", Value = "2" });
+            FontSizeList.Add(new KeyValuePairModel() { Key = "3", Value = string.Format("{0} {1}", 3, NormalString) });
+            FontSizeList.Add(new KeyValuePairModel() { Key = "4", Value = "4" });
+            FontSizeList.Add(new KeyValuePairModel() { Key = "5", Value = string.Format("{0} {1}", 1, LargeString) });
         }
 
         /// <summary>
@@ -2235,8 +2457,8 @@ namespace ModernFormatConverter.Views.Dialogs
             overlappedPresenter.IsMaximizable = false;
             overlappedPresenter.IsModal = true;
             AppWindow.SetPresenter(overlappedPresenter);
-            AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
-            AppWindow.TitleBar.InactiveBackgroundColor = Colors.Transparent;
+            AppWindow.TitleBar.ButtonBackgroundColor = Microsoft.UI.Colors.Transparent;
+            AppWindow.TitleBar.InactiveBackgroundColor = Microsoft.UI.Colors.Transparent;
             AppWindow.TitleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
             double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
             int width = Convert.ToInt32(768 * dpi);
@@ -2284,6 +2506,11 @@ namespace ModernFormatConverter.Views.Dialogs
         private Visibility GetSelectedScreenSize(string selectedScreenSize, string comparedScreenSize)
         {
             return string.Equals(selectedScreenSize, comparedScreenSize, StringComparison.OrdinalIgnoreCase) ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private Visibility CheckAdditionalSubtitlePath(string additionalSubtitlePath)
+        {
+            return string.IsNullOrEmpty(additionalSubtitlePath) ? Visibility.Collapsed : Visibility.Visible;
         }
 
         private uint HIWORD(uint dword)
