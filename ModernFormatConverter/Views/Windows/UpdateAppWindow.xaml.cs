@@ -261,7 +261,10 @@ namespace ModernFormatConverter.Views.Windows
                                     if (UpdateAppResultKind is not UpdateAppResultKind.Canceling)
                                     {
                                         UpdateAppResultKind = UpdateAppResultKind.Pending;
-                                        ResizeWindow(UpdateAppResultKind);
+                                        synchronizationContext.Post((_) =>
+                                        {
+                                            ResizeWindow(UpdateAppResultKind);
+                                        }, null);
                                         CloseText = CancelString;
                                     }
                                 }, null);
@@ -275,7 +278,10 @@ namespace ModernFormatConverter.Views.Windows
                                     if (UpdateAppResultKind is not UpdateAppResultKind.Canceling)
                                     {
                                         UpdateAppResultKind = UpdateAppResultKind.Downloading;
-                                        ResizeWindow(UpdateAppResultKind);
+                                        synchronizationContext.Post((_) =>
+                                        {
+                                            ResizeWindow(UpdateAppResultKind);
+                                        }, null);
                                         UpdateDownloadString = string.Format(UpdateDownloadingString, downloadedSize, totalSize);
                                         CloseText = CancelString;
                                     }
@@ -288,7 +294,10 @@ namespace ModernFormatConverter.Views.Windows
                                     if (UpdateAppResultKind is not UpdateAppResultKind.Canceling)
                                     {
                                         UpdateAppResultKind = UpdateAppResultKind.Deploying;
-                                        ResizeWindow(UpdateAppResultKind);
+                                        synchronizationContext.Post((_) =>
+                                        {
+                                            ResizeWindow(UpdateAppResultKind);
+                                        }, null);
                                         CloseText = CancelString;
                                     }
                                 }, null);
@@ -301,7 +310,10 @@ namespace ModernFormatConverter.Views.Windows
                                     if (UpdateAppResultKind is not UpdateAppResultKind.Canceling)
                                     {
                                         UpdateAppResultKind = UpdateAppResultKind.Canceled;
-                                        ResizeWindow(UpdateAppResultKind);
+                                        synchronizationContext.Post((_) =>
+                                        {
+                                            ResizeWindow(UpdateAppResultKind);
+                                        }, null);
                                         CloseText = CloseString;
                                     }
                                 }, null);
@@ -314,7 +326,10 @@ namespace ModernFormatConverter.Views.Windows
                                     if (UpdateAppResultKind is not UpdateAppResultKind.Canceling)
                                     {
                                         UpdateAppResultKind = UpdateAppResultKind.Failed;
-                                        ResizeWindow(UpdateAppResultKind);
+                                        synchronizationContext.Post((_) =>
+                                        {
+                                            ResizeWindow(UpdateAppResultKind);
+                                        }, null);
                                         CloseText = CloseString;
                                     }
                                 }, null);
@@ -327,7 +342,10 @@ namespace ModernFormatConverter.Views.Windows
                                     if (UpdateAppResultKind is not UpdateAppResultKind.Canceling)
                                     {
                                         UpdateAppResultKind = UpdateAppResultKind.Failed;
-                                        ResizeWindow(UpdateAppResultKind);
+                                        synchronizationContext.Post((_) =>
+                                        {
+                                            ResizeWindow(UpdateAppResultKind);
+                                        }, null);
                                         CloseText = CloseString;
                                     }
                                 }, null);
@@ -340,7 +358,10 @@ namespace ModernFormatConverter.Views.Windows
                                     if (UpdateAppResultKind is not UpdateAppResultKind.Canceling)
                                     {
                                         UpdateAppResultKind = UpdateAppResultKind.Failed;
-                                        ResizeWindow(UpdateAppResultKind);
+                                        synchronizationContext.Post((_) =>
+                                        {
+                                            ResizeWindow(UpdateAppResultKind);
+                                        }, null);
                                         CloseText = CloseString;
                                     }
                                 }, null);
@@ -353,7 +374,10 @@ namespace ModernFormatConverter.Views.Windows
                                     if (UpdateAppResultKind is not UpdateAppResultKind.Canceling)
                                     {
                                         UpdateAppResultKind = UpdateAppResultKind.Failed;
-                                        ResizeWindow(UpdateAppResultKind);
+                                        synchronizationContext.Post((_) =>
+                                        {
+                                            ResizeWindow(UpdateAppResultKind);
+                                        }, null);
                                         CloseText = CloseString;
                                     }
                                 }, null);
@@ -368,12 +392,18 @@ namespace ModernFormatConverter.Views.Windows
                             if (updateFailed)
                             {
                                 UpdateAppResultKind = UpdateAppResultKind.Failed;
-                                ResizeWindow(UpdateAppResultKind);
+                                synchronizationContext.Post((_) =>
+                                {
+                                    ResizeWindow(UpdateAppResultKind);
+                                }, null);
                             }
                             else
                             {
                                 UpdateAppResultKind = UpdateAppResultKind.Successfully;
-                                ResizeWindow(UpdateAppResultKind);
+                                synchronizationContext.Post((_) =>
+                                {
+                                    ResizeWindow(UpdateAppResultKind);
+                                }, null);
                                 PrimaryText = CloseAppString;
                             }
                         }
@@ -383,7 +413,10 @@ namespace ModernFormatConverter.Views.Windows
             catch (OperationCanceledException e)
             {
                 UpdateAppResultKind = UpdateAppResultKind.Canceled;
-                ResizeWindow(UpdateAppResultKind);
+                synchronizationContext.Post((_) =>
+                {
+                    ResizeWindow(UpdateAppResultKind);
+                }, null);
                 cancellationTokenSource?.Dispose();
                 cancellationTokenSource = null;
                 CloseText = CloseString;
@@ -392,7 +425,10 @@ namespace ModernFormatConverter.Views.Windows
             catch (Exception e)
             {
                 UpdateAppResultKind = UpdateAppResultKind.Failed;
-                ResizeWindow(UpdateAppResultKind);
+                synchronizationContext.Post((_) =>
+                {
+                    ResizeWindow(UpdateAppResultKind);
+                }, null);
                 cancellationTokenSource?.Dispose();
                 cancellationTokenSource = null;
                 CloseText = CloseString;
@@ -616,16 +652,13 @@ namespace ModernFormatConverter.Views.Windows
         /// </summary>
         private void ResizeWindow(UpdateAppResultKind updateAppResultKind)
         {
-            synchronizationContext.Post((_) =>
-            {
-                double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
-                int width = Convert.ToInt32(550 * dpi);
-                int height = Convert.ToInt32(updateAppResultKind is UpdateAppResultKind.Failed ? 260 : 230 * dpi);
-                User32Library.GetWindowRect((nint)MainWindow.AppWindow.Id.Value, out RECT parentRect);
-                int childX = parentRect.left + (parentRect.right - parentRect.left - width) / 2;
-                int childY = parentRect.top + (parentRect.bottom - parentRect.top - height) / 2;
-                User32Library.SetWindowPos((nint)AppWindow.Id.Value, 0, childX, childY, width, height, SetWindowPosFlags.SWP_NOZORDER);
-            }, null);
+            double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
+            int width = Convert.ToInt32(550 * dpi);
+            int height = Convert.ToInt32(updateAppResultKind is UpdateAppResultKind.Failed ? 260 : 230 * dpi);
+            User32Library.GetWindowRect((nint)MainWindow.AppWindow.Id.Value, out RECT parentRect);
+            int childX = parentRect.left + (parentRect.right - parentRect.left - width) / 2;
+            int childY = parentRect.top + (parentRect.bottom - parentRect.top - height) / 2;
+            User32Library.SetWindowPos((nint)AppWindow.Id.Value, 0, childX, childY, width, height, SetWindowPosFlags.SWP_NOZORDER);
         }
 
         /// <summary>

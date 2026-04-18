@@ -162,7 +162,7 @@
                 </Grid.ColumnDefinitions>
 
                 <SelectorBar
-                    x:Name="VideoOutputConfigurationSelectorBar"
+                    x:Name="VideoFormatConversionSelectorBar"
                     Grid.Column="0"
                     Margin="-8,-4,0,0"
                     Padding="0"
@@ -211,6 +211,7 @@
             <MenuFlyoutSeparator Grid.Row="2" Margin="6,0,6,3" />
 
             <ScrollViewer
+                x:Name="VideoFormatConversionScroll"
                 Grid.Row="3"
                 Padding="8,0,10,3"
                 HorizontalScrollBarVisibility="Disabled"

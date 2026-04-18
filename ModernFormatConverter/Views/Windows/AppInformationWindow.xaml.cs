@@ -353,31 +353,25 @@ namespace ModernFormatConverter.Views.Windows
                 // 窗口位置发生变化时触发的消息
                 case WindowMessage.WM_MOVE:
                     {
-                        synchronizationContext.Post((_) =>
-                        {
-                            double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
-                            int width = Convert.ToInt32(480 * dpi);
-                            int height = Convert.ToInt32(280 * dpi);
-                            User32Library.GetWindowRect((nint)MainWindow.AppWindow.Id.Value, out RECT parentRect);
-                            int childX = parentRect.left + (parentRect.right - parentRect.left - width) / 2;
-                            int childY = parentRect.top + (parentRect.bottom - parentRect.top - height) / 2;
-                            User32Library.SetWindowPos((nint)AppWindow.Id.Value, 0, childX, childY, width, height, SetWindowPosFlags.SWP_NOREPOSITION | SetWindowPosFlags.SWP_NOZORDER);
-                        }, null);
+                        double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
+                        int width = Convert.ToInt32(480 * dpi);
+                        int height = Convert.ToInt32(280 * dpi);
+                        User32Library.GetWindowRect((nint)MainWindow.AppWindow.Id.Value, out RECT parentRect);
+                        int childX = parentRect.left + (parentRect.right - parentRect.left - width) / 2;
+                        int childY = parentRect.top + (parentRect.bottom - parentRect.top - height) / 2;
+                        User32Library.SetWindowPos((nint)AppWindow.Id.Value, 0, childX, childY, width, height, SetWindowPosFlags.SWP_NOREPOSITION | SetWindowPosFlags.SWP_NOZORDER);
                         break;
                     }
                 // 窗口大小发生变化时触发的消息
                 case WindowMessage.WM_SIZE:
                     {
-                        synchronizationContext.Post((_) =>
-                        {
-                            double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
-                            int width = Convert.ToInt32(480 * dpi);
-                            int height = Convert.ToInt32(280 * dpi);
-                            User32Library.GetWindowRect((nint)MainWindow.AppWindow.Id.Value, out RECT parentRect);
-                            int childX = parentRect.left + (parentRect.right - parentRect.left - width) / 2;
-                            int childY = parentRect.top + (parentRect.bottom - parentRect.top - height) / 2;
-                            User32Library.SetWindowPos((nint)AppWindow.Id.Value, 0, childX, childY, width, height, SetWindowPosFlags.SWP_NOREPOSITION | SetWindowPosFlags.SWP_NOZORDER);
-                        }, null);
+                        double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
+                        int width = Convert.ToInt32(480 * dpi);
+                        int height = Convert.ToInt32(280 * dpi);
+                        User32Library.GetWindowRect((nint)MainWindow.AppWindow.Id.Value, out RECT parentRect);
+                        int childX = parentRect.left + (parentRect.right - parentRect.left - width) / 2;
+                        int childY = parentRect.top + (parentRect.bottom - parentRect.top - height) / 2;
+                        User32Library.SetWindowPos((nint)AppWindow.Id.Value, 0, childX, childY, width, height, SetWindowPosFlags.SWP_NOREPOSITION | SetWindowPosFlags.SWP_NOZORDER);
                         break;
                     }
                 // 窗口销毁后触发的消息
