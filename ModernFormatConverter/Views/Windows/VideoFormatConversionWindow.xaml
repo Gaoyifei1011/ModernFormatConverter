@@ -118,6 +118,9 @@
                 <class:ExecuteCommand x:Name="AudioFadeOutEffectCommand" ExecuteRequested="{x:Bind OnAudioFadeOutEffectExecuteRequested}" />
                 <class:ExecuteCommand x:Name="SubtitleNestTypeCommand" ExecuteRequested="{x:Bind OnSubtitleNestTypeExecuteRequested}" />
                 <class:ExecuteCommand x:Name="FontSizeCommand" ExecuteRequested="{x:Bind OnFontSizeExecuteRequested}" />
+                <class:ExecuteCommand x:Name="FontBorderStyleCommand" ExecuteRequested="{x:Bind OnFontBorderStyleExecuteRequested}" />
+                <class:ExecuteCommand x:Name="CounterLineSizeCommand" ExecuteRequested="{x:Bind OnCounterLineSizeExecuteRequested}" />
+                <class:ExecuteCommand x:Name="ShadowSizeCommand" ExecuteRequested="{x:Bind OnShadowSizeExecuteRequested}" />
             </ResourceDictionary>
         </Page.Resources>
 
@@ -2704,6 +2707,44 @@
                         </DropDownButton>
                     </Grid>
 
+                    <!--  字体名称  -->
+                    <Grid
+                        Height="60"
+                        Margin="0,0,0,2"
+                        Padding="16,0"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource ControlCornerRadius}">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="0,0,0,2"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('FontName')}" />
+
+                        <TextBlock
+                            Grid.Column="1"
+                            Margin="0,0,0,2"
+                            VerticalAlignment="Center"
+                            Text="{x:Bind FontName, Mode=OneWay}" />
+
+                        <Button
+                            Grid.Column="2"
+                            Margin="5,0,0,0"
+                            VerticalAlignment="Center"
+                            Click="{x:Bind OnChangeFontNameClicked}"
+                            Content="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Change')}" />
+                    </Grid>
+
                     <!--  字体大小  -->
                     <Grid
                         Height="60"
@@ -2778,6 +2819,337 @@
                                                         Command="{StaticResource FontSizeCommand}"
                                                         CommandParameter="{x:Bind}"
                                                         GroupName="FontSizeRadioGroup"
+                                                        IsChecked="{x:Bind IsChecked, Mode=OneWay}"
+                                                        Text="{x:Bind Value}" />
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </Grid>
+                                </Flyout>
+                            </DropDownButton.Flyout>
+                        </DropDownButton>
+                    </Grid>
+
+                    <!--  字体颜色  -->
+                    <Grid
+                        Height="60"
+                        Margin="0,0,0,2"
+                        Padding="16,0"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource ControlCornerRadius}">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="0,0,0,2"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('FontColor')}" />
+
+                        <TextBlock
+                            Grid.Column="1"
+                            Margin="0,0,0,2"
+                            VerticalAlignment="Center"
+                            Text="{x:Bind FontColor, Mode=OneWay}" />
+
+                        <Button
+                            Grid.Column="2"
+                            Margin="5,0,0,0"
+                            VerticalAlignment="Center"
+                            Click="{x:Bind OnChangeFontColorClicked}"
+                            Content="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Change')}" />
+                    </Grid>
+
+                    <!--  字体边框风格  -->
+                    <Grid
+                        Height="60"
+                        Margin="0,0,0,2"
+                        Padding="16,0"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource ControlCornerRadius}">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="0,0,0,2"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('FontBorderStyle')}" />
+
+                        <DropDownButton
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Content="{x:Bind SelectedFontBorderStyle.Value, Mode=OneWay}">
+
+                            <DropDownButton.Flyout>
+                                <Flyout
+                                    x:Name="FontBorderStyleFlyout"
+                                    Opened="{x:Bind OnFontBorderStyleOpened}"
+                                    Placement="Bottom"
+                                    ShouldConstrainToRootBounds="False">
+
+                                    <Flyout.FlyoutPresenterStyle>
+                                        <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                            <Setter Property="Padding" Value="0" />
+                                            <Setter Property="MinHeight" Value="0" />
+                                            <Setter Property="Background" Value="Transparent" />
+                                        </Style>
+                                    </Flyout.FlyoutPresenterStyle>
+
+                                    <Grid>
+                                        <SystemBackdropElement CornerRadius="{StaticResource OverlayCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+
+                                        <ListView
+                                            x:Name="FontBorderStyleListView"
+                                            MaxHeight="300"
+                                            Background="Transparent"
+                                            ItemsSource="{x:Bind FontBorderStyleList}"
+                                            SelectionMode="None">
+
+                                            <ListView.ItemContainerStyle>
+                                                <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                                    <Setter Property="Padding" Value="0" />
+                                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                    <Setter Property="Margin" Value="0,1" />
+                                                    <Setter Property="MinHeight" Value="0 " />
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+
+                                            <ItemsControl.ItemContainerTransitions>
+                                                <TransitionCollection />
+                                            </ItemsControl.ItemContainerTransitions>
+
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate x:DataType="model:KeyValuePairModel">
+                                                    <RadioMenuFlyoutItem
+                                                        Height="32"
+                                                        Padding="11,0"
+                                                        Command="{StaticResource FontBorderStyleCommand}"
+                                                        CommandParameter="{x:Bind}"
+                                                        GroupName="FontBorderStyleRadioGroup"
+                                                        IsChecked="{x:Bind IsChecked, Mode=OneWay}"
+                                                        Text="{x:Bind Value}" />
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </Grid>
+                                </Flyout>
+                            </DropDownButton.Flyout>
+                        </DropDownButton>
+                    </Grid>
+
+                    <!--  轮廓线大小  -->
+                    <Grid
+                        Height="60"
+                        Margin="0,0,0,2"
+                        Padding="16,0"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource ControlCornerRadius}">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="0,0,0,2"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('CounterLineSize')}" />
+
+                        <DropDownButton
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Content="{x:Bind SelectedCounterLineSize.Value, Mode=OneWay}">
+
+                            <DropDownButton.Flyout>
+                                <Flyout
+                                    x:Name="CounterLineSizeFlyout"
+                                    Opened="{x:Bind OnCounterLineSizeOpened}"
+                                    Placement="Bottom"
+                                    ShouldConstrainToRootBounds="False">
+
+                                    <Flyout.FlyoutPresenterStyle>
+                                        <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                            <Setter Property="Padding" Value="0" />
+                                            <Setter Property="MinHeight" Value="0" />
+                                            <Setter Property="Background" Value="Transparent" />
+                                        </Style>
+                                    </Flyout.FlyoutPresenterStyle>
+
+                                    <Grid>
+                                        <SystemBackdropElement CornerRadius="{StaticResource OverlayCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+
+                                        <ListView
+                                            x:Name="CounterLineSizeListView"
+                                            MaxHeight="300"
+                                            Background="Transparent"
+                                            ItemsSource="{x:Bind CounterLineSizeList}"
+                                            SelectionMode="None">
+
+                                            <ListView.ItemContainerStyle>
+                                                <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                                    <Setter Property="Padding" Value="0" />
+                                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                    <Setter Property="Margin" Value="0,1" />
+                                                    <Setter Property="MinHeight" Value="0 " />
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+
+                                            <ItemsControl.ItemContainerTransitions>
+                                                <TransitionCollection />
+                                            </ItemsControl.ItemContainerTransitions>
+
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate x:DataType="model:KeyValuePairModel">
+                                                    <RadioMenuFlyoutItem
+                                                        Height="32"
+                                                        Padding="11,0"
+                                                        Command="{StaticResource CounterLineSizeCommand}"
+                                                        CommandParameter="{x:Bind}"
+                                                        GroupName="CounterLineSizeRadioGroup"
+                                                        IsChecked="{x:Bind IsChecked, Mode=OneWay}"
+                                                        Text="{x:Bind Value}" />
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </Grid>
+                                </Flyout>
+                            </DropDownButton.Flyout>
+                        </DropDownButton>
+                    </Grid>
+
+                    <!--  轮廓线颜色  -->
+                    <Grid
+                        Height="60"
+                        Margin="0,0,0,2"
+                        Padding="16,0"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource ControlCornerRadius}">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="0,0,0,2"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('CounterLineColor')}" />
+
+                        <TextBlock
+                            Grid.Column="1"
+                            Margin="0,0,0,2"
+                            VerticalAlignment="Center"
+                            Text="{x:Bind CounterLineColor, Mode=OneWay}" />
+
+                        <Button
+                            Grid.Column="2"
+                            Margin="5,0,0,0"
+                            VerticalAlignment="Center"
+                            Click="{x:Bind OnChangeCounterLineColorClicked}"
+                            Content="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Change')}" />
+                    </Grid>
+
+                    <!--  阴影大小  -->
+                    <Grid
+                        Height="60"
+                        Margin="0,0,0,2"
+                        Padding="16,0"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource ControlCornerRadius}">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="0,0,0,2"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('ShadowSize')}" />
+
+                        <DropDownButton
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Content="{x:Bind SelectedShadowSize.Value, Mode=OneWay}">
+
+                            <DropDownButton.Flyout>
+                                <Flyout
+                                    x:Name="ShadowSizeFlyout"
+                                    Opened="{x:Bind OnShadowSizeOpened}"
+                                    Placement="Bottom"
+                                    ShouldConstrainToRootBounds="False">
+
+                                    <Flyout.FlyoutPresenterStyle>
+                                        <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                            <Setter Property="Padding" Value="0" />
+                                            <Setter Property="MinHeight" Value="0" />
+                                            <Setter Property="Background" Value="Transparent" />
+                                        </Style>
+                                    </Flyout.FlyoutPresenterStyle>
+
+                                    <Grid>
+                                        <SystemBackdropElement CornerRadius="{StaticResource OverlayCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+
+                                        <ListView
+                                            x:Name="ShadowSizeListView"
+                                            MaxHeight="300"
+                                            Background="Transparent"
+                                            ItemsSource="{x:Bind ShadowSizeList}"
+                                            SelectionMode="None">
+
+                                            <ListView.ItemContainerStyle>
+                                                <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                                    <Setter Property="Padding" Value="0" />
+                                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                    <Setter Property="Margin" Value="0,1" />
+                                                    <Setter Property="MinHeight" Value="0 " />
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+
+                                            <ItemsControl.ItemContainerTransitions>
+                                                <TransitionCollection />
+                                            </ItemsControl.ItemContainerTransitions>
+
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate x:DataType="model:KeyValuePairModel">
+                                                    <RadioMenuFlyoutItem
+                                                        Height="32"
+                                                        Padding="11,0"
+                                                        Command="{StaticResource ShadowSizeCommand}"
+                                                        CommandParameter="{x:Bind}"
+                                                        GroupName="ShadowSizeRadioGroup"
                                                         IsChecked="{x:Bind IsChecked, Mode=OneWay}"
                                                         Text="{x:Bind Value}" />
                                                 </DataTemplate>

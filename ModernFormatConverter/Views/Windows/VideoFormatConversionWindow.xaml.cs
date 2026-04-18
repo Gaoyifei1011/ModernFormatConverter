@@ -43,6 +43,7 @@ namespace ModernFormatConverter.Views.Dialogs
     public sealed partial class VideoFormatConversionWindow : Window, INotifyPropertyChanged
     {
         private readonly string AllFilesString = ResourceService.VideoFormatConversionResource.GetString("AllFiles");
+        private readonly string BorderAndShadowString = ResourceService.VideoFormatConversionResource.GetString("BorderAndShadow");
         private readonly string CopyString = ResourceService.VideoFormatConversionResource.GetString("Copy");
         private readonly string CustomString = ResourceService.VideoFormatConversionResource.GetString("Custom");
         private readonly string DefaultString = ResourceService.VideoFormatConversionResource.GetString("Default");
@@ -58,6 +59,7 @@ namespace ModernFormatConverter.Views.Dialogs
         private readonly string SecondString = ResourceService.VideoFormatConversionResource.GetString("Second");
         private readonly string SelectFileString = ResourceService.VideoFormatConversionResource.GetString("SelectFile");
         private readonly string SmallString = ResourceService.VideoFormatConversionResource.GetString("Small");
+        private readonly string SolidColorBackgroundString = ResourceService.VideoFormatConversionResource.GetString("SolidColorBackground");
         private readonly string StereoString = ResourceService.VideoFormatConversionResource.GetString("Stereo");
         private readonly string Stereo51String = ResourceService.VideoFormatConversionResource.GetString("Stereo51");
         private readonly string Stereo71String = ResourceService.VideoFormatConversionResource.GetString("Stereo71");
@@ -567,6 +569,19 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
+        private string _fontName;
+
+        public string FontName
+        {
+            get { return _fontName; }
+
+            set
+            {
+                _fontName = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FontName)));
+            }
+        }
+
         private KeyValuePairModel _selectedFontSize;
 
         public KeyValuePairModel SelectedFontSize
@@ -577,6 +592,71 @@ namespace ModernFormatConverter.Views.Dialogs
             {
                 _selectedFontSize = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedFontSize)));
+            }
+        }
+
+        private string _fontColor;
+
+        public string FontColor
+        {
+            get { return _fontColor; }
+
+            set
+            {
+                _fontColor = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FontColor)));
+            }
+        }
+
+        private KeyValuePairModel _selectedFontBorderStyle;
+
+        public KeyValuePairModel SelectedFontBorderStyle
+        {
+            get { return _selectedFontBorderStyle; }
+
+            set
+            {
+                _selectedFontBorderStyle = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedFontBorderStyle)));
+            }
+        }
+
+        private KeyValuePairModel _selectedCounterLineSize;
+
+        public KeyValuePairModel SelectedCounterLineSize
+        {
+            get { return _selectedCounterLineSize; }
+
+            set
+            {
+                _selectedCounterLineSize = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCounterLineSize)));
+            }
+        }
+
+        private string _counterLineColor;
+
+        public string CounterLineColor
+        {
+            get { return _counterLineColor; }
+
+            set
+            {
+                _counterLineColor = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CounterLineColor)));
+            }
+        }
+
+        private KeyValuePairModel _selectedShadowSize;
+
+        public KeyValuePairModel SelectedShadowSize
+        {
+            get { return _selectedShadowSize; }
+
+            set
+            {
+                _selectedShadowSize = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedShadowSize)));
             }
         }
 
@@ -638,6 +718,12 @@ namespace ModernFormatConverter.Views.Dialogs
 
         public List<KeyValuePairModel> FontSizeList { get; } = [];
 
+        public List<KeyValuePairModel> FontBorderStyleList { get; } = [];
+
+        public List<KeyValuePairModel> CounterLineSizeList { get; } = [];
+
+        public List<KeyValuePairModel> ShadowSizeList { get; } = [];
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public VideoFormatConversionWindow(ConversionToolsWindow conversionToolsWindow, VideoConversionFileModel videoConversionFileModel)
@@ -693,6 +779,16 @@ namespace ModernFormatConverter.Views.Dialogs
                 SelectedSubtitleNestType.IsChecked = true;
                 SelectedFontSize = FontSizeList[2];
                 SelectedFontSize.IsChecked = true;
+                FontName = System.Drawing.SystemFonts.DefaultFont.Name;
+                System.Windows.Media.Color accentColor = System.Windows.SystemParameters.WindowGlassColor;
+                FontColor = accentColor.ToString();
+                SelectedFontBorderStyle = FontBorderStyleList[0];
+                SelectedFontBorderStyle.IsChecked = true;
+                SelectedCounterLineSize = CounterLineSizeList[0];
+                SelectedCounterLineSize.IsChecked = true;
+                CounterLineColor = accentColor.ToString();
+                SelectedShadowSize = ShadowSizeList[0];
+                SelectedShadowSize.IsChecked = true;
             }
         }
 
@@ -746,6 +842,16 @@ namespace ModernFormatConverter.Views.Dialogs
                 SelectedSubtitleNestType.IsChecked = true;
                 SelectedFontSize = FontSizeList[2];
                 SelectedFontSize.IsChecked = true;
+                FontName = System.Drawing.SystemFonts.DefaultFont.Name;
+                System.Windows.Media.Color accentColor = System.Windows.SystemParameters.WindowGlassColor;
+                FontColor = accentColor.ToString();
+                SelectedFontBorderStyle = FontBorderStyleList[0];
+                SelectedFontBorderStyle.IsChecked = true;
+                SelectedCounterLineSize = CounterLineSizeList[0];
+                SelectedCounterLineSize.IsChecked = true;
+                CounterLineColor = accentColor.ToString();
+                SelectedShadowSize = ShadowSizeList[0];
+                SelectedShadowSize.IsChecked = true;
             }
         }
 
@@ -1332,6 +1438,78 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
+        /// <summary>
+        /// 修改字体边框风格
+        /// </summary>
+        private void OnFontBorderStyleExecuteRequested(object sender, ExecuteRequestedEventArgs args)
+        {
+            if (FontBorderStyleFlyout.IsOpen)
+            {
+                FontBorderStyleFlyout.Hide();
+            }
+
+            if (args.Parameter is KeyValuePairModel fontBorderStyle)
+            {
+                foreach (KeyValuePairModel fontBorderStyleItem in FontBorderStyleList)
+                {
+                    fontBorderStyleItem.IsChecked = false;
+                    if (string.Equals(fontBorderStyle.Key, fontBorderStyleItem.Key))
+                    {
+                        SelectedFontBorderStyle = fontBorderStyleItem;
+                        fontBorderStyleItem.IsChecked = true;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 修改轮廓线大小
+        /// </summary>
+        private void OnCounterLineSizeExecuteRequested(object sender, ExecuteRequestedEventArgs args)
+        {
+            if (CounterLineSizeFlyout.IsOpen)
+            {
+                CounterLineSizeFlyout.Hide();
+            }
+
+            if (args.Parameter is KeyValuePairModel counterLineSize)
+            {
+                foreach (KeyValuePairModel counterLineSizeItem in CounterLineSizeList)
+                {
+                    counterLineSizeItem.IsChecked = false;
+                    if (string.Equals(counterLineSize.Key, counterLineSizeItem.Key))
+                    {
+                        SelectedCounterLineSize = counterLineSizeItem;
+                        counterLineSizeItem.IsChecked = true;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 修改阴影大小
+        /// </summary>
+        private void OnShadowSizeExecuteRequested(object sender, ExecuteRequestedEventArgs args)
+        {
+            if (ShadowSizeFlyout.IsOpen)
+            {
+                ShadowSizeFlyout.Hide();
+            }
+
+            if (args.Parameter is KeyValuePairModel shadowSize)
+            {
+                foreach (KeyValuePairModel shadowSizeItem in ShadowSizeList)
+                {
+                    shadowSizeItem.IsChecked = false;
+                    if (string.Equals(shadowSize.Key, shadowSizeItem.Key))
+                    {
+                        SelectedShadowSize = shadowSizeItem;
+                        shadowSizeItem.IsChecked = true;
+                    }
+                }
+            }
+        }
+
         #endregion 第四部分：ExecuteCommand 命令调用时挂载的事件
 
         #region 第五部分：内容挂载的事件
@@ -1800,36 +1978,6 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
-        /// 字幕嵌入类型菜单打开时自动定位到选中项
-        /// </summary>
-        private void OnSubtitleNestTypeOpened(object sender, object args)
-        {
-            foreach (KeyValuePairModel subtitleNestType in SubtitleNestTypeList)
-            {
-                if (subtitleNestType.IsChecked)
-                {
-                    SubtitleNestTypeListView.ScrollIntoView(subtitleNestType);
-                    break;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 字体大小菜单打开时自动定位到选中项
-        /// </summary>
-        private void OnFontSizeOpened(object sender, object args)
-        {
-            foreach (KeyValuePairModel fontSize in FontSizeList)
-            {
-                if (fontSize.IsChecked)
-                {
-                    FontSizeListView.ScrollIntoView(fontSize);
-                    break;
-                }
-            }
-        }
-
-        /// <summary>
         /// 是否启用回声
         /// </summary>
         private void OnEchoToggled(object sender, RoutedEventArgs args)
@@ -1907,6 +2055,129 @@ namespace ModernFormatConverter.Views.Dialogs
                 AdditionalSubtitlePath = openFileDialog.FileName;
             }
             openFileDialog.Dispose();
+        }
+
+        /// <summary>
+        /// 字幕嵌入类型菜单打开时自动定位到选中项
+        /// </summary>
+        private void OnSubtitleNestTypeOpened(object sender, object args)
+        {
+            foreach (KeyValuePairModel subtitleNestType in SubtitleNestTypeList)
+            {
+                if (subtitleNestType.IsChecked)
+                {
+                    SubtitleNestTypeListView.ScrollIntoView(subtitleNestType);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 修改字体名称
+        /// </summary>
+        private void OnChangeFontNameClicked(object sender, RoutedEventArgs args)
+        {
+            System.Windows.Forms.FontDialog fontDialog = new()
+            {
+                Font = new(FontName, System.Drawing.SystemFonts.DefaultFont.Size)
+            };
+            if (fontDialog.ShowDialog() is System.Windows.Forms.DialogResult.OK && fontDialog.Font is not null)
+            {
+                FontName = fontDialog.Font.Name;
+            }
+            fontDialog.Dispose();
+        }
+
+        /// <summary>
+        /// 字体大小菜单打开时自动定位到选中项
+        /// </summary>
+        private void OnFontSizeOpened(object sender, object args)
+        {
+            foreach (KeyValuePairModel fontSize in FontSizeList)
+            {
+                if (fontSize.IsChecked)
+                {
+                    FontSizeListView.ScrollIntoView(fontSize);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 修改字体颜色
+        /// </summary>
+        private void OnChangeFontColorClicked(object sender, RoutedEventArgs args)
+        {
+            System.Windows.Forms.ColorDialog colorDialog = new()
+            {
+                Color = System.Drawing.Color.FromName(FontColor)
+            };
+            if (colorDialog.ShowDialog() is System.Windows.Forms.DialogResult.OK && !Equals(colorDialog.Color, System.Drawing.Color.Empty))
+            {
+                FontColor = string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", colorDialog.Color.A, colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B);
+            }
+            colorDialog.Dispose();
+        }
+
+        /// <summary>
+        /// 字体边框风格菜单打开时自动定位到选中项
+        /// </summary>
+        private void OnFontBorderStyleOpened(object sender, object args)
+        {
+            foreach (KeyValuePairModel fontBorderStyle in FontBorderStyleList)
+            {
+                if (fontBorderStyle.IsChecked)
+                {
+                    FontBorderStyleListView.ScrollIntoView(fontBorderStyle);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 轮廓线大小菜单打开时自动定位到选中项
+        /// </summary>
+        private void OnCounterLineSizeOpened(object sender, object args)
+        {
+            foreach (KeyValuePairModel counterLineSize in CounterLineSizeList)
+            {
+                if (counterLineSize.IsChecked)
+                {
+                    CounterLineSizeListView.ScrollIntoView(counterLineSize);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 修改轮廓线颜色
+        /// </summary>
+        private void OnChangeCounterLineColorClicked(object sender, RoutedEventArgs args)
+        {
+            System.Windows.Forms.ColorDialog colorDialog = new()
+            {
+                Color = System.Drawing.Color.FromName(CounterLineColor)
+            };
+            if (colorDialog.ShowDialog() is System.Windows.Forms.DialogResult.OK && !Equals(colorDialog.Color, System.Drawing.Color.Empty))
+            {
+                CounterLineColor = string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", colorDialog.Color.A, colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B);
+            }
+            colorDialog.Dispose();
+        }
+
+        /// <summary>
+        /// 阴影大小菜单打开时自动定位到选中项
+        /// </summary>
+        private void OnShadowSizeOpened(object sender, object args)
+        {
+            foreach (KeyValuePairModel shadowSize in ShadowSizeList)
+            {
+                if (shadowSize.IsChecked)
+                {
+                    ShadowSizeListView.ScrollIntoView(shadowSize);
+                    break;
+                }
+            }
         }
 
         #endregion 第五部分：内容挂载的事件
@@ -2433,7 +2704,22 @@ namespace ModernFormatConverter.Views.Dialogs
             FontSizeList.Add(new KeyValuePairModel() { Key = "2", Value = "2" });
             FontSizeList.Add(new KeyValuePairModel() { Key = "3", Value = string.Format("{0} {1}", 3, NormalString) });
             FontSizeList.Add(new KeyValuePairModel() { Key = "4", Value = "4" });
-            FontSizeList.Add(new KeyValuePairModel() { Key = "5", Value = string.Format("{0} {1}", 1, LargeString) });
+            FontSizeList.Add(new KeyValuePairModel() { Key = "5", Value = string.Format("{0} {1}", 5, LargeString) });
+
+            FontBorderStyleList.Add(new KeyValuePairModel() { Key = "BorderAndShadow", Value = BorderAndShadowString });
+            FontBorderStyleList.Add(new KeyValuePairModel() { Key = "SolidColorBackground", Value = SolidColorBackgroundString });
+
+            CounterLineSizeList.Add(new KeyValuePairModel() { Key = "0", Value = "0" });
+            CounterLineSizeList.Add(new KeyValuePairModel() { Key = "1", Value = "1" });
+            CounterLineSizeList.Add(new KeyValuePairModel() { Key = "2", Value = "2" });
+            CounterLineSizeList.Add(new KeyValuePairModel() { Key = "3", Value = "3" });
+            CounterLineSizeList.Add(new KeyValuePairModel() { Key = "4", Value = "4" });
+
+            ShadowSizeList.Add(new KeyValuePairModel() { Key = "0", Value = "0" });
+            ShadowSizeList.Add(new KeyValuePairModel() { Key = "1", Value = "1" });
+            ShadowSizeList.Add(new KeyValuePairModel() { Key = "2", Value = "2" });
+            ShadowSizeList.Add(new KeyValuePairModel() { Key = "3", Value = "3" });
+            ShadowSizeList.Add(new KeyValuePairModel() { Key = "4", Value = "4" });
         }
 
         /// <summary>
