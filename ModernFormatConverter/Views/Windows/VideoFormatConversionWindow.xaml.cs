@@ -1529,9 +1529,39 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnSelectorBarSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
         {
-            SelectedItem = sender.SelectedItem;
-            int index = sender.Items.IndexOf(SelectedItem);
-            // TODO：未完成
+            if (VideoFormatConversionScroll.IsLoaded && !Equals(SelectedItem, sender.SelectedItem))
+            {
+                SelectedItem = sender.SelectedItem;
+                int index = sender.Items.IndexOf(SelectedItem);
+
+                switch (index)
+                {
+                    case 0:
+                        {
+                            double currentScrollPosition = VideoFormatConversionScroll.VerticalOffset;
+                            Point currentPoint = new(0, (int)currentScrollPosition);
+                            Point targetPosition = VideoHeader.TransformToVisual(VideoFormatConversionScroll).TransformPoint(currentPoint);
+                            VideoFormatConversionScroll.ChangeView(null, targetPosition.Y, null);
+                            break;
+                        }
+                    case 1:
+                        {
+                            double currentScrollPosition = VideoFormatConversionScroll.VerticalOffset;
+                            Point currentPoint = new(0, (int)currentScrollPosition);
+                            Point targetPosition = AudioHeader.TransformToVisual(VideoFormatConversionScroll).TransformPoint(currentPoint);
+                            VideoFormatConversionScroll.ChangeView(null, targetPosition.Y, null);
+                            break;
+                        }
+                    case 2:
+                        {
+                            double currentScrollPosition = VideoFormatConversionScroll.VerticalOffset;
+                            Point currentPoint = new(0, (int)currentScrollPosition);
+                            Point targetPosition = SubtitleHeader.TransformToVisual(VideoFormatConversionScroll).TransformPoint(currentPoint);
+                            VideoFormatConversionScroll.ChangeView(null, targetPosition.Y, null);
+                            break;
+                        }
+                }
+            }
         }
 
         /// <summary>
@@ -1556,7 +1586,23 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnViewChanged(object sender, ScrollViewerViewChangedEventArgs args)
         {
-            // TODO：未完成
+            double currentScrollPosition = VideoFormatConversionScroll.VerticalOffset;
+            Point currentPoint = new(0, (int)currentScrollPosition);
+            Point audioHeaderTargetPosition = AudioHeader.TransformToVisual(VideoFormatConversionScroll).TransformPoint(currentPoint);
+            Point subtitleHeaderTargetPosition = SubtitleHeader.TransformToVisual(VideoFormatConversionScroll).TransformPoint(currentPoint);
+
+            if (currentScrollPosition >= subtitleHeaderTargetPosition.Y)
+            {
+                SelectedItem = VideoFormatConversionSelectorBar.Items[2];
+            }
+            else if (currentScrollPosition >= audioHeaderTargetPosition.Y && currentScrollPosition < subtitleHeaderTargetPosition.Y)
+            {
+                SelectedItem = VideoFormatConversionSelectorBar.Items[1];
+            }
+            else
+            {
+                SelectedItem = VideoFormatConversionSelectorBar.Items[0];
+            }
         }
 
         /// <summary>
@@ -2756,7 +2802,7 @@ namespace ModernFormatConverter.Views.Dialogs
             contentIsland = ContentIsland.FindAllForCompositor(Compositor)[0];
             inputKeyboardSource = InputKeyboardSource.GetForIsland(contentIsland);
             inputPointerSource = InputPointerSource.GetForIsland(contentIsland);
-            SelectedItem = VideoOutputConfigurationSelectorBar.Items[0];
+            SelectedItem = VideoFormatConversionSelectorBar.Items[0];
 
             // 挂载相应的事件
             AlwaysShowBackdropService.PropertyChanged += OnServicePropertyChanged;
