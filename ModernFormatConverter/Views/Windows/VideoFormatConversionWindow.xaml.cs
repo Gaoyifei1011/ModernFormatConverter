@@ -20,6 +20,7 @@ using ModernFormatConverter.WindowsAPI.PInvoke.Dxgi;
 using ModernFormatConverter.WindowsAPI.PInvoke.User32;
 using ModernFormatConverter.WindowsAPI.PInvoke.Uxtheme;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -65,6 +66,7 @@ namespace ModernFormatConverter.Views.Dialogs
         private readonly string Stereo71String = ResourceService.VideoFormatConversionResource.GetString("Stereo71");
         private readonly string SubtitleString = ResourceService.VideoFormatConversionResource.GetString("Subtitle");
         private readonly string UnsideDownString = ResourceService.VideoFormatConversionResource.GetString("UnsideDown");
+        private readonly List<DictionaryEntry> GPUList = [];
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private OverlappedPresenter overlappedPresenter;
         private SUBCLASSPROC videoFormatConversionWindowSubClassProc;
@@ -114,9 +116,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePairModel _selectedFormatConversionType;
+        private DictionaryEntry _selectedFormatConversionType;
 
-        public KeyValuePairModel SelectedFormatConversionType
+        public DictionaryEntry SelectedFormatConversionType
         {
             get { return _selectedFormatConversionType; }
 
@@ -127,9 +129,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePairModel _selectedSizeLimitation;
+        private DictionaryEntry _selectedSizeLimitation;
 
-        public KeyValuePairModel SelectedSizeLimitation
+        public DictionaryEntry SelectedSizeLimitation
         {
             get { return _selectedSizeLimitation; }
 
@@ -140,9 +142,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePairModel _selectedVideoEncoding;
+        private DictionaryEntry _selectedVideoEncoding;
 
-        public KeyValuePairModel SelectedVideoEncoding
+        public DictionaryEntry SelectedVideoEncoding
         {
             get { return _selectedVideoEncoding; }
 
@@ -153,9 +155,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePairModel _selectedScreenSize;
+        private DictionaryEntry _selectedScreenSize;
 
-        public KeyValuePairModel SelectedScreenSize
+        public DictionaryEntry SelectedScreenSize
         {
             get { return _selectedScreenSize; }
 
@@ -192,9 +194,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePairModel _selectedVideoBitRate;
+        private DictionaryEntry _selectedVideoBitRate;
 
-        public KeyValuePairModel SelectedVideoBitRate
+        public DictionaryEntry SelectedVideoBitRate
         {
             get { return _selectedVideoBitRate; }
 
@@ -202,6 +204,19 @@ namespace ModernFormatConverter.Views.Dialogs
             {
                 _selectedVideoBitRate = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedVideoBitRate)));
+            }
+        }
+
+        private bool _isCRFSupported;
+
+        public bool IsCRFSupported
+        {
+            get { return _isCRFSupported; }
+
+            set
+            {
+                _isCRFSupported = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsCRFSupported)));
             }
         }
 
@@ -231,9 +246,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePairModel _selectedGPU;
+        private DictionaryEntry _selectedGPU;
 
-        public KeyValuePairModel SelectedGPU
+        public DictionaryEntry SelectedGPU
         {
             get { return _selectedGPU; }
 
@@ -244,9 +259,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePairModel _selectedFramePerSecond;
+        private DictionaryEntry _selectedFramePerSecond;
 
-        public KeyValuePairModel SelectedFramePerSecond
+        public DictionaryEntry SelectedFramePerSecond
         {
             get { return _selectedFramePerSecond; }
 
@@ -257,9 +272,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePairModel _selectedAspectRatio;
+        private DictionaryEntry _selectedAspectRatio;
 
-        public KeyValuePairModel SelectedAspectRatio
+        public DictionaryEntry SelectedAspectRatio
         {
             get { return _selectedAspectRatio; }
 
@@ -267,6 +282,19 @@ namespace ModernFormatConverter.Views.Dialogs
             {
                 _selectedAspectRatio = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedAspectRatio)));
+            }
+        }
+
+        private bool _isSecondaryEncodingEnabled;
+
+        public bool IsSecondaryEncodingEnabled
+        {
+            get { return _isSecondaryEncodingEnabled; }
+
+            set
+            {
+                _isSecondaryEncodingEnabled = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSecondaryEncodingEnabled)));
             }
         }
 
@@ -283,9 +311,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePairModel _selectedKeyFrameInterval;
+        private DictionaryEntry _selectedKeyFrameInterval;
 
-        public KeyValuePairModel SelectedKeyFrameInterval
+        public DictionaryEntry SelectedKeyFrameInterval
         {
             get { return _selectedKeyFrameInterval; }
 
@@ -309,9 +337,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePairModel _selectedRotation;
+        private DictionaryEntry _selectedRotation;
 
-        public KeyValuePairModel SelectedRotation
+        public DictionaryEntry SelectedRotation
         {
             get { return _selectedRotation; }
 
@@ -335,9 +363,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePairModel _selectedVideoFadeInEffect;
+        private DictionaryEntry _selectedVideoFadeInEffect;
 
-        public KeyValuePairModel SelectedVideoFadeInEffect
+        public DictionaryEntry SelectedVideoFadeInEffect
         {
             get { return _selectedVideoFadeInEffect; }
 
@@ -348,9 +376,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePairModel _selectedVideoFadeOutEffect;
+        private DictionaryEntry _selectedVideoFadeOutEffect;
 
-        public KeyValuePairModel SelectedVideoFadeOutEffect
+        public DictionaryEntry SelectedVideoFadeOutEffect
         {
             get { return _selectedVideoFadeOutEffect; }
 
@@ -361,9 +389,22 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePairModel _selectedAudioEncoding;
+        private bool _isAudioConfigurationSupported;
 
-        public KeyValuePairModel SelectedAudioEncoding
+        public bool IsAudioConfigurationSupported
+        {
+            get { return _isAudioConfigurationSupported; }
+
+            set
+            {
+                _isAudioConfigurationSupported = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsAudioConfigurationSupported)));
+            }
+        }
+
+        private DictionaryEntry _selectedAudioEncoding;
+
+        public DictionaryEntry SelectedAudioEncoding
         {
             get { return _selectedAudioEncoding; }
 
@@ -374,9 +415,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePairModel _selectedSamplingRate;
+        private DictionaryEntry _selectedSamplingRate;
 
-        public KeyValuePairModel SelectedSamplingRate
+        public DictionaryEntry SelectedSamplingRate
         {
             get { return _selectedSamplingRate; }
 
@@ -387,9 +428,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePairModel _selectedAudioBitRate;
+        private DictionaryEntry _selectedAudioBitRate;
 
-        public KeyValuePairModel SelectedAudioBitRate
+        public DictionaryEntry SelectedAudioBitRate
         {
             get { return _selectedAudioBitRate; }
 
@@ -400,9 +441,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePairModel _selectedSoundTrack;
+        private DictionaryEntry _selectedSoundTrack;
 
-        public KeyValuePairModel SelectedSoundTrack
+        public DictionaryEntry SelectedSoundTrack
         {
             get { return _selectedSoundTrack; }
 
@@ -426,9 +467,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePairModel _selectedVolume;
+        private DictionaryEntry _selectedVolume;
 
-        public KeyValuePairModel SelectedVolume
+        public DictionaryEntry SelectedVolume
         {
             get { return _selectedVolume; }
 
@@ -452,9 +493,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePairModel _selectedAudioFadeInEffect;
+        private DictionaryEntry _selectedAudioFadeInEffect;
 
-        public KeyValuePairModel SelectedAudioFadeInEffect
+        public DictionaryEntry SelectedAudioFadeInEffect
         {
             get { return _selectedAudioFadeInEffect; }
 
@@ -465,9 +506,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePairModel _selectedAudioFadeOutEffect;
+        private DictionaryEntry _selectedAudioFadeOutEffect;
 
-        public KeyValuePairModel SelectedAudioFadeOutEffect
+        public DictionaryEntry SelectedAudioFadeOutEffect
         {
             get { return _selectedAudioFadeOutEffect; }
 
@@ -517,6 +558,19 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
+        private bool _isPreserveAllSourceInputSubtitleStreamEnabled;
+
+        public bool IsPreserveAllSourceInputSubtitleStreamEnabled
+        {
+            get { return _isPreserveAllSourceInputSubtitleStreamEnabled; }
+
+            set
+            {
+                _isPreserveAllSourceInputSubtitleStreamEnabled = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsPreserveAllSourceInputSubtitleStreamEnabled)));
+            }
+        }
+
         private bool _preserveAllSourceInputSubtitleStream;
 
         public bool PreserveAllSourceInputSubtitleStream
@@ -556,9 +610,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePairModel _selectedSubtitleNestType;
+        private DictionaryEntry _selectedSubtitleNestType;
 
-        public KeyValuePairModel SelectedSubtitleNestType
+        public DictionaryEntry SelectedSubtitleNestType
         {
             get { return _selectedSubtitleNestType; }
 
@@ -582,9 +636,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePairModel _selectedFontSize;
+        private DictionaryEntry _selectedFontSize;
 
-        public KeyValuePairModel SelectedFontSize
+        public DictionaryEntry SelectedFontSize
         {
             get { return _selectedFontSize; }
 
@@ -608,9 +662,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePairModel _selectedFontBorderStyle;
+        private DictionaryEntry _selectedFontBorderStyle;
 
-        public KeyValuePairModel SelectedFontBorderStyle
+        public DictionaryEntry SelectedFontBorderStyle
         {
             get { return _selectedFontBorderStyle; }
 
@@ -621,9 +675,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePairModel _selectedCounterLineSize;
+        private DictionaryEntry _selectedCounterLineSize;
 
-        public KeyValuePairModel SelectedCounterLineSize
+        public DictionaryEntry SelectedCounterLineSize
         {
             get { return _selectedCounterLineSize; }
 
@@ -647,9 +701,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private KeyValuePairModel _selectedShadowSize;
+        private DictionaryEntry _selectedShadowSize;
 
-        public KeyValuePairModel SelectedShadowSize
+        public DictionaryEntry SelectedShadowSize
         {
             get { return _selectedShadowSize; }
 
@@ -660,199 +714,78 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        public List<KeyValuePairModel> FormatConversionTypeList { get; } =
+        public List<DictionaryEntry> FormatConversionTypeList { get; } =
         [
-            new KeyValuePairModel(){ Key = "MP4", Value = ".mp4" },
-            new KeyValuePairModel(){ Key = "MKV", Value = ".mkv" },
-            new KeyValuePairModel(){ Key = "GIF", Value = ".gif" },
-            new KeyValuePairModel(){ Key = "WebM", Value = ".webm" },
-            new KeyValuePairModel(){ Key = "AVI", Value = ".avi" },
-            new KeyValuePairModel(){ Key = "FLV", Value = ".flv" },
-            new KeyValuePairModel(){ Key = "MOV", Value = ".mov" },
-            new KeyValuePairModel(){ Key = "M3U8", Value = ".m3u8" },
-            new KeyValuePairModel(){ Key = "3GP", Value = ".3gp" },
-            new KeyValuePairModel(){ Key = "3G2", Value = ".3g2" },
-            new KeyValuePairModel(){ Key = "MPG", Value = ".mpg" },
-            new KeyValuePairModel(){ Key = "VOB", Value = ".vob" },
-            new KeyValuePairModel(){ Key = "OGG", Value = ".ogg" },
-            new KeyValuePairModel(){ Key = "SWF", Value = ".swf" },
+            new DictionaryEntry(){ Key = "MP4", Value = ".mp4" },
+            new DictionaryEntry(){ Key = "MKV", Value = ".mkv" },
+            new DictionaryEntry(){ Key = "GIF", Value = ".gif" },
+            new DictionaryEntry(){ Key = "WebM", Value = ".webm" },
+            new DictionaryEntry(){ Key = "AVI", Value = ".avi" },
+            new DictionaryEntry(){ Key = "FLV", Value = ".flv" },
+            new DictionaryEntry(){ Key = "MOV", Value = ".mov" },
+            new DictionaryEntry(){ Key = "M3U8", Value = ".m3u8" },
+            new DictionaryEntry(){ Key = "WMV", Value = ".wmv" },
+            new DictionaryEntry(){ Key = "3GP", Value = ".3gp" },
+            new DictionaryEntry(){ Key = "3G2", Value = ".3g2" },
+            new DictionaryEntry(){ Key = "MPG", Value = ".mpg" },
+            new DictionaryEntry(){ Key = "VOB", Value = ".vob" },
+            new DictionaryEntry(){ Key = "OGG", Value = ".ogg" },
+            new DictionaryEntry(){ Key = "SWF", Value = ".swf" },
         ];
 
-        public List<KeyValuePairModel> SizeLimitationList { get; } = [];
+        public WinRTObservableCollection<DictionaryEntry> SizeLimitationCollection { get; } = [];
 
-        public List<KeyValuePairModel> VideoEncodingList { get; } = [];
+        public WinRTObservableCollection<DictionaryEntry> VideoEncodingCollection { get; } = [];
 
-        public List<KeyValuePairModel> ScreenSizeList { get; } = [];
+        public WinRTObservableCollection<DictionaryEntry> ScreenSizeCollection { get; } = [];
 
-        public List<KeyValuePairModel> VideoBitRateList { get; } = [];
+        public WinRTObservableCollection<DictionaryEntry> VideoBitRateCollection { get; } = [];
 
-        public List<KeyValuePairModel> GPUList { get; } = [];
+        public WinRTObservableCollection<DictionaryEntry> GPUCollection { get; } = [];
 
-        public List<KeyValuePairModel> FramePerSecondList { get; } = [];
+        public List<DictionaryEntry> FramePerSecondList { get; } = [];
 
-        public List<KeyValuePairModel> AspectRatioList { get; } = [];
+        public WinRTObservableCollection<DictionaryEntry> AspectRatioCollection { get; } = [];
 
-        public List<KeyValuePairModel> KeyFrameIntervalList { get; } = [];
+        public WinRTObservableCollection<DictionaryEntry> KeyFrameIntervalCollection { get; } = [];
 
-        public List<KeyValuePairModel> RotationList { get; } = [];
+        public List<DictionaryEntry> RotationList { get; } = [];
 
-        public List<KeyValuePairModel> VideoFadeInEffectList { get; } = [];
+        public List<DictionaryEntry> VideoFadeInEffectList { get; } = [];
 
-        public List<KeyValuePairModel> VideoFadeOutEffectList { get; } = [];
+        public List<DictionaryEntry> VideoFadeOutEffectList { get; } = [];
 
-        public List<KeyValuePairModel> AudioEncodingList { get; } = [];
+        public WinRTObservableCollection<DictionaryEntry> AudioEncodingCollection { get; } = [];
 
-        public List<KeyValuePairModel> SamplingRateList { get; } = [];
+        public WinRTObservableCollection<DictionaryEntry> SamplingRateCollection { get; } = [];
 
-        public List<KeyValuePairModel> AudioBitRateList { get; } = [];
+        public WinRTObservableCollection<DictionaryEntry> AudioBitRateCollection { get; } = [];
 
-        public List<KeyValuePairModel> SoundTrackList { get; } = [];
+        public WinRTObservableCollection<DictionaryEntry> SoundTrackCollection { get; } = [];
 
-        public List<KeyValuePairModel> VolumeList { get; } = [];
+        public WinRTObservableCollection<DictionaryEntry> VolumeCollection { get; } = [];
 
-        public List<KeyValuePairModel> AudioFadeInEffectList { get; } = [];
+        public WinRTObservableCollection<DictionaryEntry> AudioFadeInEffectCollection { get; } = [];
 
-        public List<KeyValuePairModel> AudioFadeOutEffectList { get; } = [];
+        public WinRTObservableCollection<DictionaryEntry> AudioFadeOutEffectCollection { get; } = [];
 
-        public List<KeyValuePairModel> SubtitleNestTypeList { get; } = [];
+        public List<DictionaryEntry> SubtitleNestTypeList { get; } = [];
 
-        public List<KeyValuePairModel> FontSizeList { get; } = [];
+        public List<DictionaryEntry> FontSizeList { get; } = [];
 
-        public List<KeyValuePairModel> FontBorderStyleList { get; } = [];
+        public List<DictionaryEntry> FontBorderStyleList { get; } = [];
 
-        public List<KeyValuePairModel> CounterLineSizeList { get; } = [];
+        public List<DictionaryEntry> CounterLineSizeList { get; } = [];
 
-        public List<KeyValuePairModel> ShadowSizeList { get; } = [];
+        public List<DictionaryEntry> ShadowSizeList { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public VideoFormatConversionWindow(ConversionToolsWindow conversionToolsWindow, VideoConversionFileModel videoConversionFileModel)
+        public VideoFormatConversionWindow(ConversionToolsWindow conversionToolsWindow, VideoFormatConversionModel videoFormatConversion = null)
         {
-            InitializeData();
+            InitializeData(videoFormatConversion);
             InitializeComponent();
             InitializeUI(conversionToolsWindow);
-
-            if (videoConversionFileModel is VideoFormatConversionModel videoFormatConversion)
-            {
-                // TODO：未完成
-                SelectedFormatConversionType = FormatConversionTypeList[0];
-                SelectedFormatConversionType.IsChecked = true;
-                SelectedSizeLimitation = SizeLimitationList[0];
-                SelectedSizeLimitation.IsChecked = true;
-                SelectedVideoEncoding = VideoEncodingList[0];
-                SelectedVideoEncoding.IsChecked = true;
-                SelectedScreenSize = ScreenSizeList[0];
-                SelectedScreenSize.IsChecked = true;
-                SelectedVideoBitRate = VideoBitRateList[0];
-                SelectedVideoBitRate.IsChecked = true;
-                SelectedGPU = GPUList[0];
-                SelectedGPU.IsChecked = true;
-                SelectedFramePerSecond = FramePerSecondList[0];
-                SelectedFramePerSecond.IsChecked = true;
-                SelectedAspectRatio = AspectRatioList[0];
-                SelectedAspectRatio.IsChecked = true;
-                SelectedKeyFrameInterval = KeyFrameIntervalList[0];
-                SelectedKeyFrameInterval.IsChecked = true;
-                SelectedRotation = RotationList[0];
-                SelectedRotation.IsChecked = true;
-                SelectedRotation = RotationList[0];
-                SelectedRotation.IsChecked = true;
-                SelectedVideoFadeInEffect = VideoFadeInEffectList[0];
-                SelectedVideoFadeInEffect.IsChecked = true;
-                SelectedVideoFadeOutEffect = VideoFadeOutEffectList[0];
-                SelectedVideoFadeOutEffect.IsChecked = true;
-                SelectedAudioEncoding = AudioEncodingList[0];
-                SelectedAudioEncoding.IsChecked = true;
-                SelectedSamplingRate = SamplingRateList[0];
-                SelectedSamplingRate.IsChecked = true;
-                SelectedAudioBitRate = AudioBitRateList[0];
-                SelectedAudioBitRate.IsChecked = true;
-                SelectedSoundTrack = SoundTrackList[0];
-                SelectedSoundTrack.IsChecked = true;
-                SelectedVolume = VolumeList[4];
-                SelectedVolume.IsChecked = true;
-                SelectedAudioFadeInEffect = AudioFadeInEffectList[0];
-                SelectedAudioFadeInEffect.IsChecked = true;
-                SelectedAudioFadeOutEffect = AudioFadeOutEffectList[0];
-                SelectedAudioFadeOutEffect.IsChecked = true;
-                SelectedSubtitleNestType = SubtitleNestTypeList[0];
-                SelectedSubtitleNestType.IsChecked = true;
-                SelectedFontSize = FontSizeList[2];
-                SelectedFontSize.IsChecked = true;
-                FontName = System.Drawing.SystemFonts.DefaultFont.Name;
-                System.Windows.Media.Color accentColor = System.Windows.SystemParameters.WindowGlassColor;
-                FontColor = accentColor.ToString();
-                SelectedFontBorderStyle = FontBorderStyleList[0];
-                SelectedFontBorderStyle.IsChecked = true;
-                SelectedCounterLineSize = CounterLineSizeList[0];
-                SelectedCounterLineSize.IsChecked = true;
-                CounterLineColor = accentColor.ToString();
-                SelectedShadowSize = ShadowSizeList[0];
-                SelectedShadowSize.IsChecked = true;
-            }
-        }
-
-        public VideoFormatConversionWindow(ConversionToolsWindow conversionToolsWindow, VideoConversionTypeKind videoConversionTypeKind, WinRTObservableCollection<VideoConversionFileModel> videoConversionFileCollection)
-        {
-            InitializeData();
-            InitializeComponent();
-            InitializeUI(conversionToolsWindow);
-
-            if (videoConversionFileCollection.All(item => item is VideoFormatConversionModel))
-            {
-                SelectedFormatConversionType = FormatConversionTypeList[0];
-                SelectedFormatConversionType.IsChecked = true;
-                SelectedSizeLimitation = SizeLimitationList[0];
-                SelectedSizeLimitation.IsChecked = true;
-                SelectedVideoEncoding = VideoEncodingList[0];
-                SelectedVideoEncoding.IsChecked = true;
-                SelectedScreenSize = ScreenSizeList[0];
-                SelectedScreenSize.IsChecked = true;
-                SelectedVideoBitRate = VideoBitRateList[0];
-                SelectedVideoBitRate.IsChecked = true;
-                SelectedGPU = GPUList[0];
-                SelectedGPU.IsChecked = true;
-                SelectedFramePerSecond = FramePerSecondList[0];
-                SelectedFramePerSecond.IsChecked = true;
-                SelectedAspectRatio = AspectRatioList[0];
-                SelectedAspectRatio.IsChecked = true;
-                SelectedKeyFrameInterval = KeyFrameIntervalList[0];
-                SelectedKeyFrameInterval.IsChecked = true;
-                SelectedRotation = RotationList[0];
-                SelectedRotation.IsChecked = true;
-                SelectedVideoFadeInEffect = VideoFadeInEffectList[0];
-                SelectedVideoFadeInEffect.IsChecked = true;
-                SelectedVideoFadeOutEffect = VideoFadeOutEffectList[0];
-                SelectedVideoFadeOutEffect.IsChecked = true;
-                SelectedAudioEncoding = AudioEncodingList[0];
-                SelectedAudioEncoding.IsChecked = true;
-                SelectedSamplingRate = SamplingRateList[0];
-                SelectedSamplingRate.IsChecked = true;
-                SelectedAudioBitRate = AudioBitRateList[0];
-                SelectedAudioBitRate.IsChecked = true;
-                SelectedSoundTrack = SoundTrackList[0];
-                SelectedSoundTrack.IsChecked = true;
-                SelectedVolume = VolumeList[4];
-                SelectedVolume.IsChecked = true;
-                SelectedAudioFadeInEffect = AudioFadeInEffectList[0];
-                SelectedAudioFadeInEffect.IsChecked = true;
-                SelectedAudioFadeOutEffect = AudioFadeOutEffectList[0];
-                SelectedAudioFadeOutEffect.IsChecked = true;
-                SelectedSubtitleNestType = SubtitleNestTypeList[0];
-                SelectedSubtitleNestType.IsChecked = true;
-                SelectedFontSize = FontSizeList[2];
-                SelectedFontSize.IsChecked = true;
-                FontName = System.Drawing.SystemFonts.DefaultFont.Name;
-                System.Windows.Media.Color accentColor = System.Windows.SystemParameters.WindowGlassColor;
-                FontColor = accentColor.ToString();
-                SelectedFontBorderStyle = FontBorderStyleList[0];
-                SelectedFontBorderStyle.IsChecked = true;
-                SelectedCounterLineSize = CounterLineSizeList[0];
-                SelectedCounterLineSize.IsChecked = true;
-                CounterLineColor = accentColor.ToString();
-                SelectedShadowSize = ShadowSizeList[0];
-                SelectedShadowSize.IsChecked = true;
-            }
         }
 
         #region 第一部分：窗口辅助类挂载的事件
@@ -932,587 +865,7 @@ namespace ModernFormatConverter.Views.Dialogs
 
         #endregion 第三部分：窗口内容挂载的事件
 
-        #region 第四部分：ExecuteCommand 命令调用时挂载的事件
-
-        /// <summary>
-        /// 修改格式转换类型
-        /// </summary>
-        private void OnFormatConversionTypeExecuteRequested(object sender, ExecuteRequestedEventArgs args)
-        {
-            if (FormatConversionTypeFlyout.IsOpen)
-            {
-                FormatConversionTypeFlyout.Hide();
-            }
-
-            if (args.Parameter is KeyValuePairModel formatConversionType)
-            {
-                foreach (KeyValuePairModel formatConversionTypeItem in FormatConversionTypeList)
-                {
-                    formatConversionTypeItem.IsChecked = false;
-                    if (string.Equals(formatConversionType.Key, formatConversionTypeItem.Key))
-                    {
-                        SelectedFormatConversionType = formatConversionTypeItem;
-                        formatConversionTypeItem.IsChecked = true;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 修改大小限制
-        /// </summary>
-        private void OnSizeLimitationExecuteRequested(object sender, ExecuteRequestedEventArgs args)
-        {
-            if (SizeLimitationFlyout.IsOpen)
-            {
-                SizeLimitationFlyout.Hide();
-            }
-
-            if (args.Parameter is KeyValuePairModel sizeLimitation)
-            {
-                foreach (KeyValuePairModel sizeLimitationItem in SizeLimitationList)
-                {
-                    sizeLimitationItem.IsChecked = false;
-                    if (string.Equals(sizeLimitation.Key, sizeLimitationItem.Key))
-                    {
-                        SelectedSizeLimitation = sizeLimitationItem;
-                        sizeLimitationItem.IsChecked = true;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 修改视频编码
-        /// </summary>
-        private void OnVideoEncodingExecuteRequested(object sender, ExecuteRequestedEventArgs args)
-        {
-            if (VideoEncodingFlyout.IsOpen)
-            {
-                VideoEncodingFlyout.Hide();
-            }
-
-            if (args.Parameter is KeyValuePairModel videoEncoding)
-            {
-                foreach (KeyValuePairModel videoEncodingItem in VideoEncodingList)
-                {
-                    videoEncodingItem.IsChecked = false;
-                    if (string.Equals(videoEncoding.Key, videoEncodingItem.Key))
-                    {
-                        SelectedVideoEncoding = videoEncodingItem;
-                        videoEncodingItem.IsChecked = true;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 修改屏幕大小
-        /// </summary>
-        private void OnScreenSizeExecuteRequested(object sender, ExecuteRequestedEventArgs args)
-        {
-            if (ScreenSizeFlyout.IsOpen)
-            {
-                ScreenSizeFlyout.Hide();
-            }
-
-            if (args.Parameter is KeyValuePairModel screenSize)
-            {
-                foreach (KeyValuePairModel screenSizeItem in ScreenSizeList)
-                {
-                    screenSizeItem.IsChecked = false;
-                    if (string.Equals(screenSize.Key, screenSizeItem.Key))
-                    {
-                        SelectedScreenSize = screenSizeItem;
-                        screenSizeItem.IsChecked = true;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 修改视频比特率
-        /// </summary>
-        private void OnVideoBitRateExecuteRequested(object sender, ExecuteRequestedEventArgs args)
-        {
-            if (VideoBitRateFlyout.IsOpen)
-            {
-                VideoBitRateFlyout.Hide();
-            }
-
-            if (args.Parameter is KeyValuePairModel videoBitRate)
-            {
-                foreach (KeyValuePairModel videoBitRateItem in VideoBitRateList)
-                {
-                    videoBitRateItem.IsChecked = false;
-                    if (string.Equals(videoBitRate.Key, videoBitRateItem.Key))
-                    {
-                        SelectedVideoBitRate = videoBitRateItem;
-                        videoBitRateItem.IsChecked = true;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 修改 GPU
-        /// </summary>
-        private void OnGPUExecuteRequested(object sender, ExecuteRequestedEventArgs args)
-        {
-            if (GPUFlyout.IsOpen)
-            {
-                GPUFlyout.Hide();
-            }
-
-            if (args.Parameter is KeyValuePairModel gpu)
-            {
-                foreach (KeyValuePairModel gpuItem in GPUList)
-                {
-                    gpuItem.IsChecked = false;
-                    if (string.Equals(gpu.Key, gpuItem.Key))
-                    {
-                        SelectedGPU = gpuItem;
-                        gpuItem.IsChecked = true;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 修改每秒帧数
-        /// </summary>
-        private void OnFramePerSecondExecuteRequested(object sender, ExecuteRequestedEventArgs args)
-        {
-            if (FramePerSecondFlyout.IsOpen)
-            {
-                FramePerSecondFlyout.Hide();
-            }
-
-            if (args.Parameter is KeyValuePairModel framePerSecond)
-            {
-                foreach (KeyValuePairModel framePerSecondItem in FramePerSecondList)
-                {
-                    framePerSecondItem.IsChecked = false;
-                    if (string.Equals(framePerSecond.Key, framePerSecondItem.Key))
-                    {
-                        SelectedFramePerSecond = framePerSecondItem;
-                        framePerSecondItem.IsChecked = true;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 修改宽高比
-        /// </summary>
-        private void OnAspectRatioExecuteRequested(object sender, ExecuteRequestedEventArgs args)
-        {
-            if (AspectRatioFlyout.IsOpen)
-            {
-                AspectRatioFlyout.Hide();
-            }
-
-            if (args.Parameter is KeyValuePairModel aspectRatio)
-            {
-                foreach (KeyValuePairModel aspectRatioItem in AspectRatioList)
-                {
-                    aspectRatioItem.IsChecked = false;
-                    if (string.Equals(aspectRatio.Key, aspectRatioItem.Key))
-                    {
-                        SelectedAspectRatio = aspectRatioItem;
-                        aspectRatioItem.IsChecked = true;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 修改关键帧间隔
-        /// </summary>
-        private void OnKeyFrameIntervalExecuteRequested(object sender, ExecuteRequestedEventArgs args)
-        {
-            if (KeyFrameIntervalFlyout.IsOpen)
-            {
-                KeyFrameIntervalFlyout.Hide();
-            }
-
-            if (args.Parameter is KeyValuePairModel keyFrameInterval)
-            {
-                foreach (KeyValuePairModel keyFrameIntervalItem in KeyFrameIntervalList)
-                {
-                    keyFrameIntervalItem.IsChecked = false;
-                    if (string.Equals(keyFrameInterval.Key, keyFrameIntervalItem.Key))
-                    {
-                        SelectedKeyFrameInterval = keyFrameIntervalItem;
-                        keyFrameIntervalItem.IsChecked = true;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 修改旋转
-        /// </summary>
-        private void OnRotationExecuteRequested(object sender, ExecuteRequestedEventArgs args)
-        {
-            if (RotationFlyout.IsOpen)
-            {
-                RotationFlyout.Hide();
-            }
-
-            if (args.Parameter is KeyValuePairModel rotation)
-            {
-                foreach (KeyValuePairModel rotationItem in RotationList)
-                {
-                    rotationItem.IsChecked = false;
-                    if (string.Equals(rotation.Key, rotationItem.Key))
-                    {
-                        SelectedRotation = rotationItem;
-                        rotationItem.IsChecked = true;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 修改视频淡入效果
-        /// </summary>
-        private void OnVideoFadeInEffectExecuteRequested(object sender, ExecuteRequestedEventArgs args)
-        {
-            if (VideoFadeInEffectFlyout.IsOpen)
-            {
-                VideoFadeInEffectFlyout.Hide();
-            }
-
-            if (args.Parameter is KeyValuePairModel videoFadeInEffect)
-            {
-                foreach (KeyValuePairModel videoFadeInEffectItem in VideoFadeInEffectList)
-                {
-                    videoFadeInEffectItem.IsChecked = false;
-                    if (string.Equals(videoFadeInEffect.Key, videoFadeInEffectItem.Key))
-                    {
-                        SelectedVideoFadeInEffect = videoFadeInEffectItem;
-                        videoFadeInEffectItem.IsChecked = true;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 修改视频淡出效果
-        /// </summary>
-        private void OnVideoFadeOutEffectExecuteRequested(object sender, ExecuteRequestedEventArgs args)
-        {
-            if (VideoFadeOutEffectFlyout.IsOpen)
-            {
-                VideoFadeOutEffectFlyout.Hide();
-            }
-
-            if (args.Parameter is KeyValuePairModel videoFadeOutEffect)
-            {
-                foreach (KeyValuePairModel videoFadeOutEffectItem in VideoFadeOutEffectList)
-                {
-                    videoFadeOutEffectItem.IsChecked = false;
-                    if (string.Equals(videoFadeOutEffect.Key, videoFadeOutEffectItem.Key))
-                    {
-                        SelectedVideoFadeOutEffect = videoFadeOutEffectItem;
-                        videoFadeOutEffectItem.IsChecked = true;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 修改音频编码
-        /// </summary>
-        private void OnAudioEncodingExecuteRequested(object sender, ExecuteRequestedEventArgs args)
-        {
-            if (AudioEncodingFlyout.IsOpen)
-            {
-                AudioEncodingFlyout.Hide();
-            }
-
-            if (args.Parameter is KeyValuePairModel audioEncoding)
-            {
-                foreach (KeyValuePairModel audioEncodingItem in AudioEncodingList)
-                {
-                    audioEncodingItem.IsChecked = false;
-                    if (string.Equals(audioEncoding.Key, audioEncodingItem.Key))
-                    {
-                        SelectedAudioEncoding = audioEncodingItem;
-                        audioEncodingItem.IsChecked = true;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 修改采样率
-        /// </summary>
-        private void OnSamplingRateExecuteRequested(object sender, ExecuteRequestedEventArgs args)
-        {
-            if (SamplingRateFlyout.IsOpen)
-            {
-                SamplingRateFlyout.Hide();
-            }
-
-            if (args.Parameter is KeyValuePairModel samplingRate)
-            {
-                foreach (KeyValuePairModel samplingRateItem in SamplingRateList)
-                {
-                    samplingRateItem.IsChecked = false;
-                    if (string.Equals(samplingRate.Key, samplingRateItem.Key))
-                    {
-                        SelectedSamplingRate = samplingRateItem;
-                        samplingRateItem.IsChecked = true;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 修改音频比特率
-        /// </summary>
-        private void OnAudioBitRateExecuteRequested(object sender, ExecuteRequestedEventArgs args)
-        {
-            if (AudioBitRateFlyout.IsOpen)
-            {
-                AudioBitRateFlyout.Hide();
-            }
-
-            if (args.Parameter is KeyValuePairModel audioBitRate)
-            {
-                foreach (KeyValuePairModel audioBitRateItem in AudioBitRateList)
-                {
-                    audioBitRateItem.IsChecked = false;
-                    if (string.Equals(audioBitRate.Key, audioBitRateItem.Key))
-                    {
-                        SelectedAudioBitRate = audioBitRateItem;
-                        audioBitRateItem.IsChecked = true;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 修改声道
-        /// </summary>
-        private void OnSoundTrackExecuteRequested(object sender, ExecuteRequestedEventArgs args)
-        {
-            if (SoundTrackFlyout.IsOpen)
-            {
-                SoundTrackFlyout.Hide();
-            }
-
-            if (args.Parameter is KeyValuePairModel soundTrack)
-            {
-                foreach (KeyValuePairModel soundTrackItem in SoundTrackList)
-                {
-                    soundTrackItem.IsChecked = false;
-                    if (string.Equals(soundTrack.Key, soundTrackItem.Key))
-                    {
-                        SelectedSoundTrack = soundTrackItem;
-                        soundTrackItem.IsChecked = true;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 修改声道
-        /// </summary>
-        private void OnVolumeExecuteRequested(object sender, ExecuteRequestedEventArgs args)
-        {
-            if (VolumeFlyout.IsOpen)
-            {
-                VolumeFlyout.Hide();
-            }
-
-            if (args.Parameter is KeyValuePairModel volume)
-            {
-                foreach (KeyValuePairModel volumeItem in VolumeList)
-                {
-                    volumeItem.IsChecked = false;
-                    if (string.Equals(volume.Key, volumeItem.Key))
-                    {
-                        SelectedVolume = volumeItem;
-                        volumeItem.IsChecked = true;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 修改音频淡入效果
-        /// </summary>
-        private void OnAudioFadeInEffectExecuteRequested(object sender, ExecuteRequestedEventArgs args)
-        {
-            if (AudioFadeInEffectFlyout.IsOpen)
-            {
-                AudioFadeInEffectFlyout.Hide();
-            }
-
-            if (args.Parameter is KeyValuePairModel audioFadeInEffect)
-            {
-                foreach (KeyValuePairModel audioFadeInEffectItem in AudioFadeInEffectList)
-                {
-                    audioFadeInEffectItem.IsChecked = false;
-                    if (string.Equals(audioFadeInEffect.Key, audioFadeInEffectItem.Key))
-                    {
-                        SelectedAudioFadeInEffect = audioFadeInEffectItem;
-                        audioFadeInEffectItem.IsChecked = true;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 修改音频淡出效果
-        /// </summary>
-        private void OnAudioFadeOutEffectExecuteRequested(object sender, ExecuteRequestedEventArgs args)
-        {
-            if (AudioFadeOutEffectFlyout.IsOpen)
-            {
-                AudioFadeOutEffectFlyout.Hide();
-            }
-
-            if (args.Parameter is KeyValuePairModel audioFadeOutEffect)
-            {
-                foreach (KeyValuePairModel audioFadeOutEffectItem in AudioFadeOutEffectList)
-                {
-                    audioFadeOutEffectItem.IsChecked = false;
-                    if (string.Equals(audioFadeOutEffect.Key, audioFadeOutEffectItem.Key))
-                    {
-                        SelectedAudioFadeOutEffect = audioFadeOutEffectItem;
-                        audioFadeOutEffectItem.IsChecked = true;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 修改字幕嵌入类型
-        /// </summary>
-        private void OnSubtitleNestTypeExecuteRequested(object sender, ExecuteRequestedEventArgs args)
-        {
-            if (SubtitleNestTypeFlyout.IsOpen)
-            {
-                SubtitleNestTypeFlyout.Hide();
-            }
-
-            if (args.Parameter is KeyValuePairModel subtitleNestType)
-            {
-                foreach (KeyValuePairModel subtitleNestTypeItem in SubtitleNestTypeList)
-                {
-                    subtitleNestTypeItem.IsChecked = false;
-                    if (string.Equals(subtitleNestType.Key, subtitleNestTypeItem.Key))
-                    {
-                        SelectedSubtitleNestType = subtitleNestTypeItem;
-                        subtitleNestTypeItem.IsChecked = true;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 修改字体大小
-        /// </summary>
-        private void OnFontSizeExecuteRequested(object sender, ExecuteRequestedEventArgs args)
-        {
-            if (FontSizeFlyout.IsOpen)
-            {
-                FontSizeFlyout.Hide();
-            }
-
-            if (args.Parameter is KeyValuePairModel fontSize)
-            {
-                foreach (KeyValuePairModel fontSizeItem in FontSizeList)
-                {
-                    fontSizeItem.IsChecked = false;
-                    if (string.Equals(fontSize.Key, fontSizeItem.Key))
-                    {
-                        SelectedFontSize = fontSizeItem;
-                        fontSizeItem.IsChecked = true;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 修改字体边框风格
-        /// </summary>
-        private void OnFontBorderStyleExecuteRequested(object sender, ExecuteRequestedEventArgs args)
-        {
-            if (FontBorderStyleFlyout.IsOpen)
-            {
-                FontBorderStyleFlyout.Hide();
-            }
-
-            if (args.Parameter is KeyValuePairModel fontBorderStyle)
-            {
-                foreach (KeyValuePairModel fontBorderStyleItem in FontBorderStyleList)
-                {
-                    fontBorderStyleItem.IsChecked = false;
-                    if (string.Equals(fontBorderStyle.Key, fontBorderStyleItem.Key))
-                    {
-                        SelectedFontBorderStyle = fontBorderStyleItem;
-                        fontBorderStyleItem.IsChecked = true;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 修改轮廓线大小
-        /// </summary>
-        private void OnCounterLineSizeExecuteRequested(object sender, ExecuteRequestedEventArgs args)
-        {
-            if (CounterLineSizeFlyout.IsOpen)
-            {
-                CounterLineSizeFlyout.Hide();
-            }
-
-            if (args.Parameter is KeyValuePairModel counterLineSize)
-            {
-                foreach (KeyValuePairModel counterLineSizeItem in CounterLineSizeList)
-                {
-                    counterLineSizeItem.IsChecked = false;
-                    if (string.Equals(counterLineSize.Key, counterLineSizeItem.Key))
-                    {
-                        SelectedCounterLineSize = counterLineSizeItem;
-                        counterLineSizeItem.IsChecked = true;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 修改阴影大小
-        /// </summary>
-        private void OnShadowSizeExecuteRequested(object sender, ExecuteRequestedEventArgs args)
-        {
-            if (ShadowSizeFlyout.IsOpen)
-            {
-                ShadowSizeFlyout.Hide();
-            }
-
-            if (args.Parameter is KeyValuePairModel shadowSize)
-            {
-                foreach (KeyValuePairModel shadowSizeItem in ShadowSizeList)
-                {
-                    shadowSizeItem.IsChecked = false;
-                    if (string.Equals(shadowSize.Key, shadowSizeItem.Key))
-                    {
-                        SelectedShadowSize = shadowSizeItem;
-                        shadowSizeItem.IsChecked = true;
-                    }
-                }
-            }
-        }
-
-        #endregion 第四部分：ExecuteCommand 命令调用时挂载的事件
-
-        #region 第五部分：内容挂载的事件
+        #region 第四部分：内容挂载的事件
 
         /// <summary>
         /// 加载完成后触发的事件
@@ -1565,14 +918,6 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
-        /// 分割
-        /// </summary>
-        private void OnSegmentationClicked(object sender, RoutedEventArgs args)
-        {
-            // TODO：未完成
-        }
-
-        /// <summary>
         /// 确定
         /// </summary>
         private void OnOkClicked(object sender, RoutedEventArgs args)
@@ -1606,70 +951,114 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
-        /// 打开视频编辑
+        /// 格式转换类型菜单选中项发生改变时触发的事件
         /// </summary>
-        private void OnVideoEditClicked(object sender, RoutedEventArgs args)
+        private void OnFormatConversionTypeSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            // TODO：未完成
-        }
-
-        /// <summary>
-        /// 格式转换类型菜单打开时自动定位到选中项
-        /// </summary>
-        private void OnFormatConversionTypeOpened(object sender, object args)
-        {
-            foreach (KeyValuePairModel formatConversionType in FormatConversionTypeList)
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry formatConversionType && !Equals(SelectedFormatConversionType, formatConversionType))
             {
-                if (formatConversionType.IsChecked)
+                SelectedFormatConversionType = formatConversionType;
+
+                ResetVideoEncoding();
+                SelectedVideoEncoding = VideoEncodingCollection[0];
+
+                ResetSizeLimitation();
+                SelectedSizeLimitation = SizeLimitationCollection[0];
+
+                ResetScreenSize();
+                SelectedScreenSize = ScreenSizeCollection[0];
+
+                ResetVideoBitRate();
+                SelectedVideoBitRate = VideoBitRateCollection[0];
+
+                ResetCRF();
+                ResetGPU();
+                SelectedGPU = GPUCollection[0];
+
+                ResetAspectRatio();
+                SelectedAspectRatio = AspectRatioCollection[0];
+
+                ResetSecondaryEncoding();
+
+                ResetKeyFrameInterval();
+                SelectedKeyFrameInterval = KeyFrameIntervalCollection[0];
+
+                IsAudioConfigurationSupported = !Equals(SelectedFormatConversionType, FormatConversionTypeList[2]);
+
+                ResetAudioEncoding();
+                SelectedAudioEncoding = AudioEncodingCollection[0];
+
+                ResetSamplingRate();
+                SelectedSamplingRate = SamplingRateCollection[0];
+
+                ResetAudioBitRate();
+                SelectedAudioBitRate = AudioBitRateCollection[0];
+
+                ResetSoundTrack();
+                SelectedSoundTrack = SoundTrackCollection[0];
+
+                ResetVolume();
+                SelectedVolume = VolumeCollection[5];
+
+                ResetAudioFadeInEffect();
+                SelectedAudioFadeInEffect = AudioFadeInEffectCollection[0];
+
+                ResetAudioFadeOutEffect();
+                SelectedAudioFadeOutEffect = AudioFadeOutEffectCollection[0];
+
+                ResetPreserveAllSourceInputSubtitleStream();
+
+                if (!IsAudioConfigurationSupported)
                 {
-                    FormatConversionTypeListView.ScrollIntoView(formatConversionType);
-                    break;
+                    CloseSoundEffect = false;
+                    PreserveAllSourceInputAudioStream = false;
+                    Echo = false;
+                    DeNoise = false;
+                    Reverse = false;
                 }
             }
         }
 
         /// <summary>
-        /// 大小限制菜单打开时自动定位到选中项
+        /// 视频编码菜单选中项发生改变时触发的事件
         /// </summary>
-        private void OnSizeLimitationOpened(object sender, object args)
+        private void OnVideoEncodingSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            foreach (KeyValuePairModel sizeLimitation in SizeLimitationList)
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry videoEncoding && !Equals(SelectedVideoEncoding, videoEncoding))
             {
-                if (sizeLimitation.IsChecked)
-                {
-                    SizeLimitationListView.ScrollIntoView(sizeLimitation);
-                    break;
-                }
+                SelectedVideoEncoding = videoEncoding;
+
+                ResetSizeLimitation();
+                SelectedSizeLimitation = SizeLimitationCollection[0];
+
+                ResetCRF();
+
+                ResetGPU();
+                SelectedGPU = GPUCollection[0];
+
+                ResetSecondaryEncoding();
             }
         }
 
         /// <summary>
-        /// 视频编码菜单打开时自动定位到选中项
+        /// 大小限制菜单选中项发生改变时触发的事件
         /// </summary>
-        private void OnVideoEncodingOpened(object sender, object args)
+        private void OnSizeLimitationSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            foreach (KeyValuePairModel videoEncoding in VideoEncodingList)
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry sizeLimitation && !Equals(SelectedSizeLimitation, sizeLimitation))
             {
-                if (videoEncoding.IsChecked)
-                {
-                    VideoEncodingListView.ScrollIntoView(videoEncoding);
-                    break;
-                }
+                SelectedSizeLimitation = sizeLimitation;
             }
         }
 
         /// <summary>
-        /// 屏幕大小菜单打开时自动定位到选中项
+        /// 屏幕大小菜单选中项发生改变时触发的事件
         /// </summary>
-        private void OnScreenSizeOpened(object sender, object args)
+        private void OnScreenSizeSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            foreach (KeyValuePairModel screenSize in ScreenSizeList)
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry screenSize && !Equals(SelectedScreenSize, screenSize))
             {
-                if (screenSize.IsChecked)
-                {
-                    ScreenSizeListView.ScrollIntoView(screenSize);
-                    break;
-                }
+                SelectedScreenSize = screenSize;
             }
         }
 
@@ -1711,17 +1100,13 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
-        /// 视频比特率菜单打开时自动定位到选中项
+        /// 视频比特率菜单选中项发生改变时触发的事件
         /// </summary>
-        private void OnVideoBitRateOpened(object sender, object args)
+        private void OnVideoBitRateSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            foreach (KeyValuePairModel videoBitRate in VideoBitRateList)
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry videoBitRate && !Equals(SelectedVideoBitRate, videoBitRate))
             {
-                if (videoBitRate.IsChecked)
-                {
-                    VideoBitRateListView.ScrollIntoView(videoBitRate);
-                    break;
-                }
+                SelectedVideoBitRate = videoBitRate;
             }
         }
 
@@ -1759,47 +1144,35 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
-        /// GPU 菜单打开时自动定位到选中项
+        /// GPU 菜单选中项发生改变时触发的事件
         /// </summary>
-        private void OnGPUOpened(object sender, object args)
+        private void OnGPUSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            foreach (KeyValuePairModel gpu in GPUList)
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry gpu && !Equals(SelectedGPU, gpu))
             {
-                if (gpu.IsChecked)
-                {
-                    VideoBitRateListView.ScrollIntoView(gpu);
-                    break;
-                }
+                SelectedGPU = gpu;
             }
         }
 
         /// <summary>
-        /// 每秒帧数菜单打开时自动定位到选中项
+        /// 每秒帧数菜单选中项发生改变时触发的事件
         /// </summary>
-        private void OnFramePerSecondOpened(object sender, object args)
+        private void OnFramePerSecondSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            foreach (KeyValuePairModel framePerSecond in FramePerSecondList)
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry framePerSecond && !Equals(SelectedFramePerSecond, framePerSecond))
             {
-                if (framePerSecond.IsChecked)
-                {
-                    FramePerSecondListView.ScrollIntoView(framePerSecond);
-                    break;
-                }
+                SelectedFramePerSecond = framePerSecond;
             }
         }
 
         /// <summary>
-        /// 宽高比菜单打开时自动定位到选中项
+        /// 宽高比菜单选中项发生改变时触发的事件
         /// </summary>
-        private void OnAspectRatioOpened(object sender, object args)
+        private void OnAspectRatioSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            foreach (KeyValuePairModel aspectRatio in AspectRatioList)
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry aspectRatio && !Equals(SelectedFramePerSecond, aspectRatio))
             {
-                if (aspectRatio.IsChecked)
-                {
-                    AspectRatioListView.ScrollIntoView(aspectRatio);
-                    break;
-                }
+                SelectedAspectRatio = aspectRatio;
             }
         }
 
@@ -1815,17 +1188,13 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
-        /// 关键帧间隔菜单打开时自动定位到选中项
+        /// 关键帧间隔菜单选中项发生改变时触发的事件
         /// </summary>
-        private void OnKeyFrameIntervalOpened(object sender, object args)
+        private void OnKeyFrameIntervalSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            foreach (KeyValuePairModel keyFrameInterval in KeyFrameIntervalList)
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry keyFrameInterval && !Equals(SelectedFramePerSecond, keyFrameInterval))
             {
-                if (keyFrameInterval.IsChecked)
-                {
-                    KeyFrameIntervalListView.ScrollIntoView(keyFrameInterval);
-                    break;
-                }
+                SelectedKeyFrameInterval = keyFrameInterval;
             }
         }
 
@@ -1841,17 +1210,13 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
-        /// 旋转菜单打开时自动定位到选中项
+        /// 旋转菜单选中项发生改变时触发的事件
         /// </summary>
-        private void OnRotationOpened(object sender, object args)
+        private void OnRotationSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            foreach (KeyValuePairModel rotation in RotationList)
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry rotation && !Equals(SelectedRotation, rotation))
             {
-                if (rotation.IsChecked)
-                {
-                    RotationListView.ScrollIntoView(rotation);
-                    break;
-                }
+                SelectedRotation = rotation;
             }
         }
 
@@ -1867,92 +1232,72 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
-        /// 视频淡入效果菜单打开时自动定位到选中项
+        /// 视频淡入效果菜单选中项发生改变时触发的事件
         /// </summary>
-        private void OnVideoFadeInEffectOpened(object sender, object args)
+        private void OnVideoFadeInEffectSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            foreach (KeyValuePairModel videoFadeInEffect in VideoFadeInEffectList)
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry videoFadeInEffect && !Equals(SelectedVideoFadeInEffect, videoFadeInEffect))
             {
-                if (videoFadeInEffect.IsChecked)
-                {
-                    VideoFadeInEffectListView.ScrollIntoView(videoFadeInEffect);
-                    break;
-                }
+                SelectedVideoFadeInEffect = videoFadeInEffect;
             }
         }
 
         /// <summary>
-        /// 视频淡出效果菜单打开时自动定位到选中项
+        /// 视频淡出效果菜单选中项发生改变时触发的事件
         /// </summary>
-        private void OnVideoFadeOutEffectOpened(object sender, object args)
+        private void OnVideoFadeOutEffectSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            foreach (KeyValuePairModel videoFadeOutEffect in VideoFadeOutEffectList)
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry videoFadeOutEffect && !Equals(SelectedVideoFadeOutEffect, videoFadeOutEffect))
             {
-                if (videoFadeOutEffect.IsChecked)
-                {
-                    VideoFadeOutEffectListView.ScrollIntoView(videoFadeOutEffect);
-                    break;
-                }
+                SelectedVideoFadeOutEffect = videoFadeOutEffect;
             }
         }
 
         /// <summary>
-        /// 音频编码菜单打开时自动定位到选中项
+        /// 音频编码效果菜单选中项发生改变时触发的事件
         /// </summary>
-        private void OnAudioEncodingOpened(object sender, object args)
+        private void OnAudioEncodingSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            foreach (KeyValuePairModel audioEncoding in AudioEncodingList)
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry audioEncoding && !Equals(SelectedAudioEncoding, audioEncoding))
             {
-                if (audioEncoding.IsChecked)
-                {
-                    AudioEncodingListView.ScrollIntoView(audioEncoding);
-                    break;
-                }
+                SelectedAudioEncoding = audioEncoding;
+
+                ResetSamplingRate();
+
+                SelectedSamplingRate = SamplingRateCollection[0];
             }
         }
 
         /// <summary>
-        /// 音频编码菜单打开时自动定位到选中项
+        /// 采样率菜单选中项发生改变时触发的事件
         /// </summary>
-        private void OnSamplingRateOpened(object sender, object args)
+        private void OnSamplingRateSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            foreach (KeyValuePairModel samplingRate in SamplingRateList)
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry samplingRate && !Equals(SelectedSamplingRate, samplingRate))
             {
-                if (samplingRate.IsChecked)
-                {
-                    SamplingRateListView.ScrollIntoView(samplingRate);
-                    break;
-                }
+                SelectedSamplingRate = samplingRate;
             }
         }
 
         /// <summary>
-        /// 音频比特率菜单打开时自动定位到选中项
+        /// 音频比特率菜单选中项发生改变时触发的事件
         /// </summary>
-        private void OnAudioBitRateOpened(object sender, object args)
+        private void OnAudioBitRateSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            foreach (KeyValuePairModel audioBitRate in AudioBitRateList)
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry audioBitRate && !Equals(SelectedAudioBitRate, audioBitRate))
             {
-                if (audioBitRate.IsChecked)
-                {
-                    AudioBitRateListView.ScrollIntoView(audioBitRate);
-                    break;
-                }
+                SelectedAudioBitRate = audioBitRate;
             }
         }
 
         /// <summary>
-        /// 声道菜单打开时自动定位到选中项
+        /// 声道菜单选中项发生改变时触发的事件
         /// </summary>
-        private void OnSoundTrackOpened(object sender, object args)
+        private void OnSoundTrackSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            foreach (KeyValuePairModel soundTrack in SoundTrackList)
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry soundTrack && !Equals(SelectedSoundTrack, soundTrack))
             {
-                if (soundTrack.IsChecked)
-                {
-                    SoundTrackListView.ScrollIntoView(soundTrack);
-                    break;
-                }
+                SelectedSoundTrack = soundTrack;
             }
         }
 
@@ -1968,17 +1313,13 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
-        /// 音量菜单打开时自动定位到选中项
+        /// 音量菜单选中项发生改变时触发的事件
         /// </summary>
-        private void OnVolumeOpened(object sender, object args)
+        private void OnVolumeSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            foreach (KeyValuePairModel volume in VolumeList)
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry volume && !Equals(SelectedVolume, volume))
             {
-                if (volume.IsChecked)
-                {
-                    VolumeListView.ScrollIntoView(volume);
-                    break;
-                }
+                SelectedVolume = volume;
             }
         }
 
@@ -1994,32 +1335,24 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
-        /// 音频淡入效果菜单打开时自动定位到选中项
+        /// 音频淡入效果菜单选中项发生改变时触发的事件
         /// </summary>
-        private void OnAudioFadeInEffectOpened(object sender, object args)
+        private void OnAudioFadeInEffectSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            foreach (KeyValuePairModel audioFadeInEffect in AudioFadeInEffectList)
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry audioFadeInEffect && !Equals(SelectedAudioFadeInEffect, audioFadeInEffect))
             {
-                if (audioFadeInEffect.IsChecked)
-                {
-                    AudioFadeInEffectListView.ScrollIntoView(audioFadeInEffect);
-                    break;
-                }
+                SelectedAudioFadeInEffect = audioFadeInEffect;
             }
         }
 
         /// <summary>
-        /// 音频淡出效果菜单打开时自动定位到选中项
+        /// 音频淡出效果菜单选中项发生改变时触发的事件
         /// </summary>
-        private void OnAudioFadeOutEffectOpened(object sender, object args)
+        private void OnAudioFadeOutEffectSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            foreach (KeyValuePairModel audioFadeOutEffect in AudioFadeOutEffectList)
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry audioFadeOutEffect && !Equals(SelectedAudioFadeOutEffect, audioFadeOutEffect))
             {
-                if (audioFadeOutEffect.IsChecked)
-                {
-                    AudioFadeOutEffectListView.ScrollIntoView(audioFadeOutEffect);
-                    break;
-                }
+                SelectedAudioFadeOutEffect = audioFadeOutEffect;
             }
         }
 
@@ -2104,17 +1437,13 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
-        /// 字幕嵌入类型菜单打开时自动定位到选中项
+        /// 字幕嵌入类型菜单选中项发生改变时触发的事件
         /// </summary>
-        private void OnSubtitleNestTypeOpened(object sender, object args)
+        private void OnSubtitleNestTypeSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            foreach (KeyValuePairModel subtitleNestType in SubtitleNestTypeList)
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry subtitleNestType && !Equals(SelectedSubtitleNestType, subtitleNestType))
             {
-                if (subtitleNestType.IsChecked)
-                {
-                    SubtitleNestTypeListView.ScrollIntoView(subtitleNestType);
-                    break;
-                }
+                SelectedSubtitleNestType = subtitleNestType;
             }
         }
 
@@ -2135,17 +1464,13 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
-        /// 字体大小菜单打开时自动定位到选中项
+        /// 字体名称菜单选中项发生改变时触发的事件
         /// </summary>
-        private void OnFontSizeOpened(object sender, object args)
+        private void OnFontSizeSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            foreach (KeyValuePairModel fontSize in FontSizeList)
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry fontSize && !Equals(SelectedFontSize, fontSize))
             {
-                if (fontSize.IsChecked)
-                {
-                    FontSizeListView.ScrollIntoView(fontSize);
-                    break;
-                }
+                SelectedFontSize = fontSize;
             }
         }
 
@@ -2166,32 +1491,24 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
-        /// 字体边框风格菜单打开时自动定位到选中项
+        /// 字体边框风格菜单选中项发生改变时触发的事件
         /// </summary>
-        private void OnFontBorderStyleOpened(object sender, object args)
+        private void OnFontBorderStyleSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            foreach (KeyValuePairModel fontBorderStyle in FontBorderStyleList)
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry fontBorderStyle && !Equals(SelectedFontBorderStyle, fontBorderStyle))
             {
-                if (fontBorderStyle.IsChecked)
-                {
-                    FontBorderStyleListView.ScrollIntoView(fontBorderStyle);
-                    break;
-                }
+                SelectedFontBorderStyle = fontBorderStyle;
             }
         }
 
         /// <summary>
-        /// 轮廓线大小菜单打开时自动定位到选中项
+        /// 轮廓线大小菜单选中项发生改变时触发的事件
         /// </summary>
-        private void OnCounterLineSizeOpened(object sender, object args)
+        private void OnCounterLineSizeSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            foreach (KeyValuePairModel counterLineSize in CounterLineSizeList)
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry counterLineSize && !Equals(SelectedCounterLineSize, counterLineSize))
             {
-                if (counterLineSize.IsChecked)
-                {
-                    CounterLineSizeListView.ScrollIntoView(counterLineSize);
-                    break;
-                }
+                SelectedCounterLineSize = counterLineSize;
             }
         }
 
@@ -2212,23 +1529,19 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
-        /// 阴影大小菜单打开时自动定位到选中项
+        /// 阴影大小菜单选中项发生改变时触发的事件
         /// </summary>
-        private void OnShadowSizeOpened(object sender, object args)
+        private void OnShadowSizeSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            foreach (KeyValuePairModel shadowSize in ShadowSizeList)
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry shadowSize && !Equals(SelectedShadowSize, shadowSize))
             {
-                if (shadowSize.IsChecked)
-                {
-                    ShadowSizeListView.ScrollIntoView(shadowSize);
-                    break;
-                }
+                SelectedShadowSize = shadowSize;
             }
         }
 
-        #endregion 第五部分：内容挂载的事件
+        #endregion 第四部分：内容挂载的事件
 
-        #region 第六部分：自定义事件
+        #region 第五部分：自定义事件
 
         /// <summary>
         /// 设置选项发生变化时触发的事件
@@ -2248,9 +1561,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }, null);
         }
 
-        #endregion 第六部分：自定义事件
+        #endregion 第五部分：自定义事件
 
-        #region 第七部分：窗口及内容属性设置
+        #region 第六部分：窗口及内容属性设置
 
         /// <summary>
         /// 设置应用显示的主题
@@ -2373,9 +1686,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        #endregion 第七部分：窗口及内容属性设置
+        #endregion 第六部分：窗口及内容属性设置
 
-        #region 第八部分：窗口过程
+        #region 第七部分：窗口过程
 
         /// <summary>
         /// 应用窗口消息处理
@@ -2532,72 +1845,33 @@ namespace ModernFormatConverter.Views.Dialogs
             return Comctl32Library.DefSubclassProc(hWnd, Msg, wParam, lParam);
         }
 
-        #endregion 第八部分：窗口过程
+        #endregion 第七部分：窗口过程
 
         /// <summary>
         /// 初始化数据
         /// </summary>
-        private void InitializeData()
+        private void InitializeData(VideoFormatConversionModel videoFormatConversion = null)
         {
-            SizeLimitationList.Add(new KeyValuePairModel() { Key = "None", Value = NoneString });
-            SizeLimitationList.Add(new KeyValuePairModel() { Key = "10", Value = "10MB" });
-            SizeLimitationList.Add(new KeyValuePairModel() { Key = "15", Value = "15MB" });
-            SizeLimitationList.Add(new KeyValuePairModel() { Key = "20", Value = "20MB" });
-            SizeLimitationList.Add(new KeyValuePairModel() { Key = "25", Value = "25MB" });
-            SizeLimitationList.Add(new KeyValuePairModel() { Key = "30", Value = "30MB" });
-            SizeLimitationList.Add(new KeyValuePairModel() { Key = "35", Value = "35MB" });
-            SizeLimitationList.Add(new KeyValuePairModel() { Key = "40", Value = "40MB" });
-            SizeLimitationList.Add(new KeyValuePairModel() { Key = "50", Value = "50MB" });
-            SizeLimitationList.Add(new KeyValuePairModel() { Key = "60", Value = "60MB" });
-            SizeLimitationList.Add(new KeyValuePairModel() { Key = "70", Value = "70MB" });
-            SizeLimitationList.Add(new KeyValuePairModel() { Key = "80", Value = "80MB" });
-            SizeLimitationList.Add(new KeyValuePairModel() { Key = "90", Value = "90MB" });
-            SizeLimitationList.Add(new KeyValuePairModel() { Key = "100", Value = "100MB" });
-            SizeLimitationList.Add(new KeyValuePairModel() { Key = "150", Value = "150MB" });
-            SizeLimitationList.Add(new KeyValuePairModel() { Key = "200", Value = "200MB" });
-            SizeLimitationList.Add(new KeyValuePairModel() { Key = "300", Value = "300MB" });
-            SizeLimitationList.Add(new KeyValuePairModel() { Key = "500", Value = "500MB" });
+            SelectedFormatConversionType = videoFormatConversion is not null && FormatConversionTypeList.Find(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.FormatConversionType)) is DictionaryEntry selectedFormatConversionType && selectedFormatConversionType.Key is not null ? selectedFormatConversionType : FormatConversionTypeList[0];
 
-            VideoEncodingList.Add(new KeyValuePairModel() { Key = "Copy", Value = CopyString });
-            VideoEncodingList.Add(new KeyValuePairModel() { Key = "VVC", Value = "VVC(H266)" });
-            VideoEncodingList.Add(new KeyValuePairModel() { Key = "HEVC", Value = "HEVC(H265)" });
-            VideoEncodingList.Add(new KeyValuePairModel() { Key = "AVC", Value = "AVC(H264)" });
-            VideoEncodingList.Add(new KeyValuePairModel() { Key = "MPEG4_DivX", Value = "MPEG4(DivX)" });
-            VideoEncodingList.Add(new KeyValuePairModel() { Key = "MPEG4_Xvid", Value = "MPEG4(Xvid)" });
-            VideoEncodingList.Add(new KeyValuePairModel() { Key = "AV1", Value = "AV1" });
-            VideoEncodingList.Add(new KeyValuePairModel() { Key = "VP9", Value = "VP9" });
+            ResetVideoEncoding();
+            SelectedVideoEncoding = videoFormatConversion is not null && VideoEncodingCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.VideoEncoding)) is DictionaryEntry selectedVideoEncoding && selectedVideoEncoding.Key is not null ? selectedVideoEncoding : VideoEncodingCollection[0];
 
-            ScreenSizeList.Add(new KeyValuePairModel() { Key = "DefaultSize", Value = DefaultSizeString });
-            ScreenSizeList.Add(new KeyValuePairModel() { Key = "360P", Value = "360p" });
-            ScreenSizeList.Add(new KeyValuePairModel() { Key = "480P", Value = "480p" });
-            ScreenSizeList.Add(new KeyValuePairModel() { Key = "720P", Value = "720p" });
-            ScreenSizeList.Add(new KeyValuePairModel() { Key = "1080P", Value = "1080p" });
-            ScreenSizeList.Add(new KeyValuePairModel() { Key = "2160P", Value = "2160p" });
-            ScreenSizeList.Add(new KeyValuePairModel() { Key = "480I", Value = "480i" });
-            ScreenSizeList.Add(new KeyValuePairModel() { Key = "720I", Value = "720i" });
-            ScreenSizeList.Add(new KeyValuePairModel() { Key = "1280I", Value = "1280i" });
-            ScreenSizeList.Add(new KeyValuePairModel() { Key = "1920I", Value = "1920i" });
-            ScreenSizeList.Add(new KeyValuePairModel() { Key = "3840I", Value = "3840i" });
-            ScreenSizeList.Add(new KeyValuePairModel() { Key = "25%", Value = "25%" });
-            ScreenSizeList.Add(new KeyValuePairModel() { Key = "50%", Value = "50%" });
-            ScreenSizeList.Add(new KeyValuePairModel() { Key = "75%", Value = "75%" });
-            ScreenSizeList.Add(new KeyValuePairModel() { Key = "125%", Value = "125%" });
-            ScreenSizeList.Add(new KeyValuePairModel() { Key = "150%", Value = "150%" });
-            ScreenSizeList.Add(new KeyValuePairModel() { Key = "200%", Value = "200%" });
-            ScreenSizeList.Add(new KeyValuePairModel() { Key = "Custom", Value = CustomString });
+            ResetSizeLimitation();
+            SelectedSizeLimitation = videoFormatConversion is not null && SizeLimitationCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.SizeLimitation)) is DictionaryEntry selectedSizeLimitation && selectedSizeLimitation.Key is not null ? selectedSizeLimitation : SizeLimitationCollection[0];
 
-            VideoBitRateList.Add(new KeyValuePairModel() { Key = "Default", Value = DefaultString });
-            VideoBitRateList.Add(new KeyValuePairModel() { Key = "256K", Value = "256K" });
-            VideoBitRateList.Add(new KeyValuePairModel() { Key = "384K", Value = "384K" });
-            VideoBitRateList.Add(new KeyValuePairModel() { Key = "512K", Value = "512K" });
-            VideoBitRateList.Add(new KeyValuePairModel() { Key = "768K", Value = "768K" });
-            VideoBitRateList.Add(new KeyValuePairModel() { Key = "1M", Value = "1M" });
-            VideoBitRateList.Add(new KeyValuePairModel() { Key = "1.5M", Value = "1.5M" });
-            VideoBitRateList.Add(new KeyValuePairModel() { Key = "2M", Value = "2M" });
-            VideoBitRateList.Add(new KeyValuePairModel() { Key = "5M", Value = "5M" });
-            VideoBitRateList.Add(new KeyValuePairModel() { Key = "10M", Value = "10M" });
-            VideoBitRateList.Add(new KeyValuePairModel() { Key = "15M", Value = "15M" });
-            VideoBitRateList.Add(new KeyValuePairModel() { Key = "20M", Value = "20M" });
+            ResetScreenSize();
+            SelectedScreenSize = videoFormatConversion is not null && ScreenSizeCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.ScreenSize)) is DictionaryEntry selectedScreenSize && selectedScreenSize.Key is not null ? selectedScreenSize : ScreenSizeCollection[0];
+
+            ResetVideoBitRate();
+            SelectedVideoBitRate = videoFormatConversion is not null && VideoBitRateCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.VideoBitRate)) is DictionaryEntry selectedVideoBitRate && selectedVideoBitRate.Key is not null ? selectedVideoBitRate : VideoBitRateCollection[0];
+
+            ResetCRF();
+            if (IsCRFSupported && videoFormatConversion is not null)
+            {
+                UseCRF = videoFormatConversion.CRF is not -1;
+                CRF = videoFormatConversion.CRF is not -1 ? videoFormatConversion.CRF : 10;
+            }
 
             uint iAdapterNum = 0;
             Guid CLSID_DxgiFactory = new("7B7166EC-21C7-44AE-B21A-C9AE321AE369");
@@ -2621,151 +1895,934 @@ namespace ModernFormatConverter.Views.Dialogs
                 }
             }
 
-            GPUList.Add(new KeyValuePairModel() { Key = "None", Value = NoneString });
+            GPUList.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
 
             if (dxgiAdapterList.Contains(32902))
             {
-                GPUList.Add(new KeyValuePairModel() { Key = "INTEL", Value = "INTEL" });
+                GPUList.Add(new DictionaryEntry() { Key = "INTEL", Value = "INTEL" });
             }
 
             if (dxgiAdapterList.Contains(4318))
             {
-                GPUList.Add(new KeyValuePairModel() { Key = "NVIDIA", Value = "NVIDIA" });
+                GPUList.Add(new DictionaryEntry() { Key = "NVIDIA", Value = "NVIDIA" });
             }
 
             if (dxgiAdapterList.Contains(4098))
             {
-                GPUList.Add(new KeyValuePairModel() { Key = "AMD", Value = "AMD" });
+                GPUList.Add(new DictionaryEntry() { Key = "AMD", Value = "AMD" });
             }
 
-            FramePerSecondList.Add(new KeyValuePairModel() { Key = "Default", Value = DefaultString });
-            FramePerSecondList.Add(new KeyValuePairModel() { Key = "12", Value = "12" });
-            FramePerSecondList.Add(new KeyValuePairModel() { Key = "15", Value = "15" });
-            FramePerSecondList.Add(new KeyValuePairModel() { Key = "18", Value = "18" });
-            FramePerSecondList.Add(new KeyValuePairModel() { Key = "20", Value = "20" });
-            FramePerSecondList.Add(new KeyValuePairModel() { Key = "23.976", Value = "23.976" });
-            FramePerSecondList.Add(new KeyValuePairModel() { Key = "24", Value = "24" });
-            FramePerSecondList.Add(new KeyValuePairModel() { Key = "25", Value = "25" });
-            FramePerSecondList.Add(new KeyValuePairModel() { Key = "29.97", Value = "29.97" });
-            FramePerSecondList.Add(new KeyValuePairModel() { Key = "30", Value = "30" });
-            FramePerSecondList.Add(new KeyValuePairModel() { Key = "50", Value = "50" });
-            FramePerSecondList.Add(new KeyValuePairModel() { Key = "60", Value = "60" });
+            ResetGPU();
+            SelectedGPU = videoFormatConversion is not null && GPUCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.GPU)) is DictionaryEntry selectedGPU && selectedGPU.Key is not null ? selectedGPU : GPUCollection[0];
 
-            AspectRatioList.Add(new KeyValuePairModel() { Key = "Default", Value = DefaultString });
-            AspectRatioList.Add(new KeyValuePairModel() { Key = "4:3", Value = "4:3" });
-            AspectRatioList.Add(new KeyValuePairModel() { Key = "16:9", Value = "16:9" });
-            AspectRatioList.Add(new KeyValuePairModel() { Key = "3:2", Value = "3:2" });
-            AspectRatioList.Add(new KeyValuePairModel() { Key = "5:4", Value = "5:4" });
+            FramePerSecondList.Add(new DictionaryEntry() { Key = "Default", Value = DefaultString });
+            FramePerSecondList.Add(new DictionaryEntry() { Key = "12", Value = "12" });
+            FramePerSecondList.Add(new DictionaryEntry() { Key = "15", Value = "15" });
+            FramePerSecondList.Add(new DictionaryEntry() { Key = "18", Value = "18" });
+            FramePerSecondList.Add(new DictionaryEntry() { Key = "20", Value = "20" });
+            FramePerSecondList.Add(new DictionaryEntry() { Key = "23.976", Value = "23.976" });
+            FramePerSecondList.Add(new DictionaryEntry() { Key = "24", Value = "24" });
+            FramePerSecondList.Add(new DictionaryEntry() { Key = "25", Value = "25" });
+            FramePerSecondList.Add(new DictionaryEntry() { Key = "29.97", Value = "29.97" });
+            FramePerSecondList.Add(new DictionaryEntry() { Key = "30", Value = "30" });
+            FramePerSecondList.Add(new DictionaryEntry() { Key = "50", Value = "50" });
+            FramePerSecondList.Add(new DictionaryEntry() { Key = "60", Value = "60" });
+            SelectedFramePerSecond = videoFormatConversion is not null && FramePerSecondList.Find(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.FramePerSecond)) is DictionaryEntry selectedFramePerSecond && selectedFramePerSecond.Key is not null ? selectedFramePerSecond : FramePerSecondList[0];
 
-            KeyFrameIntervalList.Add(new KeyValuePairModel() { Key = "Default", Value = DefaultString });
-            KeyFrameIntervalList.Add(new KeyValuePairModel() { Key = "1", Value = "1" });
-            KeyFrameIntervalList.Add(new KeyValuePairModel() { Key = "2", Value = "2" });
-            KeyFrameIntervalList.Add(new KeyValuePairModel() { Key = "3", Value = "3" });
-            KeyFrameIntervalList.Add(new KeyValuePairModel() { Key = "4", Value = "4" });
-            KeyFrameIntervalList.Add(new KeyValuePairModel() { Key = "8", Value = "5" });
-            KeyFrameIntervalList.Add(new KeyValuePairModel() { Key = "6", Value = "6" });
-            KeyFrameIntervalList.Add(new KeyValuePairModel() { Key = "7", Value = "7" });
-            KeyFrameIntervalList.Add(new KeyValuePairModel() { Key = "8", Value = "8" });
-            KeyFrameIntervalList.Add(new KeyValuePairModel() { Key = "9", Value = "9" });
-            KeyFrameIntervalList.Add(new KeyValuePairModel() { Key = "10", Value = "10" });
+            ResetAspectRatio();
+            SelectedAspectRatio = videoFormatConversion is not null && AspectRatioCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.AspectRatio)) is DictionaryEntry selectedAspectRatio && selectedAspectRatio.Key is not null ? selectedAspectRatio : AspectRatioCollection[0];
 
-            RotationList.Add(new KeyValuePairModel() { Key = Convert.ToString(Rotation.Rotate0), Value = NoRotateString });
-            RotationList.Add(new KeyValuePairModel() { Key = Convert.ToString(Rotation.Rotate90), Value = RotateRightString });
-            RotationList.Add(new KeyValuePairModel() { Key = Convert.ToString(Rotation.Rotate180), Value = UnsideDownString });
-            RotationList.Add(new KeyValuePairModel() { Key = Convert.ToString(Rotation.Rotate270), Value = RotateLeftString });
+            ResetSecondaryEncoding();
+            if (IsSecondaryEncodingEnabled && videoFormatConversion is not null)
+            {
+                SecondaryEncoding = videoFormatConversion.SecondaryEncoding;
+            }
 
-            VideoFadeInEffectList.Add(new KeyValuePairModel() { Key = "None", Value = NoneString });
-            VideoFadeInEffectList.Add(new KeyValuePairModel() { Key = "1", Value = "1" + SecondString });
-            VideoFadeInEffectList.Add(new KeyValuePairModel() { Key = "2", Value = "2" + SecondString });
-            VideoFadeInEffectList.Add(new KeyValuePairModel() { Key = "3", Value = "3" + SecondString });
-            VideoFadeInEffectList.Add(new KeyValuePairModel() { Key = "4", Value = "4" + SecondString });
-            VideoFadeInEffectList.Add(new KeyValuePairModel() { Key = "5", Value = "5" + SecondString });
+            ResetKeyFrameInterval();
+            SelectedKeyFrameInterval = videoFormatConversion is not null && KeyFrameIntervalCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.KeyFrameInterval)) is DictionaryEntry selectedKeyFrameInterval && selectedKeyFrameInterval.Key is not null ? selectedKeyFrameInterval : KeyFrameIntervalCollection[0];
 
-            VideoFadeOutEffectList.Add(new KeyValuePairModel() { Key = "None", Value = NoneString });
-            VideoFadeOutEffectList.Add(new KeyValuePairModel() { Key = "1", Value = "1" + SecondString });
-            VideoFadeOutEffectList.Add(new KeyValuePairModel() { Key = "2", Value = "2" + SecondString });
-            VideoFadeOutEffectList.Add(new KeyValuePairModel() { Key = "3", Value = "3" + SecondString });
-            VideoFadeOutEffectList.Add(new KeyValuePairModel() { Key = "4", Value = "4" + SecondString });
-            VideoFadeOutEffectList.Add(new KeyValuePairModel() { Key = "5", Value = "5" + SecondString });
+            if (videoFormatConversion is not null)
+            {
+                DeInterlace = videoFormatConversion.DeInterlace;
+            }
 
-            AudioEncodingList.Add(new KeyValuePairModel() { Key = "Copy", Value = CopyString });
-            AudioEncodingList.Add(new KeyValuePairModel() { Key = "AAC", Value = "AAC" });
-            AudioEncodingList.Add(new KeyValuePairModel() { Key = "AC3", Value = "AC3" });
+            RotationList.Add(new DictionaryEntry() { Key = Rotation.Rotate0, Value = NoRotateString });
+            RotationList.Add(new DictionaryEntry() { Key = Rotation.Rotate90, Value = RotateRightString });
+            RotationList.Add(new DictionaryEntry() { Key = Rotation.Rotate180, Value = UnsideDownString });
+            RotationList.Add(new DictionaryEntry() { Key = Rotation.Rotate270, Value = RotateLeftString });
+            SelectedRotation = videoFormatConversion is not null && RotationList.Find(item => Equals((Rotation)item.Key, videoFormatConversion.Rotation)) is DictionaryEntry selectedRotation && selectedRotation.Key is not null ? selectedRotation : RotationList[0];
 
-            SamplingRateList.Add(new KeyValuePairModel() { Key = "Default", Value = DefaultString });
-            SamplingRateList.Add(new KeyValuePairModel() { Key = "22050", Value = "22050" });
-            SamplingRateList.Add(new KeyValuePairModel() { Key = "24000", Value = "24000" });
-            SamplingRateList.Add(new KeyValuePairModel() { Key = "44100", Value = "44100" });
-            SamplingRateList.Add(new KeyValuePairModel() { Key = "48000", Value = "48000" });
+            if (videoFormatConversion is not null)
+            {
+                MirrorReversal = videoFormatConversion.MirrorReversal;
+            }
 
-            AudioBitRateList.Add(new KeyValuePairModel() { Key = "Default", Value = DefaultString });
-            AudioBitRateList.Add(new KeyValuePairModel() { Key = "24K", Value = "24K" });
-            AudioBitRateList.Add(new KeyValuePairModel() { Key = "32K", Value = "32K" });
-            AudioBitRateList.Add(new KeyValuePairModel() { Key = "64K", Value = "64K" });
-            AudioBitRateList.Add(new KeyValuePairModel() { Key = "128K", Value = "128K" });
-            AudioBitRateList.Add(new KeyValuePairModel() { Key = "192K", Value = "192K" });
-            AudioBitRateList.Add(new KeyValuePairModel() { Key = "224K", Value = "224K" });
-            AudioBitRateList.Add(new KeyValuePairModel() { Key = "256K", Value = "256K" });
-            AudioBitRateList.Add(new KeyValuePairModel() { Key = "320K", Value = "320K" });
+            VideoFadeInEffectList.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
+            VideoFadeInEffectList.Add(new DictionaryEntry() { Key = "1", Value = "1" + SecondString });
+            VideoFadeInEffectList.Add(new DictionaryEntry() { Key = "2", Value = "2" + SecondString });
+            VideoFadeInEffectList.Add(new DictionaryEntry() { Key = "3", Value = "3" + SecondString });
+            VideoFadeInEffectList.Add(new DictionaryEntry() { Key = "4", Value = "4" + SecondString });
+            VideoFadeInEffectList.Add(new DictionaryEntry() { Key = "5", Value = "5" + SecondString });
+            SelectedVideoFadeInEffect = videoFormatConversion is not null && VideoFadeInEffectList.Find(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.VideoFadeInEffect)) is DictionaryEntry selectedVideoFadeInEffect && selectedVideoFadeInEffect.Key is not null ? selectedVideoFadeInEffect : VideoFadeInEffectList[0];
 
-            SoundTrackList.Add(new KeyValuePairModel() { Key = "Default", Value = DefaultString });
-            SoundTrackList.Add(new KeyValuePairModel() { Key = "1", Value = string.Format("{0} {1}", 1, MonoString) });
-            SoundTrackList.Add(new KeyValuePairModel() { Key = "2", Value = string.Format("{0} {1}", 2, StereoString) });
-            SoundTrackList.Add(new KeyValuePairModel() { Key = "4", Value = string.Format("{0} {1}", 4, QuadString) });
-            SoundTrackList.Add(new KeyValuePairModel() { Key = "6", Value = string.Format("{0} {1}", 6, Stereo51String) });
-            SoundTrackList.Add(new KeyValuePairModel() { Key = "8", Value = string.Format("{0} {1}", 8, Stereo71String) });
+            VideoFadeOutEffectList.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
+            VideoFadeOutEffectList.Add(new DictionaryEntry() { Key = "1", Value = "1" + SecondString });
+            VideoFadeOutEffectList.Add(new DictionaryEntry() { Key = "2", Value = "2" + SecondString });
+            VideoFadeOutEffectList.Add(new DictionaryEntry() { Key = "3", Value = "3" + SecondString });
+            VideoFadeOutEffectList.Add(new DictionaryEntry() { Key = "4", Value = "4" + SecondString });
+            VideoFadeOutEffectList.Add(new DictionaryEntry() { Key = "5", Value = "5" + SecondString });
 
-            VolumeList.Add(new KeyValuePairModel() { Key = "10%", Value = "10%" });
-            VolumeList.Add(new KeyValuePairModel() { Key = "25%", Value = "25%" });
-            VolumeList.Add(new KeyValuePairModel() { Key = "50%", Value = "50%" });
-            VolumeList.Add(new KeyValuePairModel() { Key = "75%", Value = "75%" });
-            VolumeList.Add(new KeyValuePairModel() { Key = "100%", Value = "100%" });
-            VolumeList.Add(new KeyValuePairModel() { Key = "150%", Value = "150%" });
-            VolumeList.Add(new KeyValuePairModel() { Key = "200%", Value = "200%" });
-            VolumeList.Add(new KeyValuePairModel() { Key = "300%", Value = "300%" });
-            VolumeList.Add(new KeyValuePairModel() { Key = "400%", Value = "400%" });
+            SelectedVideoFadeOutEffect = videoFormatConversion is not null && VideoFadeOutEffectList.Find(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.VideoFadeOutEffect)) is DictionaryEntry selectedVideoFadeOutEffect && selectedVideoFadeOutEffect.Key is not null ? selectedVideoFadeOutEffect : VideoFadeOutEffectList[0];
 
-            AudioFadeInEffectList.Add(new KeyValuePairModel() { Key = "None", Value = NoneString });
-            AudioFadeInEffectList.Add(new KeyValuePairModel() { Key = "1", Value = "1" + SecondString });
-            AudioFadeInEffectList.Add(new KeyValuePairModel() { Key = "2", Value = "2" + SecondString });
-            AudioFadeInEffectList.Add(new KeyValuePairModel() { Key = "3", Value = "3" + SecondString });
-            AudioFadeInEffectList.Add(new KeyValuePairModel() { Key = "4", Value = "4" + SecondString });
-            AudioFadeInEffectList.Add(new KeyValuePairModel() { Key = "5", Value = "5" + SecondString });
+            ResetAudioEncoding();
+            SelectedAudioEncoding = videoFormatConversion is not null && AudioEncodingCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.AudioEncoding)) is DictionaryEntry selectedAudioEncoding && selectedAudioEncoding.Key is not null ? selectedAudioEncoding : AudioEncodingCollection[0];
 
-            AudioFadeOutEffectList.Add(new KeyValuePairModel() { Key = "None", Value = NoneString });
-            AudioFadeOutEffectList.Add(new KeyValuePairModel() { Key = "1", Value = "1" + SecondString });
-            AudioFadeOutEffectList.Add(new KeyValuePairModel() { Key = "2", Value = "2" + SecondString });
-            AudioFadeOutEffectList.Add(new KeyValuePairModel() { Key = "3", Value = "3" + SecondString });
-            AudioFadeOutEffectList.Add(new KeyValuePairModel() { Key = "4", Value = "4" + SecondString });
-            AudioFadeOutEffectList.Add(new KeyValuePairModel() { Key = "5", Value = "5" + SecondString });
+            ResetSamplingRate();
+            SelectedSamplingRate = videoFormatConversion is not null && SamplingRateCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.SamplingRate)) is DictionaryEntry selectedSamplingRate && selectedSamplingRate.Key is not null ? selectedSamplingRate : SamplingRateCollection[0];
 
-            SubtitleNestTypeList.Add(new KeyValuePairModel() { Key = "Default", Value = DefaultString });
-            SubtitleNestTypeList.Add(new KeyValuePairModel() { Key = "None", Value = NoneString });
-            SubtitleNestTypeList.Add(new KeyValuePairModel() { Key = "Embedded", Value = "Embedded" });
-            SubtitleNestTypeList.Add(new KeyValuePairModel() { Key = "Ansi", Value = "Ansi" });
-            SubtitleNestTypeList.Add(new KeyValuePairModel() { Key = "Unicode", Value = "Unicode" });
-            SubtitleNestTypeList.Add(new KeyValuePairModel() { Key = "UTF8", Value = "UTF8" });
+            ResetAudioBitRate();
+            SelectedAudioBitRate = videoFormatConversion is not null && AudioBitRateCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.AudioBitRate)) is DictionaryEntry selectedAudioBitRate && selectedAudioBitRate.Key is not null ? selectedAudioBitRate : AudioBitRateCollection[0];
 
-            FontSizeList.Add(new KeyValuePairModel() { Key = "1", Value = string.Format("{0} {1}", 1, SmallString) });
-            FontSizeList.Add(new KeyValuePairModel() { Key = "2", Value = "2" });
-            FontSizeList.Add(new KeyValuePairModel() { Key = "3", Value = string.Format("{0} {1}", 3, NormalString) });
-            FontSizeList.Add(new KeyValuePairModel() { Key = "4", Value = "4" });
-            FontSizeList.Add(new KeyValuePairModel() { Key = "5", Value = string.Format("{0} {1}", 5, LargeString) });
+            ResetSoundTrack();
+            SelectedSoundTrack = videoFormatConversion is not null && SoundTrackCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.SoundTrack)) is DictionaryEntry selectedSoundTrack && selectedSoundTrack.Key is not null ? selectedSoundTrack : SoundTrackCollection[0];
 
-            FontBorderStyleList.Add(new KeyValuePairModel() { Key = "BorderAndShadow", Value = BorderAndShadowString });
-            FontBorderStyleList.Add(new KeyValuePairModel() { Key = "SolidColorBackground", Value = SolidColorBackgroundString });
+            if (videoFormatConversion is not null)
+            {
+                CloseSoundEffect = videoFormatConversion.CloseSoundEffect;
+            }
 
-            CounterLineSizeList.Add(new KeyValuePairModel() { Key = "0", Value = "0" });
-            CounterLineSizeList.Add(new KeyValuePairModel() { Key = "1", Value = "1" });
-            CounterLineSizeList.Add(new KeyValuePairModel() { Key = "2", Value = "2" });
-            CounterLineSizeList.Add(new KeyValuePairModel() { Key = "3", Value = "3" });
-            CounterLineSizeList.Add(new KeyValuePairModel() { Key = "4", Value = "4" });
+            ResetVolume();
+            SelectedVolume = videoFormatConversion is not null && VolumeCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.Volume)) is DictionaryEntry selectedVolume && selectedVolume.Key is not null ? selectedVolume : VolumeCollection[5];
 
-            ShadowSizeList.Add(new KeyValuePairModel() { Key = "0", Value = "0" });
-            ShadowSizeList.Add(new KeyValuePairModel() { Key = "1", Value = "1" });
-            ShadowSizeList.Add(new KeyValuePairModel() { Key = "2", Value = "2" });
-            ShadowSizeList.Add(new KeyValuePairModel() { Key = "3", Value = "3" });
-            ShadowSizeList.Add(new KeyValuePairModel() { Key = "4", Value = "4" });
+            if (videoFormatConversion is not null)
+            {
+                PreserveAllSourceInputAudioStream = videoFormatConversion.PreserveAllSourceInputAudioStream;
+            }
+
+            ResetAudioFadeInEffect();
+            SelectedAudioFadeInEffect = videoFormatConversion is not null && AudioFadeInEffectCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.AudioFadeInEffect)) is DictionaryEntry selectedAudioFadeInEffect && selectedAudioFadeInEffect.Key is not null ? selectedAudioFadeInEffect : AudioFadeInEffectCollection[0];
+
+            ResetAudioFadeOutEffect();
+            SelectedAudioFadeOutEffect = videoFormatConversion is not null && AudioFadeOutEffectCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.AudioFadeOutEffect)) is DictionaryEntry selectedAudioFadeOutEffect && selectedAudioFadeOutEffect.Key is not null ? selectedAudioFadeOutEffect : AudioFadeOutEffectCollection[0];
+
+            if (videoFormatConversion is not null)
+            {
+                Echo = videoFormatConversion.Echo;
+                DeNoise = videoFormatConversion.DeNoise;
+                Reverse = videoFormatConversion.Reverse;
+            }
+
+            ResetPreserveAllSourceInputSubtitleStream();
+            if (videoFormatConversion is not null)
+            {
+                if (IsPreserveAllSourceInputSubtitleStreamEnabled)
+                {
+                    PreserveAllSourceInputSubtitleStream = videoFormatConversion.PreserveAllSourceInputSubtitleStream;
+                }
+
+                AdditionalSubtitlePath = videoFormatConversion.AdditionalSubtitlePath;
+            }
+
+            SubtitleNestTypeList.Add(new DictionaryEntry() { Key = "Default", Value = DefaultString });
+            SubtitleNestTypeList.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
+            SubtitleNestTypeList.Add(new DictionaryEntry() { Key = "Embedded", Value = "Embedded" });
+            SubtitleNestTypeList.Add(new DictionaryEntry() { Key = "Ansi", Value = "Ansi" });
+            SubtitleNestTypeList.Add(new DictionaryEntry() { Key = "Unicode", Value = "Unicode" });
+            SubtitleNestTypeList.Add(new DictionaryEntry() { Key = "UTF8", Value = "UTF8" });
+            SelectedSubtitleNestType = videoFormatConversion is not null && SubtitleNestTypeList.Find(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.SubtitleNestType)) is DictionaryEntry selectedSubtitleNestType && selectedSubtitleNestType.Key is not null ? selectedSubtitleNestType : SubtitleNestTypeList[0];
+
+            FontName = videoFormatConversion is not null && !string.IsNullOrEmpty(videoFormatConversion.FontName) ? videoFormatConversion.FontName : FontName = System.Drawing.SystemFonts.DefaultFont.Name;
+
+            FontSizeList.Add(new DictionaryEntry() { Key = 1, Value = string.Format("{0} {1}", 1, SmallString) });
+            FontSizeList.Add(new DictionaryEntry() { Key = 2, Value = "2" });
+            FontSizeList.Add(new DictionaryEntry() { Key = 3, Value = string.Format("{0} {1}", 3, NormalString) });
+            FontSizeList.Add(new DictionaryEntry() { Key = 4, Value = "4" });
+            FontSizeList.Add(new DictionaryEntry() { Key = 5, Value = string.Format("{0} {1}", 5, LargeString) });
+            SelectedFontSize = videoFormatConversion is not null && FontSizeList.Find(item => Equals(Convert.ToInt32(item.Key), videoFormatConversion.FontSize)) is DictionaryEntry selectedFontSize && selectedFontSize.Key is not null ? selectedFontSize : FontSizeList[0];
+
+            System.Windows.Media.Color accentColor = System.Windows.SystemParameters.WindowGlassColor;
+            FontColor = videoFormatConversion is not null && !string.IsNullOrEmpty(videoFormatConversion.FontColor) ? videoFormatConversion.FontColor : accentColor.ToString();
+
+            FontBorderStyleList.Add(new DictionaryEntry() { Key = "BorderAndShadow", Value = BorderAndShadowString });
+            FontBorderStyleList.Add(new DictionaryEntry() { Key = "SolidColorBackground", Value = SolidColorBackgroundString });
+            SelectedFontBorderStyle = videoFormatConversion is not null && FontBorderStyleList.Find(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.FontBorderStyle)) is DictionaryEntry selectedFontBorderStyle && selectedFontBorderStyle.Key is not null ? selectedFontBorderStyle : FontBorderStyleList[0];
+
+            CounterLineSizeList.Add(new DictionaryEntry() { Key = 0, Value = "0" });
+            CounterLineSizeList.Add(new DictionaryEntry() { Key = 1, Value = "1" });
+            CounterLineSizeList.Add(new DictionaryEntry() { Key = 2, Value = "2" });
+            CounterLineSizeList.Add(new DictionaryEntry() { Key = 3, Value = "3" });
+            CounterLineSizeList.Add(new DictionaryEntry() { Key = 4, Value = "4" });
+            SelectedCounterLineSize = videoFormatConversion is not null && CounterLineSizeList.Find(item => Equals(Convert.ToInt32(item.Key), videoFormatConversion.CounterLineSize)) is DictionaryEntry selectedCounterLineSize && selectedCounterLineSize.Key is not null ? selectedCounterLineSize : CounterLineSizeList[0];
+
+            CounterLineColor = videoFormatConversion is not null && !string.IsNullOrEmpty(videoFormatConversion.CounterLineColor) ? videoFormatConversion.CounterLineColor : accentColor.ToString();
+
+            ShadowSizeList.Add(new DictionaryEntry() { Key = 0, Value = "0" });
+            ShadowSizeList.Add(new DictionaryEntry() { Key = 1, Value = "1" });
+            ShadowSizeList.Add(new DictionaryEntry() { Key = 2, Value = "2" });
+            ShadowSizeList.Add(new DictionaryEntry() { Key = 3, Value = "3" });
+            ShadowSizeList.Add(new DictionaryEntry() { Key = 4, Value = "4" });
+            SelectedShadowSize = videoFormatConversion is not null && ShadowSizeList.Find(item => Equals(Convert.ToInt32(item.Key), videoFormatConversion.ShadowSize)) is DictionaryEntry selectedShadowSize && selectedShadowSize.Key is not null ? selectedShadowSize : ShadowSizeList[0];
+        }
+
+        /// <summary>
+        /// 重置视频编码列表选项
+        /// </summary>
+        private void ResetVideoEncoding()
+        {
+            VideoEncodingCollection.Clear();
+
+            if (Equals(SelectedFormatConversionType, FormatConversionTypeList[0]))
+            {
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "Copy", Value = CopyString });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "VVC", Value = "VVC(H266)" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "HEVC", Value = "HEVC(H265)" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "AVC", Value = "AVC(H264)" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG4_DivX", Value = "MPEG4(DivX)" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG4_Xvid", Value = "MPEG4(Xvid)" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "AV1", Value = "AV1" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "VP9", Value = "VP9" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[1]))
+            {
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "Copy", Value = CopyString });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "HEVC", Value = "HEVC(H265)" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "AVC", Value = "AVC(H264)" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG4_DivX", Value = "MPEG4(DivX)" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG4_Xvid", Value = "MPEG4(Xvid)" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[2]))
+            {
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "GIF", Value = "GIF" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[3]))
+            {
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "AV1", Value = "AV1" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "VP8", Value = "VP8" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "VP9", Value = "VP9" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[4]))
+            {
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "Copy", Value = CopyString });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "HEVC", Value = "HEVC(H265)" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "AVC", Value = "AVC(H264)" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG4_DivX", Value = "MPEG4(DivX)" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG4_Xvid", Value = "MPEG4(Xvid)" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MSMPEG4V2", Value = "MSMPEG4V2" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MSMPEG4V3", Value = "MSMPEG4V3" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "WMV2", Value = "WMV2" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "FLV1", Value = "FLV1" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG2", Value = "MPEG2" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MJPEG", Value = "MJPEG" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[5]))
+            {
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "HEVC", Value = "HEVC(H265)" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "AVC", Value = "AVC(H264)" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG4_DivX", Value = "MPEG4(DivX)" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "FLV1", Value = "FLV1" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "AV1", Value = "AV1" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "VP9", Value = "VP9" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[6]))
+            {
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "HEVC", Value = "HEVC(H265)" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "AVC", Value = "AVC(H264)" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG4_DivX", Value = "MPEG4(DivX)" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[7]))
+            {
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "HEVC", Value = "HEVC(H265)" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "AVC", Value = "AVC(H264)" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG4_DivX", Value = "MPEG4(DivX)" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[8]))
+            {
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MSMPEG4V2", Value = "MSMPEG4V2" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "WMV2", Value = "WMV2" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[9]))
+            {
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG4_DivX", Value = "MPEG4(DivX)" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "H263", Value = "H263" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[10]))
+            {
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "AVC", Value = "AVC(H264)" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG4_DivX", Value = "MPEG4(DivX)" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG4_Xvid", Value = "MPEG4(Xvid)" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[11]))
+            {
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG2", Value = "MPEG2" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[12]))
+            {
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG2", Value = "MPEG2" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[13]))
+            {
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "Theora", Value = "Theora" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[14]))
+            {
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "Copy", Value = CopyString });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "HEVC", Value = "HEVC(H265)" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "AVC", Value = "AVC(H264)" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG4_DivX", Value = "MPEG4(DivX)" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG4_Xvid", Value = "MPEG4(Xvid)" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MSMPEG4V2", Value = "MSMPEG4V2" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MSMPEG4V3", Value = "MSMPEG4V3" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "WMV2", Value = "WMV2" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "FLV1", Value = "FLV1" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG2", Value = "MPEG2" });
+                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MJPEG", Value = "MJPEG" });
+            }
+        }
+
+        /// <summary>
+        /// 重置大小限制
+        /// </summary>
+        private void ResetSizeLimitation()
+        {
+            SizeLimitationCollection.Clear();
+
+            string selectedVideoEncoding = Convert.ToString(SelectedVideoEncoding.Key);
+
+            if (string.IsNullOrEmpty(selectedVideoEncoding))
+            {
+                SizeLimitationCollection.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
+            }
+            else
+            {
+                if (string.Equals(selectedVideoEncoding, "Copy"))
+                {
+                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
+                }
+                else
+                {
+                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
+                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "10", Value = "10MB" });
+                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "15", Value = "15MB" });
+                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "20", Value = "20MB" });
+                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "25", Value = "25MB" });
+                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "30", Value = "30MB" });
+                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "35", Value = "35MB" });
+                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "40", Value = "40MB" });
+                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "50", Value = "50MB" });
+                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "60", Value = "60MB" });
+                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "70", Value = "70MB" });
+                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "80", Value = "80MB" });
+                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "90", Value = "90MB" });
+                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "100", Value = "100MB" });
+                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "150", Value = "150MB" });
+                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "200", Value = "200MB" });
+                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "300", Value = "300MB" });
+                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "500", Value = "500MB" });
+                }
+            }
+        }
+
+        /// <summary>
+        /// 重置屏幕大小选项
+        /// </summary>
+        private void ResetScreenSize()
+        {
+            ScreenSizeCollection.Clear();
+
+            if (Equals(SelectedFormatConversionType, FormatConversionTypeList[0]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[1]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[3]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[4]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[5]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[6]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[7]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[8]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[11]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[12]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[13]))
+            {
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "DefaultSize", Value = DefaultSizeString });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "360P", Value = "360p" });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "480P", Value = "480p" });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "720P", Value = "720p" });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "1080P", Value = "1080p" });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "2160P", Value = "2160p" });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "480I", Value = "480i" });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "720I", Value = "720i" });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "1280I", Value = "1280i" });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "1920I", Value = "1920i" });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "3840I", Value = "3840i" });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "25%", Value = "25%" });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "50%", Value = "50%" });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "75%", Value = "75%" });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "125%", Value = "125%" });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "150%", Value = "150%" });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "200%", Value = "200%" });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "Custom", Value = CustomString });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[2]))
+            {
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "96P", Value = "96p" });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "144P", Value = "144p" });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "240P", Value = "240p" });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "480P", Value = "480p" });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "320I", Value = "320i" });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "640I", Value = "640i" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[9]))
+            {
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "176×144", Value = "176×144" });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "352×288", Value = "352×288" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[10]))
+            {
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "128×96", Value = "128×96" });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "176×144", Value = "176×144" });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "320×240", Value = "320×240" });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "352×288", Value = "352×288" });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "400×240", Value = "400×240" });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "480×320", Value = "480×320" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[14]))
+            {
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "176×144", Value = "176×144" });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "320×240", Value = "320×240" });
+                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "640×480", Value = "640×480" });
+            }
+        }
+
+        /// <summary>
+        /// 重置视频分辨率选项
+        /// </summary>
+        private void ResetVideoBitRate()
+        {
+            VideoBitRateCollection.Clear();
+
+            if (Equals(SelectedFormatConversionType, FormatConversionTypeList[0]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[1]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[3]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[4]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[5]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[6]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[7]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[8]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[11]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[12]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[13]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[14]))
+            {
+                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "Default", Value = DefaultString });
+                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "256K", Value = "256K" });
+                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "384K", Value = "384K" });
+                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "512K", Value = "512K" });
+                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "768K", Value = "768K" });
+                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "1M", Value = "1M" });
+                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "1.5M", Value = "1.5M" });
+                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "2M", Value = "2M" });
+                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "5M", Value = "5M" });
+                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "10M", Value = "10M" });
+                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "15M", Value = "15M" });
+                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "20M", Value = "20M" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[2]))
+            {
+                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "Default", Value = DefaultString });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[9]))
+            {
+                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "96K", Value = "96K" });
+                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "128K", Value = "128K" });
+                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "160K", Value = "160K" });
+                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "192K", Value = "192K" });
+                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "256K", Value = "256K" });
+                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "384K", Value = "384K" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[10]))
+            {
+                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "128K", Value = "128K" });
+                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "160K", Value = "160K" });
+                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "192K", Value = "192K" });
+                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "256K", Value = "256K" });
+                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "384K", Value = "384K" });
+                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "512K", Value = "512K" });
+                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "768K", Value = "768K" });
+            }
+        }
+
+        /// <summary>
+        /// 重置固定速率系数
+        /// </summary>
+        private void ResetCRF()
+        {
+            string selectedVideoEncoding = Convert.ToString(SelectedVideoEncoding.Key);
+            if (string.Equals(Convert.ToString(selectedVideoEncoding), "HEVC") || string.Equals(Convert.ToString(selectedVideoEncoding), "AVC") || string.Equals(Convert.ToString(selectedVideoEncoding), "AV1"))
+            {
+                IsCRFSupported = true;
+            }
+            else
+            {
+                IsCRFSupported = false;
+                UseCRF = false;
+                if (!UseCRF)
+                {
+                    CRF = 10;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 重置 GPU
+        /// </summary>
+        private void ResetGPU()
+        {
+            GPUCollection.Clear();
+
+            string selectedVideoEncoding = Convert.ToString(SelectedVideoEncoding.Key);
+            if (string.Equals(Convert.ToString(selectedVideoEncoding), "HEVC") || string.Equals(Convert.ToString(selectedVideoEncoding), "AVC") || string.Equals(Convert.ToString(selectedVideoEncoding), "AV1"))
+            {
+                foreach (DictionaryEntry gpu in GPUList)
+                {
+                    GPUCollection.Add(gpu);
+                }
+            }
+            else
+            {
+                GPUCollection.Add(GPUList[0]);
+            }
+        }
+
+        /// <summary>
+        /// 重置宽高比
+        /// </summary>
+        private void ResetAspectRatio()
+        {
+            AspectRatioCollection.Clear();
+
+            if (Equals(SelectedFormatConversionType, FormatConversionTypeList[0]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[1]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[3]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[4]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[5]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[6]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[7]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[8]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[9]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[10]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[11]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[12]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[13]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[14]))
+            {
+                AspectRatioCollection.Add(new DictionaryEntry() { Key = "Default", Value = DefaultString });
+                AspectRatioCollection.Add(new DictionaryEntry() { Key = "4:3", Value = "4:3" });
+                AspectRatioCollection.Add(new DictionaryEntry() { Key = "16:9", Value = "16:9" });
+                AspectRatioCollection.Add(new DictionaryEntry() { Key = "3:2", Value = "3:2" });
+                AspectRatioCollection.Add(new DictionaryEntry() { Key = "5:4", Value = "5:4" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[2]))
+            {
+                AspectRatioCollection.Add(new DictionaryEntry() { Key = "Default", Value = DefaultString });
+            }
+        }
+
+        /// <summary>
+        /// 重置二次编码
+        /// </summary>
+        private void ResetSecondaryEncoding()
+        {
+            string selectedVideoEncoding = Convert.ToString(SelectedVideoEncoding.Key);
+
+            if (string.Equals(selectedVideoEncoding, "Copy"))
+            {
+                IsSecondaryEncodingEnabled = false;
+                SecondaryEncoding = false;
+            }
+            else
+            {
+                IsSecondaryEncodingEnabled = true;
+            }
+        }
+
+        /// <summary>
+        /// 重置关键帧间隔
+        /// </summary>
+        private void ResetKeyFrameInterval()
+        {
+            KeyFrameIntervalCollection.Clear();
+
+            if (Equals(SelectedFormatConversionType, FormatConversionTypeList[0]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[1]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[5]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[6]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[7]))
+            {
+                KeyFrameIntervalCollection.Add(new DictionaryEntry() { Key = "Default", Value = DefaultString });
+                KeyFrameIntervalCollection.Add(new DictionaryEntry() { Key = "1", Value = "1" });
+                KeyFrameIntervalCollection.Add(new DictionaryEntry() { Key = "2", Value = "2" });
+                KeyFrameIntervalCollection.Add(new DictionaryEntry() { Key = "3", Value = "3" });
+                KeyFrameIntervalCollection.Add(new DictionaryEntry() { Key = "4", Value = "4" });
+                KeyFrameIntervalCollection.Add(new DictionaryEntry() { Key = "8", Value = "5" });
+                KeyFrameIntervalCollection.Add(new DictionaryEntry() { Key = "6", Value = "6" });
+                KeyFrameIntervalCollection.Add(new DictionaryEntry() { Key = "7", Value = "7" });
+                KeyFrameIntervalCollection.Add(new DictionaryEntry() { Key = "8", Value = "8" });
+                KeyFrameIntervalCollection.Add(new DictionaryEntry() { Key = "9", Value = "9" });
+                KeyFrameIntervalCollection.Add(new DictionaryEntry() { Key = "10", Value = "10" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[2]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[3]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[4]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[8]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[9]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[10]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[11]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[12]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[13]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[14]))
+            {
+                KeyFrameIntervalCollection.Add(new DictionaryEntry() { Key = "Default", Value = DefaultString });
+            }
+        }
+
+        /// <summary>
+        /// 重置音频编码
+        /// </summary>
+        private void ResetAudioEncoding()
+        {
+            AudioEncodingCollection.Clear();
+
+            if (Equals(SelectedFormatConversionType, FormatConversionTypeList[0]))
+            {
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "Copy", Value = CopyString });
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "AAC", Value = "AAC" });
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "AC3", Value = "AC3" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[1]))
+            {
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "Copy", Value = CopyString });
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "AAC", Value = "AAC" });
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "AC3", Value = "AC3" });
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "MP3", Value = "MP3" });
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "MP3-VBR", Value = "MP3-VBR" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[2]))
+            {
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[3]))
+            {
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "OPUS", Value = "OPUS" });
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "Vorbis", Value = "Vorbis" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[4]))
+            {
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "Copy", Value = CopyString });
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "AC3", Value = "AC3" });
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "MP2", Value = "MP2" });
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "MP3", Value = "MP3" });
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "MP3-VBR", Value = "MP3-VBR" });
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "WMAv2", Value = "WMAv2" });
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "PCM", Value = "PCM" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[5]) || Equals(SelectedFormatConversionType, FormatConversionTypeList[6]) || Equals(SelectedFormatConversionType, FormatConversionTypeList[7]))
+            {
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "AAC", Value = "AAC" });
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "MP3", Value = "MP3" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[8]))
+            {
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "WMAv2", Value = "WMAv2" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[9]))
+            {
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "AMR_NB", Value = "AMR_NB" });
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "AMR_WB", Value = "AMR_WB" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[9]))
+            {
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "AMR_NB", Value = "AMR_NB" });
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "AMR_WB", Value = "AMR_WB" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[10]))
+            {
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "AAC", Value = "AAC" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[11]) || Equals(SelectedFormatConversionType, FormatConversionTypeList[12]))
+            {
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "AC3", Value = "AC3" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[13]))
+            {
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "Vorbis", Value = "Vorbis" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[14]))
+            {
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "Copy", Value = CopyString });
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "AC3", Value = "AC3" });
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "MP2", Value = "MP2" });
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "MP3", Value = "MP3" });
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "MP3-VBR", Value = "MP3-VBR" });
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "WMAv2", Value = "WMAv2" });
+                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "PCM", Value = "PCM" });
+            }
+        }
+
+        /// <summary>
+        /// 重置采样率
+        /// </summary>
+        private void ResetSamplingRate()
+        {
+            SamplingRateCollection.Clear();
+
+            string selectedAudioEncoding = Convert.ToString(SelectedAudioEncoding.Key);
+            if (string.Equals(selectedAudioEncoding, "Copy") ||
+               string.Equals(selectedAudioEncoding, "AAC") ||
+               string.Equals(selectedAudioEncoding, "AC3") ||
+               string.Equals(selectedAudioEncoding, "MP2") ||
+               string.Equals(selectedAudioEncoding, "MP3") ||
+               string.Equals(selectedAudioEncoding, "MP3-VBR") ||
+               string.Equals(selectedAudioEncoding, "AC3") ||
+               string.Equals(selectedAudioEncoding, "WMAv2") ||
+               string.Equals(selectedAudioEncoding, "PCM"))
+            {
+                SamplingRateCollection.Add(new DictionaryEntry() { Key = "Default", Value = DefaultString });
+                SamplingRateCollection.Add(new DictionaryEntry() { Key = "22050", Value = "22050" });
+                SamplingRateCollection.Add(new DictionaryEntry() { Key = "24000", Value = "24000" });
+                SamplingRateCollection.Add(new DictionaryEntry() { Key = "44100", Value = "44100" });
+                SamplingRateCollection.Add(new DictionaryEntry() { Key = "48000", Value = "48000" });
+            }
+            else if (string.Equals(selectedAudioEncoding, "OPUS") || string.Equals(selectedAudioEncoding, "Vorbis"))
+            {
+                SamplingRateCollection.Add(new DictionaryEntry() { Key = "Default", Value = DefaultString });
+                SamplingRateCollection.Add(new DictionaryEntry() { Key = "24000", Value = "24000" });
+                SamplingRateCollection.Add(new DictionaryEntry() { Key = "48000", Value = "48000" });
+            }
+            else if (string.Equals(selectedAudioEncoding, "AMR_NB") || string.Equals(selectedAudioEncoding, "AMR_WB"))
+            {
+                SamplingRateCollection.Add(new DictionaryEntry() { Key = "8000", Value = "8000" });
+            }
+            else if (string.Equals(selectedAudioEncoding, "None"))
+            {
+                SamplingRateCollection.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
+            }
+        }
+
+        /// <summary>
+        /// 重置音频比特率
+        /// </summary>
+        private void ResetAudioBitRate()
+        {
+            AudioBitRateCollection.Clear();
+
+            if (Equals(SelectedFormatConversionType, FormatConversionTypeList[0]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[1]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[3]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[4]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[5]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[6]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[7]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[8]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[10]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[11]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[12]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[13]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[14]))
+            {
+                AudioBitRateCollection.Add(new DictionaryEntry() { Key = "Default", Value = DefaultString });
+                AudioBitRateCollection.Add(new DictionaryEntry() { Key = "24K", Value = "24K" });
+                AudioBitRateCollection.Add(new DictionaryEntry() { Key = "32K", Value = "32K" });
+                AudioBitRateCollection.Add(new DictionaryEntry() { Key = "64K", Value = "64K" });
+                AudioBitRateCollection.Add(new DictionaryEntry() { Key = "128K", Value = "128K" });
+                AudioBitRateCollection.Add(new DictionaryEntry() { Key = "192K", Value = "192K" });
+                AudioBitRateCollection.Add(new DictionaryEntry() { Key = "224K", Value = "224K" });
+                AudioBitRateCollection.Add(new DictionaryEntry() { Key = "256K", Value = "256K" });
+                AudioBitRateCollection.Add(new DictionaryEntry() { Key = "320K", Value = "320K" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[2]))
+            {
+                AudioBitRateCollection.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[9]))
+            {
+                AudioBitRateCollection.Add(new DictionaryEntry() { Key = "12.20", Value = "12.20" });
+                AudioBitRateCollection.Add(new DictionaryEntry() { Key = "10.20", Value = "10.20" });
+                AudioBitRateCollection.Add(new DictionaryEntry() { Key = "7.40", Value = "7.40" });
+                AudioBitRateCollection.Add(new DictionaryEntry() { Key = "4.75", Value = "4.75" });
+            }
+        }
+
+        /// <summary>
+        /// 重置声道
+        /// </summary>
+        private void ResetSoundTrack()
+        {
+            SoundTrackCollection.Clear();
+
+            if (Equals(SelectedFormatConversionType, FormatConversionTypeList[0]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[1]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[3]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[4]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[5]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[6]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[7]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[8]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[10]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[11]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[12]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[13]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[14]))
+            {
+                SoundTrackCollection.Add(new DictionaryEntry() { Key = "Default", Value = DefaultString });
+                SoundTrackCollection.Add(new DictionaryEntry() { Key = "1", Value = string.Format("{0} {1}", 1, MonoString) });
+                SoundTrackCollection.Add(new DictionaryEntry() { Key = "2", Value = string.Format("{0} {1}", 2, StereoString) });
+                SoundTrackCollection.Add(new DictionaryEntry() { Key = "4", Value = string.Format("{0} {1}", 4, QuadString) });
+                SoundTrackCollection.Add(new DictionaryEntry() { Key = "6", Value = string.Format("{0} {1}", 6, Stereo51String) });
+                SoundTrackCollection.Add(new DictionaryEntry() { Key = "8", Value = string.Format("{0} {1}", 8, Stereo71String) });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[2]))
+            {
+                SoundTrackCollection.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[9]))
+            {
+                SoundTrackCollection.Add(new DictionaryEntry() { Key = "1", Value = string.Format("{0} {1}", 1, MonoString) });
+            }
+        }
+
+        /// <summary>
+        /// 重置音量
+        /// </summary>
+        private void ResetVolume()
+        {
+            VolumeCollection.Clear();
+
+            if (Equals(SelectedFormatConversionType, FormatConversionTypeList[0]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[1]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[3]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[4]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[5]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[6]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[7]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[8]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[9]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[10]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[11]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[12]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[13]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[14]))
+            {
+                VolumeCollection.Add(new DictionaryEntry() { Key = "10%", Value = "10%" });
+                VolumeCollection.Add(new DictionaryEntry() { Key = "25%", Value = "25%" });
+                VolumeCollection.Add(new DictionaryEntry() { Key = "50%", Value = "50%" });
+                VolumeCollection.Add(new DictionaryEntry() { Key = "75%", Value = "75%" });
+                VolumeCollection.Add(new DictionaryEntry() { Key = "100%", Value = "100%" });
+                VolumeCollection.Add(new DictionaryEntry() { Key = "150%", Value = "150%" });
+                VolumeCollection.Add(new DictionaryEntry() { Key = "200%", Value = "200%" });
+                VolumeCollection.Add(new DictionaryEntry() { Key = "300%", Value = "300%" });
+                VolumeCollection.Add(new DictionaryEntry() { Key = "400%", Value = "400%" });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[2]))
+            {
+                VolumeCollection.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
+            }
+        }
+
+        /// <summary>
+        /// 重置音频淡入效果
+        /// </summary>
+        private void ResetAudioFadeInEffect()
+        {
+            AudioFadeInEffectCollection.Clear();
+
+            if (Equals(SelectedFormatConversionType, FormatConversionTypeList[0]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[1]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[3]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[4]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[5]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[6]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[7]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[8]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[9]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[10]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[11]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[12]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[13]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[14]))
+            {
+                AudioFadeInEffectCollection.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
+                AudioFadeInEffectCollection.Add(new DictionaryEntry() { Key = "1", Value = "1" + SecondString });
+                AudioFadeInEffectCollection.Add(new DictionaryEntry() { Key = "2", Value = "2" + SecondString });
+                AudioFadeInEffectCollection.Add(new DictionaryEntry() { Key = "3", Value = "3" + SecondString });
+                AudioFadeInEffectCollection.Add(new DictionaryEntry() { Key = "4", Value = "4" + SecondString });
+                AudioFadeInEffectCollection.Add(new DictionaryEntry() { Key = "5", Value = "5" + SecondString });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[2]))
+            {
+                AudioFadeInEffectCollection.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
+            }
+        }
+
+        /// <summary>
+        /// 重置音量
+        /// </summary>
+        private void ResetAudioFadeOutEffect()
+        {
+            AudioFadeOutEffectCollection.Clear();
+
+            if (Equals(SelectedFormatConversionType, FormatConversionTypeList[0]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[1]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[3]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[4]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[5]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[6]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[7]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[8]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[9]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[10]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[11]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[12]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[13]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[14]))
+            {
+                AudioFadeOutEffectCollection.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
+                AudioFadeOutEffectCollection.Add(new DictionaryEntry() { Key = "1", Value = "1" + SecondString });
+                AudioFadeOutEffectCollection.Add(new DictionaryEntry() { Key = "2", Value = "2" + SecondString });
+                AudioFadeOutEffectCollection.Add(new DictionaryEntry() { Key = "3", Value = "3" + SecondString });
+                AudioFadeOutEffectCollection.Add(new DictionaryEntry() { Key = "4", Value = "4" + SecondString });
+                AudioFadeOutEffectCollection.Add(new DictionaryEntry() { Key = "5", Value = "5" + SecondString });
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[2]))
+            {
+                AudioFadeOutEffectCollection.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
+            }
+        }
+
+        /// <summary>
+        /// 重置保留所有字幕源输入流
+        /// </summary>
+        private void ResetPreserveAllSourceInputSubtitleStream()
+        {
+            if (Equals(SelectedFormatConversionType, FormatConversionTypeList[0]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[1]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[3]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[4]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[5]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[6]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[7]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[8]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[9]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[10]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[11]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[12]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[13]) ||
+                Equals(SelectedFormatConversionType, FormatConversionTypeList[14]))
+            {
+                IsPreserveAllSourceInputSubtitleStreamEnabled = false;
+                PreserveAllSourceInputSubtitleStream = false;
+            }
+            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[1]))
+            {
+                IsPreserveAllSourceInputSubtitleStreamEnabled = true;
+            }
         }
 
         /// <summary>
@@ -2789,8 +2846,8 @@ namespace ModernFormatConverter.Views.Dialogs
             overlappedPresenter.IsMaximizable = false;
             overlappedPresenter.IsModal = true;
             AppWindow.SetPresenter(overlappedPresenter);
-            AppWindow.TitleBar.ButtonBackgroundColor = Microsoft.UI.Colors.Transparent;
-            AppWindow.TitleBar.InactiveBackgroundColor = Microsoft.UI.Colors.Transparent;
+            AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+            AppWindow.TitleBar.InactiveBackgroundColor = Colors.Transparent;
             AppWindow.TitleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
             double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
             int width = Convert.ToInt32(768 * dpi);
@@ -2833,11 +2890,11 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
-        /// 获取选中的屏幕大小项
+        /// 获取是否选中了自定义屏幕项
         /// </summary>
-        private Visibility GetSelectedScreenSize(string selectedScreenSize, string comparedScreenSize)
+        private Visibility GetIsCustomScreenSizeSelected(DictionaryEntry selectedScreenSize)
         {
-            return string.Equals(selectedScreenSize, comparedScreenSize, StringComparison.OrdinalIgnoreCase) ? Visibility.Visible : Visibility.Collapsed;
+            return string.Equals(Convert.ToString(selectedScreenSize.Key), "Custom") ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private Visibility CheckAdditionalSubtitlePath(string additionalSubtitlePath)

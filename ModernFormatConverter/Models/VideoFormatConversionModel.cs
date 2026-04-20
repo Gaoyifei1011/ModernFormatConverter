@@ -38,7 +38,7 @@ namespace ModernFormatConverter.Models
         /// <summary>
         /// 固定速率系数
         /// </summary>
-        public string ConstantRatefactor { get; set; }
+        public int CRF { get; set; }
 
         /// <summary>
         /// 编码选用的 GPU 类型
@@ -83,12 +83,12 @@ namespace ModernFormatConverter.Models
         /// <summary>
         /// 淡入效果
         /// </summary>
-        public bool VideoFadeInEffect { get; set; }
+        public string VideoFadeInEffect { get; set; }
 
         /// <summary>
         /// 淡出效果
         /// </summary>
-        public bool VideoFadeOutEffect { get; set; }
+        public string VideoFadeOutEffect { get; set; }
 
         #endregion 视频参数部分
 
@@ -122,7 +122,7 @@ namespace ModernFormatConverter.Models
         /// <summary>
         /// 音量
         /// </summary>
-        public int Volume { get; set; }
+        public string Volume { get; set; }
 
         /// <summary>
         /// 保留所有源输入流
@@ -132,12 +132,12 @@ namespace ModernFormatConverter.Models
         /// <summary>
         /// 淡入效果
         /// </summary>
-        public bool AudioFadeInEffect { get; set; }
+        public string AudioFadeInEffect { get; set; }
 
         /// <summary>
         /// 淡出效果
         /// </summary>
-        public bool AudioFadeOutEffect { get; set; }
+        public string AudioFadeOutEffect { get; set; }
 
         /// <summary>
         /// 回声
@@ -181,12 +181,12 @@ namespace ModernFormatConverter.Models
         /// <summary>
         /// 字体大小
         /// </summary>
-        public string FontSize { get; set; }
+        public int FontSize { get; set; }
 
         /// <summary>
         /// 字体颜色
         /// </summary>
-        public Color FontColor { get; set; }
+        public string FontColor { get; set; }
 
         /// <summary>
         /// 字体边框风格
@@ -196,12 +196,12 @@ namespace ModernFormatConverter.Models
         /// <summary>
         /// 轮廓线大小
         /// </summary>
-        public string CounterLineSize { get; set; }
+        public int CounterLineSize { get; set; }
 
         /// <summary>
         /// 轮廓线颜色
         /// </summary>
-        public Color CounterLineColor { get; set; }
+        public string CounterLineColor { get; set; }
 
         /// <summary>
         /// 阴影大小

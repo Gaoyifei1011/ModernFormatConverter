@@ -1,7 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Microsoft.UI.Xaml.Navigation;
 using ModernFormatConverter.Extensions.DataType.Class;
 using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Helpers.Root;
@@ -111,45 +110,6 @@ namespace ModernFormatConverter.Views.Pages
             SelectedConversionType = ConversionTypeCollection[0];
         }
 
-        /// <summary>
-        /// 仅测试
-        /// </summary>
-        protected override async void OnNavigatedTo(NavigationEventArgs args)
-        {
-            base.OnNavigatedTo(args);
-
-            //ConversionTypeCollection[0].VideoConversionFileCollection.Add(new VideoConversionFileModel()
-            //{
-            //    FileName = @"F:\电视剧\不遇云裳不遇你06.mp4",
-            //    FileThumbnailSource = await GetThumbnailAsync(@"F:\电视剧\不遇云裳不遇你06.mp4"),
-            //    VideoConversionTaskName = "转换到 MP4"
-            //});
-            //ConversionTypeCollection[0].VideoConversionFileCollection.Add(new VideoConversionFileModel()
-            //{
-            //    FileName = @"F:\电视剧\竖屏短剧\反派师尊师姐求你们了.mp4",
-            //    FileThumbnailSource = await GetThumbnailAsync(@"F:\电视剧\竖屏短剧\反派师尊师姐求你们了.mp4"),
-            //    VideoConversionTaskName = "转换到 MP4"
-            //});
-            //ConversionTypeCollection[0].VideoConversionFileCollection.Add(new VideoConversionFileModel()
-            //{
-            //    FileName = @"F:\电视剧\竖屏短剧\烽火狼烟全息北伐录.mp4",
-            //    FileThumbnailSource = await GetThumbnailAsync(@"F:\电视剧\竖屏短剧\烽火狼烟全息北伐录.mp4"),
-            //    VideoConversionTaskName = "转换到 AVI"
-            //});
-            //ConversionTypeCollection[0].VideoConversionFileCollection.Add(new VideoConversionFileModel()
-            //{
-            //    FileName = @"F:\电视剧\竖屏短剧\芙蓉映照千秋岁.mp4",
-            //    FileThumbnailSource = await GetThumbnailAsync(@"F:\电视剧\竖屏短剧\芙蓉映照千秋岁.mp4"),
-            //    VideoConversionTaskName = "转换到 MKV"
-            //});
-            //ConversionTypeCollection[0].VideoConversionFileCollection.Add(new VideoConversionFileModel()
-            //{
-            //    FileName = @"F:\电视剧\竖屏短剧\欢宴.mp4",
-            //    FileThumbnailSource = await GetThumbnailAsync(@"F:\电视剧\竖屏短剧\欢宴.mp4"),
-            //    VideoConversionTaskName = "转换到 MOV"
-            //});
-        }
-
         #region 第一部分：ExecuteCommand 命令调用时挂载的事件
 
         /// <summary>
@@ -165,11 +125,52 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnOutputConfigurationExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
-            // TODO：未完成
-            if (args.Parameter is VideoConversionFileModel videoConversionFile)
+            if (args.Parameter is VideoFormatConversionModel videoFormatConversion)
             {
-                VideoFormatConversionWindow videoFormatConversionWindow = new(ConversionToolsWindow.Current, videoConversionFile);
-                await videoFormatConversionWindow.ShowAsync();
+                VideoFormatConversionWindow videoFormatConversionWindow = new(ConversionToolsWindow.Current, videoFormatConversion);
+                if (await videoFormatConversionWindow.ShowAsync() is ContentDialogResult.Primary)
+                {
+                    videoFormatConversion.FormatConversionType = Convert.ToString(videoFormatConversionWindow.SelectedFormatConversionType.Key);
+                    videoFormatConversion.SizeLimitation = Convert.ToString(videoFormatConversionWindow.SelectedSizeLimitation.Key);
+                    videoFormatConversion.VideoEncoding = Convert.ToString(videoFormatConversionWindow.SelectedVideoEncoding.Key);
+                    videoFormatConversion.ScreenSize = Convert.ToString(videoFormatConversionWindow.SelectedScreenSize.Key);
+                    videoFormatConversion.VideoBitRate = Convert.ToString(videoFormatConversionWindow.SelectedVideoBitRate.Key);
+                    videoFormatConversion.CRF = videoFormatConversionWindow.UseCRF ? videoFormatConversionWindow.CRF : -1;
+                    videoFormatConversion.GPU = Convert.ToString(videoFormatConversionWindow.SelectedGPU.Key);
+                    videoFormatConversion.FramePerSecond = Convert.ToString(videoFormatConversionWindow.SelectedFramePerSecond.Key);
+                    videoFormatConversion.AspectRatio = Convert.ToString(videoFormatConversionWindow.SelectedAspectRatio.Key);
+                    videoFormatConversion.SecondaryEncoding = videoFormatConversionWindow.SecondaryEncoding;
+                    videoFormatConversion.KeyFrameInterval = Convert.ToString(videoFormatConversionWindow.SelectedKeyFrameInterval.Key);
+                    videoFormatConversion.DeInterlace = videoFormatConversionWindow.DeInterlace;
+                    videoFormatConversion.Rotation = (System.Windows.Media.Imaging.Rotation)videoFormatConversionWindow.SelectedRotation.Key;
+                    videoFormatConversion.MirrorReversal = videoFormatConversionWindow.MirrorReversal;
+                    videoFormatConversion.VideoFadeInEffect = Convert.ToString(videoFormatConversionWindow.SelectedVideoFadeInEffect);
+                    videoFormatConversion.VideoFadeOutEffect = Convert.ToString(videoFormatConversionWindow.SelectedVideoFadeOutEffect);
+
+                    videoFormatConversion.AudioEncoding = Convert.ToString(videoFormatConversionWindow.SelectedAudioEncoding.Key);
+                    videoFormatConversion.SamplingRate = Convert.ToString(videoFormatConversionWindow.SelectedSamplingRate.Key);
+                    videoFormatConversion.AudioBitRate = Convert.ToString(videoFormatConversionWindow.SelectedAudioBitRate.Key);
+                    videoFormatConversion.SoundTrack = Convert.ToString(videoFormatConversionWindow.SelectedSoundTrack.Key);
+                    videoFormatConversion.CloseSoundEffect = videoFormatConversionWindow.CloseSoundEffect;
+                    videoFormatConversion.Volume = Convert.ToString(videoFormatConversionWindow.SelectedVolume.Key);
+                    videoFormatConversion.PreserveAllSourceInputAudioStream = videoFormatConversionWindow.PreserveAllSourceInputAudioStream;
+                    videoFormatConversion.AudioFadeInEffect = Convert.ToString(videoFormatConversionWindow.SelectedAudioFadeInEffect.Key);
+                    videoFormatConversion.AudioFadeOutEffect = Convert.ToString(videoFormatConversionWindow.SelectedAudioFadeOutEffect.Key);
+                    videoFormatConversion.Echo = videoFormatConversionWindow.Echo;
+                    videoFormatConversion.DeNoise = videoFormatConversionWindow.DeNoise;
+                    videoFormatConversion.Reverse = videoFormatConversionWindow.Reverse;
+
+                    videoFormatConversion.PreserveAllSourceInputSubtitleStream = videoFormatConversionWindow.PreserveAllSourceInputSubtitleStream;
+                    videoFormatConversion.AdditionalSubtitlePath = videoFormatConversionWindow.AdditionalSubtitlePath;
+                    videoFormatConversion.SubtitleNestType = Convert.ToString(videoFormatConversionWindow.SelectedSubtitleNestType.Key);
+                    videoFormatConversion.FontName = videoFormatConversionWindow.FontName;
+                    videoFormatConversion.FontSize = Convert.ToInt32(videoFormatConversionWindow.SelectedFontSize.Key);
+                    videoFormatConversion.FontColor = videoFormatConversionWindow.FontColor;
+                    videoFormatConversion.FontBorderStyle = Convert.ToString(videoFormatConversionWindow.SelectedFontBorderStyle.Key);
+                    videoFormatConversion.CounterLineSize = Convert.ToInt32(videoFormatConversionWindow.SelectedCounterLineSize.Key);
+                    videoFormatConversion.CounterLineColor = videoFormatConversionWindow.CounterLineColor;
+                    videoFormatConversion.ShadowSize = Convert.ToInt32(videoFormatConversionWindow.SelectedShadowSize.Key);
+                }
             }
         }
 
@@ -190,8 +191,56 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnOutputConfigurationClicked(object sender, RoutedEventArgs args)
         {
-            VideoFormatConversionWindow videoFormatConversionWindow = new(ConversionToolsWindow.Current, SelectedConversionType.VideoConversionTypeKind, SelectedConversionType.VideoConversionFileCollection);
-            await videoFormatConversionWindow.ShowAsync();
+            VideoFormatConversionWindow videoFormatConversionWindow = new(ConversionToolsWindow.Current);
+            if (await videoFormatConversionWindow.ShowAsync() is ContentDialogResult.Primary && SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion)
+            {
+                foreach (VideoConversionFileModel videoConversionFile in SelectedConversionType.VideoConversionFileCollection)
+                {
+                    if (videoConversionFile is VideoFormatConversionModel videoFormatConversion)
+                    {
+                        videoFormatConversion.FormatConversionType = Convert.ToString(videoFormatConversionWindow.SelectedFormatConversionType.Key);
+                        videoFormatConversion.SizeLimitation = Convert.ToString(videoFormatConversionWindow.SelectedSizeLimitation.Key);
+                        videoFormatConversion.VideoEncoding = Convert.ToString(videoFormatConversionWindow.SelectedVideoEncoding.Key);
+                        videoFormatConversion.ScreenSize = Convert.ToString(videoFormatConversionWindow.SelectedScreenSize.Key);
+                        videoFormatConversion.VideoBitRate = Convert.ToString(videoFormatConversionWindow.SelectedVideoBitRate.Key);
+                        videoFormatConversion.CRF = videoFormatConversionWindow.UseCRF ? videoFormatConversionWindow.CRF : -1;
+                        videoFormatConversion.GPU = Convert.ToString(videoFormatConversionWindow.SelectedGPU.Key);
+                        videoFormatConversion.FramePerSecond = Convert.ToString(videoFormatConversionWindow.SelectedFramePerSecond.Key);
+                        videoFormatConversion.AspectRatio = Convert.ToString(videoFormatConversionWindow.SelectedAspectRatio.Key);
+                        videoFormatConversion.SecondaryEncoding = videoFormatConversionWindow.SecondaryEncoding;
+                        videoFormatConversion.KeyFrameInterval = Convert.ToString(videoFormatConversionWindow.SelectedKeyFrameInterval.Key);
+                        videoFormatConversion.DeInterlace = videoFormatConversionWindow.DeInterlace;
+                        videoFormatConversion.Rotation = (System.Windows.Media.Imaging.Rotation)videoFormatConversionWindow.SelectedRotation.Key;
+                        videoFormatConversion.MirrorReversal = videoFormatConversionWindow.MirrorReversal;
+                        videoFormatConversion.VideoFadeInEffect = Convert.ToString(videoFormatConversionWindow.SelectedVideoFadeInEffect);
+                        videoFormatConversion.VideoFadeOutEffect = Convert.ToString(videoFormatConversionWindow.SelectedVideoFadeOutEffect);
+
+                        videoFormatConversion.AudioEncoding = Convert.ToString(videoFormatConversionWindow.SelectedAudioEncoding.Key);
+                        videoFormatConversion.SamplingRate = Convert.ToString(videoFormatConversionWindow.SelectedSamplingRate.Key);
+                        videoFormatConversion.AudioBitRate = Convert.ToString(videoFormatConversionWindow.SelectedAudioBitRate.Key);
+                        videoFormatConversion.SoundTrack = Convert.ToString(videoFormatConversionWindow.SelectedSoundTrack.Key);
+                        videoFormatConversion.CloseSoundEffect = videoFormatConversionWindow.CloseSoundEffect;
+                        videoFormatConversion.Volume = Convert.ToString(videoFormatConversionWindow.SelectedVolume.Key);
+                        videoFormatConversion.PreserveAllSourceInputAudioStream = videoFormatConversionWindow.PreserveAllSourceInputAudioStream;
+                        videoFormatConversion.AudioFadeInEffect = Convert.ToString(videoFormatConversionWindow.SelectedAudioFadeInEffect.Key);
+                        videoFormatConversion.AudioFadeOutEffect = Convert.ToString(videoFormatConversionWindow.SelectedAudioFadeOutEffect.Key);
+                        videoFormatConversion.Echo = videoFormatConversionWindow.Echo;
+                        videoFormatConversion.DeNoise = videoFormatConversionWindow.DeNoise;
+                        videoFormatConversion.Reverse = videoFormatConversionWindow.Reverse;
+
+                        videoFormatConversion.PreserveAllSourceInputSubtitleStream = videoFormatConversionWindow.PreserveAllSourceInputSubtitleStream;
+                        videoFormatConversion.AdditionalSubtitlePath = videoFormatConversionWindow.AdditionalSubtitlePath;
+                        videoFormatConversion.SubtitleNestType = Convert.ToString(videoFormatConversionWindow.SelectedSubtitleNestType.Key);
+                        videoFormatConversion.FontName = videoFormatConversionWindow.FontName;
+                        videoFormatConversion.FontSize = Convert.ToInt32(videoFormatConversionWindow.SelectedFontSize.Key);
+                        videoFormatConversion.FontColor = videoFormatConversionWindow.FontColor;
+                        videoFormatConversion.FontBorderStyle = Convert.ToString(videoFormatConversionWindow.SelectedFontBorderStyle.Key);
+                        videoFormatConversion.CounterLineSize = Convert.ToInt32(videoFormatConversionWindow.SelectedCounterLineSize.Key);
+                        videoFormatConversion.CounterLineColor = videoFormatConversionWindow.CounterLineColor;
+                        videoFormatConversion.ShadowSize = Convert.ToInt32(videoFormatConversionWindow.SelectedShadowSize.Key);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -200,6 +249,7 @@ namespace ModernFormatConverter.Views.Pages
         private void OnOkClicked(object sender, RoutedEventArgs args)
         {
             ConversionToolsWindow.Current.Close();
+            // TODO：未完成
         }
 
         #endregion 第二部分：视频转换页面——挂载的事件
