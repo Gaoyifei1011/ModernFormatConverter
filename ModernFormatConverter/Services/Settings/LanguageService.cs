@@ -7,6 +7,7 @@ using ModernFormatConverter.WindowsAPI.PInvoke.Kernel32;
 using ModernFormatConverter.WindowsAPI.PInvoke.Shlwapi;
 using ModernFormatConverter.WindowsAPI.PInvoke.User32;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -29,15 +30,15 @@ namespace ModernFormatConverter.Services.Settings
         private static readonly string resourceKey = @"Software\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\{0}\ResourcesConfig";
         private static readonly Guid CLSID_AppxFactory = new("5842A140-FF9F-4166-8F5C-62F5B7B0C781");
         private static readonly IAppxFactory appxFactory = Activator.CreateInstance(Type.GetTypeFromCLSID(CLSID_AppxFactory)) as IAppxFactory;
-        private static KeyValuePair<string, string> defaultAppLanguage;
+        private static DictionaryEntry defaultAppLanguage;
 
-        public static KeyValuePair<string, string> AppLanguage { get; private set; }
+        public static DictionaryEntry AppLanguage { get; private set; }
 
         public static FlowDirection FlowDirection { get; private set; }
 
         private static readonly List<string> AppLanguagesList = [];
 
-        public static List<KeyValuePair<string, string>> LanguageList { get; } = [];
+        public static List<DictionaryEntry> LanguageList { get; } = [];
 
         /// <summary>
         /// 应用在初始化前获取设置存储的语言值，如果设置值为空，设定默认的应用语言值
@@ -45,7 +46,7 @@ namespace ModernFormatConverter.Services.Settings
         public static void InitializeLanguage()
         {
             InitializeLanguageList();
-            defaultAppLanguage = LanguageList.Find(item => string.Equals(item.Key, "en-US", StringComparison.OrdinalIgnoreCase));
+            defaultAppLanguage = LanguageList.Find(item => Equals(item.Key, "en-US"));
             AppLanguage = GetLanguage();
         }
 
@@ -94,18 +95,18 @@ namespace ModernFormatConverter.Services.Settings
             {
                 CultureInfo culture = CultureInfo.GetCultureInfo(appLanguage);
 
-                LanguageList.Add(new KeyValuePair<string, string>(culture.Name, culture.NativeName));
+                LanguageList.Add(new DictionaryEntry(culture.Name, culture.NativeName));
             }
         }
 
         /// <summary>
         /// 当设置中的键值为空时，判断当前系统语言是否存在于语言列表中
         /// </summary>
-        private static bool IsExistsInLanguageList(CultureInfo currentCulture, out KeyValuePair<string, string> language)
+        private static bool IsExistsInLanguageList(CultureInfo currentCulture, out DictionaryEntry language)
         {
-            foreach (KeyValuePair<string, string> languageItem in LanguageList)
+            foreach (DictionaryEntry languageItem in LanguageList)
             {
-                if (string.Equals(languageItem.Key, currentCulture.Name, StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(languageItem.Key, currentCulture.Name))
                 {
                     language = languageItem;
                     return true;
@@ -119,7 +120,7 @@ namespace ModernFormatConverter.Services.Settings
         /// <summary>
         /// 获取设置存储的语言值，如果设置没有存储，使用默认值
         /// </summary>
-        private static KeyValuePair<string, string> GetLanguage()
+        private static DictionaryEntry GetLanguage()
         {
             string language = LocalSettingsService.ReadSetting<string>(settingsKey);
 
@@ -131,7 +132,7 @@ namespace ModernFormatConverter.Services.Settings
             if (string.IsNullOrEmpty(language))
             {
                 // 判断当前系统语言是否存在应用默认添加的语言列表中
-                existResult = IsExistsInLanguageList(currentCultureInfo, out KeyValuePair<string, string> currentLanguage);
+                existResult = IsExistsInLanguageList(currentCultureInfo, out DictionaryEntry currentLanguage);
 
                 // 如果存在，设置存储值和应用初次设置的语言为当前系统的语言
                 if (existResult)
@@ -144,7 +145,7 @@ namespace ModernFormatConverter.Services.Settings
                 }
                 else
                 {
-                    existResult = IsExistsInLanguageList(currentParentCultureInfo, out KeyValuePair<string, string> currentParentLanguage);
+                    existResult = IsExistsInLanguageList(currentParentCultureInfo, out DictionaryEntry currentParentLanguage);
 
                     // 如果存在，设置存储值和应用初次设置的语言为当前系统语言的父区域性的语言
                     if (existResult)
@@ -160,7 +161,7 @@ namespace ModernFormatConverter.Services.Settings
                     else
                     {
                         SetLanguage(defaultAppLanguage);
-                        CultureInfo defaultCultureInfo = CultureInfo.GetCultureInfo(defaultAppLanguage.Key);
+                        CultureInfo defaultCultureInfo = CultureInfo.GetCultureInfo(Convert.ToString(defaultAppLanguage.Key));
                         CultureInfo.DefaultThreadCurrentUICulture = defaultCultureInfo;
                         FlowDirection = defaultCultureInfo.TextInfo.IsRightToLeft ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
                         User32Library.SetProcessDefaultLayout(Convert.ToUInt32(defaultCultureInfo.TextInfo.IsRightToLeft));
@@ -172,13 +173,13 @@ namespace ModernFormatConverter.Services.Settings
             CultureInfo savedCultureInfo = CultureInfo.GetCultureInfo(language);
             CultureInfo.DefaultThreadCurrentUICulture = savedCultureInfo;
             FlowDirection = savedCultureInfo.TextInfo.IsRightToLeft ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
-            return LanguageList.Find(item => string.Equals(language, item.Key, StringComparison.OrdinalIgnoreCase));
+            return LanguageList.Find(item => Equals(language, item.Key));
         }
 
         /// <summary>
         /// 语言发生修改时修改设置存储的语言值
         /// </summary>
-        public static void SetLanguage(KeyValuePair<string, string> language)
+        public static void SetLanguage(DictionaryEntry language)
         {
             AppLanguage = language;
             LocalSettingsService.SaveSetting(settingsKey, language.Key);

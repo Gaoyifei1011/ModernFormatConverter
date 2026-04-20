@@ -78,7 +78,7 @@ namespace ModernFormatConverter
         {
             LogService.Initialize();
             LanguageService.InitializeLanguage();
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo(LanguageService.AppLanguage.Key);
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(Convert.ToString(LanguageService.AppLanguage.Key));
 
             AlwaysShowBackdropService.InitializeAlwaysShowBackdrop();
             BackdropService.InitializeBackdrop();

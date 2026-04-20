@@ -4,12 +4,12 @@ using Microsoft.Win32;
 using ModernFormatConverter.Extensions.DataType.Class;
 using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Helpers.Root;
-using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.Services.Settings;
 using ModernFormatConverter.Views.NotificationTips;
 using ModernFormatConverter.Views.Windows;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -39,9 +39,9 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string ThemeLightAltString = ResourceService.SettingsGeneralResource.GetString("ThemeLight");
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
 
-        private KeyValuePair<string, string> _theme;
+        private DictionaryEntry _theme;
 
-        public KeyValuePair<string, string> Theme
+        public DictionaryEntry Theme
         {
             get { return _theme; }
 
@@ -52,9 +52,9 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
-        private KeyValuePair<string, string> _backdrop = default;
+        private DictionaryEntry _backdrop = default;
 
-        public KeyValuePair<string, string> Backdrop
+        public DictionaryEntry Backdrop
         {
             get { return _backdrop; }
 
@@ -104,9 +104,9 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
-        private KeyValuePair<string, string> _appLanguage = LanguageService.AppLanguage;
+        private DictionaryEntry _appLanguage = LanguageService.AppLanguage;
 
-        public KeyValuePair<string, string> AppLanguage
+        public DictionaryEntry AppLanguage
         {
             get { return _appLanguage; }
 
@@ -117,11 +117,11 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
-        private List<KeyValuePair<string, string>> ThemeList { get; } = [];
+        private List<DictionaryEntry> ThemeList { get; } = [];
 
-        private List<KeyValuePair<string, string>> BackdropList { get; } = [];
+        private List<DictionaryEntry> BackdropList { get; } = [];
 
-        private WinRTObservableCollection<LanguageModel> LanguageCollection { get; } = [];
+        private WinRTObservableCollection<DictionaryEntry> LanguageCollection { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -130,37 +130,25 @@ namespace ModernFormatConverter.Views.Pages
             InitializeComponent();
 
             AdvancedEffectsEnabled = IsAdvancedEffectsEnabled();
-            ThemeList.Add(new KeyValuePair<string, string>(ThemeService.ThemeList[0], ThemeDefaultString));
-            ThemeList.Add(new KeyValuePair<string, string>(ThemeService.ThemeList[1], ThemeLightAltString));
-            ThemeList.Add(new KeyValuePair<string, string>(ThemeService.ThemeList[2], ThemeDarkString));
-            Theme = ThemeList.Find(item => string.Equals(item.Key, ThemeService.AppTheme, StringComparison.OrdinalIgnoreCase));
+            ThemeList.Add(new DictionaryEntry(ThemeService.ThemeList[0], ThemeDefaultString));
+            ThemeList.Add(new DictionaryEntry(ThemeService.ThemeList[1], ThemeLightAltString));
+            ThemeList.Add(new DictionaryEntry(ThemeService.ThemeList[2], ThemeDarkString));
+            Theme = ThemeList.Find(item => Equals(item.Key, ThemeService.AppTheme));
 
-            BackdropList.Add(new KeyValuePair<string, string>(BackdropService.BackdropList[0], BackdropDefaultString));
-            BackdropList.Add(new KeyValuePair<string, string>(BackdropService.BackdropList[1], BackdropMicaString));
-            BackdropList.Add(new KeyValuePair<string, string>(BackdropService.BackdropList[2], BackdropMicaAltString));
-            BackdropList.Add(new KeyValuePair<string, string>(BackdropService.BackdropList[3], BackdropAcrylicString));
-            BackdropList.Add(new KeyValuePair<string, string>(BackdropService.BackdropList[4], BackdropAcrylicBaseString));
-            BackdropList.Add(new KeyValuePair<string, string>(BackdropService.BackdropList[5], BackdropAcrylicThinString));
-            Backdrop = BackdropList.Find(item => string.Equals(item.Key, BackdropService.AppBackdrop, StringComparison.OrdinalIgnoreCase));
+            BackdropList.Add(new DictionaryEntry(BackdropService.BackdropList[0], BackdropDefaultString));
+            BackdropList.Add(new DictionaryEntry(BackdropService.BackdropList[1], string.Format("{0} {1}", MicaString, BackdropMicaString)));
+            BackdropList.Add(new DictionaryEntry(BackdropService.BackdropList[2], string.Format("{0} {1}", MicaString, BackdropMicaAltString)));
+            BackdropList.Add(new DictionaryEntry(BackdropService.BackdropList[3], string.Format("{0} {1}", DesktopAcrylicString, BackdropAcrylicString)));
+            BackdropList.Add(new DictionaryEntry(BackdropService.BackdropList[4], string.Format("{0} {1}", DesktopAcrylicString, BackdropAcrylicBaseString)));
+            BackdropList.Add(new DictionaryEntry(BackdropService.BackdropList[5], string.Format("{0} {1}", DesktopAcrylicString, BackdropAcrylicThinString)));
+            Backdrop = BackdropList.Find(item => Equals(item.Key, BackdropService.AppBackdrop));
 
-            foreach (KeyValuePair<string, string> languageItem in LanguageService.LanguageList)
+            foreach (DictionaryEntry languageItem in LanguageService.LanguageList)
             {
-                if (string.Equals(LanguageService.AppLanguage.Key, languageItem.Key))
+                LanguageCollection.Add(languageItem);
+                if (Equals(LanguageService.AppLanguage.Key, languageItem.Key))
                 {
                     AppLanguage = languageItem;
-                    LanguageCollection.Add(new LanguageModel()
-                    {
-                        LanguageInfo = languageItem,
-                        IsChecked = true
-                    });
-                }
-                else
-                {
-                    LanguageCollection.Add(new LanguageModel()
-                    {
-                        LanguageInfo = languageItem,
-                        IsChecked = false
-                    });
                 }
             }
 
@@ -169,38 +157,7 @@ namespace ModernFormatConverter.Views.Pages
             GlobalNotificationService.ApplicationExit += OnApplicationExit;
         }
 
-        #region 第一部分：ExecuteCommand 命令调用时挂载的事件
-
-        /// <summary>
-        /// 修改应用语言
-        /// </summary>
-        private async void OnLanguageExecuteRequested(object sender, ExecuteRequestedEventArgs args)
-        {
-            if (LanguageFlyout.IsOpen)
-            {
-                LanguageFlyout.Hide();
-            }
-
-            if (args.Parameter is LanguageModel language)
-            {
-                foreach (LanguageModel languageItem in LanguageCollection)
-                {
-                    languageItem.IsChecked = false;
-                    if (string.Equals(language.LanguageInfo.Key, languageItem.LanguageInfo.Key))
-                    {
-                        AppLanguage = languageItem.LanguageInfo;
-                        languageItem.IsChecked = true;
-                    }
-                }
-
-                LanguageService.SetLanguage(AppLanguage);
-                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.LanguageChange));
-            }
-        }
-
-        #endregion 第一部分：ExecuteCommand 命令调用时挂载的事件
-
-        #region 第二部分：设置通用选项页面——挂载的事件
+        #region 第一部分：设置通用选项页面——挂载的事件
 
         /// <summary>
         /// 打开系统主题设置
@@ -221,26 +178,26 @@ namespace ModernFormatConverter.Views.Pages
         }
 
         /// <summary>
-        /// 主题修改设置
+        /// 主题选项修改后触发的事件
         /// </summary>
-        private void OnThemeSelectClicked(object sender, RoutedEventArgs args)
+        private void OnThemeSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is KeyValuePair<string, string> theme)
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry theme && !Equals(Theme, theme))
             {
                 Theme = theme;
-                ThemeService.SetTheme(Theme.Key);
+                ThemeService.SetTheme(Convert.ToString(Theme.Key));
             }
         }
 
         /// <summary>
-        /// 背景色修改设置
+        /// 背景色选项修改后触发的事件
         /// </summary>
-        private void OnBackdropSelectClicked(object sender, RoutedEventArgs args)
+        private void OnBackdropSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is KeyValuePair<string, string> backdrop)
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry backdrop && !Equals(Backdrop, backdrop))
             {
                 Backdrop = backdrop;
-                BackdropService.SetBackdrop(Backdrop.Key);
+                BackdropService.SetBackdrop(Convert.ToString(Backdrop.Key));
                 AlwaysShowBackdropEnabled = IsAdvancedEffectsEnabled() && !string.Equals(Backdrop.Key, BackdropList[0].Key);
 
                 if (Equals(Backdrop, BackdropList[0]))
@@ -300,21 +257,20 @@ namespace ModernFormatConverter.Views.Pages
         }
 
         /// <summary>
-        /// 语言设置菜单打开时自动定位到选中项
+        /// 语言设置选项修改后触发的事件
         /// </summary>
-        private void OnOpened(object sender, object args)
+        private async void OnLanguageSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            foreach (LanguageModel languageItem in LanguageCollection)
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry language && !Equals(AppLanguage, language))
             {
-                if (languageItem.IsChecked)
-                {
-                    LanguageListView.ScrollIntoView(languageItem);
-                    break;
-                }
+                AppLanguage = language;
+
+                LanguageService.SetLanguage(AppLanguage);
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.LanguageChange));
             }
         }
 
-        #endregion 第二部分：设置通用选项页面——挂载的事件
+        #endregion 第一部分：设置通用选项页面——挂载的事件
 
         #region 第三部分：自定义事件
 
@@ -355,28 +311,6 @@ namespace ModernFormatConverter.Views.Pages
         private bool IsAdvancedEffectsEnabled()
         {
             return RegistryHelper.ReadRegistryKey<bool>(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize", "EnableTransparency");
-        }
-
-        private string LocalizeDisplayNumber(KeyValuePair<string, string> selectedBackdrop)
-        {
-            int index = BackdropList.FindIndex(item => item.Key.Equals(selectedBackdrop.Key));
-
-            if (index is 0)
-            {
-                return selectedBackdrop.Value;
-            }
-            else if (index is 1 or 2)
-            {
-                return string.Join(" ", MicaString, selectedBackdrop.Value);
-            }
-            else if (index is 3 or 4 or 5)
-            {
-                return string.Join(" ", DesktopAcrylicString, selectedBackdrop.Value);
-            }
-            else
-            {
-                return string.Empty;
-            }
         }
     }
 }
