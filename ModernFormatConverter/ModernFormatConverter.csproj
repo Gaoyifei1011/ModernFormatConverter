@@ -207,6 +207,7 @@
 
     <None Remove="MainApp.xaml" />
     <None Remove="Styles\AppBarButton.xaml" />
+    <None Remove="Styles\ComboBox.xaml" />
     <None Remove="Styles\NavigationView.xaml" />
     <None Remove="Styles\TextBox.xaml" />
     <None Remove="Views\NotificationTips\CopyPasteNotificationTip.xaml" />
@@ -232,6 +233,7 @@
     <None Update="Views\Windows\VideoFormatConversionWindow.xaml" />
 
     <Page Include="Styles\AppBarButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Styles\ComboBox.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\NavigationView.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\TextBox.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\NotificationTips\CopyPasteNotificationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
