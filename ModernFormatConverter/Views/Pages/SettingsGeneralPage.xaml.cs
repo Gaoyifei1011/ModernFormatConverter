@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Composition.SystemBackdrops;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Win32;
 using ModernFormatConverter.Extensions.DataType.Class;
@@ -136,11 +137,17 @@ namespace ModernFormatConverter.Views.Pages
             Theme = ThemeList.Find(item => Equals(item.Key, ThemeService.AppTheme));
 
             BackdropList.Add(new DictionaryEntry(BackdropService.BackdropList[0], BackdropDefaultString));
-            BackdropList.Add(new DictionaryEntry(BackdropService.BackdropList[1], string.Format("{0} {1}", MicaString, BackdropMicaString)));
-            BackdropList.Add(new DictionaryEntry(BackdropService.BackdropList[2], string.Format("{0} {1}", MicaString, BackdropMicaAltString)));
-            BackdropList.Add(new DictionaryEntry(BackdropService.BackdropList[3], string.Format("{0} {1}", DesktopAcrylicString, BackdropAcrylicString)));
-            BackdropList.Add(new DictionaryEntry(BackdropService.BackdropList[4], string.Format("{0} {1}", DesktopAcrylicString, BackdropAcrylicBaseString)));
-            BackdropList.Add(new DictionaryEntry(BackdropService.BackdropList[5], string.Format("{0} {1}", DesktopAcrylicString, BackdropAcrylicThinString)));
+            if (MicaController.IsSupported())
+            {
+                BackdropList.Add(new DictionaryEntry(BackdropService.BackdropList[1], string.Format("{0} {1}", MicaString, BackdropMicaString)));
+                BackdropList.Add(new DictionaryEntry(BackdropService.BackdropList[2], string.Format("{0} {1}", MicaString, BackdropMicaAltString)));
+            }
+            if (DesktopAcrylicController.IsSupported())
+            {
+                BackdropList.Add(new DictionaryEntry(BackdropService.BackdropList[3], string.Format("{0} {1}", DesktopAcrylicString, BackdropAcrylicString)));
+                BackdropList.Add(new DictionaryEntry(BackdropService.BackdropList[4], string.Format("{0} {1}", DesktopAcrylicString, BackdropAcrylicBaseString)));
+                BackdropList.Add(new DictionaryEntry(BackdropService.BackdropList[5], string.Format("{0} {1}", DesktopAcrylicString, BackdropAcrylicThinString)));
+            }
             Backdrop = BackdropList.Find(item => Equals(item.Key, BackdropService.AppBackdrop));
 
             foreach (DictionaryEntry languageItem in LanguageService.LanguageList)
