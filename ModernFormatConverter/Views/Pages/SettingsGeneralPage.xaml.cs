@@ -5,6 +5,7 @@ using Microsoft.Win32;
 using ModernFormatConverter.Extensions.DataType.Class;
 using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Helpers.Root;
+using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.Services.Settings;
 using ModernFormatConverter.Views.NotificationTips;
@@ -40,29 +41,35 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string ThemeLightAltString = ResourceService.SettingsGeneralResource.GetString("ThemeLight");
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
 
-        private DictionaryEntry _theme;
+        private ComboBoxItemModel _theme;
 
-        public DictionaryEntry Theme
+        public ComboBoxItemModel Theme
         {
             get { return _theme; }
 
             set
             {
-                _theme = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Theme)));
+                if (!Equals(_theme, value))
+                {
+                    _theme = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Theme)));
+                }
             }
         }
 
-        private DictionaryEntry _backdrop = default;
+        private ComboBoxItemModel _backdrop = default;
 
-        public DictionaryEntry Backdrop
+        public ComboBoxItemModel Backdrop
         {
             get { return _backdrop; }
 
             set
             {
-                _backdrop = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Backdrop)));
+                if (!Equals(_backdrop, value))
+                {
+                    _backdrop = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Backdrop)));
+                }
             }
         }
 
@@ -74,8 +81,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _alwaysShowBackdropValue = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AlwaysShowBackdropValue)));
+                if (!Equals(_alwaysShowBackdropValue, value))
+                {
+                    _alwaysShowBackdropValue = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AlwaysShowBackdropValue)));
+                }
             }
         }
 
@@ -87,8 +97,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _alwaysShowBackdropEnabled = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AlwaysShowBackdropEnabled)));
+                if (!Equals(_alwaysShowBackdropEnabled, value))
+                {
+                    _alwaysShowBackdropEnabled = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AlwaysShowBackdropEnabled)));
+                }
             }
         }
 
@@ -100,66 +113,78 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _advancedEffectsEnabled = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AdvancedEffectsEnabled)));
+                if (!Equals(_advancedEffectsEnabled, value))
+                {
+                    _advancedEffectsEnabled = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AdvancedEffectsEnabled)));
+                }
             }
         }
 
-        private DictionaryEntry _appLanguage = LanguageService.AppLanguage;
+        private ComboBoxItemModel _appLanguage;
 
-        public DictionaryEntry AppLanguage
+        public ComboBoxItemModel AppLanguage
         {
             get { return _appLanguage; }
 
             set
             {
-                _appLanguage = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AppLanguage)));
+                if (!Equals(_appLanguage, value))
+                {
+                    _appLanguage = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AppLanguage)));
+                }
             }
         }
 
-        private List<DictionaryEntry> ThemeList { get; } = [];
+        private List<ComboBoxItemModel> ThemeList { get; } = [];
 
-        private List<DictionaryEntry> BackdropList { get; } = [];
+        private List<ComboBoxItemModel> BackdropList { get; } = [];
 
-        private WinRTObservableCollection<DictionaryEntry> LanguageCollection { get; } = [];
+        private WinRTObservableCollection<ComboBoxItemModel> LanguageCollection { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public SettingsGeneralPage()
         {
             InitializeComponent();
+            AppLanguage = new ComboBoxItemModel() { SelectedValue = LanguageService.AppLanguage.Key, DisplayMember = LanguageService.AppLanguage.Value };
 
             AdvancedEffectsEnabled = IsAdvancedEffectsEnabled();
-            ThemeList.Add(new DictionaryEntry(ThemeService.ThemeList[0], ThemeDefaultString));
-            ThemeList.Add(new DictionaryEntry(ThemeService.ThemeList[1], ThemeLightAltString));
-            ThemeList.Add(new DictionaryEntry(ThemeService.ThemeList[2], ThemeDarkString));
-            Theme = ThemeList.Find(item => Equals(item.Key, ThemeService.AppTheme));
+            ThemeList.Add(new ComboBoxItemModel() { SelectedValue = ThemeService.ThemeList[0], DisplayMember = ThemeDefaultString });
+            ThemeList.Add(new ComboBoxItemModel() { SelectedValue = ThemeService.ThemeList[1], DisplayMember = ThemeLightAltString });
+            ThemeList.Add(new ComboBoxItemModel() { SelectedValue = ThemeService.ThemeList[2], DisplayMember = ThemeDarkString });
+            Theme = ThemeList.Find(item => Equals(Convert.ToString(item.SelectedValue), ThemeService.AppTheme));
 
-            BackdropList.Add(new DictionaryEntry(BackdropService.BackdropList[0], BackdropDefaultString));
+            BackdropList.Add(new ComboBoxItemModel() { SelectedValue = BackdropService.BackdropList[0], DisplayMember = BackdropDefaultString });
             if (MicaController.IsSupported())
             {
-                BackdropList.Add(new DictionaryEntry(BackdropService.BackdropList[1], string.Format("{0} {1}", MicaString, BackdropMicaString)));
-                BackdropList.Add(new DictionaryEntry(BackdropService.BackdropList[2], string.Format("{0} {1}", MicaString, BackdropMicaAltString)));
+                BackdropList.Add(new ComboBoxItemModel() { SelectedValue = BackdropService.BackdropList[1], DisplayMember = string.Format("{0} {1}", MicaString, BackdropMicaString) });
+                BackdropList.Add(new ComboBoxItemModel() { SelectedValue = BackdropService.BackdropList[2], DisplayMember = string.Format("{0} {1}", MicaString, BackdropMicaAltString) });
             }
             if (DesktopAcrylicController.IsSupported())
             {
-                BackdropList.Add(new DictionaryEntry(BackdropService.BackdropList[3], string.Format("{0} {1}", DesktopAcrylicString, BackdropAcrylicString)));
-                BackdropList.Add(new DictionaryEntry(BackdropService.BackdropList[4], string.Format("{0} {1}", DesktopAcrylicString, BackdropAcrylicBaseString)));
-                BackdropList.Add(new DictionaryEntry(BackdropService.BackdropList[5], string.Format("{0} {1}", DesktopAcrylicString, BackdropAcrylicThinString)));
+                BackdropList.Add(new ComboBoxItemModel() { SelectedValue = BackdropService.BackdropList[3], DisplayMember = string.Format("{0} {1}", DesktopAcrylicString, BackdropAcrylicString) });
+                BackdropList.Add(new ComboBoxItemModel() { SelectedValue = BackdropService.BackdropList[4], DisplayMember = string.Format("{0} {1}", DesktopAcrylicString, BackdropAcrylicBaseString) });
+                BackdropList.Add(new ComboBoxItemModel() { SelectedValue = BackdropService.BackdropList[5], DisplayMember = string.Format("{0} {1}", DesktopAcrylicString, BackdropAcrylicThinString) });
             }
-            Backdrop = BackdropList.Find(item => Equals(item.Key, BackdropService.AppBackdrop));
+            Backdrop = BackdropList.Find(item => Equals(Convert.ToString(item.SelectedValue), BackdropService.AppBackdrop));
 
-            foreach (DictionaryEntry languageItem in LanguageService.LanguageList)
+            foreach (KeyValuePair<string, string> languageItem in LanguageService.LanguageList)
             {
-                LanguageCollection.Add(languageItem);
-                if (Equals(LanguageService.AppLanguage.Key, languageItem.Key))
+                LanguageCollection.Add(new ComboBoxItemModel() { SelectedValue = languageItem.Key, DisplayMember = languageItem.Value });
+            }
+
+            foreach (ComboBoxItemModel languageItem in LanguageCollection)
+            {
+                if (string.Equals(Convert.ToString(languageItem.SelectedValue), LanguageService.AppLanguage.Key, StringComparison.OrdinalIgnoreCase))
                 {
                     AppLanguage = languageItem;
+                    break;
                 }
             }
 
-            AlwaysShowBackdropEnabled = IsAdvancedEffectsEnabled() && !string.Equals(Backdrop.Key, BackdropList[0].Key);
+            AlwaysShowBackdropEnabled = IsAdvancedEffectsEnabled() && !string.Equals(Convert.ToString(Backdrop.SelectedValue), Convert.ToString(BackdropList[0].SelectedValue));
             SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
             GlobalNotificationService.ApplicationExit += OnApplicationExit;
         }
@@ -189,10 +214,10 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnThemeSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry theme && !Equals(Theme, theme))
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel theme && !Equals(Theme, theme))
             {
                 Theme = theme;
-                ThemeService.SetTheme(Convert.ToString(Theme.Key));
+                ThemeService.SetTheme(Convert.ToString(Theme.SelectedValue));
             }
         }
 
@@ -201,11 +226,11 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnBackdropSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry backdrop && !Equals(Backdrop, backdrop))
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel backdrop && !Equals(Backdrop, backdrop))
             {
                 Backdrop = backdrop;
-                BackdropService.SetBackdrop(Convert.ToString(Backdrop.Key));
-                AlwaysShowBackdropEnabled = IsAdvancedEffectsEnabled() && !string.Equals(Backdrop.Key, BackdropList[0].Key);
+                BackdropService.SetBackdrop(Convert.ToString(Backdrop.SelectedValue));
+                AlwaysShowBackdropEnabled = IsAdvancedEffectsEnabled() && !string.Equals(Convert.ToString(Backdrop.SelectedValue), Convert.ToString(BackdropList[0].SelectedValue));
 
                 if (Equals(Backdrop, BackdropList[0]))
                 {
@@ -268,11 +293,11 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnLanguageSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry language && !Equals(AppLanguage, language))
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel language && !Equals(AppLanguage, language))
             {
                 AppLanguage = language;
 
-                LanguageService.SetLanguage(AppLanguage);
+                LanguageService.SetLanguage(LanguageService.LanguageList.Find(item => string.Equals(Convert.ToString(AppLanguage.SelectedValue), item.Key)));
                 await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.LanguageChange));
             }
         }
@@ -290,7 +315,7 @@ namespace ModernFormatConverter.Views.Pages
             {
                 bool isAdvancedEffectsEnabled = IsAdvancedEffectsEnabled();
                 AdvancedEffectsEnabled = isAdvancedEffectsEnabled;
-                AlwaysShowBackdropEnabled = isAdvancedEffectsEnabled && !string.Equals(Backdrop.Key, BackdropList[0].Key);
+                AlwaysShowBackdropEnabled = isAdvancedEffectsEnabled && !string.Equals(Convert.ToString(Backdrop.SelectedValue), Convert.ToString(BackdropList[0].SelectedValue));
             }, null);
         }
 

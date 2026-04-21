@@ -66,7 +66,7 @@ namespace ModernFormatConverter.Views.Dialogs
         private readonly string Stereo71String = ResourceService.VideoFormatConversionResource.GetString("Stereo71");
         private readonly string SubtitleString = ResourceService.VideoFormatConversionResource.GetString("Subtitle");
         private readonly string UnsideDownString = ResourceService.VideoFormatConversionResource.GetString("UnsideDown");
-        private readonly List<DictionaryEntry> GPUList = [];
+        private readonly List<ComboBoxItemModel> GPUList = [];
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private OverlappedPresenter overlappedPresenter;
         private SUBCLASSPROC videoFormatConversionWindowSubClassProc;
@@ -116,9 +116,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private DictionaryEntry _selectedFormatConversionType;
+        private ComboBoxItemModel _selectedFormatConversionType;
 
-        public DictionaryEntry SelectedFormatConversionType
+        public ComboBoxItemModel SelectedFormatConversionType
         {
             get { return _selectedFormatConversionType; }
 
@@ -129,9 +129,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private DictionaryEntry _selectedSizeLimitation;
+        private ComboBoxItemModel _selectedSizeLimitation;
 
-        public DictionaryEntry SelectedSizeLimitation
+        public ComboBoxItemModel SelectedSizeLimitation
         {
             get { return _selectedSizeLimitation; }
 
@@ -142,9 +142,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private DictionaryEntry _selectedVideoEncoding;
+        private ComboBoxItemModel _selectedVideoEncoding;
 
-        public DictionaryEntry SelectedVideoEncoding
+        public ComboBoxItemModel SelectedVideoEncoding
         {
             get { return _selectedVideoEncoding; }
 
@@ -155,9 +155,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private DictionaryEntry _selectedScreenSize;
+        private ComboBoxItemModel _selectedScreenSize;
 
-        public DictionaryEntry SelectedScreenSize
+        public ComboBoxItemModel SelectedScreenSize
         {
             get { return _selectedScreenSize; }
 
@@ -194,9 +194,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private DictionaryEntry _selectedVideoBitRate;
+        private ComboBoxItemModel _selectedVideoBitRate;
 
-        public DictionaryEntry SelectedVideoBitRate
+        public ComboBoxItemModel SelectedVideoBitRate
         {
             get { return _selectedVideoBitRate; }
 
@@ -246,9 +246,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private DictionaryEntry _selectedGPU;
+        private ComboBoxItemModel _selectedGPU;
 
-        public DictionaryEntry SelectedGPU
+        public ComboBoxItemModel SelectedGPU
         {
             get { return _selectedGPU; }
 
@@ -259,9 +259,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private DictionaryEntry _selectedFramePerSecond;
+        private ComboBoxItemModel _selectedFramePerSecond;
 
-        public DictionaryEntry SelectedFramePerSecond
+        public ComboBoxItemModel SelectedFramePerSecond
         {
             get { return _selectedFramePerSecond; }
 
@@ -272,9 +272,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private DictionaryEntry _selectedAspectRatio;
+        private ComboBoxItemModel _selectedAspectRatio;
 
-        public DictionaryEntry SelectedAspectRatio
+        public ComboBoxItemModel SelectedAspectRatio
         {
             get { return _selectedAspectRatio; }
 
@@ -311,9 +311,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private DictionaryEntry _selectedKeyFrameInterval;
+        private ComboBoxItemModel _selectedKeyFrameInterval;
 
-        public DictionaryEntry SelectedKeyFrameInterval
+        public ComboBoxItemModel SelectedKeyFrameInterval
         {
             get { return _selectedKeyFrameInterval; }
 
@@ -337,9 +337,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private DictionaryEntry _selectedRotation;
+        private ComboBoxItemModel _selectedRotation;
 
-        public DictionaryEntry SelectedRotation
+        public ComboBoxItemModel SelectedRotation
         {
             get { return _selectedRotation; }
 
@@ -363,9 +363,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private DictionaryEntry _selectedVideoFadeInEffect;
+        private ComboBoxItemModel _selectedVideoFadeInEffect;
 
-        public DictionaryEntry SelectedVideoFadeInEffect
+        public ComboBoxItemModel SelectedVideoFadeInEffect
         {
             get { return _selectedVideoFadeInEffect; }
 
@@ -376,9 +376,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private DictionaryEntry _selectedVideoFadeOutEffect;
+        private ComboBoxItemModel _selectedVideoFadeOutEffect;
 
-        public DictionaryEntry SelectedVideoFadeOutEffect
+        public ComboBoxItemModel SelectedVideoFadeOutEffect
         {
             get { return _selectedVideoFadeOutEffect; }
 
@@ -402,9 +402,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private DictionaryEntry _selectedAudioEncoding;
+        private ComboBoxItemModel _selectedAudioEncoding;
 
-        public DictionaryEntry SelectedAudioEncoding
+        public ComboBoxItemModel SelectedAudioEncoding
         {
             get { return _selectedAudioEncoding; }
 
@@ -415,9 +415,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private DictionaryEntry _selectedSamplingRate;
+        private ComboBoxItemModel _selectedSamplingRate;
 
-        public DictionaryEntry SelectedSamplingRate
+        public ComboBoxItemModel SelectedSamplingRate
         {
             get { return _selectedSamplingRate; }
 
@@ -428,9 +428,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private DictionaryEntry _selectedAudioBitRate;
+        private ComboBoxItemModel _selectedAudioBitRate;
 
-        public DictionaryEntry SelectedAudioBitRate
+        public ComboBoxItemModel SelectedAudioBitRate
         {
             get { return _selectedAudioBitRate; }
 
@@ -441,9 +441,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private DictionaryEntry _selectedSoundTrack;
+        private ComboBoxItemModel _selectedSoundTrack;
 
-        public DictionaryEntry SelectedSoundTrack
+        public ComboBoxItemModel SelectedSoundTrack
         {
             get { return _selectedSoundTrack; }
 
@@ -467,9 +467,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private DictionaryEntry _selectedVolume;
+        private ComboBoxItemModel _selectedVolume;
 
-        public DictionaryEntry SelectedVolume
+        public ComboBoxItemModel SelectedVolume
         {
             get { return _selectedVolume; }
 
@@ -493,9 +493,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private DictionaryEntry _selectedAudioFadeInEffect;
+        private ComboBoxItemModel _selectedAudioFadeInEffect;
 
-        public DictionaryEntry SelectedAudioFadeInEffect
+        public ComboBoxItemModel SelectedAudioFadeInEffect
         {
             get { return _selectedAudioFadeInEffect; }
 
@@ -506,9 +506,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private DictionaryEntry _selectedAudioFadeOutEffect;
+        private ComboBoxItemModel _selectedAudioFadeOutEffect;
 
-        public DictionaryEntry SelectedAudioFadeOutEffect
+        public ComboBoxItemModel SelectedAudioFadeOutEffect
         {
             get { return _selectedAudioFadeOutEffect; }
 
@@ -610,9 +610,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private DictionaryEntry _selectedSubtitleNestType;
+        private ComboBoxItemModel _selectedSubtitleNestType;
 
-        public DictionaryEntry SelectedSubtitleNestType
+        public ComboBoxItemModel SelectedSubtitleNestType
         {
             get { return _selectedSubtitleNestType; }
 
@@ -636,9 +636,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private DictionaryEntry _selectedFontSize;
+        private ComboBoxItemModel _selectedFontSize;
 
-        public DictionaryEntry SelectedFontSize
+        public ComboBoxItemModel SelectedFontSize
         {
             get { return _selectedFontSize; }
 
@@ -662,9 +662,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private DictionaryEntry _selectedFontBorderStyle;
+        private ComboBoxItemModel _selectedFontBorderStyle;
 
-        public DictionaryEntry SelectedFontBorderStyle
+        public ComboBoxItemModel SelectedFontBorderStyle
         {
             get { return _selectedFontBorderStyle; }
 
@@ -675,9 +675,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private DictionaryEntry _selectedCounterLineSize;
+        private ComboBoxItemModel _selectedCounterLineSize;
 
-        public DictionaryEntry SelectedCounterLineSize
+        public ComboBoxItemModel SelectedCounterLineSize
         {
             get { return _selectedCounterLineSize; }
 
@@ -701,9 +701,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private DictionaryEntry _selectedShadowSize;
+        private ComboBoxItemModel _selectedShadowSize;
 
-        public DictionaryEntry SelectedShadowSize
+        public ComboBoxItemModel SelectedShadowSize
         {
             get { return _selectedShadowSize; }
 
@@ -714,70 +714,70 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        public List<DictionaryEntry> FormatConversionTypeList { get; } =
+        public List<ComboBoxItemModel> FormatConversionTypeList { get; } =
         [
-            new DictionaryEntry(){ Key = "MP4", Value = ".mp4" },
-            new DictionaryEntry(){ Key = "MKV", Value = ".mkv" },
-            new DictionaryEntry(){ Key = "GIF", Value = ".gif" },
-            new DictionaryEntry(){ Key = "WebM", Value = ".webm" },
-            new DictionaryEntry(){ Key = "AVI", Value = ".avi" },
-            new DictionaryEntry(){ Key = "FLV", Value = ".flv" },
-            new DictionaryEntry(){ Key = "MOV", Value = ".mov" },
-            new DictionaryEntry(){ Key = "M3U8", Value = ".m3u8" },
-            new DictionaryEntry(){ Key = "WMV", Value = ".wmv" },
-            new DictionaryEntry(){ Key = "3GP", Value = ".3gp" },
-            new DictionaryEntry(){ Key = "3G2", Value = ".3g2" },
-            new DictionaryEntry(){ Key = "MPG", Value = ".mpg" },
-            new DictionaryEntry(){ Key = "VOB", Value = ".vob" },
-            new DictionaryEntry(){ Key = "OGG", Value = ".ogg" },
-            new DictionaryEntry(){ Key = "SWF", Value = ".swf" },
+            new ComboBoxItemModel(){ SelectedValue = "MP4", DisplayMember = ".mp4" },
+            new ComboBoxItemModel(){ SelectedValue = "MKV", DisplayMember =  ".mkv" },
+            new ComboBoxItemModel(){ SelectedValue = "GIF", DisplayMember =  ".gif" },
+            new ComboBoxItemModel(){ SelectedValue = "WebM",DisplayMember =  ".webm" },
+            new ComboBoxItemModel(){ SelectedValue = "AVI", DisplayMember =  ".avi" },
+            new ComboBoxItemModel(){ SelectedValue = "FLV", DisplayMember =  ".flv" },
+            new ComboBoxItemModel(){ SelectedValue = "MOV", DisplayMember =  ".mov" },
+            new ComboBoxItemModel(){ SelectedValue = "M3U8",DisplayMember =  ".m3u8" },
+            new ComboBoxItemModel(){ SelectedValue = "WMV", DisplayMember =  ".wmv" },
+            new ComboBoxItemModel(){ SelectedValue = "3GP", DisplayMember =  ".3gp" },
+            new ComboBoxItemModel(){ SelectedValue = "3G2", DisplayMember =  ".3g2" },
+            new ComboBoxItemModel(){ SelectedValue = "MPG", DisplayMember =  ".mpg" },
+            new ComboBoxItemModel(){ SelectedValue = "VOB", DisplayMember =  ".vob" },
+            new ComboBoxItemModel(){ SelectedValue = "OGG", DisplayMember =  ".ogg" },
+            new ComboBoxItemModel(){ SelectedValue = "SWF", DisplayMember =  ".swf" },
         ];
 
-        public WinRTObservableCollection<DictionaryEntry> SizeLimitationCollection { get; } = [];
+        public WinRTObservableCollection<ComboBoxItemModel> SizeLimitationCollection { get; } = [];
 
-        public WinRTObservableCollection<DictionaryEntry> VideoEncodingCollection { get; } = [];
+        public WinRTObservableCollection<ComboBoxItemModel> VideoEncodingCollection { get; } = [];
 
-        public WinRTObservableCollection<DictionaryEntry> ScreenSizeCollection { get; } = [];
+        public WinRTObservableCollection<ComboBoxItemModel> ScreenSizeCollection { get; } = [];
 
-        public WinRTObservableCollection<DictionaryEntry> VideoBitRateCollection { get; } = [];
+        public WinRTObservableCollection<ComboBoxItemModel> VideoBitRateCollection { get; } = [];
 
-        public WinRTObservableCollection<DictionaryEntry> GPUCollection { get; } = [];
+        public WinRTObservableCollection<ComboBoxItemModel> GPUCollection { get; } = [];
 
-        public List<DictionaryEntry> FramePerSecondList { get; } = [];
+        public List<ComboBoxItemModel> FramePerSecondList { get; } = [];
 
-        public WinRTObservableCollection<DictionaryEntry> AspectRatioCollection { get; } = [];
+        public WinRTObservableCollection<ComboBoxItemModel> AspectRatioCollection { get; } = [];
 
-        public WinRTObservableCollection<DictionaryEntry> KeyFrameIntervalCollection { get; } = [];
+        public WinRTObservableCollection<ComboBoxItemModel> KeyFrameIntervalCollection { get; } = [];
 
-        public List<DictionaryEntry> RotationList { get; } = [];
+        public List<ComboBoxItemModel> RotationList { get; } = [];
 
-        public List<DictionaryEntry> VideoFadeInEffectList { get; } = [];
+        public List<ComboBoxItemModel> VideoFadeInEffectList { get; } = [];
 
-        public List<DictionaryEntry> VideoFadeOutEffectList { get; } = [];
+        public List<ComboBoxItemModel> VideoFadeOutEffectList { get; } = [];
 
-        public WinRTObservableCollection<DictionaryEntry> AudioEncodingCollection { get; } = [];
+        public WinRTObservableCollection<ComboBoxItemModel> AudioEncodingCollection { get; } = [];
 
-        public WinRTObservableCollection<DictionaryEntry> SamplingRateCollection { get; } = [];
+        public WinRTObservableCollection<ComboBoxItemModel> SamplingRateCollection { get; } = [];
 
-        public WinRTObservableCollection<DictionaryEntry> AudioBitRateCollection { get; } = [];
+        public WinRTObservableCollection<ComboBoxItemModel> AudioBitRateCollection { get; } = [];
 
-        public WinRTObservableCollection<DictionaryEntry> SoundTrackCollection { get; } = [];
+        public WinRTObservableCollection<ComboBoxItemModel> SoundTrackCollection { get; } = [];
 
-        public WinRTObservableCollection<DictionaryEntry> VolumeCollection { get; } = [];
+        public WinRTObservableCollection<ComboBoxItemModel> VolumeCollection { get; } = [];
 
-        public WinRTObservableCollection<DictionaryEntry> AudioFadeInEffectCollection { get; } = [];
+        public WinRTObservableCollection<ComboBoxItemModel> AudioFadeInEffectCollection { get; } = [];
 
-        public WinRTObservableCollection<DictionaryEntry> AudioFadeOutEffectCollection { get; } = [];
+        public WinRTObservableCollection<ComboBoxItemModel> AudioFadeOutEffectCollection { get; } = [];
 
-        public List<DictionaryEntry> SubtitleNestTypeList { get; } = [];
+        public List<ComboBoxItemModel> SubtitleNestTypeList { get; } = [];
 
-        public List<DictionaryEntry> FontSizeList { get; } = [];
+        public List<ComboBoxItemModel> FontSizeList { get; } = [];
 
-        public List<DictionaryEntry> FontBorderStyleList { get; } = [];
+        public List<ComboBoxItemModel> FontBorderStyleList { get; } = [];
 
-        public List<DictionaryEntry> CounterLineSizeList { get; } = [];
+        public List<ComboBoxItemModel> CounterLineSizeList { get; } = [];
 
-        public List<DictionaryEntry> ShadowSizeList { get; } = [];
+        public List<ComboBoxItemModel> ShadowSizeList { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -955,7 +955,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnFormatConversionTypeSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry formatConversionType && !Equals(SelectedFormatConversionType, formatConversionType))
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel formatConversionType && !Equals(SelectedFormatConversionType, formatConversionType))
             {
                 SelectedFormatConversionType = formatConversionType;
 
@@ -1024,7 +1024,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnVideoEncodingSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry videoEncoding && !Equals(SelectedVideoEncoding, videoEncoding))
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel videoEncoding && !Equals(SelectedVideoEncoding, videoEncoding))
             {
                 SelectedVideoEncoding = videoEncoding;
 
@@ -1045,7 +1045,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnSizeLimitationSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry sizeLimitation && !Equals(SelectedSizeLimitation, sizeLimitation))
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel sizeLimitation && !Equals(SelectedSizeLimitation, sizeLimitation))
             {
                 SelectedSizeLimitation = sizeLimitation;
             }
@@ -1056,7 +1056,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnScreenSizeSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry screenSize && !Equals(SelectedScreenSize, screenSize))
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel screenSize && !Equals(SelectedScreenSize, screenSize))
             {
                 SelectedScreenSize = screenSize;
             }
@@ -1072,6 +1072,7 @@ namespace ModernFormatConverter.Views.Dialogs
                 try
                 {
                     int newValue = Convert.ToInt32(args.NewValue);
+                    ScreenWidth = int.MaxValue;
                     ScreenWidth = newValue < 1 ? 1 : Convert.ToInt32(args.NewValue);
                 }
                 catch (Exception e)
@@ -1090,7 +1091,9 @@ namespace ModernFormatConverter.Views.Dialogs
             {
                 try
                 {
-                    ScreenHeight = args.NewValue < 1 ? 1 : Convert.ToInt32(args.NewValue);
+                    int newValue = Convert.ToInt32(args.NewValue);
+                    ScreenHeight = int.MaxValue;
+                    ScreenHeight = newValue < 1 ? 1 : Convert.ToInt32(args.NewValue);
                 }
                 catch (Exception e)
                 {
@@ -1104,7 +1107,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnVideoBitRateSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry videoBitRate && !Equals(SelectedVideoBitRate, videoBitRate))
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel videoBitRate && !Equals(SelectedVideoBitRate, videoBitRate))
             {
                 SelectedVideoBitRate = videoBitRate;
             }
@@ -1148,7 +1151,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnGPUSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry gpu && !Equals(SelectedGPU, gpu))
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel gpu && !Equals(SelectedGPU, gpu))
             {
                 SelectedGPU = gpu;
             }
@@ -1159,7 +1162,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnFramePerSecondSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry framePerSecond && !Equals(SelectedFramePerSecond, framePerSecond))
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel framePerSecond && !Equals(SelectedFramePerSecond, framePerSecond))
             {
                 SelectedFramePerSecond = framePerSecond;
             }
@@ -1170,7 +1173,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnAspectRatioSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry aspectRatio && !Equals(SelectedFramePerSecond, aspectRatio))
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel aspectRatio && !Equals(SelectedFramePerSecond, aspectRatio))
             {
                 SelectedAspectRatio = aspectRatio;
             }
@@ -1192,7 +1195,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnKeyFrameIntervalSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry keyFrameInterval && !Equals(SelectedFramePerSecond, keyFrameInterval))
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel keyFrameInterval && !Equals(SelectedFramePerSecond, keyFrameInterval))
             {
                 SelectedKeyFrameInterval = keyFrameInterval;
             }
@@ -1214,7 +1217,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnRotationSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry rotation && !Equals(SelectedRotation, rotation))
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel rotation && !Equals(SelectedRotation, rotation))
             {
                 SelectedRotation = rotation;
             }
@@ -1236,7 +1239,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnVideoFadeInEffectSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry videoFadeInEffect && !Equals(SelectedVideoFadeInEffect, videoFadeInEffect))
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel videoFadeInEffect && !Equals(SelectedVideoFadeInEffect, videoFadeInEffect))
             {
                 SelectedVideoFadeInEffect = videoFadeInEffect;
             }
@@ -1247,7 +1250,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnVideoFadeOutEffectSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry videoFadeOutEffect && !Equals(SelectedVideoFadeOutEffect, videoFadeOutEffect))
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel videoFadeOutEffect && !Equals(SelectedVideoFadeOutEffect, videoFadeOutEffect))
             {
                 SelectedVideoFadeOutEffect = videoFadeOutEffect;
             }
@@ -1258,7 +1261,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnAudioEncodingSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry audioEncoding && !Equals(SelectedAudioEncoding, audioEncoding))
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel audioEncoding && !Equals(SelectedAudioEncoding, audioEncoding))
             {
                 SelectedAudioEncoding = audioEncoding;
 
@@ -1273,7 +1276,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnSamplingRateSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry samplingRate && !Equals(SelectedSamplingRate, samplingRate))
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel samplingRate && !Equals(SelectedSamplingRate, samplingRate))
             {
                 SelectedSamplingRate = samplingRate;
             }
@@ -1284,7 +1287,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnAudioBitRateSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry audioBitRate && !Equals(SelectedAudioBitRate, audioBitRate))
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel audioBitRate && !Equals(SelectedAudioBitRate, audioBitRate))
             {
                 SelectedAudioBitRate = audioBitRate;
             }
@@ -1295,7 +1298,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnSoundTrackSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry soundTrack && !Equals(SelectedSoundTrack, soundTrack))
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel soundTrack && !Equals(SelectedSoundTrack, soundTrack))
             {
                 SelectedSoundTrack = soundTrack;
             }
@@ -1317,7 +1320,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnVolumeSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry volume && !Equals(SelectedVolume, volume))
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel volume && !Equals(SelectedVolume, volume))
             {
                 SelectedVolume = volume;
             }
@@ -1339,7 +1342,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnAudioFadeInEffectSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry audioFadeInEffect && !Equals(SelectedAudioFadeInEffect, audioFadeInEffect))
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel audioFadeInEffect && !Equals(SelectedAudioFadeInEffect, audioFadeInEffect))
             {
                 SelectedAudioFadeInEffect = audioFadeInEffect;
             }
@@ -1350,7 +1353,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnAudioFadeOutEffectSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry audioFadeOutEffect && !Equals(SelectedAudioFadeOutEffect, audioFadeOutEffect))
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel audioFadeOutEffect && !Equals(SelectedAudioFadeOutEffect, audioFadeOutEffect))
             {
                 SelectedAudioFadeOutEffect = audioFadeOutEffect;
             }
@@ -1441,7 +1444,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnSubtitleNestTypeSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry subtitleNestType && !Equals(SelectedSubtitleNestType, subtitleNestType))
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel subtitleNestType && !Equals(SelectedSubtitleNestType, subtitleNestType))
             {
                 SelectedSubtitleNestType = subtitleNestType;
             }
@@ -1468,7 +1471,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnFontSizeSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry fontSize && !Equals(SelectedFontSize, fontSize))
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel fontSize && !Equals(SelectedFontSize, fontSize))
             {
                 SelectedFontSize = fontSize;
             }
@@ -1495,7 +1498,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnFontBorderStyleSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry fontBorderStyle && !Equals(SelectedFontBorderStyle, fontBorderStyle))
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel fontBorderStyle && !Equals(SelectedFontBorderStyle, fontBorderStyle))
             {
                 SelectedFontBorderStyle = fontBorderStyle;
             }
@@ -1506,7 +1509,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnCounterLineSizeSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry counterLineSize && !Equals(SelectedCounterLineSize, counterLineSize))
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel counterLineSize && !Equals(SelectedCounterLineSize, counterLineSize))
             {
                 SelectedCounterLineSize = counterLineSize;
             }
@@ -1533,7 +1536,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnShadowSizeSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is DictionaryEntry shadowSize && !Equals(SelectedShadowSize, shadowSize))
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel shadowSize && !Equals(SelectedShadowSize, shadowSize))
             {
                 SelectedShadowSize = shadowSize;
             }
@@ -1852,19 +1855,19 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void InitializeData(VideoFormatConversionModel videoFormatConversion = null)
         {
-            SelectedFormatConversionType = videoFormatConversion is not null && FormatConversionTypeList.Find(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.FormatConversionType)) is DictionaryEntry selectedFormatConversionType && selectedFormatConversionType.Key is not null ? selectedFormatConversionType : FormatConversionTypeList[0];
+            SelectedFormatConversionType = videoFormatConversion is not null && FormatConversionTypeList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoFormatConversion.FormatConversionType)) is ComboBoxItemModel selectedFormatConversionType ? selectedFormatConversionType : FormatConversionTypeList[0];
 
             ResetVideoEncoding();
-            SelectedVideoEncoding = videoFormatConversion is not null && VideoEncodingCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.VideoEncoding)) is DictionaryEntry selectedVideoEncoding && selectedVideoEncoding.Key is not null ? selectedVideoEncoding : VideoEncodingCollection[0];
+            SelectedVideoEncoding = videoFormatConversion is not null && VideoEncodingCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoFormatConversion.VideoEncoding)) is ComboBoxItemModel selectedVideoEncoding ? selectedVideoEncoding : VideoEncodingCollection[0];
 
             ResetSizeLimitation();
-            SelectedSizeLimitation = videoFormatConversion is not null && SizeLimitationCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.SizeLimitation)) is DictionaryEntry selectedSizeLimitation && selectedSizeLimitation.Key is not null ? selectedSizeLimitation : SizeLimitationCollection[0];
+            SelectedSizeLimitation = videoFormatConversion is not null && SizeLimitationCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoFormatConversion.SizeLimitation)) is ComboBoxItemModel selectedSizeLimitation ? selectedSizeLimitation : SizeLimitationCollection[0];
 
             ResetScreenSize();
-            SelectedScreenSize = videoFormatConversion is not null && ScreenSizeCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.ScreenSize)) is DictionaryEntry selectedScreenSize && selectedScreenSize.Key is not null ? selectedScreenSize : ScreenSizeCollection[0];
+            SelectedScreenSize = videoFormatConversion is not null && ScreenSizeCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoFormatConversion.ScreenSize)) is ComboBoxItemModel selectedScreenSize ? selectedScreenSize : ScreenSizeCollection[0];
 
             ResetVideoBitRate();
-            SelectedVideoBitRate = videoFormatConversion is not null && VideoBitRateCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.VideoBitRate)) is DictionaryEntry selectedVideoBitRate && selectedVideoBitRate.Key is not null ? selectedVideoBitRate : VideoBitRateCollection[0];
+            SelectedVideoBitRate = videoFormatConversion is not null && VideoBitRateCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoFormatConversion.VideoBitRate)) is ComboBoxItemModel selectedVideoBitRate ? selectedVideoBitRate : VideoBitRateCollection[0];
 
             ResetCRF();
             if (IsCRFSupported && videoFormatConversion is not null)
@@ -1895,42 +1898,42 @@ namespace ModernFormatConverter.Views.Dialogs
                 }
             }
 
-            GPUList.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
+            GPUList.Add(new ComboBoxItemModel() { SelectedValue = "None", DisplayMember = NoneString });
 
             if (dxgiAdapterList.Contains(32902))
             {
-                GPUList.Add(new DictionaryEntry() { Key = "INTEL", Value = "INTEL" });
+                GPUList.Add(new ComboBoxItemModel() { SelectedValue = "INTEL", DisplayMember = "INTEL" });
             }
 
             if (dxgiAdapterList.Contains(4318))
             {
-                GPUList.Add(new DictionaryEntry() { Key = "NVIDIA", Value = "NVIDIA" });
+                GPUList.Add(new ComboBoxItemModel() { SelectedValue = "NVIDIA", DisplayMember = "NVIDIA" });
             }
 
             if (dxgiAdapterList.Contains(4098))
             {
-                GPUList.Add(new DictionaryEntry() { Key = "AMD", Value = "AMD" });
+                GPUList.Add(new ComboBoxItemModel() { SelectedValue = "AMD", DisplayMember = "AMD" });
             }
 
             ResetGPU();
-            SelectedGPU = videoFormatConversion is not null && GPUCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.GPU)) is DictionaryEntry selectedGPU && selectedGPU.Key is not null ? selectedGPU : GPUCollection[0];
+            SelectedGPU = videoFormatConversion is not null && GPUCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoFormatConversion.GPU)) is ComboBoxItemModel selectedGPU ? selectedGPU : GPUCollection[0];
 
-            FramePerSecondList.Add(new DictionaryEntry() { Key = "Default", Value = DefaultString });
-            FramePerSecondList.Add(new DictionaryEntry() { Key = "12", Value = "12" });
-            FramePerSecondList.Add(new DictionaryEntry() { Key = "15", Value = "15" });
-            FramePerSecondList.Add(new DictionaryEntry() { Key = "18", Value = "18" });
-            FramePerSecondList.Add(new DictionaryEntry() { Key = "20", Value = "20" });
-            FramePerSecondList.Add(new DictionaryEntry() { Key = "23.976", Value = "23.976" });
-            FramePerSecondList.Add(new DictionaryEntry() { Key = "24", Value = "24" });
-            FramePerSecondList.Add(new DictionaryEntry() { Key = "25", Value = "25" });
-            FramePerSecondList.Add(new DictionaryEntry() { Key = "29.97", Value = "29.97" });
-            FramePerSecondList.Add(new DictionaryEntry() { Key = "30", Value = "30" });
-            FramePerSecondList.Add(new DictionaryEntry() { Key = "50", Value = "50" });
-            FramePerSecondList.Add(new DictionaryEntry() { Key = "60", Value = "60" });
-            SelectedFramePerSecond = videoFormatConversion is not null && FramePerSecondList.Find(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.FramePerSecond)) is DictionaryEntry selectedFramePerSecond && selectedFramePerSecond.Key is not null ? selectedFramePerSecond : FramePerSecondList[0];
+            FramePerSecondList.Add(new ComboBoxItemModel() { SelectedValue = "Default", DisplayMember = DefaultString });
+            FramePerSecondList.Add(new ComboBoxItemModel() { SelectedValue = "12", DisplayMember = "12" });
+            FramePerSecondList.Add(new ComboBoxItemModel() { SelectedValue = "15", DisplayMember = "15" });
+            FramePerSecondList.Add(new ComboBoxItemModel() { SelectedValue = "18", DisplayMember = "18" });
+            FramePerSecondList.Add(new ComboBoxItemModel() { SelectedValue = "20", DisplayMember = "20" });
+            FramePerSecondList.Add(new ComboBoxItemModel() { SelectedValue = "23.976", DisplayMember = "23.976" });
+            FramePerSecondList.Add(new ComboBoxItemModel() { SelectedValue = "24", DisplayMember = "24" });
+            FramePerSecondList.Add(new ComboBoxItemModel() { SelectedValue = "25", DisplayMember = "25" });
+            FramePerSecondList.Add(new ComboBoxItemModel() { SelectedValue = "29.97", DisplayMember = "29.97" });
+            FramePerSecondList.Add(new ComboBoxItemModel() { SelectedValue = "30", DisplayMember = "30" });
+            FramePerSecondList.Add(new ComboBoxItemModel() { SelectedValue = "50", DisplayMember = "50" });
+            FramePerSecondList.Add(new ComboBoxItemModel() { SelectedValue = "60", DisplayMember = "60" });
+            SelectedFramePerSecond = videoFormatConversion is not null && FramePerSecondList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoFormatConversion.FramePerSecond)) is ComboBoxItemModel selectedFramePerSecond ? selectedFramePerSecond : FramePerSecondList[0];
 
             ResetAspectRatio();
-            SelectedAspectRatio = videoFormatConversion is not null && AspectRatioCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.AspectRatio)) is DictionaryEntry selectedAspectRatio && selectedAspectRatio.Key is not null ? selectedAspectRatio : AspectRatioCollection[0];
+            SelectedAspectRatio = videoFormatConversion is not null && AspectRatioCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoFormatConversion.AspectRatio)) is ComboBoxItemModel selectedAspectRatio ? selectedAspectRatio : AspectRatioCollection[0];
 
             ResetSecondaryEncoding();
             if (IsSecondaryEncodingEnabled && videoFormatConversion is not null)
@@ -1939,52 +1942,52 @@ namespace ModernFormatConverter.Views.Dialogs
             }
 
             ResetKeyFrameInterval();
-            SelectedKeyFrameInterval = videoFormatConversion is not null && KeyFrameIntervalCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.KeyFrameInterval)) is DictionaryEntry selectedKeyFrameInterval && selectedKeyFrameInterval.Key is not null ? selectedKeyFrameInterval : KeyFrameIntervalCollection[0];
+            SelectedKeyFrameInterval = videoFormatConversion is not null && KeyFrameIntervalCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoFormatConversion.KeyFrameInterval)) is ComboBoxItemModel selectedKeyFrameInterval ? selectedKeyFrameInterval : KeyFrameIntervalCollection[0];
 
             if (videoFormatConversion is not null)
             {
                 DeInterlace = videoFormatConversion.DeInterlace;
             }
 
-            RotationList.Add(new DictionaryEntry() { Key = Rotation.Rotate0, Value = NoRotateString });
-            RotationList.Add(new DictionaryEntry() { Key = Rotation.Rotate90, Value = RotateRightString });
-            RotationList.Add(new DictionaryEntry() { Key = Rotation.Rotate180, Value = UnsideDownString });
-            RotationList.Add(new DictionaryEntry() { Key = Rotation.Rotate270, Value = RotateLeftString });
-            SelectedRotation = videoFormatConversion is not null && RotationList.Find(item => Equals((Rotation)item.Key, videoFormatConversion.Rotation)) is DictionaryEntry selectedRotation && selectedRotation.Key is not null ? selectedRotation : RotationList[0];
+            RotationList.Add(new ComboBoxItemModel() { SelectedValue = Rotation.Rotate0, DisplayMember = NoRotateString });
+            RotationList.Add(new ComboBoxItemModel() { SelectedValue = Rotation.Rotate90, DisplayMember = RotateRightString });
+            RotationList.Add(new ComboBoxItemModel() { SelectedValue = Rotation.Rotate180, DisplayMember = UnsideDownString });
+            RotationList.Add(new ComboBoxItemModel() { SelectedValue = Rotation.Rotate270, DisplayMember = RotateLeftString });
+            SelectedRotation = videoFormatConversion is not null && RotationList.Find(item => Equals((Rotation)item.SelectedValue, videoFormatConversion.Rotation)) is ComboBoxItemModel selectedRotation ? selectedRotation : RotationList[0];
 
             if (videoFormatConversion is not null)
             {
                 MirrorReversal = videoFormatConversion.MirrorReversal;
             }
 
-            VideoFadeInEffectList.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
-            VideoFadeInEffectList.Add(new DictionaryEntry() { Key = "1", Value = "1" + SecondString });
-            VideoFadeInEffectList.Add(new DictionaryEntry() { Key = "2", Value = "2" + SecondString });
-            VideoFadeInEffectList.Add(new DictionaryEntry() { Key = "3", Value = "3" + SecondString });
-            VideoFadeInEffectList.Add(new DictionaryEntry() { Key = "4", Value = "4" + SecondString });
-            VideoFadeInEffectList.Add(new DictionaryEntry() { Key = "5", Value = "5" + SecondString });
-            SelectedVideoFadeInEffect = videoFormatConversion is not null && VideoFadeInEffectList.Find(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.VideoFadeInEffect)) is DictionaryEntry selectedVideoFadeInEffect && selectedVideoFadeInEffect.Key is not null ? selectedVideoFadeInEffect : VideoFadeInEffectList[0];
+            VideoFadeInEffectList.Add(new ComboBoxItemModel() { SelectedValue = "None", DisplayMember = NoneString });
+            VideoFadeInEffectList.Add(new ComboBoxItemModel() { SelectedValue = "1", DisplayMember = "1" + SecondString });
+            VideoFadeInEffectList.Add(new ComboBoxItemModel() { SelectedValue = "2", DisplayMember = "2" + SecondString });
+            VideoFadeInEffectList.Add(new ComboBoxItemModel() { SelectedValue = "3", DisplayMember = "3" + SecondString });
+            VideoFadeInEffectList.Add(new ComboBoxItemModel() { SelectedValue = "4", DisplayMember = "4" + SecondString });
+            VideoFadeInEffectList.Add(new ComboBoxItemModel() { SelectedValue = "5", DisplayMember = "5" + SecondString });
+            SelectedVideoFadeInEffect = videoFormatConversion is not null && VideoFadeInEffectList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoFormatConversion.VideoFadeInEffect)) is ComboBoxItemModel selectedVideoFadeInEffect ? selectedVideoFadeInEffect : VideoFadeInEffectList[0];
 
-            VideoFadeOutEffectList.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
-            VideoFadeOutEffectList.Add(new DictionaryEntry() { Key = "1", Value = "1" + SecondString });
-            VideoFadeOutEffectList.Add(new DictionaryEntry() { Key = "2", Value = "2" + SecondString });
-            VideoFadeOutEffectList.Add(new DictionaryEntry() { Key = "3", Value = "3" + SecondString });
-            VideoFadeOutEffectList.Add(new DictionaryEntry() { Key = "4", Value = "4" + SecondString });
-            VideoFadeOutEffectList.Add(new DictionaryEntry() { Key = "5", Value = "5" + SecondString });
+            VideoFadeOutEffectList.Add(new ComboBoxItemModel() { SelectedValue = "None", DisplayMember = NoneString });
+            VideoFadeOutEffectList.Add(new ComboBoxItemModel() { SelectedValue = "1", DisplayMember = "1" + SecondString });
+            VideoFadeOutEffectList.Add(new ComboBoxItemModel() { SelectedValue = "2", DisplayMember = "2" + SecondString });
+            VideoFadeOutEffectList.Add(new ComboBoxItemModel() { SelectedValue = "3", DisplayMember = "3" + SecondString });
+            VideoFadeOutEffectList.Add(new ComboBoxItemModel() { SelectedValue = "4", DisplayMember = "4" + SecondString });
+            VideoFadeOutEffectList.Add(new ComboBoxItemModel() { SelectedValue = "5", DisplayMember = "5" + SecondString });
 
-            SelectedVideoFadeOutEffect = videoFormatConversion is not null && VideoFadeOutEffectList.Find(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.VideoFadeOutEffect)) is DictionaryEntry selectedVideoFadeOutEffect && selectedVideoFadeOutEffect.Key is not null ? selectedVideoFadeOutEffect : VideoFadeOutEffectList[0];
+            SelectedVideoFadeOutEffect = videoFormatConversion is not null && VideoFadeOutEffectList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoFormatConversion.VideoFadeOutEffect)) is ComboBoxItemModel selectedVideoFadeOutEffect ? selectedVideoFadeOutEffect : VideoFadeOutEffectList[0];
 
             ResetAudioEncoding();
-            SelectedAudioEncoding = videoFormatConversion is not null && AudioEncodingCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.AudioEncoding)) is DictionaryEntry selectedAudioEncoding && selectedAudioEncoding.Key is not null ? selectedAudioEncoding : AudioEncodingCollection[0];
+            SelectedAudioEncoding = videoFormatConversion is not null && AudioEncodingCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoFormatConversion.AudioEncoding)) is ComboBoxItemModel selectedAudioEncoding ? selectedAudioEncoding : AudioEncodingCollection[0];
 
             ResetSamplingRate();
-            SelectedSamplingRate = videoFormatConversion is not null && SamplingRateCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.SamplingRate)) is DictionaryEntry selectedSamplingRate && selectedSamplingRate.Key is not null ? selectedSamplingRate : SamplingRateCollection[0];
+            SelectedSamplingRate = videoFormatConversion is not null && SamplingRateCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoFormatConversion.SamplingRate)) is ComboBoxItemModel selectedSamplingRate ? selectedSamplingRate : SamplingRateCollection[0];
 
             ResetAudioBitRate();
-            SelectedAudioBitRate = videoFormatConversion is not null && AudioBitRateCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.AudioBitRate)) is DictionaryEntry selectedAudioBitRate && selectedAudioBitRate.Key is not null ? selectedAudioBitRate : AudioBitRateCollection[0];
+            SelectedAudioBitRate = videoFormatConversion is not null && AudioBitRateCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoFormatConversion.AudioBitRate)) is ComboBoxItemModel selectedAudioBitRate ? selectedAudioBitRate : AudioBitRateCollection[0];
 
             ResetSoundTrack();
-            SelectedSoundTrack = videoFormatConversion is not null && SoundTrackCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.SoundTrack)) is DictionaryEntry selectedSoundTrack && selectedSoundTrack.Key is not null ? selectedSoundTrack : SoundTrackCollection[0];
+            SelectedSoundTrack = videoFormatConversion is not null && SoundTrackCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoFormatConversion.SoundTrack)) is ComboBoxItemModel selectedSoundTrack ? selectedSoundTrack : SoundTrackCollection[0];
 
             if (videoFormatConversion is not null)
             {
@@ -1992,7 +1995,7 @@ namespace ModernFormatConverter.Views.Dialogs
             }
 
             ResetVolume();
-            SelectedVolume = videoFormatConversion is not null && VolumeCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.Volume)) is DictionaryEntry selectedVolume && selectedVolume.Key is not null ? selectedVolume : VolumeCollection[5];
+            SelectedVolume = videoFormatConversion is not null && VolumeCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoFormatConversion.Volume)) is ComboBoxItemModel selectedVolume ? selectedVolume : VolumeCollection[5];
 
             if (videoFormatConversion is not null)
             {
@@ -2000,10 +2003,10 @@ namespace ModernFormatConverter.Views.Dialogs
             }
 
             ResetAudioFadeInEffect();
-            SelectedAudioFadeInEffect = videoFormatConversion is not null && AudioFadeInEffectCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.AudioFadeInEffect)) is DictionaryEntry selectedAudioFadeInEffect && selectedAudioFadeInEffect.Key is not null ? selectedAudioFadeInEffect : AudioFadeInEffectCollection[0];
+            SelectedAudioFadeInEffect = videoFormatConversion is not null && AudioFadeInEffectCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoFormatConversion.AudioFadeInEffect)) is ComboBoxItemModel selectedAudioFadeInEffect ? selectedAudioFadeInEffect : AudioFadeInEffectCollection[0];
 
             ResetAudioFadeOutEffect();
-            SelectedAudioFadeOutEffect = videoFormatConversion is not null && AudioFadeOutEffectCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.AudioFadeOutEffect)) is DictionaryEntry selectedAudioFadeOutEffect && selectedAudioFadeOutEffect.Key is not null ? selectedAudioFadeOutEffect : AudioFadeOutEffectCollection[0];
+            SelectedAudioFadeOutEffect = videoFormatConversion is not null && AudioFadeOutEffectCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoFormatConversion.AudioFadeOutEffect)) is ComboBoxItemModel selectedAudioFadeOutEffect ? selectedAudioFadeOutEffect : AudioFadeOutEffectCollection[0];
 
             if (videoFormatConversion is not null)
             {
@@ -2023,45 +2026,45 @@ namespace ModernFormatConverter.Views.Dialogs
                 AdditionalSubtitlePath = videoFormatConversion.AdditionalSubtitlePath;
             }
 
-            SubtitleNestTypeList.Add(new DictionaryEntry() { Key = "Default", Value = DefaultString });
-            SubtitleNestTypeList.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
-            SubtitleNestTypeList.Add(new DictionaryEntry() { Key = "Embedded", Value = "Embedded" });
-            SubtitleNestTypeList.Add(new DictionaryEntry() { Key = "Ansi", Value = "Ansi" });
-            SubtitleNestTypeList.Add(new DictionaryEntry() { Key = "Unicode", Value = "Unicode" });
-            SubtitleNestTypeList.Add(new DictionaryEntry() { Key = "UTF8", Value = "UTF8" });
-            SelectedSubtitleNestType = videoFormatConversion is not null && SubtitleNestTypeList.Find(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.SubtitleNestType)) is DictionaryEntry selectedSubtitleNestType && selectedSubtitleNestType.Key is not null ? selectedSubtitleNestType : SubtitleNestTypeList[0];
+            SubtitleNestTypeList.Add(new ComboBoxItemModel() { SelectedValue = "Default", DisplayMember = DefaultString });
+            SubtitleNestTypeList.Add(new ComboBoxItemModel() { SelectedValue = "None", DisplayMember = NoneString });
+            SubtitleNestTypeList.Add(new ComboBoxItemModel() { SelectedValue = "Embedded", DisplayMember = "Embedded" });
+            SubtitleNestTypeList.Add(new ComboBoxItemModel() { SelectedValue = "Ansi", DisplayMember = "Ansi" });
+            SubtitleNestTypeList.Add(new ComboBoxItemModel() { SelectedValue = "Unicode", DisplayMember = "Unicode" });
+            SubtitleNestTypeList.Add(new ComboBoxItemModel() { SelectedValue = "UTF8", DisplayMember = "UTF8" });
+            SelectedSubtitleNestType = videoFormatConversion is not null && SubtitleNestTypeList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoFormatConversion.SubtitleNestType)) is ComboBoxItemModel selectedSubtitleNestType ? selectedSubtitleNestType : SubtitleNestTypeList[0];
 
             FontName = videoFormatConversion is not null && !string.IsNullOrEmpty(videoFormatConversion.FontName) ? videoFormatConversion.FontName : FontName = System.Drawing.SystemFonts.DefaultFont.Name;
 
-            FontSizeList.Add(new DictionaryEntry() { Key = 1, Value = string.Format("{0} {1}", 1, SmallString) });
-            FontSizeList.Add(new DictionaryEntry() { Key = 2, Value = "2" });
-            FontSizeList.Add(new DictionaryEntry() { Key = 3, Value = string.Format("{0} {1}", 3, NormalString) });
-            FontSizeList.Add(new DictionaryEntry() { Key = 4, Value = "4" });
-            FontSizeList.Add(new DictionaryEntry() { Key = 5, Value = string.Format("{0} {1}", 5, LargeString) });
-            SelectedFontSize = videoFormatConversion is not null && FontSizeList.Find(item => Equals(Convert.ToInt32(item.Key), videoFormatConversion.FontSize)) is DictionaryEntry selectedFontSize && selectedFontSize.Key is not null ? selectedFontSize : FontSizeList[0];
+            FontSizeList.Add(new ComboBoxItemModel() { SelectedValue = 1, DisplayMember = string.Format("{0} {1}", 1, SmallString) });
+            FontSizeList.Add(new ComboBoxItemModel() { SelectedValue = 2, DisplayMember = "2" });
+            FontSizeList.Add(new ComboBoxItemModel() { SelectedValue = 3, DisplayMember = string.Format("{0} {1}", 3, NormalString) });
+            FontSizeList.Add(new ComboBoxItemModel() { SelectedValue = 4, DisplayMember = "4" });
+            FontSizeList.Add(new ComboBoxItemModel() { SelectedValue = 5, DisplayMember = string.Format("{0} {1}", 5, LargeString) });
+            SelectedFontSize = videoFormatConversion is not null && FontSizeList.Find(item => Equals(Convert.ToInt32(item.SelectedValue), videoFormatConversion.FontSize)) is ComboBoxItemModel selectedFontSize ? selectedFontSize : FontSizeList[0];
 
             System.Windows.Media.Color accentColor = System.Windows.SystemParameters.WindowGlassColor;
             FontColor = videoFormatConversion is not null && !string.IsNullOrEmpty(videoFormatConversion.FontColor) ? videoFormatConversion.FontColor : accentColor.ToString();
 
-            FontBorderStyleList.Add(new DictionaryEntry() { Key = "BorderAndShadow", Value = BorderAndShadowString });
-            FontBorderStyleList.Add(new DictionaryEntry() { Key = "SolidColorBackground", Value = SolidColorBackgroundString });
-            SelectedFontBorderStyle = videoFormatConversion is not null && FontBorderStyleList.Find(item => string.Equals(Convert.ToString(item.Key), videoFormatConversion.FontBorderStyle)) is DictionaryEntry selectedFontBorderStyle && selectedFontBorderStyle.Key is not null ? selectedFontBorderStyle : FontBorderStyleList[0];
+            FontBorderStyleList.Add(new ComboBoxItemModel() { SelectedValue = "BorderAndShadow", DisplayMember = BorderAndShadowString });
+            FontBorderStyleList.Add(new ComboBoxItemModel() { SelectedValue = "SolidColorBackground", DisplayMember = SolidColorBackgroundString });
+            SelectedFontBorderStyle = videoFormatConversion is not null && FontBorderStyleList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoFormatConversion.FontBorderStyle)) is ComboBoxItemModel selectedFontBorderStyle ? selectedFontBorderStyle : FontBorderStyleList[0];
 
-            CounterLineSizeList.Add(new DictionaryEntry() { Key = 0, Value = "0" });
-            CounterLineSizeList.Add(new DictionaryEntry() { Key = 1, Value = "1" });
-            CounterLineSizeList.Add(new DictionaryEntry() { Key = 2, Value = "2" });
-            CounterLineSizeList.Add(new DictionaryEntry() { Key = 3, Value = "3" });
-            CounterLineSizeList.Add(new DictionaryEntry() { Key = 4, Value = "4" });
-            SelectedCounterLineSize = videoFormatConversion is not null && CounterLineSizeList.Find(item => Equals(Convert.ToInt32(item.Key), videoFormatConversion.CounterLineSize)) is DictionaryEntry selectedCounterLineSize && selectedCounterLineSize.Key is not null ? selectedCounterLineSize : CounterLineSizeList[0];
+            CounterLineSizeList.Add(new ComboBoxItemModel() { SelectedValue = 0, DisplayMember = "0" });
+            CounterLineSizeList.Add(new ComboBoxItemModel() { SelectedValue = 1, DisplayMember = "1" });
+            CounterLineSizeList.Add(new ComboBoxItemModel() { SelectedValue = 2, DisplayMember = "2" });
+            CounterLineSizeList.Add(new ComboBoxItemModel() { SelectedValue = 3, DisplayMember = "3" });
+            CounterLineSizeList.Add(new ComboBoxItemModel() { SelectedValue = 4, DisplayMember = "4" });
+            SelectedCounterLineSize = videoFormatConversion is not null && CounterLineSizeList.Find(item => Equals(Convert.ToInt32(item.SelectedValue), videoFormatConversion.CounterLineSize)) is ComboBoxItemModel selectedCounterLineSize ? selectedCounterLineSize : CounterLineSizeList[0];
 
             CounterLineColor = videoFormatConversion is not null && !string.IsNullOrEmpty(videoFormatConversion.CounterLineColor) ? videoFormatConversion.CounterLineColor : accentColor.ToString();
 
-            ShadowSizeList.Add(new DictionaryEntry() { Key = 0, Value = "0" });
-            ShadowSizeList.Add(new DictionaryEntry() { Key = 1, Value = "1" });
-            ShadowSizeList.Add(new DictionaryEntry() { Key = 2, Value = "2" });
-            ShadowSizeList.Add(new DictionaryEntry() { Key = 3, Value = "3" });
-            ShadowSizeList.Add(new DictionaryEntry() { Key = 4, Value = "4" });
-            SelectedShadowSize = videoFormatConversion is not null && ShadowSizeList.Find(item => Equals(Convert.ToInt32(item.Key), videoFormatConversion.ShadowSize)) is DictionaryEntry selectedShadowSize && selectedShadowSize.Key is not null ? selectedShadowSize : ShadowSizeList[0];
+            ShadowSizeList.Add(new ComboBoxItemModel() { SelectedValue = 0, DisplayMember = "0" });
+            ShadowSizeList.Add(new ComboBoxItemModel() { SelectedValue = 1, DisplayMember = "1" });
+            ShadowSizeList.Add(new ComboBoxItemModel() { SelectedValue = 2, DisplayMember = "2" });
+            ShadowSizeList.Add(new ComboBoxItemModel() { SelectedValue = 3, DisplayMember = "3" });
+            ShadowSizeList.Add(new ComboBoxItemModel() { SelectedValue = 4, DisplayMember = "4" });
+            SelectedShadowSize = videoFormatConversion is not null && ShadowSizeList.Find(item => Equals(Convert.ToInt32(item.SelectedValue), videoFormatConversion.ShadowSize)) is ComboBoxItemModel selectedShadowSize ? selectedShadowSize : ShadowSizeList[0];
         }
 
         /// <summary>
@@ -2073,109 +2076,109 @@ namespace ModernFormatConverter.Views.Dialogs
 
             if (Equals(SelectedFormatConversionType, FormatConversionTypeList[0]))
             {
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "Copy", Value = CopyString });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "VVC", Value = "VVC(H266)" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "HEVC", Value = "HEVC(H265)" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "AVC", Value = "AVC(H264)" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG4_DivX", Value = "MPEG4(DivX)" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG4_Xvid", Value = "MPEG4(Xvid)" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "AV1", Value = "AV1" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "VP9", Value = "VP9" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "Copy", DisplayMember = CopyString });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "VVC", DisplayMember = "VVC(H266)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "HEVC", DisplayMember = "HEVC(H265)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "AVC", DisplayMember = "AVC(H264)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MPEG4_DivX", DisplayMember = "MPEG4(DivX)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MPEG4_Xvid", DisplayMember = "MPEG4(Xvid)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "AV1", DisplayMember = "AV1" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "VP9", DisplayMember = "VP9" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[1]))
             {
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "Copy", Value = CopyString });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "HEVC", Value = "HEVC(H265)" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "AVC", Value = "AVC(H264)" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG4_DivX", Value = "MPEG4(DivX)" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG4_Xvid", Value = "MPEG4(Xvid)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "Copy", DisplayMember = CopyString });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "HEVC", DisplayMember = "HEVC(H265)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "AVC", DisplayMember = "AVC(H264)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MPEG4_DivX", DisplayMember = "MPEG4(DivX)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MPEG4_Xvid", DisplayMember = "MPEG4(Xvid)" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[2]))
             {
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "GIF", Value = "GIF" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "GIF", DisplayMember = "GIF" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[3]))
             {
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "AV1", Value = "AV1" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "VP8", Value = "VP8" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "VP9", Value = "VP9" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "AV1", DisplayMember = "AV1" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "VP8", DisplayMember = "VP8" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "VP9", DisplayMember = "VP9" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[4]))
             {
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "Copy", Value = CopyString });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "HEVC", Value = "HEVC(H265)" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "AVC", Value = "AVC(H264)" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG4_DivX", Value = "MPEG4(DivX)" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG4_Xvid", Value = "MPEG4(Xvid)" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MSMPEG4V2", Value = "MSMPEG4V2" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MSMPEG4V3", Value = "MSMPEG4V3" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "WMV2", Value = "WMV2" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "FLV1", Value = "FLV1" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG2", Value = "MPEG2" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MJPEG", Value = "MJPEG" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "Copy", DisplayMember = CopyString });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "HEVC", DisplayMember = "HEVC(H265)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "AVC", DisplayMember = "AVC(H264)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MPEG4_DivX", DisplayMember = "MPEG4(DivX)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MPEG4_Xvid", DisplayMember = "MPEG4(Xvid)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MSMPEG4V2", DisplayMember = "MSMPEG4V2" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MSMPEG4V3", DisplayMember = "MSMPEG4V3" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "WMV2", DisplayMember = "WMV2" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "FLV1", DisplayMember = "FLV1" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MPEG2", DisplayMember = "MPEG2" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MJPEG", DisplayMember = "MJPEG" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[5]))
             {
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "HEVC", Value = "HEVC(H265)" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "AVC", Value = "AVC(H264)" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG4_DivX", Value = "MPEG4(DivX)" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "FLV1", Value = "FLV1" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "AV1", Value = "AV1" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "VP9", Value = "VP9" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "HEVC", DisplayMember = "HEVC(H265)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "AVC", DisplayMember = "AVC(H264)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MPEG4_DivX", DisplayMember = "MPEG4(DivX)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "FLV1", DisplayMember = "FLV1" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "AV1", DisplayMember = "AV1" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "VP9", DisplayMember = "VP9" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[6]))
             {
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "HEVC", Value = "HEVC(H265)" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "AVC", Value = "AVC(H264)" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG4_DivX", Value = "MPEG4(DivX)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "HEVC", DisplayMember = "HEVC(H265)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "AVC", DisplayMember = "AVC(H264)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MPEG4_DivX", DisplayMember = "MPEG4(DivX)" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[7]))
             {
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "HEVC", Value = "HEVC(H265)" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "AVC", Value = "AVC(H264)" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG4_DivX", Value = "MPEG4(DivX)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "HEVC", DisplayMember = "HEVC(H265)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "AVC", DisplayMember = "AVC(H264)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MPEG4_DivX", DisplayMember = "MPEG4(DivX)" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[8]))
             {
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MSMPEG4V2", Value = "MSMPEG4V2" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "WMV2", Value = "WMV2" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MSMPEG4V2", DisplayMember = "MSMPEG4V2" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "WMV2", DisplayMember = "WMV2" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[9]))
             {
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG4_DivX", Value = "MPEG4(DivX)" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "H263", Value = "H263" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MPEG4_DivX", DisplayMember = "MPEG4(DivX)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "H263", DisplayMember = "H263" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[10]))
             {
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "AVC", Value = "AVC(H264)" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG4_DivX", Value = "MPEG4(DivX)" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG4_Xvid", Value = "MPEG4(Xvid)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "AVC", DisplayMember = "AVC(H264)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MPEG4_DivX", DisplayMember = "MPEG4(DivX)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MPEG4_Xvid", DisplayMember = "MPEG4(Xvid)" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[11]))
             {
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG2", Value = "MPEG2" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MPEG2", DisplayMember = "MPEG2" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[12]))
             {
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG2", Value = "MPEG2" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MPEG2", DisplayMember = "MPEG2" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[13]))
             {
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "Theora", Value = "Theora" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "Theora", DisplayMember = "Theora" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[14]))
             {
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "Copy", Value = CopyString });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "HEVC", Value = "HEVC(H265)" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "AVC", Value = "AVC(H264)" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG4_DivX", Value = "MPEG4(DivX)" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG4_Xvid", Value = "MPEG4(Xvid)" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MSMPEG4V2", Value = "MSMPEG4V2" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MSMPEG4V3", Value = "MSMPEG4V3" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "WMV2", Value = "WMV2" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "FLV1", Value = "FLV1" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MPEG2", Value = "MPEG2" });
-                VideoEncodingCollection.Add(new DictionaryEntry() { Key = "MJPEG", Value = "MJPEG" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "Copy", DisplayMember = CopyString });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "HEVC", DisplayMember = "HEVC(H265)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "AVC", DisplayMember = "AVC(H264)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MPEG4_DivX", DisplayMember = "MPEG4(DivX)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MPEG4_Xvid", DisplayMember = "MPEG4(Xvid)" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MSMPEG4V2", DisplayMember = "MSMPEG4V2" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MSMPEG4V3", DisplayMember = "MSMPEG4V3" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "WMV2", DisplayMember = "WMV2" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "FLV1", DisplayMember = "FLV1" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MPEG2", DisplayMember = "MPEG2" });
+                VideoEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MJPEG", DisplayMember = "MJPEG" });
             }
         }
 
@@ -2186,38 +2189,38 @@ namespace ModernFormatConverter.Views.Dialogs
         {
             SizeLimitationCollection.Clear();
 
-            string selectedVideoEncoding = Convert.ToString(SelectedVideoEncoding.Key);
+            string selectedVideoEncoding = Convert.ToString(SelectedVideoEncoding.SelectedValue);
 
             if (string.IsNullOrEmpty(selectedVideoEncoding))
             {
-                SizeLimitationCollection.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
+                SizeLimitationCollection.Add(new ComboBoxItemModel() { SelectedValue = "None", DisplayMember = NoneString });
             }
             else
             {
                 if (string.Equals(selectedVideoEncoding, "Copy"))
                 {
-                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
+                    SizeLimitationCollection.Add(new ComboBoxItemModel() { SelectedValue = "None", DisplayMember = NoneString });
                 }
                 else
                 {
-                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
-                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "10", Value = "10MB" });
-                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "15", Value = "15MB" });
-                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "20", Value = "20MB" });
-                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "25", Value = "25MB" });
-                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "30", Value = "30MB" });
-                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "35", Value = "35MB" });
-                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "40", Value = "40MB" });
-                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "50", Value = "50MB" });
-                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "60", Value = "60MB" });
-                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "70", Value = "70MB" });
-                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "80", Value = "80MB" });
-                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "90", Value = "90MB" });
-                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "100", Value = "100MB" });
-                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "150", Value = "150MB" });
-                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "200", Value = "200MB" });
-                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "300", Value = "300MB" });
-                    SizeLimitationCollection.Add(new DictionaryEntry() { Key = "500", Value = "500MB" });
+                    SizeLimitationCollection.Add(new ComboBoxItemModel() { SelectedValue = "None", DisplayMember = NoneString });
+                    SizeLimitationCollection.Add(new ComboBoxItemModel() { SelectedValue = "10", DisplayMember = "10MB" });
+                    SizeLimitationCollection.Add(new ComboBoxItemModel() { SelectedValue = "15", DisplayMember = "15MB" });
+                    SizeLimitationCollection.Add(new ComboBoxItemModel() { SelectedValue = "20", DisplayMember = "20MB" });
+                    SizeLimitationCollection.Add(new ComboBoxItemModel() { SelectedValue = "25", DisplayMember = "25MB" });
+                    SizeLimitationCollection.Add(new ComboBoxItemModel() { SelectedValue = "30", DisplayMember = "30MB" });
+                    SizeLimitationCollection.Add(new ComboBoxItemModel() { SelectedValue = "35", DisplayMember = "35MB" });
+                    SizeLimitationCollection.Add(new ComboBoxItemModel() { SelectedValue = "40", DisplayMember = "40MB" });
+                    SizeLimitationCollection.Add(new ComboBoxItemModel() { SelectedValue = "50", DisplayMember = "50MB" });
+                    SizeLimitationCollection.Add(new ComboBoxItemModel() { SelectedValue = "60", DisplayMember = "60MB" });
+                    SizeLimitationCollection.Add(new ComboBoxItemModel() { SelectedValue = "70", DisplayMember = "70MB" });
+                    SizeLimitationCollection.Add(new ComboBoxItemModel() { SelectedValue = "80", DisplayMember = "80MB" });
+                    SizeLimitationCollection.Add(new ComboBoxItemModel() { SelectedValue = "90", DisplayMember = "90MB" });
+                    SizeLimitationCollection.Add(new ComboBoxItemModel() { SelectedValue = "100", DisplayMember = "100MB" });
+                    SizeLimitationCollection.Add(new ComboBoxItemModel() { SelectedValue = "150", DisplayMember = "150MB" });
+                    SizeLimitationCollection.Add(new ComboBoxItemModel() { SelectedValue = "200", DisplayMember = "200MB" });
+                    SizeLimitationCollection.Add(new ComboBoxItemModel() { SelectedValue = "300", DisplayMember = "300MB" });
+                    SizeLimitationCollection.Add(new ComboBoxItemModel() { SelectedValue = "500", DisplayMember = "500MB" });
                 }
             }
         }
@@ -2241,53 +2244,53 @@ namespace ModernFormatConverter.Views.Dialogs
                 Equals(SelectedFormatConversionType, FormatConversionTypeList[12]) ||
                 Equals(SelectedFormatConversionType, FormatConversionTypeList[13]))
             {
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "DefaultSize", Value = DefaultSizeString });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "360P", Value = "360p" });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "480P", Value = "480p" });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "720P", Value = "720p" });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "1080P", Value = "1080p" });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "2160P", Value = "2160p" });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "480I", Value = "480i" });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "720I", Value = "720i" });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "1280I", Value = "1280i" });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "1920I", Value = "1920i" });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "3840I", Value = "3840i" });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "25%", Value = "25%" });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "50%", Value = "50%" });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "75%", Value = "75%" });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "125%", Value = "125%" });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "150%", Value = "150%" });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "200%", Value = "200%" });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "Custom", Value = CustomString });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "DefaultSize", DisplayMember = DefaultSizeString });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "360P", DisplayMember = "360p" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "480P", DisplayMember = "480p" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "720P", DisplayMember = "720p" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "1080P", DisplayMember = "1080p" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "2160P", DisplayMember = "2160p" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "480I", DisplayMember = "480i" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "720I", DisplayMember = "720i" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "1280I", DisplayMember = "1280i" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "1920I", DisplayMember = "1920i" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "3840I", DisplayMember = "3840i" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "25%", DisplayMember = "25%" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "50%", DisplayMember = "50%" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "75%", DisplayMember = "75%" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "125%", DisplayMember = "125%" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "150%", DisplayMember = "150%" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "200%", DisplayMember = "200%" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "Custom", DisplayMember = CustomString });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[2]))
             {
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "96P", Value = "96p" });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "144P", Value = "144p" });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "240P", Value = "240p" });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "480P", Value = "480p" });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "320I", Value = "320i" });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "640I", Value = "640i" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "96P", DisplayMember = "96p" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "144P", DisplayMember = "144p" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "240P", DisplayMember = "240p" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "480P", DisplayMember = "480p" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "320I", DisplayMember = "320i" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "640I", DisplayMember = "640i" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[9]))
             {
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "176×144", Value = "176×144" });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "352×288", Value = "352×288" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "176×144", DisplayMember = "176×144" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "352×288", DisplayMember = "352×288" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[10]))
             {
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "128×96", Value = "128×96" });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "176×144", Value = "176×144" });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "320×240", Value = "320×240" });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "352×288", Value = "352×288" });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "400×240", Value = "400×240" });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "480×320", Value = "480×320" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "128×96", DisplayMember = "128×96" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "176×144", DisplayMember = "176×144" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "320×240", DisplayMember = "320×240" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "352×288", DisplayMember = "352×288" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "400×240", DisplayMember = "400×240" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "480×320", DisplayMember = "480×320" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[14]))
             {
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "176×144", Value = "176×144" });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "320×240", Value = "320×240" });
-                ScreenSizeCollection.Add(new DictionaryEntry() { Key = "640×480", Value = "640×480" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "176×144", DisplayMember = "176×144" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "320×240", DisplayMember = "320×240" });
+                ScreenSizeCollection.Add(new ComboBoxItemModel() { SelectedValue = "640×480", DisplayMember = "640×480" });
             }
         }
 
@@ -2311,41 +2314,41 @@ namespace ModernFormatConverter.Views.Dialogs
                 Equals(SelectedFormatConversionType, FormatConversionTypeList[13]) ||
                 Equals(SelectedFormatConversionType, FormatConversionTypeList[14]))
             {
-                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "Default", Value = DefaultString });
-                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "256K", Value = "256K" });
-                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "384K", Value = "384K" });
-                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "512K", Value = "512K" });
-                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "768K", Value = "768K" });
-                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "1M", Value = "1M" });
-                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "1.5M", Value = "1.5M" });
-                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "2M", Value = "2M" });
-                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "5M", Value = "5M" });
-                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "10M", Value = "10M" });
-                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "15M", Value = "15M" });
-                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "20M", Value = "20M" });
+                VideoBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "Default", DisplayMember = DefaultString });
+                VideoBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "256K", DisplayMember = "256K" });
+                VideoBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "384K", DisplayMember = "384K" });
+                VideoBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "512K", DisplayMember = "512K" });
+                VideoBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "768K", DisplayMember = "768K" });
+                VideoBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "1M", DisplayMember = "1M" });
+                VideoBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "1.5M", DisplayMember = "1.5M" });
+                VideoBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "2M", DisplayMember = "2M" });
+                VideoBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "5M", DisplayMember = "5M" });
+                VideoBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "10M", DisplayMember = "10M" });
+                VideoBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "15M", DisplayMember = "15M" });
+                VideoBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "20M", DisplayMember = "20M" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[2]))
             {
-                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "Default", Value = DefaultString });
+                VideoBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "Default", DisplayMember = DefaultString });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[9]))
             {
-                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "96K", Value = "96K" });
-                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "128K", Value = "128K" });
-                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "160K", Value = "160K" });
-                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "192K", Value = "192K" });
-                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "256K", Value = "256K" });
-                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "384K", Value = "384K" });
+                VideoBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "96K", DisplayMember = "96K" });
+                VideoBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "128K", DisplayMember = "128K" });
+                VideoBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "160K", DisplayMember = "160K" });
+                VideoBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "192K", DisplayMember = "192K" });
+                VideoBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "256K", DisplayMember = "256K" });
+                VideoBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "384K", DisplayMember = "384K" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[10]))
             {
-                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "128K", Value = "128K" });
-                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "160K", Value = "160K" });
-                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "192K", Value = "192K" });
-                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "256K", Value = "256K" });
-                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "384K", Value = "384K" });
-                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "512K", Value = "512K" });
-                VideoBitRateCollection.Add(new DictionaryEntry() { Key = "768K", Value = "768K" });
+                VideoBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "128K", DisplayMember = "128K" });
+                VideoBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "160K", DisplayMember = "160K" });
+                VideoBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "192K", DisplayMember = "192K" });
+                VideoBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "256K", DisplayMember = "256K" });
+                VideoBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "384K", DisplayMember = "384K" });
+                VideoBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "512K", DisplayMember = "512K" });
+                VideoBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "768K", DisplayMember = "768K" });
             }
         }
 
@@ -2354,7 +2357,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void ResetCRF()
         {
-            string selectedVideoEncoding = Convert.ToString(SelectedVideoEncoding.Key);
+            string selectedVideoEncoding = Convert.ToString(SelectedVideoEncoding.SelectedValue);
             if (string.Equals(Convert.ToString(selectedVideoEncoding), "HEVC") || string.Equals(Convert.ToString(selectedVideoEncoding), "AVC") || string.Equals(Convert.ToString(selectedVideoEncoding), "AV1"))
             {
                 IsCRFSupported = true;
@@ -2377,10 +2380,10 @@ namespace ModernFormatConverter.Views.Dialogs
         {
             GPUCollection.Clear();
 
-            string selectedVideoEncoding = Convert.ToString(SelectedVideoEncoding.Key);
+            string selectedVideoEncoding = Convert.ToString(SelectedVideoEncoding.SelectedValue);
             if (string.Equals(Convert.ToString(selectedVideoEncoding), "HEVC") || string.Equals(Convert.ToString(selectedVideoEncoding), "AVC") || string.Equals(Convert.ToString(selectedVideoEncoding), "AV1"))
             {
-                foreach (DictionaryEntry gpu in GPUList)
+                foreach (ComboBoxItemModel gpu in GPUList)
                 {
                     GPUCollection.Add(gpu);
                 }
@@ -2413,15 +2416,15 @@ namespace ModernFormatConverter.Views.Dialogs
                 Equals(SelectedFormatConversionType, FormatConversionTypeList[13]) ||
                 Equals(SelectedFormatConversionType, FormatConversionTypeList[14]))
             {
-                AspectRatioCollection.Add(new DictionaryEntry() { Key = "Default", Value = DefaultString });
-                AspectRatioCollection.Add(new DictionaryEntry() { Key = "4:3", Value = "4:3" });
-                AspectRatioCollection.Add(new DictionaryEntry() { Key = "16:9", Value = "16:9" });
-                AspectRatioCollection.Add(new DictionaryEntry() { Key = "3:2", Value = "3:2" });
-                AspectRatioCollection.Add(new DictionaryEntry() { Key = "5:4", Value = "5:4" });
+                AspectRatioCollection.Add(new ComboBoxItemModel() { SelectedValue = "Default", DisplayMember = DefaultString });
+                AspectRatioCollection.Add(new ComboBoxItemModel() { SelectedValue = "4:3", DisplayMember = "4:3" });
+                AspectRatioCollection.Add(new ComboBoxItemModel() { SelectedValue = "16:9", DisplayMember = "16:9" });
+                AspectRatioCollection.Add(new ComboBoxItemModel() { SelectedValue = "3:2", DisplayMember = "3:2" });
+                AspectRatioCollection.Add(new ComboBoxItemModel() { SelectedValue = "5:4", DisplayMember = "5:4" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[2]))
             {
-                AspectRatioCollection.Add(new DictionaryEntry() { Key = "Default", Value = DefaultString });
+                AspectRatioCollection.Add(new ComboBoxItemModel() { SelectedValue = "Default", DisplayMember = DefaultString });
             }
         }
 
@@ -2430,7 +2433,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void ResetSecondaryEncoding()
         {
-            string selectedVideoEncoding = Convert.ToString(SelectedVideoEncoding.Key);
+            string selectedVideoEncoding = Convert.ToString(SelectedVideoEncoding.SelectedValue);
 
             if (string.Equals(selectedVideoEncoding, "Copy"))
             {
@@ -2456,17 +2459,17 @@ namespace ModernFormatConverter.Views.Dialogs
                 Equals(SelectedFormatConversionType, FormatConversionTypeList[6]) ||
                 Equals(SelectedFormatConversionType, FormatConversionTypeList[7]))
             {
-                KeyFrameIntervalCollection.Add(new DictionaryEntry() { Key = "Default", Value = DefaultString });
-                KeyFrameIntervalCollection.Add(new DictionaryEntry() { Key = "1", Value = "1" });
-                KeyFrameIntervalCollection.Add(new DictionaryEntry() { Key = "2", Value = "2" });
-                KeyFrameIntervalCollection.Add(new DictionaryEntry() { Key = "3", Value = "3" });
-                KeyFrameIntervalCollection.Add(new DictionaryEntry() { Key = "4", Value = "4" });
-                KeyFrameIntervalCollection.Add(new DictionaryEntry() { Key = "8", Value = "5" });
-                KeyFrameIntervalCollection.Add(new DictionaryEntry() { Key = "6", Value = "6" });
-                KeyFrameIntervalCollection.Add(new DictionaryEntry() { Key = "7", Value = "7" });
-                KeyFrameIntervalCollection.Add(new DictionaryEntry() { Key = "8", Value = "8" });
-                KeyFrameIntervalCollection.Add(new DictionaryEntry() { Key = "9", Value = "9" });
-                KeyFrameIntervalCollection.Add(new DictionaryEntry() { Key = "10", Value = "10" });
+                KeyFrameIntervalCollection.Add(new ComboBoxItemModel() { SelectedValue = "Default", DisplayMember = DefaultString });
+                KeyFrameIntervalCollection.Add(new ComboBoxItemModel() { SelectedValue = "1", DisplayMember = "1" });
+                KeyFrameIntervalCollection.Add(new ComboBoxItemModel() { SelectedValue = "2", DisplayMember = "2" });
+                KeyFrameIntervalCollection.Add(new ComboBoxItemModel() { SelectedValue = "3", DisplayMember = "3" });
+                KeyFrameIntervalCollection.Add(new ComboBoxItemModel() { SelectedValue = "4", DisplayMember = "4" });
+                KeyFrameIntervalCollection.Add(new ComboBoxItemModel() { SelectedValue = "8", DisplayMember = "5" });
+                KeyFrameIntervalCollection.Add(new ComboBoxItemModel() { SelectedValue = "6", DisplayMember = "6" });
+                KeyFrameIntervalCollection.Add(new ComboBoxItemModel() { SelectedValue = "7", DisplayMember = "7" });
+                KeyFrameIntervalCollection.Add(new ComboBoxItemModel() { SelectedValue = "8", DisplayMember = "8" });
+                KeyFrameIntervalCollection.Add(new ComboBoxItemModel() { SelectedValue = "9", DisplayMember = "9" });
+                KeyFrameIntervalCollection.Add(new ComboBoxItemModel() { SelectedValue = "10", DisplayMember = "10" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[2]) ||
                 Equals(SelectedFormatConversionType, FormatConversionTypeList[3]) ||
@@ -2479,7 +2482,7 @@ namespace ModernFormatConverter.Views.Dialogs
                 Equals(SelectedFormatConversionType, FormatConversionTypeList[13]) ||
                 Equals(SelectedFormatConversionType, FormatConversionTypeList[14]))
             {
-                KeyFrameIntervalCollection.Add(new DictionaryEntry() { Key = "Default", Value = DefaultString });
+                KeyFrameIntervalCollection.Add(new ComboBoxItemModel() { SelectedValue = "Default", DisplayMember = DefaultString });
             }
         }
 
@@ -2492,77 +2495,77 @@ namespace ModernFormatConverter.Views.Dialogs
 
             if (Equals(SelectedFormatConversionType, FormatConversionTypeList[0]))
             {
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "Copy", Value = CopyString });
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "AAC", Value = "AAC" });
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "AC3", Value = "AC3" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "Copy", DisplayMember = CopyString });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "AAC", DisplayMember = "AAC" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "AC3", DisplayMember = "AC3" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[1]))
             {
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "Copy", Value = CopyString });
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "AAC", Value = "AAC" });
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "AC3", Value = "AC3" });
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "MP3", Value = "MP3" });
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "MP3-VBR", Value = "MP3-VBR" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "Copy", DisplayMember = CopyString });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "AAC", DisplayMember = "AAC" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "AC3", DisplayMember = "AC3" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MP3", DisplayMember = "MP3" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MP3-VBR", DisplayMember = "MP3-VBR" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[2]))
             {
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "None", DisplayMember = NoneString });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[3]))
             {
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "OPUS", Value = "OPUS" });
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "Vorbis", Value = "Vorbis" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "OPUS", DisplayMember = "OPUS" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "Vorbis", DisplayMember = "Vorbis" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[4]))
             {
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "Copy", Value = CopyString });
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "AC3", Value = "AC3" });
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "MP2", Value = "MP2" });
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "MP3", Value = "MP3" });
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "MP3-VBR", Value = "MP3-VBR" });
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "WMAv2", Value = "WMAv2" });
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "PCM", Value = "PCM" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "Copy", DisplayMember = CopyString });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "AC3", DisplayMember = "AC3" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MP2", DisplayMember = "MP2" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MP3", DisplayMember = "MP3" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MP3-VBR", DisplayMember = "MP3-VBR" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "WMAv2", DisplayMember = "WMAv2" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "PCM", DisplayMember = "PCM" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[5]) || Equals(SelectedFormatConversionType, FormatConversionTypeList[6]) || Equals(SelectedFormatConversionType, FormatConversionTypeList[7]))
             {
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "AAC", Value = "AAC" });
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "MP3", Value = "MP3" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "AAC", DisplayMember = "AAC" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MP3", DisplayMember = "MP3" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[8]))
             {
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "WMAv2", Value = "WMAv2" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "WMAv2", DisplayMember = "WMAv2" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[9]))
             {
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "AMR_NB", Value = "AMR_NB" });
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "AMR_WB", Value = "AMR_WB" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "AMR_NB", DisplayMember = "AMR_NB" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "AMR_WB", DisplayMember = "AMR_WB" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[9]))
             {
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "AMR_NB", Value = "AMR_NB" });
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "AMR_WB", Value = "AMR_WB" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "AMR_NB", DisplayMember = "AMR_NB" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "AMR_WB", DisplayMember = "AMR_WB" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[10]))
             {
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "AAC", Value = "AAC" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "AAC", DisplayMember = "AAC" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[11]) || Equals(SelectedFormatConversionType, FormatConversionTypeList[12]))
             {
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "AC3", Value = "AC3" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "AC3", DisplayMember = "AC3" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[13]))
             {
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "Vorbis", Value = "Vorbis" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "Vorbis", DisplayMember = "Vorbis" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[14]))
             {
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "Copy", Value = CopyString });
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "AC3", Value = "AC3" });
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "MP2", Value = "MP2" });
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "MP3", Value = "MP3" });
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "MP3-VBR", Value = "MP3-VBR" });
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "WMAv2", Value = "WMAv2" });
-                AudioEncodingCollection.Add(new DictionaryEntry() { Key = "PCM", Value = "PCM" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "Copy", DisplayMember = CopyString });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "AC3", DisplayMember = "AC3" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MP2", DisplayMember = "MP2" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MP3", DisplayMember = "MP3" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "MP3-VBR", DisplayMember = "MP3-VBR" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "WMAv2", DisplayMember = "WMAv2" });
+                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "PCM", DisplayMember = "PCM" });
             }
         }
 
@@ -2573,7 +2576,7 @@ namespace ModernFormatConverter.Views.Dialogs
         {
             SamplingRateCollection.Clear();
 
-            string selectedAudioEncoding = Convert.ToString(SelectedAudioEncoding.Key);
+            string selectedAudioEncoding = Convert.ToString(SelectedAudioEncoding.SelectedValue);
             if (string.Equals(selectedAudioEncoding, "Copy") ||
                string.Equals(selectedAudioEncoding, "AAC") ||
                string.Equals(selectedAudioEncoding, "AC3") ||
@@ -2584,25 +2587,25 @@ namespace ModernFormatConverter.Views.Dialogs
                string.Equals(selectedAudioEncoding, "WMAv2") ||
                string.Equals(selectedAudioEncoding, "PCM"))
             {
-                SamplingRateCollection.Add(new DictionaryEntry() { Key = "Default", Value = DefaultString });
-                SamplingRateCollection.Add(new DictionaryEntry() { Key = "22050", Value = "22050" });
-                SamplingRateCollection.Add(new DictionaryEntry() { Key = "24000", Value = "24000" });
-                SamplingRateCollection.Add(new DictionaryEntry() { Key = "44100", Value = "44100" });
-                SamplingRateCollection.Add(new DictionaryEntry() { Key = "48000", Value = "48000" });
+                SamplingRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "Default", DisplayMember = DefaultString });
+                SamplingRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "22050", DisplayMember = "22050" });
+                SamplingRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "24000", DisplayMember = "24000" });
+                SamplingRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "44100", DisplayMember = "44100" });
+                SamplingRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "48000", DisplayMember = "48000" });
             }
             else if (string.Equals(selectedAudioEncoding, "OPUS") || string.Equals(selectedAudioEncoding, "Vorbis"))
             {
-                SamplingRateCollection.Add(new DictionaryEntry() { Key = "Default", Value = DefaultString });
-                SamplingRateCollection.Add(new DictionaryEntry() { Key = "24000", Value = "24000" });
-                SamplingRateCollection.Add(new DictionaryEntry() { Key = "48000", Value = "48000" });
+                SamplingRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "Default", DisplayMember = DefaultString });
+                SamplingRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "24000", DisplayMember = "24000" });
+                SamplingRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "48000", DisplayMember = "48000" });
             }
             else if (string.Equals(selectedAudioEncoding, "AMR_NB") || string.Equals(selectedAudioEncoding, "AMR_WB"))
             {
-                SamplingRateCollection.Add(new DictionaryEntry() { Key = "8000", Value = "8000" });
+                SamplingRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "8000", DisplayMember = "8000" });
             }
             else if (string.Equals(selectedAudioEncoding, "None"))
             {
-                SamplingRateCollection.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
+                SamplingRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "None", DisplayMember = NoneString });
             }
         }
 
@@ -2627,26 +2630,26 @@ namespace ModernFormatConverter.Views.Dialogs
                 Equals(SelectedFormatConversionType, FormatConversionTypeList[13]) ||
                 Equals(SelectedFormatConversionType, FormatConversionTypeList[14]))
             {
-                AudioBitRateCollection.Add(new DictionaryEntry() { Key = "Default", Value = DefaultString });
-                AudioBitRateCollection.Add(new DictionaryEntry() { Key = "24K", Value = "24K" });
-                AudioBitRateCollection.Add(new DictionaryEntry() { Key = "32K", Value = "32K" });
-                AudioBitRateCollection.Add(new DictionaryEntry() { Key = "64K", Value = "64K" });
-                AudioBitRateCollection.Add(new DictionaryEntry() { Key = "128K", Value = "128K" });
-                AudioBitRateCollection.Add(new DictionaryEntry() { Key = "192K", Value = "192K" });
-                AudioBitRateCollection.Add(new DictionaryEntry() { Key = "224K", Value = "224K" });
-                AudioBitRateCollection.Add(new DictionaryEntry() { Key = "256K", Value = "256K" });
-                AudioBitRateCollection.Add(new DictionaryEntry() { Key = "320K", Value = "320K" });
+                AudioBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "Default", DisplayMember = DefaultString });
+                AudioBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "24K", DisplayMember = "24K" });
+                AudioBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "32K", DisplayMember = "32K" });
+                AudioBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "64K", DisplayMember = "64K" });
+                AudioBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "128K", DisplayMember = "128K" });
+                AudioBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "192K", DisplayMember = "192K" });
+                AudioBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "224K", DisplayMember = "224K" });
+                AudioBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "256K", DisplayMember = "256K" });
+                AudioBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "320K", DisplayMember = "320K" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[2]))
             {
-                AudioBitRateCollection.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
+                AudioBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "None", DisplayMember = NoneString });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[9]))
             {
-                AudioBitRateCollection.Add(new DictionaryEntry() { Key = "12.20", Value = "12.20" });
-                AudioBitRateCollection.Add(new DictionaryEntry() { Key = "10.20", Value = "10.20" });
-                AudioBitRateCollection.Add(new DictionaryEntry() { Key = "7.40", Value = "7.40" });
-                AudioBitRateCollection.Add(new DictionaryEntry() { Key = "4.75", Value = "4.75" });
+                AudioBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "12.20", DisplayMember = "12.20" });
+                AudioBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "10.20", DisplayMember = "10.20" });
+                AudioBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "7.40", DisplayMember = "7.40" });
+                AudioBitRateCollection.Add(new ComboBoxItemModel() { SelectedValue = "4.75", DisplayMember = "4.75" });
             }
         }
 
@@ -2671,20 +2674,20 @@ namespace ModernFormatConverter.Views.Dialogs
                 Equals(SelectedFormatConversionType, FormatConversionTypeList[13]) ||
                 Equals(SelectedFormatConversionType, FormatConversionTypeList[14]))
             {
-                SoundTrackCollection.Add(new DictionaryEntry() { Key = "Default", Value = DefaultString });
-                SoundTrackCollection.Add(new DictionaryEntry() { Key = "1", Value = string.Format("{0} {1}", 1, MonoString) });
-                SoundTrackCollection.Add(new DictionaryEntry() { Key = "2", Value = string.Format("{0} {1}", 2, StereoString) });
-                SoundTrackCollection.Add(new DictionaryEntry() { Key = "4", Value = string.Format("{0} {1}", 4, QuadString) });
-                SoundTrackCollection.Add(new DictionaryEntry() { Key = "6", Value = string.Format("{0} {1}", 6, Stereo51String) });
-                SoundTrackCollection.Add(new DictionaryEntry() { Key = "8", Value = string.Format("{0} {1}", 8, Stereo71String) });
+                SoundTrackCollection.Add(new ComboBoxItemModel() { SelectedValue = "Default", DisplayMember = DefaultString });
+                SoundTrackCollection.Add(new ComboBoxItemModel() { SelectedValue = "1", DisplayMember = string.Format("{0} {1}", 1, MonoString) });
+                SoundTrackCollection.Add(new ComboBoxItemModel() { SelectedValue = "2", DisplayMember = string.Format("{0} {1}", 2, StereoString) });
+                SoundTrackCollection.Add(new ComboBoxItemModel() { SelectedValue = "4", DisplayMember = string.Format("{0} {1}", 4, QuadString) });
+                SoundTrackCollection.Add(new ComboBoxItemModel() { SelectedValue = "6", DisplayMember = string.Format("{0} {1}", 6, Stereo51String) });
+                SoundTrackCollection.Add(new ComboBoxItemModel() { SelectedValue = "8", DisplayMember = string.Format("{0} {1}", 8, Stereo71String) });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[2]))
             {
-                SoundTrackCollection.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
+                SoundTrackCollection.Add(new ComboBoxItemModel() { SelectedValue = "None", DisplayMember = NoneString });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[9]))
             {
-                SoundTrackCollection.Add(new DictionaryEntry() { Key = "1", Value = string.Format("{0} {1}", 1, MonoString) });
+                SoundTrackCollection.Add(new ComboBoxItemModel() { SelectedValue = "1", DisplayMember = string.Format("{0} {1}", 1, MonoString) });
             }
         }
 
@@ -2710,19 +2713,19 @@ namespace ModernFormatConverter.Views.Dialogs
                 Equals(SelectedFormatConversionType, FormatConversionTypeList[13]) ||
                 Equals(SelectedFormatConversionType, FormatConversionTypeList[14]))
             {
-                VolumeCollection.Add(new DictionaryEntry() { Key = "10%", Value = "10%" });
-                VolumeCollection.Add(new DictionaryEntry() { Key = "25%", Value = "25%" });
-                VolumeCollection.Add(new DictionaryEntry() { Key = "50%", Value = "50%" });
-                VolumeCollection.Add(new DictionaryEntry() { Key = "75%", Value = "75%" });
-                VolumeCollection.Add(new DictionaryEntry() { Key = "100%", Value = "100%" });
-                VolumeCollection.Add(new DictionaryEntry() { Key = "150%", Value = "150%" });
-                VolumeCollection.Add(new DictionaryEntry() { Key = "200%", Value = "200%" });
-                VolumeCollection.Add(new DictionaryEntry() { Key = "300%", Value = "300%" });
-                VolumeCollection.Add(new DictionaryEntry() { Key = "400%", Value = "400%" });
+                VolumeCollection.Add(new ComboBoxItemModel() { SelectedValue = "10%", DisplayMember = "10%" });
+                VolumeCollection.Add(new ComboBoxItemModel() { SelectedValue = "25%", DisplayMember = "25%" });
+                VolumeCollection.Add(new ComboBoxItemModel() { SelectedValue = "50%", DisplayMember = "50%" });
+                VolumeCollection.Add(new ComboBoxItemModel() { SelectedValue = "75%", DisplayMember = "75%" });
+                VolumeCollection.Add(new ComboBoxItemModel() { SelectedValue = "100%", DisplayMember = "100%" });
+                VolumeCollection.Add(new ComboBoxItemModel() { SelectedValue = "150%", DisplayMember = "150%" });
+                VolumeCollection.Add(new ComboBoxItemModel() { SelectedValue = "200%", DisplayMember = "200%" });
+                VolumeCollection.Add(new ComboBoxItemModel() { SelectedValue = "300%", DisplayMember = "300%" });
+                VolumeCollection.Add(new ComboBoxItemModel() { SelectedValue = "400%", DisplayMember = "400%" });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[2]))
             {
-                VolumeCollection.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
+                VolumeCollection.Add(new ComboBoxItemModel() { SelectedValue = "None", DisplayMember = NoneString });
             }
         }
 
@@ -2748,16 +2751,16 @@ namespace ModernFormatConverter.Views.Dialogs
                 Equals(SelectedFormatConversionType, FormatConversionTypeList[13]) ||
                 Equals(SelectedFormatConversionType, FormatConversionTypeList[14]))
             {
-                AudioFadeInEffectCollection.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
-                AudioFadeInEffectCollection.Add(new DictionaryEntry() { Key = "1", Value = "1" + SecondString });
-                AudioFadeInEffectCollection.Add(new DictionaryEntry() { Key = "2", Value = "2" + SecondString });
-                AudioFadeInEffectCollection.Add(new DictionaryEntry() { Key = "3", Value = "3" + SecondString });
-                AudioFadeInEffectCollection.Add(new DictionaryEntry() { Key = "4", Value = "4" + SecondString });
-                AudioFadeInEffectCollection.Add(new DictionaryEntry() { Key = "5", Value = "5" + SecondString });
+                AudioFadeInEffectCollection.Add(new ComboBoxItemModel() { SelectedValue = "None", DisplayMember = NoneString });
+                AudioFadeInEffectCollection.Add(new ComboBoxItemModel() { SelectedValue = "1", DisplayMember = "1" + SecondString });
+                AudioFadeInEffectCollection.Add(new ComboBoxItemModel() { SelectedValue = "2", DisplayMember = "2" + SecondString });
+                AudioFadeInEffectCollection.Add(new ComboBoxItemModel() { SelectedValue = "3", DisplayMember = "3" + SecondString });
+                AudioFadeInEffectCollection.Add(new ComboBoxItemModel() { SelectedValue = "4", DisplayMember = "4" + SecondString });
+                AudioFadeInEffectCollection.Add(new ComboBoxItemModel() { SelectedValue = "5", DisplayMember = "5" + SecondString });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[2]))
             {
-                AudioFadeInEffectCollection.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
+                AudioFadeInEffectCollection.Add(new ComboBoxItemModel() { SelectedValue = "None", DisplayMember = NoneString });
             }
         }
 
@@ -2783,16 +2786,16 @@ namespace ModernFormatConverter.Views.Dialogs
                 Equals(SelectedFormatConversionType, FormatConversionTypeList[13]) ||
                 Equals(SelectedFormatConversionType, FormatConversionTypeList[14]))
             {
-                AudioFadeOutEffectCollection.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
-                AudioFadeOutEffectCollection.Add(new DictionaryEntry() { Key = "1", Value = "1" + SecondString });
-                AudioFadeOutEffectCollection.Add(new DictionaryEntry() { Key = "2", Value = "2" + SecondString });
-                AudioFadeOutEffectCollection.Add(new DictionaryEntry() { Key = "3", Value = "3" + SecondString });
-                AudioFadeOutEffectCollection.Add(new DictionaryEntry() { Key = "4", Value = "4" + SecondString });
-                AudioFadeOutEffectCollection.Add(new DictionaryEntry() { Key = "5", Value = "5" + SecondString });
+                AudioFadeOutEffectCollection.Add(new ComboBoxItemModel() { SelectedValue = "None", DisplayMember = NoneString });
+                AudioFadeOutEffectCollection.Add(new ComboBoxItemModel() { SelectedValue = "1", DisplayMember = "1" + SecondString });
+                AudioFadeOutEffectCollection.Add(new ComboBoxItemModel() { SelectedValue = "2", DisplayMember = "2" + SecondString });
+                AudioFadeOutEffectCollection.Add(new ComboBoxItemModel() { SelectedValue = "3", DisplayMember = "3" + SecondString });
+                AudioFadeOutEffectCollection.Add(new ComboBoxItemModel() { SelectedValue = "4", DisplayMember = "4" + SecondString });
+                AudioFadeOutEffectCollection.Add(new ComboBoxItemModel() { SelectedValue = "5", DisplayMember = "5" + SecondString });
             }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[2]))
             {
-                AudioFadeOutEffectCollection.Add(new DictionaryEntry() { Key = "None", Value = NoneString });
+                AudioFadeOutEffectCollection.Add(new ComboBoxItemModel() { SelectedValue = "None", DisplayMember = NoneString });
             }
         }
 
@@ -2892,9 +2895,9 @@ namespace ModernFormatConverter.Views.Dialogs
         /// <summary>
         /// 获取是否选中了自定义屏幕项
         /// </summary>
-        private Visibility GetIsCustomScreenSizeSelected(DictionaryEntry selectedScreenSize)
+        private Visibility GetIsCustomScreenSizeSelected(ComboBoxItemModel selectedScreenSize)
         {
-            return string.Equals(Convert.ToString(selectedScreenSize.Key), "Custom") ? Visibility.Visible : Visibility.Collapsed;
+            return string.Equals(Convert.ToString(selectedScreenSize.SelectedValue), "Custom") ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private Visibility CheckAdditionalSubtitlePath(string additionalSubtitlePath)

@@ -74,8 +74,11 @@ namespace ModernFormatConverter.Views.Windows
 
             set
             {
-                _windowSystemBackdrop = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowSystemBackdrop)));
+                if (!Equals(_windowSystemBackdrop, value))
+                {
+                    _windowSystemBackdrop = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowSystemBackdrop)));
+                }
             }
         }
 
@@ -87,8 +90,11 @@ namespace ModernFormatConverter.Views.Windows
 
             set
             {
-                _windowTheme = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowTheme)));
+                if (!Equals(_windowTheme, value))
+                {
+                    _windowTheme = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowTheme)));
+                }
             }
         }
 
@@ -100,8 +106,11 @@ namespace ModernFormatConverter.Views.Windows
 
             set
             {
-                _isWindowMaximized = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsWindowMaximized)));
+                if (!Equals(_isWindowMaximized, value))
+                {
+                    _isWindowMaximized = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsWindowMaximized)));
+                }
             }
         }
 
@@ -113,8 +122,11 @@ namespace ModernFormatConverter.Views.Windows
 
             set
             {
-                _isBackEnabled = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsBackEnabled)));
+                if (!Equals(_isBackEnabled, value))
+                {
+                    _isBackEnabled = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsBackEnabled)));
+                }
             }
         }
 
@@ -126,8 +138,11 @@ namespace ModernFormatConverter.Views.Windows
 
             set
             {
-                _selectedItem = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedItem)));
+                if (!Equals(_selectedItem, value))
+                {
+                    _selectedItem = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedItem)));
+                }
             }
         }
 

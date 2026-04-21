@@ -218,10 +218,9 @@
                         <ComboBox
                             Grid.Column="1"
                             VerticalAlignment="Center"
-                            DisplayMemberPath="Value"
+                            DisplayMemberPath="DisplayMember"
                             ItemsSource="{x:Bind FormatConversionTypeList}"
                             SelectedItem="{x:Bind SelectedFormatConversionType, Mode=OneWay}"
-                            SelectedValuePath="Key"
                             SelectionChanged="{x:Bind OnFormatConversionTypeSelectionChanged}"
                             Style="{StaticResource ComboBoxStyle}" />
                     </Grid>
@@ -252,10 +251,9 @@
                         <ComboBox
                             Grid.Column="1"
                             VerticalAlignment="Center"
-                            DisplayMemberPath="Value"
+                            DisplayMemberPath="DisplayMember"
                             ItemsSource="{x:Bind VideoEncodingCollection}"
                             SelectedItem="{x:Bind SelectedVideoEncoding, Mode=OneWay}"
-                            SelectedValuePath="Key"
                             SelectionChanged="{x:Bind OnVideoEncodingSelectionChanged}"
                             Style="{StaticResource ComboBoxStyle}" />
                     </Grid>
@@ -286,10 +284,9 @@
                         <ComboBox
                             Grid.Column="1"
                             VerticalAlignment="Center"
-                            DisplayMemberPath="Value"
+                            DisplayMemberPath="DisplayMember"
                             ItemsSource="{x:Bind SizeLimitationCollection}"
                             SelectedItem="{x:Bind SelectedSizeLimitation, Mode=OneWay}"
-                            SelectedValuePath="Key"
                             SelectionChanged="{x:Bind OnSizeLimitationSelectionChanged}"
                             Style="{StaticResource ComboBoxStyle}" />
                     </Grid>
@@ -333,10 +330,9 @@
                                 <ComboBox
                                     Grid.Column="1"
                                     VerticalAlignment="Center"
-                                    DisplayMemberPath="Value"
+                                    DisplayMemberPath="DisplayMember"
                                     ItemsSource="{x:Bind ScreenSizeCollection}"
                                     SelectedItem="{x:Bind SelectedScreenSize, Mode=OneWay}"
-                                    SelectedValuePath="Key"
                                     SelectionChanged="{x:Bind OnScreenSizeSelectionChanged}"
                                     Style="{StaticResource ComboBoxStyle}" />
                             </Grid>
@@ -425,10 +421,9 @@
                         <ComboBox
                             Grid.Column="1"
                             VerticalAlignment="Center"
-                            DisplayMemberPath="Value"
+                            DisplayMemberPath="DisplayMember"
                             ItemsSource="{x:Bind VideoBitRateCollection}"
                             SelectedItem="{x:Bind SelectedVideoBitRate, Mode=OneWay}"
-                            SelectedValuePath="Key"
                             SelectionChanged="{x:Bind OnVideoBitRateSelectionChanged}"
                             Style="{StaticResource ComboBoxStyle}" />
                     </Grid>
@@ -583,10 +578,9 @@
                         <ComboBox
                             Grid.Column="1"
                             VerticalAlignment="Center"
-                            DisplayMemberPath="Value"
+                            DisplayMemberPath="DisplayMember"
                             ItemsSource="{x:Bind GPUCollection}"
                             SelectedItem="{x:Bind SelectedGPU, Mode=OneWay}"
-                            SelectedValuePath="Key"
                             SelectionChanged="{x:Bind OnGPUSelectionChanged}"
                             Style="{StaticResource ComboBoxStyle}" />
                     </Grid>
@@ -617,10 +611,9 @@
                         <ComboBox
                             Grid.Column="1"
                             VerticalAlignment="Center"
-                            DisplayMemberPath="Value"
+                            DisplayMemberPath="DisplayMember"
                             ItemsSource="{x:Bind FramePerSecondList}"
                             SelectedItem="{x:Bind SelectedFramePerSecond, Mode=OneWay}"
-                            SelectedValuePath="Key"
                             SelectionChanged="{x:Bind OnFramePerSecondSelectionChanged}"
                             Style="{StaticResource ComboBoxStyle}" />
                     </Grid>
@@ -651,10 +644,9 @@
                         <ComboBox
                             Grid.Column="1"
                             VerticalAlignment="Center"
-                            DisplayMemberPath="Value"
+                            DisplayMemberPath="DisplayMember"
                             ItemsSource="{x:Bind AspectRatioCollection}"
                             SelectedItem="{x:Bind SelectedAspectRatio, Mode=OneWay}"
-                            SelectedValuePath="Key"
                             SelectionChanged="{x:Bind OnAspectRatioSelectionChanged}"
                             Style="{StaticResource ComboBoxStyle}" />
                     </Grid>
@@ -737,10 +729,9 @@
                         <ComboBox
                             Grid.Column="1"
                             VerticalAlignment="Center"
-                            DisplayMemberPath="Value"
+                            DisplayMemberPath="DisplayMember"
                             ItemsSource="{x:Bind KeyFrameIntervalCollection}"
                             SelectedItem="{x:Bind SelectedKeyFrameInterval, Mode=OneWay}"
-                            SelectedValuePath="Key"
                             SelectionChanged="{x:Bind OnKeyFrameIntervalSelectionChanged}"
                             Style="{StaticResource ComboBoxStyle}" />
                     </Grid>
@@ -822,10 +813,9 @@
                         <ComboBox
                             Grid.Column="1"
                             VerticalAlignment="Center"
-                            DisplayMemberPath="Value"
+                            DisplayMemberPath="DisplayMember"
                             ItemsSource="{x:Bind RotationList}"
                             SelectedItem="{x:Bind SelectedRotation, Mode=OneWay}"
-                            SelectedValuePath="Key"
                             SelectionChanged="{x:Bind OnRotationSelectionChanged}"
                             Style="{StaticResource ComboBoxStyle}" />
                     </Grid>
@@ -907,10 +897,9 @@
                         <ComboBox
                             Grid.Column="1"
                             VerticalAlignment="Center"
-                            DisplayMemberPath="Value"
+                            DisplayMemberPath="DisplayMember"
                             ItemsSource="{x:Bind VideoFadeInEffectList}"
                             SelectedItem="{x:Bind SelectedVideoFadeInEffect, Mode=OneWay}"
-                            SelectedValuePath="Key"
                             SelectionChanged="{x:Bind OnVideoFadeInEffectSelectionChanged}"
                             Style="{StaticResource ComboBoxStyle}" />
                     </Grid>
@@ -941,10 +930,9 @@
                         <ComboBox
                             Grid.Column="1"
                             VerticalAlignment="Center"
-                            DisplayMemberPath="Value"
+                            DisplayMemberPath="DisplayMember"
                             ItemsSource="{x:Bind VideoFadeOutEffectList}"
                             SelectedItem="{x:Bind SelectedVideoFadeOutEffect, Mode=OneWay}"
-                            SelectedValuePath="Key"
                             SelectionChanged="{x:Bind OnVideoFadeOutEffectSelectionChanged}"
                             Style="{StaticResource ComboBoxStyle}" />
                     </Grid>
@@ -999,10 +987,9 @@
                             <ComboBox
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
-                                DisplayMemberPath="Value"
+                                DisplayMemberPath="DisplayMember"
                                 ItemsSource="{x:Bind AudioEncodingCollection}"
                                 SelectedItem="{x:Bind SelectedAudioEncoding, Mode=OneWay}"
-                                SelectedValuePath="Key"
                                 SelectionChanged="{x:Bind OnAudioEncodingSelectionChanged}"
                                 Style="{StaticResource ComboBoxStyle}" />
                         </Grid>
@@ -1033,10 +1020,9 @@
                             <ComboBox
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
-                                DisplayMemberPath="Value"
+                                DisplayMemberPath="DisplayMember"
                                 ItemsSource="{x:Bind SamplingRateCollection}"
                                 SelectedItem="{x:Bind SelectedSamplingRate, Mode=OneWay}"
-                                SelectedValuePath="Key"
                                 SelectionChanged="{x:Bind OnSamplingRateSelectionChanged}"
                                 Style="{StaticResource ComboBoxStyle}" />
                         </Grid>
@@ -1067,10 +1053,9 @@
                             <ComboBox
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
-                                DisplayMemberPath="Value"
+                                DisplayMemberPath="DisplayMember"
                                 ItemsSource="{x:Bind AudioBitRateCollection}"
                                 SelectedItem="{x:Bind SelectedAudioBitRate, Mode=OneWay}"
-                                SelectedValuePath="Key"
                                 SelectionChanged="{x:Bind OnAudioBitRateSelectionChanged}"
                                 Style="{StaticResource ComboBoxStyle}" />
                         </Grid>
@@ -1101,10 +1086,9 @@
                             <ComboBox
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
-                                DisplayMemberPath="Value"
+                                DisplayMemberPath="DisplayMember"
                                 ItemsSource="{x:Bind SoundTrackCollection}"
                                 SelectedItem="{x:Bind SelectedSoundTrack, Mode=OneWay}"
-                                SelectedValuePath="Key"
                                 SelectionChanged="{x:Bind OnSoundTrackSelectionChanged}"
                                 Style="{StaticResource ComboBoxStyle}" />
                         </Grid>
@@ -1186,10 +1170,9 @@
                             <ComboBox
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
-                                DisplayMemberPath="Value"
+                                DisplayMemberPath="DisplayMember"
                                 ItemsSource="{x:Bind VolumeCollection}"
                                 SelectedItem="{x:Bind SelectedVolume, Mode=OneWay}"
-                                SelectedValuePath="Key"
                                 SelectionChanged="{x:Bind OnVolumeSelectionChanged}"
                                 Style="{StaticResource ComboBoxStyle}" />
                         </Grid>
@@ -1271,10 +1254,9 @@
                             <ComboBox
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
-                                DisplayMemberPath="Value"
+                                DisplayMemberPath="DisplayMember"
                                 ItemsSource="{x:Bind AudioFadeInEffectCollection}"
                                 SelectedItem="{x:Bind SelectedAudioFadeInEffect, Mode=OneWay}"
-                                SelectedValuePath="Key"
                                 SelectionChanged="{x:Bind OnAudioFadeInEffectSelectionChanged}"
                                 Style="{StaticResource ComboBoxStyle}" />
                         </Grid>
@@ -1305,10 +1287,9 @@
                             <ComboBox
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
-                                DisplayMemberPath="Value"
+                                DisplayMemberPath="DisplayMember"
                                 ItemsSource="{x:Bind AudioFadeOutEffectCollection}"
                                 SelectedItem="{x:Bind SelectedAudioFadeOutEffect, Mode=OneWay}"
-                                SelectedValuePath="Key"
                                 SelectionChanged="{x:Bind OnAudioFadeOutEffectSelectionChanged}"
                                 Style="{StaticResource ComboBoxStyle}" />
                         </Grid>
@@ -1637,10 +1618,9 @@
                         <ComboBox
                             Grid.Column="1"
                             VerticalAlignment="Center"
-                            DisplayMemberPath="Value"
+                            DisplayMemberPath="DisplayMember"
                             ItemsSource="{x:Bind SubtitleNestTypeList}"
                             SelectedItem="{x:Bind SelectedSubtitleNestType, Mode=OneWay}"
-                            SelectedValuePath="Key"
                             SelectionChanged="{x:Bind OnSubtitleNestTypeSelectionChanged}"
                             Style="{StaticResource ComboBoxStyle}" />
                     </Grid>
@@ -1709,10 +1689,9 @@
                         <ComboBox
                             Grid.Column="1"
                             VerticalAlignment="Center"
-                            DisplayMemberPath="Value"
+                            DisplayMemberPath="DisplayMember"
                             ItemsSource="{x:Bind FontSizeList}"
                             SelectedItem="{x:Bind SelectedFontSize, Mode=OneWay}"
-                            SelectedValuePath="Key"
                             SelectionChanged="{x:Bind OnFontSizeSelectionChanged}"
                             Style="{StaticResource ComboBoxStyle}" />
                     </Grid>
@@ -1781,10 +1760,9 @@
                         <ComboBox
                             Grid.Column="1"
                             VerticalAlignment="Center"
-                            DisplayMemberPath="Value"
+                            DisplayMemberPath="DisplayMember"
                             ItemsSource="{x:Bind FontBorderStyleList}"
                             SelectedItem="{x:Bind SelectedFontBorderStyle, Mode=OneWay}"
-                            SelectedValuePath="Key"
                             SelectionChanged="{x:Bind OnFontBorderStyleSelectionChanged}"
                             Style="{StaticResource ComboBoxStyle}" />
                     </Grid>
@@ -1815,10 +1793,9 @@
                         <ComboBox
                             Grid.Column="1"
                             VerticalAlignment="Center"
-                            DisplayMemberPath="Value"
+                            DisplayMemberPath="DisplayMember"
                             ItemsSource="{x:Bind CounterLineSizeList}"
                             SelectedItem="{x:Bind SelectedCounterLineSize, Mode=OneWay}"
-                            SelectedValuePath="Key"
                             SelectionChanged="{x:Bind OnCounterLineSizeSelectionChanged}"
                             Style="{StaticResource ComboBoxStyle}" />
                     </Grid>
@@ -1887,10 +1864,9 @@
                         <ComboBox
                             Grid.Column="1"
                             VerticalAlignment="Center"
-                            DisplayMemberPath="Value"
+                            DisplayMemberPath="DisplayMember"
                             ItemsSource="{x:Bind ShadowSizeList}"
                             SelectedItem="{x:Bind SelectedShadowSize, Mode=OneWay}"
-                            SelectedValuePath="Key"
                             SelectionChanged="{x:Bind OnShadowSizeSelectionChanged}"
                             Style="{StaticResource ComboBoxStyle}" />
                     </Grid>

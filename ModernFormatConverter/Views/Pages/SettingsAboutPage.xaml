@@ -472,6 +472,7 @@
                                     Padding="0,8"
                                     HorizontalAlignment="Left"
                                     Orientation="Horizontal">
+
                                     <TextBlock
                                         HorizontalAlignment="Left"
                                         TextTrimming="CharacterEllipsis"

@@ -239,8 +239,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _fileInformationResultKind = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FileInformationResultKind)));
+                if (!Equals(_fileInformationResultKind, value))
+                {
+                    _fileInformationResultKind = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FileInformationResultKind)));
+                }
             }
         }
 
@@ -268,8 +271,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _fileThumbnailImage = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FileThumbnailImage)));
+                if (!Equals(_fileThumbnailImage, value))
+                {
+                    _fileThumbnailImage = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FileThumbnailImage)));
+                }
             }
         }
 
@@ -393,8 +399,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _videoInformationSelectedItem = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoInformationSelectedItem)));
+                if (!Equals(_videoInformationSelectedItem, value))
+                {
+                    _videoInformationSelectedItem = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoInformationSelectedItem)));
+                }
             }
         }
 
@@ -406,8 +415,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _videoGeneralInfo = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoGeneralInfo)));
+                if (!Equals(_videoGeneralInfo, value))
+                {
+                    _videoGeneralInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoGeneralInfo)));
+                }
             }
         }
 
@@ -419,8 +431,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _videoDetailVideoInfo = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDetailVideoInfo)));
+                if (!Equals(_videoDetailVideoInfo, value))
+                {
+                    _videoDetailVideoInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDetailVideoInfo)));
+                }
             }
         }
 
@@ -432,8 +447,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _videoDetailVideoInfoSelectedIndex = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDetailVideoInfoSelectedIndex)));
+                if (!Equals(_videoDetailVideoInfoSelectedIndex, value))
+                {
+                    _videoDetailVideoInfoSelectedIndex = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDetailVideoInfoSelectedIndex)));
+                }
             }
         }
 
@@ -445,8 +463,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _videoDetailVideoInfoCount = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDetailVideoInfoCount)));
+                if (!Equals(_videoDetailVideoInfoCount, value))
+                {
+                    _videoDetailVideoInfoCount = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDetailVideoInfoCount)));
+                }
             }
         }
 
@@ -458,8 +479,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _videoDetailAudioInfo = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDetailAudioInfo)));
+                if (!Equals(_videoDetailVideoInfo, value))
+                {
+                    _videoDetailAudioInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDetailAudioInfo)));
+                }
             }
         }
 
@@ -471,8 +495,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _videoDetailAudioInfoSelectedIndex = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDetailAudioInfoSelectedIndex)));
+                if (!Equals(_videoDetailAudioInfoSelectedIndex, value))
+                {
+                    _videoDetailAudioInfoSelectedIndex = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDetailAudioInfoSelectedIndex)));
+                }
             }
         }
 
@@ -484,8 +511,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _videoDetailAudioInfoCount = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDetailAudioInfoCount)));
+                if (!Equals(_videoDetailAudioInfoCount, value))
+                {
+                    _videoDetailAudioInfoCount = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDetailAudioInfoCount)));
+                }
             }
         }
 
@@ -497,8 +527,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _videoDetailTextInfo = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDetailTextInfo)));
+                if (!Equals(_videoDetailVideoInfo, value))
+                {
+                    _videoDetailTextInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDetailTextInfo)));
+                }
             }
         }
 
@@ -510,8 +543,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _videoDetailTextInfoSelectedIndex = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDetailTextInfoSelectedIndex)));
+                if (!Equals(_videoDetailTextInfoSelectedIndex, value))
+                {
+                    _videoDetailTextInfoSelectedIndex = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDetailTextInfoSelectedIndex)));
+                }
             }
         }
 
@@ -523,8 +559,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _videoDetailTextInfoCount = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDetailTextInfoCount)));
+                if (!Equals(_videoDetailTextInfoCount, value))
+                {
+                    _videoDetailTextInfoCount = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoDetailTextInfoCount)));
+                }
             }
         }
 
@@ -536,8 +575,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _videoOverviewInfo = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoOverviewInfo)));
+                if (!Equals(_videoOverviewInfo, value))
+                {
+                    _videoOverviewInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoOverviewInfo)));
+                }
             }
         }
 
@@ -549,8 +591,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _isVideoOverviewInfoExisted = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsVideoOverviewInfoExisted)));
+                if (!Equals(_isVideoOverviewInfoExisted, value))
+                {
+                    _isVideoOverviewInfoExisted = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsVideoOverviewInfoExisted)));
+                }
             }
         }
 
@@ -562,8 +607,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _audioInformationSelectedItem = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioInformationSelectedItem)));
+                if (!Equals(_audioInformationSelectedItem, value))
+                {
+                    _audioInformationSelectedItem = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioInformationSelectedItem)));
+                }
             }
         }
 
@@ -575,8 +623,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _audioGeneralInfo = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioGeneralInfo)));
+                if (!Equals(_audioGeneralInfo, value))
+                {
+                    _audioGeneralInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioGeneralInfo)));
+                }
             }
         }
 
@@ -588,8 +639,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _audioDetailAudioInfo = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioDetailAudioInfo)));
+                if (!Equals(_videoDetailVideoInfo, value))
+                {
+                    _audioDetailAudioInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioDetailAudioInfo)));
+                }
             }
         }
 
@@ -601,8 +655,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _audioDetailAudioInfoSelectedIndex = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioDetailAudioInfoSelectedIndex)));
+                if (!Equals(_audioDetailAudioInfoSelectedIndex, value))
+                {
+                    _audioDetailAudioInfoSelectedIndex = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioDetailAudioInfoSelectedIndex)));
+                }
             }
         }
 
@@ -614,8 +671,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _audioDetailAudioInfoCount = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioDetailAudioInfoCount)));
+                if (!Equals(_audioDetailAudioInfoCount, value))
+                {
+                    _audioDetailAudioInfoCount = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioDetailAudioInfoCount)));
+                }
             }
         }
 
@@ -627,8 +687,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _audioOverviewInfo = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioOverviewInfo)));
+                if (!Equals(_audioOverviewInfo, value))
+                {
+                    _audioOverviewInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioOverviewInfo)));
+                }
             }
         }
 
@@ -640,8 +703,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _isAudioOverviewInfoExisted = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsAudioOverviewInfoExisted)));
+                if (!Equals(_isAudioOverviewInfoExisted, value))
+                {
+                    _isAudioOverviewInfoExisted = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsAudioOverviewInfoExisted)));
+                }
             }
         }
 
@@ -653,8 +719,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _textInformationSelectedItem = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TextInformationSelectedItem)));
+                if (!Equals(_textInformationSelectedItem, value))
+                {
+                    _textInformationSelectedItem = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TextInformationSelectedItem)));
+                }
             }
         }
 
@@ -666,8 +735,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _textDetailInfo = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TextDetailInfo)));
+                if (!Equals(_textDetailInfo, value))
+                {
+                    _textDetailInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TextDetailInfo)));
+                }
             }
         }
 
@@ -679,8 +751,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _isTextDetailInfoExisted = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsTextDetailInfoExisted)));
+                if (!Equals(_isTextDetailInfoExisted, value))
+                {
+                    _isTextDetailInfoExisted = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsTextDetailInfoExisted)));
+                }
             }
         }
 
@@ -692,8 +767,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _textOverviewInfo = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TextOverviewInfo)));
+                if (!string.Equals(_textOverviewInfo, value))
+                {
+                    _textOverviewInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TextOverviewInfo)));
+                }
             }
         }
 
@@ -705,8 +783,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _isTextOverviewInfoExisted = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsTextOverviewInfoExisted)));
+                if (!Equals(_isTextOverviewInfoExisted, value))
+                {
+                    _isTextOverviewInfoExisted = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsTextOverviewInfoExisted)));
+                }
             }
         }
 
@@ -718,8 +799,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _imageInformationSelectedItem = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageInformationSelectedItem)));
+                if (!Equals(_imageInformationSelectedItem, value))
+                {
+                    _imageInformationSelectedItem = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageInformationSelectedItem)));
+                }
             }
         }
 
@@ -731,8 +815,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _imageGeneralInfo = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageGeneralInfo)));
+                if (!Equals(_imageGeneralInfo, value))
+                {
+                    _imageGeneralInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageGeneralInfo)));
+                }
             }
         }
 
@@ -744,8 +831,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _imageDetailInfo = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageDetailInfo)));
+                if (!Equals(_imageDetailInfo, value))
+                {
+                    _imageDetailInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageDetailInfo)));
+                }
             }
         }
 
@@ -757,8 +847,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _imageDetailInfoSelectedIndex = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageDetailInfoSelectedIndex)));
+                if (!Equals(_imageDetailInfoSelectedIndex, value))
+                {
+                    _imageDetailInfoSelectedIndex = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageDetailInfoSelectedIndex)));
+                }
             }
         }
 
@@ -770,8 +863,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _imageDetailInfoCount = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageDetailInfoCount)));
+                if (!Equals(_imageDetailInfoCount, value))
+                {
+                    _imageDetailInfoCount = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageDetailInfoCount)));
+                }
             }
         }
 
@@ -783,8 +879,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _imageExifInfo = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageExifInfo)));
+                if (!Equals(_imageExifInfo, value))
+                {
+                    _imageExifInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageExifInfo)));
+                }
             }
         }
 
@@ -796,8 +895,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _isImageExifInfoExisted = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsImageExifInfoExisted)));
+                if (!Equals(_isImageExifInfoExisted, value))
+                {
+                    _isImageExifInfoExisted = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsImageExifInfoExisted)));
+                }
             }
         }
 
@@ -825,8 +927,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _IsImageOverviewInfoExisted = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsImageOverviewInfoExisted)));
+                if (!Equals(_IsImageOverviewInfoExisted, value))
+                {
+                    _IsImageOverviewInfoExisted = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsImageOverviewInfoExisted)));
+                }
             }
         }
 
@@ -1249,7 +1354,10 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnVideoInformationSelectorBarSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
         {
-            VideoInformationSelectedItem = sender.SelectedItem;
+            if (!Equals(sender.SelectedItem, VideoInformationSelectedItem))
+            {
+                VideoInformationSelectedItem = sender.SelectedItem;
+            }
         }
 
         /// <summary>
@@ -1272,6 +1380,7 @@ namespace ModernFormatConverter.Views.Pages
             if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
             {
                 int newValue = Convert.ToInt32(args.NewValue);
+                VideoDetailVideoInfoSelectedIndex = int.MaxValue;
                 VideoDetailVideoInfoSelectedIndex = newValue;
                 VideoDetailVideoInfoSelectedIndex = Convert.ToInt32(args.OldValue);
 
@@ -1327,6 +1436,7 @@ namespace ModernFormatConverter.Views.Pages
             if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
             {
                 int newValue = Convert.ToInt32(args.NewValue);
+                VideoDetailAudioInfoSelectedIndex = int.MaxValue;
                 VideoDetailAudioInfoSelectedIndex = newValue;
                 VideoDetailAudioInfoSelectedIndex = Convert.ToInt32(args.OldValue);
 
@@ -1382,6 +1492,7 @@ namespace ModernFormatConverter.Views.Pages
             if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
             {
                 int newValue = Convert.ToInt32(args.NewValue);
+                VideoDetailTextInfoSelectedIndex = int.MaxValue;
                 VideoDetailTextInfoSelectedIndex = newValue;
                 VideoDetailTextInfoSelectedIndex = Convert.ToInt32(args.OldValue);
 
@@ -1514,7 +1625,10 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnAudioInformationSelectorBarSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
         {
-            AudioInformationSelectedItem = sender.SelectedItem;
+            if (!Equals(sender.SelectedItem, AudioInformationSelectedItem))
+            {
+                AudioInformationSelectedItem = sender.SelectedItem;
+            }
         }
 
         /// <summary>
@@ -1537,6 +1651,7 @@ namespace ModernFormatConverter.Views.Pages
             if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
             {
                 int newValue = Convert.ToInt32(args.NewValue);
+                AudioDetailAudioInfoSelectedIndex = int.MaxValue;
                 AudioDetailAudioInfoSelectedIndex = newValue;
                 AudioDetailAudioInfoSelectedIndex = Convert.ToInt32(args.OldValue);
 
@@ -1618,7 +1733,10 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnTextInformationSelectorBarSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
         {
-            TextInformationSelectedItem = sender.SelectedItem;
+            if (!Equals(sender.SelectedItem, TextInformationSelectedItem))
+            {
+                TextInformationSelectedItem = sender.SelectedItem;
+            }
         }
 
         /// <summary>
@@ -1770,7 +1888,10 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnImageInformationSelectorBarSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
         {
-            ImageInformationSelectedItem = sender.SelectedItem;
+            if (!Equals(sender.SelectedItem, ImageInformationSelectedItem))
+            {
+                ImageInformationSelectedItem = sender.SelectedItem;
+            }
         }
 
         /// <summary>
@@ -1793,6 +1914,7 @@ namespace ModernFormatConverter.Views.Pages
             if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
             {
                 int newValue = Convert.ToInt32(args.NewValue);
+                ImageDetailInfoSelectedIndex = int.MaxValue;
                 ImageDetailInfoSelectedIndex = newValue;
                 ImageDetailInfoSelectedIndex = Convert.ToInt32(args.OldValue);
 

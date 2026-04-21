@@ -38,8 +38,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _isTesting = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsTesting)));
+                if (!Equals(_isTesting, value))
+                {
+                    _isTesting = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsTesting)));
+                }
             }
         }
 

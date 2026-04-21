@@ -23,8 +23,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _selectedConversionType = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedConversionType)));
+                if (!Equals(_selectedConversionType, value))
+                {
+                    _selectedConversionType = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedConversionType)));
+                }
             }
         }
 
@@ -44,7 +47,10 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
-            SelectedConversionType = args.SelectedItem as VideoConversionTypeModel;
+            if (args.SelectedItem is VideoConversionTypeModel videoConversionType && !Equals(SelectedConversionType, videoConversionType))
+            {
+                SelectedConversionType = videoConversionType;
+            }
         }
 
         /// <summary>

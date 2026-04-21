@@ -16,8 +16,11 @@ namespace ModernFormatConverter.Views.NotificationTips
 
             set
             {
-                _isSuccessfully = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSuccessfully)));
+                if (!Equals(_isSuccessfully, value))
+                {
+                    _isSuccessfully = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSuccessfully)));
+                }
             }
         }
 

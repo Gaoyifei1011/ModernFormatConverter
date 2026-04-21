@@ -34,8 +34,11 @@ namespace ModernFormatConverter.Views.Pages
 
             set
             {
-                _isChecking = value;
-                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(IsChecking)));
+                if (!Equals(_isChecking, value))
+                {
+                    _isChecking = value;
+                    PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(IsChecking)));
+                }
             }
         }
 
