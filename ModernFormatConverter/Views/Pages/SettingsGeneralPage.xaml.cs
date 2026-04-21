@@ -148,7 +148,6 @@ namespace ModernFormatConverter.Views.Pages
         public SettingsGeneralPage()
         {
             InitializeComponent();
-            AppLanguage = new ComboBoxItemModel() { SelectedValue = LanguageService.AppLanguage.Key, DisplayMember = LanguageService.AppLanguage.Value };
 
             AdvancedEffectsEnabled = IsAdvancedEffectsEnabled();
             ThemeList.Add(new ComboBoxItemModel() { SelectedValue = ThemeService.ThemeList[0], DisplayMember = ThemeDefaultString });
@@ -304,7 +303,7 @@ namespace ModernFormatConverter.Views.Pages
 
         #endregion 第一部分：设置通用选项页面——挂载的事件
 
-        #region 第三部分：自定义事件
+        #region 第二部分：自定义事件
 
         /// <summary>
         /// 在用户首选项发生更改时触发的事件
@@ -335,7 +334,7 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
-        #endregion 第三部分：自定义事件
+        #endregion 第二部分：自定义事件
 
         /// <summary>
         /// 检查是否启用系统透明度效果设置
