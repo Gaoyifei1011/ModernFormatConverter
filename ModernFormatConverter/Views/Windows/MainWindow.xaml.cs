@@ -646,13 +646,6 @@ namespace ModernFormatConverter.Views.Windows
                         {
                             IsWindowMaximized = overlappedPresenter.State is OverlappedPresenterState.Maximized;
                         }
-
-                        if (MainPage.IsLoaded)
-                        {
-                            double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
-                            overlappedPresenter.PreferredMinimumWidth = Convert.ToInt32(1000 * dpi);
-                            overlappedPresenter.PreferredMinimumHeight = Convert.ToInt32(600 * dpi);
-                        }
                         break;
                     }
                 // 窗口激活状态发生变化时触发的消息

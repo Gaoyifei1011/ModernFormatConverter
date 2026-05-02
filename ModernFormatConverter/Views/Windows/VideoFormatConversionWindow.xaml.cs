@@ -83,8 +83,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _windowSystemBackdrop = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowSystemBackdrop)));
+                if (!Equals(_windowSystemBackdrop, value))
+                {
+                    _windowSystemBackdrop = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowSystemBackdrop)));
+                }
             }
         }
 
@@ -96,8 +99,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _windowTheme = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowTheme)));
+                if (!Equals(_windowTheme, value))
+                {
+                    _windowTheme = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowTheme)));
+                }
             }
         }
 
@@ -109,8 +115,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _selectedItem = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedItem)));
+                if (!Equals(_selectedItem, value))
+                {
+                    _selectedItem = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedItem)));
+                }
             }
         }
 
@@ -122,8 +131,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _selectedFormatConversionType = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedFormatConversionType)));
+                if (!Equals(_selectedFormatConversionType, value))
+                {
+                    _selectedFormatConversionType = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedFormatConversionType)));
+                }
             }
         }
 
@@ -135,8 +147,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _selectedSizeLimitation = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedSizeLimitation)));
+                if (!Equals(_selectedSizeLimitation, value))
+                {
+                    _selectedSizeLimitation = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedSizeLimitation)));
+                }
             }
         }
 
@@ -148,8 +163,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _selectedVideoEncoding = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedVideoEncoding)));
+                if (!Equals(_selectedVideoEncoding, value))
+                {
+                    _selectedVideoEncoding = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedVideoEncoding)));
+                }
             }
         }
 
@@ -161,8 +179,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _selectedScreenSize = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedScreenSize)));
+                if (!Equals(_selectedScreenSize, value))
+                {
+                    _selectedScreenSize = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedScreenSize)));
+                }
             }
         }
 
@@ -174,8 +195,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _screenWidth = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ScreenWidth)));
+                if (!Equals(_screenWidth, value))
+                {
+                    _screenWidth = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ScreenWidth)));
+                }
             }
         }
 
@@ -187,8 +211,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _screenHeight = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ScreenHeight)));
+                if (!Equals(_screenHeight, value))
+                {
+                    _screenHeight = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ScreenHeight)));
+                }
             }
         }
 
@@ -200,8 +227,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _selectedVideoBitRate = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedVideoBitRate)));
+                if (!Equals(_selectedVideoBitRate, value))
+                {
+                    _selectedVideoBitRate = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedVideoBitRate)));
+                }
             }
         }
 
@@ -213,8 +243,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _isCRFSupported = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsCRFSupported)));
+                if (!Equals(_isCRFSupported, value))
+                {
+                    _isCRFSupported = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsCRFSupported)));
+                }
             }
         }
 
@@ -226,8 +259,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _useCRF = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseCRF)));
+                if (!Equals(_useCRF, value))
+                {
+                    _useCRF = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseCRF)));
+                }
             }
         }
 
@@ -239,8 +275,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _crf = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CRF)));
+                if (!Equals(_crf, value))
+                {
+                    _crf = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CRF)));
+                }
             }
         }
 
@@ -252,8 +291,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _selectedGPU = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedGPU)));
+                if (!Equals(_selectedGPU, value))
+                {
+                    _selectedGPU = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedGPU)));
+                }
             }
         }
 
@@ -265,8 +307,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _selectedFramePerSecond = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedFramePerSecond)));
+                if (!Equals(_selectedFramePerSecond, value))
+                {
+                    _selectedFramePerSecond = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedFramePerSecond)));
+                }
             }
         }
 
@@ -278,8 +323,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _selectedAspectRatio = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedAspectRatio)));
+                if (!Equals(_selectedAspectRatio, value))
+                {
+                    _selectedAspectRatio = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedAspectRatio)));
+                }
             }
         }
 
@@ -291,8 +339,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _isSecondaryEncodingEnabled = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSecondaryEncodingEnabled)));
+                if (!Equals(_isSecondaryEncodingEnabled, value))
+                {
+                    _isSecondaryEncodingEnabled = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSecondaryEncodingEnabled)));
+                }
             }
         }
 
@@ -304,8 +355,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _secondaryEncoding = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SecondaryEncoding)));
+                if (!Equals(_secondaryEncoding, value))
+                {
+                    _secondaryEncoding = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SecondaryEncoding)));
+                }
             }
         }
 
@@ -317,8 +371,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _selectedKeyFrameInterval = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedKeyFrameInterval)));
+                if (!Equals(_selectedKeyFrameInterval, value))
+                {
+                    _selectedKeyFrameInterval = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedKeyFrameInterval)));
+                }
             }
         }
 
@@ -330,8 +387,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _deInterlace = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeInterlace)));
+                if (!Equals(_deInterlace, value))
+                {
+                    _deInterlace = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeInterlace)));
+                }
             }
         }
 
@@ -343,8 +403,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _selectedRotation = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedRotation)));
+                if (!Equals(_selectedRotation, value))
+                {
+                    _selectedRotation = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedRotation)));
+                }
             }
         }
 
@@ -356,8 +419,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _mirrorReversal = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MirrorReversal)));
+                if (!Equals(_mirrorReversal, value))
+                {
+                    _mirrorReversal = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MirrorReversal)));
+                }
             }
         }
 
@@ -369,8 +435,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _selectedVideoFadeInEffect = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedVideoFadeInEffect)));
+                if (!Equals(_selectedVideoFadeInEffect, value))
+                {
+                    _selectedVideoFadeInEffect = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedVideoFadeInEffect)));
+                }
             }
         }
 
@@ -382,8 +451,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _selectedVideoFadeOutEffect = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedVideoFadeOutEffect)));
+                if (!Equals(_selectedVideoFadeOutEffect, value))
+                {
+                    _selectedVideoFadeOutEffect = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedVideoFadeOutEffect)));
+                }
             }
         }
 
@@ -395,8 +467,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _isAudioConfigurationSupported = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsAudioConfigurationSupported)));
+                if (!Equals(_isAudioConfigurationSupported, value))
+                {
+                    _isAudioConfigurationSupported = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsAudioConfigurationSupported)));
+                }
             }
         }
 
@@ -408,8 +483,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _selectedAudioEncoding = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedAudioEncoding)));
+                if (!Equals(_selectedAudioEncoding, value))
+                {
+                    _selectedAudioEncoding = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedAudioEncoding)));
+                }
             }
         }
 
@@ -421,8 +499,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _selectedSamplingRate = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedSamplingRate)));
+                if (!Equals(_selectedSamplingRate, value))
+                {
+                    _selectedSamplingRate = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedSamplingRate)));
+                }
             }
         }
 
@@ -434,8 +515,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _selectedAudioBitRate = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedAudioBitRate)));
+                if (!Equals(_selectedAudioBitRate, value))
+                {
+                    _selectedAudioBitRate = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedAudioBitRate)));
+                }
             }
         }
 
@@ -447,8 +531,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _selectedSoundTrack = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedSoundTrack)));
+                if (!Equals(_selectedSoundTrack, value))
+                {
+                    _selectedSoundTrack = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedSoundTrack)));
+                }
             }
         }
 
@@ -460,8 +547,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _closeSoundEffect = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CloseSoundEffect)));
+                if (!Equals(_closeSoundEffect, value))
+                {
+                    _closeSoundEffect = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CloseSoundEffect)));
+                }
             }
         }
 
@@ -473,8 +563,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _selectedVolume = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedVolume)));
+                if (!Equals(_selectedVolume, value))
+                {
+                    _selectedVolume = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedVolume)));
+                }
             }
         }
 
@@ -486,8 +579,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _preserveAllSourceInputAudioStream = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PreserveAllSourceInputAudioStream)));
+                if (!Equals(_preserveAllSourceInputAudioStream, value))
+                {
+                    _preserveAllSourceInputAudioStream = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PreserveAllSourceInputAudioStream)));
+                }
             }
         }
 
@@ -499,8 +595,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _selectedAudioFadeInEffect = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedAudioFadeInEffect)));
+                if (!Equals(_selectedAudioFadeInEffect, value))
+                {
+                    _selectedAudioFadeInEffect = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedAudioFadeInEffect)));
+                }
             }
         }
 
@@ -512,8 +611,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _selectedAudioFadeOutEffect = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedAudioFadeOutEffect)));
+                if (!Equals(_selectedAudioFadeOutEffect, value))
+                {
+                    _selectedAudioFadeOutEffect = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedAudioFadeOutEffect)));
+                }
             }
         }
 
@@ -525,8 +627,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _echo = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Echo)));
+                if (!Equals(_echo, value))
+                {
+                    _echo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Echo)));
+                }
             }
         }
 
@@ -538,8 +643,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _deNoise = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeNoise)));
+                if (!Equals(_deNoise, value))
+                {
+                    _deNoise = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeNoise)));
+                }
             }
         }
 
@@ -551,8 +659,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _reverse = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Reverse)));
+                if (!Equals(_reverse, value))
+                {
+                    _reverse = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Reverse)));
+                }
             }
         }
 
@@ -564,8 +675,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _isPreserveAllSourceInputSubtitleStreamEnabled = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsPreserveAllSourceInputSubtitleStreamEnabled)));
+                if (!Equals(_isPreserveAllSourceInputSubtitleStreamEnabled, value))
+                {
+                    _isPreserveAllSourceInputSubtitleStreamEnabled = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsPreserveAllSourceInputSubtitleStreamEnabled)));
+                }
             }
         }
 
@@ -577,8 +691,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _preserveAllSourceInputSubtitleStream = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PreserveAllSourceInputSubtitleStream)));
+                if (!Equals(_preserveAllSourceInputSubtitleStream, value))
+                {
+                    _preserveAllSourceInputSubtitleStream = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PreserveAllSourceInputSubtitleStream)));
+                }
             }
         }
 
@@ -590,8 +707,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _AdditionalSubtitlePath = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AdditionalSubtitlePath)));
+                if (!string.Equals(_AdditionalSubtitlePath, value))
+                {
+                    _AdditionalSubtitlePath = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AdditionalSubtitlePath)));
+                }
             }
         }
 
@@ -603,8 +723,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _subtitleNestType = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SubtitleNestType)));
+                if (!string.Equals(_subtitleNestType, value))
+                {
+                    _subtitleNestType = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SubtitleNestType)));
+                }
             }
         }
 
@@ -616,8 +739,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _selectedSubtitleNestType = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedSubtitleNestType)));
+                if (!Equals(_selectedSubtitleNestType, value))
+                {
+                    _selectedSubtitleNestType = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedSubtitleNestType)));
+                }
             }
         }
 
@@ -629,8 +755,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _fontName = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FontName)));
+                if (!string.Equals(_fontName, value))
+                {
+                    _fontName = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FontName)));
+                }
             }
         }
 
@@ -642,8 +771,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _selectedFontSize = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedFontSize)));
+                if (!Equals(_selectedFontSize, value))
+                {
+                    _selectedFontSize = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedFontSize)));
+                }
             }
         }
 
@@ -655,8 +787,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _fontColor = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FontColor)));
+                if (!string.Equals(_fontColor, value))
+                {
+                    _fontColor = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FontColor)));
+                }
             }
         }
 
@@ -668,8 +803,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _selectedFontBorderStyle = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedFontBorderStyle)));
+                if (!Equals(_selectedFontBorderStyle, value))
+                {
+                    _selectedFontBorderStyle = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedFontBorderStyle)));
+                }
             }
         }
 
@@ -681,8 +819,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _selectedCounterLineSize = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCounterLineSize)));
+                if (!Equals(_selectedCounterLineSize, value))
+                {
+                    _selectedCounterLineSize = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCounterLineSize)));
+                }
             }
         }
 
@@ -694,8 +835,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _counterLineColor = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CounterLineColor)));
+                if (!string.Equals(_counterLineColor, value))
+                {
+                    _counterLineColor = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CounterLineColor)));
+                }
             }
         }
 
@@ -707,8 +851,11 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                _selectedShadowSize = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedShadowSize)));
+                if (!Equals(_selectedShadowSize, value))
+                {
+                    _selectedShadowSize = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedShadowSize)));
+                }
             }
         }
 
@@ -1718,13 +1865,6 @@ namespace ModernFormatConverter.Views.Dialogs
                             if (TitlebarMenuFlyout.IsOpen)
                             {
                                 TitlebarMenuFlyout.Hide();
-                            }
-
-                            if (VideoFormatConversionPage.IsLoaded)
-                            {
-                                double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
-                                overlappedPresenter.PreferredMinimumWidth = Convert.ToInt32(768 * dpi);
-                                overlappedPresenter.PreferredMinimumHeight = Convert.ToInt32(560 * dpi);
                             }
                         }, null);
                         break;

@@ -8,6 +8,9 @@ using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.Views.Dialogs;
 using ModernFormatConverter.Views.Windows;
+using ModernFormatConverter.WindowsAPI.ComTypes;
+using ModernFormatConverter.WindowsAPI.PInvoke.MediaInfo;
+using ModernFormatConverter.WindowsAPI.PInvoke.Shell32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,7 +19,9 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 
@@ -32,6 +37,8 @@ namespace ModernFormatConverter.Views.Pages
     {
         private readonly string DragOverContentString = ResourceService.VideoConversionResource.GetString("DragOverContent");
         private readonly string NoFolderString = ResourceService.VideoConversionResource.GetString("NoFolder");
+        private readonly string SelectFileString = ResourceService.VideoConversionResource.GetString("SelectFile");
+        private readonly string SelectFolderString = ResourceService.VideoConversionResource.GetString("SelectFolder");
         private readonly string VideoAngleAdjustmentString = ResourceService.VideoConversionResource.GetString("VideoAngleAdjustment");
         private readonly string VideoConcatString = ResourceService.VideoConversionResource.GetString("VideoConcat");
         private readonly string VideoExportFrameString = ResourceService.VideoConversionResource.GetString("VideoExportFrame");
@@ -58,6 +65,72 @@ namespace ModernFormatConverter.Views.Pages
                 }
             }
         }
+
+        private bool _isGettingFileInformation;
+
+        public bool IsGettingFileInformation
+        {
+            get { return _isGettingFileInformation; }
+
+            set
+            {
+                if (!Equals(_isGettingFileInformation, value))
+                {
+                    _isGettingFileInformation = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsGettingFileInformation)));
+                }
+            }
+        }
+
+        private string _selectedSortRule;
+
+        public string SelectedSortRule
+        {
+            get { return _selectedSortRule; }
+
+            set
+            {
+                if (!string.Equals(_selectedSortRule, value))
+                {
+                    _selectedSortRule = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedSortRule)));
+                }
+            }
+        }
+
+        private bool _sortWay;
+
+        public bool SortWay
+        {
+            get { return _sortWay; }
+
+            set
+            {
+                if (!Equals(_sortWay, value))
+                {
+                    _sortWay = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SortWay)));
+                }
+            }
+        }
+
+        private string _outputFolder;
+
+        public string OutputFolder
+        {
+            get { return _outputFolder; }
+
+            set
+            {
+                if (!string.Equals(_outputFolder, value))
+                {
+                    _outputFolder = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(OutputFolder)));
+                }
+            }
+        }
+
+        public List<string> SortRuleList { get; } = ["NotSort", "SortByFileName", "SortByFileSize", "SortByDuration"];
 
         public WinRTObservableCollection<VideoConversionTypeModel> ConversionTypeCollection { get; } = [];
 
@@ -117,6 +190,11 @@ namespace ModernFormatConverter.Views.Pages
                 VideoConversionTypeKind = VideoConversionTypeKind.VideoSplitScreen
             });
             SelectedConversionType = ConversionTypeCollection[0];
+            SelectedSortRule = SortRuleList[0];
+            SortWay = true;
+            Shell32Library.SHGetKnownFolderPath(new("F1B32785-6FBA-4FCF-9D55-7B8E7F157091"), KNOWN_FOLDER_FLAG.KF_FLAG_FORCE_APP_DATA_REDIRECTION, 0, out string outputFolder);
+            OutputFolder = outputFolder;
+            // TODO：未完成，添加一个读取本地文件夹保存设置
         }
 
         #region 第一部分：重写父类事件
@@ -124,7 +202,7 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 设置拖动的数据的可视表示形式
         /// </summary>
-        private async void OnVideoConversionDragEnter(object sender, DragEventArgs args)
+        private async void OnVideoConversionDragEnter(object sender, Microsoft.UI.Xaml.DragEventArgs args)
         {
             DragOperationDeferral dragOperationDeferral = args.GetDeferral();
 
@@ -164,15 +242,16 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 拖动文件完成后获取文件信息
         /// </summary>
-        private async void OnVideoConversionDrop(object sender, DragEventArgs args)
+        private async void OnVideoConversionDrop(object sender, Microsoft.UI.Xaml.DragEventArgs args)
         {
             base.OnDrop(args);
             DragOperationDeferral dragOperationDeferral = args.GetDeferral();
+            IReadOnlyList<IStorageItem> fileList = null;
 
             try
             {
                 DataPackageView dataPackageView = args.DataView;
-                IReadOnlyList<IStorageItem> filesList = await Task.Run(async () =>
+                fileList = await Task.Run(async () =>
                 {
                     try
                     {
@@ -188,11 +267,6 @@ namespace ModernFormatConverter.Views.Pages
 
                     return null;
                 });
-
-                if (filesList is not null && filesList.Count > 0)
-                {
-                    // TODO：未完成，添加文件
-                }
             }
             catch (Exception e)
             {
@@ -201,6 +275,30 @@ namespace ModernFormatConverter.Views.Pages
             finally
             {
                 dragOperationDeferral.Complete();
+            }
+
+            if (fileList is not null && fileList.Count > 0)
+            {
+                IsGettingFileInformation = true;
+                List<VideoConversionFileModel> sortedVideoConversionFileList = await Task.Run(() =>
+                {
+                    List<VideoConversionFileModel> videoConversionFileList = [.. SelectedConversionType.VideoConversionFileCollection];
+                    foreach (IStorageItem file in fileList)
+                    {
+                        if (GetFileInformation(file.Path) is VideoConversionFileModel videoConversionFile)
+                        {
+                            videoConversionFileList.Add(videoConversionFile);
+                        }
+                    }
+                    return SortData(videoConversionFileList);
+                });
+                SelectedConversionType.VideoConversionFileCollection.Clear();
+                foreach (VideoConversionFileModel sortedVideoConversionFile in sortedVideoConversionFileList)
+                {
+                    sortedVideoConversionFile.FileThumbnailSource ??= GetThumbnail(sortedVideoConversionFile.FilePath);
+                    SelectedConversionType.VideoConversionFileCollection.Add(sortedVideoConversionFile);
+                }
+                IsGettingFileInformation = false;
             }
         }
 
@@ -280,6 +378,126 @@ namespace ModernFormatConverter.Views.Pages
         private void OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             SelectedConversionType = args.SelectedItem as VideoConversionTypeModel;
+            IsGettingFileInformation = false;
+        }
+
+        /// <summary>
+        /// 选择排序规则
+        /// </summary>
+        private async void OnSortRuleClicked(object sender, RoutedEventArgs args)
+        {
+            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is not null)
+            {
+                SelectedSortRule = Convert.ToString(radioMenuFlyoutItem.Tag);
+                IsGettingFileInformation = true;
+                List<VideoConversionFileModel> sortedVideoConversionFileList = await Task.Run(() =>
+                {
+                    List<VideoConversionFileModel> videoConversionFileList = [.. SelectedConversionType.VideoConversionFileCollection];
+                    return SortData(videoConversionFileList);
+                });
+                SelectedConversionType.VideoConversionFileCollection.Clear();
+                foreach (VideoConversionFileModel sortedVideoConversionFile in sortedVideoConversionFileList)
+                {
+                    SelectedConversionType.VideoConversionFileCollection.Add(sortedVideoConversionFile);
+                }
+                IsGettingFileInformation = false;
+            }
+        }
+
+        /// <summary>
+        /// 选择排序方式
+        /// </summary>
+        private async void OnSortWayClicked(object sender, RoutedEventArgs args)
+        {
+            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is not null)
+            {
+                SortWay = Convert.ToBoolean(radioMenuFlyoutItem.Tag);
+                IsGettingFileInformation = true;
+                List<VideoConversionFileModel> sortedVideoConversionFileList = await Task.Run(() =>
+                {
+                    List<VideoConversionFileModel> videoConversionFileList = [.. SelectedConversionType.VideoConversionFileCollection];
+                    return SortData(videoConversionFileList);
+                });
+                SelectedConversionType.VideoConversionFileCollection.Clear();
+                foreach (VideoConversionFileModel sortedVideoConversionFile in sortedVideoConversionFileList)
+                {
+                    SelectedConversionType.VideoConversionFileCollection.Add(sortedVideoConversionFile);
+                }
+                IsGettingFileInformation = false;
+            }
+        }
+
+        /// <summary>
+        /// 清空列表
+        /// </summary>
+        private void OnClearListClicked(object sender, RoutedEventArgs args)
+        {
+            SelectedConversionType.VideoConversionFileCollection.Clear();
+        }
+
+        /// <summary>
+        /// 添加文件
+        /// </summary>
+        private async void OnAddFileClicked(object sender, RoutedEventArgs args)
+        {
+            OpenFileDialog openFileDialog = new()
+            {
+                Multiselect = true,
+                Title = SelectFileString
+            };
+            if (openFileDialog.ShowDialog() is DialogResult.OK)
+            {
+                IsGettingFileInformation = true;
+                List<VideoConversionFileModel> videoConversionFileList = [.. SelectedConversionType.VideoConversionFileCollection];
+                if (await Task.Run(() => GetFileInformation(openFileDialog.FileName)) is VideoConversionFileModel videoConversionFile)
+                {
+                    videoConversionFileList.Add(videoConversionFile);
+                    List<VideoConversionFileModel> sortedVideoConversionFileList = SortData(videoConversionFileList);
+                    SelectedConversionType.VideoConversionFileCollection.Clear();
+                    foreach (VideoConversionFileModel sortedVideoConversionFile in sortedVideoConversionFileList)
+                    {
+                        sortedVideoConversionFile.FileThumbnailSource ??= GetThumbnail(sortedVideoConversionFile.FilePath);
+                        SelectedConversionType.VideoConversionFileCollection.Add(sortedVideoConversionFile);
+                    }
+                }
+                IsGettingFileInformation = false;
+            }
+            openFileDialog.Dispose();
+        }
+
+        /// <summary>
+        /// 从文件夹中添加
+        /// </summary>
+        private async void OnAddFromFolderClicked(object sender, RoutedEventArgs args)
+        {
+            OpenFolderDialog openFolderDialog = new((nint)MainWindow.Current.AppWindow.Id.Value)
+            {
+                Description = SelectFolderString,
+                RootFolder = Environment.SpecialFolder.Desktop
+            };
+            DialogResult dialogResult = openFolderDialog.ShowDialog();
+            if (dialogResult is DialogResult.OK || dialogResult is DialogResult.Yes)
+            {
+                IsGettingFileInformation = true;
+                List<VideoConversionFileModel> videoConversionFileList = [.. SelectedConversionType.VideoConversionFileCollection];
+                string[] filePathArray = Directory.GetFiles(openFolderDialog.SelectedPath);
+                foreach (string filePath in filePathArray)
+                {
+                    if (await Task.Run(() => GetFileInformation(filePath)) is VideoConversionFileModel videoConversionFile)
+                    {
+                        videoConversionFileList.Add(videoConversionFile);
+                    }
+                }
+                List<VideoConversionFileModel> sortedVideoConversionFileList = SortData(videoConversionFileList);
+                SelectedConversionType.VideoConversionFileCollection.Clear();
+                foreach (VideoConversionFileModel sortedVideoConversionFile in sortedVideoConversionFileList)
+                {
+                    sortedVideoConversionFile.FileThumbnailSource ??= GetThumbnail(sortedVideoConversionFile.FilePath);
+                    SelectedConversionType.VideoConversionFileCollection.Add(sortedVideoConversionFile);
+                }
+                IsGettingFileInformation = false;
+            }
+            openFolderDialog.Dispose();
         }
 
         /// <summary>
@@ -348,12 +566,138 @@ namespace ModernFormatConverter.Views.Pages
             // TODO：未完成
         }
 
+        /// <summary>
+        /// 修改输出的文件夹
+        /// </summary>
+        private void OnChangeOutputFolderClicked(object sender, RoutedEventArgs args)
+        {
+            if (sender is MenuFlyoutItem menuFlyoutItem && menuFlyoutItem.Tag is string tag)
+            {
+                switch (tag)
+                {
+                    case "AppCache":
+                        {
+                            Shell32Library.SHGetKnownFolderPath(new("F1B32785-6FBA-4FCF-9D55-7B8E7F157091"), KNOWN_FOLDER_FLAG.KF_FLAG_FORCE_APP_DATA_REDIRECTION, 0, out string localAppDataPath);
+                            OutputFolder = localAppDataPath;
+                            // TODO：未完成，添加一个文件夹保存到本地设置中
+                            break;
+                        }
+                    case "Download":
+                        {
+                            Shell32Library.SHGetKnownFolderPath(new("374DE290-123F-4565-9164-39C4925E467B"), KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, 0, out string downloadFolder);
+                            OutputFolder = downloadFolder;
+                            // TODO：未完成，添加一个文件夹保存到本地设置中
+                            break;
+                        }
+                    case "Desktop":
+                        {
+                            OutputFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                            // TODO：未完成，添加一个文件夹保存到本地设置中
+                            break;
+                        }
+                    case "Custom":
+                        {
+                            OpenFolderDialog openFolderDialog = new((nint)MainWindow.Current.AppWindow.Id.Value)
+                            {
+                                Description = SelectFolderString,
+                                RootFolder = Environment.SpecialFolder.Desktop
+                            };
+                            DialogResult dialogResult = openFolderDialog.ShowDialog();
+                            if (dialogResult is DialogResult.OK || dialogResult is DialogResult.Yes)
+                            {
+                                OutputFolder = openFolderDialog.SelectedPath;
+                                // TODO：未完成，添加一个文件夹保存到本地设置中
+                            }
+                            openFolderDialog.Dispose();
+                            break;
+                        }
+                }
+            }
+        }
+
         #endregion 第二部分：视频转换页面——挂载的事件
+
+        /// <summary>
+        /// 对数据进行排序
+        /// </summary>
+        private List<VideoConversionFileModel> SortData(List<VideoConversionFileModel> videoConversionFileList)
+        {
+            if (string.Equals(SelectedSortRule, SortRuleList[1]))
+            {
+                return SortWay ? [.. videoConversionFileList.OrderBy(item => item.FileName)] : [.. videoConversionFileList.OrderByDescending(item => item.FileName)];
+            }
+            else if (string.Equals(SelectedSortRule, SortRuleList[2]))
+            {
+                return SortWay ? videoConversionFileList.OrderBy(item => item.FileSize).ToList() : videoConversionFileList.OrderByDescending(item => item.FileSize).ToList();
+            }
+            else if (string.Equals(SelectedSortRule, SortRuleList[3]))
+            {
+                return SortWay ? videoConversionFileList.OrderBy(item => item.Duration).ToList() : videoConversionFileList.OrderByDescending(item => item.Duration).ToList();
+            }
+            else
+            {
+                return videoConversionFileList;
+            }
+        }
+
+        /// <summary>
+        /// 获取文件信息
+        /// </summary>
+        private VideoFormatConversionModel GetFileInformation(string filePath)
+        {
+            try
+            {
+                if (File.Exists(filePath))
+                {
+                    VideoFormatConversionModel videoFormatConversion = new()
+                    {
+                        FileName = Path.GetFileName(filePath),
+                        FilePath = filePath,
+                    };
+                    FileInfo fileInfo = new(filePath);
+                    videoFormatConversion.FileSize = fileInfo.Length;
+                    videoFormatConversion.FileSizeString = VolumeSizeHelper.ConvertVolumeSizeToString(fileInfo.Length);
+
+                    if (MediaInfoLibrary.MediaInfo_New() is nint handle && handle is not 0 && MediaInfoLibrary.MediaInfo_Open(handle, filePath) is not 0)
+                    {
+                        string videoDuration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, 0, "Duration", InfoKind.Text, InfoKind.Name));
+                        if (int.TryParse(videoDuration, out int videoDurationValue))
+                        {
+                            TimeSpan videoDurationTimeSpan = TimeSpan.FromMilliseconds(videoDurationValue);
+                            videoFormatConversion.Duration = videoDurationTimeSpan;
+                            videoFormatConversion.DurationString = string.Format(@"{0:00}:{1:00}:{2:00}", videoDurationTimeSpan.TotalHours, videoDurationTimeSpan.Minutes, videoDurationTimeSpan.Minutes);
+                        }
+                        else
+                        {
+                            videoFormatConversion.Duration = TimeSpan.Zero;
+                            videoFormatConversion.DurationString = string.IsNullOrEmpty(videoDuration) ? "00:00:00" : videoDuration;
+                        }
+
+                        string width = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, 0, "Width", InfoKind.Text, InfoKind.Name));
+                        videoFormatConversion.ScreenSizeWidth = string.IsNullOrEmpty(width) ? "0" : width;
+                        string height = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, 0, "Height", InfoKind.Text, InfoKind.Name));
+                        videoFormatConversion.ScreenSizeHeight = string.IsNullOrEmpty(height) ? "0" : height;
+                        MediaInfoLibrary.MediaInfo_Close(handle);
+                        MediaInfoLibrary.MediaInfo_Delete(handle);
+                    }
+                    return videoFormatConversion;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionPage), nameof(GetFileInformation), 1, e);
+                return null;
+            }
+        }
 
         /// <summary>
         /// 获取文件缩略图
         /// </summary>
-        private async Task<BitmapImage> GetThumbnailAsync(string filePath)
+        private BitmapImage GetThumbnail(string filePath)
         {
             MemoryStream memoryStream = null;
             try
@@ -370,7 +714,7 @@ namespace ModernFormatConverter.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionPage), nameof(GetThumbnailAsync), 1, e);
+                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionPage), nameof(GetThumbnail), 1, e);
             }
 
             if (memoryStream is not null)
@@ -383,7 +727,7 @@ namespace ModernFormatConverter.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionPage), nameof(GetThumbnailAsync), 2, e);
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionPage), nameof(GetThumbnail), 2, e);
                     return null;
                 }
                 finally
