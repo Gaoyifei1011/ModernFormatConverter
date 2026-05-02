@@ -584,8 +584,6 @@ namespace ModernFormatConverter.Views.Windows
         {
             try
             {
-                ConversionToolsFrame.ContentTransitions = SuppressNavigationTransitionCollection;
-
                 // 导航到该项目对应的页面
                 ConversionToolsFrame.Navigate(navigationPageType, parameter);
             }

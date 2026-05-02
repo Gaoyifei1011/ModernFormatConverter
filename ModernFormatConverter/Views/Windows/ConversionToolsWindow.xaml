@@ -18,17 +18,6 @@
 
         <Page.Resources>
             <ResourceDictionary>
-                <TransitionCollection x:Name="SuppressNavigationTransitionCollection">
-                    <NavigationThemeTransition>
-                        <NavigationThemeTransition.DefaultNavigationTransitionInfo>
-                            <SuppressNavigationTransitionInfo />
-                        </NavigationThemeTransition.DefaultNavigationTransitionInfo>
-                    </NavigationThemeTransition>
-                </TransitionCollection>
-
-                <x:Double x:Key="BreadcrumbBarChevronFontSize">16</x:Double>
-                <Thickness x:Key="BreadcrumbBarChevronPadding">8,0</Thickness>
-
                 <MenuFlyout x:Name="TitlebarMenuFlyout" Placement="BottomEdgeAlignedLeft">
 
                     <MenuFlyoutItem
@@ -184,7 +173,11 @@
                 NavigationFailed="{x:Bind OnNavigationFailed}">
                 <Frame.ContentTransitions>
                     <TransitionCollection>
-                        <NavigationThemeTransition />
+                        <NavigationThemeTransition>
+                            <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                                <SuppressNavigationTransitionInfo />
+                            </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                        </NavigationThemeTransition>
                     </TransitionCollection>
                 </Frame.ContentTransitions>
             </Frame>

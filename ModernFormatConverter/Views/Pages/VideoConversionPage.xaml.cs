@@ -9,12 +9,16 @@ using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.Views.Dialogs;
 using ModernFormatConverter.Views.Windows;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage;
 
 // 抑制 CA1806，CA1822，IDE0060 警告
 #pragma warning disable CA1806,CA1822,IDE0060
@@ -26,6 +30,8 @@ namespace ModernFormatConverter.Views.Pages
     /// </summary>
     public sealed partial class VideoConversionPage : Page, INotifyPropertyChanged
     {
+        private readonly string DragOverContentString = ResourceService.VideoConversionResource.GetString("DragOverContent");
+        private readonly string NoFolderString = ResourceService.VideoConversionResource.GetString("NoFolder");
         private readonly string VideoAngleAdjustmentString = ResourceService.VideoConversionResource.GetString("VideoAngleAdjustment");
         private readonly string VideoConcatString = ResourceService.VideoConversionResource.GetString("VideoConcat");
         private readonly string VideoExportFrameString = ResourceService.VideoConversionResource.GetString("VideoExportFrame");
@@ -112,6 +118,93 @@ namespace ModernFormatConverter.Views.Pages
             });
             SelectedConversionType = ConversionTypeCollection[0];
         }
+
+        #region 第一部分：重写父类事件
+
+        /// <summary>
+        /// 设置拖动的数据的可视表示形式
+        /// </summary>
+        private async void OnVideoConversionDragEnter(object sender, DragEventArgs args)
+        {
+            DragOperationDeferral dragOperationDeferral = args.GetDeferral();
+
+            try
+            {
+                IReadOnlyList<IStorageItem> dragItemsList = await args.DataView.GetStorageItemsAsync();
+                bool containsFolder = dragItemsList.Any(item => item.IsOfType(StorageItemTypes.Folder));
+
+                if (containsFolder)
+                {
+                    args.AcceptedOperation = DataPackageOperation.None;
+                    args.DragUIOverride.IsCaptionVisible = true;
+                    args.DragUIOverride.IsContentVisible = false;
+                    args.DragUIOverride.IsGlyphVisible = true;
+                    args.DragUIOverride.Caption = NoFolderString;
+                }
+                else
+                {
+                    args.AcceptedOperation = DataPackageOperation.Copy;
+                    args.DragUIOverride.IsCaptionVisible = true;
+                    args.DragUIOverride.IsContentVisible = false;
+                    args.DragUIOverride.IsGlyphVisible = true;
+                    args.DragUIOverride.Caption = DragOverContentString;
+                }
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionPage), nameof(OnVideoConversionDragEnter), 1, e);
+            }
+            finally
+            {
+                args.Handled = true;
+                dragOperationDeferral.Complete();
+            }
+        }
+
+        /// <summary>
+        /// 拖动文件完成后获取文件信息
+        /// </summary>
+        private async void OnVideoConversionDrop(object sender, DragEventArgs args)
+        {
+            base.OnDrop(args);
+            DragOperationDeferral dragOperationDeferral = args.GetDeferral();
+
+            try
+            {
+                DataPackageView dataPackageView = args.DataView;
+                IReadOnlyList<IStorageItem> filesList = await Task.Run(async () =>
+                {
+                    try
+                    {
+                        if (dataPackageView.Contains(StandardDataFormats.StorageItems))
+                        {
+                            return await dataPackageView.GetStorageItemsAsync();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionPage), nameof(OnVideoConversionDrop), 1, e);
+                    }
+
+                    return null;
+                });
+
+                if (filesList is not null && filesList.Count > 0)
+                {
+                    // TODO：未完成，添加文件
+                }
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionPage), nameof(OnVideoConversionDrop), 2, e);
+            }
+            finally
+            {
+                dragOperationDeferral.Complete();
+            }
+        }
+
+        #endregion 第一部分：重写父类事件
 
         #region 第一部分：ExecuteCommand 命令调用时挂载的事件
 

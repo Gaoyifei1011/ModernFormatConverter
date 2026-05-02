@@ -1,4 +1,6 @@
 ﻿OK=确定
+DragOverContent=添加到“视频转换”列表中
+NoFolder=不支持文件夹
 OutputConfiguration=输出配置
 SelectFile=选择文件
 VideoAngleAdjustment=视频角度调整

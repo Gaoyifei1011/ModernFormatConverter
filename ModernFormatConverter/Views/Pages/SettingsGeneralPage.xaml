@@ -163,7 +163,7 @@
                     Grid.Column="3"
                     VerticalAlignment="Center"
                     DisplayMemberPath="DisplayMember"
-                    IsEnabled="{x:Bind AdvancedEffectsEnabled, Mode=OneWay}"    
+                    IsEnabled="{x:Bind AdvancedEffectsEnabled, Mode=OneWay}"
                     ItemsSource="{x:Bind BackdropList}"
                     SelectedItem="{x:Bind Backdrop, Mode=OneWay}"
                     SelectionChanged="{x:Bind OnBackdropSelectionChanged}"
@@ -225,32 +225,14 @@
                     </TextBlock>
                 </StackPanel>
 
-                <StackPanel
+                <ToggleSwitch
                     Grid.Column="2"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
-
-                    <TextBlock
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Text="{x:Bind rootservice:ResourceService.SettingsGeneralResource.GetString('AlwaysShowBackdropOffContent')}"
-                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(AlwaysShowBackdropValue), Mode=OneWay}" />
-
-                    <TextBlock
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Text="{x:Bind rootservice:ResourceService.SettingsGeneralResource.GetString('AlwaysShowBackdropOnContent')}"
-                        Visibility="{x:Bind AlwaysShowBackdropValue, Mode=OneWay}" />
-
-                    <ToggleSwitch
-                        MinWidth="0"
-                        Margin="10,-2,-10,0"
-                        IsEnabled="{x:Bind AlwaysShowBackdropEnabled, Mode=OneWay}"
-                        IsOn="{x:Bind AlwaysShowBackdropValue, Mode=OneWay}"
-                        OffContent=""
-                        OnContent=""
-                        Toggled="{x:Bind OnAlwaysShowBackdropToggled}" />
-                </StackPanel>
+                    IsEnabled="{x:Bind AlwaysShowBackdropEnabled, Mode=OneWay}"
+                    IsOn="{x:Bind AlwaysShowBackdropValue, Mode=OneWay}"
+                    OffContent="{x:Bind rootservice:ResourceService.SettingsGeneralResource.GetString('AlwaysShowBackdropOffContent')}"
+                    OnContent="{x:Bind rootservice:ResourceService.SettingsGeneralResource.GetString('AlwaysShowBackdropOnContent')}"
+                    Style="{StaticResource ToggleSwitchStyle}"
+                    Toggled="{x:Bind OnAlwaysShowBackdropToggled}" />
             </Grid>
 
             <!--  界面语言设置  -->

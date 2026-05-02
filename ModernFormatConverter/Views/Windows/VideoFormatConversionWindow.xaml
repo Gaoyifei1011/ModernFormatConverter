@@ -464,32 +464,13 @@
                                     Style="{StaticResource BodyTextBlockStyle}"
                                     Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('UseCRF')}" />
 
-                                <StackPanel
+                                <ToggleSwitch
                                     Grid.Column="1"
-                                    VerticalAlignment="Center"
-                                    Orientation="Horizontal">
-
-                                    <TextBlock
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Center"
-                                        Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('UseCRFOffContent')}"
-                                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(UseCRF), Mode=OneWay}" />
-
-                                    <TextBlock
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Center"
-                                        Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('UseCRFOnContent')}"
-                                        Visibility="{x:Bind UseCRF, Mode=OneWay}" />
-
-                                    <ToggleSwitch
-                                        MinWidth="0"
-                                        Margin="10,-2,-10,0"
-                                        IsEnabled="{x:Bind IsCRFSupported, Mode=OneWay}"
-                                        IsOn="{x:Bind UseCRF, Mode=OneWay}"
-                                        OffContent=""
-                                        OnContent=""
-                                        Toggled="{x:Bind OnUseCRFToggled}" />
-                                </StackPanel>
+                                    IsOn="{x:Bind UseCRF, Mode=OneWay}"
+                                    OffContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('UseCRFOffContent')}"
+                                    OnContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('UseCRFOnContent')}"
+                                    Style="{StaticResource ToggleSwitchStyle}"
+                                    Toggled="{x:Bind OnUseCRFToggled}" />
                             </Grid>
 
                             <MenuFlyoutSeparator Visibility="{x:Bind UseCRF, Mode=OneWay}" />
@@ -675,32 +656,14 @@
                             Style="{StaticResource BodyTextBlockStyle}"
                             Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('SecondaryEncoding')}" />
 
-                        <StackPanel
-                            Grid.Column="2"
-                            VerticalAlignment="Center"
-                            Orientation="Horizontal">
-
-                            <TextBlock
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('SecondaryEncodingOffContent')}"
-                                Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(SecondaryEncoding), Mode=OneWay}" />
-
-                            <TextBlock
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('SecondaryEncodingOnContent')}"
-                                Visibility="{x:Bind SecondaryEncoding, Mode=OneWay}" />
-
-                            <ToggleSwitch
-                                MinWidth="0"
-                                Margin="10,-2,-10,0"
-                                IsEnabled="{x:Bind IsSecondaryEncodingEnabled, Mode=OneWay}"
-                                IsOn="{x:Bind SecondaryEncoding, Mode=OneWay}"
-                                OffContent=""
-                                OnContent=""
-                                Toggled="{x:Bind OnSecondaryEncodingToggled}" />
-                        </StackPanel>
+                        <ToggleSwitch
+                            Grid.Column="1"
+                            IsEnabled="{x:Bind IsSecondaryEncodingEnabled, Mode=OneWay}"
+                            IsOn="{x:Bind SecondaryEncoding, Mode=OneWay}"
+                            OffContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('SecondaryEncodingOffContent')}"
+                            OnContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('SecondaryEncodingOnContent')}"
+                            Style="{StaticResource ToggleSwitchStyle}"
+                            Toggled="{x:Bind OnSecondaryEncodingToggled}" />
                     </Grid>
 
                     <!--  关键帧间隔  -->
@@ -760,31 +723,13 @@
                             Style="{StaticResource BodyTextBlockStyle}"
                             Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('DeInterlace')}" />
 
-                        <StackPanel
-                            Grid.Column="2"
-                            VerticalAlignment="Center"
-                            Orientation="Horizontal">
-
-                            <TextBlock
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('DeInterlaceOffContent')}"
-                                Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(DeInterlace), Mode=OneWay}" />
-
-                            <TextBlock
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('DeInterlaceOnContent')}"
-                                Visibility="{x:Bind DeInterlace, Mode=OneWay}" />
-
-                            <ToggleSwitch
-                                MinWidth="0"
-                                Margin="10,-2,-10,0"
-                                IsOn="{x:Bind DeInterlace, Mode=OneWay}"
-                                OffContent=""
-                                OnContent=""
-                                Toggled="{x:Bind OnDeInterlaceToggled}" />
-                        </StackPanel>
+                        <ToggleSwitch
+                            Grid.Column="1"
+                            IsOn="{x:Bind DeInterlace, Mode=OneWay}"
+                            OffContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('DeInterlaceOffContent')}"
+                            OnContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('DeInterlaceOnContent')}"
+                            Style="{StaticResource ToggleSwitchStyle}"
+                            Toggled="{x:Bind OnDeInterlaceToggled}" />
                     </Grid>
 
                     <!--  旋转  -->
@@ -844,31 +789,13 @@
                             Style="{StaticResource BodyTextBlockStyle}"
                             Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('MirrorReversal')}" />
 
-                        <StackPanel
-                            Grid.Column="2"
-                            VerticalAlignment="Center"
-                            Orientation="Horizontal">
-
-                            <TextBlock
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('MirrorReversalOffContent')}"
-                                Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(MirrorReversal), Mode=OneWay}" />
-
-                            <TextBlock
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('MirrorReversalOnContent')}"
-                                Visibility="{x:Bind MirrorReversal, Mode=OneWay}" />
-
-                            <ToggleSwitch
-                                MinWidth="0"
-                                Margin="10,-2,-10,0"
-                                IsOn="{x:Bind MirrorReversal, Mode=OneWay}"
-                                OffContent=""
-                                OnContent=""
-                                Toggled="{x:Bind OnMirrorReversalToggled}" />
-                        </StackPanel>
+                        <ToggleSwitch
+                            Grid.Column="1"
+                            IsOn="{x:Bind MirrorReversal, Mode=OneWay}"
+                            OffContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('MirrorReversalOffContent')}"
+                            OnContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('MirrorReversalOnContent')}"
+                            Style="{StaticResource ToggleSwitchStyle}"
+                            Toggled="{x:Bind OnMirrorReversalToggled}" />
                     </Grid>
 
                     <!--  淡入效果  -->
@@ -1117,31 +1044,13 @@
                                 Style="{StaticResource BodyTextBlockStyle}"
                                 Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('CloseSoundEffect')}" />
 
-                            <StackPanel
-                                Grid.Column="2"
-                                VerticalAlignment="Center"
-                                Orientation="Horizontal">
-
-                                <TextBlock
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Center"
-                                    Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('CloseSoundEffectOffContent')}"
-                                    Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(CloseSoundEffect), Mode=OneWay}" />
-
-                                <TextBlock
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Center"
-                                    Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('CloseSoundEffectOnContent')}"
-                                    Visibility="{x:Bind CloseSoundEffect, Mode=OneWay}" />
-
-                                <ToggleSwitch
-                                    MinWidth="0"
-                                    Margin="10,-2,-10,0"
-                                    IsOn="{x:Bind CloseSoundEffect, Mode=OneWay}"
-                                    OffContent=""
-                                    OnContent=""
-                                    Toggled="{x:Bind OnCloseSoundEffectToggled}" />
-                            </StackPanel>
+                            <ToggleSwitch
+                                Grid.Column="1"
+                                IsOn="{x:Bind CloseSoundEffect, Mode=OneWay}"
+                                OffContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('CloseSoundEffectOffContent')}"
+                                OnContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('CloseSoundEffectOnContent')}"
+                                Style="{StaticResource ToggleSwitchStyle}"
+                                Toggled="{x:Bind OnCloseSoundEffectToggled}" />
                         </Grid>
 
                         <!--  音量  -->
@@ -1201,31 +1110,13 @@
                                 Style="{StaticResource BodyTextBlockStyle}"
                                 Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('PreserveAllSourceInputStream')}" />
 
-                            <StackPanel
-                                Grid.Column="2"
-                                VerticalAlignment="Center"
-                                Orientation="Horizontal">
-
-                                <TextBlock
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Center"
-                                    Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('PreserveAllSourceInputStreamOffContent')}"
-                                    Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(PreserveAllSourceInputAudioStream), Mode=OneWay}" />
-
-                                <TextBlock
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Center"
-                                    Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('PreserveAllSourceInputStreamOnContent')}"
-                                    Visibility="{x:Bind PreserveAllSourceInputAudioStream, Mode=OneWay}" />
-
-                                <ToggleSwitch
-                                    MinWidth="0"
-                                    Margin="10,-2,-10,0"
-                                    IsOn="{x:Bind PreserveAllSourceInputAudioStream, Mode=OneWay}"
-                                    OffContent=""
-                                    OnContent=""
-                                    Toggled="{x:Bind OnPreserveAllSourceInputAudioStreamToggled}" />
-                            </StackPanel>
+                            <ToggleSwitch
+                                Grid.Column="1"
+                                IsOn="{x:Bind PreserveAllSourceInputAudioStream, Mode=OneWay}"
+                                OffContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('PreserveAllSourceInputStreamOffContent')}"
+                                OnContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('PreserveAllSourceInputStreamOnContent')}"
+                                Style="{StaticResource ToggleSwitchStyle}"
+                                Toggled="{x:Bind OnPreserveAllSourceInputAudioStreamToggled}" />
                         </Grid>
 
                         <!--  淡入效果  -->
@@ -1318,31 +1209,13 @@
                                 Style="{StaticResource BodyTextBlockStyle}"
                                 Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Echo')}" />
 
-                            <StackPanel
-                                Grid.Column="2"
-                                VerticalAlignment="Center"
-                                Orientation="Horizontal">
-
-                                <TextBlock
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Center"
-                                    Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('EchoOffContent')}"
-                                    Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(Echo), Mode=OneWay}" />
-
-                                <TextBlock
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Center"
-                                    Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('EchoOnContent')}"
-                                    Visibility="{x:Bind Echo, Mode=OneWay}" />
-
-                                <ToggleSwitch
-                                    MinWidth="0"
-                                    Margin="10,-2,-10,0"
-                                    IsOn="{x:Bind Echo, Mode=OneWay}"
-                                    OffContent=""
-                                    OnContent=""
-                                    Toggled="{x:Bind OnEchoToggled}" />
-                            </StackPanel>
+                            <ToggleSwitch
+                                Grid.Column="1"
+                                IsOn="{x:Bind Echo, Mode=OneWay}"
+                                OffContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('EchoOffContent')}"
+                                OnContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('EchoOnContent')}"
+                                Style="{StaticResource ToggleSwitchStyle}"
+                                Toggled="{x:Bind OnEchoToggled}" />
                         </Grid>
 
                         <!--  降噪  -->
@@ -1369,31 +1242,13 @@
                                 Style="{StaticResource BodyTextBlockStyle}"
                                 Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('DeNoise')}" />
 
-                            <StackPanel
-                                Grid.Column="2"
-                                VerticalAlignment="Center"
-                                Orientation="Horizontal">
-
-                                <TextBlock
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Center"
-                                    Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('DeNoiseOffContent')}"
-                                    Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(DeNoise), Mode=OneWay}" />
-
-                                <TextBlock
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Center"
-                                    Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('DeNoiseOnContent')}"
-                                    Visibility="{x:Bind DeNoise, Mode=OneWay}" />
-
-                                <ToggleSwitch
-                                    MinWidth="0"
-                                    Margin="10,-2,-10,0"
-                                    IsOn="{x:Bind DeNoise, Mode=OneWay}"
-                                    OffContent=""
-                                    OnContent=""
-                                    Toggled="{x:Bind OnDeNoiseToggled}" />
-                            </StackPanel>
+                            <ToggleSwitch
+                                Grid.Column="1"
+                                IsOn="{x:Bind DeNoise, Mode=OneWay}"
+                                OffContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('DeNoiseOffContent')}"
+                                OnContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('DeNoiseOnContent')}"
+                                Style="{StaticResource ToggleSwitchStyle}"
+                                Toggled="{x:Bind OnDeNoiseToggled}" />
                         </Grid>
 
                         <!--  反向  -->
@@ -1420,31 +1275,13 @@
                                 Style="{StaticResource BodyTextBlockStyle}"
                                 Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Reverse')}" />
 
-                            <StackPanel
-                                Grid.Column="2"
-                                VerticalAlignment="Center"
-                                Orientation="Horizontal">
-
-                                <TextBlock
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Center"
-                                    Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('ReverseOffContent')}"
-                                    Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(Reverse), Mode=OneWay}" />
-
-                                <TextBlock
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Center"
-                                    Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('ReverseOnContent')}"
-                                    Visibility="{x:Bind Reverse, Mode=OneWay}" />
-
-                                <ToggleSwitch
-                                    MinWidth="0"
-                                    Margin="10,-2,-10,0"
-                                    IsOn="{x:Bind Reverse, Mode=OneWay}"
-                                    OffContent=""
-                                    OnContent=""
-                                    Toggled="{x:Bind OnReverseToggled}" />
-                            </StackPanel>
+                            <ToggleSwitch
+                                Grid.Column="1"
+                                IsOn="{x:Bind Reverse, Mode=OneWay}"
+                                OffContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('ReverseOffContent')}"
+                                OnContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('ReverseOnContent')}"
+                                Style="{StaticResource ToggleSwitchStyle}"
+                                Toggled="{x:Bind OnReverseToggled}" />
                         </Grid>
                     </StackPanel>
 
@@ -1478,32 +1315,14 @@
                             Style="{StaticResource BodyTextBlockStyle}"
                             Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('PreserveAllSourceInputStream')}" />
 
-                        <StackPanel
-                            Grid.Column="2"
-                            VerticalAlignment="Center"
-                            Orientation="Horizontal">
-
-                            <TextBlock
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('PreserveAllSourceInputStreamOffContent')}"
-                                Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(PreserveAllSourceInputSubtitleStream), Mode=OneWay}" />
-
-                            <TextBlock
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('PreserveAllSourceInputStreamOnContent')}"
-                                Visibility="{x:Bind PreserveAllSourceInputSubtitleStream, Mode=OneWay}" />
-
-                            <ToggleSwitch
-                                MinWidth="0"
-                                Margin="10,-2,-10,0"
-                                IsEnabled="{x:Bind IsPreserveAllSourceInputSubtitleStreamEnabled, Mode=OneWay}"
-                                IsOn="{x:Bind PreserveAllSourceInputSubtitleStream, Mode=OneWay}"
-                                OffContent=""
-                                OnContent=""
-                                Toggled="{x:Bind OnPreserveAllSourceInputSubtitleStreamToggled}" />
-                        </StackPanel>
+                        <ToggleSwitch
+                            Grid.Column="1"
+                            IsEnabled="{x:Bind IsPreserveAllSourceInputSubtitleStreamEnabled, Mode=OneWay}"
+                            IsOn="{x:Bind PreserveAllSourceInputSubtitleStream, Mode=OneWay}"
+                            OffContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('PreserveAllSourceInputStreamOffContent')}"
+                            OnContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('PreserveAllSourceInputStreamOnContent')}"
+                            Style="{StaticResource ToggleSwitchStyle}"
+                            Toggled="{x:Bind OnPreserveAllSourceInputSubtitleStreamToggled}" />
                     </Grid>
 
                     <!--  附加字幕  -->

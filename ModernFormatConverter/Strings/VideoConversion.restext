@@ -1,4 +1,6 @@
 ﻿Back=Back
+DragOverContent=Add to Video Conversion list
+NoFolder=Folders are not supported
 OutputConfiguration=Output configuration
 SelectFile=Select file
 VideoAngleAdjustment=Video angle adjustment

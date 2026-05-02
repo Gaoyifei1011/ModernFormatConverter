@@ -81,6 +81,9 @@
 
                 <ListView
                     Grid.Row="1"
+                    AllowDrop="True"
+                    DragEnter="{x:Bind OnVideoConversionDragEnter}"
+                    Drop="{x:Bind OnVideoConversionDrop}"
                     ItemsSource="{x:Bind SelectedConversionType.VideoConversionFileCollection, Mode=OneWay}"
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                     ScrollViewer.HorizontalScrollMode="Disabled"
