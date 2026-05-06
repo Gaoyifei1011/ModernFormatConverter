@@ -146,6 +146,10 @@ namespace ModernFormatConverter.Views.Windows
             SelectedIndex = Convert.ToInt32(conversionToolsKind);
             SetWindowTheme();
             SetSystemBackdrop();
+
+            int dpi = User32Library.GetDpiForWindow((nint)AppWindow.Id.Value);
+            overlappedPresenter.PreferredMinimumWidth = Convert.ToInt32(1000 * Convert.ToDouble(dpi) / 96);
+            overlappedPresenter.PreferredMinimumHeight = Convert.ToInt32(600 * Convert.ToDouble(dpi) / 96);
         }
 
         #region 第一部分：窗口辅助类挂载的事件

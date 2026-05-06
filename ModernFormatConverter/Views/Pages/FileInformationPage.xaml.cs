@@ -2294,7 +2294,7 @@ namespace ModernFormatConverter.Views.Pages
                         if (int.TryParse(generalDuration, out int generalDurationValue))
                         {
                             TimeSpan generalDurationTimeSpan = TimeSpan.FromMilliseconds(generalDurationValue);
-                            generalInfo.Duration = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", generalDurationTimeSpan.TotalHours, generalDurationTimeSpan.Minutes, generalDurationTimeSpan.Minutes, generalDurationTimeSpan.Milliseconds);
+                            generalInfo.Duration = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", Math.Truncate(generalDurationTimeSpan.TotalHours), generalDurationTimeSpan.Minutes, generalDurationTimeSpan.Minutes, generalDurationTimeSpan.Milliseconds);
                         }
                         else
                         {
@@ -2334,7 +2334,7 @@ namespace ModernFormatConverter.Views.Pages
                             if (int.TryParse(videoDuration, out int videoDurationValue))
                             {
                                 TimeSpan videoDurationTimeSpan = TimeSpan.FromMilliseconds(videoDurationValue);
-                                videoDetailInfo.Duration = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", videoDurationTimeSpan.TotalHours, videoDurationTimeSpan.Minutes, videoDurationTimeSpan.Minutes, videoDurationTimeSpan.Milliseconds);
+                                videoDetailInfo.Duration = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", Math.Truncate(videoDurationTimeSpan.TotalHours), videoDurationTimeSpan.Minutes, videoDurationTimeSpan.Minutes, videoDurationTimeSpan.Milliseconds);
                             }
                             else
                             {
@@ -2344,7 +2344,7 @@ namespace ModernFormatConverter.Views.Pages
                             if (int.TryParse(sourceDuration, out int sourceDurationValue))
                             {
                                 TimeSpan sourceDurationTimeSpan = TimeSpan.FromMilliseconds(sourceDurationValue);
-                                videoDetailInfo.SourceDuration = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", sourceDurationTimeSpan.TotalHours, sourceDurationTimeSpan.Minutes, sourceDurationTimeSpan.Minutes, sourceDurationTimeSpan.Milliseconds);
+                                videoDetailInfo.SourceDuration = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", Math.Truncate(sourceDurationTimeSpan.TotalHours), sourceDurationTimeSpan.Minutes, sourceDurationTimeSpan.Minutes, sourceDurationTimeSpan.Milliseconds);
                             }
                             else
                             {
@@ -2409,7 +2409,7 @@ namespace ModernFormatConverter.Views.Pages
                             if (int.TryParse(audioDuration, out int audioDurationValue))
                             {
                                 TimeSpan audioDurationTimeSpan = TimeSpan.FromMilliseconds(audioDurationValue);
-                                audioDetailInfo.Duration = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", audioDurationTimeSpan.TotalHours, audioDurationTimeSpan.Minutes, audioDurationTimeSpan.Minutes, audioDurationTimeSpan.Milliseconds);
+                                audioDetailInfo.Duration = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", Math.Truncate(audioDurationTimeSpan.TotalHours), audioDurationTimeSpan.Minutes, audioDurationTimeSpan.Minutes, audioDurationTimeSpan.Milliseconds);
                             }
                             else
                             {
@@ -2468,7 +2468,7 @@ namespace ModernFormatConverter.Views.Pages
                             if (int.TryParse(textDuration, out int textDurationValue))
                             {
                                 TimeSpan textDurationTimeSpan = TimeSpan.FromMilliseconds(textDurationValue);
-                                textDetailInfo.Duration = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", textDurationTimeSpan.TotalHours, textDurationTimeSpan.Minutes, textDurationTimeSpan.Minutes, textDurationTimeSpan.Milliseconds);
+                                textDetailInfo.Duration = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", Math.Truncate(textDurationTimeSpan.TotalHours), textDurationTimeSpan.Minutes, textDurationTimeSpan.Minutes, textDurationTimeSpan.Milliseconds);
                             }
                             else
                             {
@@ -2478,7 +2478,7 @@ namespace ModernFormatConverter.Views.Pages
                             if (int.TryParse(startTime, out int startTimeValue))
                             {
                                 TimeSpan startTimeSpan = TimeSpan.FromMilliseconds(startTimeValue);
-                                textDetailInfo.StartTime = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", startTimeSpan.TotalHours, startTimeSpan.Minutes, startTimeSpan.Minutes, startTimeSpan.Milliseconds);
+                                textDetailInfo.StartTime = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", Math.Truncate(startTimeSpan.TotalHours), startTimeSpan.Minutes, startTimeSpan.Minutes, startTimeSpan.Milliseconds);
                             }
                             else
                             {
@@ -2488,7 +2488,7 @@ namespace ModernFormatConverter.Views.Pages
                             if (int.TryParse(endTime, out int endTimeValue))
                             {
                                 TimeSpan endTimeSpan = TimeSpan.FromMilliseconds(endTimeValue);
-                                textDetailInfo.EndTime = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", endTimeSpan.TotalHours, endTimeSpan.Minutes, endTimeSpan.Minutes, endTimeSpan.Milliseconds);
+                                textDetailInfo.EndTime = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", Math.Truncate(endTimeSpan.TotalHours), endTimeSpan.Minutes, endTimeSpan.Minutes, endTimeSpan.Milliseconds);
                             }
                             else
                             {
@@ -2502,7 +2502,7 @@ namespace ModernFormatConverter.Views.Pages
                             if (int.TryParse(minimumDurationPerEvent, out int minimumDurationPerEventValue))
                             {
                                 TimeSpan minimumDurationPerEventTimeSpan = TimeSpan.FromMilliseconds(minimumDurationPerEventValue);
-                                textDetailInfo.MinimumDurationPerEvent = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", minimumDurationPerEventTimeSpan.TotalHours, minimumDurationPerEventTimeSpan.Minutes, minimumDurationPerEventTimeSpan.Minutes, minimumDurationPerEventTimeSpan.Milliseconds);
+                                textDetailInfo.MinimumDurationPerEvent = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", Math.Truncate(minimumDurationPerEventTimeSpan.TotalHours), minimumDurationPerEventTimeSpan.Minutes, minimumDurationPerEventTimeSpan.Minutes, minimumDurationPerEventTimeSpan.Milliseconds);
                             }
                             else
                             {
@@ -2565,7 +2565,7 @@ namespace ModernFormatConverter.Views.Pages
                         if (int.TryParse(generalDuration, out int generalDurationValue))
                         {
                             TimeSpan generalDurationTimeSpan = TimeSpan.FromMilliseconds(generalDurationValue);
-                            generalInfo.Duration = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", generalDurationTimeSpan.TotalHours, generalDurationTimeSpan.Minutes, generalDurationTimeSpan.Minutes, generalDurationTimeSpan.Milliseconds);
+                            generalInfo.Duration = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", Math.Truncate(generalDurationTimeSpan.TotalHours), generalDurationTimeSpan.Minutes, generalDurationTimeSpan.Minutes, generalDurationTimeSpan.Milliseconds);
                         }
                         else
                         {
@@ -2607,7 +2607,7 @@ namespace ModernFormatConverter.Views.Pages
                             if (int.TryParse(audioDuration, out int audioDurationValue))
                             {
                                 TimeSpan audioDurationTimeSpan = TimeSpan.FromMilliseconds(audioDurationValue);
-                                audioDetailInfo.Duration = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", audioDurationTimeSpan.TotalHours, audioDurationTimeSpan.Minutes, audioDurationTimeSpan.Minutes, audioDurationTimeSpan.Milliseconds);
+                                audioDetailInfo.Duration = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", Math.Truncate(audioDurationTimeSpan.TotalHours), audioDurationTimeSpan.Minutes, audioDurationTimeSpan.Minutes, audioDurationTimeSpan.Milliseconds);
                             }
                             else
                             {
@@ -2692,7 +2692,7 @@ namespace ModernFormatConverter.Views.Pages
                         if (int.TryParse(duration, out int durationValue))
                         {
                             TimeSpan durationTimeSpan = TimeSpan.FromMilliseconds(durationValue);
-                            textDetailInfo.Duration = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", durationTimeSpan.TotalHours, durationTimeSpan.Minutes, durationTimeSpan.Minutes, durationTimeSpan.Milliseconds);
+                            textDetailInfo.Duration = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", Math.Truncate(durationTimeSpan.TotalHours), durationTimeSpan.Minutes, durationTimeSpan.Minutes, durationTimeSpan.Milliseconds);
                         }
                         else
                         {
@@ -2702,7 +2702,7 @@ namespace ModernFormatConverter.Views.Pages
                         if (int.TryParse(startTime, out int startTimeValue))
                         {
                             TimeSpan startTimeSpan = TimeSpan.FromMilliseconds(startTimeValue);
-                            textDetailInfo.StartTime = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", startTimeSpan.TotalHours, startTimeSpan.Minutes, startTimeSpan.Minutes, startTimeSpan.Milliseconds);
+                            textDetailInfo.StartTime = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", Math.Truncate(startTimeSpan.TotalHours), startTimeSpan.Minutes, startTimeSpan.Minutes, startTimeSpan.Milliseconds);
                         }
                         else
                         {
@@ -2712,7 +2712,7 @@ namespace ModernFormatConverter.Views.Pages
                         if (int.TryParse(endTime, out int endTimeValue))
                         {
                             TimeSpan endTimeSpan = TimeSpan.FromMilliseconds(endTimeValue);
-                            textDetailInfo.EndTime = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", endTimeSpan.TotalHours, endTimeSpan.Minutes, endTimeSpan.Minutes, endTimeSpan.Milliseconds);
+                            textDetailInfo.EndTime = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", Math.Truncate(endTimeSpan.TotalHours), endTimeSpan.Minutes, endTimeSpan.Minutes, endTimeSpan.Milliseconds);
                         }
                         else
                         {
@@ -2726,7 +2726,7 @@ namespace ModernFormatConverter.Views.Pages
                         if (int.TryParse(minimumDurationPerEvent, out int minimumDurationPerEventValue))
                         {
                             TimeSpan minimumDurationPerEventTimeSpan = TimeSpan.FromMilliseconds(minimumDurationPerEventValue);
-                            textDetailInfo.MinimumDurationPerEvent = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", minimumDurationPerEventTimeSpan.TotalHours, minimumDurationPerEventTimeSpan.Minutes, minimumDurationPerEventTimeSpan.Minutes, minimumDurationPerEventTimeSpan.Milliseconds);
+                            textDetailInfo.MinimumDurationPerEvent = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", Math.Truncate(minimumDurationPerEventTimeSpan.TotalHours), minimumDurationPerEventTimeSpan.Minutes, minimumDurationPerEventTimeSpan.Minutes, minimumDurationPerEventTimeSpan.Milliseconds);
                         }
                         else
                         {

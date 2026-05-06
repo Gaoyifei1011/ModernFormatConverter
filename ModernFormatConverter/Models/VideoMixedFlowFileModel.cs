@@ -5,9 +5,9 @@ using System.ComponentModel;
 namespace ModernFormatConverter.Models
 {
     /// <summary>
-    /// 转换类型文件模型
+    /// 视频混流文件数据模型
     /// </summary>
-    public class VideoConversionFileModel : INotifyPropertyChanged
+    public class VideoMixedFlowFileModel : INotifyPropertyChanged
     {
         /// <summary>
         /// 文件缩略图
@@ -44,6 +44,13 @@ namespace ModernFormatConverter.Models
         public string FileSizeString { get; set; }
 
         /// <summary>
+        /// 文件路径
+        /// </summary>
+        public string FilePath { get; set; }
+
+        #region 视频，音频部分
+
+        /// <summary>
         /// 视频持续时间
         /// </summary>
         public TimeSpan Duration { get; set; }
@@ -53,10 +60,9 @@ namespace ModernFormatConverter.Models
         /// </summary>
         public string DurationString { get; set; }
 
-        /// <summary>
-        /// 文件路径
-        /// </summary>
-        public string FilePath { get; set; }
+        #endregion 视频，音频部分
+
+        #region 视频部分
 
         /// <summary>
         /// 屏幕高度
@@ -68,10 +74,26 @@ namespace ModernFormatConverter.Models
         /// </summary>
         public string ScreenSizeWidth { get; set; }
 
+        #endregion 视频部分
+
+        #region 音频部分
+
         /// <summary>
-        /// 视频转换配置
+        /// 通道
         /// </summary>
-        public VideoConversionConfigurationModel VideoConversionConfiguration { get; set; }
+        public string Channel { get; set; }
+
+        /// <summary>
+        /// 采样率
+        /// </summary>
+        public string SamplingRate { get; set; }
+
+        /// <summary>
+        /// 比特率
+        /// </summary>
+        public string BitRate { get; set; }
+
+        #endregion 音频部分
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

@@ -177,6 +177,7 @@
                 IsSettingsVisible="False"
                 ItemInvoked="{x:Bind OnItemInvoked}"
                 Loaded="{x:Bind OnLoaded}"
+                MenuItemContainerStyle="{StaticResource NavigationViewItemStyle}"
                 OpenPaneLength="220"
                 PaneDisplayMode="Left"
                 SelectedItem="{x:Bind SelectedItem, Mode=OneWay}">

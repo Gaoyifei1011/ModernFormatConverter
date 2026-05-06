@@ -1,5 +1,5 @@
 ﻿<Window
-    x:Class="ModernFormatConverter.Views.Dialogs.VideoFormatConversionWindow"
+    x:Class="ModernFormatConverter.Views.Dialogs.VideoConversionConfigurationWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:class="using:ModernFormatConverter.Extensions.DataType.Class"
@@ -11,12 +11,12 @@
     xmlns:rootservice="using:ModernFormatConverter.Services.Root"
     xmlns:system="using:System"
     xmlns:window="using:ModernFormatConverter.Views.Windows"
-    Title="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Title')}"
+    Title="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('Title')}"
     SystemBackdrop="{x:Bind WindowSystemBackdrop, Mode=OneWay}"
     mc:Ignorable="d">
 
     <Page
-        x:Name="VideoFormatConversionPage"
+        x:Name="VideoConversionConfigurationPage"
         ActualThemeChanged="{x:Bind OnActualThemeChanged}"
         FlowDirection="{x:Bind ((FrameworkElement)window:MainWindow.Current.Content).FlowDirection, Mode=OneWay}"
         Loaded="{x:Bind OnLoaded}"
@@ -31,7 +31,7 @@
                         Padding="11,0"
                         FontSize="12"
                         IsEnabled="False"
-                        Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Restore')}">
+                        Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('Restore')}">
 
                         <MenuFlyoutItem.Icon>
                             <FontIcon Margin="6" Glyph="&#xE923;" />
@@ -44,7 +44,7 @@
                         Click="{x:Bind OnMoveClicked}"
                         FontSize="12"
                         Tag="{x:Bind TitlebarMenuFlyout}"
-                        Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Move')}" />
+                        Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('Move')}" />
 
                     <MenuFlyoutItem
                         Height="28"
@@ -52,14 +52,14 @@
                         Click="{x:Bind OnSizeClicked}"
                         FontSize="12"
                         Tag="{x:Bind TitlebarMenuFlyout}"
-                        Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Size')}" />
+                        Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('Size')}" />
 
                     <MenuFlyoutItem
                         Height="28"
                         Padding="11,0"
                         FontSize="12"
                         IsEnabled="False"
-                        Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Minimize')}">
+                        Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('Minimize')}">
 
                         <MenuFlyoutItem.Icon>
                             <FontIcon Margin="6" Glyph="&#xE921;" />
@@ -71,7 +71,7 @@
                         Padding="11,0"
                         FontSize="12"
                         IsEnabled="False"
-                        Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Maximize')}">
+                        Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('Maximize')}">
 
                         <MenuFlyoutItem.Icon>
                             <FontIcon Margin="6" Glyph="&#xE922;" />
@@ -85,7 +85,7 @@
                         Padding="11,0"
                         Click="{x:Bind OnCloseClicked}"
                         FontSize="12"
-                        Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Close')}">
+                        Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('Close')}">
 
                         <MenuFlyoutItem.Icon>
                             <FontIcon Margin="6" Glyph="&#xE8BB;" />
@@ -107,10 +107,10 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <!--  视频输出配置标题栏  -->
+            <!--  视频格式转换配置标题栏  -->
             <TitleBar
                 x:Name="AppTitlebar"
-                Title="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Title')}"
+                Title="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('Title')}"
                 Grid.Row="0"
                 Height="30"
                 Padding="0"
@@ -130,6 +130,7 @@
                 </TitleBar.LeftHeader>
             </TitleBar>
 
+            <!--  视频格式转换配置控制栏  -->
             <Grid Grid.Row="1" Margin="6,0,6,3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -137,7 +138,7 @@
                 </Grid.ColumnDefinitions>
 
                 <SelectorBar
-                    x:Name="VideoFormatConversionSelectorBar"
+                    x:Name="VideoConversionConfigurationSelectorBar"
                     Grid.Column="0"
                     Margin="-8,-4,0,0"
                     Padding="0"
@@ -146,9 +147,9 @@
                     SelectedItem="{x:Bind SelectedItem, Mode=OneWay}"
                     SelectionChanged="{x:Bind OnSelectorBarSelectionChanged}">
 
-                    <SelectorBarItem Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Video')}" />
-                    <SelectorBarItem Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Audio')}" />
-                    <SelectorBarItem Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Subtitle')}" />
+                    <SelectorBarItem Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('Video')}" />
+                    <SelectorBarItem Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('Audio')}" />
+                    <SelectorBarItem Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('Subtitle')}" Visibility="{x:Bind GetHasSubtitleConfiguration(SelectedVideoConversionTypeKind), Mode=OneWay}" />
                 </SelectorBar>
 
                 <CommandBar
@@ -162,7 +163,7 @@
                     <CommandBar.PrimaryCommands>
                         <AppBarButton
                             Click="{x:Bind OnOkClicked}"
-                            Label="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('OK')}"
+                            Label="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('OK')}"
                             Style="{StaticResource AppBarButtonStyle}">
 
                             <AppBarButton.Icon>
@@ -176,7 +177,7 @@
             <MenuFlyoutSeparator Grid.Row="2" Margin="6,0,6,3" />
 
             <ScrollViewer
-                x:Name="VideoFormatConversionScroll"
+                x:Name="VideoConversionConfigurationScroll"
                 Grid.Row="3"
                 Padding="8,0,10,3"
                 HorizontalScrollBarVisibility="Disabled"
@@ -190,7 +191,7 @@
                         x:Name="VideoHeader"
                         Margin="2,0,0,5"
                         FontSize="16"
-                        Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Video')}" />
+                        Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('Video')}" />
 
                     <!--  格式转换类型  -->
                     <Grid
@@ -213,7 +214,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('FormatConversionType')}" />
+                            Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('FormatConversionType')}" />
 
                         <ComboBox
                             Grid.Column="1"
@@ -246,7 +247,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('VideoEncoding')}" />
+                            Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('VideoEncoding')}" />
 
                         <ComboBox
                             Grid.Column="1"
@@ -279,7 +280,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('SizeLimitation')}" />
+                            Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('SizeLimitation')}" />
 
                         <ComboBox
                             Grid.Column="1"
@@ -304,7 +305,7 @@
                             <TextBlock
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
-                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('ScreenSize')}" />
+                                Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('ScreenSize')}" />
                         </Expander.Header>
 
                         <StackPanel Padding="0">
@@ -325,7 +326,7 @@
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
                                     Style="{StaticResource BodyTextBlockStyle}"
-                                    Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('SelectScreenSize')}" />
+                                    Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('SelectScreenSize')}" />
 
                                 <ComboBox
                                     Grid.Column="1"
@@ -355,7 +356,7 @@
                                     Grid.Column="0"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('CustomSize')}" />
+                                    Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('CustomSize')}" />
 
                                 <StackPanel
                                     Grid.Column="1"
@@ -365,7 +366,7 @@
                                     <TextBlock
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
-                                        Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Width')}" />
+                                        Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('Width')}" />
 
                                     <NumberBox
                                         Margin="5,0,0,0"
@@ -380,7 +381,7 @@
                                         Margin="10,0,0,0"
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
-                                        Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Height')}" />
+                                        Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('Height')}" />
 
                                     <NumberBox
                                         Margin="5,0,0,0"
@@ -416,7 +417,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('BitRate')}" />
+                            Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('BitRate')}" />
 
                         <ComboBox
                             Grid.Column="1"
@@ -441,7 +442,7 @@
                             <TextBlock
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
-                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('ConstantRatefactor')}" />
+                                Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('ConstantRatefactor')}" />
                         </Expander.Header>
 
                         <StackPanel Padding="0">
@@ -462,13 +463,13 @@
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
                                     Style="{StaticResource BodyTextBlockStyle}"
-                                    Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('UseCRF')}" />
+                                    Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('UseCRF')}" />
 
                                 <ToggleSwitch
                                     Grid.Column="1"
                                     IsOn="{x:Bind UseCRF, Mode=OneWay}"
-                                    OffContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('UseCRFOffContent')}"
-                                    OnContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('UseCRFOnContent')}"
+                                    OffContent="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('UseCRFOffContent')}"
+                                    OnContent="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('UseCRFOnContent')}"
                                     Style="{StaticResource ToggleSwitchStyle}"
                                     Toggled="{x:Bind OnUseCRFToggled}" />
                             </Grid>
@@ -493,7 +494,7 @@
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
                                     Style="{StaticResource BodyTextBlockStyle}"
-                                    Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('CRFSize')}">
+                                    Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('CRFSize')}">
 
                                     <ToolTipService.ToolTip>
                                         <ToolTip
@@ -511,8 +512,8 @@
                                                         <RowDefinition Height="Auto" />
                                                     </Grid.RowDefinitions>
 
-                                                    <TextBlock Grid.Row="0" Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('CRFSizeScale')}" />
-                                                    <TextBlock Grid.Row="1" Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('CRFSizeInformation')}" />
+                                                    <TextBlock Grid.Row="0" Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('CRFSizeScale')}" />
+                                                    <TextBlock Grid.Row="1" Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('CRFSizeInformation')}" />
                                                 </Grid>
                                             </Grid>
                                         </ToolTip>
@@ -554,7 +555,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('GPU')}" />
+                            Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('GPU')}" />
 
                         <ComboBox
                             Grid.Column="1"
@@ -587,7 +588,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('FramePerSecond')}" />
+                            Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('FramePerSecond')}" />
 
                         <ComboBox
                             Grid.Column="1"
@@ -620,7 +621,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('AspectRatio')}" />
+                            Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('AspectRatio')}" />
 
                         <ComboBox
                             Grid.Column="1"
@@ -654,14 +655,14 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('SecondaryEncoding')}" />
+                            Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('SecondaryEncoding')}" />
 
                         <ToggleSwitch
                             Grid.Column="1"
                             IsEnabled="{x:Bind IsSecondaryEncodingEnabled, Mode=OneWay}"
                             IsOn="{x:Bind SecondaryEncoding, Mode=OneWay}"
-                            OffContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('SecondaryEncodingOffContent')}"
-                            OnContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('SecondaryEncodingOnContent')}"
+                            OffContent="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('SecondaryEncodingOffContent')}"
+                            OnContent="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('SecondaryEncodingOnContent')}"
                             Style="{StaticResource ToggleSwitchStyle}"
                             Toggled="{x:Bind OnSecondaryEncodingToggled}" />
                     </Grid>
@@ -687,7 +688,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('KeyFrameInterval')}" />
+                            Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('KeyFrameInterval')}" />
 
                         <ComboBox
                             Grid.Column="1"
@@ -721,13 +722,13 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('DeInterlace')}" />
+                            Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('DeInterlace')}" />
 
                         <ToggleSwitch
                             Grid.Column="1"
                             IsOn="{x:Bind DeInterlace, Mode=OneWay}"
-                            OffContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('DeInterlaceOffContent')}"
-                            OnContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('DeInterlaceOnContent')}"
+                            OffContent="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('DeInterlaceOffContent')}"
+                            OnContent="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('DeInterlaceOnContent')}"
                             Style="{StaticResource ToggleSwitchStyle}"
                             Toggled="{x:Bind OnDeInterlaceToggled}" />
                     </Grid>
@@ -753,7 +754,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Rotation')}" />
+                            Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('Rotation')}" />
 
                         <ComboBox
                             Grid.Column="1"
@@ -787,13 +788,13 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('MirrorReversal')}" />
+                            Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('MirrorReversal')}" />
 
                         <ToggleSwitch
                             Grid.Column="1"
                             IsOn="{x:Bind MirrorReversal, Mode=OneWay}"
-                            OffContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('MirrorReversalOffContent')}"
-                            OnContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('MirrorReversalOnContent')}"
+                            OffContent="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('MirrorReversalOffContent')}"
+                            OnContent="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('MirrorReversalOnContent')}"
                             Style="{StaticResource ToggleSwitchStyle}"
                             Toggled="{x:Bind OnMirrorReversalToggled}" />
                     </Grid>
@@ -819,7 +820,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('FadeInEffect')}" />
+                            Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('FadeInEffect')}" />
 
                         <ComboBox
                             Grid.Column="1"
@@ -852,7 +853,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('FadeOutEffect')}" />
+                            Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('FadeOutEffect')}" />
 
                         <ComboBox
                             Grid.Column="1"
@@ -868,7 +869,7 @@
                         x:Name="AudioHeader"
                         Margin="2,0,0,5"
                         FontSize="16"
-                        Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Audio')}" />
+                        Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('Audio')}" />
 
                     <Grid
                         Height="60"
@@ -884,7 +885,7 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('NotSupported')}" />
+                            Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('NotSupported')}" />
                     </Grid>
 
                     <!--  音频编码  -->
@@ -909,7 +910,7 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('AudioEncoding')}" />
+                                Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('AudioEncoding')}" />
 
                             <ComboBox
                                 Grid.Column="1"
@@ -942,7 +943,7 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('SamplingRate')}" />
+                                Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('SamplingRate')}" />
 
                             <ComboBox
                                 Grid.Column="1"
@@ -975,7 +976,7 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('BitRate')}" />
+                                Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('BitRate')}" />
 
                             <ComboBox
                                 Grid.Column="1"
@@ -1008,7 +1009,7 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('SoundTrack')}" />
+                                Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('SoundTrack')}" />
 
                             <ComboBox
                                 Grid.Column="1"
@@ -1042,13 +1043,13 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('CloseSoundEffect')}" />
+                                Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('CloseSoundEffect')}" />
 
                             <ToggleSwitch
                                 Grid.Column="1"
                                 IsOn="{x:Bind CloseSoundEffect, Mode=OneWay}"
-                                OffContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('CloseSoundEffectOffContent')}"
-                                OnContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('CloseSoundEffectOnContent')}"
+                                OffContent="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('CloseSoundEffectOffContent')}"
+                                OnContent="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('CloseSoundEffectOnContent')}"
                                 Style="{StaticResource ToggleSwitchStyle}"
                                 Toggled="{x:Bind OnCloseSoundEffectToggled}" />
                         </Grid>
@@ -1074,7 +1075,7 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Volume')}" />
+                                Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('Volume')}" />
 
                             <ComboBox
                                 Grid.Column="1"
@@ -1108,13 +1109,13 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('PreserveAllSourceInputStream')}" />
+                                Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('PreserveAllSourceInputStream')}" />
 
                             <ToggleSwitch
                                 Grid.Column="1"
                                 IsOn="{x:Bind PreserveAllSourceInputAudioStream, Mode=OneWay}"
-                                OffContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('PreserveAllSourceInputStreamOffContent')}"
-                                OnContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('PreserveAllSourceInputStreamOnContent')}"
+                                OffContent="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('PreserveAllSourceInputStreamOffContent')}"
+                                OnContent="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('PreserveAllSourceInputStreamOnContent')}"
                                 Style="{StaticResource ToggleSwitchStyle}"
                                 Toggled="{x:Bind OnPreserveAllSourceInputAudioStreamToggled}" />
                         </Grid>
@@ -1140,7 +1141,7 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('FadeInEffect')}" />
+                                Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('FadeInEffect')}" />
 
                             <ComboBox
                                 Grid.Column="1"
@@ -1173,7 +1174,7 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('FadeOutEffect')}" />
+                                Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('FadeOutEffect')}" />
 
                             <ComboBox
                                 Grid.Column="1"
@@ -1207,13 +1208,13 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Echo')}" />
+                                Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('Echo')}" />
 
                             <ToggleSwitch
                                 Grid.Column="1"
                                 IsOn="{x:Bind Echo, Mode=OneWay}"
-                                OffContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('EchoOffContent')}"
-                                OnContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('EchoOnContent')}"
+                                OffContent="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('EchoOffContent')}"
+                                OnContent="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('EchoOnContent')}"
                                 Style="{StaticResource ToggleSwitchStyle}"
                                 Toggled="{x:Bind OnEchoToggled}" />
                         </Grid>
@@ -1240,13 +1241,13 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('DeNoise')}" />
+                                Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('DeNoise')}" />
 
                             <ToggleSwitch
                                 Grid.Column="1"
                                 IsOn="{x:Bind DeNoise, Mode=OneWay}"
-                                OffContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('DeNoiseOffContent')}"
-                                OnContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('DeNoiseOnContent')}"
+                                OffContent="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('DeNoiseOffContent')}"
+                                OnContent="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('DeNoiseOnContent')}"
                                 Style="{StaticResource ToggleSwitchStyle}"
                                 Toggled="{x:Bind OnDeNoiseToggled}" />
                         </Grid>
@@ -1273,13 +1274,13 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Reverse')}" />
+                                Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('Reverse')}" />
 
                             <ToggleSwitch
                                 Grid.Column="1"
                                 IsOn="{x:Bind Reverse, Mode=OneWay}"
-                                OffContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('ReverseOffContent')}"
-                                OnContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('ReverseOnContent')}"
+                                OffContent="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('ReverseOffContent')}"
+                                OnContent="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('ReverseOnContent')}"
                                 Style="{StaticResource ToggleSwitchStyle}"
                                 Toggled="{x:Bind OnReverseToggled}" />
                         </Grid>
@@ -1289,7 +1290,8 @@
                         x:Name="SubtitleHeader"
                         Margin="2,0,0,5"
                         FontSize="16"
-                        Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Subtitle')}" />
+                        Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('Subtitle')}"
+                        Visibility="{x:Bind GetHasSubtitleConfiguration(SelectedVideoConversionTypeKind), Mode=OneWay}" />
 
                     <!--  保留所有源输入流  -->
                     <Grid
@@ -1300,7 +1302,8 @@
                         Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                         BorderThickness="1"
-                        CornerRadius="{StaticResource ControlCornerRadius}">
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        Visibility="{x:Bind GetHasSubtitleConfiguration(SelectedVideoConversionTypeKind), Mode=OneWay}">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -1313,14 +1316,14 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('PreserveAllSourceInputStream')}" />
+                            Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('PreserveAllSourceInputStream')}" />
 
                         <ToggleSwitch
                             Grid.Column="1"
                             IsEnabled="{x:Bind IsPreserveAllSourceInputSubtitleStreamEnabled, Mode=OneWay}"
                             IsOn="{x:Bind PreserveAllSourceInputSubtitleStream, Mode=OneWay}"
-                            OffContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('PreserveAllSourceInputStreamOffContent')}"
-                            OnContent="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('PreserveAllSourceInputStreamOnContent')}"
+                            OffContent="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('PreserveAllSourceInputStreamOffContent')}"
+                            OnContent="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('PreserveAllSourceInputStreamOnContent')}"
                             Style="{StaticResource ToggleSwitchStyle}"
                             Toggled="{x:Bind OnPreserveAllSourceInputSubtitleStreamToggled}" />
                     </Grid>
@@ -1334,7 +1337,8 @@
                         Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                         BorderThickness="1"
-                        CornerRadius="{StaticResource ControlCornerRadius}">
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        Visibility="{x:Bind GetHasSubtitleConfiguration(SelectedVideoConversionTypeKind), Mode=OneWay}">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -1350,7 +1354,7 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('AdditionalSubtitle')}" />
+                                Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('AdditionalSubtitle')}" />
 
                             <TextBlock
                                 Margin="0,0,5,0"
@@ -1374,10 +1378,10 @@
                                             <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
 
                                             <StackPanel Padding="{StaticResource ToolTipBorderPadding}" HorizontalAlignment="Stretch">
-                                                <TextBlock Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('AdditionalSubtitlePath')}" />
+                                                <TextBlock Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('AdditionalSubtitlePath')}" />
                                                 <TextBlock Text="{x:Bind AdditionalSubtitlePath, Mode=OneWay}" />
                                                 <MenuFlyoutSeparator Margin="4,3" />
-                                                <TextBlock Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('OpenFolder')}" />
+                                                <TextBlock Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('OpenFolder')}" />
                                             </StackPanel>
                                         </Grid>
                                     </ToolTip>
@@ -1404,7 +1408,7 @@
 
                                     <Grid>
                                         <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                        <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('SelectAdditionalSubtitle')}" />
+                                        <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('SelectAdditionalSubtitle')}" />
                                     </Grid>
                                 </ToolTip>
                             </ToolTipService.ToolTip>
@@ -1419,7 +1423,8 @@
                         Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                         BorderThickness="1"
-                        CornerRadius="{StaticResource ControlCornerRadius}">
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        Visibility="{x:Bind GetHasSubtitleConfiguration(SelectedVideoConversionTypeKind), Mode=OneWay}">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -1432,7 +1437,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('SubtitleNestType')}" />
+                            Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('SubtitleNestType')}" />
 
                         <ComboBox
                             Grid.Column="1"
@@ -1452,7 +1457,8 @@
                         Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                         BorderThickness="1"
-                        CornerRadius="{StaticResource ControlCornerRadius}">
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        Visibility="{x:Bind GetHasSubtitleConfiguration(SelectedVideoConversionTypeKind), Mode=OneWay}">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -1466,7 +1472,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('FontName')}" />
+                            Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('FontName')}" />
 
                         <TextBlock
                             Grid.Column="1"
@@ -1479,7 +1485,7 @@
                             Margin="5,0,0,0"
                             VerticalAlignment="Center"
                             Click="{x:Bind OnChangeFontNameClicked}"
-                            Content="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Change')}" />
+                            Content="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('Change')}" />
                     </Grid>
 
                     <!--  字体大小  -->
@@ -1490,7 +1496,8 @@
                         Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                         BorderThickness="1"
-                        CornerRadius="{StaticResource ControlCornerRadius}">
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        Visibility="{x:Bind GetHasSubtitleConfiguration(SelectedVideoConversionTypeKind), Mode=OneWay}">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -1503,7 +1510,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('FontSize')}" />
+                            Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('FontSize')}" />
 
                         <ComboBox
                             Grid.Column="1"
@@ -1523,7 +1530,8 @@
                         Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                         BorderThickness="1"
-                        CornerRadius="{StaticResource ControlCornerRadius}">
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        Visibility="{x:Bind GetHasSubtitleConfiguration(SelectedVideoConversionTypeKind), Mode=OneWay}">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -1537,7 +1545,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('FontColor')}" />
+                            Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('FontColor')}" />
 
                         <TextBlock
                             Grid.Column="1"
@@ -1550,7 +1558,7 @@
                             Margin="5,0,0,0"
                             VerticalAlignment="Center"
                             Click="{x:Bind OnChangeFontColorClicked}"
-                            Content="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Change')}" />
+                            Content="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('Change')}" />
                     </Grid>
 
                     <!--  字体边框风格  -->
@@ -1561,7 +1569,8 @@
                         Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                         BorderThickness="1"
-                        CornerRadius="{StaticResource ControlCornerRadius}">
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        Visibility="{x:Bind GetHasSubtitleConfiguration(SelectedVideoConversionTypeKind), Mode=OneWay}">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -1574,7 +1583,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('FontBorderStyle')}" />
+                            Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('FontBorderStyle')}" />
 
                         <ComboBox
                             Grid.Column="1"
@@ -1594,7 +1603,8 @@
                         Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                         BorderThickness="1"
-                        CornerRadius="{StaticResource ControlCornerRadius}">
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        Visibility="{x:Bind GetHasSubtitleConfiguration(SelectedVideoConversionTypeKind), Mode=OneWay}">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -1607,7 +1617,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('CounterLineSize')}" />
+                            Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('CounterLineSize')}" />
 
                         <ComboBox
                             Grid.Column="1"
@@ -1627,7 +1637,8 @@
                         Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                         BorderThickness="1"
-                        CornerRadius="{StaticResource ControlCornerRadius}">
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        Visibility="{x:Bind GetHasSubtitleConfiguration(SelectedVideoConversionTypeKind), Mode=OneWay}">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -1641,7 +1652,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('CounterLineColor')}" />
+                            Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('CounterLineColor')}" />
 
                         <TextBlock
                             Grid.Column="1"
@@ -1654,7 +1665,7 @@
                             Margin="5,0,0,0"
                             VerticalAlignment="Center"
                             Click="{x:Bind OnChangeCounterLineColorClicked}"
-                            Content="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('Change')}" />
+                            Content="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('Change')}" />
                     </Grid>
 
                     <!--  阴影大小  -->
@@ -1665,7 +1676,8 @@
                         Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                         BorderThickness="1"
-                        CornerRadius="{StaticResource ControlCornerRadius}">
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        Visibility="{x:Bind GetHasSubtitleConfiguration(SelectedVideoConversionTypeKind), Mode=OneWay}">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -1678,7 +1690,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.VideoFormatConversionResource.GetString('ShadowSize')}" />
+                            Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('ShadowSize')}" />
 
                         <ComboBox
                             Grid.Column="1"

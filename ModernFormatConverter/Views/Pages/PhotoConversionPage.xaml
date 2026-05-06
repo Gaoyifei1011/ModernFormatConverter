@@ -30,6 +30,7 @@
             IsBackButtonVisible="Collapsed"
             IsPaneToggleButtonVisible="False"
             IsSettingsVisible="False"
+            MenuItemContainerStyle="{StaticResource NavigationViewItemStyle}"
             MenuItemsSource="{x:Bind ConversionTypeCollection}"
             OpenPaneLength="300"
             PaneDisplayMode="Left"

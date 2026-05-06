@@ -199,6 +199,10 @@ namespace ModernFormatConverter.Views.Windows
             int width = rect.right - rect.left;
             int height = rect.bottom - rect.top;
             User32Library.SetWindowPos((nint)AppWindow.Id.Value, 0, (System.Windows.Forms.SystemInformation.WorkingArea.Width - width) / 2, (System.Windows.Forms.SystemInformation.WorkingArea.Height - height) / 2, 0, 0, SetWindowPosFlags.SWP_NOSIZE | SetWindowPosFlags.SWP_NOZORDER);
+
+            int dpi = User32Library.GetDpiForWindow((nint)AppWindow.Id.Value);
+            overlappedPresenter.PreferredMinimumWidth = Convert.ToInt32(1000 * Convert.ToDouble(dpi) / 96);
+            overlappedPresenter.PreferredMinimumHeight = Convert.ToInt32(600 * Convert.ToDouble(dpi) / 96);
         }
 
         #region 第一部分：窗口辅助类挂载的事件

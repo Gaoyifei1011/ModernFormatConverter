@@ -11,9 +11,8 @@
         VideoFormatConversion = 3,
         VideoMixedFlow = 4,
         VideoSeparation = 5,
-        VideoSplit = 6,
-        VideoSpeedAdjustment = 7,
-        VideoRewind = 8,
-        VideoSplitScreen = 9
+        VideoSpeedAdjustment = 6,
+        VideoRewind = 7,
+        VideoSplitScreen = 8
     }
 }

@@ -4,7 +4,7 @@ using ModernFormatConverter.Extensions.DataType.Enums;
 namespace ModernFormatConverter.Models
 {
     /// <summary>
-    /// 转换类型数据模型
+    /// 视频转换类型数据模型
     /// </summary>
     public class VideoConversionTypeModel
     {
@@ -17,6 +17,11 @@ namespace ModernFormatConverter.Models
         /// 视频转换类型
         /// </summary>
         public VideoConversionTypeKind VideoConversionTypeKind { get; set; }
+
+        /// <summary>
+        /// 视频混流数据模型（仅用于视频混流页面）
+        /// </summary>
+        public VideoMixedFlowModel VideoMixedFlow { get; set; }
 
         /// <summary>
         /// 视频转换文件配置列表
