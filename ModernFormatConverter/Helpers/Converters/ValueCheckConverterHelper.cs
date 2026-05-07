@@ -23,5 +23,13 @@ namespace ModernFormatConverter.Helpers.Converters
         {
             return Equals(haTestResultKind, comparedHATestResultKind) ? Visibility.Visible : Visibility.Collapsed;
         }
+
+        /// <summary>
+        /// 检查视频转换类型状态
+        /// </summary>
+        public static Visibility GetVideoConversionType(VideoConversionTypeKind selectedVideoConversionTypeKind, VideoConversionTypeKind comparedVideoConversionTypeKind, bool needReverse)
+        {
+            return needReverse ? Equals(selectedVideoConversionTypeKind, comparedVideoConversionTypeKind) ? Visibility.Collapsed : Visibility.Visible : Equals(selectedVideoConversionTypeKind, comparedVideoConversionTypeKind) ? Visibility.Visible : Visibility.Collapsed;
+        }
     }
 }

@@ -26,6 +26,10 @@ namespace ModernFormatConverter.Views.DataTemplates
                 {
                     return VideoListDataTemplate;
                 }
+                else if (videoConversionFile.VideoConversionConfiguration.VideoConversionTypeKind is VideoConversionTypeKind.VideoSeparation)
+                {
+                    return VideoCardDataTemplate;
+                }
                 else
                 {
                     return base.SelectTemplateCore(item, container);

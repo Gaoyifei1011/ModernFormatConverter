@@ -50,6 +50,7 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string VideoSpeedAdjustmentString = ResourceService.VideoConversionResource.GetString("VideoSpeedAdjustment");
         private readonly string VideoRewindString = ResourceService.VideoConversionResource.GetString("VideoRewind");
         private readonly string VideoSplitScreenString = ResourceService.VideoConversionResource.GetString("VideoSplitScreen");
+        private global::Windows.UI.Color accentColor = global::Windows.UI.Color.FromArgb(System.Windows.SystemParameters.WindowGlassColor.A, System.Windows.SystemParameters.WindowGlassColor.R, System.Windows.SystemParameters.WindowGlassColor.G, System.Windows.SystemParameters.WindowGlassColor.B);
 
         private VideoConversionTypeModel _selectedConversionType;
 
@@ -195,10 +196,10 @@ namespace ModernFormatConverter.Views.Pages
                         SubtitleNestType = "Default",
                         FontName = SystemFonts.DefaultFont.Name,
                         FontSize = 1,
-                        FontColor = System.Windows.SystemParameters.WindowGlassColor.ToString(),
+                        FontColor = accentColor,
                         FontBorderStyle = "BorderAndShadow",
                         CounterLineSize = 0,
-                        CounterLineColor = System.Windows.SystemParameters.WindowGlassColor.ToString(),
+                        CounterLineColor = accentColor,
                         ShadowSize = 0
                     }
                 }
@@ -991,6 +992,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnOutputConfigurationClicked(object sender, RoutedEventArgs args)
         {
+            // 视频格式转换输出配置
             if (Equals(SelectedConversionType, ConversionTypeCollection[0]))
             {
                 VideoConversionConfigurationWindow videoFormatConversionWindow = new(SelectedConversionType.VideoConversionTypeKind, ConversionToolsWindow.Current);
@@ -1044,6 +1046,7 @@ namespace ModernFormatConverter.Views.Pages
                     }
                 }
             }
+            // 视频合并输出配置
             else if (Equals(SelectedConversionType, ConversionTypeCollection[1]))
             {
                 VideoConversionConfigurationWindow videoFormatConversionWindow = new(SelectedConversionType.VideoConversionTypeKind, ConversionToolsWindow.Current);
@@ -1086,6 +1089,7 @@ namespace ModernFormatConverter.Views.Pages
                     }
                 }
             }
+            // 视频混流输出配置
             else if (Equals(SelectedConversionType, ConversionTypeCollection[2]))
             {
                 VideoConversionConfigurationWindow videoFormatConversionWindow = new(SelectedConversionType.VideoConversionTypeKind, ConversionToolsWindow.Current);
@@ -1203,14 +1207,17 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private List<VideoConversionFileModel> SortData(List<VideoConversionFileModel> videoConversionFileList)
         {
+            // 按照文件名称排序
             if (string.Equals(SelectedSortRule, SortRuleList[1]))
             {
                 return SortWay ? [.. videoConversionFileList.OrderBy(item => item.FileName)] : [.. videoConversionFileList.OrderByDescending(item => item.FileName)];
             }
+            // 按照文件大小排序
             else if (string.Equals(SelectedSortRule, SortRuleList[2]))
             {
                 return SortWay ? [.. videoConversionFileList.OrderBy(item => item.FileSize)] : [.. videoConversionFileList.OrderByDescending(item => item.FileSize)];
             }
+            // 按照视频持续时长排序
             else if (string.Equals(SelectedSortRule, SortRuleList[3]))
             {
                 return SortWay ? [.. videoConversionFileList.OrderBy(item => item.Duration)] : [.. videoConversionFileList.OrderByDescending(item => item.Duration)];
@@ -1230,6 +1237,7 @@ namespace ModernFormatConverter.Views.Pages
             {
                 if (File.Exists(filePath))
                 {
+                    // 视频格式转换
                     if (Equals(SelectedConversionType, ConversionTypeCollection[0]))
                     {
                         VideoConversionFileModel videoConversionFile = new()
@@ -1303,15 +1311,16 @@ namespace ModernFormatConverter.Views.Pages
                             SubtitleNestType = "Default",
                             FontName = SystemFonts.DefaultFont.Name,
                             FontSize = 1,
-                            FontColor = System.Windows.SystemParameters.WindowGlassColor.ToString(),
+                            FontColor = accentColor,
                             FontBorderStyle = "BorderAndShadow",
                             CounterLineSize = 0,
-                            CounterLineColor = System.Windows.SystemParameters.WindowGlassColor.ToString(),
+                            CounterLineColor = accentColor,
                             ShadowSize = 0
                         };
 
                         return videoConversionFile;
                     }
+                    // 视频合并
                     else if (Equals(SelectedConversionType, ConversionTypeCollection[1]))
                     {
                         VideoConversionFileModel videoConversionFile = new()
@@ -1383,6 +1392,7 @@ namespace ModernFormatConverter.Views.Pages
 
                         return videoConversionFile;
                     }
+                    // 视频混流
                     else if (Equals(SelectedConversionType, ConversionTypeCollection[2]))
                     {
                         VideoMixedFlowFileModel videoMixedFlowFile = new()
@@ -1446,6 +1456,90 @@ namespace ModernFormatConverter.Views.Pages
 
                         return videoMixedFlowFile;
                     }
+                    // 视频分离
+                    else if (Equals(SelectedConversionType, ConversionTypeCollection[3]))
+                    {
+                        VideoConversionFileModel videoConversionFile = new()
+                        {
+                            FileName = Path.GetFileName(filePath),
+                            FilePath = filePath,
+                        };
+                        FileInfo fileInfo = new(filePath);
+                        videoConversionFile.FileSize = fileInfo.Length;
+                        videoConversionFile.FileSizeString = VolumeSizeHelper.ConvertVolumeSizeToString(fileInfo.Length);
+
+                        if (MediaInfoLibrary.MediaInfo_New() is nint handle && handle is not 0 && MediaInfoLibrary.MediaInfo_Open(handle, filePath) is not 0)
+                        {
+                            string videoDuration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, 0, "Duration", InfoKind.Text, InfoKind.Name));
+                            if (int.TryParse(videoDuration, out int videoDurationValue))
+                            {
+                                TimeSpan videoDurationTimeSpan = TimeSpan.FromMilliseconds(videoDurationValue);
+                                videoConversionFile.Duration = videoDurationTimeSpan;
+                                videoConversionFile.DurationString = string.Format(@"{0:00}:{1:00}:{2:00}", Math.Truncate(videoDurationTimeSpan.TotalHours), videoDurationTimeSpan.Minutes, videoDurationTimeSpan.Minutes);
+                            }
+                            else
+                            {
+                                videoConversionFile.Duration = TimeSpan.Zero;
+                                videoConversionFile.DurationString = string.IsNullOrEmpty(videoDuration) ? "00:00:00" : videoDuration;
+                            }
+
+                            string width = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, 0, "Width", InfoKind.Text, InfoKind.Name));
+                            videoConversionFile.ScreenSizeWidth = string.IsNullOrEmpty(width) ? "0" : width;
+                            string height = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, 0, "Height", InfoKind.Text, InfoKind.Name));
+                            videoConversionFile.ScreenSizeHeight = string.IsNullOrEmpty(height) ? "0" : height;
+                            MediaInfoLibrary.MediaInfo_Close(handle);
+                            MediaInfoLibrary.MediaInfo_Delete(handle);
+                        }
+
+                        videoConversionFile.VideoConversionConfiguration = new()
+                        {
+                            VideoConversionTypeKind = VideoConversionTypeKind.VideoSeparation
+                        };
+
+                        return videoConversionFile;
+                    }
+                    // 视频导出图片
+                    else if (Equals(SelectedConversionType, ConversionTypeCollection[4]))
+                    {
+                        VideoConversionFileModel videoConversionFile = new()
+                        {
+                            FileName = Path.GetFileName(filePath),
+                            FilePath = filePath,
+                        };
+                        FileInfo fileInfo = new(filePath);
+                        videoConversionFile.FileSize = fileInfo.Length;
+                        videoConversionFile.FileSizeString = VolumeSizeHelper.ConvertVolumeSizeToString(fileInfo.Length);
+
+                        if (MediaInfoLibrary.MediaInfo_New() is nint handle && handle is not 0 && MediaInfoLibrary.MediaInfo_Open(handle, filePath) is not 0)
+                        {
+                            string videoDuration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, 0, "Duration", InfoKind.Text, InfoKind.Name));
+                            if (int.TryParse(videoDuration, out int videoDurationValue))
+                            {
+                                TimeSpan videoDurationTimeSpan = TimeSpan.FromMilliseconds(videoDurationValue);
+                                videoConversionFile.Duration = videoDurationTimeSpan;
+                                videoConversionFile.DurationString = string.Format(@"{0:00}:{1:00}:{2:00}", Math.Truncate(videoDurationTimeSpan.TotalHours), videoDurationTimeSpan.Minutes, videoDurationTimeSpan.Minutes);
+                            }
+                            else
+                            {
+                                videoConversionFile.Duration = TimeSpan.Zero;
+                                videoConversionFile.DurationString = string.IsNullOrEmpty(videoDuration) ? "00:00:00" : videoDuration;
+                            }
+
+                            string width = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, 0, "Width", InfoKind.Text, InfoKind.Name));
+                            videoConversionFile.ScreenSizeWidth = string.IsNullOrEmpty(width) ? "0" : width;
+                            string height = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, 0, "Height", InfoKind.Text, InfoKind.Name));
+                            videoConversionFile.ScreenSizeHeight = string.IsNullOrEmpty(height) ? "0" : height;
+                            MediaInfoLibrary.MediaInfo_Close(handle);
+                            MediaInfoLibrary.MediaInfo_Delete(handle);
+                        }
+
+                        videoConversionFile.VideoConversionConfiguration = new()
+                        {
+                            VideoConversionTypeKind = VideoConversionTypeKind.VideoSeparation
+                        };
+
+                        return videoConversionFile;
+                    }
                     else
                     {
                         return null;
@@ -1508,11 +1602,6 @@ namespace ModernFormatConverter.Views.Pages
             {
                 return null;
             }
-        }
-
-        private Visibility GetVideoConversionType(VideoConversionTypeKind selectedVideoConversionTypeKind, VideoConversionTypeKind comparedVideoConversionTypeKind, bool needReverse)
-        {
-            return needReverse ? Equals(selectedVideoConversionTypeKind, comparedVideoConversionTypeKind) ? Visibility.Collapsed : Visibility.Visible : Equals(selectedVideoConversionTypeKind, comparedVideoConversionTypeKind) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private bool GetAllowDropVideoConversionFile(VideoConversionTypeKind videoConversionTypeKind)

@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:class="using:ModernFormatConverter.Extensions.DataType.Class"
     xmlns:collection="using:System.Collections"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     xmlns:converter="using:ModernFormatConverter.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -1474,18 +1475,12 @@
                             Style="{StaticResource BodyTextBlockStyle}"
                             Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('FontName')}" />
 
-                        <TextBlock
-                            Grid.Column="1"
-                            Margin="0,0,0,2"
-                            VerticalAlignment="Center"
-                            Text="{x:Bind FontName, Mode=OneWay}" />
-
-                        <Button
+                        <DropDownButton
                             Grid.Column="2"
                             Margin="5,0,0,0"
                             VerticalAlignment="Center"
                             Click="{x:Bind OnChangeFontNameClicked}"
-                            Content="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('Change')}" />
+                            Content="{x:Bind FontName, Mode=OneWay}" />
                     </Grid>
 
                     <!--  字体大小  -->
@@ -1536,7 +1531,6 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
                         <TextBlock
@@ -1547,18 +1541,86 @@
                             Style="{StaticResource BodyTextBlockStyle}"
                             Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('FontColor')}" />
 
-                        <TextBlock
+                        <SplitButton
                             Grid.Column="1"
-                            Margin="0,0,0,2"
-                            VerticalAlignment="Center"
-                            Text="{x:Bind FontColor, Mode=OneWay}" />
-
-                        <Button
-                            Grid.Column="2"
                             Margin="5,0,0,0"
-                            VerticalAlignment="Center"
-                            Click="{x:Bind OnChangeFontColorClicked}"
-                            Content="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('Change')}" />
+                            Padding="0"
+                            VerticalAlignment="Center">
+
+                            <Border
+                                Width="32"
+                                Height="32"
+                                CornerRadius="4,0,0,4">
+
+                                <Border.Background>
+                                    <SolidColorBrush Color="{x:Bind FontColor, Mode=OneWay}" />
+                                </Border.Background>
+                            </Border>
+
+                            <SplitButton.Flyout>
+                                <Flyout
+                                    x:Name="FontColorFlyout"
+                                    Opening="{x:Bind OnFontColorFlyoutOpening}"
+                                    Placement="Bottom"
+                                    ShouldConstrainToRootBounds="False">
+
+                                    <Flyout.FlyoutPresenterStyle>
+                                        <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                            <Setter Property="Padding" Value="0" />
+                                            <Setter Property="MinHeight" Value="0" />
+                                            <Setter Property="Background" Value="Transparent" />
+                                        </Style>
+                                    </Flyout.FlyoutPresenterStyle>
+
+                                    <Grid>
+                                        <SystemBackdropElement CornerRadius="{StaticResource OverlayCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+
+                                        <Grid Padding="12,5">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <ColorPicker x:Name="FontColorPicker" Grid.Row="0" />
+
+                                            <MenuFlyoutSeparator Grid.Row="1" Margin="0,0,0,10" />
+
+                                            <Grid
+                                                Grid.Row="2"
+                                                Margin="0,0,0,5"
+                                                ColumnSpacing="5">
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Button
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Stretch"
+                                                    Click="{x:Bind OnFontColorOkClicked}"
+                                                    Content="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('OK')}"
+                                                    Style="{StaticResource AccentButtonStyle}" />
+
+                                                <Button
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Stretch"
+                                                    Click="{x:Bind OnFontColorRestoreDefaultClicked}"
+                                                    Content="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('RestoreDefault')}" />
+
+                                                <Button
+                                                    Grid.Column="2"
+                                                    HorizontalAlignment="Stretch"
+                                                    Click="{x:Bind OnFontColorCancelClicked}"
+                                                    Content="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('Cancel')}" />
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </Flyout>
+                            </SplitButton.Flyout>
+                        </SplitButton>
                     </Grid>
 
                     <!--  字体边框风格  -->
@@ -1643,7 +1705,6 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
                         <TextBlock
@@ -1654,18 +1715,86 @@
                             Style="{StaticResource BodyTextBlockStyle}"
                             Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('CounterLineColor')}" />
 
-                        <TextBlock
+                        <SplitButton
                             Grid.Column="1"
-                            Margin="0,0,0,2"
-                            VerticalAlignment="Center"
-                            Text="{x:Bind CounterLineColor, Mode=OneWay}" />
-
-                        <Button
-                            Grid.Column="2"
                             Margin="5,0,0,0"
-                            VerticalAlignment="Center"
-                            Click="{x:Bind OnChangeCounterLineColorClicked}"
-                            Content="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('Change')}" />
+                            Padding="0"
+                            VerticalAlignment="Center">
+
+                            <Border
+                                Width="32"
+                                Height="32"
+                                CornerRadius="4,0,0,4">
+
+                                <Border.Background>
+                                    <SolidColorBrush Color="{x:Bind CounterLineColor, Mode=OneWay}" />
+                                </Border.Background>
+                            </Border>
+
+                            <SplitButton.Flyout>
+                                <Flyout
+                                    x:Name="CounterLineColorFlyout"
+                                    Opening="{x:Bind OnCounterLineColorFlyoutOpening}"
+                                    Placement="Bottom"
+                                    ShouldConstrainToRootBounds="False">
+
+                                    <Flyout.FlyoutPresenterStyle>
+                                        <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                            <Setter Property="Padding" Value="0" />
+                                            <Setter Property="MinHeight" Value="0" />
+                                            <Setter Property="Background" Value="Transparent" />
+                                        </Style>
+                                    </Flyout.FlyoutPresenterStyle>
+
+                                    <Grid>
+                                        <SystemBackdropElement CornerRadius="{StaticResource OverlayCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+
+                                        <Grid Padding="12,5">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <ColorPicker x:Name="CounterLineColorPicker" Grid.Row="0" />
+
+                                            <MenuFlyoutSeparator Grid.Row="1" Margin="0,0,0,10" />
+
+                                            <Grid
+                                                Grid.Row="2"
+                                                Margin="0,0,0,5"
+                                                ColumnSpacing="5">
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Button
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Stretch"
+                                                    Click="{x:Bind OnCounterLineColorOkClicked}"
+                                                    Content="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('OK')}"
+                                                    Style="{StaticResource AccentButtonStyle}" />
+
+                                                <Button
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Stretch"
+                                                    Click="{x:Bind OnCounterLineColorRestoreDefaultClicked}"
+                                                    Content="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('RestoreDefault')}" />
+
+                                                <Button
+                                                    Grid.Column="2"
+                                                    HorizontalAlignment="Stretch"
+                                                    Click="{x:Bind OnCounterLineColorCancelClicked}"
+                                                    Content="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('Cancel')}" />
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </Flyout>
+                            </SplitButton.Flyout>
+                        </SplitButton>
                     </Grid>
 
                     <!--  阴影大小  -->

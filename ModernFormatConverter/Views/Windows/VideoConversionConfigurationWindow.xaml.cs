@@ -31,6 +31,7 @@ using System.Windows.Media.Imaging;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI;
+using Windows.UI.ViewManagement;
 
 // 抑制 CA1806，CA1822，IDE0060 警告
 #pragma warning disable CA1806,CA1822,IDE0060
@@ -67,6 +68,7 @@ namespace ModernFormatConverter.Views.Dialogs
         private readonly string UnsideDownString = ResourceService.VideoConversionConfigurationResource.GetString("UnsideDown");
         private readonly List<ComboBoxItemModel> GPUList = [];
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
+        private readonly Color accentColor = new UISettings().GetColorValue(UIColorType.Accent);
         private OverlappedPresenter overlappedPresenter;
         private SUBCLASSPROC videoConversionConfigurationWindowSubClassProc;
         private ContentIsland contentIsland;
@@ -796,9 +798,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private string _fontColor;
+        private Color _fontColor;
 
-        public string FontColor
+        public Color FontColor
         {
             get { return _fontColor; }
 
@@ -844,9 +846,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private string _counterLineColor;
+        private Color _counterLineColor;
 
-        public string CounterLineColor
+        public Color CounterLineColor
         {
             get { return _counterLineColor; }
 
@@ -1644,19 +1646,42 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
+        /// 打开字体颜色浮出控件时触发的事件
+        /// </summary>
+        private void OnFontColorFlyoutOpening(object sender, object args)
+        {
+            FontColorPicker.Color = FontColor;
+        }
+
+        /// <summary>
         /// 修改字体颜色
         /// </summary>
-        private void OnChangeFontColorClicked(object sender, RoutedEventArgs args)
+        private void OnFontColorOkClicked(object sender, RoutedEventArgs args)
         {
-            System.Windows.Forms.ColorDialog colorDialog = new()
+            FontColor = FontColorPicker.Color;
+            if (FontColorFlyout.IsOpen)
             {
-                Color = System.Drawing.Color.FromName(FontColor)
-            };
-            if (colorDialog.ShowDialog() is System.Windows.Forms.DialogResult.OK && !Equals(colorDialog.Color, System.Drawing.Color.Empty))
-            {
-                FontColor = string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", colorDialog.Color.A, colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B);
+                FontColorFlyout.Hide();
             }
-            colorDialog.Dispose();
+        }
+
+        /// <summary>
+        /// 字体颜色恢复默认
+        /// </summary>
+        private void OnFontColorRestoreDefaultClicked(object sender, RoutedEventArgs args)
+        {
+            FontColorPicker.Color = accentColor;
+        }
+
+        /// <summary>
+        /// 关闭字体颜色浮出控件
+        /// </summary>
+        private void OnFontColorCancelClicked(object sender, RoutedEventArgs args)
+        {
+            if (FontColorFlyout.IsOpen)
+            {
+                FontColorFlyout.Hide();
+            }
         }
 
         /// <summary>
@@ -1682,19 +1707,42 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
+        /// 打开轮廓线颜色浮出控件时触发的事件
+        /// </summary>
+        private void OnCounterLineColorFlyoutOpening(object sender, object args)
+        {
+            CounterLineColorPicker.Color = CounterLineColor;
+        }
+
+        /// <summary>
         /// 修改轮廓线颜色
         /// </summary>
-        private void OnChangeCounterLineColorClicked(object sender, RoutedEventArgs args)
+        private void OnCounterLineColorOkClicked(object sender, RoutedEventArgs args)
         {
-            System.Windows.Forms.ColorDialog colorDialog = new()
+            CounterLineColor = CounterLineColorPicker.Color;
+            if (CounterLineColorFlyout.IsOpen)
             {
-                Color = System.Drawing.Color.FromName(CounterLineColor)
-            };
-            if (colorDialog.ShowDialog() is System.Windows.Forms.DialogResult.OK && !Equals(colorDialog.Color, System.Drawing.Color.Empty))
-            {
-                CounterLineColor = string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", colorDialog.Color.A, colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B);
+                CounterLineColorFlyout.Hide();
             }
-            colorDialog.Dispose();
+        }
+
+        /// <summary>
+        /// 轮廓线颜色恢复默认
+        /// </summary>
+        private void OnCounterLineColorRestoreDefaultClicked(object sender, RoutedEventArgs args)
+        {
+            CounterLineColorPicker.Color = accentColor;
+        }
+
+        /// <summary>
+        /// 关闭轮廓线颜色浮出控件
+        /// </summary>
+        private void OnCounterLineColorCancelClicked(object sender, RoutedEventArgs args)
+        {
+            if (CounterLineColorFlyout.IsOpen)
+            {
+                CounterLineColorFlyout.Hide();
+            }
         }
 
         /// <summary>
@@ -2198,8 +2246,7 @@ namespace ModernFormatConverter.Views.Dialogs
             FontSizeList.Add(new ComboBoxItemModel() { SelectedValue = 5, DisplayMember = string.Format("{0} {1}", 5, LargeString) });
             SelectedFontSize = videoConversionConfiguration is not null && FontSizeList.Find(item => Equals(Convert.ToInt32(item.SelectedValue), videoConversionConfiguration.FontSize)) is ComboBoxItemModel selectedFontSize ? selectedFontSize : FontSizeList[0];
 
-            System.Windows.Media.Color accentColor = System.Windows.SystemParameters.WindowGlassColor;
-            FontColor = videoConversionConfiguration is not null && !string.IsNullOrEmpty(videoConversionConfiguration.FontColor) ? videoConversionConfiguration.FontColor : accentColor.ToString();
+            FontColor = videoConversionConfiguration is not null && videoConversionConfiguration.FontColor.HasValue ? videoConversionConfiguration.FontColor.Value : accentColor;
 
             FontBorderStyleList.Add(new ComboBoxItemModel() { SelectedValue = "BorderAndShadow", DisplayMember = BorderAndShadowString });
             FontBorderStyleList.Add(new ComboBoxItemModel() { SelectedValue = "SolidColorBackground", DisplayMember = SolidColorBackgroundString });
@@ -2212,7 +2259,7 @@ namespace ModernFormatConverter.Views.Dialogs
             CounterLineSizeList.Add(new ComboBoxItemModel() { SelectedValue = 4, DisplayMember = "4" });
             SelectedCounterLineSize = videoConversionConfiguration is not null && CounterLineSizeList.Find(item => Equals(Convert.ToInt32(item.SelectedValue), videoConversionConfiguration.CounterLineSize)) is ComboBoxItemModel selectedCounterLineSize ? selectedCounterLineSize : CounterLineSizeList[0];
 
-            CounterLineColor = videoConversionConfiguration is not null && !string.IsNullOrEmpty(videoConversionConfiguration.CounterLineColor) ? videoConversionConfiguration.CounterLineColor : accentColor.ToString();
+            CounterLineColor = videoConversionConfiguration is not null && videoConversionConfiguration.CounterLineColor.HasValue ? videoConversionConfiguration.CounterLineColor.Value : accentColor;
 
             ShadowSizeList.Add(new ComboBoxItemModel() { SelectedValue = 0, DisplayMember = "0" });
             ShadowSizeList.Add(new ComboBoxItemModel() { SelectedValue = 1, DisplayMember = "1" });

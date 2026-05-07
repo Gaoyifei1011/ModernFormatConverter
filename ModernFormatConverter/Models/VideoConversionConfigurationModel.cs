@@ -1,5 +1,6 @@
 ﻿using ModernFormatConverter.Extensions.DataType.Enums;
 using System.Windows.Media.Imaging;
+using Windows.UI;
 
 namespace ModernFormatConverter.Models
 {
@@ -188,7 +189,7 @@ namespace ModernFormatConverter.Models
         /// <summary>
         /// 字体颜色
         /// </summary>
-        public string FontColor { get; set; }
+        public Color? FontColor { get; set; }
 
         /// <summary>
         /// 字体边框风格
@@ -203,7 +204,7 @@ namespace ModernFormatConverter.Models
         /// <summary>
         /// 轮廓线颜色
         /// </summary>
-        public string CounterLineColor { get; set; }
+        public Color? CounterLineColor { get; set; }
 
         /// <summary>
         /// 阴影大小

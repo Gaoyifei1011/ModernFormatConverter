@@ -116,7 +116,8 @@
                             Padding="0"
                             Command="{StaticResource CutVideoCommand}"
                             CommandParameter="{x:Bind}"
-                            CornerRadius="{StaticResource ControlCornerRadius}">
+                            CornerRadius="{StaticResource ControlCornerRadius}"
+                            Visibility="{x:Bind converter:ValueCheckConverterHelper.GetVideoConversionType(VideoConversionConfiguration.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoFormatConversion, x:False), Mode=OneWay}">
 
                             <FontIcon FontSize="16" Glyph="&#xE8C6;" />
 
@@ -440,7 +441,7 @@
                         HorizontalScrollMode="Disabled"
                         VerticalScrollBarVisibility="Auto"
                         VerticalScrollMode="Enabled"
-                        Visibility="{x:Bind GetVideoConversionType(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoMixedFlow, x:False), Mode=OneWay}">
+                        Visibility="{x:Bind converter:ValueCheckConverterHelper.GetVideoConversionType(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoMixedFlow, x:False), Mode=OneWay}">
 
                         <!--  视频混流控件  -->
                         <Grid Margin="32,0,24,30" RowSpacing="5">
@@ -908,7 +909,7 @@
                     </ScrollViewer>
 
                     <!--  非视频混流控件  -->
-                    <Grid Visibility="{x:Bind GetVideoConversionType(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoMixedFlow, x:True), Mode=OneWay}">
+                    <Grid Visibility="{x:Bind converter:ValueCheckConverterHelper.GetVideoConversionType(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoMixedFlow, x:True), Mode=OneWay}">
                         <!--  添加文件信息提示和按钮  -->
                         <Grid
                             HorizontalAlignment="Center"
@@ -962,7 +963,7 @@
                                 HorizontalAlignment="Stretch"
                                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                                 BorderThickness="0,1,0,1"
-                                Visibility="{x:Bind GetVideoConversionType(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoConcat, x:False), Mode=OneWay}">
+                                Visibility="{x:Bind converter:ValueCheckConverterHelper.GetVideoConversionType(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoConcat, x:False), Mode=OneWay}">
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="2*" />
@@ -1156,7 +1157,7 @@
                         Padding="0"
                         CornerRadius="{StaticResource ControlCornerRadius}"
                         IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsGettingFileInformation), Mode=OneWay}"
-                        Visibility="{x:Bind GetVideoConversionType(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoMixedFlow, x:True), Mode=OneWay}">
+                        Visibility="{x:Bind converter:ValueCheckConverterHelper.GetVideoConversionType(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoMixedFlow, x:True), Mode=OneWay}">
 
                         <FontIcon FontSize="14" Glyph="&#xE8CB;" />
 
@@ -1270,14 +1271,14 @@
                                 <MenuFlyoutItem
                                     Click="{x:Bind OnAddFileClicked}"
                                     Text="{x:Bind rootservice:ResourceService.VideoConversionResource.GetString('AddFile')}"
-                                    Visibility="{x:Bind GetVideoConversionType(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoMixedFlow, x:True), Mode=OneWay}">
+                                    Visibility="{x:Bind converter:ValueCheckConverterHelper.GetVideoConversionType(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoMixedFlow, x:True), Mode=OneWay}">
 
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE8A5;" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
 
-                                <MenuFlyoutSubItem Text="{x:Bind rootservice:ResourceService.VideoConversionResource.GetString('AddFile')}" Visibility="{x:Bind GetVideoConversionType(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoMixedFlow, x:False), Mode=OneWay}">
+                                <MenuFlyoutSubItem Text="{x:Bind rootservice:ResourceService.VideoConversionResource.GetString('AddFile')}" Visibility="{x:Bind converter:ValueCheckConverterHelper.GetVideoConversionType(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoMixedFlow, x:False), Mode=OneWay}">
 
                                     <MenuFlyoutSubItem.Icon>
                                         <FontIcon Glyph="&#xE8A5;" />
@@ -1307,7 +1308,11 @@
                                     </MenuFlyoutSubItem.Items>
                                 </MenuFlyoutSubItem>
 
-                                <MenuFlyoutItem Click="{x:Bind OnAddFromFolderClicked}" Text="{x:Bind rootservice:ResourceService.VideoConversionResource.GetString('AddFromFolder')}">
+                                <MenuFlyoutItem
+                                    Click="{x:Bind OnAddFromFolderClicked}"
+                                    Text="{x:Bind rootservice:ResourceService.VideoConversionResource.GetString('AddFromFolder')}"
+                                    Visibility="{x:Bind converter:ValueCheckConverterHelper.GetVideoConversionType(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoMixedFlow, x:True), Mode=OneWay}">
+
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE838;" />
                                     </MenuFlyoutItem.Icon>
@@ -1336,7 +1341,8 @@
                         Padding="7"
                         Click="{x:Bind OnOutputConfigurationClicked}"
                         CornerRadius="{StaticResource ControlCornerRadius}"
-                        IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsGettingFileInformation), Mode=OneWay}">
+                        IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsGettingFileInformation), Mode=OneWay}"
+                        Visibility="{x:Bind converter:ValueCheckConverterHelper.GetVideoConversionType(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoSeparation, x:True), Mode=OneWay}">
 
                         <AnimatedIcon x:Name="SearchAnimatedIcon">
                             <AnimatedIcon.Source>

@@ -207,6 +207,7 @@
 
     <None Remove="MainApp.xaml" />
     <None Remove="Styles\AppBarButton.xaml" />
+    <None Update="Styles\ColorPicker.xaml" />
     <None Remove="Styles\ComboBox.xaml" />
     <None Remove="Styles\NavigationView.xaml" />
     <None Remove="Styles\TextBox.xaml" />
@@ -234,6 +235,7 @@
     <None Update="Views\Windows\VideoConversionConfigurationWindow.xaml" />
 
     <Page Include="Styles\AppBarButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Styles\ColorPicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\ComboBox.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\NavigationView.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\TextBox.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -272,6 +274,7 @@
     <PackageReference Include="Microsoft.WindowsAppSDK.InteractiveExperiences" Version="2.0.12" GeneratePathProperty="True" />
     <PackageReference Include="Microsoft.WindowsAppSDK.Runtime" Version="2.0.1" />
     <PackageReference Include="Microsoft.WindowsAppSDK.WinUI" Version="2.0.12" GeneratePathProperty="True" IncludeAssets="none" PrivateAssets="all" />
+    <PackageReference Include="System.Numerics.Vectors" Version="4.6.1" />
     <PackageReference Include="System.Runtime.WindowsRuntime" Version="4.7.0" />
 
     <Reference Include="$(PkgMicrosoft_WindowsAppSDK_InteractiveExperiences)\metadata\10.0.18362.0\Microsoft.UI.winmd" Private="false" Visible="false" />
