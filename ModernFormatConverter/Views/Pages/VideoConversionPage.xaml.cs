@@ -6,6 +6,7 @@ using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Helpers.Root;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
+using ModernFormatConverter.Services.Settings;
 using ModernFormatConverter.Views.Dialogs;
 using ModernFormatConverter.Views.Windows;
 using ModernFormatConverter.WindowsAPI.ComTypes;
@@ -237,9 +238,7 @@ namespace ModernFormatConverter.Views.Pages
             SelectedConversionType = ConversionTypeCollection[0];
             SelectedSortRule = SortRuleList[0];
             SortWay = true;
-            Shell32Library.SHGetKnownFolderPath(new("F1B32785-6FBA-4FCF-9D55-7B8E7F157091"), KNOWN_FOLDER_FLAG.KF_FLAG_FORCE_APP_DATA_REDIRECTION, 0, out string outputFolder);
-            OutputFolder = outputFolder;
-            // TODO：未完成，添加一个读取本地文件夹保存设置
+            OutputFolder = ConvertConfigurationService.ConvertedVideoSavePath;
         }
 
         #region 第一部分：ExecuteCommand 命令调用时挂载的事件
@@ -1164,19 +1163,20 @@ namespace ModernFormatConverter.Views.Pages
                         {
                             Shell32Library.SHGetKnownFolderPath(new("F1B32785-6FBA-4FCF-9D55-7B8E7F157091"), KNOWN_FOLDER_FLAG.KF_FLAG_FORCE_APP_DATA_REDIRECTION, 0, out string localAppDataPath);
                             OutputFolder = localAppDataPath;
-                            // TODO：未完成，添加一个文件夹保存到本地设置中
+                            ConvertConfigurationService.SetConvertedVideoSavePath(OutputFolder);
                             break;
                         }
                     case "Video":
                         {
                             string videoFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
                             OutputFolder = videoFolder;
+                            ConvertConfigurationService.SetConvertedVideoSavePath(OutputFolder);
                             break;
                         }
                     case "Desktop":
                         {
                             OutputFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                            // TODO：未完成，添加一个文件夹保存到本地设置中
+                            ConvertConfigurationService.SetConvertedVideoSavePath(OutputFolder);
                             break;
                         }
                     case "Custom":
@@ -1190,7 +1190,7 @@ namespace ModernFormatConverter.Views.Pages
                             if (dialogResult is DialogResult.OK || dialogResult is DialogResult.Yes)
                             {
                                 OutputFolder = openFolderDialog.SelectedPath;
-                                // TODO：未完成，添加一个文件夹保存到本地设置中
+                                ConvertConfigurationService.SetConvertedVideoSavePath(OutputFolder);
                             }
                             openFolderDialog.Dispose();
                             break;
