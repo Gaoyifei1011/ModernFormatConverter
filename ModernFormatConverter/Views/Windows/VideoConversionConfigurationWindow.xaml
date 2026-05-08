@@ -1464,7 +1464,6 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
                         <TextBlock
@@ -1475,12 +1474,93 @@
                             Style="{StaticResource BodyTextBlockStyle}"
                             Text="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('FontName')}" />
 
-                        <DropDownButton
-                            Grid.Column="2"
-                            Margin="5,0,0,0"
+                        <SplitButton
+                            Grid.Column="1"
                             VerticalAlignment="Center"
-                            Click="{x:Bind OnChangeFontNameClicked}"
-                            Content="{x:Bind FontName, Mode=OneWay}" />
+                            Content="{x:Bind FontName, Mode=OneWay}">
+
+                            <SplitButton.Flyout>
+                                <Flyout
+                                    x:Name="FontNameFlyout"
+                                    Opening="{x:Bind OnFontNameFlyoutOpening}"
+                                    Placement="Bottom"
+                                    ShouldConstrainToRootBounds="False">
+
+                                    <Flyout.FlyoutPresenterStyle>
+                                        <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                            <Setter Property="Padding" Value="0" />
+                                            <Setter Property="MinHeight" Value="0" />
+                                            <Setter Property="Background" Value="Transparent" />
+                                        </Style>
+                                    </Flyout.FlyoutPresenterStyle>
+
+                                    <Grid>
+                                        <SystemBackdropElement CornerRadius="{StaticResource OverlayCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+
+                                        <Grid Padding="12,5">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <ComboBox
+                                                    Grid.Column="0"
+                                                    VerticalAlignment="Center"
+                                                    DisplayMemberPath="DisplayMember"
+                                                    ItemsSource="{x:Bind FontNameList}"
+                                                    SelectedItem="{x:Bind SelectedFontName, Mode=OneWay}"
+                                                    SelectionChanged="{x:Bind OnFontNameSelectionChanged}"
+                                                    Style="{StaticResource ComboBoxStyle}" />
+
+                                                <AppBarSeparator Grid.Column="1" Margin="5,0" />
+
+                                                <TextBlock
+                                                    Grid.Column="2"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    FontFamily="{x:Bind SelectedFontFamily, Mode=OneWay}"
+                                                    FontSize="16"
+                                                    Text="AaXxYyZz" />
+                                            </Grid>
+
+                                            <MenuFlyoutSeparator Grid.Row="1" Margin="0,5" />
+
+                                            <Grid
+                                                Grid.Row="2"
+                                                Margin="0,0,0,5"
+                                                ColumnSpacing="5">
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Button
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Stretch"
+                                                    Click="{x:Bind OnFontNameOkClicked}"
+                                                    Content="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('OK')}"
+                                                    Style="{StaticResource AccentButtonStyle}" />
+
+                                                <Button
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Stretch"
+                                                    Click="{x:Bind OnFontNameCancelClicked}"
+                                                    Content="{x:Bind rootservice:ResourceService.VideoConversionConfigurationResource.GetString('Cancel')}" />
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </Flyout>
+                            </SplitButton.Flyout>
+                        </SplitButton>
                     </Grid>
 
                     <!--  字体大小  -->
@@ -1582,7 +1662,7 @@
                                                 <RowDefinition Height="Auto" />
                                             </Grid.RowDefinitions>
 
-                                            <ColorPicker x:Name="FontColorPicker" Grid.Row="0" />
+                                            <ColorPicker Grid.Row="0" Color="{x:Bind SelectedFontColor, Mode=TwoWay}" />
 
                                             <MenuFlyoutSeparator Grid.Row="1" Margin="0,0,0,10" />
 
@@ -1756,7 +1836,7 @@
                                                 <RowDefinition Height="Auto" />
                                             </Grid.RowDefinitions>
 
-                                            <ColorPicker x:Name="CounterLineColorPicker" Grid.Row="0" />
+                                            <ColorPicker Grid.Row="0" Color="{x:Bind SelectedCounterLineColor, Mode=TwoWay}" />
 
                                             <MenuFlyoutSeparator Grid.Row="1" Margin="0,0,0,10" />
 

@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing.Text;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -782,6 +783,38 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
+        private ComboBoxItemModel _selectedFontName;
+
+        public ComboBoxItemModel SelectedFontName
+        {
+            get { return _selectedFontName; }
+
+            set
+            {
+                if (!Equals(_selectedFontName, value))
+                {
+                    _selectedFontName = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedFontName)));
+                }
+            }
+        }
+
+        private FontFamily _selectedFontFamily = FontFamily.XamlAutoFontFamily;
+
+        public FontFamily SelectedFontFamily
+        {
+            get { return _selectedFontFamily; }
+
+            set
+            {
+                if (!Equals(_selectedFontFamily, value))
+                {
+                    _selectedFontFamily = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedFontFamily)));
+                }
+            }
+        }
+
         private ComboBoxItemModel _selectedFontSize;
 
         public ComboBoxItemModel SelectedFontSize
@@ -806,10 +839,26 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                if (!string.Equals(_fontColor, value))
+                if (!Equals(_fontColor, value))
                 {
                     _fontColor = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FontColor)));
+                }
+            }
+        }
+
+        private Color _selectedFontColor;
+
+        public Color SelectedFontColor
+        {
+            get { return _selectedFontColor; }
+
+            set
+            {
+                if (!Equals(_selectedFontColor, value))
+                {
+                    _selectedFontColor = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedFontColor)));
                 }
             }
         }
@@ -854,10 +903,26 @@ namespace ModernFormatConverter.Views.Dialogs
 
             set
             {
-                if (!string.Equals(_counterLineColor, value))
+                if (!Equals(_counterLineColor, value))
                 {
                     _counterLineColor = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CounterLineColor)));
+                }
+            }
+        }
+
+        private Color _selectedCounterLineColor;
+
+        public Color SelectedCounterLineColor
+        {
+            get { return _selectedCounterLineColor; }
+
+            set
+            {
+                if (!Equals(_selectedCounterLineColor, value))
+                {
+                    _selectedCounterLineColor = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCounterLineColor)));
                 }
             }
         }
@@ -934,6 +999,8 @@ namespace ModernFormatConverter.Views.Dialogs
         public WinRTObservableCollection<ComboBoxItemModel> AudioFadeOutEffectCollection { get; } = [];
 
         public List<ComboBoxItemModel> SubtitleNestTypeList { get; } = [];
+
+        public List<ComboBoxItemModel> FontNameList { get; } = [];
 
         public List<ComboBoxItemModel> FontSizeList { get; } = [];
 
@@ -1619,19 +1686,47 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
+        /// 打开字体名称浮出控件时触发的事件
+        /// </summary>
+        private void OnFontNameFlyoutOpening(object sender, object args)
+        {
+            SelectedFontName = FontNameList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), FontName));
+            SelectedFontFamily = new FontFamily(Convert.ToString(SelectedFontName.SelectedValue));
+        }
+
+        /// <summary>
+        /// 修改选中的字体名称
+        /// </summary>
+        private void OnFontNameSelectionChanged(object sender, SelectionChangedEventArgs args)
+        {
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel fontName && !Equals(SelectedFontName, fontName))
+            {
+                SelectedFontName = fontName;
+                SelectedFontFamily = new FontFamily(Convert.ToString(SelectedFontName.SelectedValue));
+            }
+        }
+
+        /// <summary>
         /// 修改字体名称
         /// </summary>
-        private void OnChangeFontNameClicked(object sender, RoutedEventArgs args)
+        private void OnFontNameOkClicked(object sender, RoutedEventArgs args)
         {
-            System.Windows.Forms.FontDialog fontDialog = new()
+            FontName = Convert.ToString(SelectedFontName.SelectedValue);
+            if (FontNameFlyout.IsOpen)
             {
-                Font = new(FontName, System.Drawing.SystemFonts.DefaultFont.Size)
-            };
-            if (fontDialog.ShowDialog() is System.Windows.Forms.DialogResult.OK && fontDialog.Font is not null)
-            {
-                FontName = fontDialog.Font.Name;
+                FontNameFlyout.Hide();
             }
-            fontDialog.Dispose();
+        }
+
+        /// <summary>
+        /// 关闭字体名称浮出控件
+        /// </summary>
+        private void OnFontNameCancelClicked(object sender, RoutedEventArgs args)
+        {
+            if (FontNameFlyout.IsOpen)
+            {
+                FontNameFlyout.Hide();
+            }
         }
 
         /// <summary>
@@ -1650,7 +1745,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnFontColorFlyoutOpening(object sender, object args)
         {
-            FontColorPicker.Color = FontColor;
+            SelectedFontColor = FontColor;
         }
 
         /// <summary>
@@ -1658,7 +1753,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnFontColorOkClicked(object sender, RoutedEventArgs args)
         {
-            FontColor = FontColorPicker.Color;
+            FontColor = SelectedFontColor;
             if (FontColorFlyout.IsOpen)
             {
                 FontColorFlyout.Hide();
@@ -1670,7 +1765,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnFontColorRestoreDefaultClicked(object sender, RoutedEventArgs args)
         {
-            FontColorPicker.Color = accentColor;
+            SelectedFontColor = accentColor;
         }
 
         /// <summary>
@@ -1711,7 +1806,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnCounterLineColorFlyoutOpening(object sender, object args)
         {
-            CounterLineColorPicker.Color = CounterLineColor;
+            SelectedCounterLineColor = CounterLineColor;
         }
 
         /// <summary>
@@ -1719,7 +1814,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnCounterLineColorOkClicked(object sender, RoutedEventArgs args)
         {
-            CounterLineColor = CounterLineColorPicker.Color;
+            CounterLineColor = SelectedCounterLineColor;
             if (CounterLineColorFlyout.IsOpen)
             {
                 CounterLineColorFlyout.Hide();
@@ -1731,7 +1826,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnCounterLineColorRestoreDefaultClicked(object sender, RoutedEventArgs args)
         {
-            CounterLineColorPicker.Color = accentColor;
+            SelectedCounterLineColor = accentColor;
         }
 
         /// <summary>
@@ -2237,7 +2332,19 @@ namespace ModernFormatConverter.Views.Dialogs
             SubtitleNestTypeList.Add(new ComboBoxItemModel() { SelectedValue = "UTF8", DisplayMember = "UTF8" });
             SelectedSubtitleNestType = videoConversionConfiguration is not null && SubtitleNestTypeList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionConfiguration.SubtitleNestType)) is ComboBoxItemModel selectedSubtitleNestType ? selectedSubtitleNestType : SubtitleNestTypeList[0];
 
-            FontName = videoConversionConfiguration is not null && !string.IsNullOrEmpty(videoConversionConfiguration.FontName) ? videoConversionConfiguration.FontName : FontName = System.Drawing.SystemFonts.DefaultFont.Name;
+            InstalledFontCollection installedFontCollection = new();
+
+            foreach (System.Drawing.FontFamily fontFamily in installedFontCollection.Families)
+            {
+                FontNameList.Add(new ComboBoxItemModel()
+                {
+                    DisplayMember = fontFamily.Name,
+                    SelectedValue = fontFamily.Name
+                });
+            }
+
+            SelectedFontName = videoConversionConfiguration is not null && !string.IsNullOrEmpty(videoConversionConfiguration.FontName) && FontNameList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionConfiguration.FontName)) is ComboBoxItemModel selectedFontName ? selectedFontName : FontNameList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), System.Drawing.SystemFonts.DefaultFont.Name)) is ComboBoxItemModel defaultFontName ? defaultFontName : FontNameList[0];
+            FontName = Convert.ToString(SelectedFontName.SelectedValue);
 
             FontSizeList.Add(new ComboBoxItemModel() { SelectedValue = 1, DisplayMember = string.Format("{0} {1}", 1, SmallString) });
             FontSizeList.Add(new ComboBoxItemModel() { SelectedValue = 2, DisplayMember = "2" });
