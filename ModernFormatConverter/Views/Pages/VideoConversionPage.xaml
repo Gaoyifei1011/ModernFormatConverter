@@ -1425,11 +1425,11 @@
 
                                 <MenuFlyoutItem
                                     Click="{x:Bind OnChangeOutputFolderClicked}"
-                                    Tag="Download"
-                                    Text="{x:Bind rootservice:ResourceService.VideoConversionResource.GetString('DownloadFolder')}">
+                                    Tag="Video"
+                                    Text="{x:Bind rootservice:ResourceService.VideoConversionResource.GetString('VideoFolder')}">
 
                                     <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE896;" />
+                                        <FontIcon Glyph="&#xE714;" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
 

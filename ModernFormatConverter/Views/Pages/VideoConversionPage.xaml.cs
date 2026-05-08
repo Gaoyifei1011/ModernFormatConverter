@@ -1167,11 +1167,10 @@ namespace ModernFormatConverter.Views.Pages
                             // TODO：未完成，添加一个文件夹保存到本地设置中
                             break;
                         }
-                    case "Download":
+                    case "Video":
                         {
-                            Shell32Library.SHGetKnownFolderPath(new("374DE290-123F-4565-9164-39C4925E467B"), KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, 0, out string downloadFolder);
-                            OutputFolder = downloadFolder;
-                            // TODO：未完成，添加一个文件夹保存到本地设置中
+                            string videoFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+                            OutputFolder = videoFolder;
                             break;
                         }
                     case "Desktop":
