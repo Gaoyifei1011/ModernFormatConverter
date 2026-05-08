@@ -50,6 +50,7 @@ namespace ModernFormatConverter.Views.Pages
             { "Microsoft.Windows.SDK.BuildTools.MSIX", new Uri("https://aka.ms/WinSDKProjectURL") },
             { "Microsoft.Windows.SDK.NET.Ref", new Uri("https://aka.ms/WinSDKProjectURL") },
             { "Microsoft.WindowsAppSDK", new Uri("https://github.com/microsoft/windowsappsdk") },
+            { "System.Numerics.Vectors", new Uri("https://github.com/dotnet/maintenance-packages") },
             { "System.Runtime.WindowsRuntime", new Uri("https://github.com/dotnet/corefx") }
         };
 
