@@ -201,6 +201,9 @@
     <EmbeddedResource Include="Strings\VideoConversionOutputConfiguration.en-us.restext" />
     <EmbeddedResource Include="Strings\VideoConversionOutputConfiguration.restext" />
     <EmbeddedResource Include="Strings\VideoConversionOutputConfiguration.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\VideoExportPictureOutputConfiguration.en-us.restext" />
+    <EmbeddedResource Include="Strings\VideoExportPictureOutputConfiguration.restext" />
+    <EmbeddedResource Include="Strings\VideoExportPictureOutputConfiguration.zh-hans.restext" />
     <EmbeddedResource Include="Strings\Window.en-us.restext" />
     <EmbeddedResource Include="Strings\Window.restext" />
     <EmbeddedResource Include="Strings\Window.zh-hans.restext" />
