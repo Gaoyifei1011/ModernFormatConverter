@@ -12,6 +12,7 @@
     xmlns:rootservice="using:ModernFormatConverter.Services.Root"
     xmlns:system="using:System"
     xmlns:window="using:ModernFormatConverter.Views.Windows"
+    xmlns:settingsservice="using:ModernFormatConverter.Services.Settings"
     Title="{x:Bind rootservice:ResourceService.VideoConversionOutputConfigurationResource.GetString('Title')}"
     SystemBackdrop="{x:Bind WindowSystemBackdrop, Mode=OneWay}"
     mc:Ignorable="d">
@@ -19,7 +20,7 @@
     <Page
         x:Name="VideoConversionOutputConfigurationPage"
         ActualThemeChanged="{x:Bind OnActualThemeChanged}"
-        FlowDirection="{x:Bind ((FrameworkElement)window:MainWindow.Current.Content).FlowDirection, Mode=OneWay}"
+        FlowDirection="{x:Bind settingsservice:LanguageService.FlowDirection}"
         Loaded="{x:Bind OnLoaded}"
         RequestedTheme="{x:Bind WindowTheme, Mode=OneWay}">
 

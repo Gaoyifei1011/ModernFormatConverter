@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:rootservice="using:ModernFormatConverter.Services.Root"
+    xmlns:settingsservice="using:ModernFormatConverter.Services.Settings"
     Title="{x:Bind rootservice:ResourceService.ConversionToolsResource.GetString('Title')}"
     SystemBackdrop="{x:Bind WindowSystemBackdrop, Mode=OneWay}"
     mc:Ignorable="d">
@@ -12,7 +13,7 @@
     <Page
         x:Name="ConversionToolsPage"
         ActualThemeChanged="{x:Bind OnActualThemeChanged}"
-        FlowDirection="{x:Bind ((FrameworkElement)MainWindow.Content).FlowDirection, Mode=OneWay}"
+        FlowDirection="{x:Bind settingsservice:LanguageService.FlowDirection}"
         Loaded="{x:Bind OnLoaded}"
         RequestedTheme="{x:Bind WindowTheme, Mode=OneWay}">
 
