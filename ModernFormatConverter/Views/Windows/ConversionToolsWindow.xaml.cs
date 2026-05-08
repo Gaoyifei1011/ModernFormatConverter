@@ -432,7 +432,7 @@ namespace ModernFormatConverter.Views.Windows
         #region 第七部分：窗口过程
 
         /// <summary>
-        /// 应用窗口消息处理
+        /// 转换工具窗口消息处理
         /// </summary>
         private nint ConversionToolsWindowSubClassProc(nint hWnd, WindowMessage Msg, nuint wParam, nint lParam, uint uIdSubclass, nint dwRefData)
         {
@@ -482,7 +482,7 @@ namespace ModernFormatConverter.Views.Windows
                         inputKeyboardSource.SystemKeyDown -= OnSystemKeyDown;
                         inputPointerSource.PointerReleased -= OnPointerReleased;
                         Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, conversionToolsWindowSubClassProc, 0);
-                        // TODO：未完成，目前仅测试
+                        // TODO：未完成
                         if (!taskCompletionSource.Task.IsCompleted)
                         {
                             taskCompletionSource.TrySetResult(ContentDialogResult.None);

@@ -554,7 +554,7 @@ namespace ModernFormatConverter.Views.Windows
         #region 第六部分：窗口过程
 
         /// <summary>
-        /// 应用窗口消息处理
+        /// 更新应用窗口消息处理
         /// </summary>
         private nint LincenseWindowSubClassProc(nint hWnd, WindowMessage Msg, nuint wParam, nint lParam, uint uIdSubclass, nint dwRefData)
         {

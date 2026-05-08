@@ -2002,7 +2002,7 @@ namespace ModernFormatConverter.Views.Dialogs
         #region 第七部分：窗口过程
 
         /// <summary>
-        /// 应用窗口消息处理
+        /// 视频转换输出配置窗口消息处理
         /// </summary>
         private nint VideoConversionOutputConfigurationWindowSubClassProc(nint hWnd, WindowMessage Msg, nuint wParam, nint lParam, uint uIdSubclass, nint dwRefData)
         {
