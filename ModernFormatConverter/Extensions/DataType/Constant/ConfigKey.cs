@@ -9,6 +9,14 @@
 
         public const string BackdropKey = "AppBackdrop";
 
+        public const string ConvertedAudioSavePathKey = "ConvertedAudioSavePath";
+
+        public const string ConvertedDocumentSavePathKey = "ConvertedDocumentSavePath";
+
+        public const string ConvertedPictureSavePathKey = "ConvertedPictureSavePath";
+
+        public const string ConvertedVideoSavePathKey = "ConvertedVideoSavePath";
+
         public const string LanguageKey = "AppLanguage";
 
         public const string ThemeKey = "AppTheme";

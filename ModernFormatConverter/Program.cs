@@ -83,6 +83,7 @@ namespace ModernFormatConverter
             AlwaysShowBackdropService.InitializeAlwaysShowBackdrop();
             BackdropService.InitializeBackdrop();
             ThemeService.InitializeTheme();
+            ConvertConfigurationService.InitializeConvertConfiguration();
         }
     }
 }
