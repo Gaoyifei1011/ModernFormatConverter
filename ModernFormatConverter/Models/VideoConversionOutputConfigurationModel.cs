@@ -5,9 +5,9 @@ using Windows.UI;
 namespace ModernFormatConverter.Models
 {
     /// <summary>
-    /// 视频转换配置数据类型
+    /// 视频转换输出配置数据类型
     /// </summary>
-    public class VideoConversionConfigurationModel
+    public class VideoConversionOutputConfigurationModel
     {
         public VideoConversionTypeKind VideoConversionTypeKind { get; set; }
 

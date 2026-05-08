@@ -112,7 +112,7 @@ namespace ModernFormatConverter.Models
             }
         }
 
-        public VideoConversionConfigurationModel VideoConversionConfiguration { get; set; }
+        public VideoConversionOutputConfigurationModel VideoConversionOutputConfiguration { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

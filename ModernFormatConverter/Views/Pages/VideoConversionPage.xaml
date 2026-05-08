@@ -117,7 +117,7 @@
                             Command="{StaticResource CutVideoCommand}"
                             CommandParameter="{x:Bind}"
                             CornerRadius="{StaticResource ControlCornerRadius}"
-                            Visibility="{x:Bind converter:ValueCheckConverterHelper.GetVideoConversionType(VideoConversionConfiguration.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoFormatConversion, x:False), Mode=OneWay}">
+                            Visibility="{x:Bind converter:ValueCheckConverterHelper.GetVideoConversionType(VideoConversionOutputConfiguration.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoFormatConversion, x:False), Mode=OneWay}">
 
                             <FontIcon FontSize="16" Glyph="&#xE8C6;" />
 

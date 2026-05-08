@@ -48,7 +48,7 @@ namespace ModernFormatConverter.Services.Root
 
         public static ResourceManager VideoConversionResource { get; } = new("ModernFormatConverter.Strings.VideoConversion", CurrentAssembly);
 
-        public static ResourceManager VideoConversionConfigurationResource { get; } = new("ModernFormatConverter.Strings.VideoConversionConfiguration", CurrentAssembly);
+        public static ResourceManager VideoConversionOutputConfigurationResource { get; } = new("ModernFormatConverter.Strings.VideoConversionOutputConfiguration", CurrentAssembly);
 
         public static ResourceManager WindowResource { get; } = new("ModernFormatConverter.Strings.Window", CurrentAssembly);
     }

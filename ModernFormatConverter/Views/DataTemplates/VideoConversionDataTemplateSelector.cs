@@ -18,15 +18,15 @@ namespace ModernFormatConverter.Views.DataTemplates
         {
             if (item is VideoConversionFileModel videoConversionFile)
             {
-                if (videoConversionFile.VideoConversionConfiguration.VideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion)
+                if (videoConversionFile.VideoConversionOutputConfiguration.VideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion)
                 {
                     return VideoCardDataTemplate;
                 }
-                else if (videoConversionFile.VideoConversionConfiguration.VideoConversionTypeKind is VideoConversionTypeKind.VideoConcat)
+                else if (videoConversionFile.VideoConversionOutputConfiguration.VideoConversionTypeKind is VideoConversionTypeKind.VideoConcat)
                 {
                     return VideoListDataTemplate;
                 }
-                else if (videoConversionFile.VideoConversionConfiguration.VideoConversionTypeKind is VideoConversionTypeKind.VideoSeparation)
+                else if (videoConversionFile.VideoConversionOutputConfiguration.VideoConversionTypeKind is VideoConversionTypeKind.VideoSeparation)
                 {
                     return VideoCardDataTemplate;
                 }

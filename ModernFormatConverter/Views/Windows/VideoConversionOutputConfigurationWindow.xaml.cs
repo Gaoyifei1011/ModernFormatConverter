@@ -32,7 +32,6 @@ using System.Windows.Media.Imaging;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI;
-using Windows.UI.ViewManagement;
 
 // 抑制 CA1806，CA1822，IDE0060 警告
 #pragma warning disable CA1806,CA1822,IDE0060
@@ -40,38 +39,38 @@ using Windows.UI.ViewManagement;
 namespace ModernFormatConverter.Views.Dialogs
 {
     /// <summary>
-    /// 视频转换配置窗口
+    /// 视频转换输出配置窗口
     /// </summary>
-    public sealed partial class VideoConversionConfigurationWindow : Window, INotifyPropertyChanged
+    public sealed partial class VideoConversionOutputConfigurationWindow : Window, INotifyPropertyChanged
     {
-        private readonly string AllFilesString = ResourceService.VideoConversionConfigurationResource.GetString("AllFiles");
-        private readonly string BorderAndShadowString = ResourceService.VideoConversionConfigurationResource.GetString("BorderAndShadow");
-        private readonly string CopyString = ResourceService.VideoConversionConfigurationResource.GetString("Copy");
-        private readonly string CustomString = ResourceService.VideoConversionConfigurationResource.GetString("Custom");
-        private readonly string DefaultString = ResourceService.VideoConversionConfigurationResource.GetString("Default");
-        private readonly string DefaultSizeString = ResourceService.VideoConversionConfigurationResource.GetString("DefaultSize");
-        private readonly string LargeString = ResourceService.VideoConversionConfigurationResource.GetString("Large");
-        private readonly string MonoString = ResourceService.VideoConversionConfigurationResource.GetString("Mono");
-        private readonly string NoneString = ResourceService.VideoConversionConfigurationResource.GetString("None");
-        private readonly string NormalString = ResourceService.VideoConversionConfigurationResource.GetString("Normal");
-        private readonly string NoRotateString = ResourceService.VideoConversionConfigurationResource.GetString("NoRotate");
-        private readonly string QuadString = ResourceService.VideoConversionConfigurationResource.GetString("Quad");
-        private readonly string RotateLeftString = ResourceService.VideoConversionConfigurationResource.GetString("RotateLeft");
-        private readonly string RotateRightString = ResourceService.VideoConversionConfigurationResource.GetString("RotateRight");
-        private readonly string SecondString = ResourceService.VideoConversionConfigurationResource.GetString("Second");
-        private readonly string SelectFileString = ResourceService.VideoConversionConfigurationResource.GetString("SelectFile");
-        private readonly string SmallString = ResourceService.VideoConversionConfigurationResource.GetString("Small");
-        private readonly string SolidColorBackgroundString = ResourceService.VideoConversionConfigurationResource.GetString("SolidColorBackground");
-        private readonly string StereoString = ResourceService.VideoConversionConfigurationResource.GetString("Stereo");
-        private readonly string Stereo51String = ResourceService.VideoConversionConfigurationResource.GetString("Stereo51");
-        private readonly string Stereo71String = ResourceService.VideoConversionConfigurationResource.GetString("Stereo71");
-        private readonly string SubtitleString = ResourceService.VideoConversionConfigurationResource.GetString("Subtitle");
-        private readonly string UnsideDownString = ResourceService.VideoConversionConfigurationResource.GetString("UnsideDown");
+        private readonly string AllFilesString = ResourceService.VideoConversionOutputConfigurationResource.GetString("AllFiles");
+        private readonly string BorderAndShadowString = ResourceService.VideoConversionOutputConfigurationResource.GetString("BorderAndShadow");
+        private readonly string CopyString = ResourceService.VideoConversionOutputConfigurationResource.GetString("Copy");
+        private readonly string CustomString = ResourceService.VideoConversionOutputConfigurationResource.GetString("Custom");
+        private readonly string DefaultString = ResourceService.VideoConversionOutputConfigurationResource.GetString("Default");
+        private readonly string DefaultSizeString = ResourceService.VideoConversionOutputConfigurationResource.GetString("DefaultSize");
+        private readonly string LargeString = ResourceService.VideoConversionOutputConfigurationResource.GetString("Large");
+        private readonly string MonoString = ResourceService.VideoConversionOutputConfigurationResource.GetString("Mono");
+        private readonly string NoneString = ResourceService.VideoConversionOutputConfigurationResource.GetString("None");
+        private readonly string NormalString = ResourceService.VideoConversionOutputConfigurationResource.GetString("Normal");
+        private readonly string NoRotateString = ResourceService.VideoConversionOutputConfigurationResource.GetString("NoRotate");
+        private readonly string QuadString = ResourceService.VideoConversionOutputConfigurationResource.GetString("Quad");
+        private readonly string RotateLeftString = ResourceService.VideoConversionOutputConfigurationResource.GetString("RotateLeft");
+        private readonly string RotateRightString = ResourceService.VideoConversionOutputConfigurationResource.GetString("RotateRight");
+        private readonly string SecondString = ResourceService.VideoConversionOutputConfigurationResource.GetString("Second");
+        private readonly string SelectFileString = ResourceService.VideoConversionOutputConfigurationResource.GetString("SelectFile");
+        private readonly string SmallString = ResourceService.VideoConversionOutputConfigurationResource.GetString("Small");
+        private readonly string SolidColorBackgroundString = ResourceService.VideoConversionOutputConfigurationResource.GetString("SolidColorBackground");
+        private readonly string StereoString = ResourceService.VideoConversionOutputConfigurationResource.GetString("Stereo");
+        private readonly string Stereo51String = ResourceService.VideoConversionOutputConfigurationResource.GetString("Stereo51");
+        private readonly string Stereo71String = ResourceService.VideoConversionOutputConfigurationResource.GetString("Stereo71");
+        private readonly string SubtitleString = ResourceService.VideoConversionOutputConfigurationResource.GetString("Subtitle");
+        private readonly string UnsideDownString = ResourceService.VideoConversionOutputConfigurationResource.GetString("UnsideDown");
         private readonly List<ComboBoxItemModel> GPUList = [];
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
-        private readonly Color accentColor = new UISettings().GetColorValue(UIColorType.Accent);
+        private readonly Color accentColor = (Color)Application.Current.Resources["SystemAccentColor"];
         private OverlappedPresenter overlappedPresenter;
-        private SUBCLASSPROC videoConversionConfigurationWindowSubClassProc;
+        private SUBCLASSPROC videoConversionOutputConfigurationWindowSubClassProc;
         private ContentIsland contentIsland;
         private InputKeyboardSource inputKeyboardSource;
         private InputPointerSource inputPointerSource;
@@ -1012,10 +1011,10 @@ namespace ModernFormatConverter.Views.Dialogs
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public VideoConversionConfigurationWindow(VideoConversionTypeKind videoConversionTypeKind, ConversionToolsWindow conversionToolsWindow, VideoConversionConfigurationModel videoConversionConfiguration = null)
+        public VideoConversionOutputConfigurationWindow(VideoConversionTypeKind videoConversionTypeKind, ConversionToolsWindow conversionToolsWindow, VideoConversionOutputConfigurationModel videoConversionOutputConfiguration = null)
         {
             SelectedVideoConversionTypeKind = videoConversionTypeKind;
-            InitializeData(videoConversionConfiguration);
+            InitializeData(videoConversionOutputConfiguration);
             InitializeComponent();
             InitializeUI(conversionToolsWindow);
         }
@@ -1114,7 +1113,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnSelectorBarSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
         {
-            if (VideoConversionConfigurationScroll.IsLoaded && !Equals(SelectedItem, sender.SelectedItem))
+            if (VideoConversionOutputConfigurationScroll.IsLoaded && !Equals(SelectedItem, sender.SelectedItem))
             {
                 SelectedItem = sender.SelectedItem;
                 int index = sender.Items.IndexOf(SelectedItem);
@@ -1123,26 +1122,26 @@ namespace ModernFormatConverter.Views.Dialogs
                 {
                     case 0:
                         {
-                            double currentScrollPosition = VideoConversionConfigurationScroll.VerticalOffset;
+                            double currentScrollPosition = VideoConversionOutputConfigurationScroll.VerticalOffset;
                             Point currentPoint = new(0, (int)currentScrollPosition);
-                            Point targetPosition = VideoHeader.TransformToVisual(VideoConversionConfigurationScroll).TransformPoint(currentPoint);
-                            VideoConversionConfigurationScroll.ChangeView(null, targetPosition.Y, null);
+                            Point targetPosition = VideoHeader.TransformToVisual(VideoConversionOutputConfigurationScroll).TransformPoint(currentPoint);
+                            VideoConversionOutputConfigurationScroll.ChangeView(null, targetPosition.Y, null);
                             break;
                         }
                     case 1:
                         {
-                            double currentScrollPosition = VideoConversionConfigurationScroll.VerticalOffset;
+                            double currentScrollPosition = VideoConversionOutputConfigurationScroll.VerticalOffset;
                             Point currentPoint = new(0, (int)currentScrollPosition);
-                            Point targetPosition = AudioHeader.TransformToVisual(VideoConversionConfigurationScroll).TransformPoint(currentPoint);
-                            VideoConversionConfigurationScroll.ChangeView(null, targetPosition.Y, null);
+                            Point targetPosition = AudioHeader.TransformToVisual(VideoConversionOutputConfigurationScroll).TransformPoint(currentPoint);
+                            VideoConversionOutputConfigurationScroll.ChangeView(null, targetPosition.Y, null);
                             break;
                         }
                     case 2:
                         {
-                            double currentScrollPosition = VideoConversionConfigurationScroll.VerticalOffset;
+                            double currentScrollPosition = VideoConversionOutputConfigurationScroll.VerticalOffset;
                             Point currentPoint = new(0, (int)currentScrollPosition);
-                            Point targetPosition = SubtitleHeader.TransformToVisual(VideoConversionConfigurationScroll).TransformPoint(currentPoint);
-                            VideoConversionConfigurationScroll.ChangeView(null, targetPosition.Y, null);
+                            Point targetPosition = SubtitleHeader.TransformToVisual(VideoConversionOutputConfigurationScroll).TransformPoint(currentPoint);
+                            VideoConversionOutputConfigurationScroll.ChangeView(null, targetPosition.Y, null);
                             break;
                         }
                 }
@@ -1166,22 +1165,22 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnViewChanged(object sender, ScrollViewerViewChangedEventArgs args)
         {
-            double currentScrollPosition = VideoConversionConfigurationScroll.VerticalOffset;
+            double currentScrollPosition = VideoConversionOutputConfigurationScroll.VerticalOffset;
             Point currentPoint = new(0, (int)currentScrollPosition);
-            Point audioHeaderTargetPosition = AudioHeader.TransformToVisual(VideoConversionConfigurationScroll).TransformPoint(currentPoint);
-            Point subtitleHeaderTargetPosition = SubtitleHeader.TransformToVisual(VideoConversionConfigurationScroll).TransformPoint(currentPoint);
+            Point audioHeaderTargetPosition = AudioHeader.TransformToVisual(VideoConversionOutputConfigurationScroll).TransformPoint(currentPoint);
+            Point subtitleHeaderTargetPosition = SubtitleHeader.TransformToVisual(VideoConversionOutputConfigurationScroll).TransformPoint(currentPoint);
 
             if (currentScrollPosition >= subtitleHeaderTargetPosition.Y)
             {
-                SelectedItem = VideoConversionConfigurationSelectorBar.Items[2];
+                SelectedItem = VideoConversionOutputConfigurationSelectorBar.Items[2];
             }
             else if (currentScrollPosition >= audioHeaderTargetPosition.Y && currentScrollPosition < subtitleHeaderTargetPosition.Y)
             {
-                SelectedItem = VideoConversionConfigurationSelectorBar.Items[1];
+                SelectedItem = VideoConversionOutputConfigurationSelectorBar.Items[1];
             }
             else
             {
-                SelectedItem = VideoConversionConfigurationSelectorBar.Items[0];
+                SelectedItem = VideoConversionOutputConfigurationSelectorBar.Items[0];
             }
         }
 
@@ -1312,7 +1311,7 @@ namespace ModernFormatConverter.Views.Dialogs
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionConfigurationWindow), nameof(OnScreenWidthValueChanged), 1, e);
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionOutputConfigurationWindow), nameof(OnScreenWidthValueChanged), 1, e);
                 }
             }
         }
@@ -1332,7 +1331,7 @@ namespace ModernFormatConverter.Views.Dialogs
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionConfigurationWindow), nameof(OnScreenHeightValueChanged), 1, e);
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionOutputConfigurationWindow), nameof(OnScreenHeightValueChanged), 1, e);
                 }
             }
         }
@@ -1376,7 +1375,7 @@ namespace ModernFormatConverter.Views.Dialogs
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionConfigurationWindow), nameof(OnCRFValueChanged), 1, e);
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionOutputConfigurationWindow), nameof(OnCRFValueChanged), 1, e);
                 }
             }
         }
@@ -1651,7 +1650,7 @@ namespace ModernFormatConverter.Views.Dialogs
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionConfigurationWindow), nameof(OnAdditionalSubtitlePathClicked), 1, e);
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionOutputConfigurationWindow), nameof(OnAdditionalSubtitlePathClicked), 1, e);
                 }
             });
         }
@@ -1999,7 +1998,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// <summary>
         /// 应用窗口消息处理
         /// </summary>
-        private nint VideoConversionConfigurationWindowSubClassProc(nint hWnd, WindowMessage Msg, nuint wParam, nint lParam, uint uIdSubclass, nint dwRefData)
+        private nint VideoConversionOutputConfigurationWindowSubClassProc(nint hWnd, WindowMessage Msg, nuint wParam, nint lParam, uint uIdSubclass, nint dwRefData)
         {
             switch (Msg)
             {
@@ -2041,7 +2040,7 @@ namespace ModernFormatConverter.Views.Dialogs
                             }
                             catch (Exception e)
                             {
-                                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionConfigurationWindow), nameof(VideoConversionConfigurationWindowSubClassProc), 1, e);
+                                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionOutputConfigurationWindow), nameof(VideoConversionOutputConfigurationWindowSubClassProc), 1, e);
                             }
                         }, null);
                         break;
@@ -2054,7 +2053,7 @@ namespace ModernFormatConverter.Views.Dialogs
                         BackdropService.PropertyChanged -= OnServicePropertyChanged;
                         inputKeyboardSource.SystemKeyDown -= OnSystemKeyDown;
                         inputPointerSource.PointerReleased -= OnPointerReleased;
-                        Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, videoConversionConfigurationWindowSubClassProc, 0);
+                        Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, videoConversionOutputConfigurationWindowSubClassProc, 0);
                         if (!taskCompletionSource.Task.IsCompleted)
                         {
                             taskCompletionSource.TrySetResult(ContentDialogResult.None);
@@ -2149,27 +2148,27 @@ namespace ModernFormatConverter.Views.Dialogs
         /// <summary>
         /// 初始化数据
         /// </summary>
-        private void InitializeData(VideoConversionConfigurationModel videoConversionConfiguration = null)
+        private void InitializeData(VideoConversionOutputConfigurationModel videoConversionOutputConfiguration = null)
         {
-            SelectedFormatConversionType = videoConversionConfiguration is not null && FormatConversionTypeList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionConfiguration.FormatConversionType)) is ComboBoxItemModel selectedFormatConversionType ? selectedFormatConversionType : FormatConversionTypeList[0];
+            SelectedFormatConversionType = videoConversionOutputConfiguration is not null && FormatConversionTypeList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.FormatConversionType)) is ComboBoxItemModel selectedFormatConversionType ? selectedFormatConversionType : FormatConversionTypeList[0];
 
             ResetVideoEncoding();
-            SelectedVideoEncoding = videoConversionConfiguration is not null && VideoEncodingCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionConfiguration.VideoEncoding)) is ComboBoxItemModel selectedVideoEncoding ? selectedVideoEncoding : VideoEncodingCollection[0];
+            SelectedVideoEncoding = videoConversionOutputConfiguration is not null && VideoEncodingCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.VideoEncoding)) is ComboBoxItemModel selectedVideoEncoding ? selectedVideoEncoding : VideoEncodingCollection[0];
 
             ResetSizeLimitation();
-            SelectedSizeLimitation = videoConversionConfiguration is not null && SizeLimitationCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionConfiguration.SizeLimitation)) is ComboBoxItemModel selectedSizeLimitation ? selectedSizeLimitation : SizeLimitationCollection[0];
+            SelectedSizeLimitation = videoConversionOutputConfiguration is not null && SizeLimitationCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.SizeLimitation)) is ComboBoxItemModel selectedSizeLimitation ? selectedSizeLimitation : SizeLimitationCollection[0];
 
             ResetScreenSize();
-            SelectedScreenSize = videoConversionConfiguration is not null && ScreenSizeCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionConfiguration.ScreenSize)) is ComboBoxItemModel selectedScreenSize ? selectedScreenSize : ScreenSizeCollection[0];
+            SelectedScreenSize = videoConversionOutputConfiguration is not null && ScreenSizeCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.ScreenSize)) is ComboBoxItemModel selectedScreenSize ? selectedScreenSize : ScreenSizeCollection[0];
 
             ResetVideoBitRate();
-            SelectedVideoBitRate = videoConversionConfiguration is not null && VideoBitRateCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionConfiguration.VideoBitRate)) is ComboBoxItemModel selectedVideoBitRate ? selectedVideoBitRate : VideoBitRateCollection[0];
+            SelectedVideoBitRate = videoConversionOutputConfiguration is not null && VideoBitRateCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.VideoBitRate)) is ComboBoxItemModel selectedVideoBitRate ? selectedVideoBitRate : VideoBitRateCollection[0];
 
             ResetCRF();
-            if (IsCRFSupported && videoConversionConfiguration is not null)
+            if (IsCRFSupported && videoConversionOutputConfiguration is not null)
             {
-                UseCRF = videoConversionConfiguration.CRF is not -1;
-                CRF = videoConversionConfiguration.CRF is not -1 ? videoConversionConfiguration.CRF : 10;
+                UseCRF = videoConversionOutputConfiguration.CRF is not -1;
+                CRF = videoConversionOutputConfiguration.CRF is not -1 ? videoConversionOutputConfiguration.CRF : 10;
             }
 
             uint iAdapterNum = 0;
@@ -2212,7 +2211,7 @@ namespace ModernFormatConverter.Views.Dialogs
             }
 
             ResetGPU();
-            SelectedGPU = videoConversionConfiguration is not null && GPUCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionConfiguration.GPU)) is ComboBoxItemModel selectedGPU ? selectedGPU : GPUCollection[0];
+            SelectedGPU = videoConversionOutputConfiguration is not null && GPUCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.GPU)) is ComboBoxItemModel selectedGPU ? selectedGPU : GPUCollection[0];
 
             FramePerSecondList.Add(new ComboBoxItemModel() { SelectedValue = "Default", DisplayMember = DefaultString });
             FramePerSecondList.Add(new ComboBoxItemModel() { SelectedValue = "12", DisplayMember = "12" });
@@ -2226,34 +2225,34 @@ namespace ModernFormatConverter.Views.Dialogs
             FramePerSecondList.Add(new ComboBoxItemModel() { SelectedValue = "30", DisplayMember = "30" });
             FramePerSecondList.Add(new ComboBoxItemModel() { SelectedValue = "50", DisplayMember = "50" });
             FramePerSecondList.Add(new ComboBoxItemModel() { SelectedValue = "60", DisplayMember = "60" });
-            SelectedFramePerSecond = videoConversionConfiguration is not null && FramePerSecondList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionConfiguration.FramePerSecond)) is ComboBoxItemModel selectedFramePerSecond ? selectedFramePerSecond : FramePerSecondList[0];
+            SelectedFramePerSecond = videoConversionOutputConfiguration is not null && FramePerSecondList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.FramePerSecond)) is ComboBoxItemModel selectedFramePerSecond ? selectedFramePerSecond : FramePerSecondList[0];
 
             ResetAspectRatio();
-            SelectedAspectRatio = videoConversionConfiguration is not null && AspectRatioCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionConfiguration.AspectRatio)) is ComboBoxItemModel selectedAspectRatio ? selectedAspectRatio : AspectRatioCollection[0];
+            SelectedAspectRatio = videoConversionOutputConfiguration is not null && AspectRatioCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.AspectRatio)) is ComboBoxItemModel selectedAspectRatio ? selectedAspectRatio : AspectRatioCollection[0];
 
             ResetSecondaryEncoding();
-            if (IsSecondaryEncodingEnabled && videoConversionConfiguration is not null)
+            if (IsSecondaryEncodingEnabled && videoConversionOutputConfiguration is not null)
             {
-                SecondaryEncoding = videoConversionConfiguration.SecondaryEncoding;
+                SecondaryEncoding = videoConversionOutputConfiguration.SecondaryEncoding;
             }
 
             ResetKeyFrameInterval();
-            SelectedKeyFrameInterval = videoConversionConfiguration is not null && KeyFrameIntervalCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionConfiguration.KeyFrameInterval)) is ComboBoxItemModel selectedKeyFrameInterval ? selectedKeyFrameInterval : KeyFrameIntervalCollection[0];
+            SelectedKeyFrameInterval = videoConversionOutputConfiguration is not null && KeyFrameIntervalCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.KeyFrameInterval)) is ComboBoxItemModel selectedKeyFrameInterval ? selectedKeyFrameInterval : KeyFrameIntervalCollection[0];
 
-            if (videoConversionConfiguration is not null)
+            if (videoConversionOutputConfiguration is not null)
             {
-                DeInterlace = videoConversionConfiguration.DeInterlace;
+                DeInterlace = videoConversionOutputConfiguration.DeInterlace;
             }
 
             RotationList.Add(new ComboBoxItemModel() { SelectedValue = Rotation.Rotate0, DisplayMember = NoRotateString });
             RotationList.Add(new ComboBoxItemModel() { SelectedValue = Rotation.Rotate90, DisplayMember = RotateRightString });
             RotationList.Add(new ComboBoxItemModel() { SelectedValue = Rotation.Rotate180, DisplayMember = UnsideDownString });
             RotationList.Add(new ComboBoxItemModel() { SelectedValue = Rotation.Rotate270, DisplayMember = RotateLeftString });
-            SelectedRotation = videoConversionConfiguration is not null && RotationList.Find(item => Equals((Rotation)item.SelectedValue, videoConversionConfiguration.Rotation)) is ComboBoxItemModel selectedRotation ? selectedRotation : RotationList[0];
+            SelectedRotation = videoConversionOutputConfiguration is not null && RotationList.Find(item => Equals((Rotation)item.SelectedValue, videoConversionOutputConfiguration.Rotation)) is ComboBoxItemModel selectedRotation ? selectedRotation : RotationList[0];
 
-            if (videoConversionConfiguration is not null)
+            if (videoConversionOutputConfiguration is not null)
             {
-                MirrorReversal = videoConversionConfiguration.MirrorReversal;
+                MirrorReversal = videoConversionOutputConfiguration.MirrorReversal;
             }
 
             VideoFadeInEffectList.Add(new ComboBoxItemModel() { SelectedValue = "None", DisplayMember = NoneString });
@@ -2262,7 +2261,7 @@ namespace ModernFormatConverter.Views.Dialogs
             VideoFadeInEffectList.Add(new ComboBoxItemModel() { SelectedValue = "3", DisplayMember = "3" + SecondString });
             VideoFadeInEffectList.Add(new ComboBoxItemModel() { SelectedValue = "4", DisplayMember = "4" + SecondString });
             VideoFadeInEffectList.Add(new ComboBoxItemModel() { SelectedValue = "5", DisplayMember = "5" + SecondString });
-            SelectedVideoFadeInEffect = videoConversionConfiguration is not null && VideoFadeInEffectList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionConfiguration.VideoFadeInEffect)) is ComboBoxItemModel selectedVideoFadeInEffect ? selectedVideoFadeInEffect : VideoFadeInEffectList[0];
+            SelectedVideoFadeInEffect = videoConversionOutputConfiguration is not null && VideoFadeInEffectList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.VideoFadeInEffect)) is ComboBoxItemModel selectedVideoFadeInEffect ? selectedVideoFadeInEffect : VideoFadeInEffectList[0];
 
             VideoFadeOutEffectList.Add(new ComboBoxItemModel() { SelectedValue = "None", DisplayMember = NoneString });
             VideoFadeOutEffectList.Add(new ComboBoxItemModel() { SelectedValue = "1", DisplayMember = "1" + SecondString });
@@ -2271,57 +2270,57 @@ namespace ModernFormatConverter.Views.Dialogs
             VideoFadeOutEffectList.Add(new ComboBoxItemModel() { SelectedValue = "4", DisplayMember = "4" + SecondString });
             VideoFadeOutEffectList.Add(new ComboBoxItemModel() { SelectedValue = "5", DisplayMember = "5" + SecondString });
 
-            SelectedVideoFadeOutEffect = videoConversionConfiguration is not null && VideoFadeOutEffectList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionConfiguration.VideoFadeOutEffect)) is ComboBoxItemModel selectedVideoFadeOutEffect ? selectedVideoFadeOutEffect : VideoFadeOutEffectList[0];
+            SelectedVideoFadeOutEffect = videoConversionOutputConfiguration is not null && VideoFadeOutEffectList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.VideoFadeOutEffect)) is ComboBoxItemModel selectedVideoFadeOutEffect ? selectedVideoFadeOutEffect : VideoFadeOutEffectList[0];
 
             IsAudioConfigurationSupported = !Equals(SelectedFormatConversionType, FormatConversionTypeList[2]);
 
             ResetAudioEncoding();
-            SelectedAudioEncoding = videoConversionConfiguration is not null && AudioEncodingCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionConfiguration.AudioEncoding)) is ComboBoxItemModel selectedAudioEncoding ? selectedAudioEncoding : AudioEncodingCollection[0];
+            SelectedAudioEncoding = videoConversionOutputConfiguration is not null && AudioEncodingCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.AudioEncoding)) is ComboBoxItemModel selectedAudioEncoding ? selectedAudioEncoding : AudioEncodingCollection[0];
 
             ResetSamplingRate();
-            SelectedSamplingRate = videoConversionConfiguration is not null && SamplingRateCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionConfiguration.SamplingRate)) is ComboBoxItemModel selectedSamplingRate ? selectedSamplingRate : SamplingRateCollection[0];
+            SelectedSamplingRate = videoConversionOutputConfiguration is not null && SamplingRateCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.SamplingRate)) is ComboBoxItemModel selectedSamplingRate ? selectedSamplingRate : SamplingRateCollection[0];
 
             ResetAudioBitRate();
-            SelectedAudioBitRate = videoConversionConfiguration is not null && AudioBitRateCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionConfiguration.AudioBitRate)) is ComboBoxItemModel selectedAudioBitRate ? selectedAudioBitRate : AudioBitRateCollection[0];
+            SelectedAudioBitRate = videoConversionOutputConfiguration is not null && AudioBitRateCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.AudioBitRate)) is ComboBoxItemModel selectedAudioBitRate ? selectedAudioBitRate : AudioBitRateCollection[0];
 
             ResetSoundTrack();
-            SelectedSoundTrack = videoConversionConfiguration is not null && SoundTrackCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionConfiguration.SoundTrack)) is ComboBoxItemModel selectedSoundTrack ? selectedSoundTrack : SoundTrackCollection[0];
+            SelectedSoundTrack = videoConversionOutputConfiguration is not null && SoundTrackCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.SoundTrack)) is ComboBoxItemModel selectedSoundTrack ? selectedSoundTrack : SoundTrackCollection[0];
 
-            if (videoConversionConfiguration is not null)
+            if (videoConversionOutputConfiguration is not null)
             {
-                CloseSoundEffect = videoConversionConfiguration.CloseSoundEffect;
+                CloseSoundEffect = videoConversionOutputConfiguration.CloseSoundEffect;
             }
 
             ResetVolume();
-            SelectedVolume = videoConversionConfiguration is not null && VolumeCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionConfiguration.Volume)) is ComboBoxItemModel selectedVolume ? selectedVolume : VolumeCollection[4];
+            SelectedVolume = videoConversionOutputConfiguration is not null && VolumeCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.Volume)) is ComboBoxItemModel selectedVolume ? selectedVolume : VolumeCollection[4];
 
-            if (videoConversionConfiguration is not null)
+            if (videoConversionOutputConfiguration is not null)
             {
-                PreserveAllSourceInputAudioStream = videoConversionConfiguration.PreserveAllSourceInputAudioStream;
+                PreserveAllSourceInputAudioStream = videoConversionOutputConfiguration.PreserveAllSourceInputAudioStream;
             }
 
             ResetAudioFadeInEffect();
-            SelectedAudioFadeInEffect = videoConversionConfiguration is not null && AudioFadeInEffectCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionConfiguration.AudioFadeInEffect)) is ComboBoxItemModel selectedAudioFadeInEffect ? selectedAudioFadeInEffect : AudioFadeInEffectCollection[0];
+            SelectedAudioFadeInEffect = videoConversionOutputConfiguration is not null && AudioFadeInEffectCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.AudioFadeInEffect)) is ComboBoxItemModel selectedAudioFadeInEffect ? selectedAudioFadeInEffect : AudioFadeInEffectCollection[0];
 
             ResetAudioFadeOutEffect();
-            SelectedAudioFadeOutEffect = videoConversionConfiguration is not null && AudioFadeOutEffectCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionConfiguration.AudioFadeOutEffect)) is ComboBoxItemModel selectedAudioFadeOutEffect ? selectedAudioFadeOutEffect : AudioFadeOutEffectCollection[0];
+            SelectedAudioFadeOutEffect = videoConversionOutputConfiguration is not null && AudioFadeOutEffectCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.AudioFadeOutEffect)) is ComboBoxItemModel selectedAudioFadeOutEffect ? selectedAudioFadeOutEffect : AudioFadeOutEffectCollection[0];
 
-            if (videoConversionConfiguration is not null)
+            if (videoConversionOutputConfiguration is not null)
             {
-                Echo = videoConversionConfiguration.Echo;
-                DeNoise = videoConversionConfiguration.DeNoise;
-                Reverse = videoConversionConfiguration.Reverse;
+                Echo = videoConversionOutputConfiguration.Echo;
+                DeNoise = videoConversionOutputConfiguration.DeNoise;
+                Reverse = videoConversionOutputConfiguration.Reverse;
             }
 
             ResetPreserveAllSourceInputSubtitleStream();
-            if (videoConversionConfiguration is not null)
+            if (videoConversionOutputConfiguration is not null)
             {
                 if (IsPreserveAllSourceInputSubtitleStreamEnabled)
                 {
-                    PreserveAllSourceInputSubtitleStream = videoConversionConfiguration.PreserveAllSourceInputSubtitleStream;
+                    PreserveAllSourceInputSubtitleStream = videoConversionOutputConfiguration.PreserveAllSourceInputSubtitleStream;
                 }
 
-                AdditionalSubtitlePath = videoConversionConfiguration.AdditionalSubtitlePath;
+                AdditionalSubtitlePath = videoConversionOutputConfiguration.AdditionalSubtitlePath;
             }
 
             SubtitleNestTypeList.Add(new ComboBoxItemModel() { SelectedValue = "Default", DisplayMember = DefaultString });
@@ -2330,7 +2329,7 @@ namespace ModernFormatConverter.Views.Dialogs
             SubtitleNestTypeList.Add(new ComboBoxItemModel() { SelectedValue = "Ansi", DisplayMember = "Ansi" });
             SubtitleNestTypeList.Add(new ComboBoxItemModel() { SelectedValue = "Unicode", DisplayMember = "Unicode" });
             SubtitleNestTypeList.Add(new ComboBoxItemModel() { SelectedValue = "UTF8", DisplayMember = "UTF8" });
-            SelectedSubtitleNestType = videoConversionConfiguration is not null && SubtitleNestTypeList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionConfiguration.SubtitleNestType)) is ComboBoxItemModel selectedSubtitleNestType ? selectedSubtitleNestType : SubtitleNestTypeList[0];
+            SelectedSubtitleNestType = videoConversionOutputConfiguration is not null && SubtitleNestTypeList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.SubtitleNestType)) is ComboBoxItemModel selectedSubtitleNestType ? selectedSubtitleNestType : SubtitleNestTypeList[0];
 
             InstalledFontCollection installedFontCollection = new();
 
@@ -2343,7 +2342,7 @@ namespace ModernFormatConverter.Views.Dialogs
                 });
             }
 
-            SelectedFontName = videoConversionConfiguration is not null && !string.IsNullOrEmpty(videoConversionConfiguration.FontName) && FontNameList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionConfiguration.FontName)) is ComboBoxItemModel selectedFontName ? selectedFontName : FontNameList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), System.Drawing.SystemFonts.DefaultFont.Name)) is ComboBoxItemModel defaultFontName ? defaultFontName : FontNameList[0];
+            SelectedFontName = videoConversionOutputConfiguration is not null && !string.IsNullOrEmpty(videoConversionOutputConfiguration.FontName) && FontNameList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.FontName)) is ComboBoxItemModel selectedFontName ? selectedFontName : FontNameList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), System.Drawing.SystemFonts.DefaultFont.Name)) is ComboBoxItemModel defaultFontName ? defaultFontName : FontNameList[0];
             FontName = Convert.ToString(SelectedFontName.SelectedValue);
 
             FontSizeList.Add(new ComboBoxItemModel() { SelectedValue = 1, DisplayMember = string.Format("{0} {1}", 1, SmallString) });
@@ -2351,29 +2350,29 @@ namespace ModernFormatConverter.Views.Dialogs
             FontSizeList.Add(new ComboBoxItemModel() { SelectedValue = 3, DisplayMember = string.Format("{0} {1}", 3, NormalString) });
             FontSizeList.Add(new ComboBoxItemModel() { SelectedValue = 4, DisplayMember = "4" });
             FontSizeList.Add(new ComboBoxItemModel() { SelectedValue = 5, DisplayMember = string.Format("{0} {1}", 5, LargeString) });
-            SelectedFontSize = videoConversionConfiguration is not null && FontSizeList.Find(item => Equals(Convert.ToInt32(item.SelectedValue), videoConversionConfiguration.FontSize)) is ComboBoxItemModel selectedFontSize ? selectedFontSize : FontSizeList[0];
+            SelectedFontSize = videoConversionOutputConfiguration is not null && FontSizeList.Find(item => Equals(Convert.ToInt32(item.SelectedValue), videoConversionOutputConfiguration.FontSize)) is ComboBoxItemModel selectedFontSize ? selectedFontSize : FontSizeList[0];
 
-            FontColor = videoConversionConfiguration is not null && videoConversionConfiguration.FontColor.HasValue ? videoConversionConfiguration.FontColor.Value : accentColor;
+            FontColor = videoConversionOutputConfiguration is not null && videoConversionOutputConfiguration.FontColor.HasValue ? videoConversionOutputConfiguration.FontColor.Value : accentColor;
 
             FontBorderStyleList.Add(new ComboBoxItemModel() { SelectedValue = "BorderAndShadow", DisplayMember = BorderAndShadowString });
             FontBorderStyleList.Add(new ComboBoxItemModel() { SelectedValue = "SolidColorBackground", DisplayMember = SolidColorBackgroundString });
-            SelectedFontBorderStyle = videoConversionConfiguration is not null && FontBorderStyleList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionConfiguration.FontBorderStyle)) is ComboBoxItemModel selectedFontBorderStyle ? selectedFontBorderStyle : FontBorderStyleList[0];
+            SelectedFontBorderStyle = videoConversionOutputConfiguration is not null && FontBorderStyleList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.FontBorderStyle)) is ComboBoxItemModel selectedFontBorderStyle ? selectedFontBorderStyle : FontBorderStyleList[0];
 
             CounterLineSizeList.Add(new ComboBoxItemModel() { SelectedValue = 0, DisplayMember = "0" });
             CounterLineSizeList.Add(new ComboBoxItemModel() { SelectedValue = 1, DisplayMember = "1" });
             CounterLineSizeList.Add(new ComboBoxItemModel() { SelectedValue = 2, DisplayMember = "2" });
             CounterLineSizeList.Add(new ComboBoxItemModel() { SelectedValue = 3, DisplayMember = "3" });
             CounterLineSizeList.Add(new ComboBoxItemModel() { SelectedValue = 4, DisplayMember = "4" });
-            SelectedCounterLineSize = videoConversionConfiguration is not null && CounterLineSizeList.Find(item => Equals(Convert.ToInt32(item.SelectedValue), videoConversionConfiguration.CounterLineSize)) is ComboBoxItemModel selectedCounterLineSize ? selectedCounterLineSize : CounterLineSizeList[0];
+            SelectedCounterLineSize = videoConversionOutputConfiguration is not null && CounterLineSizeList.Find(item => Equals(Convert.ToInt32(item.SelectedValue), videoConversionOutputConfiguration.CounterLineSize)) is ComboBoxItemModel selectedCounterLineSize ? selectedCounterLineSize : CounterLineSizeList[0];
 
-            CounterLineColor = videoConversionConfiguration is not null && videoConversionConfiguration.CounterLineColor.HasValue ? videoConversionConfiguration.CounterLineColor.Value : accentColor;
+            CounterLineColor = videoConversionOutputConfiguration is not null && videoConversionOutputConfiguration.CounterLineColor.HasValue ? videoConversionOutputConfiguration.CounterLineColor.Value : accentColor;
 
             ShadowSizeList.Add(new ComboBoxItemModel() { SelectedValue = 0, DisplayMember = "0" });
             ShadowSizeList.Add(new ComboBoxItemModel() { SelectedValue = 1, DisplayMember = "1" });
             ShadowSizeList.Add(new ComboBoxItemModel() { SelectedValue = 2, DisplayMember = "2" });
             ShadowSizeList.Add(new ComboBoxItemModel() { SelectedValue = 3, DisplayMember = "3" });
             ShadowSizeList.Add(new ComboBoxItemModel() { SelectedValue = 4, DisplayMember = "4" });
-            SelectedShadowSize = videoConversionConfiguration is not null && ShadowSizeList.Find(item => Equals(Convert.ToInt32(item.SelectedValue), videoConversionConfiguration.ShadowSize)) is ComboBoxItemModel selectedShadowSize ? selectedShadowSize : ShadowSizeList[0];
+            SelectedShadowSize = videoConversionOutputConfiguration is not null && ShadowSizeList.Find(item => Equals(Convert.ToInt32(item.SelectedValue), videoConversionOutputConfiguration.ShadowSize)) is ComboBoxItemModel selectedShadowSize ? selectedShadowSize : ShadowSizeList[0];
         }
 
         /// <summary>
@@ -3173,7 +3172,7 @@ namespace ModernFormatConverter.Views.Dialogs
             contentIsland = ContentIsland.FindAllForCompositor(Compositor)[0];
             inputKeyboardSource = InputKeyboardSource.GetForIsland(contentIsland);
             inputPointerSource = InputPointerSource.GetForIsland(contentIsland);
-            SelectedItem = VideoConversionConfigurationSelectorBar.Items[0];
+            SelectedItem = VideoConversionOutputConfigurationSelectorBar.Items[0];
 
             // 挂载相应的事件
             AlwaysShowBackdropService.PropertyChanged += OnServicePropertyChanged;
@@ -3186,8 +3185,8 @@ namespace ModernFormatConverter.Views.Dialogs
             SetClassicMenuTheme((Content as FrameworkElement).ActualTheme);
 
             // 为窗口添加窗口过程
-            videoConversionConfigurationWindowSubClassProc = new SUBCLASSPROC(VideoConversionConfigurationWindowSubClassProc);
-            Comctl32Library.SetWindowSubclass((nint)AppWindow.Id.Value, videoConversionConfigurationWindowSubClassProc, 0, 0);
+            videoConversionOutputConfigurationWindowSubClassProc = new SUBCLASSPROC(VideoConversionOutputConfigurationWindowSubClassProc);
+            Comctl32Library.SetWindowSubclass((nint)AppWindow.Id.Value, videoConversionOutputConfigurationWindowSubClassProc, 0, 0);
 
             SetWindowTheme();
             SetSystemBackdrop();
