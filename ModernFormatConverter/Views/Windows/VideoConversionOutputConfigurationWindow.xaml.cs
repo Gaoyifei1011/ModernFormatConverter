@@ -1892,26 +1892,32 @@ namespace ModernFormatConverter.Views.Dialogs
             if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[1]))
             {
                 WindowSystemBackdrop = new MaterialBackdrop(MicaKind.Base);
+                VisualStateManager.GoToState(VideoConversionOutputConfigurationPage, "BackgroundTransparent", false);
             }
             else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[2]))
             {
                 WindowSystemBackdrop = new MaterialBackdrop(MicaKind.BaseAlt);
+                VisualStateManager.GoToState(VideoConversionOutputConfigurationPage, "BackgroundTransparent", false);
             }
             else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[3]))
             {
                 WindowSystemBackdrop = new MaterialBackdrop(DesktopAcrylicKind.Default);
+                VisualStateManager.GoToState(VideoConversionOutputConfigurationPage, "BackgroundTransparent", false);
             }
             else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[4]))
             {
                 WindowSystemBackdrop = new MaterialBackdrop(DesktopAcrylicKind.Base);
+                VisualStateManager.GoToState(VideoConversionOutputConfigurationPage, "BackgroundTransparent", false);
             }
             else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[5]))
             {
                 WindowSystemBackdrop = new MaterialBackdrop(DesktopAcrylicKind.Thin);
+                VisualStateManager.GoToState(VideoConversionOutputConfigurationPage, "BackgroundTransparent", false);
             }
             else
             {
                 WindowSystemBackdrop = null;
+                VisualStateManager.GoToState(VideoConversionOutputConfigurationPage, "BackgroundDefault", false);
             }
         }
 

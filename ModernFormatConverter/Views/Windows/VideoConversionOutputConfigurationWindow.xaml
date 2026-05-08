@@ -2,16 +2,10 @@
     x:Class="ModernFormatConverter.Views.Dialogs.VideoConversionOutputConfigurationWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:class="using:ModernFormatConverter.Extensions.DataType.Class"
-    xmlns:collection="using:System.Collections"
-    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     xmlns:converter="using:ModernFormatConverter.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:model="using:ModernFormatConverter.Models"
     xmlns:rootservice="using:ModernFormatConverter.Services.Root"
-    xmlns:system="using:System"
-    xmlns:window="using:ModernFormatConverter.Views.Windows"
     xmlns:settingsservice="using:ModernFormatConverter.Services.Settings"
     Title="{x:Bind rootservice:ResourceService.VideoConversionOutputConfigurationResource.GetString('Title')}"
     SystemBackdrop="{x:Bind WindowSystemBackdrop, Mode=OneWay}"
@@ -1913,6 +1907,21 @@
                     </Grid>
                 </StackPanel>
             </ScrollViewer>
+
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup>
+                    <VisualState x:Name="BackgroundDefault">
+                        <VisualState.Setters>
+                            <Setter Target="VideoConversionOutputConfigurationPage.Background" Value="{ThemeResource DefaultBackgroundColorBrush}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="BackgroundTransparent">
+                        <VisualState.Setters>
+                            <Setter Target="VideoConversionOutputConfigurationPage.Background" Value="Transparent" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
         </Grid>
     </Page>
 </Window>

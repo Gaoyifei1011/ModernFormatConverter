@@ -190,7 +190,11 @@
                             <Setter Target="ConversionToolsPage.Background" Value="{ThemeResource DefaultBackgroundColorBrush}" />
                         </VisualState.Setters>
                     </VisualState>
-                    <VisualState x:Name="BackgroundTransparent" />
+                    <VisualState x:Name="BackgroundTransparent">
+                        <VisualState.Setters>
+                            <Setter Target="ConversionToolsPage.Background" Value="Transparent" />
+                        </VisualState.Setters>
+                    </VisualState>
                 </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
         </Grid>
