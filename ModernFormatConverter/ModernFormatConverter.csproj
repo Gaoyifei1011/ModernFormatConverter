@@ -233,6 +233,7 @@
     <None Remove="Views\Windows\MainWindow.xaml" />
     <None Remove="Views\Windows\RestartAppsWindow.xaml" />
     <None Update="Views\Windows\VideoConversionOutputConfigurationWindow.xaml" />
+    <None Update="Views\Windows\VideoExportPictureWindow.xaml" />
 
     <Page Include="Styles\AppBarButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\ColorPicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -262,7 +263,8 @@
     <Page Include="Views\Windows\RestartAppsWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\UpdateAppWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\VideoConversionOutputConfigurationWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-
+    <Page Include="Views\Windows\VideoExportPictureWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    
     <PRIResource Include="Strings\en-us\Resources.resjson" />
 		<PRIResource Include="Strings\zh-hans\Resources.resjson" />
     

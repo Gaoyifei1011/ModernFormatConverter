@@ -7,7 +7,7 @@
     {
         VideoAngleAdjustment = 0,
         VideoConcat = 1,
-        VideoExportFrame = 2,
+        VideoExportPicture = 2,
         VideoFormatConversion = 3,
         VideoMixedFlow = 4,
         VideoSeparation = 5,

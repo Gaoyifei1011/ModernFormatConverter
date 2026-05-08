@@ -42,7 +42,7 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string SelectFolderString = ResourceService.VideoConversionResource.GetString("SelectFolder");
         private readonly string VideoAngleAdjustmentString = ResourceService.VideoConversionResource.GetString("VideoAngleAdjustment");
         private readonly string VideoConcatString = ResourceService.VideoConversionResource.GetString("VideoConcat");
-        private readonly string VideoExportFrameString = ResourceService.VideoConversionResource.GetString("VideoExportFrame");
+        private readonly string VideoExportPictureString = ResourceService.VideoConversionResource.GetString("VideoExportPicture");
         private readonly string VideoFormatConversionString = ResourceService.VideoConversionResource.GetString("VideoFormatConversion");
         private readonly string VideoMixedFlowString = ResourceService.VideoConversionResource.GetString("VideoMixedFlow");
         private readonly string VideoMixedFlowDragOverContentString = ResourceService.VideoConversionResource.GetString("VideoMixedFlowDragOverContent");
@@ -211,8 +211,8 @@ namespace ModernFormatConverter.Views.Pages
             });
             ConversionTypeCollection.Add(new VideoConversionTypeModel
             {
-                VideoConversionType = VideoExportFrameString,
-                VideoConversionTypeKind = VideoConversionTypeKind.VideoExportFrame
+                VideoConversionType = VideoExportPictureString,
+                VideoConversionTypeKind = VideoConversionTypeKind.VideoExportPicture
             });
             ConversionTypeCollection.Add(new VideoConversionTypeModel
             {

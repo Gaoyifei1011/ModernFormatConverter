@@ -1138,10 +1138,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <Grid
-                    Grid.Row="0"
-                    Margin="0,0,0,5"
-                    ColumnSpacing="5">
+                <Grid Grid.Row="0" Margin="0,0,0,5">
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -1154,6 +1151,7 @@
                         Grid.Column="0"
                         Width="32"
                         Height="32"
+                        Margin="0,0,5,0"
                         Padding="0"
                         CornerRadius="{StaticResource ControlCornerRadius}"
                         IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsGettingFileInformation), Mode=OneWay}"
@@ -1235,6 +1233,7 @@
                         Grid.Column="1"
                         Width="32"
                         Height="32"
+                        Margin="0,0,5,0"
                         Padding="0"
                         Click="{x:Bind OnClearClicked}"
                         CornerRadius="{StaticResource ControlCornerRadius}"
@@ -1260,6 +1259,7 @@
                         Grid.Column="2"
                         Width="32"
                         Height="32"
+                        Margin="0,0,5,0"
                         Padding="0"
                         CornerRadius="{StaticResource ControlCornerRadius}"
                         IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsGettingFileInformation), Mode=OneWay}">

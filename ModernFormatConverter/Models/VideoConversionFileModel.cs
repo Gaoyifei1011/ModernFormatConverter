@@ -73,6 +73,11 @@ namespace ModernFormatConverter.Models
         /// </summary>
         public VideoConversionOutputConfigurationModel VideoConversionOutputConfiguration { get; set; }
 
+        /// <summary>
+        /// 视频导出图片输出配置
+        /// </summary>
+        public VideoExportPictureOutputConfigurationModel VideoExportPictureOutputConfiguration { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }

@@ -112,6 +112,9 @@ namespace ModernFormatConverter.Models
             }
         }
 
+        /// <summary>
+        /// 视频转换输出配置
+        /// </summary>
         public VideoConversionOutputConfigurationModel VideoConversionOutputConfiguration { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
