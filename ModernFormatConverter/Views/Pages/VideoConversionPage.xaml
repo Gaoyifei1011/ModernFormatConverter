@@ -353,26 +353,32 @@
 
             <NavigationView.MenuItemTemplate>
                 <DataTemplate x:DataType="model:VideoConversionTypeModel">
-                    <TextBlock
-                        x:Name="VideoConversionTypeText"
-                        Text="{x:Bind VideoConversionType}"
-                        TextTrimming="CharacterEllipsis"
-                        TextWrapping="NoWrap">
+                    <NavigationViewItem>
+                        <NavigationViewItem.Icon>
+                            <FontIcon Glyph="{x:Bind VideoConversionIcon}" />
+                        </NavigationViewItem.Icon>
 
-                        <ToolTipService.ToolTip>
-                            <ToolTip
-                                MaxWidth="9999"
-                                Padding="0"
-                                Background="Transparent"
-                                Visibility="{Binding ElementName=VideoConversionTypeText, Path=IsTextTrimmed, Mode=OneWay}">
+                        <TextBlock
+                            x:Name="VideoConversionTypeText"
+                            Text="{x:Bind VideoConversionType}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap">
 
-                                <Grid>
-                                    <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                    <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind VideoConversionType}" />
-                                </Grid>
-                            </ToolTip>
-                        </ToolTipService.ToolTip>
-                    </TextBlock>
+                            <ToolTipService.ToolTip>
+                                <ToolTip
+                                    MaxWidth="9999"
+                                    Padding="0"
+                                    Background="Transparent"
+                                    Visibility="{Binding ElementName=VideoConversionTypeText, Path=IsTextTrimmed, Mode=OneWay}">
+
+                                    <Grid>
+                                        <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                        <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind VideoConversionType}" />
+                                    </Grid>
+                                </ToolTip>
+                            </ToolTipService.ToolTip>
+                        </TextBlock>
+                    </NavigationViewItem>
                 </DataTemplate>
             </NavigationView.MenuItemTemplate>
 

@@ -5,14 +5,10 @@
     /// </summary>
     public enum VideoConversionTypeKind
     {
-        VideoAngleAdjustment = 0,
-        VideoConcat = 1,
-        VideoExportPicture = 2,
-        VideoFormatConversion = 3,
-        VideoMixedFlow = 4,
-        VideoSeparation = 5,
-        VideoSpeedAdjustment = 6,
-        VideoRewind = 7,
-        VideoSplitScreen = 8
+        VideoConcat = 0,
+        VideoExportPicture = 1,
+        VideoFormatConversion = 2,
+        VideoMixedFlow = 3,
+        VideoSeparation = 4
     }
 }

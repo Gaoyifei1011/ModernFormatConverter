@@ -14,6 +14,11 @@ namespace ModernFormatConverter.Models
         public string VideoConversionType { get; set; }
 
         /// <summary>
+        /// 视频转换类型图标
+        /// </summary>
+        public string VideoConversionIcon { get; set; }
+
+        /// <summary>
         /// 视频转换类型
         /// </summary>
         public VideoConversionTypeKind VideoConversionTypeKind { get; set; }

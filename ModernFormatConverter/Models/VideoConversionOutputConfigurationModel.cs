@@ -74,6 +74,16 @@ namespace ModernFormatConverter.Models
         public bool DeInterlace { get; set; }
 
         /// <summary>
+        /// 倍速播放速度
+        /// </summary>
+        public double SpeedPlayback { get; set; }
+
+        /// <summary>
+        /// 倒放视频
+        /// </summary>
+        public bool ReverseVideo { get; set; }
+
+        /// <summary>
         /// 旋转角度
         /// </summary>
         public Rotation Rotation { get; set; }

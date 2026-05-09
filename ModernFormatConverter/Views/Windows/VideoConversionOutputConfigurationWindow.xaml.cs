@@ -44,6 +44,7 @@ namespace ModernFormatConverter.Views.Dialogs
     public sealed partial class VideoConversionOutputConfigurationWindow : Window, INotifyPropertyChanged
     {
         private readonly string AllFilesString = ResourceService.VideoConversionOutputConfigurationResource.GetString("AllFiles");
+        private readonly string AnySpeedString = ResourceService.VideoConversionOutputConfigurationResource.GetString("AnySpeed");
         private readonly string BorderAndShadowString = ResourceService.VideoConversionOutputConfigurationResource.GetString("BorderAndShadow");
         private readonly string CopyString = ResourceService.VideoConversionOutputConfigurationResource.GetString("Copy");
         private readonly string CustomString = ResourceService.VideoConversionOutputConfigurationResource.GetString("Custom");
@@ -410,6 +411,54 @@ namespace ModernFormatConverter.Views.Dialogs
                 {
                     _deInterlace = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeInterlace)));
+                }
+            }
+        }
+
+        private double _speedPlayback;
+
+        public double SpeedPlayback
+        {
+            get { return _speedPlayback; }
+
+            set
+            {
+                if (!Equals(_speedPlayback, value))
+                {
+                    _speedPlayback = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SpeedPlayback)));
+                }
+            }
+        }
+
+        private double _selectedSpeedPlayback;
+
+        public double SelectedSpeedPlayback
+        {
+            get { return _selectedSpeedPlayback; }
+
+            set
+            {
+                if (!Equals(_selectedSpeedPlayback, value))
+                {
+                    _selectedSpeedPlayback = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedSpeedPlayback)));
+                }
+            }
+        }
+
+        private bool _reverseVideo;
+
+        public bool ReverseVideo
+        {
+            get { return _reverseVideo; }
+
+            set
+            {
+                if (!Equals(_reverseVideo, value))
+                {
+                    _reverseVideo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ReverseVideo)));
                 }
             }
         }
@@ -1447,6 +1496,66 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
+        /// 打开倍速播放速度浮出控件时触发的事件
+        /// </summary>
+        private void OnSpeedPlaybackOpening(object sender, object args)
+        {
+            SelectedSpeedPlayback = SpeedPlayback;
+        }
+
+        /// <summary>
+        /// 倍速播放滑动速度发生变化时触发的事件
+        /// </summary>
+        private void OnSpeedPlaybackValueChanged(object sender, RangeBaseValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN)
+            {
+                try
+                {
+                    SelectedSpeedPlayback = args.NewValue;
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionOutputConfigurationWindow), nameof(OnSpeedPlaybackValueChanged), 1, e);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 修改倍速播放
+        /// </summary>
+        private void OnSpeedPlaybackOkClicked(object sender, RoutedEventArgs args)
+        {
+            SpeedPlayback = SelectedSpeedPlayback;
+            if (SpeedPlaybackFlyout.IsOpen)
+            {
+                SpeedPlaybackFlyout.Hide();
+            }
+        }
+
+        /// <summary>
+        /// 关闭倍速播放浮出控件
+        /// </summary>
+        private void OnSpeedPlaybackCancelClicked(object sender, RoutedEventArgs args)
+        {
+            if (SpeedPlaybackFlyout.IsOpen)
+            {
+                SpeedPlaybackFlyout.Hide();
+            }
+        }
+
+        /// <summary>
+        /// 是否启用倒放视频
+        /// </summary>
+        private void OnReverseVideoToggled(object sender, RoutedEventArgs args)
+        {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                ReverseVideo = toggleSwitch.IsOn;
+            }
+        }
+
+        /// <summary>
         /// 旋转菜单选中项发生改变时触发的事件
         /// </summary>
         private void OnRotationSelectionChanged(object sender, SelectionChangedEventArgs args)
@@ -2174,7 +2283,7 @@ namespace ModernFormatConverter.Views.Dialogs
             if (IsCRFSupported && videoConversionOutputConfiguration is not null)
             {
                 UseCRF = videoConversionOutputConfiguration.CRF is not -1;
-                CRF = videoConversionOutputConfiguration.CRF is not -1 ? videoConversionOutputConfiguration.CRF : 10;
+                CRF = videoConversionOutputConfiguration.CRF is not -1 && videoConversionOutputConfiguration.CRF >= 10 && videoConversionOutputConfiguration.CRF <= 50 ? videoConversionOutputConfiguration.CRF : 10;
             }
 
             uint iAdapterNum = 0;
@@ -2255,6 +2364,13 @@ namespace ModernFormatConverter.Views.Dialogs
             RotationList.Add(new ComboBoxItemModel() { SelectedValue = Rotation.Rotate180, DisplayMember = UnsideDownString });
             RotationList.Add(new ComboBoxItemModel() { SelectedValue = Rotation.Rotate270, DisplayMember = RotateLeftString });
             SelectedRotation = videoConversionOutputConfiguration is not null && RotationList.Find(item => Equals((Rotation)item.SelectedValue, videoConversionOutputConfiguration.Rotation)) is ComboBoxItemModel selectedRotation ? selectedRotation : RotationList[0];
+
+            SpeedPlayback = videoConversionOutputConfiguration is not null && videoConversionOutputConfiguration.SpeedPlayback >= 0.1 && videoConversionOutputConfiguration.SpeedPlayback <= 5.0 ? videoConversionOutputConfiguration.SpeedPlayback : 1.0;
+
+            if (videoConversionOutputConfiguration is not null)
+            {
+                ReverseVideo = videoConversionOutputConfiguration.ReverseVideo;
+            }
 
             if (videoConversionOutputConfiguration is not null)
             {

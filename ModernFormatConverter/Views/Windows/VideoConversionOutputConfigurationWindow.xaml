@@ -517,7 +517,7 @@
                                 </TextBlock>
 
                                 <Slider
-                                    Grid.Column="2"
+                                    Grid.Column="1"
                                     Width="200"
                                     Margin="5,0,0,0"
                                     VerticalAlignment="Center"
@@ -525,7 +525,8 @@
                                     Minimum="10"
                                     SmallChange="1"
                                     StepFrequency="1"
-                                    ValueChanged="{x:Bind OnCRFValueChanged}" />
+                                    ValueChanged="{x:Bind OnCRFValueChanged}"
+                                    Value="{x:Bind CRF, Mode=OneWay}" />
                             </Grid>
                         </StackPanel>
                     </Expander>
@@ -727,6 +728,138 @@
                             OnContent="{x:Bind rootservice:ResourceService.VideoConversionOutputConfigurationResource.GetString('DeInterlaceOnContent')}"
                             Style="{StaticResource ToggleSwitchStyle}"
                             Toggled="{x:Bind OnDeInterlaceToggled}" />
+                    </Grid>
+
+                    <!--  倍速播放  -->
+                    <Grid
+                        Height="60"
+                        Margin="0,0,0,2"
+                        Padding="16,0"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource ControlCornerRadius}">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="0,0,0,2"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            Text="{x:Bind rootservice:ResourceService.VideoConversionOutputConfigurationResource.GetString('SpeedPlayback')}" />
+
+                        <SplitButton Grid.Column="1" VerticalAlignment="Center">
+
+                            <SplitButton.Content>
+                                <TextBlock>
+                                    <Run Text="{x:Bind SpeedPlayback, Mode=OneWay}" /><Run Text="x" />
+                                </TextBlock>
+                            </SplitButton.Content>
+
+                            <SplitButton.Flyout>
+                                <Flyout
+                                    x:Name="SpeedPlaybackFlyout"
+                                    Opening="{x:Bind OnSpeedPlaybackOpening}"
+                                    Placement="Bottom"
+                                    ShouldConstrainToRootBounds="False">
+
+                                    <Flyout.FlyoutPresenterStyle>
+                                        <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                            <Setter Property="Padding" Value="0" />
+                                            <Setter Property="MinHeight" Value="0" />
+                                            <Setter Property="Background" Value="Transparent" />
+                                        </Style>
+                                    </Flyout.FlyoutPresenterStyle>
+
+                                    <Grid>
+                                        <SystemBackdropElement CornerRadius="{StaticResource OverlayCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+
+                                        <Grid Padding="12,5">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <Slider
+                                                Grid.Row="0"
+                                                Margin="5,0,0,0"
+                                                VerticalAlignment="Center"
+                                                Maximum="5"
+                                                Minimum="0.1"
+                                                SmallChange="0.1"
+                                                StepFrequency="0.1"
+                                                ValueChanged="{x:Bind OnSpeedPlaybackValueChanged}"
+                                                Value="{x:Bind SelectedSpeedPlayback, Mode=OneWay}" />
+
+                                            <MenuFlyoutSeparator Grid.Row="1" Margin="0,5" />
+
+                                            <Grid
+                                                Grid.Row="2"
+                                                Margin="0,0,0,5"
+                                                ColumnSpacing="5">
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Button
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Stretch"
+                                                    Click="{x:Bind OnSpeedPlaybackOkClicked}"
+                                                    Content="{x:Bind rootservice:ResourceService.VideoConversionOutputConfigurationResource.GetString('OK')}"
+                                                    Style="{StaticResource AccentButtonStyle}" />
+
+                                                <Button
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Stretch"
+                                                    Click="{x:Bind OnSpeedPlaybackCancelClicked}"
+                                                    Content="{x:Bind rootservice:ResourceService.VideoConversionOutputConfigurationResource.GetString('Cancel')}" />
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </Flyout>
+                            </SplitButton.Flyout>
+                        </SplitButton>
+                    </Grid>
+
+                    <!--  倒放视频  -->
+                    <Grid
+                        Grid.Row="2"
+                        Height="60"
+                        Margin="0,0,0,2"
+                        Padding="16,0"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource ControlCornerRadius}">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="0,0,0,2"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            Text="{x:Bind rootservice:ResourceService.VideoConversionOutputConfigurationResource.GetString('ReverseVideo')}" />
+
+                        <ToggleSwitch
+                            Grid.Column="1"
+                            IsOn="{x:Bind ReverseVideo, Mode=OneWay}"
+                            OffContent="{x:Bind rootservice:ResourceService.VideoConversionOutputConfigurationResource.GetString('ReverseVideoOffContent')}"
+                            OnContent="{x:Bind rootservice:ResourceService.VideoConversionOutputConfigurationResource.GetString('ReverseVideoOnContent')}"
+                            Style="{StaticResource ToggleSwitchStyle}"
+                            Toggled="{x:Bind OnReverseVideoToggled}" />
                     </Grid>
 
                     <!--  旋转  -->
