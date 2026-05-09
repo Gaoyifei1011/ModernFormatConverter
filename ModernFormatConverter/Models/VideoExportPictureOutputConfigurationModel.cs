@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ModernFormatConverter.Extensions.DataType.Enums;
+using System;
 
 namespace ModernFormatConverter.Models
 {
@@ -7,20 +8,22 @@ namespace ModernFormatConverter.Models
     /// </summary>
     public class VideoExportPictureOutputConfigurationModel
     {
+        public VideoConversionTypeKind VideoConversionTypeKind { get; set; }
+
         /// <summary>
         /// 保存图片格式
         /// </summary>
         public string SavePictureFormat { get; set; }
 
         /// <summary>
-        /// 视频导出图片方式：固定时间点，时间段，文件个数
+        /// 视频导出图片方式：时间点，时间段
         /// </summary>
         public string VideoExportPictureKind { get; set; }
 
         /// <summary>
-        /// 导出图片方式：固定时间点对应的时间
+        /// 导出图片方式：时间点对应的时间
         /// </summary>
-        public TimeSpan FixedTime { get; set; }
+        public TimeSpan ExportTime { get; set; }
 
         /// <summary>
         /// 导出图片方式：时间段起始时间
@@ -33,8 +36,8 @@ namespace ModernFormatConverter.Models
         public TimeSpan EndTime { get; set; }
 
         /// <summary>
-        /// 间隔（单位：毫秒）
+        /// 每秒导出图片数量（单位：毫秒）
         /// </summary>
-        public int Interval { get; set; }
+        public int PictureExportPerSecond { get; set; }
     }
 }

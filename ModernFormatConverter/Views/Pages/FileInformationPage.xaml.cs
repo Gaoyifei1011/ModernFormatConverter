@@ -1381,7 +1381,6 @@ namespace ModernFormatConverter.Views.Pages
             {
                 int newValue = Convert.ToInt32(args.NewValue);
                 VideoDetailVideoInfoSelectedIndex = int.MaxValue;
-                VideoDetailVideoInfoSelectedIndex = newValue;
                 VideoDetailVideoInfoSelectedIndex = Convert.ToInt32(args.OldValue);
 
                 if (videoInformation is not null && videoInformation.VideoDetailInfoList.Count > 0 && Equals(videoInformation.VideoDetailInfoList.Count, VideoDetailVideoInfoCount))
@@ -1437,7 +1436,6 @@ namespace ModernFormatConverter.Views.Pages
             {
                 int newValue = Convert.ToInt32(args.NewValue);
                 VideoDetailAudioInfoSelectedIndex = int.MaxValue;
-                VideoDetailAudioInfoSelectedIndex = newValue;
                 VideoDetailAudioInfoSelectedIndex = Convert.ToInt32(args.OldValue);
 
                 if (videoInformation is not null && videoInformation.AudioDetailInfoList.Count > 0 && Equals(videoInformation.AudioDetailInfoList.Count, VideoDetailAudioInfoCount))
@@ -1493,7 +1491,6 @@ namespace ModernFormatConverter.Views.Pages
             {
                 int newValue = Convert.ToInt32(args.NewValue);
                 VideoDetailTextInfoSelectedIndex = int.MaxValue;
-                VideoDetailTextInfoSelectedIndex = newValue;
                 VideoDetailTextInfoSelectedIndex = Convert.ToInt32(args.OldValue);
 
                 if (videoInformation is not null && videoInformation.TextDetailInfoList.Count > 0 && Equals(videoInformation.TextDetailInfoList.Count, VideoDetailTextInfoCount))
@@ -1652,7 +1649,6 @@ namespace ModernFormatConverter.Views.Pages
             {
                 int newValue = Convert.ToInt32(args.NewValue);
                 AudioDetailAudioInfoSelectedIndex = int.MaxValue;
-                AudioDetailAudioInfoSelectedIndex = newValue;
                 AudioDetailAudioInfoSelectedIndex = Convert.ToInt32(args.OldValue);
 
                 if (audioInformation is not null && audioInformation.AudioDetailInfoList.Count > 0 && Equals(audioInformation.AudioDetailInfoList.Count, AudioDetailAudioInfoCount))
@@ -1915,7 +1911,6 @@ namespace ModernFormatConverter.Views.Pages
             {
                 int newValue = Convert.ToInt32(args.NewValue);
                 ImageDetailInfoSelectedIndex = int.MaxValue;
-                ImageDetailInfoSelectedIndex = newValue;
                 ImageDetailInfoSelectedIndex = Convert.ToInt32(args.OldValue);
 
                 if (imageInformation is not null && imageInformation.ImageDetailInfoList.Count > 0 && Equals(imageInformation.ImageDetailInfoList.Count, ImageDetailInfoCount))

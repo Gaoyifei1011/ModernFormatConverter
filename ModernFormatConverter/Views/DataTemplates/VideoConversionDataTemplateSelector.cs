@@ -18,27 +18,32 @@ namespace ModernFormatConverter.Views.DataTemplates
         {
             if (item is VideoConversionFileModel videoConversionFile)
             {
-                if (videoConversionFile.VideoConversionOutputConfiguration.VideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion)
+                if (videoConversionFile.VideoConversionOutputConfiguration is not null)
                 {
-                    return VideoCardDataTemplate;
+                    if (videoConversionFile.VideoConversionOutputConfiguration.VideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion)
+                    {
+                        return VideoCardDataTemplate;
+                    }
+                    else if (videoConversionFile.VideoConversionOutputConfiguration.VideoConversionTypeKind is VideoConversionTypeKind.VideoConcat)
+                    {
+                        return VideoListDataTemplate;
+                    }
+                    else if (videoConversionFile.VideoConversionOutputConfiguration.VideoConversionTypeKind is VideoConversionTypeKind.VideoSeparation)
+                    {
+                        return VideoCardDataTemplate;
+                    }
                 }
-                else if (videoConversionFile.VideoConversionOutputConfiguration.VideoConversionTypeKind is VideoConversionTypeKind.VideoConcat)
+
+                if (videoConversionFile.VideoExportPictureOutputConfiguration is not null)
                 {
-                    return VideoListDataTemplate;
-                }
-                else if (videoConversionFile.VideoConversionOutputConfiguration.VideoConversionTypeKind is VideoConversionTypeKind.VideoSeparation)
-                {
-                    return VideoCardDataTemplate;
-                }
-                else
-                {
-                    return base.SelectTemplateCore(item, container);
+                    if (videoConversionFile.VideoExportPictureOutputConfiguration.VideoConversionTypeKind is VideoConversionTypeKind.VideoExportPicture)
+                    {
+                        return VideoCardDataTemplate;
+                    }
                 }
             }
-            else
-            {
-                return base.SelectTemplateCore(item, container);
-            }
+
+            return base.SelectTemplateCore(item, container);
         }
     }
 }

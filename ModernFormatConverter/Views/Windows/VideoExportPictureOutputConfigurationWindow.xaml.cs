@@ -35,6 +35,8 @@ namespace ModernFormatConverter.Views.Windows
     /// </summary>
     public sealed partial class VideoExportPictureOutputConfigurationWindow : Window, INotifyPropertyChanged
     {
+        private readonly string TimePeriodString = ResourceService.VideoExportPictureOutputConfigurationResource.GetString("TimePeriod");
+        private readonly string TimePointString = ResourceService.VideoExportPictureOutputConfigurationResource.GetString("TimePoint");
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private OverlappedPresenter overlappedPresenter;
         private SUBCLASSPROC videoExportPictureOutputConfigurationWindowSubClassProc;
@@ -93,18 +95,18 @@ namespace ModernFormatConverter.Views.Windows
             }
         }
 
-        private string _savePictureFormat;
+        private ComboBoxItemModel _selectedSavePictureFormat;
 
-        public string SavePictureFormat
+        public ComboBoxItemModel SelectedSavePictureFormat
         {
-            get { return _savePictureFormat; }
+            get { return _selectedSavePictureFormat; }
 
             set
             {
-                if (!string.Equals(_savePictureFormat, value))
+                if (!Equals(_selectedSavePictureFormat, value))
                 {
-                    _savePictureFormat = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SavePictureFormat)));
+                    _selectedSavePictureFormat = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedSavePictureFormat)));
                 }
             }
         }
@@ -133,7 +135,7 @@ namespace ModernFormatConverter.Views.Windows
 
             set
             {
-                if (!string.Equals(_selectedVideoExportPictureKind, value))
+                if (!Equals(_selectedVideoExportPictureKind, value))
                 {
                     _selectedVideoExportPictureKind = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedVideoExportPictureKind)));
@@ -141,69 +143,176 @@ namespace ModernFormatConverter.Views.Windows
             }
         }
 
-        private TimeSpan _fixedTime;
+        private int _timeHours;
 
-        public TimeSpan FixedTime
+        public int TimeHours
         {
-            get { return _fixedTime; }
+            get { return _timeHours; }
 
             set
             {
-                if (!Equals(_fixedTime, value))
+                if (!Equals(_timeHours, value))
                 {
-                    _fixedTime = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FixedTime)));
+                    _timeHours = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimeHours)));
                 }
             }
         }
 
-        private TimeSpan _startTime;
+        private int _timeMinutes;
 
-        public TimeSpan StartTime
+        public int TimeMinutes
         {
-            get { return _startTime; }
+            get { return _timeMinutes; }
 
             set
             {
-                if (!Equals(_startTime, value))
+                if (!Equals(_timeMinutes, value))
                 {
-                    _startTime = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StartTime)));
+                    _timeMinutes = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimeMinutes)));
                 }
             }
         }
 
-        private TimeSpan _endTime;
+        private int _timeSeconds;
 
-        public TimeSpan EndTime
+        public int TimeSeconds
         {
-            get { return _endTime; }
+            get { return _timeSeconds; }
 
             set
             {
-                if (!Equals(_endTime, value))
+                if (!Equals(_timeSeconds, value))
                 {
-                    _endTime = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(EndTime)));
+                    _timeSeconds = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimeSeconds)));
                 }
             }
         }
 
-        private int _interval;
+        private int _timeStartHours;
 
-        public int Interval
+        public int TimeStartHours
         {
-            get { return _interval; }
+            get { return _timeStartHours; }
 
             set
             {
-                if (!Equals(_interval, value))
+                if (!Equals(_timeStartHours, value))
                 {
-                    _interval = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Interval)));
+                    _timeStartHours = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimeStartHours)));
                 }
             }
         }
+
+        private int _timeStartMinutes;
+
+        public int TimeStartMinutes
+        {
+            get { return _timeStartMinutes; }
+
+            set
+            {
+                if (!Equals(_timeStartMinutes, value))
+                {
+                    _timeStartMinutes = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimeStartMinutes)));
+                }
+            }
+        }
+
+        private int _timeStartSeconds;
+
+        public int TimeStartSeconds
+        {
+            get { return _timeStartSeconds; }
+
+            set
+            {
+                if (!Equals(_timeStartSeconds, value))
+                {
+                    _timeStartSeconds = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimeStartSeconds)));
+                }
+            }
+        }
+
+        private int _timeEndHours;
+
+        public int TimeEndHours
+        {
+            get { return _timeEndHours; }
+
+            set
+            {
+                if (!Equals(_timeEndHours, value))
+                {
+                    _timeEndHours = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimeEndHours)));
+                }
+            }
+        }
+
+        private int _timeEndMinutes;
+
+        public int TimeEndMinutes
+        {
+            get { return _timeEndMinutes; }
+
+            set
+            {
+                if (!Equals(_timeEndMinutes, value))
+                {
+                    _timeEndMinutes = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimeEndMinutes)));
+                }
+            }
+        }
+
+        private int _timeEndSeconds;
+
+        public int TimeEndSeconds
+        {
+            get { return _timeEndSeconds; }
+
+            set
+            {
+                if (!Equals(_timeEndSeconds, value))
+                {
+                    _timeEndSeconds = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimeEndSeconds)));
+                }
+            }
+        }
+
+        private int _pictureExportPerSecond = 1000;
+
+        public int PictureExportPerSecond
+        {
+            get { return _pictureExportPerSecond; }
+
+            set
+            {
+                if (!Equals(_pictureExportPerSecond, value))
+                {
+                    _pictureExportPerSecond = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PictureExportPerSecond)));
+                }
+            }
+        }
+
+        public List<ComboBoxItemModel> SavePictureFormatList { get; } =
+        [
+            new ComboBoxItemModel(){ SelectedValue = "BMP", DisplayMember = ".bmp" },
+            new ComboBoxItemModel(){ SelectedValue = "GIF", DisplayMember = ".gif" },
+            new ComboBoxItemModel(){ SelectedValue = "ICO", DisplayMember = ".ico" },
+            new ComboBoxItemModel(){ SelectedValue = "JPEG", DisplayMember = ".jpeg" },
+            new ComboBoxItemModel(){ SelectedValue = "JPG", DisplayMember = ".jpg" },
+            new ComboBoxItemModel(){ SelectedValue = "PNG", DisplayMember = ".png" },
+            new ComboBoxItemModel(){ SelectedValue = "WEBP", DisplayMember = ".webp" }
+        ];
 
         public List<ComboBoxItemModel> VideoExportPictureKindList { get; } = [];
 
@@ -316,6 +425,246 @@ namespace ModernFormatConverter.Views.Windows
                 taskCompletionSource.TrySetResult(ContentDialogResult.Primary);
             }
             Close();
+        }
+
+        /// <summary>
+        /// 保存图片格式菜单选中项发生改变时触发的事件
+        /// </summary>
+        private void OnSelectedSavePictureFormatSelectionChanged(object sender, SelectionChangedEventArgs args)
+        {
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel savePictureFormat && !Equals(SelectedSavePictureFormat, savePictureFormat))
+            {
+                SelectedSavePictureFormat = savePictureFormat;
+            }
+        }
+
+        /// <summary>
+        /// 视频导出图片方式菜单选中项发生改变时触发的事件
+        /// </summary>
+        private void OnSelectedVideoExportPictureKindSelectionChanged(object sender, SelectionChangedEventArgs args)
+        {
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel videoExportPictureKind && !Equals(SelectedVideoExportPictureKind, videoExportPictureKind))
+            {
+                SelectedVideoExportPictureKind = videoExportPictureKind;
+            }
+        }
+
+        /// <summary>
+        /// 时间点时发生变化时触发的事件
+        /// </summary>
+        private void OnTimeHoursValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
+            {
+                int newValue = Convert.ToInt32(args.NewValue);
+                TimeHours = int.MaxValue;
+                TimeHours = newValue < 0 ? 0 : newValue;
+            }
+        }
+
+        /// <summary>
+        /// 时间点分发生变化时触发的事件
+        /// </summary>
+        private void OnTimeMinutesValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
+            {
+                int newValue = Convert.ToInt32(args.NewValue);
+                TimeMinutes = int.MaxValue;
+                TimeMinutes = Convert.ToInt32(args.OldValue);
+
+                if (newValue > 59)
+                {
+                    TimeMinutes = 59;
+                }
+                else if (newValue < 0)
+                {
+                    TimeMinutes = 0;
+                }
+                else
+                {
+                    TimeMinutes = newValue;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 时间点秒发生变化时触发的事件
+        /// </summary>
+        private void OnTimeSecondsValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
+            {
+                int newValue = Convert.ToInt32(args.NewValue);
+                TimeSeconds = int.MaxValue;
+                TimeSeconds = Convert.ToInt32(args.OldValue);
+
+                if (newValue > 59)
+                {
+                    TimeSeconds = 59;
+                }
+                else if (newValue < 0)
+                {
+                    TimeSeconds = 0;
+                }
+                else
+                {
+                    TimeSeconds = newValue;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 时间段起始时发生变化时触发的事件
+        /// </summary>
+        private void OnTimeStartHoursValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
+            {
+                int newValue = Convert.ToInt32(args.NewValue);
+                TimeStartHours = int.MaxValue;
+                TimeStartHours = newValue < 0 ? 0 : newValue;
+            }
+        }
+
+        /// <summary>
+        /// 时间段起始分发生变化时触发的事件
+        /// </summary>
+        private void OnTimeStartMinutesValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
+            {
+                int newValue = Convert.ToInt32(args.NewValue);
+                TimeStartMinutes = int.MaxValue;
+                TimeStartMinutes = Convert.ToInt32(args.OldValue);
+
+                if (newValue > 59)
+                {
+                    TimeStartMinutes = 59;
+                }
+                else if (newValue < 0)
+                {
+                    TimeStartMinutes = 0;
+                }
+                else
+                {
+                    TimeStartMinutes = newValue;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 时间段起始秒发生变化时触发的事件
+        /// </summary>
+        private void OnTimeStartSecondsValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
+            {
+                int newValue = Convert.ToInt32(args.NewValue);
+                TimeStartSeconds = int.MaxValue;
+                TimeStartSeconds = Convert.ToInt32(args.OldValue);
+
+                if (newValue > 59)
+                {
+                    TimeStartSeconds = 59;
+                }
+                else if (newValue < 0)
+                {
+                    TimeStartSeconds = 0;
+                }
+                else
+                {
+                    TimeStartSeconds = newValue;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 时间段起始时发生变化时触发的事件
+        /// </summary>
+        private void OnTimeEndHoursValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
+            {
+                int newValue = Convert.ToInt32(args.NewValue);
+                TimeEndHours = int.MaxValue;
+                TimeEndHours = Convert.ToInt32(args.OldValue);
+                TimeEndHours = newValue < 0 ? 0 : newValue;
+            }
+        }
+
+        /// <summary>
+        /// 时间段起始分发生变化时触发的事件
+        /// </summary>
+        private void OnTimeEndMinutesValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
+            {
+                int newValue = Convert.ToInt32(args.NewValue);
+                TimeEndMinutes = int.MaxValue;
+                TimeEndMinutes = Convert.ToInt32(args.OldValue);
+
+                if (newValue > 59)
+                {
+                    TimeEndMinutes = 59;
+                }
+                else if (newValue < 0)
+                {
+                    TimeEndMinutes = 0;
+                }
+                else
+                {
+                    TimeEndMinutes = newValue;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 时间段起始秒发生变化时触发的事件
+        /// </summary>
+        private void OnTimeEndSecondsValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
+            {
+                int newValue = Convert.ToInt32(args.NewValue);
+                TimeEndSeconds = int.MaxValue;
+                TimeEndSeconds = Convert.ToInt32(args.OldValue);
+
+                if (newValue > 59)
+                {
+                    TimeEndSeconds = 59;
+                }
+                else if (newValue < 0)
+                {
+                    TimeEndSeconds = 0;
+                }
+                else
+                {
+                    TimeEndSeconds = newValue;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 每秒导出图片数量发生变化时触发的事件
+        /// </summary>
+        private void OnPictureExportPerSecondValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
+            {
+                int newValue = Convert.ToInt32(args.NewValue);
+                PictureExportPerSecond = int.MaxValue;
+                PictureExportPerSecond = Convert.ToInt32(args.OldValue);
+
+                if (newValue < 1)
+                {
+                    PictureExportPerSecond = 1;
+                }
+                else
+                {
+                    PictureExportPerSecond = newValue;
+                }
+            }
         }
 
         #endregion 第四部分：内容挂载的事件
@@ -624,7 +973,25 @@ namespace ModernFormatConverter.Views.Windows
         /// </summary>
         private void InitializeData(VideoExportPictureOutputConfigurationModel videoExportPictureOutputConfiguration)
         {
-            // TODO：未完成
+            SelectedSavePictureFormat = videoExportPictureOutputConfiguration is not null && SavePictureFormatList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoExportPictureOutputConfiguration.SavePictureFormat)) is ComboBoxItemModel selectedSavePictureFormat ? selectedSavePictureFormat : SavePictureFormatList[5];
+
+            VideoExportPictureKindList.Add(new ComboBoxItemModel() { SelectedValue = "TimePoint", DisplayMember = TimePointString });
+            VideoExportPictureKindList.Add(new ComboBoxItemModel() { SelectedValue = "TimePeriod", DisplayMember = TimePeriodString });
+            SelectedVideoExportPictureKind = videoExportPictureOutputConfiguration is not null && VideoExportPictureKindList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoExportPictureOutputConfiguration.VideoExportPictureKind)) is ComboBoxItemModel selectedVideoExportPictureKind ? selectedVideoExportPictureKind : VideoExportPictureKindList[0];
+
+            TimeHours = videoExportPictureOutputConfiguration is not null ? (int)Math.Truncate(videoExportPictureOutputConfiguration.ExportTime.TotalHours) : 0;
+            TimeMinutes = videoExportPictureOutputConfiguration is not null ? videoExportPictureOutputConfiguration.ExportTime.Minutes : 0;
+            TimeSeconds = videoExportPictureOutputConfiguration is not null ? videoExportPictureOutputConfiguration.ExportTime.Seconds : 0;
+
+            TimeStartHours = videoExportPictureOutputConfiguration is not null ? (int)Math.Truncate(videoExportPictureOutputConfiguration.StartTime.TotalHours) : 0;
+            TimeStartMinutes = videoExportPictureOutputConfiguration is not null ? videoExportPictureOutputConfiguration.StartTime.Minutes : 0;
+            TimeStartSeconds = videoExportPictureOutputConfiguration is not null ? videoExportPictureOutputConfiguration.StartTime.Seconds : 0;
+
+            TimeEndHours = videoExportPictureOutputConfiguration is not null ? (int)Math.Truncate(videoExportPictureOutputConfiguration.EndTime.TotalHours) : 0;
+            TimeEndMinutes = videoExportPictureOutputConfiguration is not null ? videoExportPictureOutputConfiguration.EndTime.Minutes : 0;
+            TimeEndSeconds = videoExportPictureOutputConfiguration is not null ? videoExportPictureOutputConfiguration.EndTime.Seconds : 0;
+
+            PictureExportPerSecond = videoExportPictureOutputConfiguration is not null ? videoExportPictureOutputConfiguration.PictureExportPerSecond : 1;
         }
 
         /// <summary>
@@ -701,6 +1068,11 @@ namespace ModernFormatConverter.Views.Windows
         private uint LOWORD(uint dword)
         {
             return dword & 0xffff;
+        }
+
+        private Visibility GetSelectedVideoExportPictureKind(object selectedVideoExportPictureKind, object videoExportPictureKind)
+        {
+            return Equals(selectedVideoExportPictureKind, videoExportPictureKind) ? Visibility.Visible : Visibility.Collapsed;
         }
     }
 }

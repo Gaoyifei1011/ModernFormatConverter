@@ -256,85 +256,105 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnOutputConfigurationExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
-            if (args.Parameter is VideoConversionFileModel videoConversionFile && videoConversionFile.VideoConversionOutputConfiguration is not null)
+            if (args.Parameter is VideoConversionFileModel videoConversionFile)
             {
-                VideoConversionOutputConfigurationWindow videoConversionOutputConfigurationWindow = new(SelectedConversionType.VideoConversionTypeKind, ConversionToolsWindow.Current, videoConversionFile.VideoConversionOutputConfiguration);
-                if (await videoConversionOutputConfigurationWindow.ShowAsync() is ContentDialogResult.Primary)
+                // 视频格式转换输出配置
+                if (Equals(SelectedConversionType, ConversionTypeCollection[0]))
                 {
-                    if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion)
+                    VideoConversionOutputConfigurationWindow videoFormatOutputConversionWindow = new(SelectedConversionType.VideoConversionTypeKind, ConversionToolsWindow.Current, videoConversionFile.VideoConversionOutputConfiguration);
+                    if (await videoFormatOutputConversionWindow.ShowAsync() is ContentDialogResult.Primary && SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion && videoConversionFile.VideoConversionOutputConfiguration is not null)
                     {
-                        videoConversionFile.VideoConversionOutputConfiguration.FormatConversionType = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedFormatConversionType.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.SizeLimitation = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedSizeLimitation.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.VideoEncoding = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVideoEncoding.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.ScreenSize = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedScreenSize.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.VideoBitRate = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVideoBitRate.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.CRF = videoConversionOutputConfigurationWindow.UseCRF ? videoConversionOutputConfigurationWindow.CRF : -1;
-                        videoConversionFile.VideoConversionOutputConfiguration.GPU = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedGPU.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.FramePerSecond = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedFramePerSecond.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.AspectRatio = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAspectRatio.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.SecondaryEncoding = videoConversionOutputConfigurationWindow.SecondaryEncoding;
-                        videoConversionFile.VideoConversionOutputConfiguration.KeyFrameInterval = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedKeyFrameInterval.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.DeInterlace = videoConversionOutputConfigurationWindow.DeInterlace;
-                        videoConversionFile.VideoConversionOutputConfiguration.Rotation = (System.Windows.Media.Imaging.Rotation)videoConversionOutputConfigurationWindow.SelectedRotation.SelectedValue;
-                        videoConversionFile.VideoConversionOutputConfiguration.MirrorReversal = videoConversionOutputConfigurationWindow.MirrorReversal;
-                        videoConversionFile.VideoConversionOutputConfiguration.VideoFadeInEffect = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVideoFadeInEffect);
-                        videoConversionFile.VideoConversionOutputConfiguration.VideoFadeOutEffect = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVideoFadeOutEffect);
+                        videoConversionFile.VideoConversionOutputConfiguration.FormatConversionType = Convert.ToString(videoFormatOutputConversionWindow.SelectedFormatConversionType.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.SizeLimitation = Convert.ToString(videoFormatOutputConversionWindow.SelectedSizeLimitation.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.VideoEncoding = Convert.ToString(videoFormatOutputConversionWindow.SelectedVideoEncoding.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.ScreenSize = Convert.ToString(videoFormatOutputConversionWindow.SelectedScreenSize.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.VideoBitRate = Convert.ToString(videoFormatOutputConversionWindow.SelectedVideoBitRate.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.CRF = videoFormatOutputConversionWindow.UseCRF ? videoFormatOutputConversionWindow.CRF : -1;
+                        videoConversionFile.VideoConversionOutputConfiguration.GPU = Convert.ToString(videoFormatOutputConversionWindow.SelectedGPU.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.FramePerSecond = Convert.ToString(videoFormatOutputConversionWindow.SelectedFramePerSecond.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.AspectRatio = Convert.ToString(videoFormatOutputConversionWindow.SelectedAspectRatio.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.SecondaryEncoding = videoFormatOutputConversionWindow.SecondaryEncoding;
+                        videoConversionFile.VideoConversionOutputConfiguration.KeyFrameInterval = Convert.ToString(videoFormatOutputConversionWindow.SelectedKeyFrameInterval.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.DeInterlace = videoFormatOutputConversionWindow.DeInterlace;
+                        videoConversionFile.VideoConversionOutputConfiguration.Rotation = (System.Windows.Media.Imaging.Rotation)videoFormatOutputConversionWindow.SelectedRotation.SelectedValue;
+                        videoConversionFile.VideoConversionOutputConfiguration.MirrorReversal = videoFormatOutputConversionWindow.MirrorReversal;
+                        videoConversionFile.VideoConversionOutputConfiguration.VideoFadeInEffect = Convert.ToString(videoFormatOutputConversionWindow.SelectedVideoFadeInEffect);
+                        videoConversionFile.VideoConversionOutputConfiguration.VideoFadeOutEffect = Convert.ToString(videoFormatOutputConversionWindow.SelectedVideoFadeOutEffect);
 
-                        videoConversionFile.VideoConversionOutputConfiguration.AudioEncoding = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAudioEncoding.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.SamplingRate = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedSamplingRate.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.AudioBitRate = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAudioBitRate.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.SoundTrack = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedSoundTrack.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.CloseSoundEffect = videoConversionOutputConfigurationWindow.CloseSoundEffect;
-                        videoConversionFile.VideoConversionOutputConfiguration.Volume = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVolume.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.PreserveAllSourceInputAudioStream = videoConversionOutputConfigurationWindow.PreserveAllSourceInputAudioStream;
-                        videoConversionFile.VideoConversionOutputConfiguration.AudioFadeInEffect = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAudioFadeInEffect.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.AudioFadeOutEffect = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAudioFadeOutEffect.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.Echo = videoConversionOutputConfigurationWindow.Echo;
-                        videoConversionFile.VideoConversionOutputConfiguration.DeNoise = videoConversionOutputConfigurationWindow.DeNoise;
-                        videoConversionFile.VideoConversionOutputConfiguration.Reverse = videoConversionOutputConfigurationWindow.Reverse;
+                        videoConversionFile.VideoConversionOutputConfiguration.AudioEncoding = Convert.ToString(videoFormatOutputConversionWindow.SelectedAudioEncoding.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.SamplingRate = Convert.ToString(videoFormatOutputConversionWindow.SelectedSamplingRate.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.AudioBitRate = Convert.ToString(videoFormatOutputConversionWindow.SelectedAudioBitRate.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.SoundTrack = Convert.ToString(videoFormatOutputConversionWindow.SelectedSoundTrack.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.CloseSoundEffect = videoFormatOutputConversionWindow.CloseSoundEffect;
+                        videoConversionFile.VideoConversionOutputConfiguration.Volume = Convert.ToString(videoFormatOutputConversionWindow.SelectedVolume.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.PreserveAllSourceInputAudioStream = videoFormatOutputConversionWindow.PreserveAllSourceInputAudioStream;
+                        videoConversionFile.VideoConversionOutputConfiguration.AudioFadeInEffect = Convert.ToString(videoFormatOutputConversionWindow.SelectedAudioFadeInEffect.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.AudioFadeOutEffect = Convert.ToString(videoFormatOutputConversionWindow.SelectedAudioFadeOutEffect.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.Echo = videoFormatOutputConversionWindow.Echo;
+                        videoConversionFile.VideoConversionOutputConfiguration.DeNoise = videoFormatOutputConversionWindow.DeNoise;
+                        videoConversionFile.VideoConversionOutputConfiguration.Reverse = videoFormatOutputConversionWindow.Reverse;
 
-                        videoConversionFile.VideoConversionOutputConfiguration.PreserveAllSourceInputSubtitleStream = videoConversionOutputConfigurationWindow.PreserveAllSourceInputSubtitleStream;
-                        videoConversionFile.VideoConversionOutputConfiguration.AdditionalSubtitlePath = videoConversionOutputConfigurationWindow.AdditionalSubtitlePath;
-                        videoConversionFile.VideoConversionOutputConfiguration.SubtitleNestType = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedSubtitleNestType.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.FontName = videoConversionOutputConfigurationWindow.FontName;
-                        videoConversionFile.VideoConversionOutputConfiguration.FontSize = Convert.ToInt32(videoConversionOutputConfigurationWindow.SelectedFontSize.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.FontColor = videoConversionOutputConfigurationWindow.FontColor;
-                        videoConversionFile.VideoConversionOutputConfiguration.FontBorderStyle = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedFontBorderStyle.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.CounterLineSize = Convert.ToInt32(videoConversionOutputConfigurationWindow.SelectedCounterLineSize.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.CounterLineColor = videoConversionOutputConfigurationWindow.CounterLineColor;
-                        videoConversionFile.VideoConversionOutputConfiguration.ShadowSize = Convert.ToInt32(videoConversionOutputConfigurationWindow.SelectedShadowSize.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.PreserveAllSourceInputSubtitleStream = videoFormatOutputConversionWindow.PreserveAllSourceInputSubtitleStream;
+                        videoConversionFile.VideoConversionOutputConfiguration.AdditionalSubtitlePath = videoFormatOutputConversionWindow.AdditionalSubtitlePath;
+                        videoConversionFile.VideoConversionOutputConfiguration.SubtitleNestType = Convert.ToString(videoFormatOutputConversionWindow.SelectedSubtitleNestType.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.FontName = videoFormatOutputConversionWindow.FontName;
+                        videoConversionFile.VideoConversionOutputConfiguration.FontSize = Convert.ToInt32(videoFormatOutputConversionWindow.SelectedFontSize.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.FontColor = videoFormatOutputConversionWindow.FontColor;
+                        videoConversionFile.VideoConversionOutputConfiguration.FontBorderStyle = Convert.ToString(videoFormatOutputConversionWindow.SelectedFontBorderStyle.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.CounterLineSize = Convert.ToInt32(videoFormatOutputConversionWindow.SelectedCounterLineSize.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.CounterLineColor = videoFormatOutputConversionWindow.CounterLineColor;
+                        videoConversionFile.VideoConversionOutputConfiguration.ShadowSize = Convert.ToInt32(videoFormatOutputConversionWindow.SelectedShadowSize.SelectedValue);
                     }
-                    else if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoConcat)
+                }
+                // 视频合并输出配置
+                else if (Equals(SelectedConversionType, ConversionTypeCollection[1]))
+                {
+                    VideoConversionOutputConfigurationWindow videoFormatConversionWindow = new(SelectedConversionType.VideoConversionTypeKind, ConversionToolsWindow.Current, videoConversionFile.VideoConversionOutputConfiguration);
+                    if (await videoFormatConversionWindow.ShowAsync() is ContentDialogResult.Primary && SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion && videoConversionFile.VideoConversionOutputConfiguration is not null)
                     {
-                        videoConversionFile.VideoConversionOutputConfiguration.FormatConversionType = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedFormatConversionType.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.SizeLimitation = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedSizeLimitation.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.VideoEncoding = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVideoEncoding.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.ScreenSize = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedScreenSize.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.VideoBitRate = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVideoBitRate.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.CRF = videoConversionOutputConfigurationWindow.UseCRF ? videoConversionOutputConfigurationWindow.CRF : -1;
-                        videoConversionFile.VideoConversionOutputConfiguration.GPU = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedGPU.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.FramePerSecond = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedFramePerSecond.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.AspectRatio = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAspectRatio.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.SecondaryEncoding = videoConversionOutputConfigurationWindow.SecondaryEncoding;
-                        videoConversionFile.VideoConversionOutputConfiguration.KeyFrameInterval = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedKeyFrameInterval.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.DeInterlace = videoConversionOutputConfigurationWindow.DeInterlace;
-                        videoConversionFile.VideoConversionOutputConfiguration.Rotation = (System.Windows.Media.Imaging.Rotation)videoConversionOutputConfigurationWindow.SelectedRotation.SelectedValue;
-                        videoConversionFile.VideoConversionOutputConfiguration.MirrorReversal = videoConversionOutputConfigurationWindow.MirrorReversal;
-                        videoConversionFile.VideoConversionOutputConfiguration.VideoFadeInEffect = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVideoFadeInEffect);
-                        videoConversionFile.VideoConversionOutputConfiguration.VideoFadeOutEffect = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVideoFadeOutEffect);
+                        videoConversionFile.VideoConversionOutputConfiguration.FormatConversionType = Convert.ToString(videoFormatConversionWindow.SelectedFormatConversionType.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.SizeLimitation = Convert.ToString(videoFormatConversionWindow.SelectedSizeLimitation.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.VideoEncoding = Convert.ToString(videoFormatConversionWindow.SelectedVideoEncoding.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.ScreenSize = Convert.ToString(videoFormatConversionWindow.SelectedScreenSize.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.VideoBitRate = Convert.ToString(videoFormatConversionWindow.SelectedVideoBitRate.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.CRF = videoFormatConversionWindow.UseCRF ? videoFormatConversionWindow.CRF : -1;
+                        videoConversionFile.VideoConversionOutputConfiguration.GPU = Convert.ToString(videoFormatConversionWindow.SelectedGPU.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.FramePerSecond = Convert.ToString(videoFormatConversionWindow.SelectedFramePerSecond.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.AspectRatio = Convert.ToString(videoFormatConversionWindow.SelectedAspectRatio.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.SecondaryEncoding = videoFormatConversionWindow.SecondaryEncoding;
+                        videoConversionFile.VideoConversionOutputConfiguration.KeyFrameInterval = Convert.ToString(videoFormatConversionWindow.SelectedKeyFrameInterval.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.DeInterlace = videoFormatConversionWindow.DeInterlace;
+                        videoConversionFile.VideoConversionOutputConfiguration.Rotation = (System.Windows.Media.Imaging.Rotation)videoFormatConversionWindow.SelectedRotation.SelectedValue;
+                        videoConversionFile.VideoConversionOutputConfiguration.MirrorReversal = videoFormatConversionWindow.MirrorReversal;
+                        videoConversionFile.VideoConversionOutputConfiguration.VideoFadeInEffect = Convert.ToString(videoFormatConversionWindow.SelectedVideoFadeInEffect);
+                        videoConversionFile.VideoConversionOutputConfiguration.VideoFadeOutEffect = Convert.ToString(videoFormatConversionWindow.SelectedVideoFadeOutEffect);
 
-                        videoConversionFile.VideoConversionOutputConfiguration.AudioEncoding = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAudioEncoding.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.SamplingRate = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedSamplingRate.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.AudioBitRate = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAudioBitRate.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.SoundTrack = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedSoundTrack.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.CloseSoundEffect = videoConversionOutputConfigurationWindow.CloseSoundEffect;
-                        videoConversionFile.VideoConversionOutputConfiguration.Volume = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVolume.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.PreserveAllSourceInputAudioStream = videoConversionOutputConfigurationWindow.PreserveAllSourceInputAudioStream;
-                        videoConversionFile.VideoConversionOutputConfiguration.AudioFadeInEffect = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAudioFadeInEffect.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.AudioFadeOutEffect = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAudioFadeOutEffect.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.Echo = videoConversionOutputConfigurationWindow.Echo;
-                        videoConversionFile.VideoConversionOutputConfiguration.DeNoise = videoConversionOutputConfigurationWindow.DeNoise;
-                        videoConversionFile.VideoConversionOutputConfiguration.Reverse = videoConversionOutputConfigurationWindow.Reverse;
+                        videoConversionFile.VideoConversionOutputConfiguration.AudioEncoding = Convert.ToString(videoFormatConversionWindow.SelectedAudioEncoding.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.SamplingRate = Convert.ToString(videoFormatConversionWindow.SelectedSamplingRate.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.AudioBitRate = Convert.ToString(videoFormatConversionWindow.SelectedAudioBitRate.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.SoundTrack = Convert.ToString(videoFormatConversionWindow.SelectedSoundTrack.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.CloseSoundEffect = videoFormatConversionWindow.CloseSoundEffect;
+                        videoConversionFile.VideoConversionOutputConfiguration.Volume = Convert.ToString(videoFormatConversionWindow.SelectedVolume.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.PreserveAllSourceInputAudioStream = videoFormatConversionWindow.PreserveAllSourceInputAudioStream;
+                        videoConversionFile.VideoConversionOutputConfiguration.AudioFadeInEffect = Convert.ToString(videoFormatConversionWindow.SelectedAudioFadeInEffect.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.AudioFadeOutEffect = Convert.ToString(videoFormatConversionWindow.SelectedAudioFadeOutEffect.SelectedValue);
+                        videoConversionFile.VideoConversionOutputConfiguration.Echo = videoFormatConversionWindow.Echo;
+                        videoConversionFile.VideoConversionOutputConfiguration.DeNoise = videoFormatConversionWindow.DeNoise;
+                        videoConversionFile.VideoConversionOutputConfiguration.Reverse = videoFormatConversionWindow.Reverse;
+                    }
+                }
+                // 视频导出图片输出配置
+                else if (Equals(SelectedConversionType, ConversionTypeCollection[4]))
+                {
+                    VideoExportPictureOutputConfigurationWindow videoExportPictureOutputConfigurationWindow = new(SelectedConversionType.VideoConversionTypeKind, ConversionToolsWindow.Current, videoConversionFile.VideoExportPictureOutputConfiguration);
+                    if (await videoExportPictureOutputConfigurationWindow.ShowAsync() is ContentDialogResult.Primary && SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoExportPicture && videoConversionFile.VideoExportPictureOutputConfiguration is not null)
+                    {
+                        videoConversionFile.VideoExportPictureOutputConfiguration.SavePictureFormat = Convert.ToString(videoExportPictureOutputConfigurationWindow.SelectedSavePictureFormat.SelectedValue);
+                        videoConversionFile.VideoExportPictureOutputConfiguration.VideoExportPictureKind = Convert.ToString(videoExportPictureOutputConfigurationWindow.SelectedVideoExportPictureKind.SelectedValue);
+                        videoConversionFile.VideoExportPictureOutputConfiguration.ExportTime = new(videoExportPictureOutputConfigurationWindow.TimeHours, videoExportPictureOutputConfigurationWindow.TimeMinutes, videoExportPictureOutputConfigurationWindow.TimeSeconds);
+                        videoConversionFile.VideoExportPictureOutputConfiguration.StartTime = new(videoExportPictureOutputConfigurationWindow.TimeStartHours, videoExportPictureOutputConfigurationWindow.TimeStartMinutes, videoExportPictureOutputConfigurationWindow.TimeStartSeconds);
+                        videoConversionFile.VideoExportPictureOutputConfiguration.EndTime = new(videoExportPictureOutputConfigurationWindow.TimeEndHours, videoExportPictureOutputConfigurationWindow.TimeEndMinutes, videoExportPictureOutputConfigurationWindow.TimeEndSeconds);
+                        videoConversionFile.VideoExportPictureOutputConfiguration.PictureExportPerSecond = videoExportPictureOutputConfigurationWindow.PictureExportPerSecond;
                     }
                 }
             }
@@ -1139,6 +1159,26 @@ namespace ModernFormatConverter.Views.Pages
                     }
                 }
             }
+            // 视频导出图片输出配置
+            else if (Equals(SelectedConversionType, ConversionTypeCollection[4]))
+            {
+                VideoExportPictureOutputConfigurationWindow videoExportPictureOutputConfigurationWindow = new(SelectedConversionType.VideoConversionTypeKind, ConversionToolsWindow.Current);
+                if (await videoExportPictureOutputConfigurationWindow.ShowAsync() is ContentDialogResult.Primary && SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoExportPicture)
+                {
+                    foreach (VideoConversionFileModel videoConversionFile in SelectedConversionType.VideoConversionFileCollection)
+                    {
+                        if (videoConversionFile.VideoExportPictureOutputConfiguration is not null)
+                        {
+                            videoConversionFile.VideoExportPictureOutputConfiguration.SavePictureFormat = Convert.ToString(videoExportPictureOutputConfigurationWindow.SelectedSavePictureFormat.SelectedValue);
+                            videoConversionFile.VideoExportPictureOutputConfiguration.VideoExportPictureKind = Convert.ToString(videoExportPictureOutputConfigurationWindow.SelectedVideoExportPictureKind.SelectedValue);
+                            videoConversionFile.VideoExportPictureOutputConfiguration.ExportTime = new(videoExportPictureOutputConfigurationWindow.TimeHours, videoExportPictureOutputConfigurationWindow.TimeMinutes, videoExportPictureOutputConfigurationWindow.TimeSeconds);
+                            videoConversionFile.VideoExportPictureOutputConfiguration.StartTime = new(videoExportPictureOutputConfigurationWindow.TimeStartHours, videoExportPictureOutputConfigurationWindow.TimeStartMinutes, videoExportPictureOutputConfigurationWindow.TimeStartSeconds);
+                            videoConversionFile.VideoExportPictureOutputConfiguration.EndTime = new(videoExportPictureOutputConfigurationWindow.TimeEndHours, videoExportPictureOutputConfigurationWindow.TimeEndMinutes, videoExportPictureOutputConfigurationWindow.TimeEndSeconds);
+                            videoConversionFile.VideoExportPictureOutputConfiguration.PictureExportPerSecond = videoExportPictureOutputConfigurationWindow.PictureExportPerSecond;
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -1532,9 +1572,15 @@ namespace ModernFormatConverter.Views.Pages
                             MediaInfoLibrary.MediaInfo_Delete(handle);
                         }
 
-                        videoConversionFile.VideoConversionOutputConfiguration = new()
+                        videoConversionFile.VideoExportPictureOutputConfiguration = new()
                         {
-                            VideoConversionTypeKind = VideoConversionTypeKind.VideoSeparation
+                            VideoConversionTypeKind = VideoConversionTypeKind.VideoExportPicture,
+                            SavePictureFormat = ".png",
+                            VideoExportPictureKind = "TimePoint",
+                            ExportTime = TimeSpan.Zero,
+                            StartTime = TimeSpan.Zero,
+                            EndTime = TimeSpan.Zero,
+                            PictureExportPerSecond = 1
                         };
 
                         return videoConversionFile;

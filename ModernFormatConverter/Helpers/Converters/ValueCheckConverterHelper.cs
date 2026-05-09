@@ -1,5 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 using ModernFormatConverter.Extensions.DataType.Enums;
+using ModernFormatConverter.Models;
 
 namespace ModernFormatConverter.Helpers.Converters
 {
@@ -30,6 +31,14 @@ namespace ModernFormatConverter.Helpers.Converters
         public static Visibility GetVideoConversionType(VideoConversionTypeKind selectedVideoConversionTypeKind, VideoConversionTypeKind comparedVideoConversionTypeKind, bool needReverse)
         {
             return needReverse ? Equals(selectedVideoConversionTypeKind, comparedVideoConversionTypeKind) ? Visibility.Collapsed : Visibility.Visible : Equals(selectedVideoConversionTypeKind, comparedVideoConversionTypeKind) ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        /// <summary>
+        /// 检查是否是视频格式转换
+        /// </summary>
+        public static Visibility GetIsVideoFormatCovnersion(VideoConversionOutputConfigurationModel videoConversionOutputConfiguration)
+        {
+            return videoConversionOutputConfiguration is not null ? videoConversionOutputConfiguration.VideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion ? Visibility.Visible : Visibility.Collapsed : Visibility.Collapsed;
         }
     }
 }
