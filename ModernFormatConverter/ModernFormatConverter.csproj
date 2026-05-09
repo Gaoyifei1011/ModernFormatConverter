@@ -213,6 +213,7 @@
     <None Update="Styles\ColorPicker.xaml" />
     <None Remove="Styles\ComboBox.xaml" />
     <None Remove="Styles\NavigationView.xaml" />
+    <None Remove="Styles\NumberBox.xaml" />
     <None Remove="Styles\TextBox.xaml" />
     <None Remove="Styles\ToggleSwitch.xaml" />
     <None Remove="Views\NotificationTips\CopyPasteNotificationTip.xaml" />
@@ -242,6 +243,7 @@
     <Page Include="Styles\ColorPicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\ComboBox.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\NavigationView.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Styles\NumberBox.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\TextBox.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\ToggleSwitch.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\NotificationTips\CopyPasteNotificationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />

@@ -17,6 +17,7 @@
                         <ResourceDictionary Source="ms-appx:///Styles/ColorPicker.xaml" />
                         <ResourceDictionary Source="ms-appx:///Styles/ComboBox.xaml" />
                         <ResourceDictionary Source="ms-appx:///Styles/NavigationView.xaml" />
+                        <ResourceDictionary Source="ms-appx:///Styles/NumberBox.xaml" />
                         <ResourceDictionary Source="ms-appx:///Styles/TextBox.xaml" />
                         <ResourceDictionary Source="ms-appx:///Styles/ToggleSwitch.xaml" />
 
