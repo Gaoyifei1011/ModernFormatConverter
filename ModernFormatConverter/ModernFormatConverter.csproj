@@ -216,6 +216,7 @@
     <None Remove="Styles\AppBarButton.xaml" />
     <None Update="Styles\ColorPicker.xaml" />
     <None Remove="Styles\ComboBox.xaml" />
+    <None Remove="Styles\MediaPlayerElement.xaml" />
     <None Remove="Styles\NavigationView.xaml" />
     <None Remove="Styles\NumberBox.xaml" />
     <None Remove="Styles\TextBox.xaml" />
@@ -247,6 +248,7 @@
     <Page Include="Styles\AppBarButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\ColorPicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\ComboBox.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Styles\MediaPlayerElement.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\NavigationView.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\NumberBox.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\TextBox.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
