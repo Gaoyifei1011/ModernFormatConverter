@@ -352,9 +352,9 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnCutVideoExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
-            if (args.Parameter is VideoConversionFileModel videoConversionFileModel)
+            if (args.Parameter is VideoConversionFileModel videoConversionFile)
             {
-                CutVideoWindow cutVideoWindow = new(ConversionToolsWindow.Current);
+                CutVideoWindow cutVideoWindow = new(ConversionToolsWindow.Current, videoConversionFile);
                 if (await cutVideoWindow.ShowAsync() is ContentDialogResult.Primary)
                 {
                     // TODO：未完成

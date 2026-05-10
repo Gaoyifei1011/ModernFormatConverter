@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media;
 using ModernFormatConverter.Extensions.Backdrop;
+using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.Services.Settings;
 using ModernFormatConverter.WindowsAPI.PInvoke.Comctl32;
@@ -19,6 +20,8 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.Media.Core;
+using Windows.Storage;
 using Windows.System;
 using Windows.UI;
 
@@ -43,6 +46,8 @@ namespace ModernFormatConverter.Views.Windows
         public new static CutVideoWindow Current { get; private set; }
 
         private ConversionToolsWindow ConversionToolsWindow { get; set; }
+
+        private VideoConversionFileModel SelectedVideoConversionFile { get; }
 
         private SystemBackdrop _windowSystemBackdrop;
 
@@ -76,15 +81,49 @@ namespace ModernFormatConverter.Views.Windows
             }
         }
 
+        private MediaSource _mediaSource;
+
+        public MediaSource MediaSource
+        {
+            get { return _mediaSource; }
+
+            set
+            {
+                if (!Equals(_mediaSource, value))
+                {
+                    _mediaSource = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MediaSource)));
+                }
+            }
+        }
+
+        private bool _isMediaPlayedSuccessfully;
+
+        public bool IsMediaPlayedSuccessfully
+        {
+            get { return _isMediaPlayedSuccessfully; }
+
+            set
+            {
+                if (!Equals(_isMediaPlayedSuccessfully, value))
+                {
+                    _isMediaPlayedSuccessfully = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsMediaPlayedSuccessfully)));
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public CutVideoWindow(ConversionToolsWindow conversionToolsWindow)
+        public CutVideoWindow(ConversionToolsWindow conversionToolsWindow, VideoConversionFileModel videoConversionFile)
         {
             InitializeComponent();
 
             // 窗口部分初始化
             Current = this;
             ConversionToolsWindow = conversionToolsWindow;
+            SelectedVideoConversionFile = videoConversionFile;
+
             if (IntPtr.Size is 8)
             {
                 User32Library.SetWindowLongPtr((nint)AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, conversionToolsWindow.AppWindow.Id.Value);
@@ -214,6 +253,9 @@ namespace ModernFormatConverter.Views.Windows
             // 设置标题栏主题
             SetTitleBarTheme((Content as FrameworkElement).ActualTheme);
             SetPopupControlTheme(WindowTheme);
+
+            IsMediaPlayedSuccessfully = true;
+            MediaSource = MediaSource.CreateFromStorageFile(await StorageFile.GetFileFromPathAsync(@"F:\电视剧\佳偶天成27.mp4"));
         }
 
         #endregion 第四部分：内容挂载的事件
