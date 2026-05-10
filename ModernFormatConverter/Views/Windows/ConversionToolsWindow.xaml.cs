@@ -474,7 +474,6 @@ namespace ModernFormatConverter.Views.Windows
                 case WindowMessage.WM_DESTROY:
                     {
                         Current = null;
-                        AlwaysShowBackdropService.PropertyChanged -= OnServicePropertyChanged;
                         ThemeService.PropertyChanged -= OnServicePropertyChanged;
                         BackdropService.PropertyChanged -= OnServicePropertyChanged;
                         inputKeyboardSource.SystemKeyDown -= OnSystemKeyDown;

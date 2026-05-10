@@ -871,7 +871,6 @@ namespace ModernFormatConverter.Views.Windows
                 // 窗口销毁后触发的消息
                 case WindowMessage.WM_DESTROY:
                     {
-                        AlwaysShowBackdropService.PropertyChanged -= OnServicePropertyChanged;
                         ThemeService.PropertyChanged -= OnServicePropertyChanged;
                         BackdropService.PropertyChanged -= OnServicePropertyChanged;
                         inputKeyboardSource.SystemKeyDown -= OnSystemKeyDown;
@@ -1033,7 +1032,6 @@ namespace ModernFormatConverter.Views.Windows
             SelectedItem = VideoExportPictureOutputConfigurationSelectorBar.Items[0];
 
             // 挂载相应的事件
-            AlwaysShowBackdropService.PropertyChanged += OnServicePropertyChanged;
             ThemeService.PropertyChanged += OnServicePropertyChanged;
             BackdropService.PropertyChanged += OnServicePropertyChanged;
             inputKeyboardSource.SystemKeyDown += OnSystemKeyDown;

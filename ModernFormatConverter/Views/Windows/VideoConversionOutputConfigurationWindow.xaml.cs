@@ -44,7 +44,6 @@ namespace ModernFormatConverter.Views.Dialogs
     public sealed partial class VideoConversionOutputConfigurationWindow : Window, INotifyPropertyChanged
     {
         private readonly string AllFilesString = ResourceService.VideoConversionOutputConfigurationResource.GetString("AllFiles");
-        private readonly string AnySpeedString = ResourceService.VideoConversionOutputConfigurationResource.GetString("AnySpeed");
         private readonly string BorderAndShadowString = ResourceService.VideoConversionOutputConfigurationResource.GetString("BorderAndShadow");
         private readonly string CopyString = ResourceService.VideoConversionOutputConfigurationResource.GetString("Copy");
         private readonly string CustomString = ResourceService.VideoConversionOutputConfigurationResource.GetString("Custom");
@@ -2163,7 +2162,6 @@ namespace ModernFormatConverter.Views.Dialogs
                 // 窗口销毁后触发的消息
                 case WindowMessage.WM_DESTROY:
                     {
-                        AlwaysShowBackdropService.PropertyChanged -= OnServicePropertyChanged;
                         ThemeService.PropertyChanged -= OnServicePropertyChanged;
                         BackdropService.PropertyChanged -= OnServicePropertyChanged;
                         inputKeyboardSource.SystemKeyDown -= OnSystemKeyDown;
@@ -3297,7 +3295,6 @@ namespace ModernFormatConverter.Views.Dialogs
             SelectedItem = VideoConversionOutputConfigurationSelectorBar.Items[0];
 
             // 挂载相应的事件
-            AlwaysShowBackdropService.PropertyChanged += OnServicePropertyChanged;
             ThemeService.PropertyChanged += OnServicePropertyChanged;
             BackdropService.PropertyChanged += OnServicePropertyChanged;
             inputKeyboardSource.SystemKeyDown += OnSystemKeyDown;

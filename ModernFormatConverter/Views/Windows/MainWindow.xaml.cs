@@ -178,7 +178,6 @@ namespace ModernFormatConverter.Views.Windows
             inputPointerSource = InputPointerSource.GetForIsland(contentIsland);
 
             // 挂载相应的事件
-            AlwaysShowBackdropService.PropertyChanged += OnServicePropertyChanged;
             ThemeService.PropertyChanged += OnServicePropertyChanged;
             BackdropService.PropertyChanged += OnServicePropertyChanged;
             inputKeyboardSource.SystemKeyDown += OnSystemKeyDown;
@@ -671,7 +670,6 @@ namespace ModernFormatConverter.Views.Windows
                 // 窗口关闭时触发的消息
                 case WindowMessage.WM_CLOSE:
                     {
-                        AlwaysShowBackdropService.PropertyChanged -= OnServicePropertyChanged;
                         ThemeService.PropertyChanged -= OnServicePropertyChanged;
                         BackdropService.PropertyChanged -= OnServicePropertyChanged;
                         inputKeyboardSource.SystemKeyDown -= OnSystemKeyDown;
