@@ -79,6 +79,7 @@
 
     <Content Include="Assets\ControlIcon\AudioConversion.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\CustomCommand.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\ControlIcon\CutVideo.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\DocumentConversion.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\FileInformation.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\HATest.png" CopyToOutputDirectory="Always" />
@@ -152,6 +153,9 @@
     <EmbeddedResource Include="Strings\CustomCommand.en-us.restext" />
     <EmbeddedResource Include="Strings\CustomCommand.restext" />
     <EmbeddedResource Include="Strings\CustomCommand.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\CutVideo.en-us.restext" />
+    <EmbeddedResource Include="Strings\CutVideo.restext" />
+    <EmbeddedResource Include="Strings\CutVideo.zh-hans.restext" />
     <EmbeddedResource Include="Strings\DocumentConversion.en-us.restext" />
     <EmbeddedResource Include="Strings\DocumentConversion.restext" />
     <EmbeddedResource Include="Strings\DocumentConversion.zh-hans.restext" />
@@ -233,6 +237,7 @@
     <None Update="Views\Pages\VideoConversionPage.xaml" />
     <None Update="Views\Windows\AppInformationWindow.xaml" />
     <None Update="Views\Windows\ConversionToolsWindow.xaml" />
+    <None Update="Views\Windows\CutVideoWindow.xaml" />
     <None Remove="Views\Windows\LicenseWindow.xaml" />
     <None Remove="Views\Windows\MainWindow.xaml" />
     <None Remove="Views\Windows\RestartAppsWindow.xaml" />
@@ -263,6 +268,7 @@
     <Page Include="Views\Pages\VideoConversionPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\AppInformationWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\ConversionToolsWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Windows\CutVideoWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\LicenseWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\MainWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\RestartAppsWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />

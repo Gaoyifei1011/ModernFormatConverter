@@ -7,17 +7,13 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
 using ModernFormatConverter.Extensions.Backdrop;
-using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.Services.Settings;
-using ModernFormatConverter.Views.Pages;
 using ModernFormatConverter.WindowsAPI.PInvoke.Comctl32;
 using ModernFormatConverter.WindowsAPI.PInvoke.User32;
 using ModernFormatConverter.WindowsAPI.PInvoke.Uxtheme;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
@@ -32,21 +28,21 @@ using Windows.UI;
 namespace ModernFormatConverter.Views.Windows
 {
     /// <summary>
-    /// 转换工具窗口
+    /// 剪辑视频窗口
     /// </summary>
-    public sealed partial class ConversionToolsWindow : Window, INotifyPropertyChanged
+    public sealed partial class CutVideoWindow : Window, INotifyPropertyChanged
     {
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly OverlappedPresenter overlappedPresenter;
-        private readonly SUBCLASSPROC conversionToolsWindowSubClassProc;
+        private readonly SUBCLASSPROC cutVideoWindowSubClassProc;
         private readonly ContentIsland contentIsland;
         private readonly InputKeyboardSource inputKeyboardSource;
         private readonly InputPointerSource inputPointerSource;
         private TaskCompletionSource<ContentDialogResult> taskCompletionSource;
 
-        public new static ConversionToolsWindow Current { get; private set; }
+        public new static CutVideoWindow Current { get; private set; }
 
-        private MainWindow MainWindow { get; set; }
+        private ConversionToolsWindow ConversionToolsWindow { get; set; }
 
         private SystemBackdrop _windowSystemBackdrop;
 
@@ -80,40 +76,22 @@ namespace ModernFormatConverter.Views.Windows
             }
         }
 
-        private int _selectedIndex;
-
-        public int SelectedIndex
-        {
-            get { return _selectedIndex; }
-
-            set
-            {
-                if (!Equals(_selectedIndex, value))
-                {
-                    _selectedIndex = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedIndex)));
-                }
-            }
-        }
-
-        private List<Type> PageList { get; } = [typeof(VideoConversionPage), typeof(AudioConversionPage), typeof(PhotoConversionPage), typeof(DocumentConversionPage)];
-
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ConversionToolsWindow(MainWindow mainWindow, ConversionToolsKind conversionToolsKind)
+        public CutVideoWindow(ConversionToolsWindow conversionToolsWindow)
         {
             InitializeComponent();
 
             // 窗口部分初始化
             Current = this;
-            MainWindow = mainWindow;
+            ConversionToolsWindow = conversionToolsWindow;
             if (IntPtr.Size is 8)
             {
-                User32Library.SetWindowLongPtr((nint)AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, mainWindow.AppWindow.Id.Value);
+                User32Library.SetWindowLongPtr((nint)AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, conversionToolsWindow.AppWindow.Id.Value);
             }
             else
             {
-                User32Library.SetWindowLong((nint)AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, mainWindow.AppWindow.Id.Value);
+                User32Library.SetWindowLong((nint)AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, conversionToolsWindow.AppWindow.Id.Value);
             }
             overlappedPresenter = OverlappedPresenter.CreateForDialog();
             ExtendsContentIntoTitleBar = true;
@@ -125,7 +103,7 @@ namespace ModernFormatConverter.Views.Windows
             AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
             AppWindow.TitleBar.InactiveBackgroundColor = Colors.Transparent;
             AppWindow.TitleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
-            int dpi = User32Library.GetDpiForWindow((nint)AppWindow.Id.Value);
+            double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
             overlappedPresenter.PreferredMinimumWidth = Convert.ToInt32(1000 * Convert.ToDouble(dpi) / 96);
             overlappedPresenter.PreferredMinimumHeight = Convert.ToInt32(600 * Convert.ToDouble(dpi) / 96);
             contentIsland = ContentIsland.FindAllForCompositor(Compositor)[0];
@@ -142,10 +120,9 @@ namespace ModernFormatConverter.Views.Windows
             SetClassicMenuTheme((Content as FrameworkElement).ActualTheme);
 
             // 为窗口添加窗口过程
-            conversionToolsWindowSubClassProc = new SUBCLASSPROC(ConversionToolsWindowSubClassProc);
-            Comctl32Library.SetWindowSubclass((nint)AppWindow.Id.Value, conversionToolsWindowSubClassProc, 0, 0);
+            cutVideoWindowSubClassProc = new SUBCLASSPROC(CutVideoWindowSubClassProc);
+            Comctl32Library.SetWindowSubclass((nint)AppWindow.Id.Value, cutVideoWindowSubClassProc, 0, 0);
 
-            SelectedIndex = Convert.ToInt32(conversionToolsKind);
             SetWindowTheme();
             SetSystemBackdrop();
         }
@@ -230,52 +207,13 @@ namespace ModernFormatConverter.Views.Windows
         #region 第四部分：内容挂载的事件
 
         /// <summary>
-        /// 导航控件加载完成后初始化内容，初始化导航控件属性、屏幕缩放比例值和应用的背景色
+        /// 加载完成后触发的事件
         /// </summary>
         private async void OnLoaded(object sender, RoutedEventArgs args)
         {
             // 设置标题栏主题
             SetTitleBarTheme((Content as FrameworkElement).ActualTheme);
             SetPopupControlTheme(WindowTheme);
-        }
-
-        /// <summary>
-        /// 选项卡控件选中项发生变化时触发的事件
-        /// </summary>
-        private void OnSelectionChanged(object sender, SelectionChangedEventArgs args)
-        {
-            if (args.AddedItems.Count > 0)
-            {
-                SelectedIndex = (sender as TabView).SelectedIndex;
-                Type currentPage = GetCurrentPageType();
-                int currentIndex = PageList.FindIndex(item => Equals(item, currentPage));
-                if (SelectedIndex is 0)
-                {
-                    NavigateTo(PageList[0]);
-                }
-                else if (SelectedIndex is 1 && !Equals(currentPage, PageList[1]))
-                {
-                    NavigateTo(PageList[1]);
-                }
-                else if (SelectedIndex is 2 && !Equals(currentPage, PageList[2]))
-                {
-                    NavigateTo(PageList[2]);
-                }
-                else if (SelectedIndex is 3 && !Equals(currentPage, PageList[3]))
-                {
-                    NavigateTo(PageList[3]);
-                }
-            }
-        }
-
-        /// <summary>
-        /// 导航失败时发生
-        /// </summary>
-        private void OnNavigationFailed(object sender, NavigationFailedEventArgs args)
-        {
-            args.Handled = true;
-            SelectedIndex = PageList.FindIndex(item => Equals(item, GetCurrentPageType()));
-            LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(ConversionToolsWindow), nameof(OnNavigationFailed), 1, args.Exception);
         }
 
         #endregion 第四部分：内容挂载的事件
@@ -320,32 +258,32 @@ namespace ModernFormatConverter.Views.Windows
             if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[1]))
             {
                 WindowSystemBackdrop = new MaterialBackdrop(MicaKind.Base);
-                VisualStateManager.GoToState(ConversionToolsPage, "BackgroundTransparent", false);
+                VisualStateManager.GoToState(CutVideoPage, "BackgroundTransparent", false);
             }
             else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[2]))
             {
                 WindowSystemBackdrop = new MaterialBackdrop(MicaKind.BaseAlt);
-                VisualStateManager.GoToState(ConversionToolsPage, "BackgroundTransparent", false);
+                VisualStateManager.GoToState(CutVideoPage, "BackgroundTransparent", false);
             }
             else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[3]))
             {
                 WindowSystemBackdrop = new MaterialBackdrop(DesktopAcrylicKind.Default);
-                VisualStateManager.GoToState(ConversionToolsPage, "BackgroundTransparent", false);
+                VisualStateManager.GoToState(CutVideoPage, "BackgroundTransparent", false);
             }
             else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[4]))
             {
                 WindowSystemBackdrop = new MaterialBackdrop(DesktopAcrylicKind.Base);
-                VisualStateManager.GoToState(ConversionToolsPage, "BackgroundTransparent", false);
+                VisualStateManager.GoToState(CutVideoPage, "BackgroundTransparent", false);
             }
             else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[5]))
             {
                 WindowSystemBackdrop = new MaterialBackdrop(DesktopAcrylicKind.Thin);
-                VisualStateManager.GoToState(ConversionToolsPage, "BackgroundTransparent", false);
+                VisualStateManager.GoToState(CutVideoPage, "BackgroundTransparent", false);
             }
             else
             {
                 WindowSystemBackdrop = null;
-                VisualStateManager.GoToState(ConversionToolsPage, "BackgroundDefault", false);
+                VisualStateManager.GoToState(CutVideoPage, "BackgroundDefault", false);
             }
         }
 
@@ -430,9 +368,9 @@ namespace ModernFormatConverter.Views.Windows
         #region 第七部分：窗口过程
 
         /// <summary>
-        /// 转换工具窗口消息处理
+        /// 许可证文字内容窗口消息处理
         /// </summary>
-        private nint ConversionToolsWindowSubClassProc(nint hWnd, WindowMessage Msg, nuint wParam, nint lParam, uint uIdSubclass, nint dwRefData)
+        private nint CutVideoWindowSubClassProc(nint hWnd, WindowMessage Msg, nuint wParam, nint lParam, uint uIdSubclass, nint dwRefData)
         {
             switch (Msg)
             {
@@ -466,7 +404,7 @@ namespace ModernFormatConverter.Views.Windows
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(ConversionToolsWindow), nameof(ConversionToolsWindowSubClassProc), 1, e);
+                            LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutVideoWindow), nameof(CutVideoWindowSubClassProc), 1, e);
                         }
                         break;
                     }
@@ -479,14 +417,14 @@ namespace ModernFormatConverter.Views.Windows
                         BackdropService.PropertyChanged -= OnServicePropertyChanged;
                         inputKeyboardSource.SystemKeyDown -= OnSystemKeyDown;
                         inputPointerSource.PointerReleased -= OnPointerReleased;
-                        Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, conversionToolsWindowSubClassProc, 0);
+                        Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, cutVideoWindowSubClassProc, 0);
                         // TODO：未完成
                         if (!taskCompletionSource.Task.IsCompleted)
                         {
                             taskCompletionSource.TrySetResult(ContentDialogResult.None);
                         }
-                        MainWindow.Activate();
-                        MainWindow = null;
+                        ConversionToolsWindow.Activate();
+                        ConversionToolsWindow = null;
                         break;
                     }
                 // 当用户按下鼠标左键时，光标位于窗口的非工作区内的消息
@@ -543,24 +481,12 @@ namespace ModernFormatConverter.Views.Windows
 
                         if (sysCommand is SYSTEMCOMMAND.SC_MOUSEMENU)
                         {
-                            FlyoutShowOptions options = new()
-                            {
-                                Position = new Point(0, 15),
-                                ShowMode = FlyoutShowMode.Standard
-                            };
-                            TitlebarMenuFlyout.ShowAt(null, options);
                             return 0;
                         }
                         else if (sysCommand is SYSTEMCOMMAND.SC_KEYMENU)
                         {
                             if (lParam is (int)System.Windows.Forms.Keys.Space)
                             {
-                                FlyoutShowOptions options = new()
-                                {
-                                    Position = new Point(0, 45),
-                                    ShowMode = FlyoutShowMode.Standard
-                                };
-                                TitlebarMenuFlyout.ShowAt(null, options);
                                 return 0;
                             }
                         }
@@ -573,22 +499,6 @@ namespace ModernFormatConverter.Views.Windows
         #endregion 第七部分：窗口过程
 
         /// <summary>
-        /// 页面向前导航
-        /// </summary>
-        private void NavigateTo(Type navigationPageType, object parameter = null)
-        {
-            try
-            {
-                // 导航到该项目对应的页面
-                ConversionToolsFrame.Navigate(navigationPageType, parameter);
-            }
-            catch (Exception e)
-            {
-                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(ConversionToolsWindow), nameof(NavigateTo), 1, e);
-            }
-        }
-
-        /// <summary>
         /// 显示模态窗口
         /// </summary>
         public async Task<ContentDialogResult> ShowAsync()
@@ -596,14 +506,6 @@ namespace ModernFormatConverter.Views.Windows
             taskCompletionSource = new();
             AppWindow.Show();
             return await taskCompletionSource.Task;
-        }
-
-        /// <summary>
-        /// 获取当前导航到的页
-        /// </summary>
-        private Type GetCurrentPageType()
-        {
-            return ConversionToolsFrame.CurrentSourcePageType;
         }
 
         private uint HIWORD(uint dword)

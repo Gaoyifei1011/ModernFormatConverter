@@ -350,11 +350,15 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 剪辑视频
         /// </summary>
-        private void OnCutVideoExecuteRequested(object sender, ExecuteRequestedEventArgs args)
+        private async void OnCutVideoExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is VideoConversionFileModel videoConversionFileModel)
             {
-                // TODO：未完成
+                CutVideoWindow cutVideoWindow = new(ConversionToolsWindow.Current);
+                if (await cutVideoWindow.ShowAsync() is ContentDialogResult.Primary)
+                {
+                    // TODO：未完成
+                }
             }
         }
 
