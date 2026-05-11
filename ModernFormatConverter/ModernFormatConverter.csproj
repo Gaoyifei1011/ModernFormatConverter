@@ -140,7 +140,14 @@
     <Content Include="Assets\Wide310x150Logo.scale-150.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" CopyToOutputDirectory="Always" />
-
+    <Content Include="$(ProjectDir)\Tools\$(Platform)\FFmpegInterop.winmd" Link="FFmpegInterop.winmd" CopyToOutputDirectory="Always" />
+    <Content Include="$(ProjectDir)\Tools\$(Platform)\FFmpegInterop.dll" Link="FFmpegInterop.dll" CopyToOutputDirectory="Always" />
+    <Content Include="$(ProjectDir)\Tools\$(Platform)\avcodec-62.dll" Link="avcodec-62.dll" CopyToOutputDirectory="Always" />
+    <Content Include="$(ProjectDir)\Tools\$(Platform)\avformat-62.dll" Link="avformat-62.dll" CopyToOutputDirectory="Always" />
+    <Content Include="$(ProjectDir)\Tools\$(Platform)\avutil-60.dll" Link="avutil-60.dll" CopyToOutputDirectory="Always" />
+    <Content Include="$(ProjectDir)\Tools\$(Platform)\swresample-6.dll" Link="swresample-6.dll" CopyToOutputDirectory="Always" />
+    <Content Include="$(ProjectDir)\Tools\$(Platform)\swscale-9.dll" Link="swscale-9.dll" CopyToOutputDirectory="Always" />
+    
     <EmbeddedResource Include="Strings\AppInformation.en-us.restext" />
     <EmbeddedResource Include="Strings\AppInformation.restext" />
     <EmbeddedResource Include="Strings\AppInformation.zh-hans.restext" />    
@@ -297,6 +304,7 @@
     <Reference Include="$(PkgMicrosoft_WindowsAppSDK_WinUI)\metadata\Microsoft.UI.Xaml.winmd" Private="false" Visible="false" />
     <Reference Include="$(PkgMicrosoft_Windows_SDK_NET_Ref)\winmd\*.winmd" Private="false" Visible="false" />
     <Reference Include="$(WindowsSdkPath)\UnionMetadata\Facade\Windows.WinMD" Private="false" Visible="false" />
+    <Reference Include="$(ProjectDir)Tools\$(Platform)\FFmpegInterop.winmd" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
