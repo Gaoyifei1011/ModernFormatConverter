@@ -1,4 +1,5 @@
-﻿using Microsoft.UI;
+﻿using FFmpegInterop;
+using Microsoft.UI;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Content;
 using Microsoft.UI.Input;
@@ -15,13 +16,17 @@ using ModernFormatConverter.WindowsAPI.PInvoke.Comctl32;
 using ModernFormatConverter.WindowsAPI.PInvoke.User32;
 using ModernFormatConverter.WindowsAPI.PInvoke.Uxtheme;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Media.Core;
 using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.System;
 using Windows.UI;
 
@@ -42,6 +47,7 @@ namespace ModernFormatConverter.Views.Windows
         private readonly InputKeyboardSource inputKeyboardSource;
         private readonly InputPointerSource inputPointerSource;
         private TaskCompletionSource<ContentDialogResult> taskCompletionSource;
+        private IRandomAccessStream videoRandomAccessStream;
 
         public new static CutVideoWindow Current { get; private set; }
 
@@ -97,6 +103,22 @@ namespace ModernFormatConverter.Views.Windows
             }
         }
 
+        private string _errorReason;
+
+        public string ErrorReason
+        {
+            get { return _errorReason; }
+
+            set
+            {
+                if (!string.Equals(_errorReason, value))
+                {
+                    _errorReason = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ErrorReason)));
+                }
+            }
+        }
+
         private bool _isMediaPlayedSuccessfully;
 
         public bool IsMediaPlayedSuccessfully
@@ -109,6 +131,182 @@ namespace ModernFormatConverter.Views.Windows
                 {
                     _isMediaPlayedSuccessfully = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsMediaPlayedSuccessfully)));
+                }
+            }
+        }
+
+        private SelectorBarItem _cutVideoSelectedItem;
+
+        public SelectorBarItem CutVideoSelectedItem
+        {
+            get { return _cutVideoSelectedItem; }
+
+            set
+            {
+                if (!Equals(_cutVideoSelectedItem, value))
+                {
+                    _cutVideoSelectedItem = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CutVideoSelectedItem)));
+                }
+            }
+        }
+
+        private int _timeStartHours;
+
+        public int TimeStartHours
+        {
+            get { return _timeStartHours; }
+
+            set
+            {
+                if (!Equals(_timeStartHours, value))
+                {
+                    _timeStartHours = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimeStartHours)));
+                }
+            }
+        }
+
+        private int _timeStartMinutes;
+
+        public int TimeStartMinutes
+        {
+            get { return _timeStartMinutes; }
+
+            set
+            {
+                if (!Equals(_timeStartMinutes, value))
+                {
+                    _timeStartMinutes = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimeStartMinutes)));
+                }
+            }
+        }
+
+        private int _timeStartSeconds;
+
+        public int TimeStartSeconds
+        {
+            get { return _timeStartSeconds; }
+
+            set
+            {
+                if (!Equals(_timeStartSeconds, value))
+                {
+                    _timeStartSeconds = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimeStartSeconds)));
+                }
+            }
+        }
+
+        private int _timeStartMillseconds;
+
+        public int TimeStartMillseconds
+        {
+            get { return _timeStartMillseconds; }
+
+            set
+            {
+                if (!Equals(_timeStartMillseconds, value))
+                {
+                    _timeStartMillseconds = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimeStartMillseconds)));
+                }
+            }
+        }
+
+        private ImageSource _timeStartImage;
+
+        public ImageSource TimeStartImage
+        {
+            get { return _timeStartImage; }
+
+            set
+            {
+                if (!Equals(_timeStartImage, value))
+                {
+                    _timeStartImage = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimeStartImage)));
+                }
+            }
+        }
+
+        private int _timeEndHours;
+
+        public int TimeEndHours
+        {
+            get { return _timeEndHours; }
+
+            set
+            {
+                if (!Equals(_timeEndHours, value))
+                {
+                    _timeEndHours = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimeEndHours)));
+                }
+            }
+        }
+
+        private int _timeEndMinutes;
+
+        public int TimeEndMinutes
+        {
+            get { return _timeEndMinutes; }
+
+            set
+            {
+                if (!Equals(_timeEndMinutes, value))
+                {
+                    _timeEndMinutes = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimeEndMinutes)));
+                }
+            }
+        }
+
+        private int _timeEndSeconds;
+
+        public int TimeEndSeconds
+        {
+            get { return _timeEndSeconds; }
+
+            set
+            {
+                if (!Equals(_timeEndSeconds, value))
+                {
+                    _timeEndSeconds = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimeEndSeconds)));
+                }
+            }
+        }
+
+        private int _timeEndMillseconds;
+
+        public int TimeEndMillseconds
+        {
+            get { return _timeEndMillseconds; }
+
+            set
+            {
+                if (!Equals(_timeEndMillseconds, value))
+                {
+                    _timeEndMillseconds = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimeEndMillseconds)));
+                }
+            }
+        }
+
+        private ImageSource _timeEndImage;
+
+        public ImageSource TimeEndImage
+        {
+            get { return _timeEndImage; }
+
+            set
+            {
+                if (!Equals(_timeEndImage, value))
+                {
+                    _timeEndImage = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimeEndImage)));
                 }
             }
         }
@@ -142,7 +340,7 @@ namespace ModernFormatConverter.Views.Windows
             AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
             AppWindow.TitleBar.InactiveBackgroundColor = Colors.Transparent;
             AppWindow.TitleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
-            double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
+            int dpi = User32Library.GetDpiForWindow((nint)AppWindow.Id.Value);
             overlappedPresenter.PreferredMinimumWidth = Convert.ToInt32(1000 * Convert.ToDouble(dpi) / 96);
             overlappedPresenter.PreferredMinimumHeight = Convert.ToInt32(600 * Convert.ToDouble(dpi) / 96);
             contentIsland = ContentIsland.FindAllForCompositor(Compositor)[0];
@@ -164,6 +362,8 @@ namespace ModernFormatConverter.Views.Windows
 
             SetWindowTheme();
             SetSystemBackdrop();
+
+            CutVideoSelectedItem = CutVideoSelectorBar.Items[0];
         }
 
         #region 第一部分：窗口辅助类挂载的事件
@@ -254,8 +454,281 @@ namespace ModernFormatConverter.Views.Windows
             SetTitleBarTheme((Content as FrameworkElement).ActualTheme);
             SetPopupControlTheme(WindowTheme);
 
-            IsMediaPlayedSuccessfully = true;
-            MediaSource = MediaSource.CreateFromStorageFile(await StorageFile.GetFileFromPathAsync(@"F:\电视剧\佳偶天成27.mp4"));
+            MediaStreamSource mediaStreamSource = await Task.Run(async () =>
+            {
+                try
+                {
+                    IActivationFactory activationFactory = WindowsRuntimeMarshal.GetActivationFactory(typeof(MediaStreamSource));
+                    MediaStreamSource mediaStreamSource = activationFactory.ActivateInstance() as MediaStreamSource;
+                    videoRandomAccessStream = await (await StorageFile.GetFileFromPathAsync(SelectedVideoConversionFile.FilePath)).OpenAsync(FileAccessMode.Read);
+                    FFmpegInteropMSSConfig ffmpegInteropMSSConfig = new()
+                    {
+                        ForceVideoDecode = true,
+                        ForceAudioDecode = true
+                    };
+                    FFmpegInteropMSS.InitializeFromStream(videoRandomAccessStream, mediaStreamSource, ffmpegInteropMSSConfig);
+                    return mediaStreamSource;
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutVideoWindow), nameof(OnLoaded), 1, e);
+                    return null;
+                }
+            });
+
+            if(mediaStreamSource is not null)
+            {
+                MediaSource = MediaSource.CreateFromMediaStreamSource(mediaStreamSource);
+                IsMediaPlayedSuccessfully = true;
+            }
+        }
+
+        /// <summary>
+        /// 使用系统播放器播放
+        /// </summary>
+        private void OnPlayWithSystemVideoClicked(object sender,RoutedEventArgs args)
+        {
+            try
+            {
+                Process.Start(SelectedVideoConversionFile.FilePath);
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutVideoWindow), nameof(OnPlayWithSystemVideoClicked), 1, e);
+            }
+        }
+
+        /// <summary>
+        /// 剪辑视频选中项发生变化时触发的事件
+        /// </summary>
+        private void OnCutVideoSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
+        {
+            if (!Equals(sender.SelectedItem, CutVideoSelectedItem))
+            {
+                CutVideoSelectedItem = sender.SelectedItem;
+            }
+        }
+
+        /// <summary>
+        /// 起始时间点时发生变化时触发的事件
+        /// </summary>
+        private void OnTimeStartHoursValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
+            {
+                int newValue = Convert.ToInt32(args.NewValue);
+                TimeStartHours = int.MaxValue;
+                TimeStartHours = newValue < 0 ? 0 : newValue;
+            }
+        }
+
+        /// <summary>
+        /// 起始时间点分发生变化时触发的事件
+        /// </summary>
+        private void OnTimeStartMinutesValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
+            {
+                int newValue = Convert.ToInt32(args.NewValue);
+                TimeStartMinutes = int.MaxValue;
+                TimeStartMinutes = Convert.ToInt32(args.OldValue);
+
+                if (newValue > 59)
+                {
+                    TimeStartMinutes = 59;
+                }
+                else if (newValue < 0)
+                {
+                    TimeStartMinutes = 0;
+                }
+                else
+                {
+                    TimeStartMinutes = newValue;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 起始时间点秒发生变化时触发的事件
+        /// </summary>
+        private void OnTimeStartSecondsValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
+            {
+                int newValue = Convert.ToInt32(args.NewValue);
+                TimeStartSeconds = int.MaxValue;
+                TimeStartSeconds = Convert.ToInt32(args.OldValue);
+
+                if (newValue > 59)
+                {
+                    TimeStartSeconds = 59;
+                }
+                else if (newValue < 0)
+                {
+                    TimeStartSeconds = 0;
+                }
+                else
+                {
+                    TimeStartSeconds = newValue;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 起始时间点毫秒发生变化时触发的事件
+        /// </summary>
+        private void OnTimeStartMillsecondsValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
+            {
+                int newValue = Convert.ToInt32(args.NewValue);
+                TimeStartMillseconds = int.MaxValue;
+                TimeStartMillseconds = Convert.ToInt32(args.OldValue);
+
+                if (newValue > 1000)
+                {
+                    TimeStartMillseconds = 999;
+                }
+                else if (newValue < 0)
+                {
+                    TimeStartMillseconds = 0;
+                }
+                else
+                {
+                    TimeStartMillseconds = newValue;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 定位起始时间
+        /// </summary>
+        private void OnTimeStartLocationClicked(object sender,RoutedEventArgs args)
+        {
+            TimeSpan currentPosition = CutVideoMediaPlayerElement.MediaPlayer.PlaybackSession.Position;
+            TimeStartHours = (int)Math.Truncate(currentPosition.TotalHours);
+            TimeStartMinutes = currentPosition.Minutes;
+            TimeStartSeconds = currentPosition.Seconds;
+            TimeStartMillseconds = currentPosition.Milliseconds;
+        }
+
+        /// <summary>
+        /// 从起始位置时间播放视频
+        /// </summary>
+        private void OnTimeStartLocateVdieoClicked(object sender,RoutedEventArgs args)
+        {
+            CutVideoMediaPlayerElement.MediaPlayer.PlaybackSession.Position = new(0, TimeStartHours, TimeStartMinutes, TimeStartSeconds,TimeStartMillseconds);
+        }
+
+        /// <summary>
+        /// 结束时间点时发生变化时触发的事件
+        /// </summary>
+        private void OnTimeEndHoursValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
+            {
+                int newValue = Convert.ToInt32(args.NewValue);
+                TimeEndHours = int.MaxValue;
+                TimeEndHours = newValue < 0 ? 0 : newValue;
+            }
+        }
+
+        /// <summary>
+        /// 结束时间点分发生变化时触发的事件
+        /// </summary>
+        private void OnTimeEndMinutesValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
+            {
+                int newValue = Convert.ToInt32(args.NewValue);
+                TimeEndMinutes = int.MaxValue;
+                TimeEndMinutes = Convert.ToInt32(args.OldValue);
+
+                if (newValue > 59)
+                {
+                    TimeEndMinutes = 59;
+                }
+                else if (newValue < 0)
+                {
+                    TimeEndMinutes = 0;
+                }
+                else
+                {
+                    TimeEndMinutes = newValue;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 结束时间点秒发生变化时触发的事件
+        /// </summary>
+        private void OnTimeEndSecondsValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
+            {
+                int newValue = Convert.ToInt32(args.NewValue);
+                TimeEndSeconds = int.MaxValue;
+                TimeEndSeconds = Convert.ToInt32(args.OldValue);
+
+                if (newValue > 59)
+                {
+                    TimeEndSeconds = 59;
+                }
+                else if (newValue < 0)
+                {
+                    TimeEndSeconds = 0;
+                }
+                else
+                {
+                    TimeEndSeconds = newValue;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 结束时间点毫秒发生变化时触发的事件
+        /// </summary>
+        private void OnTimeEndMillsecondsValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
+            {
+                int newValue = Convert.ToInt32(args.NewValue);
+                TimeEndMillseconds = int.MaxValue;
+                TimeEndMillseconds = Convert.ToInt32(args.OldValue);
+
+                if (newValue > 1000)
+                {
+                    TimeEndMillseconds = 999;
+                }
+                else if (newValue < 0)
+                {
+                    TimeEndMillseconds = 0;
+                }
+                else
+                {
+                    TimeEndMillseconds = newValue;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 定位结束时间
+        /// </summary>
+        private void OnTimeEndLocationClicked(object sender, RoutedEventArgs args)
+        {
+            TimeSpan currentPosition = CutVideoMediaPlayerElement.MediaPlayer.PlaybackSession.Position;
+            TimeEndHours = (int)Math.Truncate(currentPosition.TotalHours);
+            TimeEndMinutes = currentPosition.Minutes;
+            TimeEndSeconds = currentPosition.Seconds;
+            TimeEndMillseconds = currentPosition.Milliseconds;
+        }
+
+        /// <summary>
+        /// 从结束位置时间播放视频
+        /// </summary>
+        private void OnTimeEndLocateVdieoClicked(object sender, RoutedEventArgs args)
+        {
+            CutVideoMediaPlayerElement.MediaPlayer.PlaybackSession.Position = new(0, TimeEndHours, TimeEndMinutes, TimeEndSeconds, TimeEndMillseconds);
         }
 
         #endregion 第四部分：内容挂载的事件
@@ -454,6 +927,8 @@ namespace ModernFormatConverter.Views.Windows
                 case WindowMessage.WM_DESTROY:
                     {
                         Current = null;
+                        MediaSource = null;
+                        videoRandomAccessStream.Dispose();
                         ThemeService.PropertyChanged -= OnServicePropertyChanged;
                         BackdropService.PropertyChanged -= OnServicePropertyChanged;
                         inputKeyboardSource.SystemKeyDown -= OnSystemKeyDown;
@@ -557,6 +1032,11 @@ namespace ModernFormatConverter.Views.Windows
         private uint LOWORD(uint dword)
         {
             return dword & 0xffff;
+        }
+
+        private Visibility GetCutVideoSelectedItem(SelectorBarItem selectedSelectorBarItem,SelectorBarItem comparedSelectorBarItem)
+        {
+            return Equals(selectedSelectorBarItem,comparedSelectorBarItem) ? Visibility.Visible : Visibility.Collapsed;
         }
     }
 }
