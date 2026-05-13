@@ -45,6 +45,8 @@ namespace ModernFormatConverter.Views.Pages
         //项目引用信息
         private ListDictionary ReferenceList { get; } = new()
         {
+            { "FFmpeg", new Uri("https://ffmpeg.org") },
+            { "FFmpegInterop", new Uri("https://github.com/microsoft/FFmpegInterop") },
             { "MeidaInfo", new Uri("https://mediaarea.net") },
             { "Microsoft.Windows.SDK.BuildTools", new Uri("https://aka.ms/WinSDKProjectURL") },
             { "Microsoft.Windows.SDK.BuildTools.MSIX", new Uri("https://aka.ms/WinSDKProjectURL") },
