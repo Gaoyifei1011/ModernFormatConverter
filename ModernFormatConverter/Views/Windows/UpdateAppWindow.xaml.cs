@@ -38,7 +38,7 @@ namespace ModernFormatConverter.Views.Windows
         private readonly string UpdateDownloadingString = ResourceService.UpdateAppResource.GetString("UpdateDownloading");
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly OverlappedPresenter overlappedPresenter;
-        private readonly SUBCLASSPROC licenseWindowSubClassProc;
+        private readonly SUBCLASSPROC updateAppWindowSubClassProc;
         private readonly ContentIsland contentIsland;
         private readonly InputKeyboardSource inputKeyboardSource;
         private readonly InputPointerSource inputPointerSource;
@@ -178,8 +178,8 @@ namespace ModernFormatConverter.Views.Windows
             SetClassicMenuTheme((Content as FrameworkElement).ActualTheme);
 
             // 为窗口添加窗口过程
-            licenseWindowSubClassProc = new SUBCLASSPROC(LincenseWindowSubClassProc);
-            Comctl32Library.SetWindowSubclass((nint)AppWindow.Id.Value, licenseWindowSubClassProc, 0, 0);
+            updateAppWindowSubClassProc = new SUBCLASSPROC(UpdateAppWindowSubClassProc);
+            Comctl32Library.SetWindowSubclass((nint)AppWindow.Id.Value, updateAppWindowSubClassProc, 0, 0);
 
             SetWindowTheme();
 
@@ -556,7 +556,7 @@ namespace ModernFormatConverter.Views.Windows
         /// <summary>
         /// 更新应用窗口消息处理
         /// </summary>
-        private nint LincenseWindowSubClassProc(nint hWnd, WindowMessage Msg, nuint wParam, nint lParam, uint uIdSubclass, nint dwRefData)
+        private nint UpdateAppWindowSubClassProc(nint hWnd, WindowMessage Msg, nuint wParam, nint lParam, uint uIdSubclass, nint dwRefData)
         {
             switch (Msg)
             {
@@ -578,7 +578,7 @@ namespace ModernFormatConverter.Views.Windows
                         ThemeService.PropertyChanged -= OnServicePropertyChanged;
                         inputKeyboardSource.SystemKeyDown -= OnSystemKeyDown;
                         inputPointerSource.PointerReleased -= OnPointerReleased;
-                        Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, licenseWindowSubClassProc, 0);
+                        Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, updateAppWindowSubClassProc, 0);
                         taskCompletionSource.TrySetResult(ContentDialogResult.None);
                         MainWindow.Activate();
                         MainWindow = null;

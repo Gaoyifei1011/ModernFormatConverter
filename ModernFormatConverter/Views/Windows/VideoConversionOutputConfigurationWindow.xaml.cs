@@ -66,6 +66,7 @@ namespace ModernFormatConverter.Views.Dialogs
         private readonly string Stereo71String = ResourceService.VideoConversionOutputConfigurationResource.GetString("Stereo71");
         private readonly string SubtitleString = ResourceService.VideoConversionOutputConfigurationResource.GetString("Subtitle");
         private readonly string UnsideDownString = ResourceService.VideoConversionOutputConfigurationResource.GetString("UnsideDown");
+        private readonly Guid CLSID_DxgiFactory = new("7B7166EC-21C7-44AE-B21A-C9AE321AE369");
         private readonly List<ComboBoxItemModel> GPUList = [];
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly Color accentColor = (Color)Application.Current.Resources["SystemAccentColor"];
@@ -2285,7 +2286,6 @@ namespace ModernFormatConverter.Views.Dialogs
             }
 
             uint iAdapterNum = 0;
-            Guid CLSID_DxgiFactory = new("7B7166EC-21C7-44AE-B21A-C9AE321AE369");
             int DXGI_ERROR_NOT_FOUND = unchecked((int)0x887A0002);
             List<uint> dxgiAdapterList = [];
 
