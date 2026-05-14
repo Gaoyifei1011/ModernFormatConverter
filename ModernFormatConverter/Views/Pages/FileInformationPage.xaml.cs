@@ -2286,7 +2286,7 @@ namespace ModernFormatConverter.Views.Pages
                         string encodedDate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Encoded_Date", InfoKind.Text, InfoKind.Name));
                         generalInfo.EncodedDate = string.IsNullOrEmpty(encodedDate) ? NotAvailableString : encodedDate;
                         string generalDuration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Duration", InfoKind.Text, InfoKind.Name));
-                        if (int.TryParse(generalDuration, out int generalDurationValue))
+                        if (double.TryParse(generalDuration, out double generalDurationValue))
                         {
                             TimeSpan generalDurationTimeSpan = TimeSpan.FromMilliseconds(generalDurationValue);
                             generalInfo.Duration = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", Math.Truncate(generalDurationTimeSpan.TotalHours), generalDurationTimeSpan.Minutes, generalDurationTimeSpan.Minutes, generalDurationTimeSpan.Milliseconds);
@@ -2326,7 +2326,7 @@ namespace ModernFormatConverter.Views.Pages
                             string codecIDInfo = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "CodecID/Info", InfoKind.Text, InfoKind.Name));
                             videoDetailInfo.CodecIDInfo = string.IsNullOrEmpty(codecIDInfo) ? NotAvailableString : codecIDInfo;
                             string videoDuration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "Duration", InfoKind.Text, InfoKind.Name));
-                            if (int.TryParse(videoDuration, out int videoDurationValue))
+                            if (double.TryParse(videoDuration, out double videoDurationValue))
                             {
                                 TimeSpan videoDurationTimeSpan = TimeSpan.FromMilliseconds(videoDurationValue);
                                 videoDetailInfo.Duration = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", Math.Truncate(videoDurationTimeSpan.TotalHours), videoDurationTimeSpan.Minutes, videoDurationTimeSpan.Minutes, videoDurationTimeSpan.Milliseconds);
@@ -2336,7 +2336,7 @@ namespace ModernFormatConverter.Views.Pages
                                 videoDetailInfo.Duration = string.IsNullOrEmpty(videoDuration) ? NotAvailableString : videoDuration;
                             }
                             string sourceDuration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, index, "Source_Duration", InfoKind.Text, InfoKind.Name));
-                            if (int.TryParse(sourceDuration, out int sourceDurationValue))
+                            if (double.TryParse(sourceDuration, out double sourceDurationValue))
                             {
                                 TimeSpan sourceDurationTimeSpan = TimeSpan.FromMilliseconds(sourceDurationValue);
                                 videoDetailInfo.SourceDuration = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", Math.Truncate(sourceDurationTimeSpan.TotalHours), sourceDurationTimeSpan.Minutes, sourceDurationTimeSpan.Minutes, sourceDurationTimeSpan.Milliseconds);
@@ -2401,7 +2401,7 @@ namespace ModernFormatConverter.Views.Pages
                             string audioCodecID = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "CodecID/String", InfoKind.Text, InfoKind.Name));
                             audioDetailInfo.CodecID = string.IsNullOrEmpty(audioCodecID) ? NotAvailableString : audioCodecID;
                             string audioDuration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "Duration", InfoKind.Text, InfoKind.Name));
-                            if (int.TryParse(audioDuration, out int audioDurationValue))
+                            if (double.TryParse(audioDuration, out double audioDurationValue))
                             {
                                 TimeSpan audioDurationTimeSpan = TimeSpan.FromMilliseconds(audioDurationValue);
                                 audioDetailInfo.Duration = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", Math.Truncate(audioDurationTimeSpan.TotalHours), audioDurationTimeSpan.Minutes, audioDurationTimeSpan.Minutes, audioDurationTimeSpan.Milliseconds);
@@ -2460,7 +2460,7 @@ namespace ModernFormatConverter.Views.Pages
                             string textFormat = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, index, "Format", InfoKind.Text, InfoKind.Name));
                             textDetailInfo.Format = string.IsNullOrEmpty(textFormat) ? NotAvailableString : textFormat;
                             string textDuration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, index, "Duration", InfoKind.Text, InfoKind.Name));
-                            if (int.TryParse(textDuration, out int textDurationValue))
+                            if (double.TryParse(textDuration, out double textDurationValue))
                             {
                                 TimeSpan textDurationTimeSpan = TimeSpan.FromMilliseconds(textDurationValue);
                                 textDetailInfo.Duration = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", Math.Truncate(textDurationTimeSpan.TotalHours), textDurationTimeSpan.Minutes, textDurationTimeSpan.Minutes, textDurationTimeSpan.Milliseconds);
@@ -2470,7 +2470,7 @@ namespace ModernFormatConverter.Views.Pages
                                 textDetailInfo.Duration = string.IsNullOrEmpty(textDuration) ? NotAvailableString : textDuration;
                             }
                             string startTime = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, index, "Duration_Start", InfoKind.Text, InfoKind.Name));
-                            if (int.TryParse(startTime, out int startTimeValue))
+                            if (double.TryParse(startTime, out double startTimeValue))
                             {
                                 TimeSpan startTimeSpan = TimeSpan.FromMilliseconds(startTimeValue);
                                 textDetailInfo.StartTime = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", Math.Truncate(startTimeSpan.TotalHours), startTimeSpan.Minutes, startTimeSpan.Minutes, startTimeSpan.Milliseconds);
@@ -2480,7 +2480,7 @@ namespace ModernFormatConverter.Views.Pages
                                 textDetailInfo.StartTime = string.IsNullOrEmpty(startTime) ? NotAvailableString : startTime;
                             }
                             string endTime = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, index, "Duration_End", InfoKind.Text, InfoKind.Name));
-                            if (int.TryParse(endTime, out int endTimeValue))
+                            if (double.TryParse(endTime, out double endTimeValue))
                             {
                                 TimeSpan endTimeSpan = TimeSpan.FromMilliseconds(endTimeValue);
                                 textDetailInfo.EndTime = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", Math.Truncate(endTimeSpan.TotalHours), endTimeSpan.Minutes, endTimeSpan.Minutes, endTimeSpan.Milliseconds);
@@ -2494,7 +2494,7 @@ namespace ModernFormatConverter.Views.Pages
                             string countOfEvents = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, index, "Events_Total", InfoKind.Text, InfoKind.Name));
                             textDetailInfo.CountOfEvents = string.IsNullOrEmpty(countOfEvents) ? NotAvailableString : countOfEvents;
                             string minimumDurationPerEvent = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, index, "Events_MinDuration", InfoKind.Text, InfoKind.Name));
-                            if (int.TryParse(minimumDurationPerEvent, out int minimumDurationPerEventValue))
+                            if (double.TryParse(minimumDurationPerEvent, out double minimumDurationPerEventValue))
                             {
                                 TimeSpan minimumDurationPerEventTimeSpan = TimeSpan.FromMilliseconds(minimumDurationPerEventValue);
                                 textDetailInfo.MinimumDurationPerEvent = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", Math.Truncate(minimumDurationPerEventTimeSpan.TotalHours), minimumDurationPerEventTimeSpan.Minutes, minimumDurationPerEventTimeSpan.Minutes, minimumDurationPerEventTimeSpan.Milliseconds);
@@ -2557,7 +2557,7 @@ namespace ModernFormatConverter.Views.Pages
                         string encodedDate = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Encoded_Date", InfoKind.Text, InfoKind.Name));
                         generalInfo.EncodedDate = string.IsNullOrEmpty(encodedDate) ? NotAvailableString : encodedDate;
                         string generalDuration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Duration", InfoKind.Text, InfoKind.Name));
-                        if (int.TryParse(generalDuration, out int generalDurationValue))
+                        if (double.TryParse(generalDuration, out double generalDurationValue))
                         {
                             TimeSpan generalDurationTimeSpan = TimeSpan.FromMilliseconds(generalDurationValue);
                             generalInfo.Duration = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", Math.Truncate(generalDurationTimeSpan.TotalHours), generalDurationTimeSpan.Minutes, generalDurationTimeSpan.Minutes, generalDurationTimeSpan.Milliseconds);
@@ -2599,7 +2599,7 @@ namespace ModernFormatConverter.Views.Pages
                             string audioCodecID = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "CodecID/String", InfoKind.Text, InfoKind.Name));
                             audioDetailInfo.CodecID = string.IsNullOrEmpty(audioCodecID) ? NotAvailableString : audioCodecID;
                             string audioDuration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Audio, index, "Duration", InfoKind.Text, InfoKind.Name));
-                            if (int.TryParse(audioDuration, out int audioDurationValue))
+                            if (double.TryParse(audioDuration, out double audioDurationValue))
                             {
                                 TimeSpan audioDurationTimeSpan = TimeSpan.FromMilliseconds(audioDurationValue);
                                 audioDetailInfo.Duration = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", Math.Truncate(audioDurationTimeSpan.TotalHours), audioDurationTimeSpan.Minutes, audioDurationTimeSpan.Minutes, audioDurationTimeSpan.Milliseconds);
@@ -2684,7 +2684,7 @@ namespace ModernFormatConverter.Views.Pages
                         string format = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, 0, "Format", InfoKind.Text, InfoKind.Name));
                         textDetailInfo.Format = string.IsNullOrEmpty(format) ? NotAvailableString : format;
                         string duration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, 0, "Duration", InfoKind.Text, InfoKind.Name));
-                        if (int.TryParse(duration, out int durationValue))
+                        if (double.TryParse(duration, out double durationValue))
                         {
                             TimeSpan durationTimeSpan = TimeSpan.FromMilliseconds(durationValue);
                             textDetailInfo.Duration = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", Math.Truncate(durationTimeSpan.TotalHours), durationTimeSpan.Minutes, durationTimeSpan.Minutes, durationTimeSpan.Milliseconds);
@@ -2694,7 +2694,7 @@ namespace ModernFormatConverter.Views.Pages
                             textDetailInfo.Duration = string.IsNullOrEmpty(duration) ? NotAvailableString : duration;
                         }
                         string startTime = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, 0, "Duration_Start", InfoKind.Text, InfoKind.Name));
-                        if (int.TryParse(startTime, out int startTimeValue))
+                        if (double.TryParse(startTime, out double startTimeValue))
                         {
                             TimeSpan startTimeSpan = TimeSpan.FromMilliseconds(startTimeValue);
                             textDetailInfo.StartTime = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", Math.Truncate(startTimeSpan.TotalHours), startTimeSpan.Minutes, startTimeSpan.Minutes, startTimeSpan.Milliseconds);
@@ -2704,7 +2704,7 @@ namespace ModernFormatConverter.Views.Pages
                             textDetailInfo.StartTime = string.IsNullOrEmpty(startTime) ? NotAvailableString : startTime;
                         }
                         string endTime = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, 0, "Duration_End", InfoKind.Text, InfoKind.Name));
-                        if (int.TryParse(endTime, out int endTimeValue))
+                        if (double.TryParse(endTime, out double endTimeValue))
                         {
                             TimeSpan endTimeSpan = TimeSpan.FromMilliseconds(endTimeValue);
                             textDetailInfo.EndTime = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", Math.Truncate(endTimeSpan.TotalHours), endTimeSpan.Minutes, endTimeSpan.Minutes, endTimeSpan.Milliseconds);
@@ -2718,7 +2718,7 @@ namespace ModernFormatConverter.Views.Pages
                         string countOfEvents = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, 0, "Events_Total", InfoKind.Text, InfoKind.Name));
                         textDetailInfo.CountOfEvents = string.IsNullOrEmpty(countOfEvents) ? NotAvailableString : countOfEvents;
                         string minimumDurationPerEvent = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Text, 0, "Events_MinDuration", InfoKind.Text, InfoKind.Name));
-                        if (int.TryParse(minimumDurationPerEvent, out int minimumDurationPerEventValue))
+                        if (double.TryParse(minimumDurationPerEvent, out double minimumDurationPerEventValue))
                         {
                             TimeSpan minimumDurationPerEventTimeSpan = TimeSpan.FromMilliseconds(minimumDurationPerEventValue);
                             textDetailInfo.MinimumDurationPerEvent = string.Format(@"{0:00}:{1:00}:{2:00}:{3:00}", Math.Truncate(minimumDurationPerEventTimeSpan.TotalHours), minimumDurationPerEventTimeSpan.Minutes, minimumDurationPerEventTimeSpan.Minutes, minimumDurationPerEventTimeSpan.Milliseconds);

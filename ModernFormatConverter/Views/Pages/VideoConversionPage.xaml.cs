@@ -1288,7 +1288,7 @@ namespace ModernFormatConverter.Views.Pages
                         if (MediaInfoLibrary.MediaInfo_New() is nint handle && handle is not 0 && MediaInfoLibrary.MediaInfo_Open(handle, filePath) is not 0)
                         {
                             string videoDuration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, 0, "Duration", InfoKind.Text, InfoKind.Name));
-                            if (int.TryParse(videoDuration, out int videoDurationValue))
+                            if (double.TryParse(videoDuration, out double videoDurationValue))
                             {
                                 TimeSpan videoDurationTimeSpan = TimeSpan.FromMilliseconds(videoDurationValue);
                                 videoConversionFile.Duration = videoDurationTimeSpan;
@@ -1299,7 +1299,7 @@ namespace ModernFormatConverter.Views.Pages
                                 videoConversionFile.Duration = TimeSpan.Zero;
                                 videoConversionFile.DurationString = string.IsNullOrEmpty(videoDuration) ? "00:00:00" : videoDuration;
                             }
-
+                            string videoDuration1 = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, 0, "Duration/String", InfoKind.Text, InfoKind.Name));
                             string width = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, 0, "Width", InfoKind.Text, InfoKind.Name));
                             videoConversionFile.ScreenSizeWidth = string.IsNullOrEmpty(width) ? "0" : width;
                             string height = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, 0, "Height", InfoKind.Text, InfoKind.Name));
@@ -1373,7 +1373,7 @@ namespace ModernFormatConverter.Views.Pages
                         if (MediaInfoLibrary.MediaInfo_New() is nint handle && handle is not 0 && MediaInfoLibrary.MediaInfo_Open(handle, filePath) is not 0)
                         {
                             string videoDuration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, 0, "Duration", InfoKind.Text, InfoKind.Name));
-                            if (int.TryParse(videoDuration, out int videoDurationValue))
+                            if (double.TryParse(videoDuration, out double videoDurationValue))
                             {
                                 TimeSpan videoDurationTimeSpan = TimeSpan.FromMilliseconds(videoDurationValue);
                                 videoConversionFile.Duration = videoDurationTimeSpan;
@@ -1449,7 +1449,7 @@ namespace ModernFormatConverter.Views.Pages
                             if (streamKind is StreamKind.Video)
                             {
                                 string videoDuration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, streamKind.Value, 0, "Duration", InfoKind.Text, InfoKind.Name));
-                                if (int.TryParse(videoDuration, out int videoDurationValue))
+                                if (double.TryParse(videoDuration, out double videoDurationValue))
                                 {
                                     TimeSpan videoDurationTimeSpan = TimeSpan.FromMilliseconds(videoDurationValue);
                                     videoMixedFlowFile.Duration = videoDurationTimeSpan;
@@ -1470,7 +1470,7 @@ namespace ModernFormatConverter.Views.Pages
                             if (streamKind is StreamKind.Audio)
                             {
                                 string videoDuration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, streamKind.Value, 0, "Duration", InfoKind.Text, InfoKind.Name));
-                                if (int.TryParse(videoDuration, out int videoDurationValue))
+                                if (double.TryParse(videoDuration, out double videoDurationValue))
                                 {
                                     TimeSpan videoDurationTimeSpan = TimeSpan.FromMilliseconds(videoDurationValue);
                                     videoMixedFlowFile.Duration = videoDurationTimeSpan;
@@ -1511,7 +1511,7 @@ namespace ModernFormatConverter.Views.Pages
                         if (MediaInfoLibrary.MediaInfo_New() is nint handle && handle is not 0 && MediaInfoLibrary.MediaInfo_Open(handle, filePath) is not 0)
                         {
                             string videoDuration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, 0, "Duration", InfoKind.Text, InfoKind.Name));
-                            if (int.TryParse(videoDuration, out int videoDurationValue))
+                            if (double.TryParse(videoDuration, out double videoDurationValue))
                             {
                                 TimeSpan videoDurationTimeSpan = TimeSpan.FromMilliseconds(videoDurationValue);
                                 videoConversionFile.Duration = videoDurationTimeSpan;
@@ -1553,7 +1553,7 @@ namespace ModernFormatConverter.Views.Pages
                         if (MediaInfoLibrary.MediaInfo_New() is nint handle && handle is not 0 && MediaInfoLibrary.MediaInfo_Open(handle, filePath) is not 0)
                         {
                             string videoDuration = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, 0, "Duration", InfoKind.Text, InfoKind.Name));
-                            if (int.TryParse(videoDuration, out int videoDurationValue))
+                            if (double.TryParse(videoDuration, out double videoDurationValue))
                             {
                                 TimeSpan videoDurationTimeSpan = TimeSpan.FromMilliseconds(videoDurationValue);
                                 videoConversionFile.Duration = videoDurationTimeSpan;
