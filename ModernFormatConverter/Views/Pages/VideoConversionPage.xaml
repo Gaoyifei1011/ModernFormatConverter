@@ -340,12 +340,13 @@
         </Grid.RowDefinitions>
 
         <NavigationView
+            Grid.Row="0"
             Margin="10,0,0,0"
             AlwaysShowHeader="False"
             IsBackButtonVisible="Collapsed"
             IsPaneToggleButtonVisible="False"
             IsSettingsVisible="False"
-            MenuItemsSource="{x:Bind ConversionTypeCollection}"
+            MenuItemsSource="{x:Bind VideoConversionTypeCollection}"
             OpenPaneLength="300"
             PaneDisplayMode="Left"
             SelectedItem="{x:Bind SelectedConversionType, Mode=OneWay}"

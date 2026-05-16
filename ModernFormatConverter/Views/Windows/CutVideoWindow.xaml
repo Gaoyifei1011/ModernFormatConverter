@@ -247,7 +247,7 @@
                                 Margin="0,0,10,0"
                                 HorizontalAlignment="Right"
                                 Click="{x:Bind OnOkClicked}"
-                                Content="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('Ok')}" />
+                                Content="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('OK')}" />
                         </Grid>
 
                         <!--  剪辑选项  -->

@@ -131,26 +131,26 @@ namespace ModernFormatConverter.Views.Pages
 
         public List<string> SortRuleList { get; } = ["NotSort", "SortByFileName", "SortByFileSize", "SortByDuration"];
 
-        public WinRTObservableCollection<VideoConversionTypeModel> ConversionTypeCollection { get; } = [];
+        public WinRTObservableCollection<VideoConversionTypeModel> VideoConversionTypeCollection { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public VideoConversionPage()
         {
             InitializeComponent();
-            ConversionTypeCollection.Add(new VideoConversionTypeModel
+            VideoConversionTypeCollection.Add(new VideoConversionTypeModel
             {
                 VideoConversionType = VideoFormatConversionString,
                 VideoConversionIcon = "\uE895",
                 VideoConversionTypeKind = VideoConversionTypeKind.VideoFormatConversion
             });
-            ConversionTypeCollection.Add(new VideoConversionTypeModel
+            VideoConversionTypeCollection.Add(new VideoConversionTypeModel
             {
                 VideoConversionType = VideoConcatString,
                 VideoConversionIcon = "\uEA3C",
                 VideoConversionTypeKind = VideoConversionTypeKind.VideoConcat
             });
-            ConversionTypeCollection.Add(new VideoConversionTypeModel
+            VideoConversionTypeCollection.Add(new VideoConversionTypeModel
             {
                 VideoConversionType = VideoMixedFlowString,
                 VideoConversionIcon = "\uE8B1",
@@ -206,19 +206,19 @@ namespace ModernFormatConverter.Views.Pages
                     }
                 }
             });
-            ConversionTypeCollection.Add(new VideoConversionTypeModel
+            VideoConversionTypeCollection.Add(new VideoConversionTypeModel
             {
                 VideoConversionType = VideoSeparationString,
                 VideoConversionIcon = "\uE740",
                 VideoConversionTypeKind = VideoConversionTypeKind.VideoSeparation
             });
-            ConversionTypeCollection.Add(new VideoConversionTypeModel
+            VideoConversionTypeCollection.Add(new VideoConversionTypeModel
             {
                 VideoConversionType = VideoExportPictureString,
                 VideoConversionIcon = "\uE91B",
                 VideoConversionTypeKind = VideoConversionTypeKind.VideoExportPicture
             });
-            SelectedConversionType = ConversionTypeCollection[0];
+            SelectedConversionType = VideoConversionTypeCollection[0];
             SelectedSortRule = SortRuleList[0];
             SortWay = true;
             OutputFolder = ConvertConfigurationService.ConvertedVideoSavePath;
@@ -242,7 +242,7 @@ namespace ModernFormatConverter.Views.Pages
             if (args.Parameter is VideoConversionFileModel videoConversionFile)
             {
                 // 视频格式转换输出配置
-                if (Equals(SelectedConversionType, ConversionTypeCollection[0]))
+                if (Equals(SelectedConversionType, VideoConversionTypeCollection[0]))
                 {
                     VideoConversionOutputConfigurationWindow videoConversionOutputConfigurationWindow = new(SelectedConversionType.VideoConversionTypeKind, ConversionToolsWindow.Current, videoConversionFile.VideoConversionOutputConfiguration);
                     if (await videoConversionOutputConfigurationWindow.ShowAsync() is ContentDialogResult.Primary && SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion && videoConversionFile.VideoConversionOutputConfiguration is not null)
@@ -292,7 +292,7 @@ namespace ModernFormatConverter.Views.Pages
                     }
                 }
                 // 视频合并输出配置
-                else if (Equals(SelectedConversionType, ConversionTypeCollection[1]))
+                else if (Equals(SelectedConversionType, VideoConversionTypeCollection[1]))
                 {
                     VideoConversionOutputConfigurationWindow videoConversionOutputConfigurationWindow = new(SelectedConversionType.VideoConversionTypeKind, ConversionToolsWindow.Current, videoConversionFile.VideoConversionOutputConfiguration);
                     if (await videoConversionOutputConfigurationWindow.ShowAsync() is ContentDialogResult.Primary && SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion && videoConversionFile.VideoConversionOutputConfiguration is not null)
@@ -331,7 +331,7 @@ namespace ModernFormatConverter.Views.Pages
                     }
                 }
                 // 视频导出图片输出配置
-                else if (Equals(SelectedConversionType, ConversionTypeCollection[4]))
+                else if (Equals(SelectedConversionType, VideoConversionTypeCollection[4]))
                 {
                     VideoExportPictureOutputConfigurationWindow videoExportPictureOutputConfigurationWindow = new(SelectedConversionType.VideoConversionTypeKind, ConversionToolsWindow.Current, videoConversionFile.VideoExportPictureOutputConfiguration);
                     if (await videoExportPictureOutputConfigurationWindow.ShowAsync() is ContentDialogResult.Primary && SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoExportPicture && videoConversionFile.VideoExportPictureOutputConfiguration is not null)
@@ -1008,7 +1008,7 @@ namespace ModernFormatConverter.Views.Pages
         private async void OnOutputConfigurationClicked(object sender, RoutedEventArgs args)
         {
             // 视频格式转换输出配置
-            if (Equals(SelectedConversionType, ConversionTypeCollection[0]))
+            if (Equals(SelectedConversionType, VideoConversionTypeCollection[0]))
             {
                 VideoConversionOutputConfigurationWindow videoConversionOutputConfigurationWindow = new(SelectedConversionType.VideoConversionTypeKind, ConversionToolsWindow.Current);
                 if (await videoConversionOutputConfigurationWindow.ShowAsync() is ContentDialogResult.Primary && SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion)
@@ -1064,7 +1064,7 @@ namespace ModernFormatConverter.Views.Pages
                 }
             }
             // 视频合并输出配置
-            else if (Equals(SelectedConversionType, ConversionTypeCollection[1]))
+            else if (Equals(SelectedConversionType, VideoConversionTypeCollection[1]))
             {
                 VideoConversionOutputConfigurationWindow videoConversionOutputConfigurationWindow = new(SelectedConversionType.VideoConversionTypeKind, ConversionToolsWindow.Current);
                 if (await videoConversionOutputConfigurationWindow.ShowAsync() is ContentDialogResult.Primary && SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion)
@@ -1109,7 +1109,7 @@ namespace ModernFormatConverter.Views.Pages
                 }
             }
             // 视频混流输出配置
-            else if (Equals(SelectedConversionType, ConversionTypeCollection[2]))
+            else if (Equals(SelectedConversionType, VideoConversionTypeCollection[2]))
             {
                 VideoConversionOutputConfigurationWindow videoConversionOutputConfigurationWindow = new(SelectedConversionType.VideoConversionTypeKind, ConversionToolsWindow.Current);
                 if (await videoConversionOutputConfigurationWindow.ShowAsync() is ContentDialogResult.Primary && SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion)
@@ -1162,7 +1162,7 @@ namespace ModernFormatConverter.Views.Pages
                 }
             }
             // 视频导出图片输出配置
-            else if (Equals(SelectedConversionType, ConversionTypeCollection[4]))
+            else if (Equals(SelectedConversionType, VideoConversionTypeCollection[4]))
             {
                 VideoExportPictureOutputConfigurationWindow videoExportPictureOutputConfigurationWindow = new(SelectedConversionType.VideoConversionTypeKind, ConversionToolsWindow.Current);
                 if (await videoExportPictureOutputConfigurationWindow.ShowAsync() is ContentDialogResult.Primary && SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoExportPicture)
@@ -1278,7 +1278,7 @@ namespace ModernFormatConverter.Views.Pages
                 if (File.Exists(filePath))
                 {
                     // 视频格式转换
-                    if (Equals(SelectedConversionType, ConversionTypeCollection[0]))
+                    if (Equals(SelectedConversionType, VideoConversionTypeCollection[0]))
                     {
                         VideoConversionFileModel videoConversionFile = new()
                         {
@@ -1371,7 +1371,7 @@ namespace ModernFormatConverter.Views.Pages
                         return videoConversionFile;
                     }
                     // 视频合并
-                    else if (Equals(SelectedConversionType, ConversionTypeCollection[1]))
+                    else if (Equals(SelectedConversionType, VideoConversionTypeCollection[1]))
                     {
                         VideoConversionFileModel videoConversionFile = new()
                         {
@@ -1445,7 +1445,7 @@ namespace ModernFormatConverter.Views.Pages
                         return videoConversionFile;
                     }
                     // 视频混流
-                    else if (Equals(SelectedConversionType, ConversionTypeCollection[2]))
+                    else if (Equals(SelectedConversionType, VideoConversionTypeCollection[2]))
                     {
                         VideoMixedFlowFileModel videoMixedFlowFile = new()
                         {
@@ -1509,7 +1509,7 @@ namespace ModernFormatConverter.Views.Pages
                         return videoMixedFlowFile;
                     }
                     // 视频分离
-                    else if (Equals(SelectedConversionType, ConversionTypeCollection[3]))
+                    else if (Equals(SelectedConversionType, VideoConversionTypeCollection[3]))
                     {
                         VideoConversionFileModel videoConversionFile = new()
                         {
@@ -1551,7 +1551,7 @@ namespace ModernFormatConverter.Views.Pages
                         return videoConversionFile;
                     }
                     // 视频导出图片
-                    else if (Equals(SelectedConversionType, ConversionTypeCollection[4]))
+                    else if (Equals(SelectedConversionType, VideoConversionTypeCollection[4]))
                     {
                         VideoConversionFileModel videoConversionFile = new()
                         {
