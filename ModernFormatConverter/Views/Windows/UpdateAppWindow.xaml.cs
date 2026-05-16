@@ -579,7 +579,10 @@ namespace ModernFormatConverter.Views.Windows
                         inputKeyboardSource.SystemKeyDown -= OnSystemKeyDown;
                         inputPointerSource.PointerReleased -= OnPointerReleased;
                         Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, updateAppWindowSubClassProc, 0);
-                        taskCompletionSource.TrySetResult(ContentDialogResult.None);
+                        if (!taskCompletionSource.Task.IsCompleted)
+                        {
+                            taskCompletionSource.TrySetResult(ContentDialogResult.None);
+                        }
                         MainWindow.Activate();
                         MainWindow = null;
                         synchronizationContext.Post((_) =>

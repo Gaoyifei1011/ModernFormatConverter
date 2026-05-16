@@ -47,7 +47,7 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string VideoMixedFlowString = ResourceService.VideoConversionResource.GetString("VideoMixedFlow");
         private readonly string VideoMixedFlowDragOverContentString = ResourceService.VideoConversionResource.GetString("VideoMixedFlowDragOverContent");
         private readonly string VideoSeparationString = ResourceService.VideoConversionResource.GetString("VideoSeparation");
-        private global::Windows.UI.Color accentColor = global::Windows.UI.Color.FromArgb(System.Windows.SystemParameters.WindowGlassColor.A, System.Windows.SystemParameters.WindowGlassColor.R, System.Windows.SystemParameters.WindowGlassColor.G, System.Windows.SystemParameters.WindowGlassColor.B);
+        private global::Windows.UI.Color accentColor = (global::Windows.UI.Color)Microsoft.UI.Xaml.Application.Current.Resources["SystemAccentColor"];
 
         private VideoConversionTypeModel _selectedConversionType;
 
@@ -1188,8 +1188,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnOkClicked(object sender, RoutedEventArgs args)
         {
-            ConversionToolsWindow.Current.Close();
-            // TODO：未完成
+            ConversionToolsWindow.Current.CloseWindow(ContentDialogResult.Primary);
         }
 
         /// <summary>

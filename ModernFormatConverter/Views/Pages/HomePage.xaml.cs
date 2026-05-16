@@ -94,22 +94,34 @@ namespace ModernFormatConverter.Views.Pages
                     if (string.Equals(controlItem.Tag, ConversionToolsList[0].Tag, StringComparison.OrdinalIgnoreCase))
                     {
                         ConversionToolsWindow conversionToolsWindow = new(MainWindow.Current, ConversionToolsKind.VideoConversion);
-                        ContentDialogResult contentDialogResult = await conversionToolsWindow.ShowAsync();
+                        if (await conversionToolsWindow.ShowAsync() is ContentDialogResult.Primary)
+                        {
+                            // TODO：未完成
+                        }
                     }
                     else if (string.Equals(controlItem.Tag, ConversionToolsList[1].Tag, StringComparison.OrdinalIgnoreCase))
                     {
                         ConversionToolsWindow conversionToolsWindow = new(MainWindow.Current, ConversionToolsKind.AudioConversion);
-                        ContentDialogResult contentDialogResult = await conversionToolsWindow.ShowAsync();
+                        if (await conversionToolsWindow.ShowAsync() is ContentDialogResult.Primary)
+                        {
+                            // TODO：未完成
+                        }
                     }
                     else if (string.Equals(controlItem.Tag, ConversionToolsList[2].Tag, StringComparison.OrdinalIgnoreCase))
                     {
                         ConversionToolsWindow conversionToolsWindow = new(MainWindow.Current, ConversionToolsKind.PhotoConversion);
-                        ContentDialogResult contentDialogResult = await conversionToolsWindow.ShowAsync();
+                        if (await conversionToolsWindow.ShowAsync() is ContentDialogResult.Primary)
+                        {
+                            // TODO：未完成
+                        }
                     }
                     else if (string.Equals(controlItem.Tag, ConversionToolsList[3].Tag, StringComparison.OrdinalIgnoreCase))
                     {
                         ConversionToolsWindow conversionToolsWindow = new(MainWindow.Current, ConversionToolsKind.DocumentConversion);
-                        ContentDialogResult contentDialogResult = await conversionToolsWindow.ShowAsync();
+                        if (await conversionToolsWindow.ShowAsync() is ContentDialogResult.Primary)
+                        {
+                            // TODO：未完成
+                        }
                     }
                 }
                 else if (OtherToolsList.Contains(controlItem))

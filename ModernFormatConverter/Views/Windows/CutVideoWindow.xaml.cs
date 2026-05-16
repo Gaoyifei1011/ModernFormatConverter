@@ -1963,7 +1963,6 @@ namespace ModernFormatConverter.Views.Windows
                             CutVideoMediaPlayerElement.MediaPlayer.MediaOpened -= OnMediaOpened;
                             CutVideoMediaPlayerElement.MediaPlayer.MediaFailed -= OnMediaFailed;
                             Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, cutVideoWindowSubClassProc, 0);
-                            // TODO：未完成
                             if (!taskCompletionSource.Task.IsCompleted)
                             {
                                 taskCompletionSource.TrySetResult(ContentDialogResult.None);

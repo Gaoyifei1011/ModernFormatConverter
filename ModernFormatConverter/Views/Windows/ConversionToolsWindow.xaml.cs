@@ -479,7 +479,6 @@ namespace ModernFormatConverter.Views.Windows
                         inputKeyboardSource.SystemKeyDown -= OnSystemKeyDown;
                         inputPointerSource.PointerReleased -= OnPointerReleased;
                         Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, conversionToolsWindowSubClassProc, 0);
-                        // TODO：未完成
                         if (!taskCompletionSource.Task.IsCompleted)
                         {
                             taskCompletionSource.TrySetResult(ContentDialogResult.None);
@@ -595,6 +594,18 @@ namespace ModernFormatConverter.Views.Windows
             taskCompletionSource = new();
             AppWindow.Show();
             return await taskCompletionSource.Task;
+        }
+
+        /// <summary>
+        /// 关闭窗口
+        /// </summary>
+        public void CloseWindow(ContentDialogResult contentDialogResult)
+        {
+            if (!taskCompletionSource.Task.IsCompleted)
+            {
+                taskCompletionSource.TrySetResult(contentDialogResult);
+            }
+            Close();
         }
 
         /// <summary>
