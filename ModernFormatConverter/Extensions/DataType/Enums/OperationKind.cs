@@ -7,6 +7,7 @@
     {
         CheckUpdate,
         CommandEmpty,
+        CutVideoClipNoDefaultValue,
         Desktop,
         LanguageChange,
         LogClean,

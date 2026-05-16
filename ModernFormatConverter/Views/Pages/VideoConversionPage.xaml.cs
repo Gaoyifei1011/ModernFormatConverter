@@ -352,12 +352,17 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnCutVideoExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
-            if (args.Parameter is VideoConversionFileModel videoConversionFile)
+            if (args.Parameter is VideoConversionFileModel videoConversionFile && videoConversionFile.CutVideo is not null)
             {
-                CutVideoWindow cutVideoWindow = new(ConversionToolsWindow.Current, videoConversionFile);
+                CutVideoWindow cutVideoWindow = new(ConversionToolsWindow.Current, videoConversionFile.CutVideo, videoConversionFile.FilePath);
                 if (await cutVideoWindow.ShowAsync() is ContentDialogResult.Primary)
                 {
-                    // TODO：未完成
+                    videoConversionFile.CutVideo.SelectRegionOperation = Convert.ToString(cutVideoWindow.SelectedSelectRegionOperation.SelectedValue);
+                    videoConversionFile.CutVideo.StartTime = new(0, cutVideoWindow.TimeStartHours, cutVideoWindow.TimeStartMinutes, cutVideoWindow.TimeStartSeconds, cutVideoWindow.TimeStartMillseconds);
+                    videoConversionFile.CutVideo.EndTime = new(0, cutVideoWindow.TimeEndHours, cutVideoWindow.TimeEndMinutes, cutVideoWindow.TimeEndSeconds, cutVideoWindow.TimeEndMillseconds);
+                    videoConversionFile.CutVideo.SelectRegionOperationList.Clear();
+                    videoConversionFile.CutVideo.SelectRegionOperationList.AddRange(cutVideoWindow.SelectRegionOperationCollection);
+                    videoConversionFile.CutVideo.VideoCoverFilePath = cutVideoWindow.VideoCoverFilePath;
                 }
             }
         }
@@ -1354,6 +1359,14 @@ namespace ModernFormatConverter.Views.Pages
                             CounterLineSize = 0,
                             CounterLineColor = accentColor,
                             ShadowSize = 0
+                        };
+
+                        videoConversionFile.CutVideo = new()
+                        {
+                            StartTime = TimeSpan.Zero,
+                            EndTime = TimeSpan.Zero,
+                            SelectRegionOperation = "Close",
+                            VideoCoverFilePath = string.Empty
                         };
 
                         return videoConversionFile;

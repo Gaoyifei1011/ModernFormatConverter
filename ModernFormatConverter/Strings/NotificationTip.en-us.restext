@@ -1,6 +1,7 @@
 ﻿CommandEmpty=Please input command
 CopyToClipboardFailed=Failed to copy the content to the clipboard. Please check the access permission of the clipboard
 CopyToClipboardSuccessfully=Content has been successfully copied to the clipboard
+CutVideoClipNoDefaultValue=Crop video coordinates and size cannot all be default values
 DesktopShortFailed=The app's desktop shortcut failed to create, please create it manually
 DesktopShortcutSuccessfully=The desktop shortcut for the app was created successfully
 LanguageChange=The language setting is modified successfully and takes effect after restarting the application

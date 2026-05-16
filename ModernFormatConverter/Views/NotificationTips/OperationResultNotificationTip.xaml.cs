@@ -53,6 +53,11 @@ namespace ModernFormatConverter.Views.NotificationTips
                 IsSuccessOperation = false;
                 OperationContent = ResourceService.NotificationTipResource.GetString("CommandEmpty");
             }
+            else if (operationKind is OperationKind.CutVideoClipNoDefaultValue)
+            {
+                IsSuccessOperation = false;
+                OperationContent = ResourceService.NotificationTipResource.GetString("CutVideoClipNoDefaultValue");
+            }
             else if (operationKind is OperationKind.LanguageChange)
             {
                 IsSuccessOperation = true;
