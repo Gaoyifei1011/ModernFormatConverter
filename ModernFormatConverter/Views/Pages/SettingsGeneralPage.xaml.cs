@@ -11,7 +11,6 @@ using ModernFormatConverter.Services.Settings;
 using ModernFormatConverter.Views.NotificationTips;
 using ModernFormatConverter.Views.Windows;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
