@@ -14,6 +14,8 @@ namespace ModernFormatConverter.Services.Root
 
         public static ResourceManager AudioConversionResource { get; } = new("ModernFormatConverter.Strings.AudioConversion", CurrentAssembly);
 
+        public static ResourceManager AudioConversionOutputConfigurationResource { get; } = new("ModernFormatConverter.Strings.AudioConversionOutputConfiguration", CurrentAssembly);
+
         public static ResourceManager ConversionToolsResource { get; } = new("ModernFormatConverter.Strings.ConversionTools", CurrentAssembly);
 
         public static ResourceManager CustomCommandResource { get; } = new("ModernFormatConverter.Strings.CustomCommand", CurrentAssembly);
