@@ -1,5 +1,5 @@
 ﻿<Window
-    x:Class="ModernFormatConverter.Views.Dialogs.VideoConversionOutputConfigurationWindow"
+    x:Class="ModernFormatConverter.Views.Windows.VideoConversionOutputConfigurationWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converter="using:ModernFormatConverter.Helpers.Converters"
@@ -1017,8 +1017,8 @@
                             Text="{x:Bind rootservice:ResourceService.VideoConversionOutputConfigurationResource.GetString('NotSupported')}" />
                     </Grid>
 
-                    <!--  音频编码  -->
                     <StackPanel Visibility="{x:Bind IsAudioConfigurationSupported, Mode=OneWay}">
+                        <!--  音频编码  -->
                         <Grid
                             Height="60"
                             Margin="0,0,0,2"

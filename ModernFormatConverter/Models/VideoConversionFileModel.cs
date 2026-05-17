@@ -5,7 +5,7 @@ using System.ComponentModel;
 namespace ModernFormatConverter.Models
 {
     /// <summary>
-    /// 转换类型文件模型
+    /// 视频转换文件模型
     /// </summary>
     public class VideoConversionFileModel : INotifyPropertyChanged
     {

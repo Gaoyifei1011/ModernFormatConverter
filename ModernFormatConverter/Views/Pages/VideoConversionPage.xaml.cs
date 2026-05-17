@@ -7,7 +7,6 @@ using ModernFormatConverter.Helpers.Root;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.Services.Settings;
-using ModernFormatConverter.Views.Dialogs;
 using ModernFormatConverter.Views.Windows;
 using ModernFormatConverter.WindowsAPI.ComTypes;
 using ModernFormatConverter.WindowsAPI.PInvoke.MediaInfo;
@@ -161,7 +160,7 @@ namespace ModernFormatConverter.Views.Pages
                     {
                         VideoConversionTypeKind = VideoConversionTypeKind.VideoMixedFlow,
 
-                        FormatConversionType = ".mp4",
+                        FormatConversionType = "MP4",
                         SizeLimitation = "Copy",
                         VideoEncoding = "None",
                         ScreenSize = "DefaultSize",
@@ -1184,14 +1183,6 @@ namespace ModernFormatConverter.Views.Pages
         }
 
         /// <summary>
-        /// 确定
-        /// </summary>
-        private void OnOkClicked(object sender, RoutedEventArgs args)
-        {
-            ConversionToolsWindow.Current.CloseWindow(ContentDialogResult.Primary);
-        }
-
-        /// <summary>
         /// 修改输出的文件夹
         /// </summary>
         private void OnChangeOutputFolderClicked(object sender, RoutedEventArgs args)
@@ -1238,6 +1229,14 @@ namespace ModernFormatConverter.Views.Pages
                         }
                 }
             }
+        }
+
+        /// <summary>
+        /// 确定
+        /// </summary>
+        private void OnOkClicked(object sender, RoutedEventArgs args)
+        {
+            ConversionToolsWindow.Current.CloseWindow(ContentDialogResult.Primary);
         }
 
         #endregion 第二部分：视频转换页面——挂载的事件
@@ -1303,7 +1302,6 @@ namespace ModernFormatConverter.Views.Pages
                                 videoConversionFile.Duration = TimeSpan.Zero;
                                 videoConversionFile.DurationString = string.IsNullOrEmpty(videoDuration) ? "00:00:00" : videoDuration;
                             }
-                            string videoDuration1 = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, 0, "Duration/String", InfoKind.Text, InfoKind.Name));
                             string width = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, 0, "Width", InfoKind.Text, InfoKind.Name));
                             videoConversionFile.ScreenSizeWidth = string.IsNullOrEmpty(width) ? "0" : width;
                             string height = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, 0, "Height", InfoKind.Text, InfoKind.Name));
@@ -1316,7 +1314,7 @@ namespace ModernFormatConverter.Views.Pages
                         {
                             VideoConversionTypeKind = SelectedConversionType.VideoConversionTypeKind,
 
-                            FormatConversionType = ".mp4",
+                            FormatConversionType = "MP4",
                             SizeLimitation = "Copy",
                             VideoEncoding = "None",
                             ScreenSize = "DefaultSize",
@@ -1409,7 +1407,7 @@ namespace ModernFormatConverter.Views.Pages
                         {
                             VideoConversionTypeKind = SelectedConversionType.VideoConversionTypeKind,
 
-                            FormatConversionType = ".mp4",
+                            FormatConversionType = "MP4",
                             SizeLimitation = "Copy",
                             VideoEncoding = "None",
                             ScreenSize = "DefaultSize",

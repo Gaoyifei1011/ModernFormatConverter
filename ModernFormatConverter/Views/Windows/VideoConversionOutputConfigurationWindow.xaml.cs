@@ -13,7 +13,6 @@ using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.Services.Settings;
-using ModernFormatConverter.Views.Windows;
 using ModernFormatConverter.WindowsAPI.ComTypes;
 using ModernFormatConverter.WindowsAPI.PInvoke.Comctl32;
 using ModernFormatConverter.WindowsAPI.PInvoke.Dxgi;
@@ -36,7 +35,7 @@ using Windows.UI;
 // 抑制 CA1806，CA1822，IDE0060 警告
 #pragma warning disable CA1806,CA1822,IDE0060
 
-namespace ModernFormatConverter.Views.Dialogs
+namespace ModernFormatConverter.Views.Windows
 {
     /// <summary>
     /// 视频转换输出配置窗口
@@ -159,22 +158,6 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private ComboBoxItemModel _selectedSizeLimitation;
-
-        public ComboBoxItemModel SelectedSizeLimitation
-        {
-            get { return _selectedSizeLimitation; }
-
-            set
-            {
-                if (!Equals(_selectedSizeLimitation, value))
-                {
-                    _selectedSizeLimitation = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedSizeLimitation)));
-                }
-            }
-        }
-
         private ComboBoxItemModel _selectedVideoEncoding;
 
         public ComboBoxItemModel SelectedVideoEncoding
@@ -187,6 +170,22 @@ namespace ModernFormatConverter.Views.Dialogs
                 {
                     _selectedVideoEncoding = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedVideoEncoding)));
+                }
+            }
+        }
+
+        private ComboBoxItemModel _selectedSizeLimitation;
+
+        public ComboBoxItemModel SelectedSizeLimitation
+        {
+            get { return _selectedSizeLimitation; }
+
+            set
+            {
+                if (!Equals(_selectedSizeLimitation, value))
+                {
+                    _selectedSizeLimitation = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedSizeLimitation)));
                 }
             }
         }
@@ -1281,7 +1280,7 @@ namespace ModernFormatConverter.Views.Dialogs
                 SelectedSoundTrack = SoundTrackCollection[0];
 
                 ResetVolume();
-                SelectedVolume = VolumeCollection[4];
+                SelectedVolume = Equals(SelectedFormatConversionType, FormatConversionTypeList[2]) ? VolumeCollection[0] : VolumeCollection[4];
 
                 ResetAudioFadeInEffect();
                 SelectedAudioFadeInEffect = AudioFadeInEffectCollection[0];
@@ -2968,11 +2967,6 @@ namespace ModernFormatConverter.Views.Dialogs
                 AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "AMR_NB", DisplayMember = "AMR_NB" });
                 AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "AMR_WB", DisplayMember = "AMR_WB" });
             }
-            else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[9]))
-            {
-                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "AMR_NB", DisplayMember = "AMR_NB" });
-                AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "AMR_WB", DisplayMember = "AMR_WB" });
-            }
             else if (Equals(SelectedFormatConversionType, FormatConversionTypeList[10]))
             {
                 AudioEncodingCollection.Add(new ComboBoxItemModel() { SelectedValue = "AAC", DisplayMember = "AAC" });
@@ -3193,7 +3187,7 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
-        /// 重置音量
+        /// 重置音频淡出效果
         /// </summary>
         private void ResetAudioFadeOutEffect()
         {
