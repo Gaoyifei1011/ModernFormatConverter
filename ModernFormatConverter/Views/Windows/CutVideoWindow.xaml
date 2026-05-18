@@ -424,115 +424,117 @@
                                     FontSize="20"
                                     Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('EndTime')}" />
 
-                                <StackPanel
+                                <ContentControl
                                     Grid.Row="1"
                                     HorizontalAlignment="Left"
-                                    Orientation="Horizontal"
-                                    Spacing="5">
+                                    IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsLoadingTimeEndImformation), Mode=OneWay}">
 
-                                    <TextBlock
-                                        Margin="0,0,0,2"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('Hours')}" />
+                                    <StackPanel Orientation="Horizontal" Spacing="5">
 
-                                    <NumberBox
-                                        VerticalAlignment="Center"
-                                        LargeChange="1"
-                                        SmallChange="1"
-                                        SpinButtonPlacementMode="Compact"
-                                        Style="{StaticResource NumberBoxStyle}"
-                                        ValueChanged="{x:Bind OnTimeEndHoursValueChanged}"
-                                        Value="{x:Bind TimeEndHours, Mode=OneWay}" />
+                                        <TextBlock
+                                            Margin="0,0,0,2"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Style="{StaticResource BodyTextBlockStyle}"
+                                            Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('Hours')}" />
 
-                                    <TextBlock
-                                        Margin="0,0,0,2"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('Minutes')}" />
+                                        <NumberBox
+                                            VerticalAlignment="Center"
+                                            LargeChange="1"
+                                            SmallChange="1"
+                                            SpinButtonPlacementMode="Compact"
+                                            Style="{StaticResource NumberBoxStyle}"
+                                            ValueChanged="{x:Bind OnTimeEndHoursValueChanged}"
+                                            Value="{x:Bind TimeEndHours, Mode=OneWay}" />
 
-                                    <NumberBox
-                                        VerticalAlignment="Center"
-                                        LargeChange="1"
-                                        SmallChange="1"
-                                        SpinButtonPlacementMode="Compact"
-                                        Style="{StaticResource NumberBoxStyle}"
-                                        ValueChanged="{x:Bind OnTimeEndMinutesValueChanged}"
-                                        Value="{x:Bind TimeEndMinutes, Mode=OneWay}" />
+                                        <TextBlock
+                                            Margin="0,0,0,2"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Style="{StaticResource BodyTextBlockStyle}"
+                                            Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('Minutes')}" />
 
-                                    <TextBlock
-                                        Margin="0,0,0,2"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('Seconds')}" />
+                                        <NumberBox
+                                            VerticalAlignment="Center"
+                                            LargeChange="1"
+                                            SmallChange="1"
+                                            SpinButtonPlacementMode="Compact"
+                                            Style="{StaticResource NumberBoxStyle}"
+                                            ValueChanged="{x:Bind OnTimeEndMinutesValueChanged}"
+                                            Value="{x:Bind TimeEndMinutes, Mode=OneWay}" />
 
-                                    <NumberBox
-                                        VerticalAlignment="Center"
-                                        LargeChange="1"
-                                        SmallChange="1"
-                                        SpinButtonPlacementMode="Compact"
-                                        Style="{StaticResource NumberBoxStyle}"
-                                        ValueChanged="{x:Bind OnTimeEndSecondsValueChanged}"
-                                        Value="{x:Bind TimeEndSeconds, Mode=OneWay}" />
+                                        <TextBlock
+                                            Margin="0,0,0,2"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Style="{StaticResource BodyTextBlockStyle}"
+                                            Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('Seconds')}" />
 
-                                    <NumberBox
-                                        VerticalAlignment="Center"
-                                        LargeChange="1"
-                                        SmallChange="1"
-                                        SpinButtonPlacementMode="Compact"
-                                        Style="{StaticResource NumberBoxStyle}"
-                                        ValueChanged="{x:Bind OnTimeEndMillsecondsValueChanged}"
-                                        Value="{x:Bind TimeEndMillseconds, Mode=OneWay}" />
+                                        <NumberBox
+                                            VerticalAlignment="Center"
+                                            LargeChange="1"
+                                            SmallChange="1"
+                                            SpinButtonPlacementMode="Compact"
+                                            Style="{StaticResource NumberBoxStyle}"
+                                            ValueChanged="{x:Bind OnTimeEndSecondsValueChanged}"
+                                            Value="{x:Bind TimeEndSeconds, Mode=OneWay}" />
 
-                                    <Button
-                                        Width="32"
-                                        Height="32"
-                                        Padding="0"
-                                        Click="{x:Bind OnTimeEndLocationClicked}"
-                                        CornerRadius="{StaticResource ControlCornerRadius}">
+                                        <NumberBox
+                                            VerticalAlignment="Center"
+                                            LargeChange="1"
+                                            SmallChange="1"
+                                            SpinButtonPlacementMode="Compact"
+                                            Style="{StaticResource NumberBoxStyle}"
+                                            ValueChanged="{x:Bind OnTimeEndMillsecondsValueChanged}"
+                                            Value="{x:Bind TimeEndMillseconds, Mode=OneWay}" />
 
-                                        <FontIcon FontSize="16" Glyph="&#xECAF;" />
+                                        <Button
+                                            Width="32"
+                                            Height="32"
+                                            Padding="0"
+                                            Click="{x:Bind OnTimeEndLocationClicked}"
+                                            CornerRadius="{StaticResource ControlCornerRadius}">
 
-                                        <ToolTipService.ToolTip>
-                                            <ToolTip
-                                                MaxWidth="9999"
-                                                Padding="0"
-                                                Background="Transparent">
+                                            <FontIcon FontSize="16" Glyph="&#xECAF;" />
 
-                                                <Grid>
-                                                    <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                    <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('TimeEndLocation')}" />
-                                                </Grid>
-                                            </ToolTip>
-                                        </ToolTipService.ToolTip>
-                                    </Button>
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip
+                                                    MaxWidth="9999"
+                                                    Padding="0"
+                                                    Background="Transparent">
 
-                                    <Button
-                                        Width="32"
-                                        Height="32"
-                                        Padding="0"
-                                        Click="{x:Bind OnTimeEndLocateVdieoClicked}"
-                                        CornerRadius="{StaticResource ControlCornerRadius}">
+                                                    <Grid>
+                                                        <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                        <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('TimeEndLocation')}" />
+                                                    </Grid>
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </Button>
 
-                                        <FontIcon FontSize="16" Glyph="&#xE768;" />
+                                        <Button
+                                            Width="32"
+                                            Height="32"
+                                            Padding="0"
+                                            Click="{x:Bind OnTimeEndLocateVdieoClicked}"
+                                            CornerRadius="{StaticResource ControlCornerRadius}">
 
-                                        <ToolTipService.ToolTip>
-                                            <ToolTip
-                                                MaxWidth="9999"
-                                                Padding="0"
-                                                Background="Transparent">
+                                            <FontIcon FontSize="16" Glyph="&#xE768;" />
 
-                                                <Grid>
-                                                    <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                    <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('LocateVideo')}" />
-                                                </Grid>
-                                            </ToolTip>
-                                        </ToolTipService.ToolTip>
-                                    </Button>
-                                </StackPanel>
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip
+                                                    MaxWidth="9999"
+                                                    Padding="0"
+                                                    Background="Transparent">
+
+                                                    <Grid>
+                                                        <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                        <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('LocateVideo')}" />
+                                                    </Grid>
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </Button>
+                                    </StackPanel>
+                                </ContentControl>
 
                                 <TextBlock Grid.Row="2" Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('EndTimeScreenshot')}" />
 

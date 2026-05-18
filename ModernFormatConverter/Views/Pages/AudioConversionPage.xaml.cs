@@ -210,17 +210,13 @@ namespace ModernFormatConverter.Views.Pages
         {
             if (args.Parameter is AudioConversionFileModel audioConversionFile && audioConversionFile.CutAudio is not null)
             {
-                // TODO：未完成
-                //CutVideoWindow cutVideoWindow = new(ConversionToolsWindow.Current, videoConversionFile.CutVideo, videoConversionFile.FilePath);
-                //if (await cutVideoWindow.ShowAsync() is ContentDialogResult.Primary)
-                //{
-                //    videoConversionFile.CutVideo.SelectRegionOperation = Convert.ToString(cutVideoWindow.SelectedSelectRegionOperation.SelectedValue);
-                //    videoConversionFile.CutVideo.StartTime = new(0, cutVideoWindow.TimeStartHours, cutVideoWindow.TimeStartMinutes, cutVideoWindow.TimeStartSeconds, cutVideoWindow.TimeStartMillseconds);
-                //    videoConversionFile.CutVideo.EndTime = new(0, cutVideoWindow.TimeEndHours, cutVideoWindow.TimeEndMinutes, cutVideoWindow.TimeEndSeconds, cutVideoWindow.TimeEndMillseconds);
-                //    videoConversionFile.CutVideo.SelectRegionOperationList.Clear();
-                //    videoConversionFile.CutVideo.SelectRegionOperationList.AddRange(cutVideoWindow.SelectRegionOperationCollection);
-                //    videoConversionFile.CutVideo.VideoCoverFilePath = cutVideoWindow.VideoCoverFilePath;
-                //}
+                CutAudioWindow cutAudioWindow = new(ConversionToolsWindow.Current, audioConversionFile.CutAudio, audioConversionFile.FilePath);
+                if (await cutAudioWindow.ShowAsync() is ContentDialogResult.Primary)
+                {
+                    audioConversionFile.CutAudio.StartTime = new(0, cutAudioWindow.TimeStartHours, cutAudioWindow.TimeStartMinutes, cutAudioWindow.TimeStartSeconds, cutAudioWindow.TimeStartMillseconds);
+                    audioConversionFile.CutAudio.EndTime = new(0, cutAudioWindow.TimeEndHours, cutAudioWindow.TimeEndMinutes, cutAudioWindow.TimeEndSeconds, cutAudioWindow.TimeEndMillseconds);
+                    audioConversionFile.CutAudio.AudioCoverFilePath = cutAudioWindow.AudioCoverFilePath;
+                }
             }
         }
 
@@ -697,11 +693,9 @@ namespace ModernFormatConverter.Views.Pages
 
                         audioConversionFile.CutAudio = new()
                         {
-                            // TODO：未完成
-                            //StartTime = TimeSpan.Zero,
-                            //EndTime = TimeSpan.Zero,
-                            //SelectRegionOperation = "Close",
-                            //AudioCoverFilePath = string.Empty
+                            StartTime = TimeSpan.Zero,
+                            EndTime = TimeSpan.Zero,
+                            AudioCoverFilePath = string.Empty
                         };
 
                         return audioConversionFile;

@@ -79,6 +79,7 @@
 
     <Content Include="Assets\ControlIcon\AudioConversion.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\CustomCommand.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\ControlIcon\CutAudio.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\CutVideo.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\DocumentConversion.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\FileInformation.png" CopyToOutputDirectory="Always" />
@@ -163,6 +164,9 @@
     <EmbeddedResource Include="Strings\CustomCommand.en-us.restext" />
     <EmbeddedResource Include="Strings\CustomCommand.restext" />
     <EmbeddedResource Include="Strings\CustomCommand.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\CutAudio.en-us.restext" />
+    <EmbeddedResource Include="Strings\CutAudio.restext" />
+    <EmbeddedResource Include="Strings\CutAudio.zh-hans.restext" />
     <EmbeddedResource Include="Strings\CutVideo.en-us.restext" />
     <EmbeddedResource Include="Strings\CutVideo.restext" />
     <EmbeddedResource Include="Strings\CutVideo.zh-hans.restext" />
@@ -281,6 +285,7 @@
     <Page Include="Views\Windows\AppInformationWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\AudioConversionOutputConfigurationWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\ConversionToolsWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Windows\CutAudioWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\CutVideoWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\LicenseWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\MainWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />

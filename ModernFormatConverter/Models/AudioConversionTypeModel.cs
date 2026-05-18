@@ -24,11 +24,6 @@ namespace ModernFormatConverter.Models
         public AudioConversionTypeKind AudioConversionTypeKind { get; set; }
 
         /// <summary>
-        /// 音频混流数据模型（仅用于音频混流页面）
-        /// </summary>
-        public AudioMixedFlowModel AudioMixedFlow { get; set; }
-
-        /// <summary>
         /// 音频转换文件配置列表
         /// </summary>
         public WinRTObservableCollection<AudioConversionFileModel> AudioConversionFileCollection { get; } = [];

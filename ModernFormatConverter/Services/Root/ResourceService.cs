@@ -20,6 +20,8 @@ namespace ModernFormatConverter.Services.Root
 
         public static ResourceManager CustomCommandResource { get; } = new("ModernFormatConverter.Strings.CustomCommand", CurrentAssembly);
 
+        public static ResourceManager CutAudioResource { get; } = new("ModernFormatConverter.Strings.CutAudio", CurrentAssembly);
+
         public static ResourceManager CutVideoResource { get; } = new("ModernFormatConverter.Strings.CutVideo", CurrentAssembly);
 
         public static ResourceManager DocumentConversionResource { get; } = new("ModernFormatConverter.Strings.DocumentConversion", CurrentAssembly);
