@@ -578,9 +578,9 @@
                                         Style="{StaticResource CaptionTextBlockStyle}"
                                         TextTrimming="CharacterEllipsis">
 
-                                        <Run Text="{x:Bind SelectedConversionType.VideoMixedFlow.VideoFile.FileSizeString, Mode=OneWay}" />
+                                        <Run Text="{x:Bind SelectedConversionType.VideoMixedFlow.VideoFile.FileSize, Mode=OneWay}" />
                                         <Run Text=" | " />
-                                        <Run Text="{x:Bind SelectedConversionType.VideoMixedFlow.VideoFile.DurationString, Mode=OneWay}" />
+                                        <Run Text="{x:Bind SelectedConversionType.VideoMixedFlow.VideoFile.Duration, Mode=OneWay}" />
                                         <Run Text=" | " />
                                         <Run Text="{x:Bind SelectedConversionType.VideoMixedFlow.VideoFile.ScreenSizeWidth, Mode=OneWay}" /><Run Text="x" /><Run Text="{x:Bind SelectedConversionType.VideoMixedFlow.VideoFile.ScreenSizeHeight, Mode=OneWay}" />
                                     </TextBlock>
@@ -729,9 +729,9 @@
                                         Style="{StaticResource CaptionTextBlockStyle}"
                                         TextTrimming="CharacterEllipsis">
 
-                                        <Run Text="{x:Bind SelectedConversionType.VideoMixedFlow.AudioFile.FileSizeString, Mode=OneWay}" />
+                                        <Run Text="{x:Bind SelectedConversionType.VideoMixedFlow.AudioFile.FileSize, Mode=OneWay}" />
                                         <Run Text=" | " />
-                                        <Run Text="{x:Bind SelectedConversionType.VideoMixedFlow.AudioFile.DurationString, Mode=OneWay}" />
+                                        <Run Text="{x:Bind SelectedConversionType.VideoMixedFlow.AudioFile.Duration, Mode=OneWay}" />
                                         <Run Text=" | " />
                                         <Run Text="{x:Bind SelectedConversionType.VideoMixedFlow.AudioFile.Channel, Mode=OneWay}" />
                                         <Run Text=" | " />
@@ -882,7 +882,7 @@
                                         Grid.Row="1"
                                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{x:Bind SelectedConversionType.VideoMixedFlow.SubtitleFile.FileSizeString, Mode=OneWay}"
+                                        Text="{x:Bind SelectedConversionType.VideoMixedFlow.SubtitleFile.FileSize, Mode=OneWay}"
                                         TextTrimming="CharacterEllipsis" />
                                 </Grid>
 

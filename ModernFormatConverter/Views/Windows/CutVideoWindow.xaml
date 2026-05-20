@@ -232,8 +232,41 @@
                             Grid.Row="0"
                             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                             BorderThickness="0,0,0,1">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock
+                                x:Name="FileNameText"
+                                Grid.Column="0"
+                                Margin="10,0,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind FileName, Mode=OneWay}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="NoWrap">
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip
+                                        MaxWidth="9999"
+                                        Padding="0"
+                                        Background="Transparent"
+                                        Visibility="{x:Bind FileNameText.IsTextTrimmed, Mode=OneWay}">
+
+                                        <Grid>
+                                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind FileName, Mode=OneWay}" />
+                                        </Grid>
+                                    </ToolTip>
+                                </ToolTipService.ToolTip>
+                            </TextBlock>
+
                             <SelectorBar
                                 x:Name="CutVideoSelectorBar"
+                                Grid.Row="1"
                                 HorizontalAlignment="Center"
                                 SelectedItem="{x:Bind CutVideoSelectedItem, Mode=OneWay}"
                                 SelectionChanged="{x:Bind OnCutVideoSelectionChanged}">
@@ -244,6 +277,7 @@
                             </SelectorBar>
 
                             <Button
+                                Grid.Row="2"
                                 Margin="0,0,10,0"
                                 HorizontalAlignment="Right"
                                 Click="{x:Bind OnOkClicked}"

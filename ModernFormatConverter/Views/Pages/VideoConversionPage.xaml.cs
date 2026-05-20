@@ -1451,8 +1451,7 @@ namespace ModernFormatConverter.Views.Pages
                             FilePath = filePath,
                         };
                         FileInfo fileInfo = new(filePath);
-                        videoMixedFlowFile.FileSize = fileInfo.Length;
-                        videoMixedFlowFile.FileSizeString = VolumeSizeHelper.ConvertVolumeSizeToString(fileInfo.Length);
+                        videoMixedFlowFile.FileSize = VolumeSizeHelper.ConvertVolumeSizeToString(fileInfo.Length);
 
                         if (MediaInfoLibrary.MediaInfo_New() is nint handle && handle is not 0 && MediaInfoLibrary.MediaInfo_Open(handle, filePath) is not 0)
                         {
@@ -1462,13 +1461,11 @@ namespace ModernFormatConverter.Views.Pages
                                 if (double.TryParse(videoDuration, out double videoDurationValue))
                                 {
                                     TimeSpan videoDurationTimeSpan = TimeSpan.FromMilliseconds(videoDurationValue);
-                                    videoMixedFlowFile.Duration = videoDurationTimeSpan;
-                                    videoMixedFlowFile.DurationString = string.Format(@"{0:00}:{1:00}:{2:00}", Math.Truncate(videoDurationTimeSpan.TotalHours), videoDurationTimeSpan.Minutes, videoDurationTimeSpan.Minutes);
+                                    videoMixedFlowFile.Duration = string.Format(@"{0:00}:{1:00}:{2:00}", Math.Truncate(videoDurationTimeSpan.TotalHours), videoDurationTimeSpan.Minutes, videoDurationTimeSpan.Minutes);
                                 }
                                 else
                                 {
-                                    videoMixedFlowFile.Duration = TimeSpan.Zero;
-                                    videoMixedFlowFile.DurationString = string.IsNullOrEmpty(videoDuration) ? "00:00:00" : videoDuration;
+                                    videoMixedFlowFile.Duration = string.IsNullOrEmpty(videoDuration) ? "00:00:00" : videoDuration;
                                 }
 
                                 string width = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, streamKind.Value, 0, "Width", InfoKind.Text, InfoKind.Name));
@@ -1483,13 +1480,11 @@ namespace ModernFormatConverter.Views.Pages
                                 if (double.TryParse(videoDuration, out double videoDurationValue))
                                 {
                                     TimeSpan videoDurationTimeSpan = TimeSpan.FromMilliseconds(videoDurationValue);
-                                    videoMixedFlowFile.Duration = videoDurationTimeSpan;
-                                    videoMixedFlowFile.DurationString = string.Format(@"{0:00}:{1:00}:{2:00}", Math.Truncate(videoDurationTimeSpan.TotalHours), videoDurationTimeSpan.Minutes, videoDurationTimeSpan.Minutes);
+                                    videoMixedFlowFile.Duration = string.Format(@"{0:00}:{1:00}:{2:00}", Math.Truncate(videoDurationTimeSpan.TotalHours), videoDurationTimeSpan.Minutes, videoDurationTimeSpan.Minutes);
                                 }
                                 else
                                 {
-                                    videoMixedFlowFile.Duration = TimeSpan.Zero;
-                                    videoMixedFlowFile.DurationString = string.IsNullOrEmpty(videoDuration) ? "00:00:00" : videoDuration;
+                                    videoMixedFlowFile.Duration = string.IsNullOrEmpty(videoDuration) ? "00:00:00" : videoDuration;
                                 }
 
                                 string channel = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, streamKind.Value, 0, "Channel(s)/String", InfoKind.Text, InfoKind.Name));

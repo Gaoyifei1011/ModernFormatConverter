@@ -145,6 +145,22 @@ namespace ModernFormatConverter.Views.Windows
             }
         }
 
+        private string _fileName;
+
+        public string FileName
+        {
+            get { return _fileName; }
+
+            set
+            {
+                if (!Equals(_fileName, value))
+                {
+                    _fileName = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FileName)));
+                }
+            }
+        }
+
         private SelectorBarItem _cutVideoSelectedItem;
 
         public SelectorBarItem CutVideoSelectedItem
@@ -522,6 +538,7 @@ namespace ModernFormatConverter.Views.Windows
         public CutVideoWindow(ConversionToolsWindow conversionToolsWindow, CutVideoModel cutVideo, string selectedFilePath)
         {
             filePath = selectedFilePath;
+            FileName = Path.GetFileName(filePath);
             InitializeData(cutVideo);
             InitializeComponent();
             InitializeUI(conversionToolsWindow);

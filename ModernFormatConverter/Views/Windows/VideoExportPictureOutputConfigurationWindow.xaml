@@ -102,7 +102,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <!--  视频格式转换配置标题栏  -->
+            <!--  视频导出图片输出配置标题栏  -->
             <TitleBar
                 x:Name="AppTitlebar"
                 Title="{x:Bind rootservice:ResourceService.VideoExportPictureOutputConfigurationResource.GetString('Title')}"
@@ -125,7 +125,7 @@
                 </TitleBar.LeftHeader>
             </TitleBar>
 
-            <!--  视频格式转换配置控制栏  -->
+            <!--  视频导出图片输出配置控制栏  -->
             <Grid Grid.Row="1" Margin="6,0,6,3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />

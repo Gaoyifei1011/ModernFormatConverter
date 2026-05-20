@@ -31,7 +31,7 @@ using Windows.UI;
 namespace ModernFormatConverter.Views.Windows
 {
     /// <summary>
-    /// 视频导出图片窗口
+    /// 视频导出图片输出配置窗口
     /// </summary>
     public sealed partial class VideoExportPictureOutputConfigurationWindow : Window, INotifyPropertyChanged
     {

@@ -1,5 +1,4 @@
 ﻿using Microsoft.UI.Xaml.Media.Imaging;
-using System;
 using System.ComponentModel;
 
 namespace ModernFormatConverter.Models
@@ -36,12 +35,7 @@ namespace ModernFormatConverter.Models
         /// <summary>
         /// 文件大小
         /// </summary>
-        public long FileSize { get; set; }
-
-        /// <summary>
-        /// 文件大小
-        /// </summary>
-        public string FileSizeString { get; set; }
+        public string FileSize { get; set; }
 
         /// <summary>
         /// 文件路径
@@ -53,12 +47,7 @@ namespace ModernFormatConverter.Models
         /// <summary>
         /// 视频持续时间
         /// </summary>
-        public TimeSpan Duration { get; set; }
-
-        /// <summary>
-        /// 视频持续时间
-        /// </summary>
-        public string DurationString { get; set; }
+        public string Duration { get; set; }
 
         #endregion 视频，音频部分
 
