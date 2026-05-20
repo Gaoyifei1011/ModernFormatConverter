@@ -228,7 +228,7 @@
 
     <None Remove="MainApp.xaml" />
     <None Remove="Styles\AppBarButton.xaml" />
-    <None Update="Styles\ColorPicker.xaml" />
+    <None Remove="Styles\ColorPicker.xaml" />
     <None Remove="Styles\ComboBox.xaml" />
     <None Remove="Styles\MediaPlayerElement.xaml" />
     <None Remove="Styles\NavigationView.xaml" />
@@ -237,27 +237,27 @@
     <None Remove="Styles\ToggleSwitch.xaml" />
     <None Remove="Views\NotificationTips\CopyPasteNotificationTip.xaml" />
     <None Remove="Views\NotificationTips\OperationResultNotificationTip.xaml" />
-    <None Update="Views\Pages\AudioConversionPage.xaml" />
-    <None Update="Views\Pages\CustomCommandPage.xaml" />
-    <None Update="Views\Pages\DocumentConversionPage.xaml" />
-    <None Update="Views\Pages\FileInformationPage.xaml" />
+    <None Remove="Views\Pages\AudioConversionPage.xaml" />
+    <None Remove="Views\Pages\CustomCommandPage.xaml" />
+    <None Remove="Views\Pages\DocumentConversionPage.xaml" />
+    <None Remove="Views\Pages\FileInformationPage.xaml" />
     <None Remove="Views\Pages\HATestPage.xaml" />
     <None Remove="Views\Pages\HomePage.xaml" />
-    <None Update="Views\Pages\PhotoConversionPage.xaml" />
+    <None Remove="Views\Pages\PhotoConversionPage.xaml" />
     <None Remove="Views\Pages\SettingsAboutPage.xaml" />
     <None Remove="Views\Pages\SettingsAdvancedPage.xaml" />
     <None Remove="Views\Pages\SettingsGeneralPage.xaml" />
     <None Remove="Views\Pages\SettingsPage.xaml" />
-    <None Update="Views\Pages\TaskManagerPage.xaml" />
-    <None Update="Views\Pages\VideoConversionPage.xaml" />
-    <None Update="Views\Windows\AppInformationWindow.xaml" />
-    <None Update="Views\Windows\ConversionToolsWindow.xaml" />
-    <None Update="Views\Windows\CutVideoWindow.xaml" />
+    <None Remove="Views\Pages\TaskManagerPage.xaml" />
+    <None Remove="Views\Pages\VideoConversionPage.xaml" />
+    <None Remove="Views\Windows\AppInformationWindow.xaml" />
+    <None Remove="Views\Windows\ConversionToolsWindow.xaml" />
+    <None Remove="Views\Windows\CutVideoWindow.xaml" />
     <None Remove="Views\Windows\LicenseWindow.xaml" />
     <None Remove="Views\Windows\MainWindow.xaml" />
     <None Remove="Views\Windows\RestartAppsWindow.xaml" />
-    <None Update="Views\Windows\VideoConversionOutputConfigurationWindow.xaml" />
-    <None Update="Views\Windows\VideoExportPictureOutputConfigurationWindow.xaml" />
+    <None Remove="Views\Windows\VideoConversionOutputConfigurationWindow.xaml" />
+    <None Remove="Views\Windows\VideoExportPictureOutputConfigurationWindow.xaml" />
 
     <Page Include="Styles\AppBarButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\ColorPicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
