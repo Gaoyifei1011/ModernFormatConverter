@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using ModernFormatConverter.Extensions.DataType.Class;
 using ModernFormatConverter.Extensions.DataType.Enums;
+using ModernFormatConverter.Helpers.Reflection;
 using ModernFormatConverter.Helpers.Root;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
@@ -20,6 +21,8 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Speech.Synthesis;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
@@ -44,6 +47,7 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string SelectFolderString = ResourceService.AudioConversionResource.GetString("SelectFolder");
         private readonly string TextFileDragOverContentString = ResourceService.AudioConversionResource.GetString("TextFileDragOverContent");
         private readonly string TextToAudioString = ResourceService.AudioConversionResource.GetString("TextToAudio");
+        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
 
         private AudioConversionTypeModel _selectedConversionType;
 
@@ -73,6 +77,22 @@ namespace ModernFormatConverter.Views.Pages
                 {
                     _isGettingFileInformation = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsGettingFileInformation)));
+                }
+            }
+        }
+
+        private bool _isVoiceExisted;
+
+        public bool IsVoiceExisted
+        {
+            get { return _isVoiceExisted; }
+
+            set
+            {
+                if (!Equals(_isVoiceExisted, value))
+                {
+                    _isVoiceExisted = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsVoiceExisted)));
                 }
             }
         }
@@ -176,6 +196,12 @@ namespace ModernFormatConverter.Views.Pages
                     FilePath = string.Empty,
                     FileSize = string.Empty,
                     FileCharacterSize = string.Empty,
+                    TextToAudioOutputConfiguration = new()
+                    {
+                        VoiceType = string.Empty,
+                        ReadingSpeed = 0,
+                        Volume = 100
+                    }
                 }
             });
             SelectedConversionType = AudioConversionTypeCollection[0];
@@ -183,6 +209,7 @@ namespace ModernFormatConverter.Views.Pages
             SortWay = true;
             OutputFolder = ConvertConfigurationService.ConvertedAudioSavePath;
             TextToAudioSelectedItem = TextToAudioSelectorBar.Items[0];
+            InitializeVoiceInformation();
         }
 
         #region 第一部分：ExecuteCommand 命令调用时挂载的事件
@@ -545,6 +572,7 @@ namespace ModernFormatConverter.Views.Pages
             if (SelectedConversionType.AudioConversionTypeKind is AudioConversionTypeKind.TextToAudio && SelectedConversionType.TextToAudio is not null)
             {
                 SelectedConversionType.TextToAudio.FileThumbnailSource = null;
+                SelectedConversionType.TextToAudio.InputText = string.Empty;
                 SelectedConversionType.TextToAudio.IsTextFileSelected = false;
                 SelectedConversionType.TextToAudio.FileName = string.Empty;
                 SelectedConversionType.TextToAudio.FilePath = string.Empty;
@@ -681,10 +709,16 @@ namespace ModernFormatConverter.Views.Pages
                         }
                     }
                 }
-                // 文本转音频输出配置
-                else if (Equals(SelectedConversionType, AudioConversionTypeCollection[2]))
+            }
+            // 文本转音频输出配置
+            else if (Equals(SelectedConversionType, AudioConversionTypeCollection[2]) && SelectedConversionType.TextToAudio is not null)
+            {
+                TextToAudioOutputConfigurationWindow textToAudioConfigurationWindow = new(ConversionToolsWindow.Current, SelectedConversionType.TextToAudio.TextToAudioOutputConfiguration);
+                if (await textToAudioConfigurationWindow.ShowAsync() is ContentDialogResult.Primary && SelectedConversionType.AudioConversionTypeKind is AudioConversionTypeKind.TextToAudio)
                 {
-                    // TODO：未完成
+                    SelectedConversionType.TextToAudio.TextToAudioOutputConfiguration.VoiceType = Convert.ToString(textToAudioConfigurationWindow.SelectedVoiceType.SelectedValue);
+                    SelectedConversionType.TextToAudio.TextToAudioOutputConfiguration.ReadingSpeed = textToAudioConfigurationWindow.ReadingSpeed;
+                    SelectedConversionType.TextToAudio.TextToAudioOutputConfiguration.Volume = textToAudioConfigurationWindow.Volume;
                 }
             }
         }
@@ -743,7 +777,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnOkClicked(object sender, RoutedEventArgs args)
         {
-            ConversionToolsWindow.Current.Close();
+            ConversionToolsWindow.Current.CloseWindow(ContentDialogResult.Primary);
         }
 
         /// <summary>
@@ -816,6 +850,44 @@ namespace ModernFormatConverter.Views.Pages
         }
 
         #endregion 第二部分：音频转换页面——挂载的事件
+
+        /// <summary>
+        /// 初始化语音信息
+        /// </summary>
+        private void InitializeVoiceInformation()
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    bool isVoiceExisted = false;
+                    string voiceType = string.Empty;
+                    SpeechSynthesizer speechSynthesizer = new();
+                    speechSynthesizer.InjectOneCoreVoices();
+                    foreach (InstalledVoice installedVoice in speechSynthesizer.GetInstalledVoices())
+                    {
+                        if (installedVoice.Enabled && AudioConversionTypeCollection[2].TextToAudio is not null)
+                        {
+                            isVoiceExisted = true;
+                            voiceType = installedVoice.VoiceInfo.Id;
+                            break;
+                        }
+                    }
+
+                    speechSynthesizer.Dispose();
+
+                    synchronizationContext.Post((_) =>
+                    {
+                        IsVoiceExisted = isVoiceExisted;
+                        AudioConversionTypeCollection[2].TextToAudio.TextToAudioOutputConfiguration.VoiceType = voiceType;
+                    }, null);
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(AudioConversionPage), nameof(InitializeVoiceInformation), 1, e);
+                }
+            });
+        }
 
         /// <summary>
         /// 对数据进行排序

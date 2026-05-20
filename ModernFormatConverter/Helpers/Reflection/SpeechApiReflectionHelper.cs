@@ -7,7 +7,7 @@ using System.Speech.Synthesis;
 namespace ModernFormatConverter.Helpers.Reflection
 {
     /// <summary>
-    /// 语音辅助类，添加 Speech OneCore 语音路径用以检测
+    /// 语音辅助类，添加 Speech OneCore 语音路径用以扫描
     /// </summary>
     public static class SpeechApiReflectionHelper
     {
@@ -19,7 +19,7 @@ namespace ModernFormatConverter.Helpers.Reflection
         private static readonly Type InstalledVoiceType = typeof(SpeechSynthesizer).Assembly.GetType("System.Speech.Synthesis.InstalledVoice")!;
 
         /// <summary>
-        /// 注入 Speech OneCore
+        /// 注入 Speech OneCore 存储路径
         /// </summary>
         public static bool InjectOneCoreVoices(this SpeechSynthesizer synthesizer)
         {

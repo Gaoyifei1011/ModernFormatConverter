@@ -50,6 +50,8 @@ namespace ModernFormatConverter.Services.Root
 
         public static ResourceManager TaskManagerResource { get; } = new("ModernFormatConverter.Strings.TaskManager", CurrentAssembly);
 
+        public static ResourceManager TextToAudioOutputConfigurationResource { get; } = new("ModernFormatConverter.Strings.TextToAudioOutputConfiguration", CurrentAssembly);
+
         public static ResourceManager UpdateAppResource { get; } = new("ModernFormatConverter.Strings.UpdateApp", CurrentAssembly);
 
         public static ResourceManager VideoConversionResource { get; } = new("ModernFormatConverter.Strings.VideoConversion", CurrentAssembly);

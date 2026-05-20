@@ -7,12 +7,11 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
 using ModernFormatConverter.Extensions.Backdrop;
-using ModernFormatConverter.Extensions.DataType.Enums;
+using ModernFormatConverter.Helpers.Reflection;
+using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.Services.Settings;
-using ModernFormatConverter.Views.Pages;
 using ModernFormatConverter.WindowsAPI.PInvoke.Comctl32;
 using ModernFormatConverter.WindowsAPI.PInvoke.User32;
 using ModernFormatConverter.WindowsAPI.PInvoke.Uxtheme;
@@ -20,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Speech.Synthesis;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -32,21 +32,19 @@ using Windows.UI;
 namespace ModernFormatConverter.Views.Windows
 {
     /// <summary>
-    /// 转换工具窗口
+    /// 文本转语音输出配置窗口
     /// </summary>
-    public sealed partial class ConversionToolsWindow : Window, INotifyPropertyChanged
+    public sealed partial class TextToAudioOutputConfigurationWindow : Window, INotifyPropertyChanged
     {
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
-        private readonly OverlappedPresenter overlappedPresenter;
-        private readonly SUBCLASSPROC conversionToolsWindowSubClassProc;
-        private readonly ContentIsland contentIsland;
-        private readonly InputKeyboardSource inputKeyboardSource;
-        private readonly InputPointerSource inputPointerSource;
+        private OverlappedPresenter overlappedPresenter;
+        private SUBCLASSPROC textToAudioOutputConfigurationWindowSubClassProc;
+        private ContentIsland contentIsland;
+        private InputKeyboardSource inputKeyboardSource;
+        private InputPointerSource inputPointerSource;
         private TaskCompletionSource<ContentDialogResult> taskCompletionSource;
 
-        public new static ConversionToolsWindow Current { get; private set; }
-
-        private MainWindow MainWindow { get; set; }
+        private ConversionToolsWindow ConversionToolsWindow { get; set; }
 
         private SystemBackdrop _windowSystemBackdrop;
 
@@ -80,74 +78,95 @@ namespace ModernFormatConverter.Views.Windows
             }
         }
 
-        private int _selectedIndex;
+        private SelectorBarItem _selectedItem;
 
-        public int SelectedIndex
+        public SelectorBarItem SelectedItem
         {
-            get { return _selectedIndex; }
+            get { return _selectedItem; }
 
             set
             {
-                if (!Equals(_selectedIndex, value))
+                if (!Equals(_selectedItem, value))
                 {
-                    _selectedIndex = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedIndex)));
+                    _selectedItem = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedItem)));
                 }
             }
         }
 
-        private List<Type> PageList { get; } = [typeof(VideoConversionPage), typeof(AudioConversionPage), typeof(PhotoConversionPage), typeof(DocumentConversionPage)];
+        private bool _isVoiceExisted;
+
+        public bool IsVoiceExisted
+        {
+            get { return _isVoiceExisted; }
+
+            set
+            {
+                if (!Equals(_isVoiceExisted, value))
+                {
+                    _isVoiceExisted = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsVoiceExisted)));
+                }
+            }
+        }
+
+        private VoiceTypeModel _selectedVoiceType;
+
+        public VoiceTypeModel SelectedVoiceType
+        {
+            get { return _selectedVoiceType; }
+
+            set
+            {
+                if (!Equals(_selectedVoiceType, value))
+                {
+                    _selectedVoiceType = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedVoiceType)));
+                }
+            }
+        }
+
+        private int _readingSpeed;
+
+        public int ReadingSpeed
+        {
+            get { return _readingSpeed; }
+
+            set
+            {
+                if (!Equals(_readingSpeed, value))
+                {
+                    _readingSpeed = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ReadingSpeed)));
+                }
+            }
+        }
+
+        private int _volume;
+
+        public int Volume
+        {
+            get { return _volume; }
+
+            set
+            {
+                if (!Equals(_volume, value))
+                {
+                    _volume = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Volume)));
+                }
+            }
+        }
+
+        public List<VoiceTypeModel> VoiceTypeList { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ConversionToolsWindow(MainWindow mainWindow, ConversionToolsKind conversionToolsKind)
+        public TextToAudioOutputConfigurationWindow(ConversionToolsWindow conversionToolsWindow, TextToAudioOutputConfigurationModel textToAudioOutputConfiguration)
         {
+            InitializeData(textToAudioOutputConfiguration);
             InitializeComponent();
-
-            // 窗口部分初始化
-            Current = this;
-            MainWindow = mainWindow;
-            if (IntPtr.Size is 8)
-            {
-                User32Library.SetWindowLongPtr((nint)AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, mainWindow.AppWindow.Id.Value);
-            }
-            else
-            {
-                User32Library.SetWindowLong((nint)AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, mainWindow.AppWindow.Id.Value);
-            }
-            overlappedPresenter = OverlappedPresenter.CreateForDialog();
-            ExtendsContentIntoTitleBar = true;
-            overlappedPresenter.IsResizable = true;
-            overlappedPresenter.IsMinimizable = false;
-            overlappedPresenter.IsMaximizable = false;
-            overlappedPresenter.IsModal = true;
-            AppWindow.SetPresenter(overlappedPresenter);
-            AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
-            AppWindow.TitleBar.InactiveBackgroundColor = Colors.Transparent;
-            AppWindow.TitleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
-            int dpi = User32Library.GetDpiForWindow((nint)AppWindow.Id.Value);
-            overlappedPresenter.PreferredMinimumWidth = Convert.ToInt32(1000 * Convert.ToDouble(dpi) / 96);
-            overlappedPresenter.PreferredMinimumHeight = Convert.ToInt32(600 * Convert.ToDouble(dpi) / 96);
-            contentIsland = ContentIsland.FindAllForCompositor(Compositor)[0];
-            inputKeyboardSource = InputKeyboardSource.GetForIsland(contentIsland);
-            inputPointerSource = InputPointerSource.GetForIsland(contentIsland);
-
-            // 挂载相应的事件
-            ThemeService.PropertyChanged += OnServicePropertyChanged;
-            BackdropService.PropertyChanged += OnServicePropertyChanged;
-            inputKeyboardSource.SystemKeyDown += OnSystemKeyDown;
-            inputPointerSource.PointerReleased += OnPointerReleased;
-
-            // 标题栏和右键菜单设置
-            SetClassicMenuTheme((Content as FrameworkElement).ActualTheme);
-
-            // 为窗口添加窗口过程
-            conversionToolsWindowSubClassProc = new SUBCLASSPROC(ConversionToolsWindowSubClassProc);
-            Comctl32Library.SetWindowSubclass((nint)AppWindow.Id.Value, conversionToolsWindowSubClassProc, 0, 0);
-
-            SelectedIndex = Convert.ToInt32(conversionToolsKind);
-            SetWindowTheme();
-            SetSystemBackdrop();
+            InitializeUI(conversionToolsWindow);
         }
 
         #region 第一部分：窗口辅助类挂载的事件
@@ -230,7 +249,7 @@ namespace ModernFormatConverter.Views.Windows
         #region 第四部分：内容挂载的事件
 
         /// <summary>
-        /// 导航控件加载完成后初始化内容，初始化导航控件属性、屏幕缩放比例值和应用的背景色
+        /// 加载完成后触发的事件
         /// </summary>
         private async void OnLoaded(object sender, RoutedEventArgs args)
         {
@@ -240,42 +259,80 @@ namespace ModernFormatConverter.Views.Windows
         }
 
         /// <summary>
-        /// 选项卡控件选中项发生变化时触发的事件
+        /// 打开系统设置
         /// </summary>
-        private void OnSelectionChanged(object sender, SelectionChangedEventArgs args)
+        private void OnSystemSettingsClicked(object sender, RoutedEventArgs args)
         {
-            if (args.AddedItems.Count > 0)
+            Task.Run(() =>
             {
-                SelectedIndex = (sender as TabView).SelectedIndex;
-                Type currentPage = GetCurrentPageType();
-                int currentIndex = PageList.FindIndex(item => Equals(item, currentPage));
-                if (SelectedIndex is 0)
+                try
                 {
-                    NavigateTo(PageList[0]);
+                    Process.Start("ms-settings:speech");
                 }
-                else if (SelectedIndex is 1 && !Equals(currentPage, PageList[1]))
+                catch (Exception e)
                 {
-                    NavigateTo(PageList[1]);
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(TextToAudioOutputConfigurationWindow), nameof(OnSystemSettingsClicked), 1, e);
                 }
-                else if (SelectedIndex is 2 && !Equals(currentPage, PageList[2]))
+            });
+        }
+
+        /// <summary>
+        /// 确定
+        /// </summary>
+        private void OnOkClicked(object sender, RoutedEventArgs args)
+        {
+            if (!taskCompletionSource.Task.IsCompleted)
+            {
+                taskCompletionSource.TrySetResult(ContentDialogResult.Primary);
+            }
+            Close();
+        }
+
+        /// <summary>
+        /// 语音类型选中项发生改变时触发的事件
+        /// </summary>
+        private void OnSelectedVoiceTypeSelectionChanged(object sender, SelectionChangedEventArgs args)
+        {
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is VoiceTypeModel voiceType && !Equals(SelectedVoiceType, voiceType))
+            {
+                SelectedVoiceType = voiceType;
+            }
+        }
+
+        /// <summary>
+        /// 阅读速率发生变化时触发的事件
+        /// </summary>
+        private void OnReadingSpeedValueChanged(object sender, RangeBaseValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN)
+            {
+                try
                 {
-                    NavigateTo(PageList[2]);
+                    ReadingSpeed = Convert.ToInt32(args.NewValue);
                 }
-                else if (SelectedIndex is 3 && !Equals(currentPage, PageList[3]))
+                catch (Exception e)
                 {
-                    NavigateTo(PageList[3]);
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(TextToAudioOutputConfigurationWindow), nameof(OnReadingSpeedValueChanged), 1, e);
                 }
             }
         }
 
         /// <summary>
-        /// 导航失败时发生
+        /// 音量发生变化时触发的事件
         /// </summary>
-        private void OnNavigationFailed(object sender, NavigationFailedEventArgs args)
+        private void OnVolumeValueChanged(object sender, RangeBaseValueChangedEventArgs args)
         {
-            args.Handled = true;
-            SelectedIndex = PageList.FindIndex(item => Equals(item, GetCurrentPageType()));
-            LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(ConversionToolsWindow), nameof(OnNavigationFailed), 1, args.Exception);
+            if (args.NewValue is not double.NaN)
+            {
+                try
+                {
+                    Volume = Convert.ToInt32(args.NewValue);
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(TextToAudioOutputConfigurationWindow), nameof(OnVolumeValueChanged), 1, e);
+                }
+            }
         }
 
         #endregion 第四部分：内容挂载的事件
@@ -320,32 +377,32 @@ namespace ModernFormatConverter.Views.Windows
             if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[1]))
             {
                 WindowSystemBackdrop = new MaterialBackdrop(MicaKind.Base);
-                VisualStateManager.GoToState(ConversionToolsPage, "BackgroundTransparent", false);
+                VisualStateManager.GoToState(TextToAudioOutputConfigurationPage, "BackgroundTransparent", false);
             }
             else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[2]))
             {
                 WindowSystemBackdrop = new MaterialBackdrop(MicaKind.BaseAlt);
-                VisualStateManager.GoToState(ConversionToolsPage, "BackgroundTransparent", false);
+                VisualStateManager.GoToState(TextToAudioOutputConfigurationPage, "BackgroundTransparent", false);
             }
             else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[3]))
             {
                 WindowSystemBackdrop = new MaterialBackdrop(DesktopAcrylicKind.Default);
-                VisualStateManager.GoToState(ConversionToolsPage, "BackgroundTransparent", false);
+                VisualStateManager.GoToState(TextToAudioOutputConfigurationPage, "BackgroundTransparent", false);
             }
             else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[4]))
             {
                 WindowSystemBackdrop = new MaterialBackdrop(DesktopAcrylicKind.Base);
-                VisualStateManager.GoToState(ConversionToolsPage, "BackgroundTransparent", false);
+                VisualStateManager.GoToState(TextToAudioOutputConfigurationPage, "BackgroundTransparent", false);
             }
             else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[5]))
             {
                 WindowSystemBackdrop = new MaterialBackdrop(DesktopAcrylicKind.Thin);
-                VisualStateManager.GoToState(ConversionToolsPage, "BackgroundTransparent", false);
+                VisualStateManager.GoToState(TextToAudioOutputConfigurationPage, "BackgroundTransparent", false);
             }
             else
             {
                 WindowSystemBackdrop = null;
-                VisualStateManager.GoToState(ConversionToolsPage, "BackgroundDefault", false);
+                VisualStateManager.GoToState(TextToAudioOutputConfigurationPage, "BackgroundDefault", false);
             }
         }
 
@@ -430,61 +487,69 @@ namespace ModernFormatConverter.Views.Windows
         #region 第七部分：窗口过程
 
         /// <summary>
-        /// 转换工具窗口消息处理
+        /// 视频导出图片输出配置窗口消息处理
         /// </summary>
-        private nint ConversionToolsWindowSubClassProc(nint hWnd, WindowMessage Msg, nuint wParam, nint lParam, uint uIdSubclass, nint dwRefData)
+        private nint TextToAudioOutputConfigurationWindowSubClassProc(nint hWnd, WindowMessage Msg, nuint wParam, nint lParam, uint uIdSubclass, nint dwRefData)
         {
             switch (Msg)
             {
                 // 窗口位置发生变化时触发的消息
                 case WindowMessage.WM_MOVE:
                     {
-                        if (TitlebarMenuFlyout.IsOpen)
+                        synchronizationContext.Post((_) =>
                         {
-                            TitlebarMenuFlyout.Hide();
-                        }
+                            if (TitlebarMenuFlyout.IsOpen)
+                            {
+                                TitlebarMenuFlyout.Hide();
+                            }
+                        }, null);
                         break;
                     }
                 // 窗口大小发生变化时触发的消息
                 case WindowMessage.WM_SIZE:
                     {
-                        if (TitlebarMenuFlyout.IsOpen)
+                        synchronizationContext.Post((_) =>
                         {
-                            TitlebarMenuFlyout.Hide();
-                        }
+                            if (TitlebarMenuFlyout.IsOpen)
+                            {
+                                TitlebarMenuFlyout.Hide();
+                            }
+                        }, null);
                         break;
                     }
                 // 窗口激活状态发生变化时触发的消息
                 case WindowMessage.WM_ACTIVATEAPP:
                     {
-                        try
+                        synchronizationContext.Post((_) =>
                         {
-                            if (WindowSystemBackdrop is MaterialBackdrop materialBackdrop && materialBackdrop.BackdropConfiguration is not null)
+                            try
                             {
-                                materialBackdrop.BackdropConfiguration.IsInputActive = AlwaysShowBackdropService.AlwaysShowBackdropValue || wParam is not 0;
+                                if (WindowSystemBackdrop is MaterialBackdrop materialBackdrop && materialBackdrop.BackdropConfiguration is not null)
+                                {
+                                    materialBackdrop.BackdropConfiguration.IsInputActive = AlwaysShowBackdropService.AlwaysShowBackdropValue || wParam is not 0;
+                                }
                             }
-                        }
-                        catch (Exception e)
-                        {
-                            LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(ConversionToolsWindow), nameof(ConversionToolsWindowSubClassProc), 1, e);
-                        }
+                            catch (Exception e)
+                            {
+                                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(TextToAudioOutputConfigurationWindow), nameof(TextToAudioOutputConfigurationWindowSubClassProc), 1, e);
+                            }
+                        }, null);
                         break;
                     }
                 // 窗口销毁后触发的消息
                 case WindowMessage.WM_DESTROY:
                     {
-                        Current = null;
                         ThemeService.PropertyChanged -= OnServicePropertyChanged;
                         BackdropService.PropertyChanged -= OnServicePropertyChanged;
                         inputKeyboardSource.SystemKeyDown -= OnSystemKeyDown;
                         inputPointerSource.PointerReleased -= OnPointerReleased;
-                        Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, conversionToolsWindowSubClassProc, 0);
+                        Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, textToAudioOutputConfigurationWindowSubClassProc, 0);
                         if (!taskCompletionSource.Task.IsCompleted)
                         {
                             taskCompletionSource.TrySetResult(ContentDialogResult.None);
                         }
-                        MainWindow.Activate();
-                        MainWindow = null;
+                        ConversionToolsWindow.Activate();
+                        ConversionToolsWindow = null;
                         break;
                     }
                 // 当用户按下鼠标左键时，光标位于窗口的非工作区内的消息
@@ -530,8 +595,8 @@ namespace ModernFormatConverter.Views.Windows
                 // 窗口 DPI 发生变化后触发的消息
                 case WindowMessage.WM_DPICHANGED:
                     {
-                        overlappedPresenter.PreferredMinimumWidth = Convert.ToInt32(1000 * Convert.ToDouble(wParam) / 96);
-                        overlappedPresenter.PreferredMinimumHeight = Convert.ToInt32(600 * Convert.ToDouble(wParam) / 96);
+                        overlappedPresenter.PreferredMinimumWidth = Convert.ToInt32(768 * Convert.ToDouble(wParam) / 96);
+                        overlappedPresenter.PreferredMinimumHeight = Convert.ToInt32(560 * Convert.ToDouble(wParam) / 96);
                         break;
                     }
                 // 选择窗口右键菜单的条目时接收到的消息
@@ -555,7 +620,7 @@ namespace ModernFormatConverter.Views.Windows
                             {
                                 FlyoutShowOptions options = new()
                                 {
-                                    Position = new Point(0, 45),
+                                    Position = new Point(0, 30),
                                     ShowMode = FlyoutShowMode.Standard
                                 };
                                 TitlebarMenuFlyout.ShowAt(null, options);
@@ -570,50 +635,110 @@ namespace ModernFormatConverter.Views.Windows
 
         #endregion 第七部分：窗口过程
 
-        #region 第八部分：显示应用通知
-
         /// <summary>
-        /// 使用教学提示显示应用内通知
+        /// 初始化数据
         /// </summary>
-        public async Task ShowNotificationAsync(TeachingTip teachingTip, int duration = 2000)
+        private void InitializeData(TextToAudioOutputConfigurationModel textToAudioOutputConfiguration)
         {
-            if (teachingTip is not null && Content is Page page && page.Content is Grid grid)
-            {
-                try
-                {
-                    grid.Children.Add(teachingTip);
+            List<VoiceInfo> voiceInfoList = [];
 
-                    teachingTip.IsOpen = true;
-                    await Task.Delay(duration);
-                    teachingTip.IsOpen = false;
-
-                    // 应用内通知关闭动画显示耗费 300 ms
-                    await Task.Delay(300);
-                    grid.Children.Remove(teachingTip);
-                }
-                catch (Exception e)
-                {
-                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(ConversionToolsWindow), nameof(ShowNotificationAsync), 1, e);
-                }
-            }
-        }
-
-        #endregion 第八部分：显示应用通知
-
-        /// <summary>
-        /// 页面向前导航
-        /// </summary>
-        private void NavigateTo(Type navigationPageType, object parameter = null)
-        {
             try
             {
-                // 导航到该项目对应的页面
-                ConversionToolsFrame.Navigate(navigationPageType, parameter);
+                SpeechSynthesizer speechSynthesizer = new();
+                speechSynthesizer.InjectOneCoreVoices();
+
+                foreach (InstalledVoice installedVoice in speechSynthesizer.GetInstalledVoices())
+                {
+                    if (installedVoice.Enabled)
+                    {
+                        voiceInfoList.Add(installedVoice.VoiceInfo);
+                    }
+                }
+
+                speechSynthesizer.Dispose();
             }
             catch (Exception e)
             {
-                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(ConversionToolsWindow), nameof(NavigateTo), 1, e);
+                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(TextToAudioOutputConfigurationWindow), nameof(InitializeData), 1, e);
             }
+
+            if (voiceInfoList.Count > 0)
+            {
+                IsVoiceExisted = true;
+                foreach (VoiceInfo voiceInfo in voiceInfoList)
+                {
+                    VoiceTypeList.Add(new VoiceTypeModel()
+                    {
+                        DisplayMember = voiceInfo.Name,
+                        SelectedValue = voiceInfo.Id,
+                        VoiceInfo = voiceInfo
+                    });
+                }
+
+                SelectedVoiceType = textToAudioOutputConfiguration is not null && VoiceTypeList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), textToAudioOutputConfiguration.VoiceType)) is VoiceTypeModel selectedVoiceInfo ? selectedVoiceInfo : VoiceTypeList[0];
+            }
+            else
+            {
+                IsVoiceExisted = false;
+            }
+
+            ReadingSpeed = textToAudioOutputConfiguration is not null ? textToAudioOutputConfiguration.ReadingSpeed : 0;
+            Volume = textToAudioOutputConfiguration is not null ? textToAudioOutputConfiguration.Volume : 100;
+        }
+
+        /// <summary>
+        /// 初始化界面
+        /// </summary>
+        private void InitializeUI(ConversionToolsWindow conversionToolsWindow)
+        {
+            ConversionToolsWindow = conversionToolsWindow;
+            if (IntPtr.Size is 8)
+            {
+                User32Library.SetWindowLongPtr((nint)AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, ConversionToolsWindow.AppWindow.Id.Value);
+            }
+            else
+            {
+                User32Library.SetWindowLong((nint)AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, ConversionToolsWindow.AppWindow.Id.Value);
+            }
+            overlappedPresenter = OverlappedPresenter.CreateForDialog();
+            ExtendsContentIntoTitleBar = true;
+            overlappedPresenter.IsResizable = false;
+            overlappedPresenter.IsMinimizable = false;
+            overlappedPresenter.IsMaximizable = false;
+            overlappedPresenter.IsModal = true;
+            AppWindow.SetPresenter(overlappedPresenter);
+            AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+            AppWindow.TitleBar.InactiveBackgroundColor = Colors.Transparent;
+            AppWindow.TitleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
+            double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
+            int width = Convert.ToInt32(768 * dpi);
+            int height = Convert.ToInt32(560 * dpi);
+            overlappedPresenter.PreferredMinimumWidth = width;
+            overlappedPresenter.PreferredMinimumHeight = height;
+            User32Library.GetWindowRect((nint)ConversionToolsWindow.AppWindow.Id.Value, out RECT parentRect);
+            int childX = parentRect.left + (parentRect.right - parentRect.left - width) / 2;
+            int childY = parentRect.top + (parentRect.bottom - parentRect.top - height) / 2;
+            User32Library.SetWindowPos((nint)AppWindow.Id.Value, 0, childX, childY, width, height, SetWindowPosFlags.SWP_NOREPOSITION | SetWindowPosFlags.SWP_NOZORDER);
+            contentIsland = ContentIsland.FindAllForCompositor(Compositor)[0];
+            inputKeyboardSource = InputKeyboardSource.GetForIsland(contentIsland);
+            inputPointerSource = InputPointerSource.GetForIsland(contentIsland);
+            SelectedItem = TextToAudioOutputConfigurationSelectorBar.Items[0];
+
+            // 挂载相应的事件
+            ThemeService.PropertyChanged += OnServicePropertyChanged;
+            BackdropService.PropertyChanged += OnServicePropertyChanged;
+            inputKeyboardSource.SystemKeyDown += OnSystemKeyDown;
+            inputPointerSource.PointerReleased += OnPointerReleased;
+
+            // 标题栏和右键菜单设置
+            SetClassicMenuTheme((Content as FrameworkElement).ActualTheme);
+
+            // 为窗口添加窗口过程
+            textToAudioOutputConfigurationWindowSubClassProc = new SUBCLASSPROC(TextToAudioOutputConfigurationWindowSubClassProc);
+            Comctl32Library.SetWindowSubclass((nint)AppWindow.Id.Value, textToAudioOutputConfigurationWindowSubClassProc, 0, 0);
+
+            SetWindowTheme();
+            SetSystemBackdrop();
         }
 
         /// <summary>
@@ -626,26 +751,6 @@ namespace ModernFormatConverter.Views.Windows
             return await taskCompletionSource.Task;
         }
 
-        /// <summary>
-        /// 关闭窗口
-        /// </summary>
-        public void CloseWindow(ContentDialogResult contentDialogResult)
-        {
-            if (!taskCompletionSource.Task.IsCompleted)
-            {
-                taskCompletionSource.TrySetResult(contentDialogResult);
-            }
-            Close();
-        }
-
-        /// <summary>
-        /// 获取当前导航到的页
-        /// </summary>
-        private Type GetCurrentPageType()
-        {
-            return ConversionToolsFrame.CurrentSourcePageType;
-        }
-
         private uint HIWORD(uint dword)
         {
             return (dword >> 16) & 0xffff;
@@ -654,6 +759,11 @@ namespace ModernFormatConverter.Views.Windows
         private uint LOWORD(uint dword)
         {
             return dword & 0xffff;
+        }
+
+        private Visibility GetSelectedVideoExportPictureKind(object selectedVideoExportPictureKind, object videoExportPictureKind)
+        {
+            return Equals(selectedVideoExportPictureKind, videoExportPictureKind) ? Visibility.Visible : Visibility.Collapsed;
         }
     }
 }

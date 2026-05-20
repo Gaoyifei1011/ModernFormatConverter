@@ -500,153 +500,194 @@
 
                 <Grid Grid.Row="1" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsGettingFileInformation), Mode=OneWay}">
 
-                    <!--  文本转语音控件  -->
-                    <Grid
-                        Margin="32,0,28,0"
-                        RowSpacing="5"
-                        Visibility="{x:Bind converter:ValueCheckConverterHelper.GetAudioConversionType(SelectedConversionType.AudioConversionTypeKind, enum:AudioConversionTypeKind.TextToAudio, x:False), Mode=OneWay}">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
+                    <Grid Visibility="{x:Bind converter:ValueCheckConverterHelper.GetAudioConversionType(SelectedConversionType.AudioConversionTypeKind, enum:AudioConversionTypeKind.TextToAudio, x:False), Mode=OneWay}">
 
-                        <SelectorBar
-                            x:Name="TextToAudioSelectorBar"
-                            Grid.Row="0"
-                            HorizontalAlignment="Center"
-                            SelectedItem="{x:Bind TextToAudioSelectedItem, Mode=OneWay}"
-                            SelectionChanged="{x:Bind OnTextToAudioSelectorBarSelectionChanged}">
-
-                            <SelectorBarItem Padding="12,5" Text="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('InputText')}">
-                                <SelectorBarItem.Icon>
-                                    <FontIcon Glyph="&#xE8D2;" />
-                                </SelectorBarItem.Icon>
-                            </SelectorBarItem>
-
-                            <SelectorBarItem Padding="12,5" Text="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('SelectFile')}">
-                                <SelectorBarItem.Icon>
-                                    <FontIcon Glyph="&#xE8A5;" />
-                                </SelectorBarItem.Icon>
-                            </SelectorBarItem>
-                        </SelectorBar>
-
-                        <!--  输入文本  -->
-                        <TextBox
-                            Grid.Row="1"
-                            Text="{x:Bind SelectedConversionType.TextToAudio.InputText, Mode=OneWay}"
-                            TextChanged="{x:Bind OnConvertInputTextChanged}"
-                            TextWrapping="Wrap"
-                            Visibility="{x:Bind GetSelectedTextToAudioType(SelectedConversionType.TextToAudio.TextToAudioType, enum:TextToAudioType.Text), Mode=OneWay}" />
-
-                        <!--  字符数  -->
-                        <TextBlock
-                            Grid.Row="2"
-                            Margin="0,0,0,5"
-                            Visibility="{x:Bind GetSelectedTextToAudioType(SelectedConversionType.TextToAudio.TextToAudioType, enum:TextToAudioType.Text), Mode=OneWay}">
-
-                            <Run Text="{x:Bind system:Convert.ToString(SelectedConversionType.TextToAudio.InputText.Length), Mode=OneWay}" />
-                            <Run Text="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('CharacterNumber')}" />
-                        </TextBlock>
-
-                        <!--  选择文件  -->
+                        <!--  文本转语音控件  -->
                         <Grid
-                            Grid.Row="1"
-                            Grid.RowSpan="2"
-                            Visibility="{x:Bind GetSelectedTextToAudioType(SelectedConversionType.TextToAudio.TextToAudioType, enum:TextToAudioType.File), Mode=OneWay}">
+                            Margin="32,0,24,0"
+                            RowSpacing="5"
+                            Visibility="{x:Bind IsVoiceExisted, Mode=OneWay}">
 
-                            <!--  文本文件添加信息提示按钮  -->
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <SelectorBar
+                                x:Name="TextToAudioSelectorBar"
+                                Grid.Row="0"
+                                HorizontalAlignment="Center"
+                                SelectedItem="{x:Bind TextToAudioSelectedItem, Mode=OneWay}"
+                                SelectionChanged="{x:Bind OnTextToAudioSelectorBarSelectionChanged}">
+
+                                <SelectorBarItem Padding="12,5" Text="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('InputText')}">
+                                    <SelectorBarItem.Icon>
+                                        <FontIcon Glyph="&#xE8D2;" />
+                                    </SelectorBarItem.Icon>
+                                </SelectorBarItem>
+
+                                <SelectorBarItem Padding="12,5" Text="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('SelectFile')}">
+                                    <SelectorBarItem.Icon>
+                                        <FontIcon Glyph="&#xE8A5;" />
+                                    </SelectorBarItem.Icon>
+                                </SelectorBarItem>
+                            </SelectorBar>
+
+                            <!--  输入文本  -->
+                            <TextBox
+                                Grid.Row="1"
+                                Text="{x:Bind SelectedConversionType.TextToAudio.InputText, Mode=OneWay}"
+                                TextChanged="{x:Bind OnConvertInputTextChanged}"
+                                TextWrapping="Wrap"
+                                Visibility="{x:Bind GetSelectedTextToAudioType(SelectedConversionType.TextToAudio.TextToAudioType, enum:TextToAudioType.Text), Mode=OneWay}" />
+
+                            <!--  字符数  -->
+                            <TextBlock
+                                Grid.Row="2"
+                                Margin="0,0,0,5"
+                                Visibility="{x:Bind GetSelectedTextToAudioType(SelectedConversionType.TextToAudio.TextToAudioType, enum:TextToAudioType.Text), Mode=OneWay}">
+
+                                <Run Text="{x:Bind system:Convert.ToString(SelectedConversionType.TextToAudio.InputText.Length), Mode=OneWay}" />
+                                <Run Text="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('CharacterNumber')}" />
+                            </TextBlock>
+
+                            <!--  选择文件  -->
                             <Grid
                                 Grid.Row="1"
-                                Height="100"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Top"
-                                AllowDrop="{x:Bind x:Object.Equals(SelectedConversionType.AudioConversionTypeKind, enum:AudioConversionTypeKind.TextToAudio), Mode=OneWay}"
-                                CornerRadius="{StaticResource ControlCornerRadius}"
-                                DragEnter="{x:Bind OnTextFileDragEnter}"
-                                Drop="{x:Bind OnTextFileDrop}"
-                                Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(SelectedConversionType.TextToAudio.IsTextFileSelected), Mode=OneWay}">
+                                Grid.RowSpan="2"
+                                Visibility="{x:Bind GetSelectedTextToAudioType(SelectedConversionType.TextToAudio.TextToAudioType, enum:TextToAudioType.File), Mode=OneWay}">
 
-                                <Grid Canvas.ZIndex="1">
+                                <!--  文本文件添加信息提示按钮  -->
+                                <Grid
+                                    Grid.Row="1"
+                                    Height="100"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Top"
+                                    AllowDrop="{x:Bind x:Object.Equals(SelectedConversionType.AudioConversionTypeKind, enum:AudioConversionTypeKind.TextToAudio), Mode=OneWay}"
+                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                    DragEnter="{x:Bind OnTextFileDragEnter}"
+                                    Drop="{x:Bind OnTextFileDrop}"
+                                    Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(SelectedConversionType.TextToAudio.IsTextFileSelected), Mode=OneWay}">
 
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
+                                    <Grid Canvas.ZIndex="1">
 
-                                    <TextBlock
-                                        Grid.Row="0"
-                                        Margin="0,0,0,10"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Bottom"
-                                        Text="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('DragAddTextFileTip')}" />
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Margin="0,0,0,10"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Bottom"
+                                            Text="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('DragAddTextFileTip')}" />
+
+                                        <Button
+                                            Grid.Row="1"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Top"
+                                            Click="{x:Bind OnAddTextFileClicked}"
+                                            Content="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('AddTextFile')}" />
+                                    </Grid>
+
+                                    <Rectangle
+                                        Canvas.ZIndex="0"
+                                        Fill="Transparent"
+                                        RadiusX="4"
+                                        RadiusY="4"
+                                        Stroke="{ThemeResource TextFillColorSecondaryBrush}"
+                                        StrokeDashArray="5,2"
+                                        StrokeThickness="1" />
+                                </Grid>
+
+                                <!--  文本文件信息控件  -->
+                                <Grid
+                                    Grid.Row="1"
+                                    Height="100"
+                                    Margin="0,0,0,5"
+                                    VerticalAlignment="Top"
+                                    AllowDrop="{x:Bind x:Object.Equals(SelectedConversionType.AudioConversionTypeKind, enum:AudioConversionTypeKind.TextToAudio), Mode=OneWay}"
+                                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                    DragEnter="{x:Bind OnTextFileDragEnter}"
+                                    Drop="{x:Bind OnTextFileDrop}"
+                                    Visibility="{x:Bind SelectedConversionType.TextToAudio.IsTextFileSelected, Mode=OneWay}">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="120" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid
+                                        Grid.Column="0"
+                                        Width="120"
+                                        Background="{ThemeResource SolidBackgroundFillColorBaseAltBrush}"
+                                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                        BorderThickness="0,0,1,0">
+
+                                        <Image Grid.Column="0" Source="{x:Bind SelectedConversionType.TextToAudio.FileThumbnailSource, Mode=OneWay}" />
+                                    </Grid>
+
+                                    <Grid
+                                        Grid.Column="1"
+                                        Margin="16,0,0,0"
+                                        VerticalAlignment="Center"
+                                        RowSpacing="5">
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Style="{StaticResource BodyStrongTextBlockStyle}"
+                                            Text="{x:Bind SelectedConversionType.TextToAudio.FileName, Mode=OneWay}"
+                                            TextLineBounds="TrimToCapHeight"
+                                            TextWrapping="NoWrap">
+
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip
+                                                    MaxWidth="9999"
+                                                    Padding="0"
+                                                    Background="Transparent">
+
+                                                    <Grid>
+                                                        <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                        <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind SelectedConversionType.TextToAudio.FilePath, Mode=OneWay}" />
+                                                    </Grid>
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </TextBlock>
+
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            TextTrimming="CharacterEllipsis">
+
+                                            <Run Text="{x:Bind SelectedConversionType.TextToAudio.FileSize, Mode=OneWay}" />
+                                            <Run Text=" | " />
+                                            <Run Text="{x:Bind SelectedConversionType.TextToAudio.FileCharacterSize, Mode=OneWay}" />
+                                            <Run Text="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('CharacterNumber')}" />
+                                        </TextBlock>
+                                    </Grid>
 
                                     <Button
-                                        Grid.Row="1"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Top"
-                                        Click="{x:Bind OnAddTextFileClicked}"
-                                        Content="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('AddTextFile')}" />
-                                </Grid>
+                                        Grid.Column="2"
+                                        Width="32"
+                                        Height="32"
+                                        Margin="5,0,20,0"
+                                        Padding="0"
+                                        Click="{x:Bind OnRemoveTextFileClicked}"
+                                        CornerRadius="{StaticResource ControlCornerRadius}">
 
-                                <Rectangle
-                                    Canvas.ZIndex="0"
-                                    Fill="Transparent"
-                                    RadiusX="4"
-                                    RadiusY="4"
-                                    Stroke="{ThemeResource TextFillColorSecondaryBrush}"
-                                    StrokeDashArray="5,2"
-                                    StrokeThickness="1" />
-                            </Grid>
-
-                            <!--  文本文件信息控件  -->
-                            <Grid
-                                Grid.Row="1"
-                                Height="100"
-                                Margin="0,0,0,5"
-                                VerticalAlignment="Top"
-                                AllowDrop="{x:Bind x:Object.Equals(SelectedConversionType.AudioConversionTypeKind, enum:AudioConversionTypeKind.TextToAudio), Mode=OneWay}"
-                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                BorderThickness="1"
-                                CornerRadius="{StaticResource ControlCornerRadius}"
-                                DragEnter="{x:Bind OnTextFileDragEnter}"
-                                Drop="{x:Bind OnTextFileDrop}"
-                                Visibility="{x:Bind SelectedConversionType.TextToAudio.IsTextFileSelected, Mode=OneWay}">
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="120" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-
-                                <Grid
-                                    Grid.Column="0"
-                                    Width="120"
-                                    Background="{ThemeResource SolidBackgroundFillColorBaseAltBrush}"
-                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                    BorderThickness="0,0,1,0">
-
-                                    <Image Grid.Column="0" Source="{x:Bind SelectedConversionType.TextToAudio.FileThumbnailSource, Mode=OneWay}" />
-                                </Grid>
-
-                                <Grid
-                                    Grid.Column="1"
-                                    Margin="16,0,0,0"
-                                    VerticalAlignment="Center"
-                                    RowSpacing="5">
-
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-
-                                    <TextBlock
-                                        Grid.Row="0"
-                                        Style="{StaticResource BodyStrongTextBlockStyle}"
-                                        Text="{x:Bind SelectedConversionType.TextToAudio.FileName, Mode=OneWay}"
-                                        TextLineBounds="TrimToCapHeight"
-                                        TextWrapping="NoWrap">
+                                        <FontIcon FontSize="16" Glyph="&#xE894;" />
 
                                         <ToolTipService.ToolTip>
                                             <ToolTip
@@ -656,49 +697,12 @@
 
                                                 <Grid>
                                                     <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                    <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind SelectedConversionType.TextToAudio.FilePath, Mode=OneWay}" />
+                                                    <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.VideoConversionResource.GetString('Remove')}" />
                                                 </Grid>
                                             </ToolTip>
                                         </ToolTipService.ToolTip>
-                                    </TextBlock>
-
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                        TextTrimming="CharacterEllipsis">
-
-                                        <Run Text="{x:Bind SelectedConversionType.TextToAudio.FileSize, Mode=OneWay}" />
-                                        <Run Text=" | " />
-                                        <Run Text="{x:Bind SelectedConversionType.TextToAudio.FileCharacterSize, Mode=OneWay}" />
-                                        <Run Text="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('CharacterNumber')}" />
-                                    </TextBlock>
+                                    </Button>
                                 </Grid>
-
-                                <Button
-                                    Grid.Column="2"
-                                    Width="32"
-                                    Height="32"
-                                    Margin="5,0,20,0"
-                                    Padding="0"
-                                    Click="{x:Bind OnRemoveTextFileClicked}"
-                                    CornerRadius="{StaticResource ControlCornerRadius}">
-
-                                    <FontIcon FontSize="16" Glyph="&#xE894;" />
-
-                                    <ToolTipService.ToolTip>
-                                        <ToolTip
-                                            MaxWidth="9999"
-                                            Padding="0"
-                                            Background="Transparent">
-
-                                            <Grid>
-                                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.VideoConversionResource.GetString('Remove')}" />
-                                            </Grid>
-                                        </ToolTip>
-                                    </ToolTipService.ToolTip>
-                                </Button>
                             </Grid>
                         </Grid>
                     </Grid>
@@ -1170,12 +1174,12 @@
                         CornerRadius="{StaticResource ControlCornerRadius}"
                         IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsGettingFileInformation), Mode=OneWay}">
 
-                        <AnimatedIcon x:Name="SearchAnimatedIcon">
+                        <AnimatedIcon>
                             <AnimatedIcon.Source>
                                 <animatedvisuals:AnimatedSettingsVisualSource />
                             </AnimatedIcon.Source>
                             <AnimatedIcon.FallbackIconSource>
-                                <SymbolIconSource Symbol="Find" />
+                                <FontIconSource Glyph="&#xE713;" />
                             </AnimatedIcon.FallbackIconSource>
                         </AnimatedIcon>
 

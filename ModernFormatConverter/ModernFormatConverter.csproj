@@ -210,6 +210,9 @@
     <EmbeddedResource Include="Strings\TaskManager.en-us.restext" />
     <EmbeddedResource Include="Strings\TaskManager.restext" />
     <EmbeddedResource Include="Strings\TaskManager.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\TextToAudioOutputConfiguration.en-us.restext" />
+    <EmbeddedResource Include="Strings\TextToAudioOutputConfiguration.restext" />
+    <EmbeddedResource Include="Strings\TextToAudioOutputConfiguration.zh-hans.restext" />
     <EmbeddedResource Include="Strings\UpdateApp.en-us.restext" />
     <EmbeddedResource Include="Strings\UpdateApp.restext" />
     <EmbeddedResource Include="Strings\UpdateApp.zh-hans.restext" />
@@ -290,6 +293,7 @@
     <Page Include="Views\Windows\LicenseWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\MainWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\RestartAppsWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Windows\TextToAudioOutputConfigurationWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\UpdateAppWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\VideoConversionOutputConfigurationWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\VideoExportPictureOutputConfigurationWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
