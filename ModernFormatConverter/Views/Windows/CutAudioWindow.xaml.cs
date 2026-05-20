@@ -11,10 +11,12 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using ModernFormatConverter.Extensions.Backdrop;
 using ModernFormatConverter.Extensions.DataType.Enums;
+using ModernFormatConverter.Helpers.Root;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.Services.Settings;
 using ModernFormatConverter.WindowsAPI.PInvoke.Comctl32;
+using ModernFormatConverter.WindowsAPI.PInvoke.MediaInfo;
 using ModernFormatConverter.WindowsAPI.PInvoke.Shell32;
 using ModernFormatConverter.WindowsAPI.PInvoke.User32;
 using ModernFormatConverter.WindowsAPI.PInvoke.Uxtheme;
@@ -22,6 +24,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
@@ -134,6 +137,22 @@ namespace ModernFormatConverter.Views.Windows
                 {
                     _cutAudioResultKind = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CutAudioResultKind)));
+                }
+            }
+        }
+
+        private string _fileName;
+
+        public string FileName
+        {
+            get { return _fileName; }
+
+            set
+            {
+                if (!Equals(_fileName, value))
+                {
+                    _fileName = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FileName)));
                 }
             }
         }
@@ -330,11 +349,28 @@ namespace ModernFormatConverter.Views.Windows
             }
         }
 
+        private ImageSource _selectedAudioCoverImage;
+
+        public ImageSource SelectedAudioCoverImage
+        {
+            get { return _selectedAudioCoverImage; }
+
+            set
+            {
+                if (!Equals(_selectedAudioCoverImage, value))
+                {
+                    _selectedAudioCoverImage = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedAudioCoverImage)));
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public CutAudioWindow(ConversionToolsWindow conversionToolsWindow, CutAudioModel cutAudio, string selectedFilePath)
         {
             filePath = selectedFilePath;
+            FileName = Path.GetFileName(filePath);
             InitializeData(cutAudio);
             InitializeComponent();
             InitializeUI(conversionToolsWindow);
@@ -433,6 +469,7 @@ namespace ModernFormatConverter.Views.Windows
                 CutAudioResultKind = CutAudioResultKind.Loading;
                 CutAudioMediaPlayerElement.MediaPlayer.MediaOpened += OnMediaOpened;
                 CutAudioMediaPlayerElement.MediaPlayer.MediaFailed += OnMediaFailed;
+                GetCoverImage(filePath);
 
                 (bool isLoadedSccessfully, MediaSource mediaSource, Exception exception) = await Task.Run(async () =>
                 {
@@ -964,7 +1001,7 @@ namespace ModernFormatConverter.Views.Windows
             if (openFileDialog.ShowDialog() is System.Windows.Forms.DialogResult.OK && !string.IsNullOrEmpty(openFileDialog.FileName) && File.Exists(openFileDialog.FileName))
             {
                 AudioCoverFilePath = openFileDialog.FileName;
-                AudioCoverImage = new BitmapImage() { UriSource = new Uri(AudioCoverFilePath) };
+                SelectedAudioCoverImage = new BitmapImage() { UriSource = new Uri(AudioCoverFilePath) };
             }
             openFileDialog.Dispose();
         }
@@ -975,7 +1012,7 @@ namespace ModernFormatConverter.Views.Windows
         private void OnClearSelectFileClicked(object sender, RoutedEventArgs args)
         {
             AudioCoverFilePath = string.Empty;
-            AudioCoverImage = null;
+            SelectedAudioCoverImage = null;
         }
 
         /// <summary>
@@ -1360,7 +1397,7 @@ namespace ModernFormatConverter.Views.Windows
             if (File.Exists(cutAudio.AudioCoverFilePath))
             {
                 AudioCoverFilePath = cutAudio.AudioCoverFilePath;
-                AudioCoverImage = new BitmapImage() { UriSource = new Uri(cutAudio.AudioCoverFilePath) };
+                SelectedAudioCoverImage = new BitmapImage() { UriSource = new Uri(cutAudio.AudioCoverFilePath) };
             }
         }
 
@@ -1425,6 +1462,68 @@ namespace ModernFormatConverter.Views.Windows
             taskCompletionSource = new();
             AppWindow.Show();
             return await taskCompletionSource.Task;
+        }
+
+        /// <summary>
+        /// 获取文件缩略图
+        /// </summary>
+        private void GetCoverImage(string filePath)
+        {
+            Task.Run(async () =>
+            {
+                try
+                {
+                    if (MediaInfoLibrary.MediaInfo_New() is nint handle && handle is not 0 && MediaInfoLibrary.MediaInfo_Open(handle, filePath) is not 0)
+                    {
+                        string cover = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Cover", InfoKind.Text, InfoKind.Name));
+                        if (string.Equals(cover, "Yes", StringComparison.OrdinalIgnoreCase))
+                        {
+                            string coverMine = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.General, 0, "Cover_Mime", InfoKind.Text, InfoKind.Name));
+                            string tempFilePath = Path.Combine(Path.GetTempPath(), string.Format("{0}.{1}", Path.GetRandomFileName(), coverMine.Replace("image/", string.Empty)));
+                            string arguments = string.Format("-i \"{0}\" -an -vcodec copy \"{1}\"", filePath, tempFilePath);
+
+                            Process process = new()
+                            {
+                                StartInfo = new()
+                                {
+                                    FileName = Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory), "ffmpeg.exe"),
+                                    Arguments = arguments,
+                                    CreateNoWindow = true,
+                                    WindowStyle = ProcessWindowStyle.Hidden,
+                                    UseShellExecute = false
+                                }
+                            };
+                            process.Start();
+                            process.WaitForExit();
+
+                            if (process.ExitCode is 0 && File.Exists(tempFilePath))
+                            {
+                                byte[] tempFileByteArray = File.ReadAllBytes(tempFilePath);
+                                File.Delete(tempFilePath);
+                                InMemoryRandomAccessStream inMemoryRandomAccessStream = new();
+                                await inMemoryRandomAccessStream.WriteAsync(tempFileByteArray.AsBuffer());
+                                inMemoryRandomAccessStream.Seek(0);
+
+                                synchronizationContext.Post((_) =>
+                                {
+                                    if (inMemoryRandomAccessStream is not null)
+                                    {
+                                        BitmapImage bitmapImage = new();
+                                        bitmapImage.SetSource(inMemoryRandomAccessStream);
+                                        AudioCoverImage = bitmapImage;
+                                        SelectedAudioCoverImage = bitmapImage;
+                                        inMemoryRandomAccessStream.Dispose();
+                                    }
+                                }, null);
+                            }
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutVideoWindow), nameof(OnMediaOpened), 1, e);
+                }
+            });
         }
 
         private uint HIWORD(uint dword)
