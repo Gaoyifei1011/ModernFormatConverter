@@ -23,6 +23,8 @@ namespace ModernFormatConverter.Models
         /// </summary>
         public AudioConversionTypeKind AudioConversionTypeKind { get; set; }
 
+        public TextToAudioModel TextToAudio { get; set; }
+
         /// <summary>
         /// 音频转换文件配置列表
         /// </summary>

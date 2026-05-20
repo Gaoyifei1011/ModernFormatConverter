@@ -39,8 +39,10 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string AudioFormatConversionString = ResourceService.AudioConversionResource.GetString("AudioFormatConversion");
         private readonly string DragOverContentString = ResourceService.AudioConversionResource.GetString("DragOverContent");
         private readonly string NoFolderString = ResourceService.AudioConversionResource.GetString("NoFolder");
+        private readonly string NoMultiFileString = ResourceService.AudioConversionResource.GetString("NoMultiFile");
         private readonly string SelectFileString = ResourceService.AudioConversionResource.GetString("SelectFile");
         private readonly string SelectFolderString = ResourceService.AudioConversionResource.GetString("SelectFolder");
+        private readonly string TextFileDragOverContentString = ResourceService.AudioConversionResource.GetString("TextFileDragOverContent");
         private readonly string TextToAudioString = ResourceService.AudioConversionResource.GetString("TextToAudio");
 
         private AudioConversionTypeModel _selectedConversionType;
@@ -123,6 +125,22 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
+        private SelectorBarItem _textToAudioSelectedItem;
+
+        public SelectorBarItem TextToAudioSelectedItem
+        {
+            get { return _textToAudioSelectedItem; }
+
+            set
+            {
+                if (!Equals(_textToAudioSelectedItem, value))
+                {
+                    _textToAudioSelectedItem = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TextToAudioSelectedItem)));
+                }
+            }
+        }
+
         public List<string> SortRuleList { get; } = ["NotSort", "SortByFileName", "SortByFileSize", "SortByDuration"];
 
         public WinRTObservableCollection<AudioConversionTypeModel> AudioConversionTypeCollection { get; } = [];
@@ -148,12 +166,23 @@ namespace ModernFormatConverter.Views.Pages
             {
                 AudioConversionType = TextToAudioString,
                 AudioConversionIcon = "\uE720",
-                AudioConversionTypeKind = AudioConversionTypeKind.TextToAudio
+                AudioConversionTypeKind = AudioConversionTypeKind.TextToAudio,
+                TextToAudio = new()
+                {
+                    TextToAudioType = TextToAudioType.Text,
+                    FileThumbnailSource = null,
+                    InputText = string.Empty,
+                    FileName = string.Empty,
+                    FilePath = string.Empty,
+                    FileSize = string.Empty,
+                    FileCharacterSize = string.Empty,
+                }
             });
             SelectedConversionType = AudioConversionTypeCollection[0];
             SelectedSortRule = SortRuleList[0];
             SortWay = true;
             OutputFolder = ConvertConfigurationService.ConvertedAudioSavePath;
+            TextToAudioSelectedItem = TextToAudioSelectorBar.Items[0];
         }
 
         #region 第一部分：ExecuteCommand 命令调用时挂载的事件
@@ -194,11 +223,6 @@ namespace ModernFormatConverter.Views.Pages
                         audioConversionFile.AudioConversionOutputConfiguration.DeNoise = audioConversionOutputConfigurationWindow.DeNoise;
                         audioConversionFile.AudioConversionOutputConfiguration.Reverse = audioConversionOutputConfigurationWindow.Reverse;
                     }
-                }
-                // 文本转音频输出配置
-                else if (Equals(SelectedConversionType, AudioConversionTypeCollection[2]))
-                {
-                    // TODO：未完成
                 }
             }
         }
@@ -256,6 +280,57 @@ namespace ModernFormatConverter.Views.Pages
             catch (Exception e)
             {
                 LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(AudioConversionPage), nameof(OnAudioConversionDragEnter), 1, e);
+            }
+            finally
+            {
+                args.Handled = true;
+                dragOperationDeferral.Complete();
+            }
+        }
+
+        /// <summary>
+        /// 设置拖动的文本文件的可视表示形式
+        /// </summary>
+        private async void OnTextFileDragEnter(object sender, Microsoft.UI.Xaml.DragEventArgs args)
+        {
+            DragOperationDeferral dragOperationDeferral = args.GetDeferral();
+
+            try
+            {
+                IReadOnlyList<IStorageItem> dragItemsList = await args.DataView.GetStorageItemsAsync();
+                bool containsFolder = dragItemsList.Any(item => item.IsOfType(StorageItemTypes.Folder));
+
+                if (containsFolder)
+                {
+                    args.AcceptedOperation = DataPackageOperation.None;
+                    args.DragUIOverride.IsCaptionVisible = true;
+                    args.DragUIOverride.IsContentVisible = false;
+                    args.DragUIOverride.IsGlyphVisible = true;
+                    args.DragUIOverride.Caption = NoFolderString;
+                }
+                else
+                {
+                    if (dragItemsList.Count is 1)
+                    {
+                        args.AcceptedOperation = DataPackageOperation.Copy;
+                        args.DragUIOverride.IsCaptionVisible = true;
+                        args.DragUIOverride.IsContentVisible = false;
+                        args.DragUIOverride.IsGlyphVisible = true;
+                        args.DragUIOverride.Caption = TextFileDragOverContentString;
+                    }
+                    else
+                    {
+                        args.AcceptedOperation = DataPackageOperation.None;
+                        args.DragUIOverride.IsCaptionVisible = true;
+                        args.DragUIOverride.IsContentVisible = false;
+                        args.DragUIOverride.IsGlyphVisible = true;
+                        args.DragUIOverride.Caption = NoMultiFileString;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(AudioConversionPage), nameof(OnTextFileDragEnter), 1, e);
             }
             finally
             {
@@ -336,6 +411,67 @@ namespace ModernFormatConverter.Views.Pages
         }
 
         /// <summary>
+        /// 拖动文件完成后获取文本文件信息
+        /// </summary>
+        private async void OnTextFileDrop(object sender, Microsoft.UI.Xaml.DragEventArgs args)
+        {
+            DragOperationDeferral dragOperationDeferral = args.GetDeferral();
+            string filePath = string.Empty;
+
+            try
+            {
+                DataPackageView dataPackageView = args.DataView;
+                IReadOnlyList<IStorageItem> filesList = await Task.Run(async () =>
+                {
+                    try
+                    {
+                        if (dataPackageView.Contains(StandardDataFormats.StorageItems))
+                        {
+                            return await dataPackageView.GetStorageItemsAsync();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(FileInformationPage), nameof(OnTextFileDrop), 1, e);
+                    }
+
+                    return null;
+                });
+
+                if (filesList is not null && filesList.Count is 1)
+                {
+                    filePath = filesList[0].Path;
+                }
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(AudioConversionPage), nameof(OnTextFileDrop), 2, e);
+            }
+            finally
+            {
+                dragOperationDeferral.Complete();
+            }
+
+            if (File.Exists(filePath))
+            {
+                IsGettingFileInformation = true;
+                if (await Task.Run(() => { return GetFileInformation(filePath); }) is TextToAudioModel textToAudio && SelectedConversionType.TextToAudio is not null && textToAudio.TextToAudioType is TextToAudioType.File)
+                {
+                    SelectedConversionType.TextToAudio.FileName = textToAudio.FileName;
+                    SelectedConversionType.TextToAudio.FilePath = textToAudio.FilePath;
+                    SelectedConversionType.TextToAudio.FileCharacterSize = textToAudio.FileCharacterSize;
+                    SelectedConversionType.TextToAudio.FileSize = textToAudio.FileSize;
+                    SelectedConversionType.TextToAudio.IsTextFileSelected = true;
+                }
+                if (Equals(SelectedConversionType.AudioConversionTypeKind, AudioConversionTypeKind.TextToAudio) && SelectedConversionType.TextToAudio.FileThumbnailSource is null)
+                {
+                    SelectedConversionType.TextToAudio.FileThumbnailSource = GetThumbnail(filePath);
+                }
+                IsGettingFileInformation = false;
+            }
+        }
+
+        /// <summary>
         /// 音频转换列表选中项发生变化时触发的事件
         /// </summary>
         private async void OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -406,7 +542,19 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnClearClicked(object sender, RoutedEventArgs args)
         {
-            SelectedConversionType.AudioConversionFileCollection.Clear();
+            if (SelectedConversionType.AudioConversionTypeKind is AudioConversionTypeKind.TextToAudio && SelectedConversionType.TextToAudio is not null)
+            {
+                SelectedConversionType.TextToAudio.FileThumbnailSource = null;
+                SelectedConversionType.TextToAudio.IsTextFileSelected = false;
+                SelectedConversionType.TextToAudio.FileName = string.Empty;
+                SelectedConversionType.TextToAudio.FilePath = string.Empty;
+                SelectedConversionType.TextToAudio.FileSize = string.Empty;
+                SelectedConversionType.TextToAudio.FileCharacterSize = string.Empty;
+            }
+            else
+            {
+                SelectedConversionType.AudioConversionFileCollection.Clear();
+            }
         }
 
         /// <summary>
@@ -598,6 +746,75 @@ namespace ModernFormatConverter.Views.Pages
             ConversionToolsWindow.Current.Close();
         }
 
+        /// <summary>
+        /// 文本转语音选中项发生变化时触发的事件
+        /// </summary>
+        private void OnTextToAudioSelectorBarSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
+        {
+            if (!Equals(sender.SelectedItem, TextToAudioSelectedItem) && SelectedConversionType.TextToAudio is TextToAudioModel textToAudio)
+            {
+                TextToAudioSelectedItem = sender.SelectedItem;
+                textToAudio.TextToAudioType = (TextToAudioType)TextToAudioSelectorBar.Items.IndexOf(TextToAudioSelectedItem);
+            }
+        }
+
+        /// <summary>
+        /// 添加文本文件
+        /// </summary>
+        private async void OnAddTextFileClicked(object sender, RoutedEventArgs args)
+        {
+            OpenFileDialog openFileDialog = new()
+            {
+                Multiselect = false,
+                Title = SelectFileString
+            };
+            if (openFileDialog.ShowDialog() is DialogResult.OK)
+            {
+                IsGettingFileInformation = true;
+                if (await Task.Run(() => { return GetFileInformation(openFileDialog.FileName); }) is TextToAudioModel textToAudio && SelectedConversionType.TextToAudio is not null && textToAudio.TextToAudioType is TextToAudioType.File)
+                {
+                    SelectedConversionType.TextToAudio.FileName = textToAudio.FileName;
+                    SelectedConversionType.TextToAudio.FilePath = textToAudio.FilePath;
+                    SelectedConversionType.TextToAudio.FileCharacterSize = textToAudio.FileCharacterSize;
+                    SelectedConversionType.TextToAudio.FileSize = textToAudio.FileSize;
+                    SelectedConversionType.TextToAudio.IsTextFileSelected = true;
+                }
+                if (Equals(SelectedConversionType.AudioConversionTypeKind, AudioConversionTypeKind.TextToAudio) && SelectedConversionType.TextToAudio.FileThumbnailSource is null)
+                {
+                    SelectedConversionType.TextToAudio.FileThumbnailSource = GetThumbnail(openFileDialog.FileName);
+                }
+                IsGettingFileInformation = false;
+            }
+            openFileDialog.Dispose();
+        }
+
+        /// <summary>
+        /// 移除文本文件
+        /// </summary>
+        private void OnRemoveTextFileClicked(object sender, RoutedEventArgs args)
+        {
+            if (SelectedConversionType.TextToAudio is not null && SelectedConversionType.TextToAudio.TextToAudioType is TextToAudioType.File)
+            {
+                SelectedConversionType.TextToAudio.FileThumbnailSource = null;
+                SelectedConversionType.TextToAudio.IsTextFileSelected = false;
+                SelectedConversionType.TextToAudio.FileName = string.Empty;
+                SelectedConversionType.TextToAudio.FilePath = string.Empty;
+                SelectedConversionType.TextToAudio.FileSize = string.Empty;
+                SelectedConversionType.TextToAudio.FileCharacterSize = string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// 转换文本内容发生改变时触发的事件
+        /// </summary>
+        private void OnConvertInputTextChanged(object sender, TextChangedEventArgs args)
+        {
+            if (sender is Microsoft.UI.Xaml.Controls.TextBox textBox && SelectedConversionType.TextToAudio is TextToAudioModel textToAudio && textToAudio.TextToAudioType is TextToAudioType.Text)
+            {
+                textToAudio.InputText = textBox.Text;
+            }
+        }
+
         #endregion 第二部分：音频转换页面——挂载的事件
 
         /// <summary>
@@ -703,8 +920,16 @@ namespace ModernFormatConverter.Views.Pages
                     // 文本转语音
                     else if (Equals(SelectedConversionType, AudioConversionTypeCollection[2]))
                     {
-                        // TODO：未完成
-                        return null;
+                        TextToAudioModel textToAudio = new()
+                        {
+                            TextToAudioType = TextToAudioType.File,
+                            FileName = Path.GetFileName(filePath),
+                            FilePath = filePath
+                        };
+                        FileInfo fileInfo = new(filePath);
+                        textToAudio.FileSize = VolumeSizeHelper.ConvertVolumeSizeToString(fileInfo.Length); ;
+                        textToAudio.FileCharacterSize = Convert.ToString(File.ReadAllText(filePath).Length);
+                        return textToAudio;
                     }
                     else
                     {
@@ -768,6 +993,16 @@ namespace ModernFormatConverter.Views.Pages
             {
                 return null;
             }
+        }
+
+        private bool GetAllowDropAudioConversionFile(AudioConversionTypeKind audioConversionTypeKind)
+        {
+            return audioConversionTypeKind is not AudioConversionTypeKind.TextToAudio;
+        }
+
+        private Visibility GetSelectedTextToAudioType(TextToAudioType selectedTextToAudioType, TextToAudioType comparedSelectedTextToAudioType)
+        {
+            return Equals(selectedTextToAudioType, comparedSelectedTextToAudioType) ? Visibility.Visible : Visibility.Collapsed;
         }
     }
 }
