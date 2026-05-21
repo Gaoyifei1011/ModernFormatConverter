@@ -16,6 +16,7 @@
                         <ResourceDictionary Source="ms-appx:///Styles/AppBarButton.xaml" />
                         <ResourceDictionary Source="ms-appx:///Styles/ColorPicker.xaml" />
                         <ResourceDictionary Source="ms-appx:///Styles/ComboBox.xaml" />
+                        <ResourceDictionary Source="ms-appx:///Styles/ImageCropper.xaml" />
                         <ResourceDictionary Source="ms-appx:///Styles/MediaPlayerElement.xaml" />
                         <ResourceDictionary Source="ms-appx:///Styles/NavigationView.xaml" />
                         <ResourceDictionary Source="ms-appx:///Styles/NumberBox.xaml" />
