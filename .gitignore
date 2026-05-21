@@ -10,6 +10,16 @@
 *.userosscache
 *.sln.docstates
 
+# ffmpeg binary Files
+avcodec-*.dll
+avdevice-*.dll
+avfilter-*.dll
+avformat-*.dll
+avutil-*.dll
+ffmpeg.exe
+swresample-*.dll
+swscale-*.dll
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
