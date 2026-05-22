@@ -1165,31 +1165,31 @@
                         <FontIcon FontSize="14" Glyph="&#xE8CB;" />
 
                         <Button.Flyout>
-                            <MenuFlyout Placement="Bottom">
+                            <MenuFlyout Placement="Top">
                                 <RadioMenuFlyoutItem
                                     Click="{x:Bind OnSortRuleClicked}"
-                                    GroupName="SortRuleGroup"
+                                    GroupName="VideoSortRuleGroup"
                                     IsChecked="{x:Bind x:Object.Equals(SelectedSortRule, SortRuleList[0]), Mode=OneWay}"
                                     Tag="{x:Bind SortRuleList[0]}"
                                     Text="{x:Bind rootservice:ResourceService.VideoConversionResource.GetString('NotSort')}" />
 
                                 <RadioMenuFlyoutItem
                                     Click="{x:Bind OnSortRuleClicked}"
-                                    GroupName="SortRuleGroup"
+                                    GroupName="VideoSortRuleGroup"
                                     IsChecked="{x:Bind x:Object.Equals(SelectedSortRule, SortRuleList[1]), Mode=OneWay}"
                                     Tag="{x:Bind SortRuleList[1]}"
                                     Text="{x:Bind rootservice:ResourceService.VideoConversionResource.GetString('SortByFileName')}" />
 
                                 <RadioMenuFlyoutItem
                                     Click="{x:Bind OnSortRuleClicked}"
-                                    GroupName="SortRuleGroup"
+                                    GroupName="VideoSortRuleGroup"
                                     IsChecked="{x:Bind x:Object.Equals(SelectedSortRule, SortRuleList[2]), Mode=OneWay}"
                                     Tag="{x:Bind SortRuleList[2]}"
                                     Text="{x:Bind rootservice:ResourceService.VideoConversionResource.GetString('SortByFileSize')}" />
 
                                 <RadioMenuFlyoutItem
                                     Click="{x:Bind OnSortRuleClicked}"
-                                    GroupName="SortRuleGroup"
+                                    GroupName="VideoSortRuleGroup"
                                     IsChecked="{x:Bind x:Object.Equals(SelectedSortRule, SortRuleList[3]), Mode=OneWay}"
                                     Tag="{x:Bind SortRuleList[3]}"
                                     Text="{x:Bind rootservice:ResourceService.VideoConversionResource.GetString('SortByDuration')}" />
@@ -1198,7 +1198,7 @@
 
                                 <RadioMenuFlyoutItem
                                     Click="{x:Bind OnSortWayClicked}"
-                                    GroupName="SortWayGroup"
+                                    GroupName="VideoSortWayGroup"
                                     IsChecked="{x:Bind SortWay, Mode=OneWay}"
                                     Text="{x:Bind rootservice:ResourceService.VideoConversionResource.GetString('SortIncrease')}">
 
@@ -1209,7 +1209,7 @@
 
                                 <RadioMenuFlyoutItem
                                     Click="{x:Bind OnSortWayClicked}"
-                                    GroupName="SortWayGroup"
+                                    GroupName="VideoSortWayGroup"
                                     IsChecked="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(SortWay), Mode=OneWay}"
                                     Text="{x:Bind rootservice:ResourceService.VideoConversionResource.GetString('SortDecrease')}">
 
@@ -1272,7 +1272,7 @@
                         <FontIcon FontSize="14" Glyph="&#xE710;" />
 
                         <Button.Flyout>
-                            <MenuFlyout Placement="Bottom">
+                            <MenuFlyout Placement="Top">
                                 <MenuFlyoutItem
                                     Click="{x:Bind OnAddFileClicked}"
                                     Text="{x:Bind rootservice:ResourceService.VideoConversionResource.GetString('AddFile')}"
@@ -1417,7 +1417,7 @@
                         <FontIcon FontSize="14" Glyph="&#xE8B7;" />
 
                         <Button.Flyout>
-                            <MenuFlyout Placement="Bottom">
+                            <MenuFlyout Placement="Top">
                                 <MenuFlyoutItem
                                     Click="{x:Bind OnChangeOutputFolderClicked}"
                                     Tag="AppCache"
