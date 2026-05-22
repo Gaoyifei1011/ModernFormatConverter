@@ -13,7 +13,7 @@
 
         public const string ConvertedDocumentSavePathKey = "ConvertedDocumentSavePath";
 
-        public const string ConvertedPictureSavePathKey = "ConvertedPictureSavePath";
+        public const string ConvertedPhotoSavePathKey = "ConvertedPhotoSavePath";
 
         public const string ConvertedVideoSavePathKey = "ConvertedVideoSavePath";
 
