@@ -39,5 +39,7 @@ SortByFileName=File name
 SortByFileSize=File size
 SortDecrease=Decrease
 SortIncrease=Increase
+SystemSettings=System settings
+SystemVoiceEmpty=App did not detect any installed voice
 TextFileDragOverContent=Add to Text file
 TextToAudio=Text to audio

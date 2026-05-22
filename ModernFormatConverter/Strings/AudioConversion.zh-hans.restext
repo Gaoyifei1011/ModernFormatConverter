@@ -39,5 +39,7 @@ SortByFileName=文件名称
 SortByFileSize=文件大小
 SortDecrease=降序
 SortIncrease=升序
+SystemSettings=系统设置
+SystemVoiceEmpty=应用未检测到任何已安装的语音
 TextFileDragOverContent=添加到“文本文件”中
 TextToAudio=文本转语音

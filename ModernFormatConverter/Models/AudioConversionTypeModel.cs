@@ -23,6 +23,9 @@ namespace ModernFormatConverter.Models
         /// </summary>
         public AudioConversionTypeKind AudioConversionTypeKind { get; set; }
 
+        /// <summary>
+        /// 文本转语音数据模型（仅用于文本转语音页面）
+        /// </summary>
         public TextToAudioModel TextToAudio { get; set; }
 
         /// <summary>

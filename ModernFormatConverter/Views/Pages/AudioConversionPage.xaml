@@ -705,6 +705,39 @@
                                 </Grid>
                             </Grid>
                         </Grid>
+
+                        <Grid
+                            Padding="40"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Background="{ThemeResource LayerFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1"
+                            Canvas.ZIndex="2"
+                            ColumnSpacing="10"
+                            CornerRadius="{StaticResource OverlayCornerRadius}"
+                            Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsVoiceExisted), Mode=OneWay}">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock
+                                Grid.Column="0"
+                                Margin="0,0,0,10"
+                                VerticalAlignment="Center"
+                                FontSize="20"
+                                Text="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('SystemVoiceEmpty')}"
+                                TextAlignment="Center"
+                                TextWrapping="Wrap" />
+
+                            <Button
+                                Grid.Row="1"
+                                HorizontalAlignment="Center"
+                                Click="{x:Bind OnSystemSettingsClicked}"
+                                Content="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('SystemSettings')}" />
+                        </Grid>
                     </Grid>
 
                     <!--  非文本转语音控件  -->
@@ -1014,28 +1047,28 @@
                             <MenuFlyout Placement="Bottom">
                                 <RadioMenuFlyoutItem
                                     Click="{x:Bind OnSortRuleClicked}"
-                                    GroupName="SortRuleGroup"
+                                    GroupName="AudioSortRuleGroup"
                                     IsChecked="{x:Bind x:Object.Equals(SelectedSortRule, SortRuleList[0]), Mode=OneWay}"
                                     Tag="{x:Bind SortRuleList[0]}"
                                     Text="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('NotSort')}" />
 
                                 <RadioMenuFlyoutItem
                                     Click="{x:Bind OnSortRuleClicked}"
-                                    GroupName="SortRuleGroup"
+                                    GroupName="AudioSortRuleGroup"
                                     IsChecked="{x:Bind x:Object.Equals(SelectedSortRule, SortRuleList[1]), Mode=OneWay}"
                                     Tag="{x:Bind SortRuleList[1]}"
                                     Text="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('SortByFileName')}" />
 
                                 <RadioMenuFlyoutItem
                                     Click="{x:Bind OnSortRuleClicked}"
-                                    GroupName="SortRuleGroup"
+                                    GroupName="AudioSortRuleGroup"
                                     IsChecked="{x:Bind x:Object.Equals(SelectedSortRule, SortRuleList[2]), Mode=OneWay}"
                                     Tag="{x:Bind SortRuleList[2]}"
                                     Text="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('SortByFileSize')}" />
 
                                 <RadioMenuFlyoutItem
                                     Click="{x:Bind OnSortRuleClicked}"
-                                    GroupName="SortRuleGroup"
+                                    GroupName="AudioSortRuleGroup"
                                     IsChecked="{x:Bind x:Object.Equals(SelectedSortRule, SortRuleList[3]), Mode=OneWay}"
                                     Tag="{x:Bind SortRuleList[3]}"
                                     Text="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('SortByDuration')}" />
@@ -1044,7 +1077,7 @@
 
                                 <RadioMenuFlyoutItem
                                     Click="{x:Bind OnSortWayClicked}"
-                                    GroupName="SortWayGroup"
+                                    GroupName="AudioSortWayGroup"
                                     IsChecked="{x:Bind SortWay, Mode=OneWay}"
                                     Text="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('SortIncrease')}">
 
@@ -1055,7 +1088,7 @@
 
                                 <RadioMenuFlyoutItem
                                     Click="{x:Bind OnSortWayClicked}"
-                                    GroupName="SortWayGroup"
+                                    GroupName="AudioSortWayGroup"
                                     IsChecked="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(SortWay), Mode=OneWay}"
                                     Text="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('SortDecrease')}">
 

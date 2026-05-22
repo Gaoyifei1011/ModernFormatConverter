@@ -839,6 +839,24 @@ namespace ModernFormatConverter.Views.Pages
         }
 
         /// <summary>
+        /// 打开系统设置
+        /// </summary>
+        private void OnSystemSettingsClicked(object sender, RoutedEventArgs args)
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    Process.Start("ms-settings:speech");
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(AudioConversionPage), nameof(OnSystemSettingsClicked), 1, e);
+                }
+            });
+        }
+
+        /// <summary>
         /// 转换文本内容发生改变时触发的事件
         /// </summary>
         private void OnConvertInputTextChanged(object sender, TextChangedEventArgs args)
