@@ -462,6 +462,36 @@ namespace ModernFormatConverter.Views.Pages
         }
 
         /// <summary>
+        /// 打开输出配置
+        /// </summary>
+        private async void OnOutputConfigurationClicked(object sender, RoutedEventArgs args)
+        {
+            // 图片格式转换输出配置
+            if (Equals(SelectedConversionType, PhotoConversionTypeCollection[0]))
+            {
+                PhotoConversionOutputConfigurationWindow photoConversionOutputConfigurationWindow = new(ConversionToolsWindow.Current);
+                if (await photoConversionOutputConfigurationWindow.ShowAsync() is ContentDialogResult.Primary && SelectedConversionType.PhotoConversionTypeKind is PhotoConversionTypeKind.PhotoFormatConversion)
+                {
+                    foreach (PhotoConversionFileModel photoConversionFile in SelectedConversionType.PhotoConversionFileCollection)
+                    {
+                        if (photoConversionFile.PhotoConversionOutputConfiguration is not null)
+                        {
+                            photoConversionFile.PhotoConversionOutputConfiguration.FormatConversionType = Convert.ToString(photoConversionOutputConfigurationWindow.SelectedFormatConversionType.SelectedValue);
+                            photoConversionFile.PhotoConversionOutputConfiguration.ConstrastRatio = photoConversionOutputConfigurationWindow.ConstrastRatio;
+                            photoConversionFile.PhotoConversionOutputConfiguration.Exposure = photoConversionOutputConfigurationWindow.Exposure;
+                            photoConversionFile.PhotoConversionOutputConfiguration.Saturation = photoConversionOutputConfigurationWindow.Saturation;
+                            photoConversionFile.PhotoConversionOutputConfiguration.ColorTemperature = photoConversionOutputConfigurationWindow.ColorTemperature;
+                            photoConversionFile.PhotoConversionOutputConfiguration.Tone = photoConversionOutputConfigurationWindow.Tone;
+                            photoConversionFile.PhotoConversionOutputConfiguration.Blur = photoConversionOutputConfigurationWindow.Blur;
+                            photoConversionFile.PhotoConversionOutputConfiguration.GrayScale = photoConversionOutputConfigurationWindow.GrayScale;
+                            photoConversionFile.PhotoConversionOutputConfiguration.Reversal = photoConversionOutputConfigurationWindow.Reversal;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// 修改输出的文件夹
         /// </summary>
         private void OnChangeOutputFolderClicked(object sender, RoutedEventArgs args)

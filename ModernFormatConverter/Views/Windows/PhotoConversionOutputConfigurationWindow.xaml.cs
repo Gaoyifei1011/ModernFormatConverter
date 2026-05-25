@@ -7,9 +7,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Imaging;
 using ModernFormatConverter.Extensions.Backdrop;
-using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.Services.Settings;
@@ -107,50 +105,18 @@ namespace ModernFormatConverter.Views.Windows
             }
         }
 
-        private ImageSource _imageSource;
+        private bool _isGlobalSettings;
 
-        public ImageSource ImageSource
+        public bool IsGlobalSettings
         {
-            get { return _imageSource; }
+            get { return _isGlobalSettings; }
 
             set
             {
-                if (!Equals(_imageSource, value))
+                if (!Equals(_isGlobalSettings, value))
                 {
-                    _imageSource = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageSource)));
-                }
-            }
-        }
-
-        private string _errorReason;
-
-        public string ErrorReason
-        {
-            get { return _errorReason; }
-
-            set
-            {
-                if (!string.Equals(_errorReason, value))
-                {
-                    _errorReason = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ErrorReason)));
-                }
-            }
-        }
-
-        private CutPhotoResultKind _cutPhotoResultKind;
-
-        public CutPhotoResultKind CutPhotoResultKind
-        {
-            get { return _cutPhotoResultKind; }
-
-            set
-            {
-                if (!Equals(_cutPhotoResultKind, value))
-                {
-                    _cutPhotoResultKind = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CutPhotoResultKind)));
+                    _isGlobalSettings = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsGlobalSettings)));
                 }
             }
         }
@@ -542,7 +508,7 @@ namespace ModernFormatConverter.Views.Windows
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public PhotoConversionOutputConfigurationWindow(ConversionToolsWindow conversionToolsWindow, PhotoConversionFileModel photoConversionFile)
+        public PhotoConversionOutputConfigurationWindow(ConversionToolsWindow conversionToolsWindow, PhotoConversionFileModel photoConversionFile = null)
         {
             InitializeData(photoConversionFile);
             InitializeComponent();
@@ -636,7 +602,19 @@ namespace ModernFormatConverter.Views.Windows
             // 设置标题栏主题
             SetTitleBarTheme((Content as FrameworkElement).ActualTheme);
             SetPopupControlTheme(WindowTheme);
-            PhotoConversionOutputConfigurationImageCropper.AspectRatio = Convert.ToDouble(SelectedAspectRatio.SelectedValue);
+
+            if(!IsGlobalSettings)
+            {
+                PhotoConversionOutputConfigurationImageCropper.AspectRatio = Convert.ToDouble(SelectedAspectRatio.SelectedValue);
+            }
+        }
+
+        /// <summary>
+        /// 预览图片
+        /// </summary>
+        private void OnPreviewPhotoClicked(object sender, RoutedEventArgs args)
+        {
+            // TODO：未完成
         }
 
         /// <summary>
@@ -649,24 +627,6 @@ namespace ModernFormatConverter.Views.Windows
                 taskCompletionSource.TrySetResult(ContentDialogResult.Primary);
             }
             Close();
-        }
-
-        /// <summary>
-        /// 图片加载失败
-        /// </summary>
-        private void OnImageFailed(object sender, ExceptionRoutedEventArgs args)
-        {
-            CutPhotoResultKind = CutPhotoResultKind.Failed;
-            ErrorReason = args.ErrorMessage;
-        }
-
-        /// <summary>
-        /// 图片加载成功
-        /// </summary>
-        private void OnImageOpened(object sender, RoutedEventArgs args)
-        {
-            CutPhotoResultKind = CutPhotoResultKind.Successfully;
-            ErrorReason = string.Empty;
         }
 
         /// <summary>
@@ -715,7 +675,13 @@ namespace ModernFormatConverter.Views.Windows
         private async void OnCutImageClicked(object sender,RoutedEventArgs args)
         {
             IsCroppingImage = true;
-            if(PhotoConversionOutputConfigurationImageCropper.SourceImage is null)
+            double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
+            int width = Convert.ToInt32(1366 * dpi);
+            int height = Convert.ToInt32(768 * dpi);
+            overlappedPresenter.PreferredMinimumWidth = width;
+            overlappedPresenter.PreferredMinimumHeight = height;
+            User32Library.SetWindowPos((nint)AppWindow.Id.Value, 0, 0, 0, width, height, SetWindowPosFlags.SWP_NOREPOSITION | SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_NOMOVE);
+            if (PhotoConversionOutputConfigurationImageCropper.SourceImage is null)
             {
                 await PhotoConversionOutputConfigurationImageCropper.LoadImageFromFileAsync(await StorageFile.GetFileFromPathAsync(filePath));
             }
@@ -748,7 +714,7 @@ namespace ModernFormatConverter.Views.Windows
                 {
                         ImageWidth = newValue;
                         // 按纵横比调整图片高度
-                        if (LockRatio)
+                        if (LockRatio && aspectRatio is not 0)
                         {
                             ImageHeight = Convert.ToInt32(ImageWidth * aspectRatio);
                         }
@@ -780,7 +746,7 @@ namespace ModernFormatConverter.Views.Windows
                 {
                         ImageHeight = newValue;
                         // 按纵横比调整图片宽度
-                        if (LockRatio)
+                        if (LockRatio && aspectRatio is not 0)
                         {
                             ImageWidth = Convert.ToInt32(ImageHeight / aspectRatio);
                         }
@@ -1122,6 +1088,12 @@ namespace ModernFormatConverter.Views.Windows
         private void OnImageClipOkClicked(object sender, RoutedEventArgs args)
         {
             IsCroppingImage = false;
+            double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
+            int width = Convert.ToInt32(768 * dpi);
+            int height = Convert.ToInt32(560 * dpi);
+            overlappedPresenter.PreferredMinimumWidth = width;
+            overlappedPresenter.PreferredMinimumHeight = height;
+            User32Library.SetWindowPos((nint)AppWindow.Id.Value, 0, 0, 0, width, height, SetWindowPosFlags.SWP_NOREPOSITION | SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_NOMOVE);
             IsImageCropped = true;
             XCoordinate = Convert.ToInt32(PhotoConversionOutputConfigurationImageCropper.CroppedRect.X);
             YCoordinate = Convert.ToInt32(PhotoConversionOutputConfigurationImageCropper.CroppedRect.Y);
@@ -1135,6 +1107,12 @@ namespace ModernFormatConverter.Views.Windows
         private void OnImageClipCancelClicked(object sender, RoutedEventArgs args)
         {
             IsCroppingImage = false;
+            double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
+            int width = Convert.ToInt32(768 * dpi);
+            int height = Convert.ToInt32(560 * dpi);
+            overlappedPresenter.PreferredMinimumWidth = width;
+            overlappedPresenter.PreferredMinimumHeight = height;
+            User32Library.SetWindowPos((nint)AppWindow.Id.Value, 0, 0, 0, width, height, SetWindowPosFlags.SWP_NOREPOSITION | SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_NOMOVE);
         }
 
         #endregion 第四部分：内容挂载的事件
@@ -1397,8 +1375,24 @@ namespace ModernFormatConverter.Views.Windows
                 // 窗口 DPI 发生变化后触发的消息
                 case WindowMessage.WM_DPICHANGED:
                     {
-                        overlappedPresenter.PreferredMinimumWidth = Convert.ToInt32(1000 * Convert.ToDouble(wParam) / 96);
-                        overlappedPresenter.PreferredMinimumHeight = Convert.ToInt32(600 * Convert.ToDouble(wParam) / 96);
+                        if(IsCroppingImage)
+                        {
+                            double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
+                            int width = Convert.ToInt32(1366 * dpi);
+                            int height = Convert.ToInt32(768 * dpi);
+                            overlappedPresenter.PreferredMinimumWidth = width;
+                            overlappedPresenter.PreferredMinimumHeight = height;
+                            User32Library.SetWindowPos((nint)AppWindow.Id.Value, 0, 0, 0, width, height, SetWindowPosFlags.SWP_NOREPOSITION | SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_NOMOVE);
+                        }
+                        else
+                        {
+                            double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
+                            int width = Convert.ToInt32(768 * dpi);
+                            int height = Convert.ToInt32(560 * dpi);
+                            overlappedPresenter.PreferredMinimumWidth = width;
+                            overlappedPresenter.PreferredMinimumHeight = height;
+                            User32Library.SetWindowPos((nint)AppWindow.Id.Value, 0, 0, 0, width, height, SetWindowPosFlags.SWP_NOREPOSITION | SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_NOMOVE);
+                        }
                         break;
                     }
                 // 选择窗口右键菜单的条目时接收到的消息
@@ -1442,38 +1436,63 @@ namespace ModernFormatConverter.Views.Windows
         /// </summary>
         private void InitializeData(PhotoConversionFileModel photoConversionFile)
         {
-            filePath = photoConversionFile.FilePath;
-            CutPhotoResultKind = CutPhotoResultKind.Loading;
-            ImageSource = new BitmapImage() { UriSource = new Uri(filePath) };
-            aspectRatio = ImageHeight is not 0 ? (double)photoConversionFile.ImageWidth / photoConversionFile.ImageHeight : 1;
-            SelectedFormatConversionType = photoConversionFile.PhotoConversionOutputConfiguration is not null && FormatConversionTypeList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), photoConversionFile.PhotoConversionOutputConfiguration.FormatConversionType)) is ComboBoxItemModel selectedFormatConversionType ? selectedFormatConversionType : FormatConversionTypeList[0];
-            IsImageCropped = photoConversionFile.PhotoConversionOutputConfiguration is not null && photoConversionFile.PhotoConversionOutputConfiguration.IsImageCropped;
-            rawImageWidth = photoConversionFile.ImageWidth;
-            rawImageHeight = photoConversionFile.ImageHeight;
-            ImageWidth = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.ImageWidth : photoConversionFile.ImageWidth;
-            ImageHeight = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.ImageHeight : photoConversionFile.ImageHeight;
-            XCoordinate = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.XCoordinate : 0;
-            YCoordinate = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.YCoordinate : 0;
-            ClipWidth = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.ClipWidth : photoConversionFile.ImageWidth;
-            ClipHeight = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.ClipHeight : photoConversionFile.ImageHeight;
-            ConstrastRatio = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.ConstrastRatio : 0;
-            Exposure = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.Exposure : 0;
-            Saturation = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.Saturation : 1;
-            ColorTemperature = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.ColorTemperature : 0;
-            Tone = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.Tone : 0;
-            Blur = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.Blur : 0;
-            GrayScale = photoConversionFile.PhotoConversionOutputConfiguration is not null && photoConversionFile.PhotoConversionOutputConfiguration.GrayScale;
-            Reversal = photoConversionFile.PhotoConversionOutputConfiguration is not null && photoConversionFile.PhotoConversionOutputConfiguration.Reversal;
+            IsGlobalSettings = photoConversionFile is null;
+            if(IsGlobalSettings)
+            {
+                filePath = string.Empty;
+                aspectRatio = 1;
+                SelectedFormatConversionType = FormatConversionTypeList[0];
+                IsImageCropped = false;
+                rawImageWidth = 0;
+                rawImageHeight = 0;
+                ImageWidth = 0;
+                ImageHeight = 0;
+                XCoordinate = 0;
+                YCoordinate = 0;
+                ClipWidth = 0;
+                ClipHeight = 0;
+                ConstrastRatio = 0;
+                Exposure = 0;
+                Saturation = 1;
+                ColorTemperature = 0;
+                Tone = 0;
+                Blur = 0;
+                GrayScale = false;
+                Reversal = false;
+            }
+            else
+            {
+                filePath = photoConversionFile.FilePath;
+                aspectRatio = ImageHeight is not 0 ? (double)photoConversionFile.ImageWidth / photoConversionFile.ImageHeight : 1;
+                SelectedFormatConversionType = photoConversionFile.PhotoConversionOutputConfiguration is not null && FormatConversionTypeList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), photoConversionFile.PhotoConversionOutputConfiguration.FormatConversionType)) is ComboBoxItemModel selectedFormatConversionType ? selectedFormatConversionType : FormatConversionTypeList[0];
+                IsImageCropped = photoConversionFile.PhotoConversionOutputConfiguration is not null && photoConversionFile.PhotoConversionOutputConfiguration.IsImageCropped;
+                rawImageWidth = photoConversionFile.ImageWidth;
+                rawImageHeight = photoConversionFile.ImageHeight;
+                ImageWidth = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.ImageWidth : photoConversionFile.ImageWidth;
+                ImageHeight = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.ImageHeight : photoConversionFile.ImageHeight;
+                XCoordinate = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.XCoordinate : 0;
+                YCoordinate = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.YCoordinate : 0;
+                ClipWidth = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.ClipWidth : photoConversionFile.ImageWidth;
+                ClipHeight = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.ClipHeight : photoConversionFile.ImageHeight;
+                ConstrastRatio = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.ConstrastRatio : 0;
+                Exposure = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.Exposure : 0;
+                Saturation = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.Saturation : 1;
+                ColorTemperature = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.ColorTemperature : 0;
+                Tone = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.Tone : 0;
+                Blur = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.Blur : 0;
+                GrayScale = photoConversionFile.PhotoConversionOutputConfiguration is not null && photoConversionFile.PhotoConversionOutputConfiguration.GrayScale;
+                Reversal = photoConversionFile.PhotoConversionOutputConfiguration is not null && photoConversionFile.PhotoConversionOutputConfiguration.Reversal;
 
-            AspectRatioList.Add(new ComboBoxItemModel() { SelectedValue = -1,DisplayMember = CustomString });
-            AspectRatioList.Add(new ComboBoxItemModel() { SelectedValue = 1, DisplayMember = SquareString });
-            AspectRatioList.Add(new ComboBoxItemModel() { SelectedValue = 16d / 9d, DisplayMember = LandscapeString });
-            AspectRatioList.Add(new ComboBoxItemModel() { SelectedValue = 9d / 16d, DisplayMember = PortraitString });
-            AspectRatioList.Add(new ComboBoxItemModel() { SelectedValue = 4d / 3d, DisplayMember = FourToThreeString });
-            AspectRatioList.Add(new ComboBoxItemModel() { SelectedValue = 3d / 4d, DisplayMember = ThreeToFourString });
-            AspectRatioList.Add(new ComboBoxItemModel() { SelectedValue = 3d / 2d, DisplayMember = ThreeToTwoString });
-            AspectRatioList.Add(new ComboBoxItemModel() { SelectedValue = 2d / 3d, DisplayMember = TwoToThreeString });
-            SelectedAspectRatio = AspectRatioList[0];
+                AspectRatioList.Add(new ComboBoxItemModel() { SelectedValue = -1, DisplayMember = CustomString });
+                AspectRatioList.Add(new ComboBoxItemModel() { SelectedValue = 1, DisplayMember = SquareString });
+                AspectRatioList.Add(new ComboBoxItemModel() { SelectedValue = 16d / 9d, DisplayMember = LandscapeString });
+                AspectRatioList.Add(new ComboBoxItemModel() { SelectedValue = 9d / 16d, DisplayMember = PortraitString });
+                AspectRatioList.Add(new ComboBoxItemModel() { SelectedValue = 4d / 3d, DisplayMember = FourToThreeString });
+                AspectRatioList.Add(new ComboBoxItemModel() { SelectedValue = 3d / 4d, DisplayMember = ThreeToFourString });
+                AspectRatioList.Add(new ComboBoxItemModel() { SelectedValue = 3d / 2d, DisplayMember = ThreeToTwoString });
+                AspectRatioList.Add(new ComboBoxItemModel() { SelectedValue = 2d / 3d, DisplayMember = TwoToThreeString });
+                SelectedAspectRatio = AspectRatioList[0];
+            }
         }
 
         /// <summary>
@@ -1492,7 +1511,7 @@ namespace ModernFormatConverter.Views.Windows
             }
             overlappedPresenter = OverlappedPresenter.CreateForDialog();
             ExtendsContentIntoTitleBar = true;
-            overlappedPresenter.IsResizable = true;
+            overlappedPresenter.IsResizable = false;
             overlappedPresenter.IsMinimizable = false;
             overlappedPresenter.IsMaximizable = false;
             overlappedPresenter.IsModal = true;
@@ -1500,9 +1519,15 @@ namespace ModernFormatConverter.Views.Windows
             AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
             AppWindow.TitleBar.InactiveBackgroundColor = Colors.Transparent;
             AppWindow.TitleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
-            int dpi = User32Library.GetDpiForWindow((nint)AppWindow.Id.Value);
-            overlappedPresenter.PreferredMinimumWidth = Convert.ToInt32(1000 * Convert.ToDouble(dpi) / 96);
-            overlappedPresenter.PreferredMinimumHeight = Convert.ToInt32(600 * Convert.ToDouble(dpi) / 96);
+            double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
+            int width = Convert.ToInt32(768 * dpi);
+            int height = Convert.ToInt32(560 * dpi);
+            overlappedPresenter.PreferredMinimumWidth = width;
+            overlappedPresenter.PreferredMinimumHeight = height;
+            User32Library.GetWindowRect((nint)ConversionToolsWindow.AppWindow.Id.Value, out RECT parentRect);
+            int childX = parentRect.left + (parentRect.right - parentRect.left - width) / 2;
+            int childY = parentRect.top + (parentRect.bottom - parentRect.top - height) / 2;
+            User32Library.SetWindowPos((nint)AppWindow.Id.Value, 0, childX, childY, width, height, SetWindowPosFlags.SWP_NOREPOSITION | SetWindowPosFlags.SWP_NOZORDER);
             contentIsland = ContentIsland.FindAllForCompositor(Compositor)[0];
             inputKeyboardSource = InputKeyboardSource.GetForIsland(contentIsland);
             inputPointerSource = InputPointerSource.GetForIsland(contentIsland);
@@ -1543,11 +1568,6 @@ namespace ModernFormatConverter.Views.Windows
         private uint LOWORD(uint dword)
         {
             return dword & 0xffff;
-        }
-
-        private Visibility GetCutPhotoKind(CutPhotoResultKind selectedPhotoKind, CutPhotoResultKind comparedPhotoKind)
-        {
-            return Equals(selectedPhotoKind, comparedPhotoKind) ? Visibility.Visible : Visibility.Collapsed;
         }
     }
 }
