@@ -2,6 +2,7 @@
     x:Class="ModernFormatConverter.Views.Windows.VideoConversionOutputConfigurationWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controlconverter="using:ModernFormatConverter.Views.Converters"
     xmlns:converter="using:ModernFormatConverter.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -20,6 +21,8 @@
 
         <Page.Resources>
             <ResourceDictionary>
+                <controlconverter:SliderThumbnailToolTipConverter x:Name="SliderThumbnailToolTipConverter" />
+
                 <MenuFlyout x:Name="TitlebarMenuFlyout" Placement="BottomEdgeAlignedLeft">
 
                     <MenuFlyoutItem
@@ -794,6 +797,7 @@
                                                 Minimum="0.1"
                                                 SmallChange="0.1"
                                                 StepFrequency="0.1"
+                                                ThumbToolTipValueConverter="{StaticResource SliderThumbnailToolTipConverter}"
                                                 ValueChanged="{x:Bind OnSpeedPlaybackValueChanged}"
                                                 Value="{x:Bind SelectedSpeedPlayback, Mode=OneWay}" />
 
