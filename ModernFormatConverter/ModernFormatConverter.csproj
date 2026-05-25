@@ -195,6 +195,9 @@
     <EmbeddedResource Include="Strings\PhotoConversion.en-us.restext" />
     <EmbeddedResource Include="Strings\PhotoConversion.restext" />
     <EmbeddedResource Include="Strings\PhotoConversion.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\PhotoConversionOutputConfiguration.en-us.restext" />
+    <EmbeddedResource Include="Strings\PhotoConversionOutputConfiguration.restext" />
+    <EmbeddedResource Include="Strings\PhotoConversionOutputConfiguration.zh-hans.restext" />
     <EmbeddedResource Include="Strings\Resources.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
     <EmbeddedResource Include="Strings\RestartApps.en-us.restext" />
     <EmbeddedResource Include="Strings\RestartApps.restext" />
@@ -298,6 +301,7 @@
     <Page Include="Views\Windows\CutVideoWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\LicenseWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\MainWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Windows\PhotoConversionOutputConfigurationWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\RestartAppsWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\TextToAudioOutputConfigurationWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\UpdateAppWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />

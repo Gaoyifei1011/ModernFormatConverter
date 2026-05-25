@@ -165,25 +165,26 @@ namespace ModernFormatConverter.Views.Pages
                 // 图片格式转换输出配置
                 if (Equals(SelectedConversionType, PhotoConversionTypeCollection[0]) || Equals(SelectedConversionType, PhotoConversionTypeCollection[1]))
                 {
-                    // TODO：未完成
-                    //PhotoConversionOutputConfigurationWindow photoConversionOutputConfigurationWindow = new(SelectedConversionType.PhotoConversionTypeKind, ConversionToolsWindow.Current, photoConversionFile.PhotoConversionOutputConfiguration);
-                    //if (await photoConversionOutputConfigurationWindow.ShowAsync() is ContentDialogResult.Primary && SelectedConversionType.PhotoConversionTypeKind is PhotoConversionTypeKind.PhotoFormatConversion && photoConversionFile.PhotoConversionOutputConfiguration is not null)
-                    //{
-                    //    photoConversionFile.PhotoConversionOutputConfiguration.FormatConversionType = Convert.ToString(photoConversionOutputConfigurationWindow.SelectedFormatConversionType.SelectedValue);
-                    //    photoConversionFile.PhotoConversionOutputConfiguration.PhotoEncoding = Convert.ToString(photoConversionOutputConfigurationWindow.SelectedPhotoEncoding.SelectedValue);
-                    //    photoConversionFile.PhotoConversionOutputConfiguration.SamplingRate = Convert.ToString(photoConversionOutputConfigurationWindow.SelectedSamplingRate.SelectedValue);
-                    //    photoConversionFile.PhotoConversionOutputConfiguration.PhotoBitRate = Convert.ToString(photoConversionOutputConfigurationWindow.SelectedPhotoBitRate.SelectedValue);
-                    //    photoConversionFile.PhotoConversionOutputConfiguration.SoundTrack = Convert.ToString(photoConversionOutputConfigurationWindow.SelectedSoundTrack.SelectedValue);
-                    //    photoConversionFile.PhotoConversionOutputConfiguration.CloseSoundEffect = photoConversionOutputConfigurationWindow.CloseSoundEffect;
-                    //    photoConversionFile.PhotoConversionOutputConfiguration.Volume = Convert.ToString(photoConversionOutputConfigurationWindow.SelectedVolume.SelectedValue);
-                    //    photoConversionFile.PhotoConversionOutputConfiguration.VariableBitRate = photoConversionOutputConfigurationWindow.IsVariableBitRateSupported ? Convert.ToString(photoConversionOutputConfigurationWindow.SelectedVariableBitRate.SelectedValue) : string.Empty;
-                    //    photoConversionFile.PhotoConversionOutputConfiguration.SamplingFormat = Convert.ToString(photoConversionOutputConfigurationWindow.SelectedSamplingFormat);
-                    //    photoConversionFile.PhotoConversionOutputConfiguration.PhotoFadeInEffect = Convert.ToString(photoConversionOutputConfigurationWindow.SelectedPhotoFadeInEffect.SelectedValue);
-                    //    photoConversionFile.PhotoConversionOutputConfiguration.PhotoFadeOutEffect = Convert.ToString(photoConversionOutputConfigurationWindow.SelectedPhotoFadeOutEffect.SelectedValue);
-                    //    photoConversionFile.PhotoConversionOutputConfiguration.Echo = photoConversionOutputConfigurationWindow.Echo;
-                    //    photoConversionFile.PhotoConversionOutputConfiguration.DeNoise = photoConversionOutputConfigurationWindow.DeNoise;
-                    //    photoConversionFile.PhotoConversionOutputConfiguration.Reverse = photoConversionOutputConfigurationWindow.Reverse;
-                    //}
+                    PhotoConversionOutputConfigurationWindow photoConversionOutputConfigurationWindow = new(ConversionToolsWindow.Current, photoConversionFile);
+                    if (await photoConversionOutputConfigurationWindow.ShowAsync() is ContentDialogResult.Primary && SelectedConversionType.PhotoConversionTypeKind is PhotoConversionTypeKind.PhotoFormatConversion)
+                    {
+                        photoConversionFile.PhotoConversionOutputConfiguration.FormatConversionType = Convert.ToString(photoConversionOutputConfigurationWindow.SelectedFormatConversionType.SelectedValue);
+                        photoConversionFile.PhotoConversionOutputConfiguration.IsImageCropped = photoConversionOutputConfigurationWindow.IsImageCropped;
+                        photoConversionFile.PhotoConversionOutputConfiguration.ImageWidth = photoConversionOutputConfigurationWindow.ImageWidth;
+                        photoConversionFile.PhotoConversionOutputConfiguration.ImageHeight = photoConversionOutputConfigurationWindow.ImageHeight;
+                        photoConversionFile.PhotoConversionOutputConfiguration.XCoordinate = photoConversionOutputConfigurationWindow.XCoordinate;
+                        photoConversionFile.PhotoConversionOutputConfiguration.YCoordinate = photoConversionOutputConfigurationWindow.YCoordinate;
+                        photoConversionFile.PhotoConversionOutputConfiguration.ClipWidth = photoConversionOutputConfigurationWindow.ClipWidth;
+                        photoConversionFile.PhotoConversionOutputConfiguration.ClipHeight = photoConversionOutputConfigurationWindow.ClipHeight;
+                        photoConversionFile.PhotoConversionOutputConfiguration.ConstrastRatio = photoConversionOutputConfigurationWindow.ConstrastRatio;
+                        photoConversionFile.PhotoConversionOutputConfiguration.Exposure = photoConversionOutputConfigurationWindow.Exposure;
+                        photoConversionFile.PhotoConversionOutputConfiguration.Saturation = photoConversionOutputConfigurationWindow.Saturation;
+                        photoConversionFile.PhotoConversionOutputConfiguration.ColorTemperature = photoConversionOutputConfigurationWindow.ColorTemperature;
+                        photoConversionFile.PhotoConversionOutputConfiguration.Tone = photoConversionOutputConfigurationWindow.Tone;
+                        photoConversionFile.PhotoConversionOutputConfiguration.Blur = photoConversionOutputConfigurationWindow.Blur;
+                        photoConversionFile.PhotoConversionOutputConfiguration.GrayScale = photoConversionOutputConfigurationWindow.GrayScale;
+                        photoConversionFile.PhotoConversionOutputConfiguration.Reversal = photoConversionOutputConfigurationWindow.Reversal;
+                    }
                 }
             }
         }
@@ -581,6 +582,27 @@ namespace ModernFormatConverter.Views.Pages
                             MediaInfoLibrary.MediaInfo_Close(handle);
                             MediaInfoLibrary.MediaInfo_Delete(handle);
                         }
+
+                        photoConversionFile.PhotoConversionOutputConfiguration = new()
+                        {
+                            FormatConversionType = ".jpg",
+                            IsImageCropped = false,
+                            ImageWidth = photoConversionFile.ImageWidth,
+                            ImageHeight = photoConversionFile.ImageHeight,
+                            XCoordinate = 0,
+                            YCoordinate = 0,
+                            ClipWidth = photoConversionFile.ImageWidth,
+                            ClipHeight = photoConversionFile.ImageHeight,
+                            ConstrastRatio = 0,
+                            Exposure = 0,
+                            Saturation = 1,
+                            ColorTemperature = 0,
+                            Tone = 0,
+                            Blur = 0,
+                            GrayScale = false,
+                            Reversal = false
+                        };
+
                         return photoConversionFile;
                     }
                     else

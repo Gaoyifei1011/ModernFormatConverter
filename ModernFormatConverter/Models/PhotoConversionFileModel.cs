@@ -57,6 +57,11 @@ namespace ModernFormatConverter.Models
         /// </summary>
         public string FilePath { get; set; }
 
+        /// <summary>
+        /// 图片转换输出配置
+        /// </summary>
+        public PhotoConversionOutputConfigurationModel PhotoConversionOutputConfiguration { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }
