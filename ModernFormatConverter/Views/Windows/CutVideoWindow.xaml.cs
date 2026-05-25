@@ -873,14 +873,17 @@ namespace ModernFormatConverter.Views.Windows
         /// </summary>
         private void OnPlayWithSystemVideoClicked(object sender, RoutedEventArgs args)
         {
-            try
+            Task.Run(() =>
             {
-                Process.Start(filePath);
-            }
-            catch (Exception e)
-            {
-                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutVideoWindow), nameof(OnPlayWithSystemVideoClicked), 1, e);
-            }
+                try
+                {
+                    Process.Start(filePath);
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutVideoWindow), nameof(OnPlayWithSystemVideoClicked), 1, e);
+                }
+            });
         }
 
         /// <summary>

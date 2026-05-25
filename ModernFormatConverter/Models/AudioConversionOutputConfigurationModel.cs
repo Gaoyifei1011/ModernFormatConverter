@@ -2,6 +2,9 @@
 
 namespace ModernFormatConverter.Models
 {
+    /// <summary>
+    /// 音频转换输出配置数据类型
+    /// </summary>
     public class AudioConversionOutputConfigurationModel
     {
         public AudioConversionTypeKind AudioConversionTypeKind { get; set; }

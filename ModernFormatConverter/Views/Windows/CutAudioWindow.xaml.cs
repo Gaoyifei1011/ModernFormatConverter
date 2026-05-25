@@ -11,7 +11,6 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using ModernFormatConverter.Extensions.Backdrop;
 using ModernFormatConverter.Extensions.DataType.Enums;
-using ModernFormatConverter.Helpers.Root;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.Services.Settings;
@@ -547,14 +546,17 @@ namespace ModernFormatConverter.Views.Windows
         /// </summary>
         private void OnPlayWithSystemAudioClicked(object sender, RoutedEventArgs args)
         {
-            try
+            Task.Run(() =>
             {
-                Process.Start(filePath);
-            }
-            catch (Exception e)
-            {
-                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutAudioWindow), nameof(OnPlayWithSystemAudioClicked), 1, e);
-            }
+                try
+                {
+                    Process.Start(filePath);
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutAudioWindow), nameof(OnPlayWithSystemAudioClicked), 1, e);
+                }
+            });
         }
 
         /// <summary>
