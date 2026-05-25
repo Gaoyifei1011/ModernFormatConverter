@@ -135,6 +135,17 @@ namespace ModernFormatConverter.Views.Controls
         /// </summary>
         public double MinSelectedLength { get; set; } = 40;
 
+        public Rect CroppedRect
+        {
+            get { return _currentCroppedRect; }
+
+            private set
+            {
+                _currentCroppedRect = value;
+                CropSizeChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
         /// <summary>
         ///  Gets or sets the source of the cropped image
         /// </summary>
@@ -288,6 +299,8 @@ namespace ModernFormatConverter.Views.Controls
                 return new Size(realMinSelectSize.Width, realMinSelectSize.Height);
             }
         }
+
+        public event EventHandler<EventArgs> CropSizeChanged;
 
         /// <summary>
         /// Initializes a new instance of the ImageCropper class
@@ -626,7 +639,7 @@ namespace ModernFormatConverter.Views.Controls
             if (croppedRect.Width > MinCropSize.Width && croppedRect.Height > MinCropSize.Height)
             {
                 croppedRect.Intersect(_restrictedCropRect);
-                _currentCroppedRect = croppedRect;
+                CroppedRect = croppedRect;
             }
 
             UpdateImageLayout(true);
@@ -639,7 +652,7 @@ namespace ModernFormatConverter.Views.Controls
             if (croppedRect.Width > MinCropSize.Width && croppedRect.Height > MinCropSize.Height)
             {
                 croppedRect.Intersect(_restrictedCropRect);
-                _currentCroppedRect = croppedRect;
+                CroppedRect = croppedRect;
             }
 
             UpdateImageLayout(true);
@@ -676,7 +689,7 @@ namespace ModernFormatConverter.Views.Controls
             selectedRect.Y += offsetY;
             Rect croppedRect = _inverseImageTransform.TransformBounds(selectedRect);
             croppedRect.Intersect(_restrictedCropRect);
-            _currentCroppedRect = croppedRect;
+            CroppedRect = croppedRect;
             UpdateImageLayout();
         }
 
@@ -710,7 +723,7 @@ namespace ModernFormatConverter.Views.Controls
         /// <returns>WriteableBitmap</returns>
         public Task<WriteableBitmap> GetCroppedBitmapAsync()
         {
-            return SourceImage?.GetCroppedImageAsync(_currentCroppedRect);
+            return SourceImage?.GetCroppedImageAsync(CroppedRect);
         }
 
         /// <summary>
@@ -742,7 +755,7 @@ namespace ModernFormatConverter.Views.Controls
                 return;
             }
             BitmapEncoder bitmapEncoder = await BitmapEncoder.CreateAsync(WriteableBitmapExtensions.GetEncoderId(bitmapFileFormat), stream);
-            await WriteableBitmapExtensions.CropImageAsync(SourceImage, _currentCroppedRect, bitmapEncoder);
+            await WriteableBitmapExtensions.CropImageAsync(SourceImage, CroppedRect, bitmapEncoder);
         }
 
         /// <summary>
@@ -779,7 +792,7 @@ namespace ModernFormatConverter.Views.Controls
                 return false;
             }
 
-            _currentCroppedRect = rect;
+            CroppedRect = rect;
             UpdateImageLayout(true);
             return true;
         }
@@ -794,14 +807,14 @@ namespace ModernFormatConverter.Views.Controls
                 _restrictedCropRect = new Rect(0, 0, SourceImage.PixelWidth, SourceImage.PixelHeight);
                 if (_restrictedCropRect.IsValid())
                 {
-                    _currentCroppedRect = KeepAspectRatio ? _restrictedCropRect.GetUniformRect(UsedAspectRatio) : _restrictedCropRect;
+                    CroppedRect = KeepAspectRatio ? _restrictedCropRect.GetUniformRect(UsedAspectRatio) : _restrictedCropRect;
                     UpdateCropShape();
                     UpdateImageLayout(animate);
                 }
             }
             else
             {
-                _currentCroppedRect = Rect.Empty;
+                CroppedRect = Rect.Empty;
                 _restrictedCropRect = Rect.Empty;
                 _restrictedSelectRect = Rect.Empty;
             }
@@ -815,8 +828,8 @@ namespace ModernFormatConverter.Views.Controls
         {
             if (SourceImage is not null && CanvasRect.IsValid())
             {
-                Rect uniformSelectedRect = CanvasRect.GetUniformRect(_currentCroppedRect.Width / _currentCroppedRect.Height);
-                UpdateImageLayoutWithViewport(uniformSelectedRect, _currentCroppedRect, animate);
+                Rect uniformSelectedRect = CanvasRect.GetUniformRect(CroppedRect.Width / CroppedRect.Height);
+                UpdateImageLayoutWithViewport(uniformSelectedRect, CroppedRect, animate);
             }
         }
 
@@ -839,7 +852,7 @@ namespace ModernFormatConverter.Views.Controls
             _inverseImageTransform.ScaleX = _inverseImageTransform.ScaleY = 1 / imageScale;
             _inverseImageTransform.TranslateX = -_imageTransform.TranslateX / imageScale;
             _inverseImageTransform.TranslateY = -_imageTransform.TranslateY / imageScale;
-            Rect selectedRect = _imageTransform.TransformBounds(_currentCroppedRect);
+            Rect selectedRect = _imageTransform.TransformBounds(CroppedRect);
             _restrictedSelectRect = _imageTransform.TransformBounds(_restrictedCropRect);
             Point startPoint = _restrictedSelectRect.GetSafePoint(new Point(selectedRect.X, selectedRect.Y));
             Point endPoint = _restrictedSelectRect.GetSafePoint(new Point(selectedRect.X + selectedRect.Width,
@@ -1041,7 +1054,7 @@ namespace ModernFormatConverter.Views.Controls
             {
                 Rect croppedRect = _inverseImageTransform.TransformBounds(new Rect(startPoint, endPoint));
                 croppedRect.Intersect(_restrictedCropRect);
-                _currentCroppedRect = croppedRect;
+                CroppedRect = croppedRect;
                 Rect viewportRect = CanvasRect.GetUniformRect(selectedRect.Width / selectedRect.Height);
                 Rect viewportImgRect = _inverseImageTransform.TransformBounds(selectedRect);
                 UpdateImageLayoutWithViewport(viewportRect, viewportImgRect);
@@ -1245,7 +1258,7 @@ namespace ModernFormatConverter.Views.Controls
                 }
                 Rect croppedRect = _inverseImageTransform.TransformBounds(uniformSelectedRect);
                 croppedRect.Intersect(_restrictedCropRect);
-                _currentCroppedRect = croppedRect;
+                CroppedRect = croppedRect;
                 UpdateImageLayout(animate);
             }
         }
