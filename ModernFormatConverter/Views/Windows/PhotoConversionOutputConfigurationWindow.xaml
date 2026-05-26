@@ -170,7 +170,7 @@
                                 Click="{x:Bind OnPreviewPhotoClicked}"
                                 Label="{x:Bind rootservice:ResourceService.PhotoConversionOutputConfigurationResource.GetString('PreviewPhoto')}"
                                 Style="{StaticResource AppBarButtonStyle}"
-                                Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsGlobalSettings), Mode=OneWay}">
+                                Visibility="{x:Bind GetIsPreviewPhotoEnabled(IsGlobalSettings, AdjustPhoto), Mode=OneWay}">
 
                                 <AppBarButton.Icon>
                                     <FontIcon Glyph="&#xE8FF;" />
@@ -494,385 +494,7 @@
                             </StackPanel>
                         </Expander>
 
-                        <!--  对比度  -->
-                        <Grid
-                            Height="60"
-                            Margin="0,0,0,2"
-                            Padding="16,0"
-                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                            BorderThickness="1"
-                            ColumnSpacing="5"
-                            CornerRadius="{StaticResource ControlCornerRadius}">
-
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock
-                                Grid.Column="0"
-                                Margin="0,0,0,2"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind rootservice:ResourceService.PhotoConversionOutputConfigurationResource.GetString('ConstrastRatio')}" />
-
-                            <Slider
-                                Grid.Column="1"
-                                Width="200"
-                                Margin="5,0,0,0"
-                                VerticalAlignment="Center"
-                                Maximum="1"
-                                Minimum="-1"
-                                SmallChange="0.1"
-                                StepFrequency="0.1"
-                                ThumbToolTipValueConverter="{StaticResource SliderThumbnailToolTipConverter}"
-                                ValueChanged="{x:Bind OnConstrastRatioValueChanged}"
-                                Value="{x:Bind ConstrastRatio, Mode=OneWay}" />
-
-                            <Button
-                                Grid.Column="2"
-                                Width="32"
-                                Height="32"
-                                Padding="0"
-                                Click="{x:Bind OnResetConstrastRatioClicked}"
-                                CornerRadius="{StaticResource ControlCornerRadius}">
-
-                                <FontIcon FontSize="16" Glyph="&#xE7A7;" />
-
-                                <ToolTipService.ToolTip>
-                                    <ToolTip
-                                        MaxWidth="9999"
-                                        Padding="0"
-                                        Background="Transparent">
-
-                                        <Grid>
-                                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('Reset')}" />
-                                        </Grid>
-                                    </ToolTip>
-                                </ToolTipService.ToolTip>
-                            </Button>
-                        </Grid>
-
-                        <!--  曝光  -->
-                        <Grid
-                            Height="60"
-                            Margin="0,0,0,2"
-                            Padding="16,0"
-                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                            BorderThickness="1"
-                            ColumnSpacing="5"
-                            CornerRadius="{StaticResource ControlCornerRadius}">
-
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock
-                                Grid.Column="0"
-                                Margin="0,0,0,2"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind rootservice:ResourceService.PhotoConversionOutputConfigurationResource.GetString('Exposure')}" />
-
-                            <Slider
-                                Grid.Column="1"
-                                Width="200"
-                                Margin="5,0,0,0"
-                                VerticalAlignment="Center"
-                                Maximum="2"
-                                Minimum="-2"
-                                SmallChange="0.01"
-                                StepFrequency="0.01"
-                                ThumbToolTipValueConverter="{StaticResource SliderThumbnailToolTipConverter}"
-                                ValueChanged="{x:Bind OnExposureValueChanged}"
-                                Value="{x:Bind Exposure, Mode=OneWay}" />
-
-                            <Button
-                                Grid.Column="2"
-                                Width="32"
-                                Height="32"
-                                Padding="0"
-                                Click="{x:Bind OnResetExposureClicked}"
-                                CornerRadius="{StaticResource ControlCornerRadius}">
-
-                                <FontIcon FontSize="16" Glyph="&#xE7A7;" />
-
-                                <ToolTipService.ToolTip>
-                                    <ToolTip
-                                        MaxWidth="9999"
-                                        Padding="0"
-                                        Background="Transparent">
-
-                                        <Grid>
-                                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('Reset')}" />
-                                        </Grid>
-                                    </ToolTip>
-                                </ToolTipService.ToolTip>
-                            </Button>
-                        </Grid>
-
-                        <!--  饱和度  -->
-                        <Grid
-                            Height="60"
-                            Margin="0,0,0,2"
-                            Padding="16,0"
-                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                            BorderThickness="1"
-                            ColumnSpacing="5"
-                            CornerRadius="{StaticResource ControlCornerRadius}">
-
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock
-                                Grid.Column="0"
-                                Margin="0,0,0,2"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind rootservice:ResourceService.PhotoConversionOutputConfigurationResource.GetString('Saturation')}" />
-
-                            <Slider
-                                Grid.Column="1"
-                                Width="200"
-                                Margin="5,0,0,0"
-                                VerticalAlignment="Center"
-                                Maximum="2"
-                                Minimum="0"
-                                SmallChange="0.01"
-                                StepFrequency="0.01"
-                                ThumbToolTipValueConverter="{StaticResource SliderThumbnailToolTipConverter}"
-                                ValueChanged="{x:Bind OnSaturationValueChanged}"
-                                Value="{x:Bind Saturation, Mode=OneWay}" />
-
-                            <Button
-                                Grid.Column="2"
-                                Width="32"
-                                Height="32"
-                                Padding="0"
-                                Click="{x:Bind OnResetSaturationClicked}"
-                                CornerRadius="{StaticResource ControlCornerRadius}">
-
-                                <FontIcon FontSize="16" Glyph="&#xE7A7;" />
-
-                                <ToolTipService.ToolTip>
-                                    <ToolTip
-                                        MaxWidth="9999"
-                                        Padding="0"
-                                        Background="Transparent">
-
-                                        <Grid>
-                                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('Reset')}" />
-                                        </Grid>
-                                    </ToolTip>
-                                </ToolTipService.ToolTip>
-                            </Button>
-                        </Grid>
-
-                        <!--  色温  -->
-                        <Grid
-                            Height="60"
-                            Margin="0,0,0,2"
-                            Padding="16,0"
-                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                            BorderThickness="1"
-                            ColumnSpacing="5"
-                            CornerRadius="{StaticResource ControlCornerRadius}">
-
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock
-                                Grid.Column="0"
-                                Margin="0,0,0,2"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind rootservice:ResourceService.PhotoConversionOutputConfigurationResource.GetString('ColorTemperature')}" />
-
-                            <Slider
-                                Grid.Column="1"
-                                Width="200"
-                                Margin="5,0,0,0"
-                                VerticalAlignment="Center"
-                                Maximum="1"
-                                Minimum="-1"
-                                SmallChange="0.01"
-                                StepFrequency="0.01"
-                                ThumbToolTipValueConverter="{StaticResource SliderThumbnailToolTipConverter}"
-                                ValueChanged="{x:Bind OnColorTemperatureValueChanged}"
-                                Value="{x:Bind ColorTemperature, Mode=OneWay}" />
-
-                            <Button
-                                Grid.Column="2"
-                                Width="32"
-                                Height="32"
-                                Padding="0"
-                                Click="{x:Bind OnResetColorTemperatureClicked}"
-                                CornerRadius="{StaticResource ControlCornerRadius}">
-
-                                <FontIcon FontSize="16" Glyph="&#xE7A7;" />
-
-                                <ToolTipService.ToolTip>
-                                    <ToolTip
-                                        MaxWidth="9999"
-                                        Padding="0"
-                                        Background="Transparent">
-
-                                        <Grid>
-                                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('Reset')}" />
-                                        </Grid>
-                                    </ToolTip>
-                                </ToolTipService.ToolTip>
-                            </Button>
-                        </Grid>
-
-                        <!--  色调  -->
-                        <Grid
-                            Height="60"
-                            Margin="0,0,0,2"
-                            Padding="16,0"
-                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                            BorderThickness="1"
-                            ColumnSpacing="5"
-                            CornerRadius="{StaticResource ControlCornerRadius}">
-
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock
-                                Grid.Column="0"
-                                Margin="0,0,0,2"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind rootservice:ResourceService.PhotoConversionOutputConfigurationResource.GetString('Tone')}" />
-
-                            <Slider
-                                Grid.Column="1"
-                                Width="200"
-                                Margin="5,0,0,0"
-                                VerticalAlignment="Center"
-                                Maximum="1"
-                                Minimum="-1"
-                                SmallChange="0.01"
-                                StepFrequency="0.01"
-                                ThumbToolTipValueConverter="{StaticResource SliderThumbnailToolTipConverter}"
-                                ValueChanged="{x:Bind OnToneValueChanged}"
-                                Value="{x:Bind Tone, Mode=OneWay}" />
-
-                            <Button
-                                Grid.Column="2"
-                                Width="32"
-                                Height="32"
-                                Padding="0"
-                                Click="{x:Bind OnResetToneClicked}"
-                                CornerRadius="{StaticResource ControlCornerRadius}">
-
-                                <FontIcon FontSize="16" Glyph="&#xE7A7;" />
-
-                                <ToolTipService.ToolTip>
-                                    <ToolTip
-                                        MaxWidth="9999"
-                                        Padding="0"
-                                        Background="Transparent">
-
-                                        <Grid>
-                                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('Reset')}" />
-                                        </Grid>
-                                    </ToolTip>
-                                </ToolTipService.ToolTip>
-                            </Button>
-                        </Grid>
-
-                        <!--  模糊  -->
-                        <Grid
-                            Height="60"
-                            Margin="0,0,0,2"
-                            Padding="16,0"
-                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                            BorderThickness="1"
-                            ColumnSpacing="5"
-                            CornerRadius="{StaticResource ControlCornerRadius}">
-
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock
-                                Grid.Column="0"
-                                Margin="0,0,0,2"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind rootservice:ResourceService.PhotoConversionOutputConfigurationResource.GetString('Blur')}" />
-
-                            <Slider
-                                Grid.Column="1"
-                                Width="200"
-                                Margin="5,0,0,0"
-                                VerticalAlignment="Center"
-                                Maximum="1"
-                                Minimum="-1"
-                                SmallChange="0.01"
-                                StepFrequency="0.01"
-                                ThumbToolTipValueConverter="{StaticResource SliderThumbnailToolTipConverter}"
-                                ValueChanged="{x:Bind OnBlurValueChanged}"
-                                Value="{x:Bind Blur, Mode=OneWay}" />
-
-                            <Button
-                                Grid.Column="2"
-                                Width="32"
-                                Height="32"
-                                Padding="0"
-                                Click="{x:Bind OnResetBlurClicked}"
-                                CornerRadius="{StaticResource ControlCornerRadius}">
-
-                                <FontIcon FontSize="16" Glyph="&#xE7A7;" />
-
-                                <ToolTipService.ToolTip>
-                                    <ToolTip
-                                        MaxWidth="9999"
-                                        Padding="0"
-                                        Background="Transparent">
-
-                                        <Grid>
-                                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('Reset')}" />
-                                        </Grid>
-                                    </ToolTip>
-                                </ToolTipService.ToolTip>
-                            </Button>
-                        </Grid>
-
-                        <!--  灰度  -->
+                        <!--  调整图片  -->
                         <Grid
                             Height="60"
                             Margin="0,0,0,2"
@@ -894,49 +516,460 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind rootservice:ResourceService.PhotoConversionOutputConfigurationResource.GetString('GrayScale')}" />
+                                Text="{x:Bind rootservice:ResourceService.PhotoConversionOutputConfigurationResource.GetString('AdjustPhoto')}" />
 
                             <ToggleSwitch
                                 Grid.Column="1"
-                                IsOn="{x:Bind GrayScale, Mode=OneWay}"
-                                OffContent="{x:Bind rootservice:ResourceService.PhotoConversionOutputConfigurationResource.GetString('GrayScaleOffContent')}"
-                                OnContent="{x:Bind rootservice:ResourceService.PhotoConversionOutputConfigurationResource.GetString('GrayScaleOnContent')}"
+                                MinWidth="0"
+                                IsOn="{x:Bind AdjustPhoto, Mode=OneWay}"
+                                OffContent="{x:Bind rootservice:ResourceService.PhotoConversionOutputConfigurationResource.GetString('AdjustPhotoOffContent')}"
+                                OnContent="{x:Bind rootservice:ResourceService.PhotoConversionOutputConfigurationResource.GetString('AdjustPhotoOnContent')}"
                                 Style="{StaticResource ToggleSwitchStyle}"
-                                Toggled="{x:Bind OnGrayScaleToggled}" />
+                                Toggled="{x:Bind OnAdjustPhotoToggled}" />
                         </Grid>
 
-                        <!--  反相  -->
-                        <Grid
-                            Height="60"
-                            Margin="0,0,0,2"
-                            Padding="16,0"
-                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                            BorderThickness="1"
-                            ColumnSpacing="5"
-                            CornerRadius="{StaticResource ControlCornerRadius}">
-
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock
-                                Grid.Column="0"
+                        <StackPanel Visibility="{x:Bind AdjustPhoto, Mode=OneWay}">
+                            <!--  对比度  -->
+                            <Grid
+                                Height="60"
                                 Margin="0,0,0,2"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind rootservice:ResourceService.PhotoConversionOutputConfigurationResource.GetString('Reversal')}" />
+                                Padding="16,0"
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="1"
+                                ColumnSpacing="5"
+                                CornerRadius="{StaticResource ControlCornerRadius}">
 
-                            <ToggleSwitch
-                                Grid.Column="1"
-                                IsOn="{x:Bind Reversal, Mode=OneWay}"
-                                OffContent="{x:Bind rootservice:ResourceService.PhotoConversionOutputConfigurationResource.GetString('ReversalOffContent')}"
-                                OnContent="{x:Bind rootservice:ResourceService.PhotoConversionOutputConfigurationResource.GetString('ReversalOnContent')}"
-                                Style="{StaticResource ToggleSwitchStyle}"
-                                Toggled="{x:Bind OnReversalToggled}" />
-                        </Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    Margin="0,0,0,2"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind rootservice:ResourceService.PhotoConversionOutputConfigurationResource.GetString('ContrastRatio')}" />
+
+                                <Slider
+                                    Grid.Column="1"
+                                    Width="200"
+                                    Margin="5,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Maximum="2"
+                                    Minimum="0"
+                                    SmallChange="1"
+                                    StepFrequency="1"
+                                    ThumbToolTipValueConverter="{StaticResource SliderThumbnailToolTipConverter}"
+                                    ValueChanged="{x:Bind OnContrastRatioValueChanged}"
+                                    Value="{x:Bind ContrastRatio, Mode=OneWay}" />
+
+                                <Button
+                                    Grid.Column="2"
+                                    Width="32"
+                                    Height="32"
+                                    Padding="0"
+                                    Click="{x:Bind OnResetContrastRatioClicked}"
+                                    CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                    <FontIcon FontSize="16" Glyph="&#xE7A7;" />
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Padding="0"
+                                            Background="Transparent">
+
+                                            <Grid>
+                                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('Reset')}" />
+                                            </Grid>
+                                        </ToolTip>
+                                    </ToolTipService.ToolTip>
+                                </Button>
+                            </Grid>
+
+                            <!--  亮度  -->
+                            <Grid
+                                Height="60"
+                                Margin="0,0,0,2"
+                                Padding="16,0"
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="1"
+                                ColumnSpacing="5"
+                                CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    Margin="0,0,0,2"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind rootservice:ResourceService.PhotoConversionOutputConfigurationResource.GetString('Brightness')}" />
+
+                                <Slider
+                                    Grid.Column="1"
+                                    Width="200"
+                                    Margin="5,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Maximum="1"
+                                    Minimum="-1"
+                                    SmallChange="0.1"
+                                    StepFrequency="0.1"
+                                    ThumbToolTipValueConverter="{StaticResource SliderThumbnailToolTipConverter}"
+                                    ValueChanged="{x:Bind OnBrightnessValueChanged}"
+                                    Value="{x:Bind Brightness, Mode=OneWay}" />
+
+                                <Button
+                                    Grid.Column="2"
+                                    Width="32"
+                                    Height="32"
+                                    Padding="0"
+                                    Click="{x:Bind OnResetBrightnessClicked}"
+                                    CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                    <FontIcon FontSize="16" Glyph="&#xE7A7;" />
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Padding="0"
+                                            Background="Transparent">
+
+                                            <Grid>
+                                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('Reset')}" />
+                                            </Grid>
+                                        </ToolTip>
+                                    </ToolTipService.ToolTip>
+                                </Button>
+                            </Grid>
+
+                            <!--  饱和度  -->
+                            <Grid
+                                Height="60"
+                                Margin="0,0,0,2"
+                                Padding="16,0"
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="1"
+                                ColumnSpacing="5"
+                                CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    Margin="0,0,0,2"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind rootservice:ResourceService.PhotoConversionOutputConfigurationResource.GetString('Saturation')}" />
+
+                                <Slider
+                                    Grid.Column="1"
+                                    Width="200"
+                                    Margin="5,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Maximum="2"
+                                    Minimum="0"
+                                    SmallChange="0.01"
+                                    StepFrequency="0.01"
+                                    ThumbToolTipValueConverter="{StaticResource SliderThumbnailToolTipConverter}"
+                                    ValueChanged="{x:Bind OnSaturationValueChanged}"
+                                    Value="{x:Bind Saturation, Mode=OneWay}" />
+
+                                <Button
+                                    Grid.Column="2"
+                                    Width="32"
+                                    Height="32"
+                                    Padding="0"
+                                    Click="{x:Bind OnResetSaturationClicked}"
+                                    CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                    <FontIcon FontSize="16" Glyph="&#xE7A7;" />
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Padding="0"
+                                            Background="Transparent">
+
+                                            <Grid>
+                                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('Reset')}" />
+                                            </Grid>
+                                        </ToolTip>
+                                    </ToolTipService.ToolTip>
+                                </Button>
+                            </Grid>
+
+                            <!--  色温  -->
+                            <Grid
+                                Height="60"
+                                Margin="0,0,0,2"
+                                Padding="16,0"
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="1"
+                                ColumnSpacing="5"
+                                CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    Margin="0,0,0,2"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind rootservice:ResourceService.PhotoConversionOutputConfigurationResource.GetString('ColorTemperature')}" />
+
+                                <Slider
+                                    Grid.Column="1"
+                                    Width="200"
+                                    Margin="5,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Maximum="40000"
+                                    Minimum="1000"
+                                    SmallChange="500"
+                                    StepFrequency="500"
+                                    ValueChanged="{x:Bind OnColorTemperatureValueChanged}"
+                                    Value="{x:Bind ColorTemperature, Mode=OneWay}" />
+
+                                <Button
+                                    Grid.Column="2"
+                                    Width="32"
+                                    Height="32"
+                                    Padding="0"
+                                    Click="{x:Bind OnResetColorTemperatureClicked}"
+                                    CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                    <FontIcon FontSize="16" Glyph="&#xE7A7;" />
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Padding="0"
+                                            Background="Transparent">
+
+                                            <Grid>
+                                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('Reset')}" />
+                                            </Grid>
+                                        </ToolTip>
+                                    </ToolTipService.ToolTip>
+                                </Button>
+                            </Grid>
+
+                            <!--  色调  -->
+                            <Grid
+                                Height="60"
+                                Margin="0,0,0,2"
+                                Padding="16,0"
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="1"
+                                ColumnSpacing="5"
+                                CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    Margin="0,0,0,2"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind rootservice:ResourceService.PhotoConversionOutputConfigurationResource.GetString('Hue')}" />
+
+                                <Slider
+                                    Grid.Column="1"
+                                    Width="200"
+                                    Margin="5,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Maximum="30"
+                                    Minimum="-30"
+                                    SmallChange="1"
+                                    StepFrequency="1"
+                                    ValueChanged="{x:Bind OnHueValueChanged}"
+                                    Value="{x:Bind Hue, Mode=OneWay}" />
+
+                                <Button
+                                    Grid.Column="2"
+                                    Width="32"
+                                    Height="32"
+                                    Padding="0"
+                                    Click="{x:Bind OnResetHueClicked}"
+                                    CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                    <FontIcon FontSize="16" Glyph="&#xE7A7;" />
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Padding="0"
+                                            Background="Transparent">
+
+                                            <Grid>
+                                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('Reset')}" />
+                                            </Grid>
+                                        </ToolTip>
+                                    </ToolTipService.ToolTip>
+                                </Button>
+                            </Grid>
+
+                            <!--  模糊  -->
+                            <Grid
+                                Height="60"
+                                Margin="0,0,0,2"
+                                Padding="16,0"
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="1"
+                                ColumnSpacing="5"
+                                CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    Margin="0,0,0,2"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind rootservice:ResourceService.PhotoConversionOutputConfigurationResource.GetString('Blur')}" />
+
+                                <Slider
+                                    Grid.Column="1"
+                                    Width="200"
+                                    Margin="5,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Maximum="100"
+                                    Minimum="0"
+                                    SmallChange="1"
+                                    StepFrequency="1"
+                                    ValueChanged="{x:Bind OnBlurValueChanged}"
+                                    Value="{x:Bind Blur, Mode=OneWay}" />
+
+                                <Button
+                                    Grid.Column="2"
+                                    Width="32"
+                                    Height="32"
+                                    Padding="0"
+                                    Click="{x:Bind OnResetBlurClicked}"
+                                    CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                    <FontIcon FontSize="16" Glyph="&#xE7A7;" />
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Padding="0"
+                                            Background="Transparent">
+
+                                            <Grid>
+                                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.AudioConversionResource.GetString('Reset')}" />
+                                            </Grid>
+                                        </ToolTip>
+                                    </ToolTipService.ToolTip>
+                                </Button>
+                            </Grid>
+
+                            <!--  灰度  -->
+                            <Grid
+                                Height="60"
+                                Margin="0,0,0,2"
+                                Padding="16,0"
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="1"
+                                ColumnSpacing="5"
+                                CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    Margin="0,0,0,2"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind rootservice:ResourceService.PhotoConversionOutputConfigurationResource.GetString('GrayScale')}" />
+
+                                <ToggleSwitch
+                                    Grid.Column="1"
+                                    IsOn="{x:Bind GrayScale, Mode=OneWay}"
+                                    OffContent="{x:Bind rootservice:ResourceService.PhotoConversionOutputConfigurationResource.GetString('GrayScaleOffContent')}"
+                                    OnContent="{x:Bind rootservice:ResourceService.PhotoConversionOutputConfigurationResource.GetString('GrayScaleOnContent')}"
+                                    Style="{StaticResource ToggleSwitchStyle}"
+                                    Toggled="{x:Bind OnGrayScaleToggled}" />
+                            </Grid>
+
+                            <!--  反相  -->
+                            <Grid
+                                Height="60"
+                                Margin="0,0,0,2"
+                                Padding="16,0"
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="1"
+                                ColumnSpacing="5"
+                                CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    Margin="0,0,0,2"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind rootservice:ResourceService.PhotoConversionOutputConfigurationResource.GetString('Reversal')}" />
+
+                                <ToggleSwitch
+                                    Grid.Column="1"
+                                    IsOn="{x:Bind Reversal, Mode=OneWay}"
+                                    OffContent="{x:Bind rootservice:ResourceService.PhotoConversionOutputConfigurationResource.GetString('ReversalOffContent')}"
+                                    OnContent="{x:Bind rootservice:ResourceService.PhotoConversionOutputConfigurationResource.GetString('ReversalOnContent')}"
+                                    Style="{StaticResource ToggleSwitchStyle}"
+                                    Toggled="{x:Bind OnReversalToggled}" />
+                            </Grid>
+                        </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
             </Grid>

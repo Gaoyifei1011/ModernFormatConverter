@@ -52,14 +52,19 @@ namespace ModernFormatConverter.Models
         public int ClipHeight { get; set; }
 
         /// <summary>
-        /// 对比度
+        /// 调整图片
         /// </summary>
-        public double ConstrastRatio { get; set; }
+        public bool AdjustPhoto { get; set; }
 
         /// <summary>
-        /// 曝光
+        /// 对比度
         /// </summary>
-        public double Exposure { get; set; }
+        public double ContrastRatio { get; set; }
+
+        /// <summary>
+        /// 亮度
+        /// </summary>
+        public double Brightness { get; set; }
 
         /// <summary>
         /// 饱和度
@@ -74,7 +79,7 @@ namespace ModernFormatConverter.Models
         /// <summary>
         /// 色调
         /// </summary>
-        public double Tone { get; set; }
+        public double Hue { get; set; }
 
         /// <summary>
         /// 模糊

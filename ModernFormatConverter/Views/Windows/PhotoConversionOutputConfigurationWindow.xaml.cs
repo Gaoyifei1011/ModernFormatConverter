@@ -18,6 +18,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -44,6 +46,7 @@ namespace ModernFormatConverter.Views.Windows
         private readonly string ThreeToTwoString = ResourceService.PhotoConversionOutputConfigurationResource.GetString("ThreeToTwo");
         private readonly string TwoToThreeString = ResourceService.PhotoConversionOutputConfigurationResource.GetString("TwoToThree");
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
+        private readonly bool isInitialized;
         private string filePath;
         private int rawImageWidth;
         private int rawImageHeight;
@@ -265,35 +268,50 @@ namespace ModernFormatConverter.Views.Windows
             }
         }
 
+        private bool _adjustPhoto;
 
-        private double _constrastRatio;
-
-        public double ConstrastRatio
+        public bool AdjustPhoto
         {
-            get { return _constrastRatio; }
+            get { return _adjustPhoto; }
 
             set
             {
-                if (!Equals(_constrastRatio, value))
+                if (!Equals(_adjustPhoto, value))
                 {
-                    _constrastRatio = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ConstrastRatio)));
+                    _adjustPhoto = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AdjustPhoto)));
                 }
             }
         }
 
-        private double _exposure;
+        private double _contrastRatio;
 
-        public double Exposure
+        public double ContrastRatio
         {
-            get { return _exposure; }
+            get { return _contrastRatio; }
 
             set
             {
-                if (!Equals(_exposure, value))
+                if (!Equals(_contrastRatio, value))
                 {
-                    _exposure = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Exposure)));
+                    _contrastRatio = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ContrastRatio)));
+                }
+            }
+        }
+
+        private double _brightness;
+
+        public double Brightness
+        {
+            get { return _brightness; }
+
+            set
+            {
+                if (!Equals(_brightness, value))
+                {
+                    _brightness = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Brightness)));
                 }
             }
         }
@@ -330,18 +348,18 @@ namespace ModernFormatConverter.Views.Windows
             }
         }
 
-        private double _tone;
+        private double _hue;
 
-        public double Tone
+        public double Hue
         {
-            get { return _tone; }
+            get { return _hue; }
 
             set
             {
-                if (!Equals(_tone, value))
+                if (!Equals(_hue, value))
                 {
-                    _tone = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Tone)));
+                    _hue = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Hue)));
                 }
             }
         }
@@ -513,6 +531,7 @@ namespace ModernFormatConverter.Views.Windows
             InitializeData(photoConversionFile);
             InitializeComponent();
             InitializeUI(conversionToolsWindow);
+            isInitialized = true;
         }
 
         #region 第一部分：窗口辅助类挂载的事件
@@ -614,7 +633,52 @@ namespace ModernFormatConverter.Views.Windows
         /// </summary>
         private void OnPreviewPhotoClicked(object sender, RoutedEventArgs args)
         {
-            // TODO：未完成
+            Task.Run(async () =>
+            {
+                try
+                {
+                    string tempFilePath = Path.Combine(Path.GetTempPath(), string.Format("{0}.png", Path.GetRandomFileName()));
+                    StringBuilder convertParametersBuilder = new();
+                    convertParametersBuilder.Append("eq=contrast={0}:brightness={1}:saturation={2}");
+                    convertParametersBuilder.Append(',');
+                    convertParametersBuilder.Append("colortemperature=temperature={3}");
+                    convertParametersBuilder.Append(',');
+                    convertParametersBuilder.Append("gblur=sigma={4}");
+                    convertParametersBuilder.Append(',');
+                    convertParametersBuilder.Append(GrayScale ? "hue=s=0:h={5}" : "hue=h={5}");
+                    if(Reversal)
+                    {
+                        convertParametersBuilder.Append(',');
+                        convertParametersBuilder.Append("negate");
+                    }
+
+                    string convertParameters = string.Format(convertParametersBuilder.ToString(), ContrastRatio, Brightness, Saturation, ColorTemperature, Blur, Hue);
+                    string arguments = string.Format("-i \"{0}\" -vf \"{1}\" \"{2}\"", filePath, convertParameters, tempFilePath);
+
+                    Process process = new()
+                    {
+                        StartInfo = new()
+                        {
+                            FileName = Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory), "FFmpeg.exe"),
+                            Arguments = arguments,
+                            CreateNoWindow = true,
+                            WindowStyle = ProcessWindowStyle.Hidden,
+                            UseShellExecute = false
+                        }
+                    };
+                    process.Start();
+                    process.WaitForExit();
+
+                    if (process.ExitCode is 0 && File.Exists(tempFilePath))
+                    {
+                        Process.Start(tempFilePath);
+                    }
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutVideoWindow), nameof(OnPreviewPhotoClicked), 1, e);
+                }
+            });
         }
 
         /// <summary>
@@ -882,19 +946,30 @@ namespace ModernFormatConverter.Views.Windows
         }
 
         /// <summary>
+        /// 调整图片
+        /// </summary>
+        private void OnAdjustPhotoToggled(object sender,RoutedEventArgs args)
+        {
+            if(sender is ToggleSwitch toggleSwitch)
+            {
+                AdjustPhoto = toggleSwitch.IsOn;
+            }
+        }
+
+        /// <summary>
         /// 对比度发生变化时触发的事件
         /// </summary>
-        private void OnConstrastRatioValueChanged(object sender, RangeBaseValueChangedEventArgs args)
+        private void OnContrastRatioValueChanged(object sender, RangeBaseValueChangedEventArgs args)
         {
-            if (args.NewValue is not double.NaN)
+            if (args.NewValue is not double.NaN && isInitialized)
             {
                 try
                 {
-                    ConstrastRatio = args.NewValue;
+                    ContrastRatio = args.NewValue;
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(PhotoConversionOutputConfigurationWindow), nameof(OnConstrastRatioValueChanged), 1, e);
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(PhotoConversionOutputConfigurationWindow), nameof(OnContrastRatioValueChanged), 1, e);
                 }
             }
         }
@@ -902,25 +977,25 @@ namespace ModernFormatConverter.Views.Windows
         /// <summary>
         /// 重置对比度
         /// </summary>
-        private void OnResetConstrastRatioClicked(object sender,RoutedEventArgs args)
+        private void OnResetContrastRatioClicked(object sender,RoutedEventArgs args)
         {
-            ConstrastRatio = 0;
+            ContrastRatio = 1;
         }
 
         /// <summary>
-        /// 曝光发生变化时触发的事件
+        /// 亮度发生变化时触发的事件
         /// </summary>
-        private void OnExposureValueChanged(object sender, RangeBaseValueChangedEventArgs args)
+        private void OnBrightnessValueChanged(object sender, RangeBaseValueChangedEventArgs args)
         {
-            if (args.NewValue is not double.NaN)
+            if (args.NewValue is not double.NaN && isInitialized)
             {
                 try
                 {
-                    Exposure = args.NewValue;
+                    Brightness = args.NewValue;
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(PhotoConversionOutputConfigurationWindow), nameof(OnExposureValueChanged), 1, e);
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(PhotoConversionOutputConfigurationWindow), nameof(OnBrightnessValueChanged), 1, e);
                 }
             }
         }
@@ -928,9 +1003,9 @@ namespace ModernFormatConverter.Views.Windows
         /// <summary>
         /// 重置曝光
         /// </summary>
-        private void OnResetExposureClicked(object sender, RoutedEventArgs args)
+        private void OnResetBrightnessClicked(object sender, RoutedEventArgs args)
         {
-            Exposure = 0;
+            Brightness = 0;
         }
 
         /// <summary>
@@ -938,7 +1013,7 @@ namespace ModernFormatConverter.Views.Windows
         /// </summary>
         private void OnSaturationValueChanged(object sender, RangeBaseValueChangedEventArgs args)
         {
-            if (args.NewValue is not double.NaN)
+            if (args.NewValue is not double.NaN && isInitialized)
             {
                 try
                 {
@@ -964,7 +1039,7 @@ namespace ModernFormatConverter.Views.Windows
         /// </summary>
         private void OnColorTemperatureValueChanged(object sender, RangeBaseValueChangedEventArgs args)
         {
-            if (args.NewValue is not double.NaN)
+            if (args.NewValue is not double.NaN && isInitialized)
             {
                 try
                 {
@@ -982,23 +1057,23 @@ namespace ModernFormatConverter.Views.Windows
         /// </summary>
         private void OnResetColorTemperatureClicked(object sender, RoutedEventArgs args)
         {
-            ColorTemperature = 0;
+            ColorTemperature = 6500;
         }
 
         /// <summary>
         /// 色调发生变化时触发的事件
         /// </summary>
-        private void OnToneValueChanged(object sender, RangeBaseValueChangedEventArgs args)
+        private void OnHueValueChanged(object sender, RangeBaseValueChangedEventArgs args)
         {
-            if (args.NewValue is not double.NaN)
+            if (args.NewValue is not double.NaN && isInitialized)
             {
                 try
                 {
-                    Tone = args.NewValue;
+                    Hue = args.NewValue;
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(PhotoConversionOutputConfigurationWindow), nameof(OnToneValueChanged), 1, e);
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(PhotoConversionOutputConfigurationWindow), nameof(OnHueValueChanged), 1, e);
                 }
             }
         }
@@ -1006,9 +1081,9 @@ namespace ModernFormatConverter.Views.Windows
         /// <summary>
         /// 重置色调
         /// </summary>
-        private void OnResetToneClicked(object sender, RoutedEventArgs args)
+        private void OnResetHueClicked(object sender, RoutedEventArgs args)
         {
-            Tone = 0;
+            Hue = 0;
         }
 
         /// <summary>
@@ -1016,7 +1091,7 @@ namespace ModernFormatConverter.Views.Windows
         /// </summary>
         private void OnBlurValueChanged(object sender, RangeBaseValueChangedEventArgs args)
         {
-            if (args.NewValue is not double.NaN)
+            if (args.NewValue is not double.NaN && isInitialized)
             {
                 try
                 {
@@ -1451,11 +1526,12 @@ namespace ModernFormatConverter.Views.Windows
                 YCoordinate = 0;
                 ClipWidth = 0;
                 ClipHeight = 0;
-                ConstrastRatio = 0;
-                Exposure = 0;
+                AdjustPhoto = false;
+                ContrastRatio = 1;
+                Brightness = 0;
                 Saturation = 1;
-                ColorTemperature = 0;
-                Tone = 0;
+                ColorTemperature = 6500;
+                Hue = 0;
                 Blur = 0;
                 GrayScale = false;
                 Reversal = false;
@@ -1474,11 +1550,12 @@ namespace ModernFormatConverter.Views.Windows
                 YCoordinate = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.YCoordinate : 0;
                 ClipWidth = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.ClipWidth : photoConversionFile.ImageWidth;
                 ClipHeight = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.ClipHeight : photoConversionFile.ImageHeight;
-                ConstrastRatio = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.ConstrastRatio : 0;
-                Exposure = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.Exposure : 0;
+                AdjustPhoto = photoConversionFile.PhotoConversionOutputConfiguration is not null && photoConversionFile.PhotoConversionOutputConfiguration.AdjustPhoto;
+                ContrastRatio = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.ContrastRatio : 1;
+                Brightness = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.Brightness : 0;
                 Saturation = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.Saturation : 1;
-                ColorTemperature = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.ColorTemperature : 0;
-                Tone = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.Tone : 0;
+                ColorTemperature = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.ColorTemperature : 6500;
+                Hue = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.Hue : 0;
                 Blur = photoConversionFile.PhotoConversionOutputConfiguration is not null ? photoConversionFile.PhotoConversionOutputConfiguration.Blur : 0;
                 GrayScale = photoConversionFile.PhotoConversionOutputConfiguration is not null && photoConversionFile.PhotoConversionOutputConfiguration.GrayScale;
                 Reversal = photoConversionFile.PhotoConversionOutputConfiguration is not null && photoConversionFile.PhotoConversionOutputConfiguration.Reversal;
@@ -1568,6 +1645,11 @@ namespace ModernFormatConverter.Views.Windows
         private uint LOWORD(uint dword)
         {
             return dword & 0xffff;
+        }
+
+        private Visibility GetIsPreviewPhotoEnabled(bool isGlobalSettings,bool adjustPhoto)
+        {
+            return isGlobalSettings ? Visibility.Collapsed : adjustPhoto ? Visibility.Visible : Visibility.Collapsed;
         }
     }
 }

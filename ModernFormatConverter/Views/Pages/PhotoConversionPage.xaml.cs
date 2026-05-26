@@ -176,11 +176,12 @@ namespace ModernFormatConverter.Views.Pages
                         photoConversionFile.PhotoConversionOutputConfiguration.YCoordinate = photoConversionOutputConfigurationWindow.YCoordinate;
                         photoConversionFile.PhotoConversionOutputConfiguration.ClipWidth = photoConversionOutputConfigurationWindow.ClipWidth;
                         photoConversionFile.PhotoConversionOutputConfiguration.ClipHeight = photoConversionOutputConfigurationWindow.ClipHeight;
-                        photoConversionFile.PhotoConversionOutputConfiguration.ConstrastRatio = photoConversionOutputConfigurationWindow.ConstrastRatio;
-                        photoConversionFile.PhotoConversionOutputConfiguration.Exposure = photoConversionOutputConfigurationWindow.Exposure;
+                        photoConversionFile.PhotoConversionOutputConfiguration.AdjustPhoto = photoConversionOutputConfigurationWindow.AdjustPhoto;
+                        photoConversionFile.PhotoConversionOutputConfiguration.ContrastRatio = photoConversionOutputConfigurationWindow.ContrastRatio;
+                        photoConversionFile.PhotoConversionOutputConfiguration.Brightness = photoConversionOutputConfigurationWindow.Brightness;
                         photoConversionFile.PhotoConversionOutputConfiguration.Saturation = photoConversionOutputConfigurationWindow.Saturation;
                         photoConversionFile.PhotoConversionOutputConfiguration.ColorTemperature = photoConversionOutputConfigurationWindow.ColorTemperature;
-                        photoConversionFile.PhotoConversionOutputConfiguration.Tone = photoConversionOutputConfigurationWindow.Tone;
+                        photoConversionFile.PhotoConversionOutputConfiguration.Hue = photoConversionOutputConfigurationWindow.Hue;
                         photoConversionFile.PhotoConversionOutputConfiguration.Blur = photoConversionOutputConfigurationWindow.Blur;
                         photoConversionFile.PhotoConversionOutputConfiguration.GrayScale = photoConversionOutputConfigurationWindow.GrayScale;
                         photoConversionFile.PhotoConversionOutputConfiguration.Reversal = photoConversionOutputConfigurationWindow.Reversal;
@@ -477,11 +478,12 @@ namespace ModernFormatConverter.Views.Pages
                         if (photoConversionFile.PhotoConversionOutputConfiguration is not null)
                         {
                             photoConversionFile.PhotoConversionOutputConfiguration.FormatConversionType = Convert.ToString(photoConversionOutputConfigurationWindow.SelectedFormatConversionType.SelectedValue);
-                            photoConversionFile.PhotoConversionOutputConfiguration.ConstrastRatio = photoConversionOutputConfigurationWindow.ConstrastRatio;
-                            photoConversionFile.PhotoConversionOutputConfiguration.Exposure = photoConversionOutputConfigurationWindow.Exposure;
+                            photoConversionFile.PhotoConversionOutputConfiguration.AdjustPhoto = photoConversionOutputConfigurationWindow.AdjustPhoto;
+                            photoConversionFile.PhotoConversionOutputConfiguration.ContrastRatio = photoConversionOutputConfigurationWindow.ContrastRatio;
+                            photoConversionFile.PhotoConversionOutputConfiguration.Brightness = photoConversionOutputConfigurationWindow.Brightness;
                             photoConversionFile.PhotoConversionOutputConfiguration.Saturation = photoConversionOutputConfigurationWindow.Saturation;
                             photoConversionFile.PhotoConversionOutputConfiguration.ColorTemperature = photoConversionOutputConfigurationWindow.ColorTemperature;
-                            photoConversionFile.PhotoConversionOutputConfiguration.Tone = photoConversionOutputConfigurationWindow.Tone;
+                            photoConversionFile.PhotoConversionOutputConfiguration.Hue = photoConversionOutputConfigurationWindow.Hue;
                             photoConversionFile.PhotoConversionOutputConfiguration.Blur = photoConversionOutputConfigurationWindow.Blur;
                             photoConversionFile.PhotoConversionOutputConfiguration.GrayScale = photoConversionOutputConfigurationWindow.GrayScale;
                             photoConversionFile.PhotoConversionOutputConfiguration.Reversal = photoConversionOutputConfigurationWindow.Reversal;
@@ -623,11 +625,12 @@ namespace ModernFormatConverter.Views.Pages
                             YCoordinate = 0,
                             ClipWidth = photoConversionFile.ImageWidth,
                             ClipHeight = photoConversionFile.ImageHeight,
-                            ConstrastRatio = 0,
-                            Exposure = 0,
+                            AdjustPhoto = false,
+                            ContrastRatio = 1,
+                            Brightness = 0,
                             Saturation = 1,
-                            ColorTemperature = 0,
-                            Tone = 0,
+                            ColorTemperature = 6500,
+                            Hue = 0,
                             Blur = 0,
                             GrayScale = false,
                             Reversal = false
