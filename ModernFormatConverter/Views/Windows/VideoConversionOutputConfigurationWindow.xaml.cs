@@ -69,6 +69,7 @@ namespace ModernFormatConverter.Views.Windows
         private readonly List<ComboBoxItemModel> GPUList = [];
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly Color accentColor = (Color)Application.Current.Resources["SystemAccentColor"];
+        private readonly bool isInitialized;
         private OverlappedPresenter overlappedPresenter;
         private SUBCLASSPROC videoConversionOutputConfigurationWindowSubClassProc;
         private ContentIsland contentIsland;
@@ -1065,6 +1066,7 @@ namespace ModernFormatConverter.Views.Windows
             InitializeData(videoConversionOutputConfiguration);
             InitializeComponent();
             InitializeUI(conversionToolsWindow);
+            isInitialized = true;
         }
 
         #region 第一部分：窗口辅助类挂载的事件
@@ -1415,7 +1417,7 @@ namespace ModernFormatConverter.Views.Windows
         /// </summary>
         private void OnCRFValueChanged(object sender, RangeBaseValueChangedEventArgs args)
         {
-            if (args.NewValue is not double.NaN)
+            if (args.NewValue is not double.NaN && isInitialized)
             {
                 try
                 {
@@ -1507,7 +1509,7 @@ namespace ModernFormatConverter.Views.Windows
         /// </summary>
         private void OnSpeedPlaybackValueChanged(object sender, RangeBaseValueChangedEventArgs args)
         {
-            if (args.NewValue is not double.NaN)
+            if (args.NewValue is not double.NaN && isInitialized)
             {
                 try
                 {

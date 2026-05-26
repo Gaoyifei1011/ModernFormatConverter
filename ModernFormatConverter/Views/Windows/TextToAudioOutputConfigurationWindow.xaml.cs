@@ -37,6 +37,7 @@ namespace ModernFormatConverter.Views.Windows
     public sealed partial class TextToAudioOutputConfigurationWindow : Window, INotifyPropertyChanged
     {
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
+        private readonly bool isInitialized;
         private OverlappedPresenter overlappedPresenter;
         private SUBCLASSPROC textToAudioOutputConfigurationWindowSubClassProc;
         private ContentIsland contentIsland;
@@ -167,6 +168,7 @@ namespace ModernFormatConverter.Views.Windows
             InitializeData(textToAudioOutputConfiguration);
             InitializeComponent();
             InitializeUI(conversionToolsWindow);
+            isInitialized = true;
         }
 
         #region 第一部分：窗口辅助类挂载的事件
@@ -304,7 +306,7 @@ namespace ModernFormatConverter.Views.Windows
         /// </summary>
         private void OnReadingSpeedValueChanged(object sender, RangeBaseValueChangedEventArgs args)
         {
-            if (args.NewValue is not double.NaN)
+            if (args.NewValue is not double.NaN && isInitialized)
             {
                 try
                 {
@@ -322,7 +324,7 @@ namespace ModernFormatConverter.Views.Windows
         /// </summary>
         private void OnVolumeValueChanged(object sender, RangeBaseValueChangedEventArgs args)
         {
-            if (args.NewValue is not double.NaN)
+            if (args.NewValue is not double.NaN && isInitialized)
             {
                 try
                 {
