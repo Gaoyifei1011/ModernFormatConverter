@@ -100,72 +100,71 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <TabView
-                Grid.Row="0"
-                Margin="0,0,180,0"
-                CanReorderTabs="False"
-                IsAddTabButtonVisible="False"
-                SelectedIndex="{x:Bind SelectedIndex, Mode=OneWay}"
-                SelectionChanged="{x:Bind OnSelectionChanged}">
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-                <TabView.Resources>
-                    <ResourceDictionary>
-                        <ResourceDictionary.ThemeDictionaries>
-                            <ResourceDictionary x:Key="Default">
-                                <StaticResource x:Key="TabViewItemHeaderBackgroundSelected" ResourceKey="LayerFillColorDefaultBrush" />
-                            </ResourceDictionary>
-                            <ResourceDictionary x:Key="HighConstract">
-                                <StaticResource x:Key="TabViewItemHeaderBackgroundSelected" ResourceKey="SystemColorWindowColorBrush" />
-                            </ResourceDictionary>
-                            <ResourceDictionary x:Key="Light">
-                                <StaticResource x:Key="TabViewItemHeaderBackgroundSelected" ResourceKey="LayerFillColorDefaultBrush" />
-                            </ResourceDictionary>
-                        </ResourceDictionary.ThemeDictionaries>
-                    </ResourceDictionary>
-                </TabView.Resources>
+                <TabView
+                    Grid.Column="0"
+                    HorizontalAlignment="Left"
+                    CanReorderTabs="False"
+                    IsAddTabButtonVisible="False"
+                    SelectedIndex="{x:Bind SelectedIndex, Mode=OneWay}"
+                    SelectionChanged="{x:Bind OnSelectionChanged}">
 
-                <TabView.TabItems>
-                    <TabViewItem
-                        Height="36"
-                        Header="{x:Bind rootservice:ResourceService.ConversionToolsResource.GetString('VideoConversion')}"
-                        IsClosable="False">
+                    <TabView.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Default">
+                                    <StaticResource x:Key="TabViewItemHeaderBackgroundSelected" ResourceKey="LayerFillColorDefaultBrush" />
+                                </ResourceDictionary>
+                                <ResourceDictionary x:Key="HighConstract">
+                                    <StaticResource x:Key="TabViewItemHeaderBackgroundSelected" ResourceKey="SystemColorWindowColorBrush" />
+                                </ResourceDictionary>
+                                <ResourceDictionary x:Key="Light">
+                                    <StaticResource x:Key="TabViewItemHeaderBackgroundSelected" ResourceKey="LayerFillColorDefaultBrush" />
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </TabView.Resources>
 
-                        <TabViewItem.IconSource>
-                            <BitmapIconSource ShowAsMonochrome="False" UriSource="ms-appx:///Assets/ControlIcon/VideoConversion.png" />
-                        </TabViewItem.IconSource>
-                    </TabViewItem>
+                    <TabView.TabItems>
+                        <TabViewItem
+                            Height="36"
+                            Header="{x:Bind rootservice:ResourceService.ConversionToolsResource.GetString('VideoConversion')}"
+                            IsClosable="False">
 
-                    <TabViewItem
-                        Height="36"
-                        Header="{x:Bind rootservice:ResourceService.ConversionToolsResource.GetString('AudioConversion')}"
-                        IsClosable="False">
+                            <TabViewItem.IconSource>
+                                <BitmapIconSource ShowAsMonochrome="False" UriSource="ms-appx:///Assets/ControlIcon/VideoConversion.png" />
+                            </TabViewItem.IconSource>
+                        </TabViewItem>
 
-                        <TabViewItem.IconSource>
-                            <BitmapIconSource ShowAsMonochrome="False" UriSource="ms-appx:///Assets/ControlIcon/AudioConversion.png" />
-                        </TabViewItem.IconSource>
-                    </TabViewItem>
+                        <TabViewItem
+                            Height="36"
+                            Header="{x:Bind rootservice:ResourceService.ConversionToolsResource.GetString('AudioConversion')}"
+                            IsClosable="False">
 
-                    <TabViewItem
-                        Height="36"
-                        Header="{x:Bind rootservice:ResourceService.ConversionToolsResource.GetString('PhotoConversion')}"
-                        IsClosable="False">
+                            <TabViewItem.IconSource>
+                                <BitmapIconSource ShowAsMonochrome="False" UriSource="ms-appx:///Assets/ControlIcon/AudioConversion.png" />
+                            </TabViewItem.IconSource>
+                        </TabViewItem>
 
-                        <TabViewItem.IconSource>
-                            <BitmapIconSource ShowAsMonochrome="False" UriSource="ms-appx:///Assets/ControlIcon/PhotoConversion.png" />
-                        </TabViewItem.IconSource>
-                    </TabViewItem>
+                        <TabViewItem
+                            Height="36"
+                            Header="{x:Bind rootservice:ResourceService.ConversionToolsResource.GetString('PhotoConversion')}"
+                            IsClosable="False">
 
-                    <TabViewItem
-                        Height="36"
-                        Header="{x:Bind rootservice:ResourceService.ConversionToolsResource.GetString('DocumentConversion')}"
-                        IsClosable="False">
+                            <TabViewItem.IconSource>
+                                <BitmapIconSource ShowAsMonochrome="False" UriSource="ms-appx:///Assets/ControlIcon/PhotoConversion.png" />
+                            </TabViewItem.IconSource>
+                        </TabViewItem>
+                    </TabView.TabItems>
+                </TabView>
 
-                        <TabViewItem.IconSource>
-                            <BitmapIconSource ShowAsMonochrome="False" UriSource="ms-appx:///Assets/ControlIcon/DocumentConversion.png" />
-                        </TabViewItem.IconSource>
-                    </TabViewItem>
-                </TabView.TabItems>
-            </TabView>
+                <TitleBar Grid.Column="1" />
+            </Grid>
 
             <Frame
                 x:Name="ConversionToolsFrame"
