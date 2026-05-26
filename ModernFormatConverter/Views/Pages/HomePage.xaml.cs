@@ -39,13 +39,6 @@ namespace ModernFormatConverter.Views.Pages
                 Description = ResourceService.HomeResource.GetString("PhotoConversionDescription"),
                 ImagePath = "ms-appx:///Assets/ControlIcon/PhotoConversion.png",
                 Tag = "PhotoConversion"
-            },
-            new ControlItemModel()
-            {
-                Title = ResourceService.HomeResource.GetString("DocumentConversion"),
-                Description = ResourceService.HomeResource.GetString("DocumentConversionDescription"),
-                ImagePath = "ms-appx:///Assets/ControlIcon/DocumentConversion.png",
-                Tag = "DocumentConversion"
             }
         ];
 
@@ -110,14 +103,6 @@ namespace ModernFormatConverter.Views.Pages
                     else if (string.Equals(controlItem.Tag, ConversionToolsList[2].Tag, StringComparison.OrdinalIgnoreCase))
                     {
                         ConversionToolsWindow conversionToolsWindow = new(MainWindow.Current, ConversionToolsKind.PhotoConversion);
-                        if (await conversionToolsWindow.ShowAsync() is ContentDialogResult.Primary)
-                        {
-                            // TODO：未完成
-                        }
-                    }
-                    else if (string.Equals(controlItem.Tag, ConversionToolsList[3].Tag, StringComparison.OrdinalIgnoreCase))
-                    {
-                        ConversionToolsWindow conversionToolsWindow = new(MainWindow.Current, ConversionToolsKind.DocumentConversion);
                         if (await conversionToolsWindow.ShowAsync() is ContentDialogResult.Primary)
                         {
                             // TODO：未完成

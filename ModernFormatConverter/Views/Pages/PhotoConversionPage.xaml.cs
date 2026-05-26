@@ -33,7 +33,6 @@ namespace ModernFormatConverter.Views.Pages
 {
     /// <summary>
     /// 图片转换页面
-    /// TODO：未完成
     /// </summary>
     public sealed partial class PhotoConversionPage : Page, INotifyPropertyChanged
     {

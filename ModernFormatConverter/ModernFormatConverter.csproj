@@ -81,7 +81,6 @@
     <Content Include="Assets\ControlIcon\CustomCommand.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\CutAudio.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\CutVideo.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\ControlIcon\DocumentConversion.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\FileInformation.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\HATest.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\Home.png" CopyToOutputDirectory="Always" />
@@ -174,9 +173,6 @@
     <EmbeddedResource Include="Strings\CutVideo.en-us.restext" />
     <EmbeddedResource Include="Strings\CutVideo.restext" />
     <EmbeddedResource Include="Strings\CutVideo.zh-hans.restext" />
-    <EmbeddedResource Include="Strings\DocumentConversion.en-us.restext" />
-    <EmbeddedResource Include="Strings\DocumentConversion.restext" />
-    <EmbeddedResource Include="Strings\DocumentConversion.zh-hans.restext" />
     <EmbeddedResource Include="Strings\FileInformation.en-us.restext" />
     <EmbeddedResource Include="Strings\FileInformation.restext" />
     <EmbeddedResource Include="Strings\FileInformation.zh-hans.restext" />
@@ -250,7 +246,6 @@
     <None Remove="Views\NotificationTips\OperationResultNotificationTip.xaml" />
     <None Remove="Views\Pages\AudioConversionPage.xaml" />
     <None Remove="Views\Pages\CustomCommandPage.xaml" />
-    <None Remove="Views\Pages\DocumentConversionPage.xaml" />
     <None Remove="Views\Pages\FileInformationPage.xaml" />
     <None Remove="Views\Pages\HATestPage.xaml" />
     <None Remove="Views\Pages\HomePage.xaml" />
@@ -283,7 +278,6 @@
     <Page Include="Views\NotificationTips\OperationResultNotificationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\AudioConversionPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\CustomCommandPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Views\Pages\DocumentConversionPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\FileInformationPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\HATestPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\HomePage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />

@@ -7,7 +7,6 @@
     {
         VideoConversion = 0,
         AudioConversion = 1,
-        PhotoConversion = 2,
-        DocumentConversion = 3
+        PhotoConversion = 2
     }
 }

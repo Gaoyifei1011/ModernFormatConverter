@@ -24,8 +24,6 @@ namespace ModernFormatConverter.Services.Root
 
         public static ResourceManager CutVideoResource { get; } = new("ModernFormatConverter.Strings.CutVideo", CurrentAssembly);
 
-        public static ResourceManager DocumentConversionResource { get; } = new("ModernFormatConverter.Strings.DocumentConversion", CurrentAssembly);
-
         public static ResourceManager FileInformationResource { get; } = new("ModernFormatConverter.Strings.FileInformation", CurrentAssembly);
 
         public static ResourceManager HATestResource { get; } = new("ModernFormatConverter.Strings.HATest", CurrentAssembly);

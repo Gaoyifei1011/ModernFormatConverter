@@ -96,7 +96,7 @@ namespace ModernFormatConverter.Views.Windows
             }
         }
 
-        private List<Type> PageList { get; } = [typeof(VideoConversionPage), typeof(AudioConversionPage), typeof(PhotoConversionPage), typeof(DocumentConversionPage)];
+        private List<Type> PageList { get; } = [typeof(VideoConversionPage), typeof(AudioConversionPage), typeof(PhotoConversionPage)];
 
         public event PropertyChangedEventHandler PropertyChanged;
 

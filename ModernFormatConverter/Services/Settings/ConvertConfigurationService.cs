@@ -17,20 +17,16 @@ namespace ModernFormatConverter.Services.Settings
         private static readonly string convertedVideoSavePathKey = ConfigKey.ConvertedVideoSavePathKey;
         private static readonly string convertedAudioSavePathKey = ConfigKey.ConvertedAudioSavePathKey;
         private static readonly string convertedPhotoSavePathKey = ConfigKey.ConvertedPhotoSavePathKey;
-        private static readonly string convertedDocumentSavePathKey = ConfigKey.ConvertedDocumentSavePathKey;
 
         private static string defaultConvertedVideoSavePath;
         private static string defaultConvertedAudioSavePath;
         private static string defaultConvertedPhotoSavePath;
-        private static string defaultConvertedDocumentSavePath;
 
         public static string ConvertedVideoSavePath { get; private set; }
 
         public static string ConvertedAudioSavePath { get; private set; }
 
         public static string ConvertedPhotoSavePath { get; private set; }
-
-        public static string ConvertedDocumentSavePath { get; private set; }
 
         /// <summary>
         /// 应用在初始化前获取设置存储的转换配置
@@ -46,15 +42,12 @@ namespace ModernFormatConverter.Services.Settings
                     string convertedVideoSavePath = Path.Combine(localAppDataPath, "Videos");
                     string convertedAudioSavePath = Path.Combine(localAppDataPath, "Audios");
                     string convertedPictureSavePath = Path.Combine(localAppDataPath, "Pictures");
-                    string convertedDocumentsSavePath = Path.Combine(localAppDataPath, "Documents");
                     defaultConvertedVideoSavePath = convertedVideoSavePath;
                     defaultConvertedAudioSavePath = convertedAudioSavePath;
                     defaultConvertedPhotoSavePath = convertedPictureSavePath;
-                    defaultConvertedDocumentSavePath = convertedDocumentsSavePath;
                     Directory.CreateDirectory(convertedVideoSavePath);
                     Directory.CreateDirectory(convertedAudioSavePath);
                     Directory.CreateDirectory(convertedPictureSavePath);
-                    Directory.CreateDirectory(convertedDocumentsSavePath);
                 }
                 catch (Exception e)
                 {
@@ -66,13 +59,11 @@ namespace ModernFormatConverter.Services.Settings
                 defaultConvertedVideoSavePath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
                 defaultConvertedAudioSavePath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
                 defaultConvertedPhotoSavePath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-                defaultConvertedDocumentSavePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             }
 
             ConvertedVideoSavePath = GetConvertedVideoSavePath();
             ConvertedAudioSavePath = GetConvertedAudioSavePath();
             ConvertedPhotoSavePath = GetConvertedPhotoSavePath();
-            ConvertedDocumentSavePath = GetConvertedDocumentSavePath();
         }
 
         /// <summary>
@@ -124,22 +115,6 @@ namespace ModernFormatConverter.Services.Settings
         }
 
         /// <summary>
-        /// 获取设置存储的文档输出文件存储路径，如果设置没有存储，使用默认值
-        /// </summary>
-        private static string GetConvertedDocumentSavePath()
-        {
-            string convertedDocumentSavePath = LocalSettingsService.ReadSetting<string>(convertedDocumentSavePathKey);
-
-            if (string.IsNullOrEmpty(convertedDocumentSavePath))
-            {
-                SetConvertedDocumentSavePath(defaultConvertedDocumentSavePath);
-                return defaultConvertedDocumentSavePath;
-            }
-
-            return convertedDocumentSavePath;
-        }
-
-        /// <summary>
         /// 应用视频输出文件存储路径发生修改时修改设置存储的视频输出文件存储路径
         /// </summary>
         public static void SetConvertedVideoSavePath(string convertedVideoSavePath)
@@ -164,15 +139,6 @@ namespace ModernFormatConverter.Services.Settings
         {
             ConvertedPhotoSavePath = convertedPictureSavePath;
             LocalSettingsService.SaveSetting(convertedPhotoSavePathKey, convertedPictureSavePath);
-        }
-
-        /// <summary>
-        /// 应用文档输出文件存储路径发生修改时修改设置存储的文档输出文件存储路径
-        /// </summary>
-        public static void SetConvertedDocumentSavePath(string convertedDocumentSavePath)
-        {
-            ConvertedDocumentSavePath = convertedDocumentSavePath;
-            LocalSettingsService.SaveSetting(convertedDocumentSavePathKey, convertedDocumentSavePath);
         }
     }
 }
