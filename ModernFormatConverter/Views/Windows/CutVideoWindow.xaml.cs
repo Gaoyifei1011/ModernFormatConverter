@@ -742,7 +742,7 @@ namespace ModernFormatConverter.Views.Windows
                         {
                             StartInfo = new()
                             {
-                                FileName = Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory), "ffmpeg.exe"),
+                                FileName = Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory), "FFmpeg.exe"),
                                 Arguments = arguments,
                                 CreateNoWindow = true,
                                 WindowStyle = ProcessWindowStyle.Hidden,
@@ -808,7 +808,7 @@ namespace ModernFormatConverter.Views.Windows
                         {
                             StartInfo = new()
                             {
-                                FileName = Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory), "ffmpeg.exe"),
+                                FileName = Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory), "FFmpeg.exe"),
                                 Arguments = arguments,
                                 CreateNoWindow = true,
                                 WindowStyle = ProcessWindowStyle.Hidden,
@@ -1116,7 +1116,7 @@ namespace ModernFormatConverter.Views.Windows
                     {
                         StartInfo = new()
                         {
-                            FileName = Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory), "ffmpeg.exe"),
+                            FileName = Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory), "FFmpeg.exe"),
                             Arguments = arguments,
                             CreateNoWindow = true,
                             WindowStyle = ProcessWindowStyle.Hidden,
@@ -1376,7 +1376,7 @@ namespace ModernFormatConverter.Views.Windows
                     {
                         StartInfo = new()
                         {
-                            FileName = Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory), "ffmpeg.exe"),
+                            FileName = Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory), "FFmpeg.exe"),
                             Arguments = arguments,
                             CreateNoWindow = true,
                             WindowStyle = ProcessWindowStyle.Hidden,
@@ -1546,7 +1546,7 @@ namespace ModernFormatConverter.Views.Windows
                         {
                             StartInfo = new()
                             {
-                                FileName = Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory), "ffmpeg.exe"),
+                                FileName = Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory), "FFmpeg.exe"),
                                 Arguments = arguments,
                                 CreateNoWindow = true,
                                 WindowStyle = ProcessWindowStyle.Hidden,
