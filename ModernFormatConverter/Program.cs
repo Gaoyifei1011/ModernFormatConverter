@@ -18,7 +18,7 @@ using System.Threading;
 namespace ModernFormatConverter
 {
     /// <summary>
-    /// 格式转换器桌面程序
+    /// 格式转换器 桌面程序
     /// </summary>
     public static class Program
     {

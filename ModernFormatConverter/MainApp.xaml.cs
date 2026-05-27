@@ -13,7 +13,7 @@ using System.Drawing;
 namespace ModernFormatConverter
 {
     /// <summary>
-    /// 格式转换器应用程序
+    /// 格式转换器 应用程序
     /// </summary>
     public partial class MainApp : Application, IDisposable
     {
