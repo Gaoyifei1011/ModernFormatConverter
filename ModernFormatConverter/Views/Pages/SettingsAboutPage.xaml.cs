@@ -2,6 +2,7 @@
 using Microsoft.UI.Xaml.Controls;
 using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Services.Root;
+using ModernFormatConverter.Views.Dialogs;
 using ModernFormatConverter.Views.NotificationTips;
 using ModernFormatConverter.Views.Windows;
 using System;
@@ -95,8 +96,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnAppInformationClicked(object sender, RoutedEventArgs args)
         {
-            AppInformationWindow appInformationWindow = new(MainWindow.Current);
-            await appInformationWindow.ShowAsync();
+            await MainWindow.Current.ShowDialogAsync(new AppInformationDialog());
         }
 
         /// <summary>
@@ -122,8 +122,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnShowLicenseClicked(object sender, RoutedEventArgs args)
         {
-            LicenseWindow licenseWindow = new(MainWindow.Current);
-            await licenseWindow.ShowAsync();
+            await MainWindow.Current.ShowDialogAsync(new LicenseDialog());
         }
 
         /// <summary>
