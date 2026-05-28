@@ -244,6 +244,7 @@
     <None Remove="Styles\NumberBox.xaml" />
     <None Remove="Styles\TextBox.xaml" />
     <None Remove="Styles\ToggleSwitch.xaml" />
+    <None Remove="Views\Windows\AppInformationDialog.xaml" />
     <None Remove="Views\NotificationTips\CopyPasteNotificationTip.xaml" />
     <None Remove="Views\NotificationTips\OperationResultNotificationTip.xaml" />
     <None Remove="Views\Pages\AudioConversionPage.xaml" />
@@ -258,7 +259,6 @@
     <None Remove="Views\Pages\SettingsPage.xaml" />
     <None Remove="Views\Pages\TaskManagerPage.xaml" />
     <None Remove="Views\Pages\VideoConversionPage.xaml" />
-    <None Remove="Views\Windows\AppInformationWindow.xaml" />
     <None Remove="Views\Windows\ConversionToolsWindow.xaml" />
     <None Remove="Views\Windows\CutVideoWindow.xaml" />
     <None Remove="Views\Windows\LicenseWindow.xaml" />
@@ -276,6 +276,7 @@
     <Page Include="Styles\NumberBox.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\TextBox.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\ToggleSwitch.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Dialogs\AppInformationDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\NotificationTips\CopyPasteNotificationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\NotificationTips\OperationResultNotificationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\AudioConversionPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -290,7 +291,6 @@
     <Page Include="Views\Pages\SettingsPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\TaskManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\VideoConversionPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Views\Windows\AppInformationWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\AudioConversionOutputConfigurationWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\ConversionToolsWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\CutAudioWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
