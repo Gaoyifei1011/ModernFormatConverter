@@ -1,0 +1,907 @@
+﻿<ContentDialog
+    x:Class="ModernFormatConverter.Views.Dialogs.CutVideoDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:class="using:ModernFormatConverter.Extensions.DataType.Class"
+    xmlns:converter="using:ModernFormatConverter.Helpers.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:enum="using:ModernFormatConverter.Extensions.DataType.Enums"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:ModernFormatConverter.Models"
+    xmlns:rootservice="using:ModernFormatConverter.Services.Root"
+    xmlns:settingsservice="using:ModernFormatConverter.Services.Settings"
+    xmlns:system="using:System"
+    xmlns:window="using:ModernFormatConverter.Views.Windows"
+    Title="{x:Bind rootservice:ResourceService.LicenseResource.GetString('Title')}"
+    Closed="{x:Bind OnClosed}"
+    DefaultButton="Primary"
+    FlowDirection="{x:Bind settingsservice:LanguageService.FlowDirection}"
+    RequestedTheme="{x:Bind ((FrameworkElement)window:MainWindow.Current.Content).RequestedTheme, Mode=OneWay}"
+    Style="{StaticResource DefaultContentDialogStyle}"
+    mc:Ignorable="d">
+
+    <ContentDialog.Resources>
+        <ResourceDictionary>
+            <SolidColorBrush x:Key="HyperlinkButtonBackgroundPointerOver" Color="Transparent" />
+            <SolidColorBrush x:Key="HyperlinkButtonBackgroundPressed" Color="Transparent" />
+
+            <class:ExecuteCommand x:Name="DeleteCommand" ExecuteRequested="{x:Bind OnDeleteExecuteRequested}" />
+
+            <x:Double x:Key="ContentDialogMinWidth">1000</x:Double>
+            <x:Double x:Key="ContentDialogMinHeight">700</x:Double>
+            <Thickness x:Key="ContentDialogPadding">0</Thickness>
+        </ResourceDictionary>
+    </ContentDialog.Resources>
+
+    <Grid Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}" Loaded="{x:Bind OnLoaded}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="320" />
+        </Grid.RowDefinitions>
+
+        <!--  剪辑视频标题栏  -->
+        <Grid Grid.Row="0" Margin="8,0,0,0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Image
+                Grid.Column="0"
+                Width="18"
+                Height="18"
+                Margin="2,3,0,0"
+                HorizontalAlignment="Left"
+                Source="ms-appx:///Assets/ControlIcon/CutVideo.png" />
+
+            <TextBlock
+                Grid.Column="1"
+                Margin="12,2,0,0"
+                VerticalAlignment="Center"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('Title')}"
+                TextWrapping="NoWrap" />
+
+            <Button
+                Grid.Column="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Click="{x:Bind OnCloseClicked}"
+                Style="{StaticResource AlternateCloseButtonStyle}">
+
+                <FontIcon
+                    Margin="4"
+                    FontSize="16"
+                    Glyph="&#xE711;" />
+
+                <ToolTipService.ToolTip>
+                    <ToolTip
+                        MaxWidth="9999"
+                        Padding="0"
+                        Background="Transparent">
+
+                        <Grid>
+                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('Close')}" />
+                        </Grid>
+                    </ToolTip>
+                </ToolTipService.ToolTip>
+            </Button>
+        </Grid>
+
+        <ProgressRing
+            Grid.Row="1"
+            Width="80"
+            Height="80"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            IsActive="{x:Bind x:Object.Equals(CutVideoResultKind, enum:CutVideoResultKind.Loading), Mode=OneWay}"
+            Visibility="{x:Bind GetCutVideoKind(CutVideoResultKind, enum:CutVideoResultKind.Loading), Mode=OneWay}" />
+
+        <!--  视频播放组件  -->
+        <MediaPlayerElement
+            x:Name="CutVideoMediaPlayerElement"
+            Grid.Row="1"
+            AreTransportControlsEnabled="True"
+            AutoPlay="False"
+            Source="{x:Bind MediaSource, Mode=OneWay}"
+            Visibility="{x:Bind GetCutVideoKind(CutVideoResultKind, enum:CutVideoResultKind.Successfully), Mode=OneWay}">
+
+            <MediaPlayerElement.TransportControls>
+                <MediaTransportControls
+                    IsCompact="False"
+                    IsFastForwardButtonVisible="True"
+                    IsFastForwardEnabled="True"
+                    IsFastRewindButtonVisible="True"
+                    IsFastRewindEnabled="True"
+                    IsPlaybackRateButtonVisible="True"
+                    IsPlaybackRateEnabled="True"
+                    IsSeekBarVisible="True"
+                    IsSeekEnabled="True"
+                    IsSkipBackwardButtonVisible="True"
+                    IsSkipBackwardEnabled="True"
+                    IsSkipForwardButtonVisible="True"
+                    IsSkipForwardEnabled="True"
+                    IsStopButtonVisible="True"
+                    IsStopEnabled="True"
+                    IsVolumeButtonVisible="True"
+                    IsVolumeEnabled="True"
+                    IsZoomButtonVisible="True"
+                    IsZoomEnabled="True"
+                    Style="{StaticResource MediaTransportControlsStyle}" />
+            </MediaPlayerElement.TransportControls>
+        </MediaPlayerElement>
+
+        <!--  视频播放失败  -->
+        <Grid
+            Grid.Row="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            RowSpacing="10"
+            Visibility="{x:Bind GetCutVideoKind(CutVideoResultKind, enum:CutVideoResultKind.Failed), Mode=OneWay}">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                Grid.Row="0"
+                Margin="50,0,50,0"
+                HorizontalAlignment="Center"
+                FontSize="16"
+                Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('VideoPlayFailed')}"
+                TextWrapping="Wrap" />
+
+            <TextBlock Grid.Row="1" HorizontalAlignment="Center">
+                <Run Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('ErrorReason')}" />
+                <Run Text="{x:Bind ErrorReason, Mode=OneWay}" />
+            </TextBlock>
+
+            <Button
+                Grid.Row="2"
+                HorizontalAlignment="Center"
+                Click="{x:Bind OnPlayWithSystemVideoClicked}"
+                Content="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('PlayWithSystemVideo')}" />
+        </Grid>
+
+        <!--  剪切视频选项  -->
+        <Grid
+            Grid.Row="2"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="0,1,0,0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid
+                Grid.Row="0"
+                HorizontalAlignment="Stretch"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="0,0,0,1">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    x:Name="FileNameText"
+                    Grid.Column="0"
+                    Margin="10,0,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind FileName, Mode=OneWay}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip
+                            MaxWidth="9999"
+                            Padding="0"
+                            Background="Transparent"
+                            Visibility="{x:Bind FileNameText.IsTextTrimmed, Mode=OneWay}">
+
+                            <Grid>
+                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind FileName, Mode=OneWay}" />
+                            </Grid>
+                        </ToolTip>
+                    </ToolTipService.ToolTip>
+                </TextBlock>
+
+                <SelectorBar
+                    x:Name="CutVideoSelectorBar"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    SelectedItem="{x:Bind CutVideoSelectedItem, Mode=OneWay}"
+                    SelectionChanged="{x:Bind OnCutVideoSelectionChanged}">
+
+                    <SelectorBarItem Padding="12,5" Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('Editing')}" />
+                    <SelectorBarItem Padding="12,5" Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('ImageCropping')}" />
+                    <SelectorBarItem Padding="12,5" Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('Cover')}" />
+                </SelectorBar>
+
+                <Button
+                    Grid.Column="2"
+                    Margin="0,0,10,0"
+                    HorizontalAlignment="Right"
+                    Click="{x:Bind OnOkClicked}"
+                    Content="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('OK')}" />
+            </Grid>
+
+            <!--  剪辑选项  -->
+            <Grid
+                Grid.Row="1"
+                Margin="10,5,10,10"
+                Visibility="{x:Bind GetCutVideoSelectedItem(CutVideoSelectedItem, CutVideoSelectorBar.Items[0]), Mode=OneWay}">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!--  起始时间选项  -->
+                <Grid Grid.Column="0" RowSpacing="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock
+                        Grid.Row="0"
+                        FontSize="20"
+                        Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('StartTime')}" />
+
+                    <ContentControl
+                        Grid.Row="1"
+                        HorizontalAlignment="Left"
+                        IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsLoadingTimeStartImformation), Mode=OneWay}">
+
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <TextBlock
+                                Margin="0,0,0,2"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource BodyTextBlockStyle}"
+                                Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('Hours')}" />
+
+                            <NumberBox
+                                VerticalAlignment="Center"
+                                LargeChange="1"
+                                SmallChange="1"
+                                SpinButtonPlacementMode="Compact"
+                                Style="{StaticResource NumberBoxStyle}"
+                                ValueChanged="{x:Bind OnTimeStartHoursValueChanged}"
+                                Value="{x:Bind TimeStartHours, Mode=OneWay}" />
+
+                            <TextBlock
+                                Margin="0,0,0,2"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource BodyTextBlockStyle}"
+                                Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('Minutes')}" />
+
+                            <NumberBox
+                                VerticalAlignment="Center"
+                                LargeChange="1"
+                                SmallChange="1"
+                                SpinButtonPlacementMode="Compact"
+                                Style="{StaticResource NumberBoxStyle}"
+                                ValueChanged="{x:Bind OnTimeStartMinutesValueChanged}"
+                                Value="{x:Bind TimeStartMinutes, Mode=OneWay}" />
+
+                            <TextBlock
+                                Margin="0,0,0,2"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource BodyTextBlockStyle}"
+                                Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('Seconds')}" />
+
+                            <NumberBox
+                                VerticalAlignment="Center"
+                                LargeChange="1"
+                                SmallChange="1"
+                                SpinButtonPlacementMode="Compact"
+                                Style="{StaticResource NumberBoxStyle}"
+                                ValueChanged="{x:Bind OnTimeStartSecondsValueChanged}"
+                                Value="{x:Bind TimeStartSeconds, Mode=OneWay}" />
+
+                            <NumberBox
+                                VerticalAlignment="Center"
+                                LargeChange="1"
+                                SmallChange="1"
+                                SpinButtonPlacementMode="Compact"
+                                Style="{StaticResource NumberBoxStyle}"
+                                ValueChanged="{x:Bind OnTimeStartMillsecondsValueChanged}"
+                                Value="{x:Bind TimeStartMillseconds, Mode=OneWay}" />
+
+                            <Button
+                                Width="32"
+                                Height="32"
+                                Padding="0"
+                                Click="{x:Bind OnTimeStartLocationClicked}"
+                                CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                <FontIcon FontSize="16" Glyph="&#xECAF;" />
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip
+                                        MaxWidth="9999"
+                                        Padding="0"
+                                        Background="Transparent">
+
+                                        <Grid>
+                                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('TimeStartLocation')}" />
+                                        </Grid>
+                                    </ToolTip>
+                                </ToolTipService.ToolTip>
+                            </Button>
+
+                            <Button
+                                Width="32"
+                                Height="32"
+                                Padding="0"
+                                Click="{x:Bind OnTimeStartLocateVdieoClicked}"
+                                CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                <FontIcon FontSize="16" Glyph="&#xE768;" />
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip
+                                        MaxWidth="9999"
+                                        Padding="0"
+                                        Background="Transparent">
+
+                                        <Grid>
+                                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('LocateVideo')}" />
+                                        </Grid>
+                                    </ToolTip>
+                                </ToolTipService.ToolTip>
+                            </Button>
+                        </StackPanel>
+                    </ContentControl>
+
+                    <TextBlock Grid.Row="2" Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('StartTimeScreenshot')}" />
+
+                    <Grid
+                        Grid.Row="3"
+                        Width="400"
+                        HorizontalAlignment="Left"
+                        Background="{ThemeResource SolidBackgroundFillColorBaseAltBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        CornerRadius="{StaticResource ControlCornerRadius}">
+
+                        <ProgressRing
+                            Width="45"
+                            Height="45"
+                            Canvas.ZIndex="1"
+                            IsActive="{x:Bind IsLoadingTimeStartImformation, Mode=OneWay}"
+                            Visibility="{x:Bind IsLoadingTimeStartImformation, Mode=OneWay}" />
+
+                        <Image Source="{x:Bind TimeStartImage, Mode=OneWay}" />
+                    </Grid>
+                </Grid>
+
+                <AppBarSeparator Grid.Column="1" Margin="15,-8,15,-30" />
+
+                <!--  结束时间选项  -->
+                <Grid Grid.Column="2" RowSpacing="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock
+                        Grid.Row="0"
+                        FontSize="20"
+                        Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('EndTime')}" />
+
+                    <ContentControl
+                        Grid.Row="1"
+                        HorizontalAlignment="Left"
+                        IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsLoadingTimeEndImformation), Mode=OneWay}">
+
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+
+                            <TextBlock
+                                Margin="0,0,0,2"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource BodyTextBlockStyle}"
+                                Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('Hours')}" />
+
+                            <NumberBox
+                                VerticalAlignment="Center"
+                                LargeChange="1"
+                                SmallChange="1"
+                                SpinButtonPlacementMode="Compact"
+                                Style="{StaticResource NumberBoxStyle}"
+                                ValueChanged="{x:Bind OnTimeEndHoursValueChanged}"
+                                Value="{x:Bind TimeEndHours, Mode=OneWay}" />
+
+                            <TextBlock
+                                Margin="0,0,0,2"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource BodyTextBlockStyle}"
+                                Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('Minutes')}" />
+
+                            <NumberBox
+                                VerticalAlignment="Center"
+                                LargeChange="1"
+                                SmallChange="1"
+                                SpinButtonPlacementMode="Compact"
+                                Style="{StaticResource NumberBoxStyle}"
+                                ValueChanged="{x:Bind OnTimeEndMinutesValueChanged}"
+                                Value="{x:Bind TimeEndMinutes, Mode=OneWay}" />
+
+                            <TextBlock
+                                Margin="0,0,0,2"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource BodyTextBlockStyle}"
+                                Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('Seconds')}" />
+
+                            <NumberBox
+                                VerticalAlignment="Center"
+                                LargeChange="1"
+                                SmallChange="1"
+                                SpinButtonPlacementMode="Compact"
+                                Style="{StaticResource NumberBoxStyle}"
+                                ValueChanged="{x:Bind OnTimeEndSecondsValueChanged}"
+                                Value="{x:Bind TimeEndSeconds, Mode=OneWay}" />
+
+                            <NumberBox
+                                VerticalAlignment="Center"
+                                LargeChange="1"
+                                SmallChange="1"
+                                SpinButtonPlacementMode="Compact"
+                                Style="{StaticResource NumberBoxStyle}"
+                                ValueChanged="{x:Bind OnTimeEndMillsecondsValueChanged}"
+                                Value="{x:Bind TimeEndMillseconds, Mode=OneWay}" />
+
+                            <Button
+                                Width="32"
+                                Height="32"
+                                Padding="0"
+                                Click="{x:Bind OnTimeEndLocationClicked}"
+                                CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                <FontIcon FontSize="16" Glyph="&#xECAF;" />
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip
+                                        MaxWidth="9999"
+                                        Padding="0"
+                                        Background="Transparent">
+
+                                        <Grid>
+                                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('TimeEndLocation')}" />
+                                        </Grid>
+                                    </ToolTip>
+                                </ToolTipService.ToolTip>
+                            </Button>
+
+                            <Button
+                                Width="32"
+                                Height="32"
+                                Padding="0"
+                                Click="{x:Bind OnTimeEndLocateVdieoClicked}"
+                                CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                <FontIcon FontSize="16" Glyph="&#xE768;" />
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip
+                                        MaxWidth="9999"
+                                        Padding="0"
+                                        Background="Transparent">
+
+                                        <Grid>
+                                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('LocateVideo')}" />
+                                        </Grid>
+                                    </ToolTip>
+                                </ToolTipService.ToolTip>
+                            </Button>
+                        </StackPanel>
+                    </ContentControl>
+
+                    <TextBlock Grid.Row="2" Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('EndTimeScreenshot')}" />
+
+                    <Grid
+                        Grid.Row="3"
+                        Width="400"
+                        HorizontalAlignment="Left"
+                        Background="{ThemeResource SolidBackgroundFillColorBaseAltBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        CornerRadius="{StaticResource ControlCornerRadius}">
+
+                        <ProgressRing
+                            Width="45"
+                            Height="45"
+                            Canvas.ZIndex="1"
+                            IsActive="{x:Bind IsLoadingTimeEndImformation, Mode=OneWay}"
+                            Visibility="{x:Bind IsLoadingTimeEndImformation, Mode=OneWay}" />
+
+                        <Image Source="{x:Bind TimeEndImage, Mode=OneWay}" />
+                    </Grid>
+                </Grid>
+            </Grid>
+
+            <!--  画面裁剪选项  -->
+            <Grid
+                Grid.Row="1"
+                Margin="10,5,10,10"
+                RowSpacing="5"
+                Visibility="{x:Bind GetCutVideoSelectedItem(CutVideoSelectedItem, CutVideoSelectorBar.Items[1]), Mode=OneWay}">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0" RowSpacing="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <ContentControl Grid.Row="0" IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsLoadingSelectRegionPreviewImformation), Mode=OneWay}">
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('SelectRegionOperation')}" />
+
+                            <ComboBox
+                                VerticalAlignment="Center"
+                                DisplayMemberPath="DisplayMember"
+                                ItemsSource="{x:Bind SelectRegionOperationList}"
+                                SelectedItem="{x:Bind SelectedSelectRegionOperation, Mode=OneWay}"
+                                SelectionChanged="{x:Bind OnSelectRegionOperationSelectionChanged}"
+                                Style="{StaticResource ComboBoxStyle}" />
+
+                            <Button
+                                Width="32"
+                                Height="32"
+                                Padding="0"
+                                Click="{x:Bind OnClipPreviewClicked}"
+                                CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                <FontIcon FontSize="16" Glyph="&#xE8C6;" />
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip
+                                        MaxWidth="9999"
+                                        Padding="0"
+                                        Background="Transparent">
+
+                                        <Grid>
+                                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('ClipPreview')}" />
+                                        </Grid>
+                                    </ToolTip>
+                                </ToolTipService.ToolTip>
+                            </Button>
+
+                            <Button
+                                Width="32"
+                                Height="32"
+                                Padding="0"
+                                Click="{x:Bind OnAddClipClicked}"
+                                CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                <FontIcon FontSize="16" Glyph="&#xE710;" />
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip
+                                        MaxWidth="9999"
+                                        Padding="0"
+                                        Background="Transparent">
+
+                                        <Grid>
+                                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('AddClip')}" />
+                                        </Grid>
+                                    </ToolTip>
+                                </ToolTipService.ToolTip>
+                            </Button>
+
+                            <Button
+                                Width="32"
+                                Height="32"
+                                Padding="0"
+                                Click="{x:Bind OnClearClipListClicked}"
+                                CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                <FontIcon FontSize="16" Glyph="&#xE711;" />
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip
+                                        MaxWidth="9999"
+                                        Padding="0"
+                                        Background="Transparent">
+
+                                        <Grid>
+                                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('ClearClipList')}" />
+                                        </Grid>
+                                    </ToolTip>
+                                </ToolTipService.ToolTip>
+                            </Button>
+                        </StackPanel>
+                    </ContentControl>
+
+                    <ContentControl Grid.Row="1" IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsLoadingSelectRegionPreviewImformation), Mode=OneWay}">
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('XCoordinate')}" />
+
+                            <NumberBox
+                                VerticalAlignment="Center"
+                                LargeChange="1"
+                                SmallChange="1"
+                                SpinButtonPlacementMode="Compact"
+                                Style="{StaticResource NumberBoxStyle}"
+                                ValueChanged="{x:Bind OnXCoordinateValueChanged}"
+                                Value="{x:Bind XCoordinate, Mode=OneWay}" />
+
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('YCoordinate')}" />
+
+                            <NumberBox
+                                VerticalAlignment="Center"
+                                LargeChange="1"
+                                SmallChange="1"
+                                SpinButtonPlacementMode="Compact"
+                                Style="{StaticResource NumberBoxStyle}"
+                                ValueChanged="{x:Bind OnYCoordinateValueChanged}"
+                                Value="{x:Bind YCoordinate, Mode=OneWay}" />
+
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('ClipWidth')}" />
+
+                            <NumberBox
+                                VerticalAlignment="Center"
+                                LargeChange="1"
+                                SmallChange="1"
+                                SpinButtonPlacementMode="Compact"
+                                Style="{StaticResource NumberBoxStyle}"
+                                ValueChanged="{x:Bind OnClipWidthValueChanged}"
+                                Value="{x:Bind ClipWidth, Mode=OneWay}" />
+
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('ClipHeight')}" />
+
+                            <NumberBox
+                                VerticalAlignment="Center"
+                                LargeChange="1"
+                                SmallChange="1"
+                                SpinButtonPlacementMode="Compact"
+                                Style="{StaticResource NumberBoxStyle}"
+                                ValueChanged="{x:Bind OnClipHeightValueChanged}"
+                                Value="{x:Bind ClipHeight, Mode=OneWay}" />
+                        </StackPanel>
+                    </ContentControl>
+
+                    <TextBlock
+                        Grid.Row="2"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('PreviewClipPhoto')}" />
+
+                    <Grid
+                        Grid.Row="3"
+                        Width="400"
+                        HorizontalAlignment="Left"
+                        Background="{ThemeResource SolidBackgroundFillColorBaseAltBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        CornerRadius="{StaticResource ControlCornerRadius}">
+
+                        <ProgressRing
+                            Width="45"
+                            Height="45"
+                            Canvas.ZIndex="1"
+                            IsActive="{x:Bind IsLoadingSelectRegionPreviewImformation, Mode=OneWay}"
+                            Visibility="{x:Bind IsLoadingSelectRegionPreviewImformation, Mode=OneWay}" />
+
+                        <Image Source="{x:Bind SelectRegionPreviewImage, Mode=OneWay}" />
+                    </Grid>
+                </Grid>
+
+                <AppBarSeparator Grid.Column="1" Margin="15,-8,15,-30" />
+
+                <Grid Grid.Column="2" RowSpacing="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('SelectRegionOperationList')}" />
+
+                    <ListView
+                        Grid.Row="1"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        ItemsSource="{x:Bind SelectRegionOperationCollection, Mode=OneWay}"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        ScrollViewer.HorizontalScrollMode="Disabled"
+                        ScrollViewer.VerticalScrollBarVisibility="Visible"
+                        ScrollViewer.VerticalScrollMode="Enabled"
+                        SelectionMode="None">
+
+                        <ListView.ItemContainerStyle>
+                            <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="Margin" Value="0" />
+                                <Setter Property="MinHeight" Value="0" />
+                                <Setter Property="Padding" Value="0" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+
+                        <ItemsControl.ItemContainerTransitions>
+                            <TransitionCollection />
+                        </ItemsControl.ItemContainerTransitions>
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="model:SelectRegionOperationModel">
+
+                                <Grid
+                                    Height="35"
+                                    Padding="6,0,6,0"
+                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                    BorderThickness="0,0,0,1">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        Margin="4,0,0,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        TextAlignment="Left"
+                                        TextTrimming="CharacterEllipsis"
+                                        TextWrapping="NoWrap">
+
+                                        <Run Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('XCoordinate')}" /><Run Text=" = " /><Run Text="{x:Bind system:Convert.ToString(XCoordinate)}" />
+                                        <Run Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('YCoordinate')}" /><Run Text=" = " /><Run Text="{x:Bind system:Convert.ToString(YCoordinate)}" />
+                                        <Run Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('ClipWidth')}" /><Run Text=" = " /><Run Text="{x:Bind system:Convert.ToString(ClipWidth)}" />
+                                        <Run Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('ClipHeight')}" /><Run Text=" = " /><Run Text="{x:Bind system:Convert.ToString(ClipHeight)}" />
+                                    </TextBlock>
+
+                                    <HyperlinkButton
+                                        Grid.Column="4"
+                                        Margin="10,0,4,0"
+                                        Padding="0"
+                                        Command="{StaticResource DeleteCommand}"
+                                        CommandParameter="{x:Bind}"
+                                        Content="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('Delete')}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </Grid>
+
+            <!--  封面选项  -->
+            <Grid
+                Grid.Row="1"
+                Margin="10,5,10,10"
+                RowSpacing="5"
+                Visibility="{x:Bind GetCutVideoSelectedItem(CutVideoSelectedItem, CutVideoSelectorBar.Items[2]), Mode=OneWay}">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('SetVideoCover')}" />
+
+                    <Button
+                        Width="32"
+                        Height="32"
+                        Margin="0,0,5,0"
+                        Padding="0"
+                        Click="{x:Bind OnSelectFileClicked}"
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsLoadingVideoCover), Mode=OneWay}">
+
+                        <FontIcon FontSize="16" Glyph="&#xE838;" />
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip
+                                MaxWidth="9999"
+                                Padding="0"
+                                Background="Transparent">
+
+                                <Grid>
+                                    <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                    <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('SelectFile')}" />
+                                </Grid>
+                            </ToolTip>
+                        </ToolTipService.ToolTip>
+                    </Button>
+
+                    <Button
+                        Width="32"
+                        Height="32"
+                        Padding="0"
+                        Click="{x:Bind OnClearSelectFileClicked}"
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsLoadingVideoCover), Mode=OneWay}">
+
+                        <FontIcon FontSize="16" Glyph="&#xE894;" />
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip
+                                MaxWidth="9999"
+                                Padding="0"
+                                Background="Transparent">
+
+                                <Grid>
+                                    <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                    <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('ClearSelectFile')}" />
+                                </Grid>
+                            </ToolTip>
+                        </ToolTipService.ToolTip>
+                    </Button>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <TextBlock
+                        Text="{x:Bind rootservice:ResourceService.CutVideoResource.GetString('VideoCoverPositon')}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap" />
+
+                    <TextBlock Visibility="{x:Bind GetVideoConverFilePathState(VideoCoverFilePath, x:False), Mode=OneWay}">
+                        <Hyperlink Click="{x:Bind OnVideoCoverFilePathClicked}" UnderlineStyle="None">
+                            <Run Text="{x:Bind VideoCoverFilePath, Mode=OneWay}" />
+                        </Hyperlink>
+                    </TextBlock>
+
+                    <TextBlock Text="N/A" Visibility="{x:Bind GetVideoConverFilePathState(VideoCoverFilePath, x:True), Mode=OneWay}" />
+                </StackPanel>
+
+                <Grid
+                    Grid.Row="2"
+                    Width="400"
+                    HorizontalAlignment="Left"
+                    Background="{ThemeResource SolidBackgroundFillColorBaseAltBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    CornerRadius="{StaticResource ControlCornerRadius}">
+
+                    <ProgressRing
+                        Width="45"
+                        Height="45"
+                        Canvas.ZIndex="1"
+                        IsActive="{x:Bind IsLoadingVideoCover, Mode=OneWay}"
+                        Visibility="{x:Bind IsLoadingVideoCover, Mode=OneWay}" />
+
+                    <Image Source="{x:Bind VideoCoverImage, Mode=OneWay}" />
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</ContentDialog>
