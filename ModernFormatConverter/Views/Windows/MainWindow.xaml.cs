@@ -8,8 +8,11 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using ModernFormatConverter.Extensions.Backdrop;
+using ModernFormatConverter.Extensions.DataType.Class;
+using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Helpers.Root;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
@@ -47,6 +50,7 @@ namespace ModernFormatConverter.Views.Windows
         private readonly ContentIsland contentIsland;
         private readonly InputKeyboardSource inputKeyboardSource;
         private readonly InputPointerSource inputPointerSource;
+        private bool isProgrammaticExpand;
 
         public new static MainWindow Current { get; private set; }
 
@@ -130,9 +134,9 @@ namespace ModernFormatConverter.Views.Windows
             }
         }
 
-        private NavigationViewItem _selectedItem;
+        private NavigationViewItemModel _selectedItem;
 
-        public NavigationViewItem SelectedItem
+        public NavigationViewItemModel SelectedItem
         {
             get { return _selectedItem; }
 
@@ -146,17 +150,9 @@ namespace ModernFormatConverter.Views.Windows
             }
         }
 
-        private List<KeyValuePair<string, Type>> PageList { get; } =
-        [
-            new KeyValuePair<string, Type>("Home",typeof(HomePage)),
-            new KeyValuePair<string, Type>("TaskManger",typeof(TaskMangerPage)),
-            new KeyValuePair<string, Type>("FileInformation",typeof(FileInformationPage)),
-            new KeyValuePair<string, Type>("HATest",typeof(HATestPage)),
-            new KeyValuePair<string, Type>("CustomCommand",typeof(CustomCommandPage)),
-            new KeyValuePair<string, Type>("Settings",typeof(SettingsPage)),
-        ];
+        public WinRTObservableCollection<NavigationViewItemModel> NavigationViewItemMenuItemsCollection { get; } = [];
 
-        public List<NavigationModel> NavigationItemList { get; } = [];
+        public WinRTObservableCollection<NavigationViewItemModel> NavigationViewItemFooterMenuItemsCollection { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -202,13 +198,156 @@ namespace ModernFormatConverter.Views.Windows
             int dpi = User32Library.GetDpiForWindow((nint)AppWindow.Id.Value);
             overlappedPresenter.PreferredMinimumWidth = Convert.ToInt32(1000 * Convert.ToDouble(dpi) / 96);
             overlappedPresenter.PreferredMinimumHeight = Convert.ToInt32(600 * Convert.ToDouble(dpi) / 96);
+
+            NavigationViewItemMenuItemsCollection.Add(new NavigationViewItemModel()
+            {
+                NavigationViewItemKind = NavigationViewItemKind.Item,
+                NavigationIcon = new ImageIcon() { Source = new BitmapImage() { UriSource = new Uri("ms-appx:///Assets/ControlIcon/Home.png") } },
+                NavigationTitle = ResourceService.WindowResource.GetString("Home"),
+                NavigationTag = "Home",
+                ParentTag = null,
+                NavigationPage = typeof(HomePage),
+                VisibleState = Visibility.Visible
+            });
+            NavigationViewItemMenuItemsCollection.Add(new NavigationViewItemModel()
+            {
+                NavigationViewItemKind = NavigationViewItemKind.Seperator,
+                NavigationIcon = null,
+                NavigationTitle = null,
+                NavigationTag = null,
+                ParentTag = null,
+                NavigationPage = null,
+                VisibleState = Visibility.Visible
+            });
+            NavigationViewItemModel conversionToolsItem = new()
+            {
+                NavigationViewItemKind = NavigationViewItemKind.Item,
+                NavigationIcon = new ImageIcon() { Source = new BitmapImage() { UriSource = new Uri("ms-appx:///Assets/ControlIcon/ConversionTools.png") } },
+                NavigationTitle = ResourceService.WindowResource.GetString("ConversionTools"),
+                NavigationTag = "ConversionTools",
+                ParentTag = null,
+                NavigationPage = null,
+                VisibleState = Visibility.Visible
+            };
+            conversionToolsItem.NavigationViewItemMenuItemsCollection.Add(new NavigationViewItemModel()
+            {
+                NavigationViewItemKind = NavigationViewItemKind.Item,
+                NavigationIcon = new ImageIcon() { Source = new BitmapImage() { UriSource = new Uri("ms-appx:///Assets/ControlIcon/VideoConversion.png") } },
+                NavigationTitle = ResourceService.WindowResource.GetString("VideoConversion"),
+                NavigationTag = "VideoConversion",
+                ParentTag = "ConversionTools",
+                NavigationPage = typeof(VideoConversionPage),
+                VisibleState = Visibility.Visible
+            });
+            conversionToolsItem.NavigationViewItemMenuItemsCollection.Add(new NavigationViewItemModel()
+            {
+                NavigationViewItemKind = NavigationViewItemKind.Item,
+                NavigationIcon = new ImageIcon() { Source = new BitmapImage() { UriSource = new Uri("ms-appx:///Assets/ControlIcon/AudioConversion.png") } },
+                NavigationTitle = ResourceService.WindowResource.GetString("AudioConversion"),
+                NavigationTag = "AudioConversion",
+                ParentTag = "ConversionTools",
+                NavigationPage = typeof(AudioConversionPage),
+                VisibleState = Visibility.Visible
+            });
+            conversionToolsItem.NavigationViewItemMenuItemsCollection.Add(new NavigationViewItemModel()
+            {
+                NavigationViewItemKind = NavigationViewItemKind.Item,
+                NavigationIcon = new ImageIcon() { Source = new BitmapImage() { UriSource = new Uri("ms-appx:///Assets/ControlIcon/PhotoConversion.png") } },
+                NavigationTitle = ResourceService.WindowResource.GetString("PhotoConversion"),
+                NavigationTag = "PhotoConversion",
+                ParentTag = "ConversionTools",
+                NavigationPage = typeof(PhotoConversionPage),
+                VisibleState = Visibility.Visible
+            });
+            NavigationViewItemMenuItemsCollection.Add(conversionToolsItem);
+            NavigationViewItemMenuItemsCollection.Add(new NavigationViewItemModel()
+            {
+                NavigationViewItemKind = NavigationViewItemKind.Seperator,
+                NavigationIcon = null,
+                NavigationTitle = null,
+                NavigationTag = null,
+                ParentTag = null,
+                NavigationPage = null,
+                VisibleState = Visibility.Visible
+            });
+            NavigationViewItemMenuItemsCollection.Add(new NavigationViewItemModel()
+            {
+                NavigationViewItemKind = NavigationViewItemKind.Item,
+                NavigationIcon = new ImageIcon() { Source = new BitmapImage() { UriSource = new Uri("ms-appx:///Assets/ControlIcon/TaskManager.png") } },
+                NavigationTitle = ResourceService.WindowResource.GetString("TaskManager"),
+                NavigationTag = "TaskManager",
+                ParentTag = null,
+                NavigationPage = typeof(TaskManagerPage),
+                VisibleState = Visibility.Visible
+            });
+            NavigationViewItemMenuItemsCollection.Add(new NavigationViewItemModel()
+            {
+                NavigationViewItemKind = NavigationViewItemKind.Seperator,
+                NavigationIcon = null,
+                NavigationTitle = null,
+                NavigationTag = null,
+                ParentTag = null,
+                NavigationPage = null,
+                VisibleState = Visibility.Visible
+            });
+            NavigationViewItemModel otherToolsItem = new()
+            {
+                NavigationViewItemKind = NavigationViewItemKind.Item,
+                NavigationIcon = new ImageIcon() { Source = new BitmapImage() { UriSource = new Uri("ms-appx:///Assets/ControlIcon/OtherTools.png") } },
+                NavigationTitle = ResourceService.WindowResource.GetString("OtherTools"),
+                NavigationTag = "OtherTools",
+                ParentTag = null,
+                NavigationPage = null,
+                VisibleState = Visibility.Visible
+            };
+            otherToolsItem.NavigationViewItemMenuItemsCollection.Add(new NavigationViewItemModel()
+            {
+                NavigationViewItemKind = NavigationViewItemKind.Item,
+                NavigationIcon = new ImageIcon() { Source = new BitmapImage() { UriSource = new Uri("ms-appx:///Assets/ControlIcon/FileInformation.png") } },
+                NavigationTitle = ResourceService.WindowResource.GetString("FileInformation"),
+                NavigationTag = "FileInformation",
+                ParentTag = "OtherTools",
+                NavigationPage = typeof(FileInformationPage),
+                VisibleState = Visibility.Visible
+            });
+            otherToolsItem.NavigationViewItemMenuItemsCollection.Add(new NavigationViewItemModel()
+            {
+                NavigationViewItemKind = NavigationViewItemKind.Item,
+                NavigationIcon = new ImageIcon() { Source = new BitmapImage() { UriSource = new Uri("ms-appx:///Assets/ControlIcon/HATest.png") } },
+                NavigationTitle = ResourceService.WindowResource.GetString("HATest"),
+                NavigationTag = "HATest",
+                ParentTag = "ConversionTools",
+                NavigationPage = typeof(HATestPage),
+                VisibleState = Visibility.Visible
+            });
+            otherToolsItem.NavigationViewItemMenuItemsCollection.Add(new NavigationViewItemModel()
+            {
+                NavigationViewItemKind = NavigationViewItemKind.Item,
+                NavigationIcon = new ImageIcon() { Source = new BitmapImage() { UriSource = new Uri("ms-appx:///Assets/ControlIcon/CustomCommand.png") } },
+                NavigationTitle = ResourceService.WindowResource.GetString("CustomCommand"),
+                NavigationTag = "CustomCommand",
+                ParentTag = "ConversionTools",
+                NavigationPage = typeof(CustomCommandPage),
+                VisibleState = Visibility.Visible
+            });
+            NavigationViewItemMenuItemsCollection.Add(otherToolsItem);
+            NavigationViewItemFooterMenuItemsCollection.Add(new NavigationViewItemModel()
+            {
+                NavigationViewItemKind = NavigationViewItemKind.Item,
+                NavigationIcon = new ImageIcon() { Source = new BitmapImage() { UriSource = new Uri("ms-appx:///Assets/ControlIcon/Settings.png") } },
+                NavigationTitle = ResourceService.WindowResource.GetString("Settings"),
+                NavigationTag = "Settings",
+                ParentTag = null,
+                NavigationPage = typeof(SettingsPage),
+                VisibleState = Visibility.Visible
+            });
         }
 
         #region 第一部分：窗口辅助类挂载的事件
 
-        /// <summary>
-        /// 处理键盘系统按键事件
-        /// </summary>
+            /// <summary>
+            /// 处理键盘系统按键事件
+            /// </summary>
         private async void OnSystemKeyDown(InputKeyboardSource sender, KeyEventArgs args)
         {
             if (args.VirtualKey is VirtualKey.F10 && Content is not null && Content.XamlRoot is not null)
@@ -334,78 +473,40 @@ namespace ModernFormatConverter.Views.Windows
             // 设置标题栏主题
             SetTitleBarTheme((Content as FrameworkElement).ActualTheme);
 
-            // 导航控件加载完成后初始化内容
-            if (sender is NavigationView navigationView)
-            {
-                foreach (object menuItem in navigationView.MenuItems)
-                {
-                    if (menuItem is NavigationViewItem navigationViewItem && navigationViewItem.Tag is string tag)
-                    {
-                        int tagIndex = PageList.FindIndex(item => string.Equals(item.Key, tag));
-
-                        NavigationItemList.Add(new NavigationModel()
-                        {
-                            NavigationTag = PageList[tagIndex].Key,
-                            NavigationItem = navigationViewItem,
-                            NavigationPage = PageList[tagIndex].Value,
-                            ParentTag = null
-                        });
-
-                        if (navigationViewItem.MenuItems.Count > 0)
-                        {
-                            foreach (object subItem in navigationViewItem.MenuItems)
-                            {
-                                if (subItem is NavigationViewItem subNavigationViewItem && subNavigationViewItem.Tag is string subtag)
-                                {
-                                    int subTagIndex = PageList.FindIndex(item => string.Equals(item.Key, subtag));
-
-                                    NavigationItemList.Add(new NavigationModel()
-                                    {
-                                        NavigationTag = PageList[subTagIndex].Key,
-                                        NavigationItem = subNavigationViewItem,
-                                        NavigationPage = PageList[subTagIndex].Value,
-                                        ParentTag = PageList[tagIndex].Key
-                                    });
-                                }
-                            }
-                        }
-                    }
-                }
-
-                foreach (object footerMenuItem in navigationView.FooterMenuItems)
-                {
-                    if (footerMenuItem is NavigationViewItem navigationViewItem && navigationViewItem.Tag is string tag)
-                    {
-                        int tagIndex = PageList.FindIndex(item => string.Equals(item.Key, tag));
-
-                        NavigationItemList.Add(new NavigationModel()
-                        {
-                            NavigationTag = PageList[tagIndex].Key,
-                            NavigationItem = navigationViewItem,
-                            NavigationPage = PageList[tagIndex].Value,
-                        });
-                    }
-                }
-            }
-
-            SelectedItem = NavigationItemList[0].NavigationItem;
+            SelectedItem = NavigationViewItemMenuItemsCollection[0];
             NavigateTo(typeof(HomePage));
             IsBackEnabled = CanGoBack();
             SetPopupControlTheme(WindowTheme);
         }
 
         /// <summary>
-        /// 当菜单中的项收到交互（如单击或点击）时发生
+        /// 当导航栏菜单中的选中项发生改变时触发的事件
         /// </summary>
-        private void OnItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+        private void OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
-            if (args.InvokedItemContainer is NavigationViewItemBase navigationViewItem && navigationViewItem.Tag is string tag)
+            if (args.SelectedItem is not null && !Equals(SelectedItem, args.SelectedItem))
             {
-                NavigationModel navigation = NavigationItemList.Find(item => string.Equals(item.NavigationTag, tag, StringComparison.OrdinalIgnoreCase));
+                SelectedItem = args.SelectedItem as NavigationViewItemModel;
 
-                if (navigation.NavigationPage is not null && !Equals(SelectedItem, navigation.NavigationItem))
+                // 对应的页面为空，选中项修改为已经选择的页面
+                if (SelectedItem.NavigationPage is null)
                 {
-                    NavigateTo(navigation.NavigationPage);
+                    Type currentPageType = GetCurrentPageType();
+                    NavigationViewItemModel selectedNavigationViewItem = GetSelectedItem(currentPageType, NavigationViewItemMenuItemsCollection);
+                    if (selectedNavigationViewItem is not null)
+                    {
+                        SelectedItem = selectedNavigationViewItem;
+                    }
+                    else
+                    {
+                        selectedNavigationViewItem = GetSelectedItem(currentPageType, NavigationViewItemFooterMenuItemsCollection);
+                        SelectedItem = selectedNavigationViewItem is not null ? selectedNavigationViewItem : null;
+                    }
+                }
+                // 切换到选中项对应的页面
+                else
+                {
+                    NavigateTo(SelectedItem.NavigationPage);
                 }
             }
         }
@@ -413,11 +514,26 @@ namespace ModernFormatConverter.Views.Windows
         /// <summary>
         /// 当树中的节点开始展开时发生时的事件
         /// </summary>
-        private void OnExpanding(NavigationView sender, NavigationViewItemExpandingEventArgs args)
+        private async void OnExpanding(NavigationView sender, NavigationViewItemExpandingEventArgs args)
         {
-            if (!Equals(sender.SelectedItem, SelectedItem) && SelectedItem.Tag is string)
+            Type currentPageType = GetCurrentPageType();
+            if (isProgrammaticExpand)
             {
-                sender.SelectedItem = SelectedItem;
+                isProgrammaticExpand = false;
+                await Task.Delay(5);
+            }
+
+            // 切换到选中页面对应的项
+            SelectedItem = null;
+            NavigationViewItemModel selectedNavigationViewItem = GetSelectedItem(currentPageType, NavigationViewItemMenuItemsCollection);
+            if (selectedNavigationViewItem is not null)
+            {
+                SelectedItem = selectedNavigationViewItem;
+            }
+            else
+            {
+                selectedNavigationViewItem = GetSelectedItem(currentPageType, NavigationViewItemFooterMenuItemsCollection);
+                SelectedItem = selectedNavigationViewItem is not null ? selectedNavigationViewItem : null;
             }
         }
 
@@ -426,9 +542,19 @@ namespace ModernFormatConverter.Views.Windows
         /// </summary>
         private void OnCollapsed(NavigationView sender, NavigationViewItemCollapsedEventArgs args)
         {
-            if (!Equals(sender.SelectedItem, SelectedItem) && SelectedItem.Tag is string)
+            Type currentPageType = GetCurrentPageType();
+
+            // 切换到选中页面对应的项
+            SelectedItem = null;
+            NavigationViewItemModel selectedNavigationViewItem = GetSelectedItem(currentPageType, NavigationViewItemMenuItemsCollection);
+            if (selectedNavigationViewItem is not null)
             {
-                sender.SelectedItem = SelectedItem;
+                SelectedItem = selectedNavigationViewItem;
+            }
+            else
+            {
+                selectedNavigationViewItem = GetSelectedItem(currentPageType, NavigationViewItemFooterMenuItemsCollection);
+                SelectedItem = selectedNavigationViewItem is not null ? selectedNavigationViewItem : null;
             }
         }
 
@@ -440,14 +566,27 @@ namespace ModernFormatConverter.Views.Windows
             try
             {
                 Type currentPageType = GetCurrentPageType();
-                foreach (NavigationModel navigationItem in NavigationItemList)
+
+                // 切换到选中页面对应的项
+                NavigationViewItemModel selectedNavigationViewItem = GetSelectedItem(currentPageType, NavigationViewItemMenuItemsCollection);
+                // 显示未打开的父项
+                if (ShowParentNavigationViewItem(selectedNavigationViewItem))
                 {
-                    if (navigationItem.NavigationPage is not null && Equals(navigationItem.NavigationPage, currentPageType))
-                    {
-                        SelectedItem = navigationItem.NavigationItem;
-                        IsBackEnabled = CanGoBack();
-                    }
+                    await Task.Delay(5);
                 }
+
+                SelectedItem = null;
+                if (selectedNavigationViewItem is not null)
+                {
+                    SelectedItem = selectedNavigationViewItem;
+                }
+                else
+                {
+                    selectedNavigationViewItem = GetSelectedItem(currentPageType, NavigationViewItemFooterMenuItemsCollection);
+                    SelectedItem = selectedNavigationViewItem is not null ? selectedNavigationViewItem : null;
+                }
+
+                IsBackEnabled = CanGoBack();
             }
             catch (Exception e)
             {
@@ -770,23 +909,10 @@ namespace ModernFormatConverter.Views.Windows
         {
             try
             {
-                if (NavigationItemList.Find(item => Equals(item.NavigationPage, navigationPageType)) is NavigationModel navigationItem)
+                // 导航到该项目对应的页面
+                if (!Equals(GetCurrentPageType(), navigationPageType))
                 {
-                    // 如果点击的是子项，而父项没有展开，则自动展开父项中所有的子项
-                    if (!string.IsNullOrEmpty(navigationItem.ParentTag))
-                    {
-                        // 查找父项
-                        NavigationModel parentNavigationItem = NavigationItemList.Find(item => string.Equals(item.NavigationTag, navigationItem.ParentTag, StringComparison.OrdinalIgnoreCase));
-
-                        // 展开父项
-                        if (parentNavigationItem is not null)
-                        {
-                            MainNavigationView.Expand(parentNavigationItem.NavigationItem);
-                        }
-                    }
-
-                    // 导航到该项目对应的页面
-                    (MainNavigationView.Content as Frame).Navigate(navigationItem.NavigationPage, parameter);
+                    (MainNavigationView.Content as Frame).Navigate(navigationPageType, parameter);
                 }
             }
             catch (Exception e)
@@ -802,26 +928,6 @@ namespace ModernFormatConverter.Views.Windows
         {
             if ((MainNavigationView.Content as Frame).CanGoBack)
             {
-                // 在向后导航前，如果向后导航选中的是子项，而父项没有展开，则自动展开父项中所有的子项
-                try
-                {
-                    if (NavigationItemList.Find(item => Equals(item.NavigationPage, (MainNavigationView.Content as Frame).BackStack.Last().SourcePageType)) is NavigationModel navigationItem && navigationItem.ParentTag is not null)
-                    {
-                        // 查找父项
-                        NavigationModel parentNavigationItem = NavigationItemList.Find(item => string.Equals(item.NavigationTag, navigationItem.ParentTag, StringComparison.OrdinalIgnoreCase));
-
-                        // 展开父项
-                        if (parentNavigationItem is not null)
-                        {
-                            MainNavigationView.Expand(parentNavigationItem.NavigationItem);
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(MainWindow), nameof(NavigationFrom), 1, e);
-                }
-
                 (MainNavigationView.Content as Frame).GoBack();
             }
         }
@@ -848,6 +954,72 @@ namespace ModernFormatConverter.Views.Windows
         public bool CanGoBack()
         {
             return (MainNavigationView.Content as Frame).CanGoBack;
+        }
+
+        /// <summary>
+        /// 获取选中项
+        /// </summary>
+        public NavigationViewItemModel GetSelectedItem(Type currentPageType, WinRTObservableCollection<NavigationViewItemModel> navigationViewItemMenuItemCollection)
+        {
+            foreach (NavigationViewItemModel navigationViewItem in navigationViewItemMenuItemCollection)
+            {
+                if (Equals(navigationViewItem.NavigationPage, currentPageType))
+                {
+                    return navigationViewItem;
+                }
+
+                // 递归遍历
+                if (GetSelectedItem(currentPageType, navigationViewItem.NavigationViewItemMenuItemsCollection) is NavigationViewItemModel searchedNavigationViewItem)
+                {
+                    return searchedNavigationViewItem;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// 获取选中的父项
+        /// </summary>
+        private NavigationViewItemModel GetParentNavigationViewItem(NavigationViewItemModel searchNavigationViewItem)
+        {
+            foreach (NavigationViewItemModel naviationViewItem in NavigationViewItemMenuItemsCollection)
+            {
+                if (string.Equals(naviationViewItem.NavigationTag, searchNavigationViewItem.ParentTag))
+                {
+                    return naviationViewItem;
+                }
+            }
+
+            foreach (NavigationViewItemModel naviationViewItem in NavigationViewItemFooterMenuItemsCollection)
+            {
+                if (string.Equals(naviationViewItem.NavigationTag, searchNavigationViewItem.ParentTag))
+                {
+                    return naviationViewItem;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// 显示未打开的父项
+        /// </summary>
+        private bool ShowParentNavigationViewItem(NavigationViewItemModel selectedNavigationViewItem)
+        {
+            // 如果选中的是子项，而父项没有展开，则自动展开父项中所有的子项
+            if (selectedNavigationViewItem is not null && !string.IsNullOrEmpty(selectedNavigationViewItem.ParentTag))
+            {
+                NavigationViewItemModel parentNavigationViewModelItem = GetParentNavigationViewItem(selectedNavigationViewItem);
+                if (MainNavigationView.ContainerFromMenuItem(parentNavigationViewModelItem) is NavigationViewItem parentNavigationViewItem)
+                {
+                    MainNavigationView.Expand(parentNavigationViewItem);
+                    isProgrammaticExpand = true;
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         #endregion 第八部分：窗口导航方法

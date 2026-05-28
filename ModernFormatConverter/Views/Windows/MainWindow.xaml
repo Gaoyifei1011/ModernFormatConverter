@@ -4,6 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
     xmlns:converter="using:ModernFormatConverter.Helpers.Converters"
+    xmlns:datatemplate="using:ModernFormatConverter.Views.DataTemplates"
+    xmlns:model="using:ModernFormatConverter.Models"
     xmlns:rootservice="using:ModernFormatConverter.Services.Root"
     xmlns:settingsservice="using:ModernFormatConverter.Services.Settings"
     Title="{x:Bind WindowTitle, Mode=OneWay}"
@@ -97,6 +99,43 @@
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
                 </MenuFlyout>
+
+                <!--  导航项数据模板  -->
+                <DataTemplate x:Key="NavigationViewItemTemplate" x:DataType="model:NavigationViewItemModel">
+                    <NavigationViewItem
+                        Icon="{x:Bind NavigationIcon}"
+                        IsExpanded="True"
+                        MenuItemsSource="{x:Bind NavigationViewItemMenuItemsCollection}"
+                        Style="{StaticResource NavigationViewItemStyle}"
+                        Visibility="{x:Bind VisibleState}">
+
+                        <TextBlock
+                            x:Name="NavigationViewItemText"
+                            Text="{x:Bind NavigationTitle}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap">
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip
+                                    MaxWidth="9999"
+                                    Padding="0"
+                                    Background="Transparent"
+                                    Visibility="{Binding ElementName=NavigationViewItemText, Path=IsTextTrimmed, Mode=OneWay}">
+
+                                    <Grid>
+                                        <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                        <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind NavigationTitle}" />
+                                    </Grid>
+                                </ToolTip>
+                            </ToolTipService.ToolTip>
+                        </TextBlock>
+                    </NavigationViewItem>
+                </DataTemplate>
+
+                <!--  导航项分割线数据模板  -->
+                <DataTemplate x:Key="NavigationViewItemSeparatorTemplate" x:DataType="model:NavigationViewItemModel">
+                    <NavigationViewItemSeparator Margin="0,0,6,0" Visibility="{x:Bind VisibleState}" />
+                </DataTemplate>
             </ResourceDictionary>
         </Page.Resources>
 
@@ -172,187 +211,20 @@
                 Canvas.ZIndex="0"
                 Collapsed="{x:Bind OnCollapsed}"
                 Expanding="{x:Bind OnExpanding}"
+                FooterMenuItemsSource="{x:Bind NavigationViewItemFooterMenuItemsCollection}"
                 IsBackButtonVisible="Collapsed"
                 IsPaneToggleButtonVisible="False"
                 IsSettingsVisible="False"
-                ItemInvoked="{x:Bind OnItemInvoked}"
                 Loaded="{x:Bind OnLoaded}"
-                MenuItemContainerStyle="{StaticResource NavigationViewItemStyle}"
+                MenuItemsSource="{x:Bind NavigationViewItemMenuItemsCollection}"
                 OpenPaneLength="220"
                 PaneDisplayMode="Left"
-                SelectedItem="{x:Bind SelectedItem, Mode=OneWay}">
+                SelectedItem="{x:Bind SelectedItem, Mode=OneWay}"
+                SelectionChanged="{x:Bind OnSelectionChanged}">
 
-                <NavigationView.MenuItems>
-                    <!--  主页  -->
-                    <NavigationViewItem Tag="{x:Bind PageList[0].Key}">
-
-                        <NavigationViewItem.Icon>
-                            <ImageIcon Source="ms-appx:///Assets/ControlIcon/Home.png" />
-                        </NavigationViewItem.Icon>
-
-                        <TextBlock
-                            x:Name="WindowHomeText"
-                            Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('Home')}"
-                            TextTrimming="CharacterEllipsis"
-                            TextWrapping="NoWrap" />
-
-                        <ToolTipService.ToolTip>
-                            <ToolTip
-                                MaxWidth="9999"
-                                Padding="0"
-                                Background="Transparent"
-                                Visibility="{x:Bind WindowHomeText.IsTextTrimmed, Mode=OneWay}">
-
-                                <Grid>
-                                    <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                    <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('Home')}" />
-                                </Grid>
-                            </ToolTip>
-                        </ToolTipService.ToolTip>
-                    </NavigationViewItem>
-
-                    <!--  任务管理  -->
-                    <NavigationViewItem Tag="{x:Bind PageList[1].Key}">
-
-                        <NavigationViewItem.Icon>
-                            <ImageIcon Source="ms-appx:///Assets/ControlIcon/TaskManager.png" />
-                        </NavigationViewItem.Icon>
-
-                        <TextBlock
-                            x:Name="WindowTaskManagerText"
-                            Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('TaskManager')}"
-                            TextTrimming="CharacterEllipsis"
-                            TextWrapping="NoWrap" />
-
-                        <ToolTipService.ToolTip>
-                            <ToolTip
-                                MaxWidth="9999"
-                                Padding="0"
-                                Background="Transparent"
-                                Visibility="{x:Bind WindowTaskManagerText.IsTextTrimmed, Mode=OneWay}">
-
-                                <Grid>
-                                    <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                    <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('TaskManager')}" />
-                                </Grid>
-                            </ToolTip>
-                        </ToolTipService.ToolTip>
-                    </NavigationViewItem>
-
-                    <!--  文件信息  -->
-                    <NavigationViewItem Tag="{x:Bind PageList[2].Key}">
-
-                        <NavigationViewItem.Icon>
-                            <ImageIcon Source="ms-appx:///Assets/ControlIcon/FileInformation.png" />
-                        </NavigationViewItem.Icon>
-
-                        <TextBlock
-                            x:Name="WindowFileInformationText"
-                            Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('FileInformation')}"
-                            TextTrimming="CharacterEllipsis"
-                            TextWrapping="NoWrap" />
-
-                        <ToolTipService.ToolTip>
-                            <ToolTip
-                                MaxWidth="9999"
-                                Padding="0"
-                                Background="Transparent"
-                                Visibility="{x:Bind WindowFileInformationText.IsTextTrimmed, Mode=OneWay}">
-
-                                <Grid>
-                                    <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                    <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('FileInformation')}" />
-                                </Grid>
-                            </ToolTip>
-                        </ToolTipService.ToolTip>
-                    </NavigationViewItem>
-
-                    <!--  硬件加速测试  -->
-                    <NavigationViewItem Tag="{x:Bind PageList[3].Key}">
-
-                        <NavigationViewItem.Icon>
-                            <ImageIcon Source="ms-appx:///Assets/ControlIcon/HATest.png" />
-                        </NavigationViewItem.Icon>
-
-                        <TextBlock
-                            x:Name="WindowHATestText"
-                            Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('HATest')}"
-                            TextTrimming="CharacterEllipsis"
-                            TextWrapping="NoWrap" />
-
-                        <ToolTipService.ToolTip>
-                            <ToolTip
-                                MaxWidth="9999"
-                                Padding="0"
-                                Background="Transparent"
-                                Visibility="{x:Bind WindowHATestText.IsTextTrimmed, Mode=OneWay}">
-
-                                <Grid>
-                                    <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                    <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('HATest')}" />
-                                </Grid>
-                            </ToolTip>
-                        </ToolTipService.ToolTip>
-                    </NavigationViewItem>
-
-                    <!--  硬件加速测试  -->
-                    <NavigationViewItem Tag="{x:Bind PageList[4].Key}">
-
-                        <NavigationViewItem.Icon>
-                            <ImageIcon Source="ms-appx:///Assets/ControlIcon/CustomCommand.png" />
-                        </NavigationViewItem.Icon>
-
-                        <TextBlock
-                            x:Name="WindowCustomCommandText"
-                            Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('CustomCommand')}"
-                            TextTrimming="CharacterEllipsis"
-                            TextWrapping="NoWrap" />
-
-                        <ToolTipService.ToolTip>
-                            <ToolTip
-                                MaxWidth="9999"
-                                Padding="0"
-                                Background="Transparent"
-                                Visibility="{x:Bind WindowCustomCommandText.IsTextTrimmed, Mode=OneWay}">
-
-                                <Grid>
-                                    <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                    <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('CustomCommand')}" />
-                                </Grid>
-                            </ToolTip>
-                        </ToolTipService.ToolTip>
-                    </NavigationViewItem>
-                </NavigationView.MenuItems>
-
-                <NavigationView.FooterMenuItems>
-                    <!--  设置  -->
-                    <NavigationViewItem Tag="{x:Bind PageList[5].Key}">
-
-                        <NavigationViewItem.Icon>
-                            <ImageIcon Source="ms-appx:///Assets/ControlIcon/Settings.png" />
-                        </NavigationViewItem.Icon>
-
-                        <TextBlock
-                            x:Name="WindowSettingsText"
-                            Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('Settings')}"
-                            TextTrimming="CharacterEllipsis"
-                            TextWrapping="NoWrap" />
-
-                        <ToolTipService.ToolTip>
-                            <ToolTip
-                                MaxWidth="9999"
-                                Padding="0"
-                                Background="Transparent"
-                                Visibility="{x:Bind WindowSettingsText.IsTextTrimmed, Mode=OneWay}">
-
-                                <Grid>
-                                    <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                    <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('Settings')}" />
-                                </Grid>
-                            </ToolTip>
-                        </ToolTipService.ToolTip>
-                    </NavigationViewItem>
-                </NavigationView.FooterMenuItems>
+                <NavigationView.MenuItemTemplateSelector>
+                    <datatemplate:NavigationViewItemTemplateSelector NavigationViewItemSeparatorTemplate="{StaticResource NavigationViewItemSeparatorTemplate}" NavigationViewItemTemplate="{StaticResource NavigationViewItemTemplate}" />
+                </NavigationView.MenuItemTemplateSelector>
 
                 <Frame
                     Margin="0,-10,0,0"

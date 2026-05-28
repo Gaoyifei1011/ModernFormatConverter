@@ -24,21 +24,21 @@ namespace ModernFormatConverter.Views.Pages
                 Title = ResourceService.HomeResource.GetString("VideoConversion"),
                 Description = ResourceService.HomeResource.GetString("VideoConversionDescription"),
                 ImagePath = "ms-appx:///Assets/ControlIcon/VideoConversion.png",
-                Tag = "VideoConversion"
+                NavigationPage = typeof(VideoConversionPage)
             },
             new ControlItemModel()
             {
                 Title = ResourceService.HomeResource.GetString("AudioConversion"),
                 Description = ResourceService.HomeResource.GetString("AudioConversionDescription"),
                 ImagePath = "ms-appx:///Assets/ControlIcon/AudioConversion.png",
-                Tag = "AudioConversion"
+                NavigationPage = typeof(AudioConversionPage)
             },
             new ControlItemModel()
             {
                 Title = ResourceService.HomeResource.GetString("PhotoConversion"),
                 Description = ResourceService.HomeResource.GetString("PhotoConversionDescription"),
                 ImagePath = "ms-appx:///Assets/ControlIcon/PhotoConversion.png",
-                Tag = "PhotoConversion"
+                NavigationPage = typeof(PhotoConversionPage)
             }
         ];
 
@@ -50,21 +50,21 @@ namespace ModernFormatConverter.Views.Pages
                 Title = ResourceService.HomeResource.GetString("FileInformation"),
                 Description = ResourceService.HomeResource.GetString("FileInformationDescription"),
                 ImagePath = "ms-appx:///Assets/ControlIcon/FileInformation.png",
-                Tag = "FileInformation"
+                NavigationPage = typeof(FileInformationPage)
             },
             new ControlItemModel()
             {
                 Title = ResourceService.HomeResource.GetString("HATest"),
                 Description = ResourceService.HomeResource.GetString("HATestDescription"),
                 ImagePath = "ms-appx:///Assets/ControlIcon/HATest.png",
-                Tag = "HATest"
+                NavigationPage = typeof(HATestPage)
             },
             new ControlItemModel()
             {
                 Title = ResourceService.HomeResource.GetString("CustomCommand"),
                 Description = ResourceService.HomeResource.GetString("CustomCommandDescription"),
                 ImagePath = "ms-appx:///Assets/ControlIcon/CustomCommand.png",
-                Tag = "CustomCommand"
+                NavigationPage = typeof(CustomCommandPage)
             }
         ];
 
@@ -80,46 +80,9 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnItemClick(object sender, ItemClickEventArgs args)
         {
-            if (args.ClickedItem is ControlItemModel controlItem)
+            if (args.ClickedItem is ControlItemModel controlItem && MainWindow.Current.GetSelectedItem(controlItem.NavigationPage, MainWindow.Current.NavigationViewItemMenuItemsCollection) is NavigationViewItemModel navigationViewItem)
             {
-                if (ConversionToolsList.Contains(controlItem))
-                {
-                    if (string.Equals(controlItem.Tag, ConversionToolsList[0].Tag, StringComparison.OrdinalIgnoreCase))
-                    {
-                        ConversionToolsWindow conversionToolsWindow = new(MainWindow.Current, ConversionToolsKind.VideoConversion);
-                        if (await conversionToolsWindow.ShowAsync() is ContentDialogResult.Primary)
-                        {
-                            // TODO：未完成
-                        }
-                    }
-                    else if (string.Equals(controlItem.Tag, ConversionToolsList[1].Tag, StringComparison.OrdinalIgnoreCase))
-                    {
-                        ConversionToolsWindow conversionToolsWindow = new(MainWindow.Current, ConversionToolsKind.AudioConversion);
-                        if (await conversionToolsWindow.ShowAsync() is ContentDialogResult.Primary)
-                        {
-                            // TODO：未完成
-                        }
-                    }
-                    else if (string.Equals(controlItem.Tag, ConversionToolsList[2].Tag, StringComparison.OrdinalIgnoreCase))
-                    {
-                        ConversionToolsWindow conversionToolsWindow = new(MainWindow.Current, ConversionToolsKind.PhotoConversion);
-                        if (await conversionToolsWindow.ShowAsync() is ContentDialogResult.Primary)
-                        {
-                            // TODO：未完成
-                        }
-                    }
-                }
-                else if (OtherToolsList.Contains(controlItem))
-                {
-                    if (MainWindow.Current.NavigationItemList.Find(item => string.Equals(item.NavigationTag, controlItem.Tag, StringComparison.OrdinalIgnoreCase)) is NavigationModel navigationItem)
-                    {
-                        MainWindow.Current.NavigateTo(navigationItem.NavigationPage);
-                    }
-                    else
-                    {
-                        MainWindow.Current.NavigateTo(MainWindow.Current.NavigationItemList[1].NavigationPage);
-                    }
-                }
+                MainWindow.Current.NavigateTo(navigationViewItem.NavigationPage);
             }
         }
 
