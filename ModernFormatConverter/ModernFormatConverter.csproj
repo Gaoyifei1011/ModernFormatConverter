@@ -244,7 +244,8 @@
     <None Remove="Styles\NumberBox.xaml" />
     <None Remove="Styles\TextBox.xaml" />
     <None Remove="Styles\ToggleSwitch.xaml" />
-    <None Remove="Views\Windows\AppInformationDialog.xaml" />
+    <None Remove="Views\Dialogs\AppInformationDialog.xaml" />
+    <None Remove="Views\Dialogs\LicenseDialog.xaml" />
     <None Remove="Views\NotificationTips\CopyPasteNotificationTip.xaml" />
     <None Remove="Views\NotificationTips\OperationResultNotificationTip.xaml" />
     <None Remove="Views\Pages\AudioConversionPage.xaml" />
@@ -261,7 +262,6 @@
     <None Remove="Views\Pages\VideoConversionPage.xaml" />
     <None Remove="Views\Windows\ConversionToolsWindow.xaml" />
     <None Remove="Views\Windows\CutVideoWindow.xaml" />
-    <None Remove="Views\Windows\LicenseWindow.xaml" />
     <None Remove="Views\Windows\MainWindow.xaml" />
     <None Remove="Views\Windows\RestartAppsWindow.xaml" />
     <None Remove="Views\Windows\VideoConversionOutputConfigurationWindow.xaml" />
@@ -277,6 +277,7 @@
     <Page Include="Styles\TextBox.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\ToggleSwitch.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Dialogs\AppInformationDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Dialogs\LicenseDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\NotificationTips\CopyPasteNotificationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\NotificationTips\OperationResultNotificationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\AudioConversionPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -295,7 +296,6 @@
     <Page Include="Views\Windows\ConversionToolsWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\CutAudioWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\CutVideoWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Views\Windows\LicenseWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\MainWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\PhotoConversionOutputConfigurationWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\RestartAppsWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
