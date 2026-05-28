@@ -215,8 +215,7 @@ namespace ModernFormatConverter.Views.Pages
 
                     if (!isNewest)
                     {
-                        UpdateAppWindow updateAppWindow = new(MainWindow.Current);
-                        await updateAppWindow.ShowAsync();
+                        await MainWindow.Current.ShowDialogAsync(new UpdateAppDialog());
                     }
                 }
                 else

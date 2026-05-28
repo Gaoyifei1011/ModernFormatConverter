@@ -247,6 +247,7 @@
     <None Remove="Views\Dialogs\AppInformationDialog.xaml" />
     <None Remove="Views\Dialogs\LicenseDialog.xaml" />
     <None Remove="Views\Windows\RestartAppsDialog.xaml" />
+    <None Remove="Views\Windows\UpdateAppDialog.xaml" />
     <None Remove="Views\NotificationTips\CopyPasteNotificationTip.xaml" />
     <None Remove="Views\NotificationTips\OperationResultNotificationTip.xaml" />
     <None Remove="Views\Pages\AudioConversionPage.xaml" />
@@ -279,6 +280,7 @@
     <Page Include="Views\Dialogs\AppInformationDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Dialogs\LicenseDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Dialogs\RestartAppsDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Dialogs\UpdateAppDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\NotificationTips\CopyPasteNotificationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\NotificationTips\OperationResultNotificationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\AudioConversionPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -300,7 +302,6 @@
     <Page Include="Views\Windows\MainWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\PhotoConversionOutputConfigurationWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\TextToAudioOutputConfigurationWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Views\Windows\UpdateAppWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\VideoConversionOutputConfigurationWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\VideoExportPictureOutputConfigurationWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     
