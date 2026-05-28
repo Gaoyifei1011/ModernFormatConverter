@@ -78,7 +78,7 @@
     </COMReference>
 
     <Content Include="Assets\ControlIcon\AudioConversion.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\ControlIcon\ConvertTools.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\ControlIcon\ConversionTools.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\CustomCommand.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\CutAudio.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\CutVideo.png" CopyToOutputDirectory="Always" />
