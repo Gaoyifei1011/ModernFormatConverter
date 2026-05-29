@@ -28,7 +28,6 @@ StartTime=起始时间
 StartTimeScreenshot=起始时间截图
 TimeEndLocation=定位结束时间
 TimeStartLocation=定位起始时间
-Title=剪辑视频
 VideoCoverPositon=视频封面位置：
 VideoPlayFailed=视频播放失败，可能由于视频解码器暂不支持当前视频文件格式，您可以使用系统播放器来查看视频信息
 XCoordinate=X 坐标

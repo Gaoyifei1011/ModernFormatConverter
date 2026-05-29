@@ -22,10 +22,8 @@ using ModernFormatConverter.WindowsAPI.PInvoke.Comctl32;
 using ModernFormatConverter.WindowsAPI.PInvoke.User32;
 using ModernFormatConverter.WindowsAPI.PInvoke.Uxtheme;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -926,6 +924,12 @@ namespace ModernFormatConverter.Views.Windows
         /// </summary>
         public void NavigationFrom()
         {
+            if (GetFrameContent() is VideoConversionPage videoConversionPage && videoConversionPage.BreadCollection.Count is 2)
+            {
+                videoConversionPage.NavigateTo(videoConversionPage.PageList[0], null, false);
+                return;
+            }
+
             if ((MainNavigationView.Content as Frame).CanGoBack)
             {
                 (MainNavigationView.Content as Frame).GoBack();

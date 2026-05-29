@@ -69,9 +69,9 @@ namespace ModernFormatConverter.Models
         public string ScreenSizeWidth { get; set; }
 
         /// <summary>
-        /// 剪切视频
+        /// 视频编辑
         /// </summary>
-        public CutVideoModel CutVideo { get; set; }
+        public VideoEditModel VideoEdit { get; set; }
 
         /// <summary>
         /// 视频转换输出配置

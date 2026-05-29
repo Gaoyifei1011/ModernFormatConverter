@@ -18,7 +18,7 @@
         <ResourceDictionary>
             <class:ExecuteCommand x:Name="RemoveCommand" ExecuteRequested="{x:Bind OnRemoveExecuteRequested}" />
             <class:ExecuteCommand x:Name="OutputConfigurationCommand" ExecuteRequested="{x:Bind OnOutputConfigurationExecuteRequested}" />
-            <class:ExecuteCommand x:Name="CutVideoCommand" ExecuteRequested="{x:Bind OnCutVideoExecuteRequested}" />
+            <class:ExecuteCommand x:Name="VideoEditCommand" ExecuteRequested="{x:Bind OnVideoEditExecuteRequested}" />
 
             <!--  视频转换卡片数据模板  -->
             <DataTemplate x:Key="VideoCardDataTemplate" x:DataType="model:VideoConversionFileModel">
@@ -106,7 +106,7 @@
                             Width="32"
                             Height="32"
                             Padding="0"
-                            Command="{StaticResource CutVideoCommand}"
+                            Command="{StaticResource VideoEditCommand}"
                             CommandParameter="{x:Bind}"
                             CornerRadius="{StaticResource ControlCornerRadius}"
                             Visibility="{x:Bind converter:ValueCheckConverterHelper.GetIsVideoFormatCovnersion(VideoConversionOutputConfiguration)}">
@@ -121,7 +121,7 @@
 
                                     <Grid>
                                         <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                        <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('CutVideo')}" />
+                                        <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('VideoEdit')}" />
                                     </Grid>
                                 </ToolTip>
                             </ToolTipService.ToolTip>

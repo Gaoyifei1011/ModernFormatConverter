@@ -6,7 +6,7 @@ namespace ModernFormatConverter.Models
     /// <summary>
     /// 剪辑视频数据模型
     /// </summary>
-    public class CutVideoModel
+    public class VideoEditModel
     {
         /// <summary>
         /// 起始时间

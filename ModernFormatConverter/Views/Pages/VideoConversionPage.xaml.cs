@@ -21,7 +21,7 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string VideoEditString = ResourceService.VideoConversionResource.GetString("VideoEdit");
 
         // TODO：未完成
-        public List<Type> PageList { get; } = [typeof(VideoListPage)];
+        public List<Type> PageList { get; } = [typeof(VideoListPage), typeof(VideoEditPage)];
 
         public WinRTObservableCollection<DictionaryEntry> BreadCollection { get; } = [];
 

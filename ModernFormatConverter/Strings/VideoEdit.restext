@@ -28,7 +28,6 @@ StartTime=Start time
 StartTimeScreenshot=Start time screen shot
 TimeEndLocation=Locate end time
 TimeStartLocation=Locate start time
-Title=Cut video
 VideoCoverPositon=Video cover position: 
 VideoPlayFailed=The video playback failed. It might be because the video decoder does not support the current video file format. You can use the system player to view the video information
 XCoordinate=X coordinate

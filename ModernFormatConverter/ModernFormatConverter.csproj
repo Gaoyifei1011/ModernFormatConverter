@@ -81,7 +81,6 @@
     <Content Include="Assets\ControlIcon\ConversionTools.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\CustomCommand.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\CutAudio.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\ControlIcon\CutVideo.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\FileInformation.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\HATest.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\Home.png" CopyToOutputDirectory="Always" />
@@ -172,9 +171,6 @@
     <EmbeddedResource Include="Strings\CutAudio.en-us.restext" />
     <EmbeddedResource Include="Strings\CutAudio.restext" />
     <EmbeddedResource Include="Strings\CutAudio.zh-hans.restext" />
-    <EmbeddedResource Include="Strings\CutVideo.en-us.restext" />
-    <EmbeddedResource Include="Strings\CutVideo.restext" />
-    <EmbeddedResource Include="Strings\CutVideo.zh-hans.restext" />
     <EmbeddedResource Include="Strings\FileInformation.en-us.restext" />
     <EmbeddedResource Include="Strings\FileInformation.restext" />
     <EmbeddedResource Include="Strings\FileInformation.zh-hans.restext" />
@@ -227,6 +223,9 @@
     <EmbeddedResource Include="Strings\VideoConversionOutputConfiguration.en-us.restext" />
     <EmbeddedResource Include="Strings\VideoConversionOutputConfiguration.restext" />
     <EmbeddedResource Include="Strings\VideoConversionOutputConfiguration.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\VideoEdit.en-us.restext" />
+    <EmbeddedResource Include="Strings\VideoEdit.restext" />
+    <EmbeddedResource Include="Strings\VideoEdit.zh-hans.restext" />
     <EmbeddedResource Include="Strings\VideoList.en-us.restext" />
     <EmbeddedResource Include="Strings\VideoList.restext" />
     <EmbeddedResource Include="Strings\VideoList.zh-hans.restext" />
@@ -241,7 +240,6 @@
     <None Remove="Styles\AppBarButton.xaml" />
     <None Remove="Styles\ColorPicker.xaml" />
     <None Remove="Styles\ComboBox.xaml" />
-    <None Remove="Styles\ContentDialog.xaml" />
     <None Remove="Styles\ImageCropper.xaml" />
     <None Remove="Styles\MediaPlayerElement.xaml" />
     <None Remove="Styles\NavigationView.xaml" />
@@ -249,7 +247,6 @@
     <None Remove="Styles\TextBox.xaml" />
     <None Remove="Styles\ToggleSwitch.xaml" />
     <None Remove="Views\Dialogs\AppInformationDialog.xaml" />
-    <None Remove="Views\Dialogs\CutVideoDialog.xaml" />
     <None Remove="Views\Dialogs\LicenseDialog.xaml" />
     <None Remove="Views\Windows\RestartAppsDialog.xaml" />
     <None Remove="Views\Windows\UpdateAppDialog.xaml" />
@@ -267,6 +264,7 @@
     <None Remove="Views\Pages\SettingsPage.xaml" />
     <None Remove="Views\Pages\TaskManagerPage.xaml" />
     <None Remove="Views\Pages\VideoConversionPage.xaml" />
+    <None Remove="Views\Pages\VideoEditPage.xaml" />
     <None Remove="Views\Pages\VideoListPage.xaml" />
     <None Remove="Views\Windows\ConversionToolsWindow.xaml" />
     <None Remove="Views\Windows\MainWindow.xaml" />
@@ -276,7 +274,6 @@
     <Page Include="Styles\AppBarButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\ColorPicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\ComboBox.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Styles\ContentDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\ImageCropper.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\MediaPlayerElement.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\NavigationView.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -284,7 +281,6 @@
     <Page Include="Styles\TextBox.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\ToggleSwitch.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Dialogs\AppInformationDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Views\Dialogs\CutVideoDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Dialogs\LicenseDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Dialogs\RestartAppsDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Dialogs\UpdateAppDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -301,8 +297,9 @@
     <Page Include="Views\Pages\SettingsGeneralPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\SettingsPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\TaskManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Views\Pages\VideoListPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\VideoConversionPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Pages\VideoEditPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Pages\VideoListPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\AudioConversionOutputConfigurationWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\ConversionToolsWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\CutAudioWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />

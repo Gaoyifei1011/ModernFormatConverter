@@ -1,14 +1,13 @@
 ﻿using FFmpegInterop;
-using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Xaml.Navigation;
 using ModernFormatConverter.Extensions.DataType.Class;
 using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
-using ModernFormatConverter.Services.Settings;
 using ModernFormatConverter.Views.NotificationTips;
 using ModernFormatConverter.Views.Windows;
 using ModernFormatConverter.WindowsAPI.PInvoke.Shell32;
@@ -28,23 +27,21 @@ using Windows.Storage.Streams;
 // 抑制 CA1806，CA1822，IDE0060 警告
 #pragma warning disable CA1806,CA1822,IDE0060
 
-namespace ModernFormatConverter.Views.Dialogs
+namespace ModernFormatConverter.Views.Pages
 {
     /// <summary>
-    /// 剪辑视频对话框
+    /// 视频编辑窗口
     /// </summary>
-    public sealed partial class CutVideoDialog : ContentDialog, INotifyPropertyChanged
+    public sealed partial class VideoEditPage : Page, INotifyPropertyChanged
     {
-        private readonly string BlurringString = ResourceService.CutVideoResource.GetString("Blurring");
-        private readonly string CloseString = ResourceService.CutVideoResource.GetString("Close");
-        private readonly string ImageCroppingString = ResourceService.CutVideoResource.GetString("ImageCropping");
-        private readonly string RemoveWatermarkString = ResourceService.CutVideoResource.GetString("RemoveWatermark");
-        private readonly string SelectFileString = ResourceService.CutVideoResource.GetString("SelectFile");
+        private readonly string BlurringString = ResourceService.VideoEditResource.GetString("Blurring");
+        private readonly string CloseString = ResourceService.VideoEditResource.GetString("Close");
+        private readonly string ImageCroppingString = ResourceService.VideoEditResource.GetString("ImageCropping");
+        private readonly string RemoveWatermarkString = ResourceService.VideoEditResource.GetString("RemoveWatermark");
+        private readonly string SelectFileString = ResourceService.VideoEditResource.GetString("SelectFile");
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
-        private readonly string filePath;
+        private VideoConversionFileModel selectedVideoConversionFile;
         private IRandomAccessStream videoRandomAccessStream;
-
-        public ContentDialogResult DialogShowResult { get; private set; }
 
         private MediaSource _mediaSource;
 
@@ -78,18 +75,18 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private CutVideoResultKind _cutVideoResultKind;
+        private VideoEditResultKind _videoEditResultKind;
 
-        public CutVideoResultKind CutVideoResultKind
+        public VideoEditResultKind VideoEditResultKind
         {
-            get { return _cutVideoResultKind; }
+            get { return _videoEditResultKind; }
 
             set
             {
-                if (!Equals(_cutVideoResultKind, value))
+                if (!Equals(_videoEditResultKind, value))
                 {
-                    _cutVideoResultKind = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CutVideoResultKind)));
+                    _videoEditResultKind = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoEditResultKind)));
                 }
             }
         }
@@ -110,18 +107,18 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        private SelectorBarItem _cutVideoSelectedItem;
+        private SelectorBarItem _videoEditSelectedItem;
 
-        public SelectorBarItem CutVideoSelectedItem
+        public SelectorBarItem VideoEditSelectedItem
         {
-            get { return _cutVideoSelectedItem; }
+            get { return _videoEditSelectedItem; }
 
             set
             {
-                if (!Equals(_cutVideoSelectedItem, value))
+                if (!Equals(_videoEditSelectedItem, value))
                 {
-                    _cutVideoSelectedItem = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CutVideoSelectedItem)));
+                    _videoEditSelectedItem = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoEditSelectedItem)));
                 }
             }
         }
@@ -484,16 +481,105 @@ namespace ModernFormatConverter.Views.Dialogs
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public CutVideoDialog(CutVideoModel cutVideo, string selectedFilePath)
+        public VideoEditPage()
         {
-            filePath = selectedFilePath;
-            FileName = Path.GetFileName(filePath);
-            InitializeData(cutVideo);
+            InitializeData();
             InitializeComponent();
-            CutVideoSelectedItem = CutVideoSelectorBar.Items[0];
         }
 
-        #region 第一部分：ExecuteCommand 命令调用时挂载的事件
+        #region 第一部分：重载分类事件
+
+        /// <summary>
+        /// 导航到该页面触发的事件
+        /// </summary>
+        protected override async void OnNavigatedTo(NavigationEventArgs args)
+        {
+            base.OnNavigatedTo(args);
+
+            if(args.Parameter is VideoConversionFileModel videoConversionFile)
+            {
+                selectedVideoConversionFile = videoConversionFile;
+                FileName = Path.GetFileName(selectedVideoConversionFile.FilePath);
+                UpdateData(videoConversionFile.VideoEdit);
+                VideoEditSelectedItem = VideoEditSelectorBar.Items[0];
+
+                if (VideoEditResultKind is VideoEditResultKind.None)
+                {
+                    VideoEditResultKind = VideoEditResultKind.Loading;
+                    VideoEditMediaPlayerElement.MediaPlayer.MediaOpened += OnMediaOpened;
+                    VideoEditMediaPlayerElement.MediaPlayer.MediaFailed += OnMediaFailed;
+
+                    if (TimeStartHours is not 0 || TimeStartMinutes is not 0 || TimeStartSeconds is not 0 || TimeStartMillseconds is not 0)
+                    {
+                        IsLoadingTimeStartImformation = true;
+                    }
+
+                    if (TimeEndHours is not 0 || TimeEndMinutes is not 0 || TimeEndSeconds is not 0 || TimeEndMillseconds is not 0)
+                    {
+                        IsLoadingTimeEndImformation = true;
+                    }
+
+                    (bool isLoadedSccessfully, MediaSource mediaSource, Exception exception) = await Task.Run(async () =>
+                    {
+                        try
+                        {
+                            IActivationFactory activationFactory = WindowsRuntimeMarshal.GetActivationFactory(typeof(MediaStreamSource));
+                            MediaStreamSource mediaStreamSource = activationFactory.ActivateInstance() as MediaStreamSource;
+                            videoRandomAccessStream = await (await StorageFile.GetFileFromPathAsync(selectedVideoConversionFile.FilePath)).OpenAsync(FileAccessMode.Read);
+                            FFmpegInteropMSSConfig ffmpegInteropMSSConfig = new()
+                            {
+                                ForceVideoDecode = true,
+                                ForceAudioDecode = true
+                            };
+                            FFmpegInteropMSS.InitializeFromStream(videoRandomAccessStream, mediaStreamSource, ffmpegInteropMSSConfig);
+                            MediaSource meidaSource = MediaSource.CreateFromMediaStreamSource(mediaStreamSource);
+                            return ValueTuple.Create<bool, MediaSource, Exception>(true, meidaSource, null);
+                        }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoEditPage), nameof(OnNavigatedTo), 1, e);
+                            return ValueTuple.Create<bool, MediaSource, Exception>(false, null, e);
+                        }
+                    });
+
+                    if (isLoadedSccessfully)
+                    {
+                        MediaSource = mediaSource;
+                    }
+                    else
+                    {
+                        VideoEditResultKind = VideoEditResultKind.Failed;
+                        MediaSource = null;
+                        ErrorReason = exception is not null ? string.Format("0x{0:X8},{1}", exception.HResult, exception.Message) : "N/A";
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 离开该页面触发的事件
+        /// </summary>
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs args)
+        {
+            base.OnNavigatingFrom(args);
+
+            try
+            {
+                VideoEditResultKind = VideoEditResultKind.None;
+                MediaSource = null;
+                videoRandomAccessStream.Dispose();
+                VideoEditMediaPlayerElement.MediaPlayer.MediaOpened -= OnMediaOpened;
+                VideoEditMediaPlayerElement.MediaPlayer.MediaFailed -= OnMediaFailed;
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoEditPage), nameof(OnNavigatingFrom), 2, e);
+            }
+        }
+
+        #endregion 第一部分：重载分类事件
+
+        #region 第二部分：ExecuteCommand 命令调用时挂载的事件
 
         /// <summary>
         /// 删除选中区域列表项
@@ -506,96 +592,9 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        #endregion 第一部分：ExecuteCommand 命令调用时挂载的事件
+        #endregion 第二部分：ExecuteCommand 命令调用时挂载的事件
 
-        #region 第二部分：剪辑视频窗口对话框——内容挂载的事件
-
-        /// <summary>
-        /// 关闭对话框后触发的事件
-        /// </summary>
-        private void OnClosed(ContentDialog sender, ContentDialogClosedEventArgs args)
-        {
-            try
-            {
-                MediaSource = null;
-                videoRandomAccessStream.Dispose();
-                ThemeService.PropertyChanged -= OnServicePropertyChanged;
-                BackdropService.PropertyChanged -= OnServicePropertyChanged;
-                inputKeyboardSource.SystemKeyDown -= OnSystemKeyDown;
-                inputPointerSource.PointerReleased -= OnPointerReleased;
-                CutVideoMediaPlayerElement.MediaPlayer.MediaOpened -= OnMediaOpened;
-                CutVideoMediaPlayerElement.MediaPlayer.MediaFailed -= OnMediaFailed;
-            }
-            catch (Exception e)
-            {
-                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutVideoDialog), nameof(OnClosed), 2, e);
-            }
-        }
-
-        /// <summary>
-        /// 加载完成后触发的事件
-        /// </summary>
-        private async void OnLoaded(object sender, RoutedEventArgs args)
-        {
-            if (CutVideoResultKind is CutVideoResultKind.None)
-            {
-                CutVideoResultKind = CutVideoResultKind.Loading;
-                CutVideoMediaPlayerElement.MediaPlayer.MediaOpened += OnMediaOpened;
-                CutVideoMediaPlayerElement.MediaPlayer.MediaFailed += OnMediaFailed;
-
-                if (TimeStartHours is not 0 || TimeStartMinutes is not 0 || TimeStartSeconds is not 0 || TimeStartMillseconds is not 0)
-                {
-                    IsLoadingTimeStartImformation = true;
-                }
-
-                if (TimeEndHours is not 0 || TimeEndMinutes is not 0 || TimeEndSeconds is not 0 || TimeEndMillseconds is not 0)
-                {
-                    IsLoadingTimeEndImformation = true;
-                }
-
-                (bool isLoadedSccessfully, MediaSource mediaSource, Exception exception) = await Task.Run(async () =>
-                {
-                    try
-                    {
-                        IActivationFactory activationFactory = WindowsRuntimeMarshal.GetActivationFactory(typeof(MediaStreamSource));
-                        MediaStreamSource mediaStreamSource = activationFactory.ActivateInstance() as MediaStreamSource;
-                        videoRandomAccessStream = await (await StorageFile.GetFileFromPathAsync(filePath)).OpenAsync(FileAccessMode.Read);
-                        FFmpegInteropMSSConfig ffmpegInteropMSSConfig = new()
-                        {
-                            ForceVideoDecode = true,
-                            ForceAudioDecode = true
-                        };
-                        FFmpegInteropMSS.InitializeFromStream(videoRandomAccessStream, mediaStreamSource, ffmpegInteropMSSConfig);
-                        MediaSource meidaSource = MediaSource.CreateFromMediaStreamSource(mediaStreamSource);
-                        return ValueTuple.Create<bool, MediaSource, Exception>(true, meidaSource, null);
-                    }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutVideoDialog), nameof(OnLoaded), 1, e);
-                        return ValueTuple.Create<bool, MediaSource, Exception>(false, null, e);
-                    }
-                });
-
-                if (isLoadedSccessfully)
-                {
-                    MediaSource = mediaSource;
-                }
-                else
-                {
-                    CutVideoResultKind = CutVideoResultKind.Failed;
-                    MediaSource = null;
-                    ErrorReason = exception is not null ? string.Format("0x{0:X8},{1}", exception.HResult, exception.Message) : "N/A";
-                }
-            }
-        }
-
-        /// <summary>
-        /// 关闭对话框
-        /// </summary>
-        private void OnCloseClicked(object sender, RoutedEventArgs args)
-        {
-            Hide();
-        }
+        #region 第三部分：内容挂载的事件
 
         /// <summary>
         /// 视频加载失败后触发的事件
@@ -604,12 +603,12 @@ namespace ModernFormatConverter.Views.Dialogs
         {
             synchronizationContext.Post((_) =>
             {
-                CutVideoResultKind = CutVideoResultKind.Failed;
+                VideoEditResultKind = VideoEditResultKind.Failed;
                 ErrorReason = args.ExtendedErrorCode is not null ? string.Format("0x{0:X8},{1}", args.ExtendedErrorCode.HResult, args.ExtendedErrorCode.Message) : "N/A";
                 IsLoadingTimeStartImformation = false;
                 IsLoadingTimeEndImformation = false;
             }, null);
-            LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutVideoDialog), nameof(OnMediaFailed), 1, args.ExtendedErrorCode is not null ? args.ExtendedErrorCode : new Exception());
+            LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoEditPage), nameof(OnMediaFailed), 1, args.ExtendedErrorCode is not null ? args.ExtendedErrorCode : new Exception());
         }
 
         /// <summary>
@@ -634,7 +633,7 @@ namespace ModernFormatConverter.Views.Dialogs
                     try
                     {
                         string tempFilePath = Path.Combine(Path.GetTempPath(), string.Format("{0}.png", Path.GetRandomFileName()));
-                        string arguments = string.Format("-ss {0}:{1}:{2}.{3} -i \"{4}\" -vframes 1 -q:v 2 \"{5}\"", TimeStartHours, TimeStartMinutes, TimeStartSeconds, TimeStartMillseconds, filePath, tempFilePath);
+                        string arguments = string.Format("-ss {0}:{1}:{2}.{3} -i \"{4}\" -vframes 1 -q:v 2 \"{5}\"", TimeStartHours, TimeStartMinutes, TimeStartSeconds, TimeStartMillseconds, selectedVideoConversionFile.FilePath, tempFilePath);
 
                         Process process = new()
                         {
@@ -688,7 +687,7 @@ namespace ModernFormatConverter.Views.Dialogs
                         {
                             IsLoadingTimeStartImformation = false;
                         }, null);
-                        LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutVideoDialog), nameof(OnMediaOpened), 1, e);
+                        LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoEditPage), nameof(OnMediaOpened), 1, e);
                     }
                 });
             }
@@ -700,7 +699,7 @@ namespace ModernFormatConverter.Views.Dialogs
                     try
                     {
                         string tempFilePath = Path.Combine(Path.GetTempPath(), string.Format("{0}.png", Path.GetRandomFileName()));
-                        string arguments = string.Format("-ss {0}:{1}:{2}.{3} -i \"{4}\" -vframes 1 -q:v 2 \"{5}\"", TimeEndHours, TimeEndMinutes, TimeEndSeconds, TimeEndMillseconds, filePath, tempFilePath);
+                        string arguments = string.Format("-ss {0}:{1}:{2}.{3} -i \"{4}\" -vframes 1 -q:v 2 \"{5}\"", TimeEndHours, TimeEndMinutes, TimeEndSeconds, TimeEndMillseconds, selectedVideoConversionFile.FilePath, tempFilePath);
 
                         Process process = new()
                         {
@@ -754,14 +753,14 @@ namespace ModernFormatConverter.Views.Dialogs
                         {
                             IsLoadingTimeEndImformation = false;
                         }, null);
-                        LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutVideoDialog), nameof(OnMediaOpened), 2, e);
+                        LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoEditPage), nameof(OnMediaOpened), 2, e);
                     }
                 });
             }
 
             synchronizationContext.Post((_) =>
             {
-                CutVideoResultKind = CutVideoResultKind.Successfully;
+                VideoEditResultKind = VideoEditResultKind.Successfully;
                 ErrorReason = string.Empty;
             }, null);
         }
@@ -775,11 +774,11 @@ namespace ModernFormatConverter.Views.Dialogs
             {
                 try
                 {
-                    Process.Start(filePath);
+                    Process.Start(selectedVideoConversionFile.FilePath);
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutVideoDialog), nameof(OnPlayWithSystemVideoClicked), 1, e);
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoEditPage), nameof(OnPlayWithSystemVideoClicked), 1, e);
                 }
             });
         }
@@ -787,11 +786,11 @@ namespace ModernFormatConverter.Views.Dialogs
         /// <summary>
         /// 剪辑视频选中项发生变化时触发的事件
         /// </summary>
-        private void OnCutVideoSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
+        private void OnVideoEditSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
         {
-            if (!Equals(sender.SelectedItem, CutVideoSelectedItem))
+            if (!Equals(sender.SelectedItem, VideoEditSelectedItem))
             {
-                CutVideoSelectedItem = sender.SelectedItem;
+                VideoEditSelectedItem = sender.SelectedItem;
             }
         }
 
@@ -800,8 +799,20 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnOkClicked(object sender, RoutedEventArgs args)
         {
-            DialogShowResult = ContentDialogResult.Primary;
-            Hide();
+            // 更新数据
+            selectedVideoConversionFile.VideoEdit.SelectRegionOperation = Convert.ToString(SelectedSelectRegionOperation.SelectedValue);
+            selectedVideoConversionFile.VideoEdit.StartTime = new(0, TimeStartHours, TimeStartMinutes, TimeStartSeconds, TimeStartMillseconds);
+            selectedVideoConversionFile.VideoEdit.EndTime = new(0, TimeEndHours, TimeEndMinutes, TimeEndSeconds, TimeEndMillseconds);
+            selectedVideoConversionFile.VideoEdit.SelectRegionOperationList.Clear();
+            selectedVideoConversionFile.VideoEdit.SelectRegionOperationList.AddRange(SelectRegionOperationCollection);
+            selectedVideoConversionFile.VideoEdit.VideoCoverFilePath = VideoCoverFilePath;
+            selectedVideoConversionFile = null;
+
+            // 返回到上一页面
+            if (MainWindow.Current.GetFrameContent() is VideoConversionPage videoConversionPage)
+            {
+                videoConversionPage.NavigateTo(videoConversionPage.PageList[0], null, false);
+            }
         }
 
         /// <summary>
@@ -821,9 +832,9 @@ namespace ModernFormatConverter.Views.Dialogs
                 }
                 else
                 {
-                    if (CutVideoResultKind is CutVideoResultKind.Successfully)
+                    if (VideoEditResultKind is VideoEditResultKind.Successfully)
                     {
-                        TimeSpan totalDuration = CutVideoMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
+                        TimeSpan totalDuration = VideoEditMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
                         TimeSpan currentDuration = new(0, newValue, TimeStartMinutes, TimeStartSeconds, TimeStartMillseconds);
 
                         // 防止时间溢出
@@ -868,9 +879,9 @@ namespace ModernFormatConverter.Views.Dialogs
                 }
                 else
                 {
-                    if (CutVideoResultKind is CutVideoResultKind.Successfully)
+                    if (VideoEditResultKind is VideoEditResultKind.Successfully)
                     {
-                        TimeSpan totalDuration = CutVideoMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
+                        TimeSpan totalDuration = VideoEditMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
                         TimeSpan currentDuration = new(0, TimeStartHours, newValue, TimeStartSeconds, TimeStartMillseconds);
 
                         // 防止时间溢出
@@ -915,9 +926,9 @@ namespace ModernFormatConverter.Views.Dialogs
                 }
                 else
                 {
-                    if (CutVideoResultKind is CutVideoResultKind.Successfully)
+                    if (VideoEditResultKind is VideoEditResultKind.Successfully)
                     {
-                        TimeSpan totalDuration = CutVideoMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
+                        TimeSpan totalDuration = VideoEditMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
                         TimeSpan currentDuration = new(0, TimeStartHours, TimeStartMinutes, newValue, TimeStartMillseconds);
 
                         // 防止时间溢出
@@ -962,9 +973,9 @@ namespace ModernFormatConverter.Views.Dialogs
                 }
                 else
                 {
-                    if (CutVideoResultKind is CutVideoResultKind.Successfully)
+                    if (VideoEditResultKind is VideoEditResultKind.Successfully)
                     {
-                        TimeSpan totalDuration = CutVideoMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
+                        TimeSpan totalDuration = VideoEditMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
                         TimeSpan currentDuration = new(0, TimeStartHours, TimeStartMinutes, TimeStartSeconds, newValue);
 
                         // 防止时间溢出
@@ -993,7 +1004,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private async void OnTimeStartLocationClicked(object sender, RoutedEventArgs args)
         {
-            TimeSpan currentPosition = CutVideoMediaPlayerElement.MediaPlayer.PlaybackSession.Position;
+            TimeSpan currentPosition = VideoEditMediaPlayerElement.MediaPlayer.PlaybackSession.Position;
             TimeStartHours = (int)Math.Truncate(currentPosition.TotalHours);
             TimeStartMinutes = currentPosition.Minutes;
             TimeStartSeconds = currentPosition.Seconds;
@@ -1005,7 +1016,7 @@ namespace ModernFormatConverter.Views.Dialogs
                 try
                 {
                     string tempFilePath = Path.Combine(Path.GetTempPath(), string.Format("{0}.png", Path.GetRandomFileName()));
-                    string arguments = string.Format("-ss {0}:{1}:{2}.{3} -i \"{4}\" -vframes 1 -q:v 2 \"{5}\"", TimeStartHours, TimeStartMinutes, TimeStartSeconds, TimeStartMillseconds, filePath, tempFilePath);
+                    string arguments = string.Format("-ss {0}:{1}:{2}.{3} -i \"{4}\" -vframes 1 -q:v 2 \"{5}\"", TimeStartHours, TimeStartMinutes, TimeStartSeconds, TimeStartMillseconds, selectedVideoConversionFile.FilePath, tempFilePath);
 
                     Process process = new()
                     {
@@ -1037,7 +1048,7 @@ namespace ModernFormatConverter.Views.Dialogs
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutVideoDialog), nameof(OnTimeStartLocationClicked), 1, e);
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoEditPage), nameof(OnTimeStartLocationClicked), 1, e);
                     return null;
                 }
             });
@@ -1061,7 +1072,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnTimeStartLocateVdieoClicked(object sender, RoutedEventArgs args)
         {
-            CutVideoMediaPlayerElement.MediaPlayer.PlaybackSession.Position = new(0, TimeStartHours, TimeStartMinutes, TimeStartSeconds, TimeStartMillseconds);
+            VideoEditMediaPlayerElement.MediaPlayer.PlaybackSession.Position = new(0, TimeStartHours, TimeStartMinutes, TimeStartSeconds, TimeStartMillseconds);
         }
 
         /// <summary>
@@ -1081,9 +1092,9 @@ namespace ModernFormatConverter.Views.Dialogs
                 }
                 else
                 {
-                    if (CutVideoResultKind is CutVideoResultKind.Successfully)
+                    if (VideoEditResultKind is VideoEditResultKind.Successfully)
                     {
-                        TimeSpan totalDuration = CutVideoMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
+                        TimeSpan totalDuration = VideoEditMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
                         TimeSpan currentDuration = new(0, newValue, TimeEndMinutes, TimeEndSeconds, TimeEndMillseconds);
 
                         // 防止时间溢出
@@ -1128,9 +1139,9 @@ namespace ModernFormatConverter.Views.Dialogs
                 }
                 else
                 {
-                    if (CutVideoResultKind is CutVideoResultKind.Successfully)
+                    if (VideoEditResultKind is VideoEditResultKind.Successfully)
                     {
-                        TimeSpan totalDuration = CutVideoMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
+                        TimeSpan totalDuration = VideoEditMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
                         TimeSpan currentDuration = new(0, TimeEndHours, newValue, TimeEndSeconds, TimeEndMillseconds);
 
                         // 防止时间溢出
@@ -1175,9 +1186,9 @@ namespace ModernFormatConverter.Views.Dialogs
                 }
                 else
                 {
-                    if (CutVideoResultKind is CutVideoResultKind.Successfully)
+                    if (VideoEditResultKind is VideoEditResultKind.Successfully)
                     {
-                        TimeSpan totalDuration = CutVideoMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
+                        TimeSpan totalDuration = VideoEditMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
                         TimeSpan currentDuration = new(0, TimeEndHours, TimeEndMinutes, newValue, TimeEndMillseconds);
 
                         // 防止时间溢出
@@ -1222,9 +1233,9 @@ namespace ModernFormatConverter.Views.Dialogs
                 }
                 else
                 {
-                    if (CutVideoResultKind is CutVideoResultKind.Successfully)
+                    if (VideoEditResultKind is VideoEditResultKind.Successfully)
                     {
-                        TimeSpan totalDuration = CutVideoMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
+                        TimeSpan totalDuration = VideoEditMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
                         TimeSpan currentDuration = new(0, TimeEndHours, TimeEndMinutes, TimeEndSeconds, newValue);
 
                         // 防止时间溢出
@@ -1253,7 +1264,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private async void OnTimeEndLocationClicked(object sender, RoutedEventArgs args)
         {
-            TimeSpan currentPosition = CutVideoMediaPlayerElement.MediaPlayer.PlaybackSession.Position;
+            TimeSpan currentPosition = VideoEditMediaPlayerElement.MediaPlayer.PlaybackSession.Position;
             TimeEndHours = (int)Math.Truncate(currentPosition.TotalHours);
             TimeEndMinutes = currentPosition.Minutes;
             TimeEndSeconds = currentPosition.Seconds;
@@ -1265,7 +1276,7 @@ namespace ModernFormatConverter.Views.Dialogs
                 try
                 {
                     string tempFilePath = Path.Combine(Path.GetTempPath(), string.Format("{0}.png", Path.GetRandomFileName()));
-                    string arguments = string.Format("-ss {0}:{1}:{2}.{3} -i \"{4}\" -vframes 1 -q:v 2 \"{5}\"", TimeEndHours, TimeEndMinutes, TimeEndSeconds, TimeEndMillseconds, filePath, tempFilePath);
+                    string arguments = string.Format("-ss {0}:{1}:{2}.{3} -i \"{4}\" -vframes 1 -q:v 2 \"{5}\"", TimeEndHours, TimeEndMinutes, TimeEndSeconds, TimeEndMillseconds, selectedVideoConversionFile.FilePath, tempFilePath);
 
                     Process process = new()
                     {
@@ -1297,7 +1308,7 @@ namespace ModernFormatConverter.Views.Dialogs
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutVideoDialog), nameof(OnTimeEndLocationClicked), 1, e);
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoEditPage), nameof(OnTimeEndLocationClicked), 1, e);
                     return null;
                 }
             });
@@ -1321,7 +1332,7 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private void OnTimeEndLocateVdieoClicked(object sender, RoutedEventArgs args)
         {
-            CutVideoMediaPlayerElement.MediaPlayer.PlaybackSession.Position = new(0, TimeEndHours, TimeEndMinutes, TimeEndSeconds, TimeEndMillseconds);
+            VideoEditMediaPlayerElement.MediaPlayer.PlaybackSession.Position = new(0, TimeEndHours, TimeEndMinutes, TimeEndSeconds, TimeEndMillseconds);
         }
 
         /// <summary>
@@ -1388,7 +1399,7 @@ namespace ModernFormatConverter.Views.Dialogs
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutVideoDialog), nameof(OnVideoCoverFilePathClicked), 1, e);
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoEditPage), nameof(OnVideoCoverFilePathClicked), 1, e);
                 }
             });
         }
@@ -1415,10 +1426,10 @@ namespace ModernFormatConverter.Views.Dialogs
                 return;
             }
 
-            if (CutVideoResultKind is CutVideoResultKind.Successfully)
+            if (VideoEditResultKind is VideoEditResultKind.Successfully)
             {
                 IsLoadingSelectRegionPreviewImformation = true;
-                TimeSpan currentPosition = CutVideoMediaPlayerElement.MediaPlayer.PlaybackSession.Position;
+                TimeSpan currentPosition = VideoEditMediaPlayerElement.MediaPlayer.PlaybackSession.Position;
                 InMemoryRandomAccessStream inMemoryRandomAccessStream = await Task.Run(async () =>
                 {
                     try
@@ -1429,7 +1440,7 @@ namespace ModernFormatConverter.Views.Dialogs
                             currentPosition.Minutes,
                             currentPosition.Seconds,
                             currentPosition.Milliseconds,
-                            filePath,
+                            selectedVideoConversionFile.FilePath,
                             ClipWidth,
                             ClipHeight,
                             XCoordinate,
@@ -1467,7 +1478,7 @@ namespace ModernFormatConverter.Views.Dialogs
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutVideoDialog), nameof(OnClipPreviewClicked), 1, e);
+                        LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoEditPage), nameof(OnClipPreviewClicked), 1, e);
                         return null;
                     }
                 });
@@ -1532,9 +1543,9 @@ namespace ModernFormatConverter.Views.Dialogs
                 }
                 else
                 {
-                    if (CutVideoResultKind is CutVideoResultKind.Successfully)
+                    if (VideoEditResultKind is VideoEditResultKind.Successfully)
                     {
-                        int videoWidth = Convert.ToInt32(CutVideoMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalVideoWidth);
+                        int videoWidth = Convert.ToInt32(VideoEditMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalVideoWidth);
 
                         // 防止时间溢出
                         if (newValue + ClipWidth > videoWidth)
@@ -1571,9 +1582,9 @@ namespace ModernFormatConverter.Views.Dialogs
                 }
                 else
                 {
-                    if (CutVideoResultKind is CutVideoResultKind.Successfully)
+                    if (VideoEditResultKind is VideoEditResultKind.Successfully)
                     {
-                        int videoHeight = Convert.ToInt32(CutVideoMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalVideoHeight);
+                        int videoHeight = Convert.ToInt32(VideoEditMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalVideoHeight);
 
                         // 防止时间溢出
                         if (newValue + ClipHeight > videoHeight)
@@ -1610,9 +1621,9 @@ namespace ModernFormatConverter.Views.Dialogs
                 }
                 else
                 {
-                    if (CutVideoResultKind is CutVideoResultKind.Successfully)
+                    if (VideoEditResultKind is VideoEditResultKind.Successfully)
                     {
-                        int videoWidth = Convert.ToInt32(CutVideoMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalVideoWidth);
+                        int videoWidth = Convert.ToInt32(VideoEditMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalVideoWidth);
 
                         // 防止时间溢出
                         if (newValue + XCoordinate > videoWidth)
@@ -1649,9 +1660,9 @@ namespace ModernFormatConverter.Views.Dialogs
                 }
                 else
                 {
-                    if (CutVideoResultKind is CutVideoResultKind.Successfully)
+                    if (VideoEditResultKind is VideoEditResultKind.Successfully)
                     {
-                        int videoHeight = Convert.ToInt32(CutVideoMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalVideoHeight);
+                        int videoHeight = Convert.ToInt32(VideoEditMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalVideoHeight);
 
                         // 防止时间溢出
                         if (newValue + YCoordinate > videoHeight)
@@ -1671,12 +1682,12 @@ namespace ModernFormatConverter.Views.Dialogs
             }
         }
 
-        #endregion 剪辑视频窗口对话框——内容挂载的事件
+        #endregion 第三部分：内容挂载的事件
 
         /// <summary>
         /// 初始化数据
         /// </summary>
-        private void InitializeData(CutVideoModel cutVideo)
+        private void InitializeData()
         {
             SelectRegionOperationList.Add(new ComboBoxItemModel()
             {
@@ -1698,36 +1709,43 @@ namespace ModernFormatConverter.Views.Dialogs
                 DisplayMember = BlurringString,
                 SelectedValue = "Blurring",
             });
-            SelectedSelectRegionOperation = cutVideo is not null && SelectRegionOperationList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), cutVideo.SelectRegionOperation)) is ComboBoxItemModel selectRegionOperation ? selectRegionOperation : SelectRegionOperationList[0];
+        }
 
-            TimeStartHours = (int)Math.Truncate(cutVideo.StartTime.TotalHours);
-            TimeStartMinutes = cutVideo.StartTime.Minutes;
-            TimeStartSeconds = cutVideo.StartTime.Seconds;
-            TimeStartMillseconds = cutVideo.StartTime.Milliseconds;
+        /// <summary>
+        /// 更新数据
+        /// </summary>
+        private void UpdateData(VideoEditModel videoEdit)
+        {
+            SelectedSelectRegionOperation = videoEdit is not null && SelectRegionOperationList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoEdit.SelectRegionOperation)) is ComboBoxItemModel selectRegionOperation ? selectRegionOperation : SelectRegionOperationList[0];
 
-            TimeEndHours = (int)Math.Truncate(cutVideo.EndTime.TotalHours);
-            TimeEndMinutes = cutVideo.EndTime.Minutes;
-            TimeEndSeconds = cutVideo.EndTime.Seconds;
-            TimeEndMillseconds = cutVideo.EndTime.Milliseconds;
+            TimeStartHours = (int)Math.Truncate(videoEdit.StartTime.TotalHours);
+            TimeStartMinutes = videoEdit.StartTime.Minutes;
+            TimeStartSeconds = videoEdit.StartTime.Seconds;
+            TimeStartMillseconds = videoEdit.StartTime.Milliseconds;
 
-            foreach (SelectRegionOperationModel selectRegionOperationItem in cutVideo.SelectRegionOperationList)
+            TimeEndHours = (int)Math.Truncate(videoEdit.EndTime.TotalHours);
+            TimeEndMinutes = videoEdit.EndTime.Minutes;
+            TimeEndSeconds = videoEdit.EndTime.Seconds;
+            TimeEndMillseconds = videoEdit.EndTime.Milliseconds;
+
+            foreach (SelectRegionOperationModel selectRegionOperationItem in videoEdit.SelectRegionOperationList)
             {
                 SelectRegionOperationCollection.Add(selectRegionOperationItem);
             }
 
-            if (File.Exists(cutVideo.VideoCoverFilePath))
+            if (File.Exists(videoEdit.VideoCoverFilePath))
             {
-                VideoCoverFilePath = cutVideo.VideoCoverFilePath;
-                VideoCoverImage = new BitmapImage() { UriSource = new Uri(cutVideo.VideoCoverFilePath) };
+                VideoCoverFilePath = videoEdit.VideoCoverFilePath;
+                VideoCoverImage = new BitmapImage() { UriSource = new Uri(videoEdit.VideoCoverFilePath) };
             }
         }
 
-        private Visibility GetCutVideoSelectedItem(SelectorBarItem selectedSelectorBarItem, SelectorBarItem comparedSelectorBarItem)
+        private Visibility GetVideoEditSelectedItem(SelectorBarItem selectedSelectorBarItem, SelectorBarItem comparedSelectorBarItem)
         {
             return Equals(selectedSelectorBarItem, comparedSelectorBarItem) ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        private Visibility GetCutVideoKind(CutVideoResultKind selectedVideoKind, CutVideoResultKind comparedVideoKind)
+        private Visibility GetVideoEditKind(VideoEditResultKind selectedVideoKind, VideoEditResultKind comparedVideoKind)
         {
             return Equals(selectedVideoKind, comparedVideoKind) ? Visibility.Visible : Visibility.Collapsed;
         }

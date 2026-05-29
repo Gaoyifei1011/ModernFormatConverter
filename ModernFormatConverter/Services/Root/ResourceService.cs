@@ -22,8 +22,6 @@ namespace ModernFormatConverter.Services.Root
 
         public static ResourceManager CutAudioResource { get; } = new("ModernFormatConverter.Strings.CutAudio", CurrentAssembly);
 
-        public static ResourceManager CutVideoResource { get; } = new("ModernFormatConverter.Strings.CutVideo", CurrentAssembly);
-
         public static ResourceManager FileInformationResource { get; } = new("ModernFormatConverter.Strings.FileInformation", CurrentAssembly);
 
         public static ResourceManager HATestResource { get; } = new("ModernFormatConverter.Strings.HATest", CurrentAssembly);
@@ -57,6 +55,8 @@ namespace ModernFormatConverter.Services.Root
         public static ResourceManager VideoConversionResource { get; } = new("ModernFormatConverter.Strings.VideoConversion", CurrentAssembly);
 
         public static ResourceManager VideoConversionOutputConfigurationResource { get; } = new("ModernFormatConverter.Strings.VideoConversionOutputConfiguration", CurrentAssembly);
+
+        public static ResourceManager VideoEditResource { get; } = new("ModernFormatConverter.Strings.VideoEdit", CurrentAssembly);
 
         public static ResourceManager VideoListResource { get; } = new("ModernFormatConverter.Strings.VideoList", CurrentAssembly);
 

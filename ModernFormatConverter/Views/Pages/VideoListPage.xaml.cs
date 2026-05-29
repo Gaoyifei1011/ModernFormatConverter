@@ -7,7 +7,6 @@ using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Helpers.Root;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
-using ModernFormatConverter.Views.Dialogs;
 using ModernFormatConverter.Views.Windows;
 using ModernFormatConverter.WindowsAPI.ComTypes;
 using ModernFormatConverter.WindowsAPI.PInvoke.MediaInfo;
@@ -381,23 +380,13 @@ namespace ModernFormatConverter.Views.Pages
         }
 
         /// <summary>
-        /// 剪辑视频
+        /// 视频编辑
         /// </summary>
-        private async void OnCutVideoExecuteRequested(object sender, ExecuteRequestedEventArgs args)
+        private async void OnVideoEditExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
-            if (args.Parameter is VideoConversionFileModel videoConversionFile && videoConversionFile.CutVideo is not null)
+            if (args.Parameter is VideoConversionFileModel videoConversionFile && videoConversionFile.VideoEdit is not null && MainWindow.Current.GetFrameContent() is VideoConversionPage videoConversionPage)
             {
-                CutVideoDialog cutVideoDialog = new(videoConversionFile.CutVideo, videoConversionFile.FilePath);
-                await MainWindow.Current.ShowDialogAsync(cutVideoDialog);
-                if (cutVideoDialog.DialogShowResult is ContentDialogResult.Primary)
-                {
-                    videoConversionFile.CutVideo.SelectRegionOperation = Convert.ToString(cutVideoDialog.SelectedSelectRegionOperation.SelectedValue);
-                    videoConversionFile.CutVideo.StartTime = new(0, cutVideoDialog.TimeStartHours, cutVideoDialog.TimeStartMinutes, cutVideoDialog.TimeStartSeconds, cutVideoDialog.TimeStartMillseconds);
-                    videoConversionFile.CutVideo.EndTime = new(0, cutVideoDialog.TimeEndHours, cutVideoDialog.TimeEndMinutes, cutVideoDialog.TimeEndSeconds, cutVideoDialog.TimeEndMillseconds);
-                    videoConversionFile.CutVideo.SelectRegionOperationList.Clear();
-                    videoConversionFile.CutVideo.SelectRegionOperationList.AddRange(cutVideoDialog.SelectRegionOperationCollection);
-                    videoConversionFile.CutVideo.VideoCoverFilePath = cutVideoDialog.VideoCoverFilePath;
-                }
+                videoConversionPage.NavigateTo(videoConversionPage.PageList[1], videoConversionFile, true);
             }
         }
 
@@ -1440,7 +1429,7 @@ namespace ModernFormatConverter.Views.Pages
                             ShadowSize = 0
                         };
 
-                        videoConversionFile.CutVideo = new()
+                        videoConversionFile.VideoEdit = new()
                         {
                             StartTime = TimeSpan.Zero,
                             EndTime = TimeSpan.Zero,

@@ -1,9 +1,9 @@
 ﻿namespace ModernFormatConverter.Extensions.DataType.Enums
 {
     /// <summary>
-    /// 剪辑视频结果类型
+    /// 视频编辑结果类型
     /// </summary>
-    public enum CutVideoResultKind
+    public enum VideoEditResultKind
     {
         None = 0,
         Loading = 1,
