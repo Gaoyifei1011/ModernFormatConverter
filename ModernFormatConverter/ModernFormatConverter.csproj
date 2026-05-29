@@ -227,6 +227,9 @@
     <EmbeddedResource Include="Strings\VideoConversionOutputConfiguration.en-us.restext" />
     <EmbeddedResource Include="Strings\VideoConversionOutputConfiguration.restext" />
     <EmbeddedResource Include="Strings\VideoConversionOutputConfiguration.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\VideoList.en-us.restext" />
+    <EmbeddedResource Include="Strings\VideoList.restext" />
+    <EmbeddedResource Include="Strings\VideoList.zh-hans.restext" />
     <EmbeddedResource Include="Strings\VideoExportPictureOutputConfiguration.en-us.restext" />
     <EmbeddedResource Include="Strings\VideoExportPictureOutputConfiguration.restext" />
     <EmbeddedResource Include="Strings\VideoExportPictureOutputConfiguration.zh-hans.restext" />
@@ -238,6 +241,7 @@
     <None Remove="Styles\AppBarButton.xaml" />
     <None Remove="Styles\ColorPicker.xaml" />
     <None Remove="Styles\ComboBox.xaml" />
+    <None Remove="Styles\ContentDialog.xaml" />
     <None Remove="Styles\ImageCropper.xaml" />
     <None Remove="Styles\MediaPlayerElement.xaml" />
     <None Remove="Styles\NavigationView.xaml" />
@@ -263,14 +267,16 @@
     <None Remove="Views\Pages\SettingsPage.xaml" />
     <None Remove="Views\Pages\TaskManagerPage.xaml" />
     <None Remove="Views\Pages\VideoConversionPage.xaml" />
+    <None Remove="Views\Pages\VideoListPage.xaml" />
     <None Remove="Views\Windows\ConversionToolsWindow.xaml" />
     <None Remove="Views\Windows\MainWindow.xaml" />
     <None Remove="Views\Windows\VideoConversionOutputConfigurationWindow.xaml" />
     <None Remove="Views\Windows\VideoExportPictureOutputConfigurationWindow.xaml" />
-
+    
     <Page Include="Styles\AppBarButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\ColorPicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\ComboBox.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Styles\ContentDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\ImageCropper.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\MediaPlayerElement.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\NavigationView.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -295,6 +301,7 @@
     <Page Include="Views\Pages\SettingsGeneralPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\SettingsPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\TaskManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Pages\VideoListPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\VideoConversionPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\AudioConversionOutputConfigurationWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\ConversionToolsWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
