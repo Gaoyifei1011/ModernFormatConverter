@@ -1,5 +1,4 @@
-﻿using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
+﻿using Microsoft.UI.Xaml.Controls;
 using ModernFormatConverter.Extensions.DataType.Class;
 using ModernFormatConverter.Helpers.Root;
 using ModernFormatConverter.Services.Root;
@@ -57,9 +56,9 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
-        /// 应用信息初始化触发的事件
+        /// 应用信息对话框打开时触发的事件
         /// </summary>
-        private async void OnLoaded(object sender, RoutedEventArgs args)
+        private async void OnOpened(object sender, object args)
         {
             List<KeyValuePair<string, Version>> dependencyInformationList = [];
             await Task.Run(() =>
