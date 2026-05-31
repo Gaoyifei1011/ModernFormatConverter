@@ -166,10 +166,31 @@
 
                 <Button
                     Grid.Column="2"
+                    Width="30"
+                    Height="30"
                     Margin="0,0,10,0"
+                    Padding="0"
                     HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
                     Click="{x:Bind OnOkClicked}"
-                    Content="{x:Bind rootservice:ResourceService.VideoEditResource.GetString('OK')}" />
+                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    Style="{StaticResource AccentButtonStyle}">
+
+                    <FontIcon FontSize="14" Glyph="&#xE8FB;" />
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip
+                            MaxWidth="9999"
+                            Padding="0"
+                            Background="Transparent">
+
+                            <Grid>
+                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.VideoEditResource.GetString('OK')}" />
+                            </Grid>
+                        </ToolTip>
+                    </ToolTipService.ToolTip>
+                </Button>
             </Grid>
 
             <!--  编辑选项  -->
@@ -840,4 +861,3 @@
         </Grid>
     </Grid>
 </Page>
-

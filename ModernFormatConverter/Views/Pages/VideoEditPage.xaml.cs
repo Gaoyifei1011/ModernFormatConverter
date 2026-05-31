@@ -40,7 +40,7 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string RemoveWatermarkString = ResourceService.VideoEditResource.GetString("RemoveWatermark");
         private readonly string SelectFileString = ResourceService.VideoEditResource.GetString("SelectFile");
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
-        private VideoConversionFileModel selectedVideoConversionFile;
+        private VideoFormatConversionFileModel selectedVideoFormatConversionFile;
         private IRandomAccessStream videoRandomAccessStream;
 
         private MediaSource _mediaSource;
@@ -496,11 +496,11 @@ namespace ModernFormatConverter.Views.Pages
         {
             base.OnNavigatedTo(args);
 
-            if(args.Parameter is VideoConversionFileModel videoConversionFile)
+            if (args.Parameter is VideoFormatConversionFileModel videoFormatConversionFile)
             {
-                selectedVideoConversionFile = videoConversionFile;
-                FileName = Path.GetFileName(selectedVideoConversionFile.FilePath);
-                UpdateData(videoConversionFile.VideoEdit);
+                selectedVideoFormatConversionFile = videoFormatConversionFile;
+                FileName = Path.GetFileName(selectedVideoFormatConversionFile.FilePath);
+                UpdateData(selectedVideoFormatConversionFile.VideoEdit);
                 VideoEditSelectedItem = VideoEditSelectorBar.Items[0];
 
                 if (VideoEditResultKind is VideoEditResultKind.None)
@@ -525,7 +525,7 @@ namespace ModernFormatConverter.Views.Pages
                         {
                             IActivationFactory activationFactory = WindowsRuntimeMarshal.GetActivationFactory(typeof(MediaStreamSource));
                             MediaStreamSource mediaStreamSource = activationFactory.ActivateInstance() as MediaStreamSource;
-                            videoRandomAccessStream = await (await StorageFile.GetFileFromPathAsync(selectedVideoConversionFile.FilePath)).OpenAsync(FileAccessMode.Read);
+                            videoRandomAccessStream = await (await StorageFile.GetFileFromPathAsync(selectedVideoFormatConversionFile.FilePath)).OpenAsync(FileAccessMode.Read);
                             FFmpegInteropMSSConfig ffmpegInteropMSSConfig = new()
                             {
                                 ForceVideoDecode = true,
@@ -594,7 +594,7 @@ namespace ModernFormatConverter.Views.Pages
 
         #endregion 第二部分：ExecuteCommand 命令调用时挂载的事件
 
-        #region 第三部分：内容挂载的事件
+        #region 第三部分：视频编辑窗口——挂载的事件
 
         /// <summary>
         /// 视频加载失败后触发的事件
@@ -633,7 +633,7 @@ namespace ModernFormatConverter.Views.Pages
                     try
                     {
                         string tempFilePath = Path.Combine(Path.GetTempPath(), string.Format("{0}.png", Path.GetRandomFileName()));
-                        string arguments = string.Format("-ss {0}:{1}:{2}.{3} -i \"{4}\" -vframes 1 -q:v 2 \"{5}\"", TimeStartHours, TimeStartMinutes, TimeStartSeconds, TimeStartMillseconds, selectedVideoConversionFile.FilePath, tempFilePath);
+                        string arguments = string.Format("-ss {0}:{1}:{2}.{3} -i \"{4}\" -vframes 1 -q:v 2 \"{5}\"", TimeStartHours, TimeStartMinutes, TimeStartSeconds, TimeStartMillseconds, selectedVideoFormatConversionFile.FilePath, tempFilePath);
 
                         Process process = new()
                         {
@@ -699,7 +699,7 @@ namespace ModernFormatConverter.Views.Pages
                     try
                     {
                         string tempFilePath = Path.Combine(Path.GetTempPath(), string.Format("{0}.png", Path.GetRandomFileName()));
-                        string arguments = string.Format("-ss {0}:{1}:{2}.{3} -i \"{4}\" -vframes 1 -q:v 2 \"{5}\"", TimeEndHours, TimeEndMinutes, TimeEndSeconds, TimeEndMillseconds, selectedVideoConversionFile.FilePath, tempFilePath);
+                        string arguments = string.Format("-ss {0}:{1}:{2}.{3} -i \"{4}\" -vframes 1 -q:v 2 \"{5}\"", TimeEndHours, TimeEndMinutes, TimeEndSeconds, TimeEndMillseconds, selectedVideoFormatConversionFile.FilePath, tempFilePath);
 
                         Process process = new()
                         {
@@ -774,7 +774,7 @@ namespace ModernFormatConverter.Views.Pages
             {
                 try
                 {
-                    Process.Start(selectedVideoConversionFile.FilePath);
+                    Process.Start(selectedVideoFormatConversionFile.FilePath);
                 }
                 catch (Exception e)
                 {
@@ -800,13 +800,13 @@ namespace ModernFormatConverter.Views.Pages
         private void OnOkClicked(object sender, RoutedEventArgs args)
         {
             // 更新数据
-            selectedVideoConversionFile.VideoEdit.SelectRegionOperation = Convert.ToString(SelectedSelectRegionOperation.SelectedValue);
-            selectedVideoConversionFile.VideoEdit.StartTime = new(0, TimeStartHours, TimeStartMinutes, TimeStartSeconds, TimeStartMillseconds);
-            selectedVideoConversionFile.VideoEdit.EndTime = new(0, TimeEndHours, TimeEndMinutes, TimeEndSeconds, TimeEndMillseconds);
-            selectedVideoConversionFile.VideoEdit.SelectRegionOperationList.Clear();
-            selectedVideoConversionFile.VideoEdit.SelectRegionOperationList.AddRange(SelectRegionOperationCollection);
-            selectedVideoConversionFile.VideoEdit.VideoCoverFilePath = VideoCoverFilePath;
-            selectedVideoConversionFile = null;
+            selectedVideoFormatConversionFile.VideoEdit.SelectRegionOperation = Convert.ToString(SelectedSelectRegionOperation.SelectedValue);
+            selectedVideoFormatConversionFile.VideoEdit.StartTime = new(0, TimeStartHours, TimeStartMinutes, TimeStartSeconds, TimeStartMillseconds);
+            selectedVideoFormatConversionFile.VideoEdit.EndTime = new(0, TimeEndHours, TimeEndMinutes, TimeEndSeconds, TimeEndMillseconds);
+            selectedVideoFormatConversionFile.VideoEdit.SelectRegionOperationList.Clear();
+            selectedVideoFormatConversionFile.VideoEdit.SelectRegionOperationList.AddRange(SelectRegionOperationCollection);
+            selectedVideoFormatConversionFile.VideoEdit.VideoCoverFilePath = VideoCoverFilePath;
+            selectedVideoFormatConversionFile = null;
 
             // 返回到上一页面
             if (MainWindow.Current.GetFrameContent() is VideoConversionPage videoConversionPage)
@@ -1016,7 +1016,7 @@ namespace ModernFormatConverter.Views.Pages
                 try
                 {
                     string tempFilePath = Path.Combine(Path.GetTempPath(), string.Format("{0}.png", Path.GetRandomFileName()));
-                    string arguments = string.Format("-ss {0}:{1}:{2}.{3} -i \"{4}\" -vframes 1 -q:v 2 \"{5}\"", TimeStartHours, TimeStartMinutes, TimeStartSeconds, TimeStartMillseconds, selectedVideoConversionFile.FilePath, tempFilePath);
+                    string arguments = string.Format("-ss {0}:{1}:{2}.{3} -i \"{4}\" -vframes 1 -q:v 2 \"{5}\"", TimeStartHours, TimeStartMinutes, TimeStartSeconds, TimeStartMillseconds, selectedVideoFormatConversionFile.FilePath, tempFilePath);
 
                     Process process = new()
                     {
@@ -1276,7 +1276,7 @@ namespace ModernFormatConverter.Views.Pages
                 try
                 {
                     string tempFilePath = Path.Combine(Path.GetTempPath(), string.Format("{0}.png", Path.GetRandomFileName()));
-                    string arguments = string.Format("-ss {0}:{1}:{2}.{3} -i \"{4}\" -vframes 1 -q:v 2 \"{5}\"", TimeEndHours, TimeEndMinutes, TimeEndSeconds, TimeEndMillseconds, selectedVideoConversionFile.FilePath, tempFilePath);
+                    string arguments = string.Format("-ss {0}:{1}:{2}.{3} -i \"{4}\" -vframes 1 -q:v 2 \"{5}\"", TimeEndHours, TimeEndMinutes, TimeEndSeconds, TimeEndMillseconds, selectedVideoFormatConversionFile.FilePath, tempFilePath);
 
                     Process process = new()
                     {
@@ -1440,7 +1440,7 @@ namespace ModernFormatConverter.Views.Pages
                             currentPosition.Minutes,
                             currentPosition.Seconds,
                             currentPosition.Milliseconds,
-                            selectedVideoConversionFile.FilePath,
+                            selectedVideoFormatConversionFile.FilePath,
                             ClipWidth,
                             ClipHeight,
                             XCoordinate,
@@ -1682,7 +1682,7 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
-        #endregion 第三部分：内容挂载的事件
+        #endregion 第三部分：视频编辑窗口——挂载的事件
 
         /// <summary>
         /// 初始化数据
