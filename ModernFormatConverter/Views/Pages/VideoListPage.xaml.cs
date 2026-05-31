@@ -34,17 +34,20 @@ namespace ModernFormatConverter.Views.Pages
     /// </summary>
     public sealed partial class VideoListPage : Page, INotifyPropertyChanged
     {
-        private readonly string DragOverContentString = ResourceService.VideoListResource.GetString("DragOverContent");
         private readonly string NoFolderString = ResourceService.VideoListResource.GetString("NoFolder");
         private readonly string NoMultiFileString = ResourceService.VideoListResource.GetString("NoMultiFileString");
         private readonly string SelectFileString = ResourceService.VideoListResource.GetString("SelectFile");
         private readonly string SelectFolderString = ResourceService.VideoListResource.GetString("SelectFolder");
         private readonly string VideoConcatString = ResourceService.VideoListResource.GetString("VideoConcat");
+        private readonly string VideoConcatDragOverContentString = ResourceService.VideoListResource.GetString("VideoConcatDragOverContent");
         private readonly string VideoExportPictureString = ResourceService.VideoListResource.GetString("VideoExportPicture");
+        private readonly string VideoExportPictureDragOverContentString = ResourceService.VideoListResource.GetString("VideoExportPictureDragOverContent");
         private readonly string VideoFormatConversionString = ResourceService.VideoListResource.GetString("VideoFormatConversion");
+        private readonly string VideoFormatConversionDragOverContentString = ResourceService.VideoListResource.GetString("VideoFormatConversionDragOverContent");
         private readonly string VideoMixedFlowString = ResourceService.VideoListResource.GetString("VideoMixedFlow");
         private readonly string VideoMixedFlowDragOverContentString = ResourceService.VideoListResource.GetString("VideoMixedFlowDragOverContent");
         private readonly string VideoSeparationString = ResourceService.VideoListResource.GetString("VideoSeparation");
+        private readonly string VideoSeparationDragOverContentString = ResourceService.VideoListResource.GetString("VideoSeparationDragOverContent");
         private readonly global::Windows.UI.Color accentColor = (global::Windows.UI.Color)Microsoft.UI.Xaml.Application.Current.Resources["SystemAccentColor"];
         private bool canScrollHorizontally;
 
@@ -95,7 +98,6 @@ namespace ModernFormatConverter.Views.Pages
                 }
             }
         }
-
 
         private VideoConversionTypeModel _selectedConversionType;
 
@@ -173,13 +175,64 @@ namespace ModernFormatConverter.Views.Pages
             {
                 VideoConversionType = VideoFormatConversionString,
                 VideoConversionIcon = "\uE895",
-                VideoConversionTypeKind = VideoConversionTypeKind.VideoFormatConversion
+                VideoConversionTypeKind = VideoConversionTypeKind.VideoFormatConversion,
+                VideoFormatConversion = new()
             });
             VideoConversionTypeCollection.Add(new VideoConversionTypeModel
             {
                 VideoConversionType = VideoConcatString,
                 VideoConversionIcon = "\uEA3C",
-                VideoConversionTypeKind = VideoConversionTypeKind.VideoConcat
+                VideoConversionTypeKind = VideoConversionTypeKind.VideoConcat,
+                VideoConcat = new()
+                {
+                    VideoConversionOutputConfiguration = new()
+                    {
+                        VideoConversionTypeKind = VideoConversionTypeKind.VideoConcat,
+
+                        FormatConversionType = "MP4",
+                        SizeLimitation = "Copy",
+                        VideoEncoding = "None",
+                        ScreenSize = "DefaultSize",
+                        VideoBitRate = "Default",
+                        CRF = -1,
+                        GPU = "None",
+                        FramePerSecond = "Default",
+                        AspectRatio = "Default",
+                        SecondaryEncoding = false,
+                        KeyFrameInterval = "Default",
+                        DeInterlace = false,
+                        SpeedPlayback = 1.0,
+                        ReverseVideo = false,
+                        Rotation = System.Windows.Media.Imaging.Rotation.Rotate0,
+                        MirrorReversal = false,
+                        VideoFadeInEffect = "None",
+                        VideoFadeOutEffect = "None",
+
+                        AudioEncoding = "Copy",
+                        SamplingRate = "Default",
+                        AudioBitRate = "Default",
+                        SoundTrack = "Default",
+                        CloseSoundEffect = false,
+                        Volume = "100%",
+                        PreserveAllSourceInputAudioStream = false,
+                        AudioFadeInEffect = "None",
+                        AudioFadeOutEffect = "None",
+                        Echo = false,
+                        DeNoise = false,
+                        Reverse = false,
+
+                        PreserveAllSourceInputSubtitleStream = false,
+                        AdditionalSubtitlePath = string.Empty,
+                        SubtitleNestType = "Default",
+                        FontName = SystemFonts.DefaultFont.Name,
+                        FontSize = 1,
+                        FontColor = accentColor,
+                        FontBorderStyle = "BorderAndShadow",
+                        CounterLineSize = 0,
+                        CounterLineColor = accentColor,
+                        ShadowSize = 0
+                    }
+                }
             });
             VideoConversionTypeCollection.Add(new VideoConversionTypeModel
             {
@@ -241,13 +294,15 @@ namespace ModernFormatConverter.Views.Pages
             {
                 VideoConversionType = VideoSeparationString,
                 VideoConversionIcon = "\uE740",
-                VideoConversionTypeKind = VideoConversionTypeKind.VideoSeparation
+                VideoConversionTypeKind = VideoConversionTypeKind.VideoSeparation,
+                VideoSeparation = new()
             });
             VideoConversionTypeCollection.Add(new VideoConversionTypeModel
             {
                 VideoConversionType = VideoExportPictureString,
                 VideoConversionIcon = "\uE91B",
-                VideoConversionTypeKind = VideoConversionTypeKind.VideoExportPicture
+                VideoConversionTypeKind = VideoConversionTypeKind.VideoExportPicture,
+                VideoExportPicture = new()
             });
             InitializeComponent();
             SelectedItem = VideoListSelectorBar.Items[0];
@@ -263,7 +318,26 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnRemoveExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
-            SelectedConversionType.VideoConversionFileCollection.Remove(args.Parameter as VideoConversionFileModel);
+            // 视频格式转换
+            if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion)
+            {
+                SelectedConversionType.VideoFormatConversion.VideoFormatConversionFileCollection.Remove(args.Parameter as VideoFormatConversionFileModel);
+            }
+            // 视频合并
+            else if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoConcat)
+            {
+                SelectedConversionType.VideoConcat.VideoConcatFileCollection.Remove(args.Parameter as VideoConcatFileModel);
+            }
+            // 视频分离
+            else if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoSeparation)
+            {
+                SelectedConversionType.VideoSeparation.VideoSeparationFileCollection.Remove(args.Parameter as VideoSeparationFileModel);
+            }
+            // 视频导出图片
+            else if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoExportPicture)
+            {
+                SelectedConversionType.VideoExportPicture.VideoExportPictureFileCollection.Remove(args.Parameter as VideoExportPictureFileModel);
+            }
         }
 
         /// <summary>
@@ -271,110 +345,27 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnOutputConfigurationExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
-            if (args.Parameter is VideoConversionFileModel videoConversionFile)
+            if (MainWindow.Current.GetFrameContent() is VideoConversionPage videoConversionPage)
             {
-                // 视频格式转换输出配置
-                if (Equals(SelectedConversionType, VideoConversionTypeCollection[0]))
+                // 视频格式转换
+                if (args.Parameter is VideoFormatConversionFileModel videoFormatConversionFile && videoFormatConversionFile.VideoConversionOutputConfiguration is not null)
                 {
-                    VideoConversionOutputConfigurationWindow videoConversionOutputConfigurationWindow = new(SelectedConversionType.VideoConversionTypeKind, ConversionToolsWindow.Current, videoConversionFile.VideoConversionOutputConfiguration);
-                    if (await videoConversionOutputConfigurationWindow.ShowAsync() is ContentDialogResult.Primary && SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion && videoConversionFile.VideoConversionOutputConfiguration is not null)
+                    videoConversionPage.NavigateTo(videoConversionPage.PageList[2], new VideoConversionNavigationParameterModel()
                     {
-                        videoConversionFile.VideoConversionOutputConfiguration.FormatConversionType = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedFormatConversionType.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.SizeLimitation = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedSizeLimitation.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.VideoEncoding = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVideoEncoding.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.ScreenSize = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedScreenSize.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.VideoBitRate = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVideoBitRate.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.CRF = videoConversionOutputConfigurationWindow.UseCRF ? videoConversionOutputConfigurationWindow.CRF : -1;
-                        videoConversionFile.VideoConversionOutputConfiguration.GPU = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedGPU.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.FramePerSecond = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedFramePerSecond.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.AspectRatio = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAspectRatio.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.SecondaryEncoding = videoConversionOutputConfigurationWindow.SecondaryEncoding;
-                        videoConversionFile.VideoConversionOutputConfiguration.KeyFrameInterval = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedKeyFrameInterval.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.DeInterlace = videoConversionOutputConfigurationWindow.DeInterlace;
-                        videoConversionFile.VideoConversionOutputConfiguration.SpeedPlayback = videoConversionOutputConfigurationWindow.SpeedPlayback;
-                        videoConversionFile.VideoConversionOutputConfiguration.ReverseVideo = videoConversionOutputConfigurationWindow.ReverseVideo;
-                        videoConversionFile.VideoConversionOutputConfiguration.Rotation = (System.Windows.Media.Imaging.Rotation)videoConversionOutputConfigurationWindow.SelectedRotation.SelectedValue;
-                        videoConversionFile.VideoConversionOutputConfiguration.MirrorReversal = videoConversionOutputConfigurationWindow.MirrorReversal;
-                        videoConversionFile.VideoConversionOutputConfiguration.VideoFadeInEffect = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVideoFadeInEffect);
-                        videoConversionFile.VideoConversionOutputConfiguration.VideoFadeOutEffect = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVideoFadeOutEffect);
-
-                        videoConversionFile.VideoConversionOutputConfiguration.AudioEncoding = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAudioEncoding.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.SamplingRate = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedSamplingRate.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.AudioBitRate = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAudioBitRate.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.SoundTrack = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedSoundTrack.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.CloseSoundEffect = videoConversionOutputConfigurationWindow.CloseSoundEffect;
-                        videoConversionFile.VideoConversionOutputConfiguration.Volume = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVolume.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.PreserveAllSourceInputAudioStream = videoConversionOutputConfigurationWindow.PreserveAllSourceInputAudioStream;
-                        videoConversionFile.VideoConversionOutputConfiguration.AudioFadeInEffect = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAudioFadeInEffect.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.AudioFadeOutEffect = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAudioFadeOutEffect.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.Echo = videoConversionOutputConfigurationWindow.Echo;
-                        videoConversionFile.VideoConversionOutputConfiguration.DeNoise = videoConversionOutputConfigurationWindow.DeNoise;
-                        videoConversionFile.VideoConversionOutputConfiguration.Reverse = videoConversionOutputConfigurationWindow.Reverse;
-
-                        videoConversionFile.VideoConversionOutputConfiguration.PreserveAllSourceInputSubtitleStream = videoConversionOutputConfigurationWindow.PreserveAllSourceInputSubtitleStream;
-                        videoConversionFile.VideoConversionOutputConfiguration.AdditionalSubtitlePath = videoConversionOutputConfigurationWindow.AdditionalSubtitlePath;
-                        videoConversionFile.VideoConversionOutputConfiguration.SubtitleNestType = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedSubtitleNestType.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.FontName = videoConversionOutputConfigurationWindow.FontName;
-                        videoConversionFile.VideoConversionOutputConfiguration.FontSize = Convert.ToInt32(videoConversionOutputConfigurationWindow.SelectedFontSize.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.FontColor = videoConversionOutputConfigurationWindow.FontColor;
-                        videoConversionFile.VideoConversionOutputConfiguration.FontBorderStyle = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedFontBorderStyle.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.CounterLineSize = Convert.ToInt32(videoConversionOutputConfigurationWindow.SelectedCounterLineSize.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.CounterLineColor = videoConversionOutputConfigurationWindow.CounterLineColor;
-                        videoConversionFile.VideoConversionOutputConfiguration.ShadowSize = Convert.ToInt32(videoConversionOutputConfigurationWindow.SelectedShadowSize.SelectedValue);
-                    }
+                        VideoConversionTypeKind = VideoConversionTypeKind.VideoFormatConversion,
+                        IsGlobalSettings = false,
+                        VideoConversionData = videoFormatConversionFile
+                    }, true);
                 }
-                // 视频合并输出配置
-                else if (Equals(SelectedConversionType, VideoConversionTypeCollection[1]))
+                // 视频导出图片
+                else if (args.Parameter is VideoExportPictureFileModel videoExportPictureFile && videoExportPictureFile.VideoExportPictureOutputConfiguration is not null)
                 {
-                    VideoConversionOutputConfigurationWindow videoConversionOutputConfigurationWindow = new(SelectedConversionType.VideoConversionTypeKind, ConversionToolsWindow.Current, videoConversionFile.VideoConversionOutputConfiguration);
-                    if (await videoConversionOutputConfigurationWindow.ShowAsync() is ContentDialogResult.Primary && SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion && videoConversionFile.VideoConversionOutputConfiguration is not null)
+                    videoConversionPage.NavigateTo(videoConversionPage.PageList[3], new VideoConversionNavigationParameterModel()
                     {
-                        videoConversionFile.VideoConversionOutputConfiguration.FormatConversionType = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedFormatConversionType.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.SizeLimitation = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedSizeLimitation.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.VideoEncoding = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVideoEncoding.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.ScreenSize = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedScreenSize.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.VideoBitRate = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVideoBitRate.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.CRF = videoConversionOutputConfigurationWindow.UseCRF ? videoConversionOutputConfigurationWindow.CRF : -1;
-                        videoConversionFile.VideoConversionOutputConfiguration.GPU = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedGPU.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.FramePerSecond = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedFramePerSecond.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.AspectRatio = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAspectRatio.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.SecondaryEncoding = videoConversionOutputConfigurationWindow.SecondaryEncoding;
-                        videoConversionFile.VideoConversionOutputConfiguration.KeyFrameInterval = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedKeyFrameInterval.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.DeInterlace = videoConversionOutputConfigurationWindow.DeInterlace;
-                        videoConversionFile.VideoConversionOutputConfiguration.SpeedPlayback = videoConversionOutputConfigurationWindow.SpeedPlayback;
-                        videoConversionFile.VideoConversionOutputConfiguration.ReverseVideo = videoConversionOutputConfigurationWindow.ReverseVideo;
-                        videoConversionFile.VideoConversionOutputConfiguration.Rotation = (System.Windows.Media.Imaging.Rotation)videoConversionOutputConfigurationWindow.SelectedRotation.SelectedValue;
-                        videoConversionFile.VideoConversionOutputConfiguration.MirrorReversal = videoConversionOutputConfigurationWindow.MirrorReversal;
-                        videoConversionFile.VideoConversionOutputConfiguration.VideoFadeInEffect = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVideoFadeInEffect);
-                        videoConversionFile.VideoConversionOutputConfiguration.VideoFadeOutEffect = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVideoFadeOutEffect);
-
-                        videoConversionFile.VideoConversionOutputConfiguration.AudioEncoding = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAudioEncoding.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.SamplingRate = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedSamplingRate.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.AudioBitRate = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAudioBitRate.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.SoundTrack = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedSoundTrack.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.CloseSoundEffect = videoConversionOutputConfigurationWindow.CloseSoundEffect;
-                        videoConversionFile.VideoConversionOutputConfiguration.Volume = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVolume.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.PreserveAllSourceInputAudioStream = videoConversionOutputConfigurationWindow.PreserveAllSourceInputAudioStream;
-                        videoConversionFile.VideoConversionOutputConfiguration.AudioFadeInEffect = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAudioFadeInEffect.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.AudioFadeOutEffect = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAudioFadeOutEffect.SelectedValue);
-                        videoConversionFile.VideoConversionOutputConfiguration.Echo = videoConversionOutputConfigurationWindow.Echo;
-                        videoConversionFile.VideoConversionOutputConfiguration.DeNoise = videoConversionOutputConfigurationWindow.DeNoise;
-                        videoConversionFile.VideoConversionOutputConfiguration.Reverse = videoConversionOutputConfigurationWindow.Reverse;
-                    }
-                }
-                // 视频导出图片输出配置
-                else if (Equals(SelectedConversionType, VideoConversionTypeCollection[4]))
-                {
-                    VideoExportPictureOutputConfigurationWindow videoExportPictureOutputConfigurationWindow = new(SelectedConversionType.VideoConversionTypeKind, ConversionToolsWindow.Current, videoConversionFile.VideoExportPictureOutputConfiguration);
-                    if (await videoExportPictureOutputConfigurationWindow.ShowAsync() is ContentDialogResult.Primary && SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoExportPicture && videoConversionFile.VideoExportPictureOutputConfiguration is not null)
-                    {
-                        videoConversionFile.VideoExportPictureOutputConfiguration.SavePictureFormat = Convert.ToString(videoExportPictureOutputConfigurationWindow.SelectedSavePictureFormat.SelectedValue);
-                        videoConversionFile.VideoExportPictureOutputConfiguration.VideoExportPictureKind = Convert.ToString(videoExportPictureOutputConfigurationWindow.SelectedVideoExportPictureKind.SelectedValue);
-                        videoConversionFile.VideoExportPictureOutputConfiguration.ExportTime = new(videoExportPictureOutputConfigurationWindow.TimeHours, videoExportPictureOutputConfigurationWindow.TimeMinutes, videoExportPictureOutputConfigurationWindow.TimeSeconds);
-                        videoConversionFile.VideoExportPictureOutputConfiguration.StartTime = new(videoExportPictureOutputConfigurationWindow.TimeStartHours, videoExportPictureOutputConfigurationWindow.TimeStartMinutes, videoExportPictureOutputConfigurationWindow.TimeStartSeconds);
-                        videoConversionFile.VideoExportPictureOutputConfiguration.EndTime = new(videoExportPictureOutputConfigurationWindow.TimeEndHours, videoExportPictureOutputConfigurationWindow.TimeEndMinutes, videoExportPictureOutputConfigurationWindow.TimeEndSeconds);
-                        videoConversionFile.VideoExportPictureOutputConfiguration.PictureExportPerSecond = videoExportPictureOutputConfigurationWindow.PictureExportPerSecond;
-                    }
+                        VideoConversionTypeKind = VideoConversionTypeKind.VideoExportPicture,
+                        IsGlobalSettings = false,
+                        VideoConversionData = videoExportPictureFile
+                    }, true);
                 }
             }
         }
@@ -384,9 +375,9 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnVideoEditExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
-            if (args.Parameter is VideoConversionFileModel videoConversionFile && videoConversionFile.VideoEdit is not null && MainWindow.Current.GetFrameContent() is VideoConversionPage videoConversionPage)
+            if (MainWindow.Current.GetFrameContent() is VideoConversionPage videoConversionPage && args.Parameter is VideoFormatConversionFileModel videoFormatConversionFile && videoFormatConversionFile.VideoEdit is not null)
             {
-                videoConversionPage.NavigateTo(videoConversionPage.PageList[1], videoConversionFile, true);
+                videoConversionPage.NavigateTo(videoConversionPage.PageList[1], videoFormatConversionFile, true);
             }
         }
 
@@ -416,11 +407,46 @@ namespace ModernFormatConverter.Views.Pages
                 }
                 else
                 {
-                    args.AcceptedOperation = DataPackageOperation.Copy;
-                    args.DragUIOverride.IsCaptionVisible = true;
-                    args.DragUIOverride.IsContentVisible = false;
-                    args.DragUIOverride.IsGlyphVisible = true;
-                    args.DragUIOverride.Caption = DragOverContentString;
+                    if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion)
+                    {
+                        args.AcceptedOperation = DataPackageOperation.Copy;
+                        args.DragUIOverride.IsCaptionVisible = true;
+                        args.DragUIOverride.IsContentVisible = false;
+                        args.DragUIOverride.IsGlyphVisible = true;
+                        args.DragUIOverride.Caption = VideoFormatConversionDragOverContentString;
+                    }
+                    else if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoConcat)
+                    {
+                        args.AcceptedOperation = DataPackageOperation.Copy;
+                        args.DragUIOverride.IsCaptionVisible = true;
+                        args.DragUIOverride.IsContentVisible = false;
+                        args.DragUIOverride.IsGlyphVisible = true;
+                        args.DragUIOverride.Caption = VideoConcatDragOverContentString;
+                    }
+                    else if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoSeparation)
+                    {
+                        args.AcceptedOperation = DataPackageOperation.Copy;
+                        args.DragUIOverride.IsCaptionVisible = true;
+                        args.DragUIOverride.IsContentVisible = false;
+                        args.DragUIOverride.IsGlyphVisible = true;
+                        args.DragUIOverride.Caption = VideoSeparationDragOverContentString;
+                    }
+                    else if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoExportPicture)
+                    {
+                        args.AcceptedOperation = DataPackageOperation.Copy;
+                        args.DragUIOverride.IsCaptionVisible = true;
+                        args.DragUIOverride.IsContentVisible = false;
+                        args.DragUIOverride.IsGlyphVisible = true;
+                        args.DragUIOverride.Caption = VideoExportPictureDragOverContentString;
+                    }
+                    else
+                    {
+                        args.AcceptedOperation = DataPackageOperation.Copy;
+                        args.DragUIOverride.IsCaptionVisible = false;
+                        args.DragUIOverride.IsContentVisible = false;
+                        args.DragUIOverride.IsGlyphVisible = true;
+                        args.DragUIOverride.Caption = string.Empty;
+                    }
                 }
             }
             catch (Exception e)
@@ -490,8 +516,9 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnVideoListDrop(object sender, Microsoft.UI.Xaml.DragEventArgs args)
         {
+            IsGettingFileInformation = true;
             DragOperationDeferral dragOperationDeferral = args.GetDeferral();
-            IReadOnlyList<IStorageItem> fileList = null;
+            List<string> fileList = null;
 
             try
             {
@@ -502,7 +529,8 @@ namespace ModernFormatConverter.Views.Pages
                     {
                         if (dataPackageView.Contains(StandardDataFormats.StorageItems))
                         {
-                            return await dataPackageView.GetStorageItemsAsync();
+                            IReadOnlyList<IStorageItem> storeageItem = await dataPackageView.GetStorageItemsAsync();
+                            return storeageItem.Select(item => item.Path).ToList();
                         }
                     }
                     catch (Exception e)
@@ -524,36 +552,9 @@ namespace ModernFormatConverter.Views.Pages
 
             if (fileList is not null && fileList.Count > 0)
             {
-                IsGettingFileInformation = true;
-                List<VideoConversionFileModel> videoConversionFileList = [.. SelectedConversionType.VideoConversionFileCollection];
-                List<Task> taskList = [];
-                object fileInformationLock = new();
-                foreach (IStorageItem file in fileList)
-                {
-                    taskList.Add(Task.Run(async () =>
-                    {
-                        if (GetFileInformation(file.Path) is VideoConversionFileModel videoConversionFile)
-                        {
-                            lock (fileInformationLock)
-                            {
-                                videoConversionFileList.Add(videoConversionFile);
-                            }
-                        }
-                    }));
-                }
-                await Task.WhenAll(taskList);
-                List<VideoConversionFileModel> sortedVideoConversionFileList = SortData(videoConversionFileList);
-                SelectedConversionType.VideoConversionFileCollection.Clear();
-                foreach (VideoConversionFileModel sortedVideoConversionFile in sortedVideoConversionFileList)
-                {
-                    if (!Equals(SelectedConversionType.VideoConversionTypeKind, VideoConversionTypeKind.VideoConcat) && sortedVideoConversionFile.FileThumbnailSource is null)
-                    {
-                        sortedVideoConversionFile.FileThumbnailSource = GetThumbnail(sortedVideoConversionFile.FilePath);
-                    }
-                    SelectedConversionType.VideoConversionFileCollection.Add(sortedVideoConversionFile);
-                }
-                IsGettingFileInformation = false;
+                await AddVideoDataAsync(fileList);
             }
+            IsGettingFileInformation = false;
         }
 
         /// <summary>
@@ -561,6 +562,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnVideoMixedFlowVideoDrop(object sender, Microsoft.UI.Xaml.DragEventArgs args)
         {
+            IsGettingFileInformation = true;
             DragOperationDeferral dragOperationDeferral = args.GetDeferral();
             string filePath = string.Empty;
 
@@ -600,7 +602,6 @@ namespace ModernFormatConverter.Views.Pages
 
             if (File.Exists(filePath))
             {
-                IsGettingFileInformation = true;
                 if (await Task.Run(() => { return GetFileInformation(filePath, StreamKind.Video); }) is VideoMixedFlowFileModel videoMixedFlowFile)
                 {
                     SelectedConversionType.VideoMixedFlow.VideoFile = videoMixedFlowFile;
@@ -610,8 +611,8 @@ namespace ModernFormatConverter.Views.Pages
                 {
                     SelectedConversionType.VideoMixedFlow.VideoFile.FileThumbnailSource = GetThumbnail(filePath);
                 }
-                IsGettingFileInformation = false;
             }
+            IsGettingFileInformation = false;
         }
 
         /// <summary>
@@ -702,23 +703,10 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 视频转换选择器栏选中项发生变化时触发的事件
         /// </summary>
-        private async void OnSelectorBarSelectionChanged(SelectorBar sender,SelectorBarSelectionChangedEventArgs args)
+        private async void OnSelectorBarSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
         {
             SelectedItem = sender.SelectedItem;
-            int index = sender.Items.IndexOf(SelectedItem);
-            SelectedConversionType = VideoConversionTypeCollection[index];
-            IsGettingFileInformation = true;
-            List<VideoConversionFileModel> sortedVideoConversionFileList = await Task.Run(() =>
-            {
-                List<VideoConversionFileModel> videoConversionFileList = [.. SelectedConversionType.VideoConversionFileCollection];
-                return SortData(videoConversionFileList);
-            });
-            SelectedConversionType.VideoConversionFileCollection.Clear();
-            foreach (VideoConversionFileModel sortedVideoConversionFile in sortedVideoConversionFileList)
-            {
-                SelectedConversionType.VideoConversionFileCollection.Add(sortedVideoConversionFile);
-            }
-            IsGettingFileInformation = false;
+            SelectedConversionType = VideoConversionTypeCollection[sender.Items.IndexOf(SelectedItem)];
         }
 
         /// <summary>
@@ -747,6 +735,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnVideoMixedFlowAudioDrop(object sender, Microsoft.UI.Xaml.DragEventArgs args)
         {
+            IsGettingFileInformation = true;
             DragOperationDeferral dragOperationDeferral = args.GetDeferral();
             string filePath = string.Empty;
 
@@ -786,7 +775,6 @@ namespace ModernFormatConverter.Views.Pages
 
             if (File.Exists(filePath))
             {
-                IsGettingFileInformation = true;
                 if (await Task.Run(() => { return GetFileInformation(filePath, StreamKind.Audio); }) is VideoMixedFlowFileModel videoMixedFlowFile)
                 {
                     SelectedConversionType.VideoMixedFlow.AudioFile = videoMixedFlowFile;
@@ -796,8 +784,8 @@ namespace ModernFormatConverter.Views.Pages
                 {
                     SelectedConversionType.VideoMixedFlow.AudioFile.FileThumbnailSource = GetThumbnail(filePath);
                 }
-                IsGettingFileInformation = false;
             }
+            IsGettingFileInformation = false;
         }
 
         /// <summary>
@@ -817,6 +805,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnVideoMixedFlowSubtitleDrop(object sender, Microsoft.UI.Xaml.DragEventArgs args)
         {
+            IsGettingFileInformation = true;
             DragOperationDeferral dragOperationDeferral = args.GetDeferral();
             string filePath = string.Empty;
 
@@ -856,7 +845,6 @@ namespace ModernFormatConverter.Views.Pages
 
             if (File.Exists(filePath))
             {
-                IsGettingFileInformation = true;
                 if (await Task.Run(() => { return GetFileInformation(filePath); }) is VideoMixedFlowFileModel videoMixedFlowFile)
                 {
                     SelectedConversionType.VideoMixedFlow.SubtitleFile = videoMixedFlowFile;
@@ -866,8 +854,8 @@ namespace ModernFormatConverter.Views.Pages
                 {
                     SelectedConversionType.VideoMixedFlow.SubtitleFile.FileThumbnailSource = GetThumbnail(filePath);
                 }
-                IsGettingFileInformation = false;
             }
+            IsGettingFileInformation = false;
         }
 
         /// <summary>
@@ -891,16 +879,7 @@ namespace ModernFormatConverter.Views.Pages
             {
                 SelectedSortRule = Convert.ToString(radioMenuFlyoutItem.Tag);
                 IsGettingFileInformation = true;
-                List<VideoConversionFileModel> sortedVideoConversionFileList = await Task.Run(() =>
-                {
-                    List<VideoConversionFileModel> videoConversionFileList = [.. SelectedConversionType.VideoConversionFileCollection];
-                    return SortData(videoConversionFileList);
-                });
-                SelectedConversionType.VideoConversionFileCollection.Clear();
-                foreach (VideoConversionFileModel sortedVideoConversionFile in sortedVideoConversionFileList)
-                {
-                    SelectedConversionType.VideoConversionFileCollection.Add(sortedVideoConversionFile);
-                }
+                await SortDataAsync();
                 IsGettingFileInformation = false;
             }
         }
@@ -914,16 +893,7 @@ namespace ModernFormatConverter.Views.Pages
             {
                 SortWay = Convert.ToBoolean(radioMenuFlyoutItem.Tag);
                 IsGettingFileInformation = true;
-                List<VideoConversionFileModel> sortedVideoConversionFileList = await Task.Run(() =>
-                {
-                    List<VideoConversionFileModel> videoConversionFileList = [.. SelectedConversionType.VideoConversionFileCollection];
-                    return SortData(videoConversionFileList);
-                });
-                SelectedConversionType.VideoConversionFileCollection.Clear();
-                foreach (VideoConversionFileModel sortedVideoConversionFile in sortedVideoConversionFileList)
-                {
-                    SelectedConversionType.VideoConversionFileCollection.Add(sortedVideoConversionFile);
-                }
+                await SortDataAsync();
                 IsGettingFileInformation = false;
             }
         }
@@ -933,7 +903,18 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnClearClicked(object sender, RoutedEventArgs args)
         {
-            if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoMixedFlow)
+            // 视频格式转换
+            if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion)
+            {
+                SelectedConversionType.VideoFormatConversion.VideoFormatConversionFileCollection.Clear();
+            }
+            // 视频合并
+            else if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoConcat)
+            {
+                SelectedConversionType.VideoConcat.VideoConcatFileCollection.Clear();
+            }
+            // 视频混流
+            else if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoMixedFlow)
             {
                 SelectedConversionType.VideoMixedFlow.IsVideoFileExisted = false;
                 SelectedConversionType.VideoMixedFlow.VideoFile = null;
@@ -942,9 +923,15 @@ namespace ModernFormatConverter.Views.Pages
                 SelectedConversionType.VideoMixedFlow.IsSubtitleFileExisted = false;
                 SelectedConversionType.VideoMixedFlow.SubtitleFile = null;
             }
-            else
+            // 视频分离
+            else if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoSeparation)
             {
-                SelectedConversionType.VideoConversionFileCollection.Clear();
+                SelectedConversionType.VideoSeparation.VideoSeparationFileCollection.Clear();
+            }
+            // 视频导出图片
+            else if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoExportPicture)
+            {
+                SelectedConversionType.VideoExportPicture.VideoExportPictureFileCollection.Clear();
             }
         }
 
@@ -961,35 +948,9 @@ namespace ModernFormatConverter.Views.Pages
             if (openFileDialog.ShowDialog() is DialogResult.OK)
             {
                 IsGettingFileInformation = true;
-                List<VideoConversionFileModel> videoConversionFileList = [.. SelectedConversionType.VideoConversionFileCollection];
-                List<Task> taskList = [];
-                object fileInformationLock = new();
-                foreach (string filePath in openFileDialog.FileNames)
-                {
-                    taskList.Add(Task.Run(async () =>
-                    {
-                        if (GetFileInformation(filePath) is VideoConversionFileModel videoConversionFile)
-                        {
-                            lock (fileInformationLock)
-                            {
-                                videoConversionFileList.Add(videoConversionFile);
-                            }
-                        }
-                    }));
-                }
-                await Task.WhenAll(taskList);
-                List<VideoConversionFileModel> sortedVideoConversionFileList = SortData(videoConversionFileList);
-                SelectedConversionType.VideoConversionFileCollection.Clear();
-                foreach (VideoConversionFileModel sortedVideoConversionFile in sortedVideoConversionFileList)
-                {
-                    if (!Equals(SelectedConversionType.VideoConversionTypeKind, VideoConversionTypeKind.VideoConcat) && sortedVideoConversionFile.FileThumbnailSource is null)
-                    {
-                        sortedVideoConversionFile.FileThumbnailSource = GetThumbnail(sortedVideoConversionFile.FilePath);
-                    }
-                    SelectedConversionType.VideoConversionFileCollection.Add(sortedVideoConversionFile);
-                }
-                IsGettingFileInformation = false;
+                await AddVideoDataAsync([.. openFileDialog.FileNames]);
             }
+            IsGettingFileInformation = false;
             openFileDialog.Dispose();
         }
 
@@ -1088,34 +1049,8 @@ namespace ModernFormatConverter.Views.Pages
             if (dialogResult is DialogResult.OK || dialogResult is DialogResult.Yes)
             {
                 IsGettingFileInformation = true;
-                List<VideoConversionFileModel> videoConversionFileList = [.. SelectedConversionType.VideoConversionFileCollection];
-                string[] filePathArray = Directory.GetFiles(openFolderDialog.SelectedPath);
-                List<Task> taskList = [];
-                object fileInformationLock = new();
-                foreach (string filePath in filePathArray)
-                {
-                    taskList.Add(Task.Run(async () =>
-                    {
-                        if (GetFileInformation(filePath) is VideoConversionFileModel videoConversionFile)
-                        {
-                            lock (fileInformationLock)
-                            {
-                                videoConversionFileList.Add(videoConversionFile);
-                            }
-                        }
-                    }));
-                }
-                await Task.WhenAll(taskList);
-                List<VideoConversionFileModel> sortedVideoConversionFileList = SortData(videoConversionFileList);
-                SelectedConversionType.VideoConversionFileCollection.Clear();
-                foreach (VideoConversionFileModel sortedVideoConversionFile in sortedVideoConversionFileList)
-                {
-                    if (!Equals(SelectedConversionType.VideoConversionTypeKind, VideoConversionTypeKind.VideoConcat) && sortedVideoConversionFile.FileThumbnailSource is null)
-                    {
-                        sortedVideoConversionFile.FileThumbnailSource = GetThumbnail(sortedVideoConversionFile.FilePath);
-                    }
-                    SelectedConversionType.VideoConversionFileCollection.Add(sortedVideoConversionFile);
-                }
+                List<string> fileList = [.. Directory.GetFiles(openFolderDialog.SelectedPath)];
+                await AddVideoDataAsync(fileList);
                 IsGettingFileInformation = false;
             }
             openFolderDialog.Dispose();
@@ -1126,178 +1061,47 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnOutputConfigurationClicked(object sender, RoutedEventArgs args)
         {
-            // 视频格式转换输出配置
-            if (Equals(SelectedConversionType, VideoConversionTypeCollection[0]))
+            if (MainWindow.Current.GetFrameContent() is VideoConversionPage videoConversionPage)
             {
-                VideoConversionOutputConfigurationWindow videoConversionOutputConfigurationWindow = new(SelectedConversionType.VideoConversionTypeKind, ConversionToolsWindow.Current);
-                if (await videoConversionOutputConfigurationWindow.ShowAsync() is ContentDialogResult.Primary && SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion)
+                // 视频格式转换
+                if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion)
                 {
-                    foreach (VideoConversionFileModel videoConversionFile in SelectedConversionType.VideoConversionFileCollection)
+                    videoConversionPage.NavigateTo(videoConversionPage.PageList[2], new VideoConversionNavigationParameterModel()
                     {
-                        if (videoConversionFile.VideoConversionOutputConfiguration is not null)
-                        {
-                            videoConversionFile.VideoConversionOutputConfiguration.FormatConversionType = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedFormatConversionType.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.SizeLimitation = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedSizeLimitation.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.VideoEncoding = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVideoEncoding.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.ScreenSize = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedScreenSize.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.VideoBitRate = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVideoBitRate.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.CRF = videoConversionOutputConfigurationWindow.UseCRF ? videoConversionOutputConfigurationWindow.CRF : -1;
-                            videoConversionFile.VideoConversionOutputConfiguration.GPU = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedGPU.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.FramePerSecond = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedFramePerSecond.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.AspectRatio = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAspectRatio.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.SecondaryEncoding = videoConversionOutputConfigurationWindow.SecondaryEncoding;
-                            videoConversionFile.VideoConversionOutputConfiguration.KeyFrameInterval = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedKeyFrameInterval.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.DeInterlace = videoConversionOutputConfigurationWindow.DeInterlace;
-                            videoConversionFile.VideoConversionOutputConfiguration.SpeedPlayback = videoConversionOutputConfigurationWindow.SpeedPlayback;
-                            videoConversionFile.VideoConversionOutputConfiguration.ReverseVideo = videoConversionOutputConfigurationWindow.ReverseVideo;
-                            videoConversionFile.VideoConversionOutputConfiguration.Rotation = (System.Windows.Media.Imaging.Rotation)videoConversionOutputConfigurationWindow.SelectedRotation.SelectedValue;
-                            videoConversionFile.VideoConversionOutputConfiguration.MirrorReversal = videoConversionOutputConfigurationWindow.MirrorReversal;
-                            videoConversionFile.VideoConversionOutputConfiguration.VideoFadeInEffect = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVideoFadeInEffect);
-                            videoConversionFile.VideoConversionOutputConfiguration.VideoFadeOutEffect = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVideoFadeOutEffect);
-
-                            videoConversionFile.VideoConversionOutputConfiguration.AudioEncoding = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAudioEncoding.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.SamplingRate = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedSamplingRate.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.AudioBitRate = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAudioBitRate.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.SoundTrack = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedSoundTrack.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.CloseSoundEffect = videoConversionOutputConfigurationWindow.CloseSoundEffect;
-                            videoConversionFile.VideoConversionOutputConfiguration.Volume = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVolume.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.PreserveAllSourceInputAudioStream = videoConversionOutputConfigurationWindow.PreserveAllSourceInputAudioStream;
-                            videoConversionFile.VideoConversionOutputConfiguration.AudioFadeInEffect = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAudioFadeInEffect.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.AudioFadeOutEffect = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAudioFadeOutEffect.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.Echo = videoConversionOutputConfigurationWindow.Echo;
-                            videoConversionFile.VideoConversionOutputConfiguration.DeNoise = videoConversionOutputConfigurationWindow.DeNoise;
-                            videoConversionFile.VideoConversionOutputConfiguration.Reverse = videoConversionOutputConfigurationWindow.Reverse;
-
-                            videoConversionFile.VideoConversionOutputConfiguration.PreserveAllSourceInputSubtitleStream = videoConversionOutputConfigurationWindow.PreserveAllSourceInputSubtitleStream;
-                            videoConversionFile.VideoConversionOutputConfiguration.AdditionalSubtitlePath = videoConversionOutputConfigurationWindow.AdditionalSubtitlePath;
-                            videoConversionFile.VideoConversionOutputConfiguration.SubtitleNestType = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedSubtitleNestType.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.FontName = videoConversionOutputConfigurationWindow.FontName;
-                            videoConversionFile.VideoConversionOutputConfiguration.FontSize = Convert.ToInt32(videoConversionOutputConfigurationWindow.SelectedFontSize.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.FontColor = videoConversionOutputConfigurationWindow.FontColor;
-                            videoConversionFile.VideoConversionOutputConfiguration.FontBorderStyle = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedFontBorderStyle.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.CounterLineSize = Convert.ToInt32(videoConversionOutputConfigurationWindow.SelectedCounterLineSize.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.CounterLineColor = videoConversionOutputConfigurationWindow.CounterLineColor;
-                            videoConversionFile.VideoConversionOutputConfiguration.ShadowSize = Convert.ToInt32(videoConversionOutputConfigurationWindow.SelectedShadowSize.SelectedValue);
-                        }
-                    }
+                        VideoConversionTypeKind = VideoConversionTypeKind.VideoFormatConversion,
+                        IsGlobalSettings = true,
+                        VideoConversionData = VideoConversionTypeCollection[0].VideoFormatConversion.VideoFormatConversionFileCollection.ToList()
+                    }, true);
                 }
-            }
-            // 视频合并输出配置
-            else if (Equals(SelectedConversionType, VideoConversionTypeCollection[1]))
-            {
-                VideoConversionOutputConfigurationWindow videoConversionOutputConfigurationWindow = new(SelectedConversionType.VideoConversionTypeKind, ConversionToolsWindow.Current);
-                if (await videoConversionOutputConfigurationWindow.ShowAsync() is ContentDialogResult.Primary && SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion)
+                // 视频合并
+                else if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoConcat)
                 {
-                    foreach (VideoConversionFileModel videoConversionFile in SelectedConversionType.VideoConversionFileCollection)
+                    videoConversionPage.NavigateTo(videoConversionPage.PageList[2], new VideoConversionNavigationParameterModel()
                     {
-                        if (videoConversionFile.VideoConversionOutputConfiguration is not null)
-                        {
-                            videoConversionFile.VideoConversionOutputConfiguration.FormatConversionType = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedFormatConversionType.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.SizeLimitation = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedSizeLimitation.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.VideoEncoding = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVideoEncoding.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.ScreenSize = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedScreenSize.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.VideoBitRate = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVideoBitRate.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.CRF = videoConversionOutputConfigurationWindow.UseCRF ? videoConversionOutputConfigurationWindow.CRF : -1;
-                            videoConversionFile.VideoConversionOutputConfiguration.GPU = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedGPU.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.FramePerSecond = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedFramePerSecond.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.AspectRatio = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAspectRatio.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.SecondaryEncoding = videoConversionOutputConfigurationWindow.SecondaryEncoding;
-                            videoConversionFile.VideoConversionOutputConfiguration.KeyFrameInterval = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedKeyFrameInterval.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.DeInterlace = videoConversionOutputConfigurationWindow.DeInterlace;
-                            videoConversionFile.VideoConversionOutputConfiguration.SpeedPlayback = videoConversionOutputConfigurationWindow.SpeedPlayback;
-                            videoConversionFile.VideoConversionOutputConfiguration.ReverseVideo = videoConversionOutputConfigurationWindow.ReverseVideo;
-                            videoConversionFile.VideoConversionOutputConfiguration.Rotation = (System.Windows.Media.Imaging.Rotation)videoConversionOutputConfigurationWindow.SelectedRotation.SelectedValue;
-                            videoConversionFile.VideoConversionOutputConfiguration.MirrorReversal = videoConversionOutputConfigurationWindow.MirrorReversal;
-                            videoConversionFile.VideoConversionOutputConfiguration.VideoFadeInEffect = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVideoFadeInEffect);
-                            videoConversionFile.VideoConversionOutputConfiguration.VideoFadeOutEffect = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVideoFadeOutEffect);
-
-                            videoConversionFile.VideoConversionOutputConfiguration.AudioEncoding = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAudioEncoding.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.SamplingRate = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedSamplingRate.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.AudioBitRate = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAudioBitRate.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.SoundTrack = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedSoundTrack.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.CloseSoundEffect = videoConversionOutputConfigurationWindow.CloseSoundEffect;
-                            videoConversionFile.VideoConversionOutputConfiguration.Volume = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVolume.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.PreserveAllSourceInputAudioStream = videoConversionOutputConfigurationWindow.PreserveAllSourceInputAudioStream;
-                            videoConversionFile.VideoConversionOutputConfiguration.AudioFadeInEffect = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAudioFadeInEffect.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.AudioFadeOutEffect = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAudioFadeOutEffect.SelectedValue);
-                            videoConversionFile.VideoConversionOutputConfiguration.Echo = videoConversionOutputConfigurationWindow.Echo;
-                            videoConversionFile.VideoConversionOutputConfiguration.DeNoise = videoConversionOutputConfigurationWindow.DeNoise;
-                            videoConversionFile.VideoConversionOutputConfiguration.Reverse = videoConversionOutputConfigurationWindow.Reverse;
-                        }
-                    }
+                        VideoConversionTypeKind = VideoConversionTypeKind.VideoConcat,
+                        IsGlobalSettings = true,
+                        VideoConversionData = VideoConversionTypeCollection[1].VideoConcat
+                    }, true);
                 }
-            }
-            // 视频混流输出配置
-            else if (Equals(SelectedConversionType, VideoConversionTypeCollection[2]))
-            {
-                VideoConversionOutputConfigurationWindow videoConversionOutputConfigurationWindow = new(SelectedConversionType.VideoConversionTypeKind, ConversionToolsWindow.Current);
-                if (await videoConversionOutputConfigurationWindow.ShowAsync() is ContentDialogResult.Primary && SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion)
+                // 视频混流
+                else if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoMixedFlow)
                 {
-                    if (SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration is not null)
+                    videoConversionPage.NavigateTo(videoConversionPage.PageList[2], new VideoConversionNavigationParameterModel()
                     {
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.FormatConversionType = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedFormatConversionType.SelectedValue);
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.SizeLimitation = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedSizeLimitation.SelectedValue);
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.VideoEncoding = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVideoEncoding.SelectedValue);
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.ScreenSize = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedScreenSize.SelectedValue);
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.VideoBitRate = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVideoBitRate.SelectedValue);
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.CRF = videoConversionOutputConfigurationWindow.UseCRF ? videoConversionOutputConfigurationWindow.CRF : -1;
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.GPU = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedGPU.SelectedValue);
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.FramePerSecond = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedFramePerSecond.SelectedValue);
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.AspectRatio = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAspectRatio.SelectedValue);
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.SecondaryEncoding = videoConversionOutputConfigurationWindow.SecondaryEncoding;
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.KeyFrameInterval = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedKeyFrameInterval.SelectedValue);
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.DeInterlace = videoConversionOutputConfigurationWindow.DeInterlace;
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.SpeedPlayback = videoConversionOutputConfigurationWindow.SpeedPlayback;
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.ReverseVideo = videoConversionOutputConfigurationWindow.ReverseVideo;
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.Rotation = (System.Windows.Media.Imaging.Rotation)videoConversionOutputConfigurationWindow.SelectedRotation.SelectedValue;
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.MirrorReversal = videoConversionOutputConfigurationWindow.MirrorReversal;
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.VideoFadeInEffect = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVideoFadeInEffect);
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.VideoFadeOutEffect = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVideoFadeOutEffect);
-
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.AudioEncoding = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAudioEncoding.SelectedValue);
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.SamplingRate = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedSamplingRate.SelectedValue);
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.AudioBitRate = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAudioBitRate.SelectedValue);
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.SoundTrack = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedSoundTrack.SelectedValue);
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.CloseSoundEffect = videoConversionOutputConfigurationWindow.CloseSoundEffect;
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.Volume = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedVolume.SelectedValue);
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.PreserveAllSourceInputAudioStream = videoConversionOutputConfigurationWindow.PreserveAllSourceInputAudioStream;
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.AudioFadeInEffect = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAudioFadeInEffect.SelectedValue);
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.AudioFadeOutEffect = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedAudioFadeOutEffect.SelectedValue);
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.Echo = videoConversionOutputConfigurationWindow.Echo;
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.DeNoise = videoConversionOutputConfigurationWindow.DeNoise;
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.Reverse = videoConversionOutputConfigurationWindow.Reverse;
-
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.PreserveAllSourceInputSubtitleStream = videoConversionOutputConfigurationWindow.PreserveAllSourceInputSubtitleStream;
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.AdditionalSubtitlePath = videoConversionOutputConfigurationWindow.AdditionalSubtitlePath;
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.SubtitleNestType = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedSubtitleNestType.SelectedValue);
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.FontName = videoConversionOutputConfigurationWindow.FontName;
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.FontSize = Convert.ToInt32(videoConversionOutputConfigurationWindow.SelectedFontSize.SelectedValue);
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.FontColor = videoConversionOutputConfigurationWindow.FontColor;
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.FontBorderStyle = Convert.ToString(videoConversionOutputConfigurationWindow.SelectedFontBorderStyle.SelectedValue);
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.CounterLineSize = Convert.ToInt32(videoConversionOutputConfigurationWindow.SelectedCounterLineSize.SelectedValue);
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.CounterLineColor = videoConversionOutputConfigurationWindow.CounterLineColor;
-                        SelectedConversionType.VideoMixedFlow.VideoConversionOutputConfiguration.ShadowSize = Convert.ToInt32(videoConversionOutputConfigurationWindow.SelectedShadowSize.SelectedValue);
-                    }
+                        VideoConversionTypeKind = VideoConversionTypeKind.VideoMixedFlow,
+                        IsGlobalSettings = true,
+                        VideoConversionData = VideoConversionTypeCollection[2].VideoMixedFlow
+                    }, true);
                 }
-            }
-            // 视频导出图片输出配置
-            else if (Equals(SelectedConversionType, VideoConversionTypeCollection[4]))
-            {
-                VideoExportPictureOutputConfigurationWindow videoExportPictureOutputConfigurationWindow = new(SelectedConversionType.VideoConversionTypeKind, ConversionToolsWindow.Current);
-                if (await videoExportPictureOutputConfigurationWindow.ShowAsync() is ContentDialogResult.Primary && SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoExportPicture)
+                // 视频导出图片
+                else if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoExportPicture)
                 {
-                    foreach (VideoConversionFileModel videoConversionFile in SelectedConversionType.VideoConversionFileCollection)
+                    videoConversionPage.NavigateTo(videoConversionPage.PageList[3], new VideoConversionNavigationParameterModel()
                     {
-                        if (videoConversionFile.VideoExportPictureOutputConfiguration is not null)
-                        {
-                            videoConversionFile.VideoExportPictureOutputConfiguration.SavePictureFormat = Convert.ToString(videoExportPictureOutputConfigurationWindow.SelectedSavePictureFormat.SelectedValue);
-                            videoConversionFile.VideoExportPictureOutputConfiguration.VideoExportPictureKind = Convert.ToString(videoExportPictureOutputConfigurationWindow.SelectedVideoExportPictureKind.SelectedValue);
-                            videoConversionFile.VideoExportPictureOutputConfiguration.ExportTime = new(videoExportPictureOutputConfigurationWindow.TimeHours, videoExportPictureOutputConfigurationWindow.TimeMinutes, videoExportPictureOutputConfigurationWindow.TimeSeconds);
-                            videoConversionFile.VideoExportPictureOutputConfiguration.StartTime = new(videoExportPictureOutputConfigurationWindow.TimeStartHours, videoExportPictureOutputConfigurationWindow.TimeStartMinutes, videoExportPictureOutputConfigurationWindow.TimeStartSeconds);
-                            videoConversionFile.VideoExportPictureOutputConfiguration.EndTime = new(videoExportPictureOutputConfigurationWindow.TimeEndHours, videoExportPictureOutputConfigurationWindow.TimeEndMinutes, videoExportPictureOutputConfigurationWindow.TimeEndSeconds);
-                            videoConversionFile.VideoExportPictureOutputConfiguration.PictureExportPerSecond = videoExportPictureOutputConfigurationWindow.PictureExportPerSecond;
-                        }
-                    }
+                        VideoConversionTypeKind = VideoConversionTypeKind.VideoExportPicture,
+                        IsGlobalSettings = true,
+                        VideoConversionData = VideoConversionTypeCollection[3].VideoExportPicture.VideoExportPictureFileCollection.ToList()
+                    }, true);
                 }
             }
         }
@@ -1307,34 +1111,290 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnOkClicked(object sender, RoutedEventArgs args)
         {
-            ConversionToolsWindow.Current.CloseWindow(ContentDialogResult.Primary);
+            // TODO：未完成
         }
 
         #endregion 第二部分：视频转换页面——挂载的事件
 
+        private async Task AddVideoDataAsync(List<string> fileList)
+        {
+            // 视频格式转换
+            if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion)
+            {
+                List<VideoFormatConversionFileModel> videoFormatConversionFileList = [.. SelectedConversionType.VideoFormatConversion.VideoFormatConversionFileCollection];
+                List<Task> taskList = [];
+                object fileInformationLock = new();
+                foreach (string file in fileList)
+                {
+                    taskList.Add(Task.Run(async () =>
+                    {
+                        if (GetFileInformation(file) is VideoFormatConversionFileModel videoFormatConversionFile)
+                        {
+                            lock (fileInformationLock)
+                            {
+                                videoFormatConversionFileList.Add(videoFormatConversionFile);
+                            }
+                        }
+                    }));
+                }
+                await Task.WhenAll(taskList);
+                List<VideoFormatConversionFileModel> sortedVideoFormatConversionFileList = SortVideoFormatConversionFileData(videoFormatConversionFileList);
+                SelectedConversionType.VideoFormatConversion.VideoFormatConversionFileCollection.Clear();
+                foreach (VideoFormatConversionFileModel sortedVideoFormatConversionFile in sortedVideoFormatConversionFileList)
+                {
+                    sortedVideoFormatConversionFile.FileThumbnailSource ??= GetThumbnail(sortedVideoFormatConversionFile.FilePath);
+                    SelectedConversionType.VideoFormatConversion.VideoFormatConversionFileCollection.Add(sortedVideoFormatConversionFile);
+                }
+            }
+            // 视频合并
+            else if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoConcat)
+            {
+                List<VideoConcatFileModel> videoConcatFileList = [.. SelectedConversionType.VideoConcat.VideoConcatFileCollection];
+                List<Task> taskList = [];
+                object fileInformationLock = new();
+                foreach (string file in fileList)
+                {
+                    taskList.Add(Task.Run(async () =>
+                    {
+                        if (GetFileInformation(file) is VideoConcatFileModel videoConcatFile)
+                        {
+                            lock (fileInformationLock)
+                            {
+                                videoConcatFileList.Add(videoConcatFile);
+                            }
+                        }
+                    }));
+                }
+                await Task.WhenAll(taskList);
+                List<VideoConcatFileModel> sortedVideoConcatFileList = SortVideoConcatFileData(videoConcatFileList);
+                SelectedConversionType.VideoConcat.VideoConcatFileCollection.Clear();
+                foreach (VideoConcatFileModel sortedVideoConcatFile in sortedVideoConcatFileList)
+                {
+                    SelectedConversionType.VideoConcat.VideoConcatFileCollection.Add(sortedVideoConcatFile);
+                }
+            }
+            // 视频分离
+            else if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoSeparation)
+            {
+                List<VideoSeparationFileModel> videoSeparartionFileList = [.. SelectedConversionType.VideoSeparation.VideoSeparationFileCollection];
+                List<Task> taskList = [];
+                object fileInformationLock = new();
+                foreach (string file in fileList)
+                {
+                    taskList.Add(Task.Run(async () =>
+                    {
+                        if (GetFileInformation(file) is VideoSeparationFileModel videoSeparartionFile)
+                        {
+                            lock (fileInformationLock)
+                            {
+                                videoSeparartionFileList.Add(videoSeparartionFile);
+                            }
+                        }
+                    }));
+                }
+                await Task.WhenAll(taskList);
+                List<VideoSeparationFileModel> sortedVideoSeparationFileList = SortVideoSeparationFileData(videoSeparartionFileList);
+                SelectedConversionType.VideoSeparation.VideoSeparationFileCollection.Clear();
+                foreach (VideoSeparationFileModel sortedVideoSeparationFile in sortedVideoSeparationFileList)
+                {
+                    sortedVideoSeparationFile.FileThumbnailSource ??= GetThumbnail(sortedVideoSeparationFile.FilePath);
+                    SelectedConversionType.VideoSeparation.VideoSeparationFileCollection.Add(sortedVideoSeparationFile);
+                }
+            }
+            // 视频导出图片
+            else if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoExportPicture)
+            {
+                List<VideoExportPictureFileModel> videoSeparartionFileList = [.. SelectedConversionType.VideoExportPicture.VideoExportPictureFileCollection];
+                List<Task> taskList = [];
+                object fileInformationLock = new();
+                foreach (string file in fileList)
+                {
+                    taskList.Add(Task.Run(async () =>
+                    {
+                        if (GetFileInformation(file) is VideoExportPictureFileModel videoSeparartionFile)
+                        {
+                            lock (fileInformationLock)
+                            {
+                                videoSeparartionFileList.Add(videoSeparartionFile);
+                            }
+                        }
+                    }));
+                }
+                await Task.WhenAll(taskList);
+                List<VideoExportPictureFileModel> sortedVideoExportPictureFileList = SortVideoExportPictureFileData(videoSeparartionFileList);
+                SelectedConversionType.VideoExportPicture.VideoExportPictureFileCollection.Clear();
+                foreach (VideoExportPictureFileModel sortedVideoExportPictureFile in sortedVideoExportPictureFileList)
+                {
+                    sortedVideoExportPictureFile.FileThumbnailSource ??= GetThumbnail(sortedVideoExportPictureFile.FilePath);
+                    SelectedConversionType.VideoExportPicture.VideoExportPictureFileCollection.Add(sortedVideoExportPictureFile);
+                }
+            }
+        }
+
         /// <summary>
         /// 对数据进行排序
         /// </summary>
-        private List<VideoConversionFileModel> SortData(List<VideoConversionFileModel> videoConversionFileList)
+        private async Task SortDataAsync()
+        {
+            // 视频格式转换
+            if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion)
+            {
+                List<VideoFormatConversionFileModel> sortedVideoFormatConversionFileList = await Task.Run(() =>
+                {
+                    List<VideoFormatConversionFileModel> sortedVideoFormatConversionFileList = [.. SelectedConversionType.VideoFormatConversion.VideoFormatConversionFileCollection];
+                    return SortVideoFormatConversionFileData(sortedVideoFormatConversionFileList);
+                });
+                SelectedConversionType.VideoFormatConversion.VideoFormatConversionFileCollection.Clear();
+                foreach (VideoFormatConversionFileModel sortedVideoFormatConversionFile in sortedVideoFormatConversionFileList)
+                {
+                    SelectedConversionType.VideoFormatConversion.VideoFormatConversionFileCollection.Add(sortedVideoFormatConversionFile);
+                }
+            }
+            // 视频合并
+            else if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoConcat)
+            {
+                List<VideoConcatFileModel> sortedVideoConcatFileList = await Task.Run(() =>
+                {
+                    List<VideoConcatFileModel> sortedVideoConcatFileList = [.. SelectedConversionType.VideoConcat.VideoConcatFileCollection];
+                    return SortVideoConcatFileData(sortedVideoConcatFileList);
+                });
+                SelectedConversionType.VideoConcat.VideoConcatFileCollection.Clear();
+                foreach (VideoConcatFileModel sortedVideoConcatFile in sortedVideoConcatFileList)
+                {
+                    SelectedConversionType.VideoConcat.VideoConcatFileCollection.Add(sortedVideoConcatFile);
+                }
+            }
+            // 视频分离
+            else if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoSeparation)
+            {
+                List<VideoSeparationFileModel> sortedVideoSeparationFileList = await Task.Run(() =>
+                {
+                    List<VideoSeparationFileModel> sortedVideoSeparationFileList = [.. SelectedConversionType.VideoSeparation.VideoSeparationFileCollection];
+                    return SortVideoSeparationFileData(sortedVideoSeparationFileList);
+                });
+                SelectedConversionType.VideoSeparation.VideoSeparationFileCollection.Clear();
+                foreach (VideoSeparationFileModel sortedVideoSeparationFile in sortedVideoSeparationFileList)
+                {
+                    SelectedConversionType.VideoSeparation.VideoSeparationFileCollection.Add(sortedVideoSeparationFile);
+                }
+            }
+            // 视频导出图片
+            else if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoExportPicture)
+            {
+                List<VideoExportPictureFileModel> sortedVideoExportPictureFileList = await Task.Run(() =>
+                {
+                    List<VideoExportPictureFileModel> sortedVideoExportPictureFileList = [.. SelectedConversionType.VideoExportPicture.VideoExportPictureFileCollection];
+                    return SortVideoExportPictureFileData(sortedVideoExportPictureFileList);
+                });
+                SelectedConversionType.VideoExportPicture.VideoExportPictureFileCollection.Clear();
+                foreach (VideoExportPictureFileModel sortedVideoExportPictureFile in sortedVideoExportPictureFileList)
+                {
+                    SelectedConversionType.VideoExportPicture.VideoExportPictureFileCollection.Add(sortedVideoExportPictureFile);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 对视频转换文件数据进行排序
+        /// </summary>
+        private List<VideoFormatConversionFileModel> SortVideoFormatConversionFileData(List<VideoFormatConversionFileModel> videoFormatConversionFileList)
         {
             // 按照文件名称排序
             if (string.Equals(SelectedSortRule, SortRuleList[1]))
             {
-                return SortWay ? [.. videoConversionFileList.OrderBy(item => item.FileName)] : [.. videoConversionFileList.OrderByDescending(item => item.FileName)];
+                return SortWay ? [.. videoFormatConversionFileList.OrderBy(item => item.FileName)] : [.. videoFormatConversionFileList.OrderByDescending(item => item.FileName)];
             }
             // 按照文件大小排序
             else if (string.Equals(SelectedSortRule, SortRuleList[2]))
             {
-                return SortWay ? [.. videoConversionFileList.OrderBy(item => item.FileSize)] : [.. videoConversionFileList.OrderByDescending(item => item.FileSize)];
+                return SortWay ? [.. videoFormatConversionFileList.OrderBy(item => item.FileSize)] : [.. videoFormatConversionFileList.OrderByDescending(item => item.FileSize)];
             }
             // 按照视频持续时长排序
             else if (string.Equals(SelectedSortRule, SortRuleList[3]))
             {
-                return SortWay ? [.. videoConversionFileList.OrderBy(item => item.Duration)] : [.. videoConversionFileList.OrderByDescending(item => item.Duration)];
+                return SortWay ? [.. videoFormatConversionFileList.OrderBy(item => item.Duration)] : [.. videoFormatConversionFileList.OrderByDescending(item => item.Duration)];
             }
             else
             {
-                return videoConversionFileList;
+                return videoFormatConversionFileList;
+            }
+        }
+
+        /// <summary>
+        /// 对视频合并文件数据进行排序
+        /// </summary>
+        private List<VideoConcatFileModel> SortVideoConcatFileData(List<VideoConcatFileModel> videoConcatFileList)
+        {
+            // 按照文件名称排序
+            if (string.Equals(SelectedSortRule, SortRuleList[1]))
+            {
+                return SortWay ? [.. videoConcatFileList.OrderBy(item => item.FileName)] : [.. videoConcatFileList.OrderByDescending(item => item.FileName)];
+            }
+            // 按照文件大小排序
+            else if (string.Equals(SelectedSortRule, SortRuleList[2]))
+            {
+                return SortWay ? [.. videoConcatFileList.OrderBy(item => item.FileSize)] : [.. videoConcatFileList.OrderByDescending(item => item.FileSize)];
+            }
+            // 按照视频持续时长排序
+            else if (string.Equals(SelectedSortRule, SortRuleList[3]))
+            {
+                return SortWay ? [.. videoConcatFileList.OrderBy(item => item.Duration)] : [.. videoConcatFileList.OrderByDescending(item => item.Duration)];
+            }
+            else
+            {
+                return videoConcatFileList;
+            }
+        }
+
+        /// <summary>
+        /// 对视频分离文件数据进行排序
+        /// </summary>
+        private List<VideoSeparationFileModel> SortVideoSeparationFileData(List<VideoSeparationFileModel> videoSeparationFileList)
+        {
+            // 按照文件名称排序
+            if (string.Equals(SelectedSortRule, SortRuleList[1]))
+            {
+                return SortWay ? [.. videoSeparationFileList.OrderBy(item => item.FileName)] : [.. videoSeparationFileList.OrderByDescending(item => item.FileName)];
+            }
+            // 按照文件大小排序
+            else if (string.Equals(SelectedSortRule, SortRuleList[2]))
+            {
+                return SortWay ? [.. videoSeparationFileList.OrderBy(item => item.FileSize)] : [.. videoSeparationFileList.OrderByDescending(item => item.FileSize)];
+            }
+            // 按照视频持续时长排序
+            else if (string.Equals(SelectedSortRule, SortRuleList[3]))
+            {
+                return SortWay ? [.. videoSeparationFileList.OrderBy(item => item.Duration)] : [.. videoSeparationFileList.OrderByDescending(item => item.Duration)];
+            }
+            else
+            {
+                return videoSeparationFileList;
+            }
+        }
+
+        /// <summary>
+        /// 对视频导出图片文件数据进行排序
+        /// </summary>
+        private List<VideoExportPictureFileModel> SortVideoExportPictureFileData(List<VideoExportPictureFileModel> videoExportPictureFileList)
+        {
+            // 按照文件名称排序
+            if (string.Equals(SelectedSortRule, SortRuleList[1]))
+            {
+                return SortWay ? [.. videoExportPictureFileList.OrderBy(item => item.FileName)] : [.. videoExportPictureFileList.OrderByDescending(item => item.FileName)];
+            }
+            // 按照文件大小排序
+            else if (string.Equals(SelectedSortRule, SortRuleList[2]))
+            {
+                return SortWay ? [.. videoExportPictureFileList.OrderBy(item => item.FileSize)] : [.. videoExportPictureFileList.OrderByDescending(item => item.FileSize)];
+            }
+            // 按照视频持续时长排序
+            else if (string.Equals(SelectedSortRule, SortRuleList[3]))
+            {
+                return SortWay ? [.. videoExportPictureFileList.OrderBy(item => item.Duration)] : [.. videoExportPictureFileList.OrderByDescending(item => item.Duration)];
+            }
+            else
+            {
+                return videoExportPictureFileList;
             }
         }
 
@@ -1348,16 +1408,16 @@ namespace ModernFormatConverter.Views.Pages
                 if (File.Exists(filePath))
                 {
                     // 视频格式转换
-                    if (Equals(SelectedConversionType, VideoConversionTypeCollection[0]))
+                    if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion)
                     {
-                        VideoConversionFileModel videoConversionFile = new()
+                        VideoFormatConversionFileModel videoFormatConversionFile = new()
                         {
                             FileName = Path.GetFileName(filePath),
                             FilePath = filePath,
                         };
                         FileInfo fileInfo = new(filePath);
-                        videoConversionFile.FileSize = fileInfo.Length;
-                        videoConversionFile.FileSizeString = VolumeSizeHelper.ConvertVolumeSizeToString(fileInfo.Length);
+                        videoFormatConversionFile.FileSize = fileInfo.Length;
+                        videoFormatConversionFile.FileSizeString = VolumeSizeHelper.ConvertVolumeSizeToString(fileInfo.Length);
 
                         if (MediaInfoLibrary.MediaInfo_New() is nint handle && handle is not 0 && MediaInfoLibrary.MediaInfo_Open(handle, filePath) is not 0)
                         {
@@ -1365,25 +1425,25 @@ namespace ModernFormatConverter.Views.Pages
                             if (double.TryParse(videoDuration, out double videoDurationValue))
                             {
                                 TimeSpan videoDurationTimeSpan = TimeSpan.FromMilliseconds(videoDurationValue);
-                                videoConversionFile.Duration = videoDurationTimeSpan;
-                                videoConversionFile.DurationString = string.Format(@"{0:00}:{1:00}:{2:00}", Math.Truncate(videoDurationTimeSpan.TotalHours), videoDurationTimeSpan.Minutes, videoDurationTimeSpan.Minutes);
+                                videoFormatConversionFile.Duration = videoDurationTimeSpan;
+                                videoFormatConversionFile.DurationString = string.Format(@"{0:00}:{1:00}:{2:00}", Math.Truncate(videoDurationTimeSpan.TotalHours), videoDurationTimeSpan.Minutes, videoDurationTimeSpan.Minutes);
                             }
                             else
                             {
-                                videoConversionFile.Duration = TimeSpan.Zero;
-                                videoConversionFile.DurationString = string.IsNullOrEmpty(videoDuration) ? "00:00:00" : videoDuration;
+                                videoFormatConversionFile.Duration = TimeSpan.Zero;
+                                videoFormatConversionFile.DurationString = string.IsNullOrEmpty(videoDuration) ? "00:00:00" : videoDuration;
                             }
                             string width = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, 0, "Width", InfoKind.Text, InfoKind.Name));
-                            videoConversionFile.ScreenSizeWidth = string.IsNullOrEmpty(width) ? "0" : width;
+                            videoFormatConversionFile.ScreenSizeWidth = string.IsNullOrEmpty(width) ? "0" : width;
                             string height = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, 0, "Height", InfoKind.Text, InfoKind.Name));
-                            videoConversionFile.ScreenSizeHeight = string.IsNullOrEmpty(height) ? "0" : height;
+                            videoFormatConversionFile.ScreenSizeHeight = string.IsNullOrEmpty(height) ? "0" : height;
                             MediaInfoLibrary.MediaInfo_Close(handle);
                             MediaInfoLibrary.MediaInfo_Delete(handle);
                         }
 
-                        videoConversionFile.VideoConversionOutputConfiguration = new()
+                        videoFormatConversionFile.VideoConversionOutputConfiguration = new()
                         {
-                            VideoConversionTypeKind = SelectedConversionType.VideoConversionTypeKind,
+                            VideoConversionTypeKind = VideoConversionTypeKind.VideoFormatConversion,
 
                             FormatConversionType = "MP4",
                             SizeLimitation = "Copy",
@@ -1429,7 +1489,7 @@ namespace ModernFormatConverter.Views.Pages
                             ShadowSize = 0
                         };
 
-                        videoConversionFile.VideoEdit = new()
+                        videoFormatConversionFile.VideoEdit = new()
                         {
                             StartTime = TimeSpan.Zero,
                             EndTime = TimeSpan.Zero,
@@ -1437,19 +1497,19 @@ namespace ModernFormatConverter.Views.Pages
                             VideoCoverFilePath = string.Empty
                         };
 
-                        return videoConversionFile;
+                        return videoFormatConversionFile;
                     }
                     // 视频合并
-                    else if (Equals(SelectedConversionType, VideoConversionTypeCollection[1]))
+                    else if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoConcat)
                     {
-                        VideoConversionFileModel videoConversionFile = new()
+                        VideoConcatFileModel videoConcatFile = new()
                         {
                             FileName = Path.GetFileName(filePath),
                             FilePath = filePath,
                         };
                         FileInfo fileInfo = new(filePath);
-                        videoConversionFile.FileSize = fileInfo.Length;
-                        videoConversionFile.FileSizeString = VolumeSizeHelper.ConvertVolumeSizeToString(fileInfo.Length);
+                        videoConcatFile.FileSize = fileInfo.Length;
+                        videoConcatFile.FileSizeString = VolumeSizeHelper.ConvertVolumeSizeToString(fileInfo.Length);
 
                         if (MediaInfoLibrary.MediaInfo_New() is nint handle && handle is not 0 && MediaInfoLibrary.MediaInfo_Open(handle, filePath) is not 0)
                         {
@@ -1457,64 +1517,27 @@ namespace ModernFormatConverter.Views.Pages
                             if (double.TryParse(videoDuration, out double videoDurationValue))
                             {
                                 TimeSpan videoDurationTimeSpan = TimeSpan.FromMilliseconds(videoDurationValue);
-                                videoConversionFile.Duration = videoDurationTimeSpan;
-                                videoConversionFile.DurationString = string.Format(@"{0:00}:{1:00}:{2:00}", Math.Truncate(videoDurationTimeSpan.TotalHours), videoDurationTimeSpan.Minutes, videoDurationTimeSpan.Minutes);
+                                videoConcatFile.Duration = videoDurationTimeSpan;
+                                videoConcatFile.DurationString = string.Format(@"{0:00}:{1:00}:{2:00}", Math.Truncate(videoDurationTimeSpan.TotalHours), videoDurationTimeSpan.Minutes, videoDurationTimeSpan.Minutes);
                             }
                             else
                             {
-                                videoConversionFile.Duration = TimeSpan.Zero;
-                                videoConversionFile.DurationString = string.IsNullOrEmpty(videoDuration) ? "00:00:00" : videoDuration;
+                                videoConcatFile.Duration = TimeSpan.Zero;
+                                videoConcatFile.DurationString = string.IsNullOrEmpty(videoDuration) ? "00:00:00" : videoDuration;
                             }
 
                             string width = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, 0, "Width", InfoKind.Text, InfoKind.Name));
-                            videoConversionFile.ScreenSizeWidth = string.IsNullOrEmpty(width) ? "0" : width;
+                            videoConcatFile.ScreenSizeWidth = string.IsNullOrEmpty(width) ? "0" : width;
                             string height = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, 0, "Height", InfoKind.Text, InfoKind.Name));
-                            videoConversionFile.ScreenSizeHeight = string.IsNullOrEmpty(height) ? "0" : height;
+                            videoConcatFile.ScreenSizeHeight = string.IsNullOrEmpty(height) ? "0" : height;
                             MediaInfoLibrary.MediaInfo_Close(handle);
                             MediaInfoLibrary.MediaInfo_Delete(handle);
                         }
 
-                        videoConversionFile.VideoConversionOutputConfiguration = new()
-                        {
-                            VideoConversionTypeKind = SelectedConversionType.VideoConversionTypeKind,
-
-                            FormatConversionType = "MP4",
-                            SizeLimitation = "Copy",
-                            VideoEncoding = "None",
-                            ScreenSize = "DefaultSize",
-                            VideoBitRate = "Default",
-                            CRF = -1,
-                            GPU = "None",
-                            FramePerSecond = "Default",
-                            AspectRatio = "Default",
-                            SecondaryEncoding = false,
-                            KeyFrameInterval = "Default",
-                            DeInterlace = false,
-                            SpeedPlayback = 1.0,
-                            ReverseVideo = false,
-                            Rotation = System.Windows.Media.Imaging.Rotation.Rotate0,
-                            MirrorReversal = false,
-                            VideoFadeInEffect = "None",
-                            VideoFadeOutEffect = "None",
-
-                            AudioEncoding = "Copy",
-                            SamplingRate = "Default",
-                            AudioBitRate = "Default",
-                            SoundTrack = "Default",
-                            CloseSoundEffect = false,
-                            Volume = "100%",
-                            PreserveAllSourceInputAudioStream = false,
-                            AudioFadeInEffect = "None",
-                            AudioFadeOutEffect = "None",
-                            Echo = false,
-                            DeNoise = false,
-                            Reverse = false
-                        };
-
-                        return videoConversionFile;
+                        return videoConcatFile;
                     }
                     // 视频混流
-                    else if (Equals(SelectedConversionType, VideoConversionTypeCollection[2]))
+                    else if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoMixedFlow)
                     {
                         VideoMixedFlowFileModel videoMixedFlowFile = new()
                         {
@@ -1573,16 +1596,16 @@ namespace ModernFormatConverter.Views.Pages
                         return videoMixedFlowFile;
                     }
                     // 视频分离
-                    else if (Equals(SelectedConversionType, VideoConversionTypeCollection[3]))
+                    else if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoSeparation)
                     {
-                        VideoConversionFileModel videoConversionFile = new()
+                        VideoSeparationFileModel videoSeparationFile = new()
                         {
                             FileName = Path.GetFileName(filePath),
                             FilePath = filePath,
                         };
                         FileInfo fileInfo = new(filePath);
-                        videoConversionFile.FileSize = fileInfo.Length;
-                        videoConversionFile.FileSizeString = VolumeSizeHelper.ConvertVolumeSizeToString(fileInfo.Length);
+                        videoSeparationFile.FileSize = fileInfo.Length;
+                        videoSeparationFile.FileSizeString = VolumeSizeHelper.ConvertVolumeSizeToString(fileInfo.Length);
 
                         if (MediaInfoLibrary.MediaInfo_New() is nint handle && handle is not 0 && MediaInfoLibrary.MediaInfo_Open(handle, filePath) is not 0)
                         {
@@ -1590,41 +1613,36 @@ namespace ModernFormatConverter.Views.Pages
                             if (double.TryParse(videoDuration, out double videoDurationValue))
                             {
                                 TimeSpan videoDurationTimeSpan = TimeSpan.FromMilliseconds(videoDurationValue);
-                                videoConversionFile.Duration = videoDurationTimeSpan;
-                                videoConversionFile.DurationString = string.Format(@"{0:00}:{1:00}:{2:00}", Math.Truncate(videoDurationTimeSpan.TotalHours), videoDurationTimeSpan.Minutes, videoDurationTimeSpan.Minutes);
+                                videoSeparationFile.Duration = videoDurationTimeSpan;
+                                videoSeparationFile.DurationString = string.Format(@"{0:00}:{1:00}:{2:00}", Math.Truncate(videoDurationTimeSpan.TotalHours), videoDurationTimeSpan.Minutes, videoDurationTimeSpan.Minutes);
                             }
                             else
                             {
-                                videoConversionFile.Duration = TimeSpan.Zero;
-                                videoConversionFile.DurationString = string.IsNullOrEmpty(videoDuration) ? "00:00:00" : videoDuration;
+                                videoSeparationFile.Duration = TimeSpan.Zero;
+                                videoSeparationFile.DurationString = string.IsNullOrEmpty(videoDuration) ? "00:00:00" : videoDuration;
                             }
 
                             string width = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, 0, "Width", InfoKind.Text, InfoKind.Name));
-                            videoConversionFile.ScreenSizeWidth = string.IsNullOrEmpty(width) ? "0" : width;
+                            videoSeparationFile.ScreenSizeWidth = string.IsNullOrEmpty(width) ? "0" : width;
                             string height = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, 0, "Height", InfoKind.Text, InfoKind.Name));
-                            videoConversionFile.ScreenSizeHeight = string.IsNullOrEmpty(height) ? "0" : height;
+                            videoSeparationFile.ScreenSizeHeight = string.IsNullOrEmpty(height) ? "0" : height;
                             MediaInfoLibrary.MediaInfo_Close(handle);
                             MediaInfoLibrary.MediaInfo_Delete(handle);
                         }
 
-                        videoConversionFile.VideoConversionOutputConfiguration = new()
-                        {
-                            VideoConversionTypeKind = VideoConversionTypeKind.VideoSeparation
-                        };
-
-                        return videoConversionFile;
+                        return videoSeparationFile;
                     }
                     // 视频导出图片
-                    else if (Equals(SelectedConversionType, VideoConversionTypeCollection[4]))
+                    else if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoExportPicture)
                     {
-                        VideoConversionFileModel videoConversionFile = new()
+                        VideoExportPictureFileModel videoExportPictureFile = new()
                         {
                             FileName = Path.GetFileName(filePath),
                             FilePath = filePath,
                         };
                         FileInfo fileInfo = new(filePath);
-                        videoConversionFile.FileSize = fileInfo.Length;
-                        videoConversionFile.FileSizeString = VolumeSizeHelper.ConvertVolumeSizeToString(fileInfo.Length);
+                        videoExportPictureFile.FileSize = fileInfo.Length;
+                        videoExportPictureFile.FileSizeString = VolumeSizeHelper.ConvertVolumeSizeToString(fileInfo.Length);
 
                         if (MediaInfoLibrary.MediaInfo_New() is nint handle && handle is not 0 && MediaInfoLibrary.MediaInfo_Open(handle, filePath) is not 0)
                         {
@@ -1632,24 +1650,24 @@ namespace ModernFormatConverter.Views.Pages
                             if (double.TryParse(videoDuration, out double videoDurationValue))
                             {
                                 TimeSpan videoDurationTimeSpan = TimeSpan.FromMilliseconds(videoDurationValue);
-                                videoConversionFile.Duration = videoDurationTimeSpan;
-                                videoConversionFile.DurationString = string.Format(@"{0:00}:{1:00}:{2:00}", Math.Truncate(videoDurationTimeSpan.TotalHours), videoDurationTimeSpan.Minutes, videoDurationTimeSpan.Minutes);
+                                videoExportPictureFile.Duration = videoDurationTimeSpan;
+                                videoExportPictureFile.DurationString = string.Format(@"{0:00}:{1:00}:{2:00}", Math.Truncate(videoDurationTimeSpan.TotalHours), videoDurationTimeSpan.Minutes, videoDurationTimeSpan.Minutes);
                             }
                             else
                             {
-                                videoConversionFile.Duration = TimeSpan.Zero;
-                                videoConversionFile.DurationString = string.IsNullOrEmpty(videoDuration) ? "00:00:00" : videoDuration;
+                                videoExportPictureFile.Duration = TimeSpan.Zero;
+                                videoExportPictureFile.DurationString = string.IsNullOrEmpty(videoDuration) ? "00:00:00" : videoDuration;
                             }
 
                             string width = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, 0, "Width", InfoKind.Text, InfoKind.Name));
-                            videoConversionFile.ScreenSizeWidth = string.IsNullOrEmpty(width) ? "0" : width;
+                            videoExportPictureFile.ScreenSizeWidth = string.IsNullOrEmpty(width) ? "0" : width;
                             string height = Marshal.PtrToStringUni(MediaInfoLibrary.MediaInfo_Get(handle, StreamKind.Video, 0, "Height", InfoKind.Text, InfoKind.Name));
-                            videoConversionFile.ScreenSizeHeight = string.IsNullOrEmpty(height) ? "0" : height;
+                            videoExportPictureFile.ScreenSizeHeight = string.IsNullOrEmpty(height) ? "0" : height;
                             MediaInfoLibrary.MediaInfo_Close(handle);
                             MediaInfoLibrary.MediaInfo_Delete(handle);
                         }
 
-                        videoConversionFile.VideoExportPictureOutputConfiguration = new()
+                        videoExportPictureFile.VideoExportPictureOutputConfiguration = new()
                         {
                             VideoConversionTypeKind = VideoConversionTypeKind.VideoExportPicture,
                             SavePictureFormat = ".png",
@@ -1660,7 +1678,7 @@ namespace ModernFormatConverter.Views.Pages
                             PictureExportPerSecond = 1
                         };
 
-                        return videoConversionFile;
+                        return videoExportPictureFile;
                     }
                     else
                     {

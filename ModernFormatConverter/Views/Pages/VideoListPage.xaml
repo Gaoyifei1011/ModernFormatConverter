@@ -6,7 +6,6 @@
     xmlns:class="using:ModernFormatConverter.Extensions.DataType.Class"
     xmlns:converter="using:ModernFormatConverter.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:datatemplate="using:ModernFormatConverter.Views.DataTemplates"
     xmlns:enum="using:ModernFormatConverter.Extensions.DataType.Enums"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:ModernFormatConverter.Models"
@@ -19,314 +18,6 @@
             <class:ExecuteCommand x:Name="RemoveCommand" ExecuteRequested="{x:Bind OnRemoveExecuteRequested}" />
             <class:ExecuteCommand x:Name="OutputConfigurationCommand" ExecuteRequested="{x:Bind OnOutputConfigurationExecuteRequested}" />
             <class:ExecuteCommand x:Name="VideoEditCommand" ExecuteRequested="{x:Bind OnVideoEditExecuteRequested}" />
-
-            <!--  视频转换卡片数据模板  -->
-            <DataTemplate x:Key="VideoCardDataTemplate" x:DataType="model:VideoConversionFileModel">
-                <Grid
-                    Height="100"
-                    Margin="0,0,3,3"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1"
-                    CornerRadius="{StaticResource ControlCornerRadius}">
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="120" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <Grid
-                        Grid.Column="0"
-                        Width="120"
-                        Background="{ThemeResource SolidBackgroundFillColorBaseAltBrush}"
-                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                        BorderThickness="0,0,1,0">
-
-                        <Image Grid.Column="0" Source="{x:Bind FileThumbnailSource, Mode=OneWay}" />
-                    </Grid>
-
-                    <Grid
-                        Grid.Column="1"
-                        Margin="16,0,0,0"
-                        VerticalAlignment="Center"
-                        RowSpacing="5">
-
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-
-                        <TextBlock
-                            Grid.Row="0"
-                            Style="{StaticResource BodyStrongTextBlockStyle}"
-                            Text="{x:Bind FileName}"
-                            TextLineBounds="TrimToCapHeight"
-                            TextWrapping="NoWrap">
-
-                            <ToolTipService.ToolTip>
-                                <ToolTip
-                                    MaxWidth="9999"
-                                    Padding="0"
-                                    Background="Transparent"
-                                    Visibility="{Binding ElementName=DescriptionText, Path=IsTextTrimmed, Mode=OneWay}">
-
-                                    <Grid>
-                                        <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                        <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind FilePath}" />
-                                    </Grid>
-                                </ToolTip>
-                            </ToolTipService.ToolTip>
-                        </TextBlock>
-
-                        <TextBlock
-                            Grid.Row="1"
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            TextTrimming="CharacterEllipsis">
-
-                            <Run Text="{x:Bind FileSizeString}" />
-                            <Run Text=" | " />
-                            <Run Text="{x:Bind DurationString}" />
-                            <Run Text=" | " />
-                            <Run Text="{x:Bind ScreenSizeWidth}" /><Run Text="x" /><Run Text="{x:Bind ScreenSizeHeight}" />
-                        </TextBlock>
-                    </Grid>
-
-                    <Grid Grid.Column="2" Margin="5,0,20,0">
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-
-                        <Button
-                            Grid.Column="0"
-                            Width="32"
-                            Height="32"
-                            Padding="0"
-                            Command="{StaticResource VideoEditCommand}"
-                            CommandParameter="{x:Bind}"
-                            CornerRadius="{StaticResource ControlCornerRadius}"
-                            Visibility="{x:Bind converter:ValueCheckConverterHelper.GetIsVideoFormatCovnersion(VideoConversionOutputConfiguration)}">
-
-                            <FontIcon FontSize="16" Glyph="&#xE8C6;" />
-
-                            <ToolTipService.ToolTip>
-                                <ToolTip
-                                    MaxWidth="9999"
-                                    Padding="0"
-                                    Background="Transparent">
-
-                                    <Grid>
-                                        <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                        <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('VideoEdit')}" />
-                                    </Grid>
-                                </ToolTip>
-                            </ToolTipService.ToolTip>
-                        </Button>
-
-                        <Button
-                            Grid.Column="1"
-                            Width="32"
-                            Height="32"
-                            Margin="5,0,0,0"
-                            Padding="7"
-                            Command="{StaticResource OutputConfigurationCommand}"
-                            CommandParameter="{x:Bind}"
-                            CornerRadius="{StaticResource ControlCornerRadius}">
-
-                            <AnimatedIcon>
-                                <AnimatedIcon.Source>
-                                    <animatedvisuals:AnimatedSettingsVisualSource />
-                                </AnimatedIcon.Source>
-                                <AnimatedIcon.FallbackIconSource>
-                                    <FontIconSource Glyph="&#xE713;" />
-                                </AnimatedIcon.FallbackIconSource>
-                            </AnimatedIcon>
-
-                            <ToolTipService.ToolTip>
-                                <ToolTip
-                                    MaxWidth="9999"
-                                    Padding="0"
-                                    Background="Transparent">
-
-                                    <Grid>
-                                        <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                        <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('OutputConfiguration')}" />
-                                    </Grid>
-                                </ToolTip>
-                            </ToolTipService.ToolTip>
-                        </Button>
-
-                        <Button
-                            Grid.Column="2"
-                            Width="32"
-                            Height="32"
-                            Margin="5,0,0,0"
-                            Padding="0"
-                            Command="{StaticResource RemoveCommand}"
-                            CommandParameter="{x:Bind}"
-                            CornerRadius="{StaticResource ControlCornerRadius}">
-
-                            <FontIcon FontSize="16" Glyph="&#xE894;" />
-
-                            <ToolTipService.ToolTip>
-                                <ToolTip
-                                    MaxWidth="9999"
-                                    Padding="0"
-                                    Background="Transparent">
-
-                                    <Grid>
-                                        <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                        <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('Remove')}" />
-                                    </Grid>
-                                </ToolTip>
-                            </ToolTipService.ToolTip>
-                        </Button>
-                    </Grid>
-                </Grid>
-            </DataTemplate>
-
-            <!--  视频转换列表数据模板  -->
-            <DataTemplate x:Key="VideoListDataTemplate" x:DataType="model:VideoConversionFileModel">
-                <Grid
-                    Height="35"
-                    Margin="0,0,4,0"
-                    HorizontalAlignment="Stretch"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="0,0,0,1">
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="70" />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock
-                        x:Name="FileNameText"
-                        Grid.Column="0"
-                        Margin="10,0,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        FontSize="14"
-                        Text="{x:Bind FileName}"
-                        TextAlignment="Left"
-                        TextTrimming="CharacterEllipsis"
-                        TextWrapping="NoWrap">
-
-                        <ToolTipService.ToolTip>
-                            <ToolTip
-                                MaxWidth="9999"
-                                Padding="0"
-                                Background="Transparent"
-                                Visibility="{Binding ElementName=FileNameText, Path=IsTextTrimmed, Mode=OneWay}">
-
-                                <Grid>
-                                    <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                    <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind FilePath}" />
-                                </Grid>
-                            </ToolTip>
-                        </ToolTipService.ToolTip>
-                    </TextBlock>
-
-                    <TextBlock
-                        x:Name="FileSizeText"
-                        Grid.Column="1"
-                        Margin="10,0,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        FontSize="14"
-                        Text="{x:Bind FileSizeString}"
-                        TextAlignment="Left"
-                        TextTrimming="CharacterEllipsis"
-                        TextWrapping="NoWrap">
-
-                        <ToolTipService.ToolTip>
-                            <ToolTip
-                                MaxWidth="9999"
-                                Padding="0"
-                                Background="Transparent"
-                                Visibility="{Binding ElementName=FileSizeText, Path=IsTextTrimmed, Mode=OneWay}">
-
-                                <Grid>
-                                    <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                    <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind FileSizeString}" />
-                                </Grid>
-                            </ToolTip>
-                        </ToolTipService.ToolTip>
-                    </TextBlock>
-
-                    <TextBlock
-                        x:Name="DurationText"
-                        Grid.Column="2"
-                        Margin="10,0,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        FontSize="14"
-                        Text="{x:Bind DurationString}"
-                        TextAlignment="Left"
-                        TextTrimming="CharacterEllipsis"
-                        TextWrapping="NoWrap">
-
-                        <ToolTipService.ToolTip>
-                            <ToolTip
-                                MaxWidth="9999"
-                                Padding="0"
-                                Background="Transparent"
-                                Visibility="{Binding ElementName=DurationText, Path=IsTextTrimmed, Mode=OneWay}">
-
-                                <Grid>
-                                    <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                    <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind DurationString}" />
-                                </Grid>
-                            </ToolTip>
-                        </ToolTipService.ToolTip>
-                    </TextBlock>
-
-                    <TextBlock
-                        x:Name="ScreenSizeText"
-                        Grid.Column="3"
-                        Margin="10,0,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        FontSize="14"
-                        TextAlignment="Left"
-                        TextTrimming="CharacterEllipsis"
-                        TextWrapping="NoWrap">
-
-                        <Run Text="{x:Bind ScreenSizeWidth}" /><Run Text="x" /><Run Text="{x:Bind ScreenSizeHeight}" />
-
-                        <ToolTipService.ToolTip>
-                            <ToolTip
-                                MaxWidth="9999"
-                                Padding="0"
-                                Background="Transparent"
-                                Visibility="{Binding ElementName=ScreenSizeText, Path=IsTextTrimmed, Mode=OneWay}">
-
-                                <Grid>
-                                    <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                    <TextBlock Padding="{StaticResource ToolTipBorderPadding}">
-                                        <Run Text="{x:Bind ScreenSizeWidth}" /><Run Text="x" /><Run Text="{x:Bind ScreenSizeHeight}" />
-                                    </TextBlock>
-                                </Grid>
-                            </ToolTip>
-                        </ToolTipService.ToolTip>
-                    </TextBlock>
-
-                    <HyperlinkButton
-                        Grid.Column="4"
-                        Margin="10,0,0,0"
-                        Padding="0"
-                        Command="{StaticResource RemoveCommand}"
-                        CommandParameter="{x:Bind}"
-                        Content="{x:Bind rootservice:ResourceService.VideoListResource.GetString('Remove')}" />
-                </Grid>
-            </DataTemplate>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -454,8 +145,7 @@
                     Margin="0,0,5,0"
                     Padding="0"
                     CornerRadius="{StaticResource ControlCornerRadius}"
-                    IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsGettingFileInformation), Mode=OneWay}"
-                    Visibility="{x:Bind converter:ValueCheckConverterHelper.GetVideoConversionType(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoMixedFlow, x:True), Mode=OneWay}">
+                    IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsGettingFileInformation), Mode=OneWay}">
 
                     <FontIcon FontSize="14" Glyph="&#xE8CB;" />
 
@@ -747,478 +437,8 @@
 
             <Grid Grid.Row="1" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsGettingFileInformation), Mode=OneWay}">
 
-                <ScrollViewer
-                    Margin="0,0,30,0"
-                    HorizontalScrollBarVisibility="Disabled"
-                    HorizontalScrollMode="Disabled"
-                    VerticalScrollBarVisibility="Auto"
-                    VerticalScrollMode="Enabled"
-                    Visibility="{x:Bind converter:ValueCheckConverterHelper.GetVideoConversionType(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoMixedFlow, x:False), Mode=OneWay}">
-
-                    <!--  视频混流控件  -->
-                    <Grid Margin="0,0,0,30" RowSpacing="5">
-
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-
-                        <TextBlock
-                            Grid.Row="0"
-                            FontSize="16"
-                            Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('VideoSection')}" />
-
-                        <!--  视频文件添加信息提示按钮  -->
-                        <Grid
-                            Grid.Row="1"
-                            Height="100"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Center"
-                            AllowDrop="{x:Bind x:Object.Equals(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoMixedFlow), Mode=OneWay}"
-                            CornerRadius="{StaticResource ControlCornerRadius}"
-                            DragEnter="{x:Bind OnVideoMixedFlowDragEnter}"
-                            Drop="{x:Bind OnVideoMixedFlowVideoDrop}"
-                            Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(SelectedConversionType.VideoMixedFlow.IsVideoFileExisted), Mode=OneWay}">
-
-                            <Grid Canvas.ZIndex="1">
-
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-
-                                <TextBlock
-                                    Grid.Row="0"
-                                    Margin="0,0,0,10"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Bottom"
-                                    Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('DragAddVideoFileTip')}" />
-
-                                <Button
-                                    Grid.Row="1"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Top"
-                                    Click="{x:Bind OnAddVideoFileClicked}"
-                                    Content="{x:Bind rootservice:ResourceService.VideoListResource.GetString('AddVideoFile')}" />
-                            </Grid>
-
-                            <Rectangle
-                                Canvas.ZIndex="0"
-                                Fill="Transparent"
-                                RadiusX="4"
-                                RadiusY="4"
-                                Stroke="{ThemeResource TextFillColorSecondaryBrush}"
-                                StrokeDashArray="5,2"
-                                StrokeThickness="1" />
-                        </Grid>
-
-                        <!--  视频文件信息控件  -->
-                        <Grid
-                            Grid.Row="1"
-                            Height="100"
-                            Margin="0,0,0,5"
-                            AllowDrop="{x:Bind x:Object.Equals(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoMixedFlow), Mode=OneWay}"
-                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                            BorderThickness="1"
-                            CornerRadius="{StaticResource ControlCornerRadius}"
-                            DragEnter="{x:Bind OnVideoMixedFlowDragEnter}"
-                            Drop="{x:Bind OnVideoMixedFlowVideoDrop}"
-                            Visibility="{x:Bind SelectedConversionType.VideoMixedFlow.IsVideoFileExisted, Mode=OneWay}">
-
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="120" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-
-                            <Grid
-                                Grid.Column="0"
-                                Width="120"
-                                Background="{ThemeResource SolidBackgroundFillColorBaseAltBrush}"
-                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                BorderThickness="0,0,1,0">
-
-                                <Image Grid.Column="0" Source="{x:Bind SelectedConversionType.VideoMixedFlow.VideoFile.FileThumbnailSource, Mode=OneWay}" />
-                            </Grid>
-
-                            <Grid
-                                Grid.Column="1"
-                                VerticalAlignment="Center"
-                                RowSpacing="5">
-
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-
-                                <TextBlock
-                                    Grid.Row="0"
-                                    Style="{StaticResource BodyStrongTextBlockStyle}"
-                                    Text="{x:Bind SelectedConversionType.VideoMixedFlow.VideoFile.FileName, Mode=OneWay}"
-                                    TextLineBounds="TrimToCapHeight"
-                                    TextWrapping="NoWrap">
-
-                                    <ToolTipService.ToolTip>
-                                        <ToolTip
-                                            MaxWidth="9999"
-                                            Padding="0"
-                                            Background="Transparent">
-
-                                            <Grid>
-                                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind SelectedConversionType.VideoMixedFlow.VideoFile.FilePath, Mode=OneWay}" />
-                                            </Grid>
-                                        </ToolTip>
-                                    </ToolTipService.ToolTip>
-                                </TextBlock>
-
-                                <TextBlock
-                                    Grid.Row="1"
-                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                    TextTrimming="CharacterEllipsis">
-
-                                    <Run Text="{x:Bind SelectedConversionType.VideoMixedFlow.VideoFile.FileSize, Mode=OneWay}" />
-                                    <Run Text=" | " />
-                                    <Run Text="{x:Bind SelectedConversionType.VideoMixedFlow.VideoFile.Duration, Mode=OneWay}" />
-                                    <Run Text=" | " />
-                                    <Run Text="{x:Bind SelectedConversionType.VideoMixedFlow.VideoFile.ScreenSizeWidth, Mode=OneWay}" /><Run Text="x" /><Run Text="{x:Bind SelectedConversionType.VideoMixedFlow.VideoFile.ScreenSizeHeight, Mode=OneWay}" />
-                                </TextBlock>
-                            </Grid>
-
-                            <Button
-                                Grid.Column="2"
-                                Width="32"
-                                Height="32"
-                                Margin="5,0,20,0"
-                                Padding="0"
-                                Click="{x:Bind OnRemoveVideoMixedFlowVideoFileClicked}"
-                                CornerRadius="{StaticResource ControlCornerRadius}">
-
-                                <FontIcon FontSize="16" Glyph="&#xE894;" />
-
-                                <ToolTipService.ToolTip>
-                                    <ToolTip
-                                        MaxWidth="9999"
-                                        Padding="0"
-                                        Background="Transparent">
-
-                                        <Grid>
-                                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('Remove')}" />
-                                        </Grid>
-                                    </ToolTip>
-                                </ToolTipService.ToolTip>
-                            </Button>
-                        </Grid>
-
-                        <TextBlock
-                            Grid.Row="2"
-                            FontSize="16"
-                            Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('AudioSection')}" />
-
-                        <!--  音频文件添加信息提示按钮  -->
-                        <Grid
-                            Grid.Row="3"
-                            Height="100"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Center"
-                            AllowDrop="{x:Bind x:Object.Equals(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoMixedFlow), Mode=OneWay}"
-                            CornerRadius="{StaticResource ControlCornerRadius}"
-                            DragEnter="{x:Bind OnVideoMixedFlowDragEnter}"
-                            Drop="{x:Bind OnVideoMixedFlowAudioDrop}"
-                            Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(SelectedConversionType.VideoMixedFlow.IsAudioFileExisted), Mode=OneWay}">
-
-                            <Grid Canvas.ZIndex="1">
-
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-
-                                <TextBlock
-                                    Grid.Row="0"
-                                    Margin="0,0,0,10"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Bottom"
-                                    Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('DragAddAudioFileTip')}" />
-
-                                <Button
-                                    Grid.Row="1"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Top"
-                                    Click="{x:Bind OnAddAudiofileClicked}"
-                                    Content="{x:Bind rootservice:ResourceService.VideoListResource.GetString('AddAudioFile')}" />
-                            </Grid>
-
-                            <Rectangle
-                                Canvas.ZIndex="0"
-                                Fill="Transparent"
-                                RadiusX="4"
-                                RadiusY="4"
-                                Stroke="{ThemeResource TextFillColorSecondaryBrush}"
-                                StrokeDashArray="5,2"
-                                StrokeThickness="1" />
-                        </Grid>
-
-                        <!--  音频文件信息控件  -->
-                        <Grid
-                            Grid.Row="3"
-                            Height="100"
-                            Margin="0,0,0,5"
-                            AllowDrop="{x:Bind x:Object.Equals(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoMixedFlow), Mode=OneWay}"
-                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                            BorderThickness="1"
-                            CornerRadius="{StaticResource ControlCornerRadius}"
-                            DragEnter="{x:Bind OnVideoMixedFlowDragEnter}"
-                            Drop="{x:Bind OnVideoMixedFlowAudioDrop}"
-                            Visibility="{x:Bind SelectedConversionType.VideoMixedFlow.IsAudioFileExisted, Mode=OneWay}">
-
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="120" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-
-                            <Grid
-                                Grid.Column="0"
-                                Width="120"
-                                Background="{ThemeResource SolidBackgroundFillColorBaseAltBrush}"
-                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                BorderThickness="0,0,1,0">
-
-                                <Image Grid.Column="0" Source="{x:Bind SelectedConversionType.VideoMixedFlow.AudioFile.FileThumbnailSource, Mode=OneWay}" />
-                            </Grid>
-
-                            <Grid
-                                Grid.Column="1"
-                                VerticalAlignment="Center"
-                                RowSpacing="5">
-
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-
-                                <TextBlock
-                                    Grid.Row="0"
-                                    Style="{StaticResource BodyStrongTextBlockStyle}"
-                                    Text="{x:Bind SelectedConversionType.VideoMixedFlow.AudioFile.FileName, Mode=OneWay}"
-                                    TextLineBounds="TrimToCapHeight"
-                                    TextWrapping="NoWrap">
-
-                                    <ToolTipService.ToolTip>
-                                        <ToolTip
-                                            MaxWidth="9999"
-                                            Padding="0"
-                                            Background="Transparent">
-
-                                            <Grid>
-                                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind SelectedConversionType.VideoMixedFlow.AudioFile.FilePath, Mode=OneWay}" />
-                                            </Grid>
-                                        </ToolTip>
-                                    </ToolTipService.ToolTip>
-                                </TextBlock>
-
-                                <TextBlock
-                                    Grid.Row="1"
-                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                    TextTrimming="CharacterEllipsis">
-
-                                    <Run Text="{x:Bind SelectedConversionType.VideoMixedFlow.AudioFile.FileSize, Mode=OneWay}" />
-                                    <Run Text=" | " />
-                                    <Run Text="{x:Bind SelectedConversionType.VideoMixedFlow.AudioFile.Duration, Mode=OneWay}" />
-                                    <Run Text=" | " />
-                                    <Run Text="{x:Bind SelectedConversionType.VideoMixedFlow.AudioFile.Channel, Mode=OneWay}" />
-                                    <Run Text=" | " />
-                                    <Run Text="{x:Bind SelectedConversionType.VideoMixedFlow.AudioFile.SamplingRate, Mode=OneWay}" />
-                                    <Run Text=" | " />
-                                    <Run Text="{x:Bind SelectedConversionType.VideoMixedFlow.AudioFile.BitRate, Mode=OneWay}" />
-                                </TextBlock>
-                            </Grid>
-
-                            <Button
-                                Grid.Column="2"
-                                Width="32"
-                                Height="32"
-                                Margin="5,0,20,0"
-                                Padding="0"
-                                Click="{x:Bind OnRemoveVideoMixedFlowAudioFileClicked}"
-                                CornerRadius="{StaticResource ControlCornerRadius}">
-
-                                <FontIcon FontSize="16" Glyph="&#xE894;" />
-
-                                <ToolTipService.ToolTip>
-                                    <ToolTip
-                                        MaxWidth="9999"
-                                        Padding="0"
-                                        Background="Transparent">
-
-                                        <Grid>
-                                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('Remove')}" />
-                                        </Grid>
-                                    </ToolTip>
-                                </ToolTipService.ToolTip>
-                            </Button>
-                        </Grid>
-
-                        <TextBlock
-                            Grid.Row="4"
-                            FontSize="16"
-                            Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('SubtitleSection')}" />
-
-                        <!--  字幕文件添加信息提示按钮  -->
-                        <Grid
-                            Grid.Row="5"
-                            Height="100"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Center"
-                            AllowDrop="{x:Bind x:Object.Equals(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoMixedFlow), Mode=OneWay}"
-                            CornerRadius="{StaticResource ControlCornerRadius}"
-                            DragEnter="{x:Bind OnVideoMixedFlowDragEnter}"
-                            Drop="{x:Bind OnVideoMixedFlowSubtitleDrop}"
-                            Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(SelectedConversionType.VideoMixedFlow.IsSubtitleFileExisted), Mode=OneWay}">
-
-                            <Grid Margin="0" Canvas.ZIndex="1">
-
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-
-                                <TextBlock
-                                    Grid.Row="0"
-                                    Margin="0,0,0,10"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Bottom"
-                                    Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('DragAddSubtitleFileTip')}" />
-
-                                <Button
-                                    Grid.Row="1"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Top"
-                                    Click="{x:Bind OnAddSubtitlefileClicked}"
-                                    Content="{x:Bind rootservice:ResourceService.VideoListResource.GetString('AddSubtitleFile')}" />
-                            </Grid>
-
-                            <Rectangle
-                                Canvas.ZIndex="0"
-                                Fill="Transparent"
-                                RadiusX="4"
-                                RadiusY="4"
-                                Stroke="{ThemeResource TextFillColorSecondaryBrush}"
-                                StrokeDashArray="5,2"
-                                StrokeThickness="1" />
-                        </Grid>
-
-                        <!--  字幕文件信息控件  -->
-                        <Grid
-                            Grid.Row="5"
-                            Height="100"
-                            Margin="0,0,0,5"
-                            AllowDrop="{x:Bind x:Object.Equals(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoMixedFlow), Mode=OneWay}"
-                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                            BorderThickness="1"
-                            CornerRadius="{StaticResource ControlCornerRadius}"
-                            DragEnter="{x:Bind OnVideoMixedFlowDragEnter}"
-                            Drop="{x:Bind OnVideoMixedFlowSubtitleDrop}"
-                            Visibility="{x:Bind SelectedConversionType.VideoMixedFlow.IsSubtitleFileExisted, Mode=OneWay}">
-
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="120" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-
-                            <Grid
-                                Grid.Column="0"
-                                Width="120"
-                                Background="{ThemeResource SolidBackgroundFillColorBaseAltBrush}"
-                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                BorderThickness="0,0,1,0">
-
-                                <Image Grid.Column="0" Source="{x:Bind SelectedConversionType.VideoMixedFlow.SubtitleFile.FileThumbnailSource, Mode=OneWay}" />
-                            </Grid>
-
-                            <Grid
-                                Grid.Column="1"
-                                VerticalAlignment="Center"
-                                RowSpacing="5">
-
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-
-                                <TextBlock
-                                    Grid.Row="0"
-                                    Style="{StaticResource BodyStrongTextBlockStyle}"
-                                    Text="{x:Bind SelectedConversionType.VideoMixedFlow.SubtitleFile.FileName, Mode=OneWay}"
-                                    TextLineBounds="TrimToCapHeight"
-                                    TextWrapping="NoWrap">
-
-                                    <ToolTipService.ToolTip>
-                                        <ToolTip
-                                            MaxWidth="9999"
-                                            Padding="0"
-                                            Background="Transparent">
-
-                                            <Grid>
-                                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind SelectedConversionType.VideoMixedFlow.SubtitleFile.FilePath, Mode=OneWay}" />
-                                            </Grid>
-                                        </ToolTip>
-                                    </ToolTipService.ToolTip>
-                                </TextBlock>
-
-                                <TextBlock
-                                    Grid.Row="1"
-                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="{x:Bind SelectedConversionType.VideoMixedFlow.SubtitleFile.FileSize, Mode=OneWay}"
-                                    TextTrimming="CharacterEllipsis" />
-                            </Grid>
-
-                            <Button
-                                Grid.Column="2"
-                                Width="32"
-                                Height="32"
-                                Margin="5,0,20,0"
-                                Padding="0"
-                                Click="{x:Bind OnRemoveVideoMixedFlowSubtitleFileClicked}"
-                                CornerRadius="{StaticResource ControlCornerRadius}">
-
-                                <FontIcon FontSize="16" Glyph="&#xE894;" />
-
-                                <ToolTipService.ToolTip>
-                                    <ToolTip
-                                        MaxWidth="9999"
-                                        Padding="0"
-                                        Background="Transparent">
-
-                                        <Grid>
-                                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('Remove')}" />
-                                        </Grid>
-                                    </ToolTip>
-                                </ToolTipService.ToolTip>
-                            </Button>
-                        </Grid>
-                    </Grid>
-                </ScrollViewer>
-
-                <!--  非视频混流控件  -->
-                <Grid Visibility="{x:Bind converter:ValueCheckConverterHelper.GetVideoConversionType(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoMixedFlow, x:True), Mode=OneWay}">
+                <!--  视频格式转换控件  -->
+                <Grid x:Name="VideoFormatConversionGrid" x:Load="{x:Bind x:Object.Equals(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoFormatConversion), Mode=OneWay}">
 
                     <!--  添加文件信息提示和按钮  -->
                     <Grid
@@ -1226,7 +446,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         CornerRadius="{StaticResource ControlCornerRadius}"
-                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(SelectedConversionType.VideoConversionFileCollection.Count), Mode=OneWay}">
+                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(VideoConversionTypeCollection[0].VideoFormatConversion.VideoFormatConversionFileCollection.Count), Mode=OneWay}">
 
                         <Grid
                             Margin="30"
@@ -1261,7 +481,240 @@
                             StrokeThickness="1" />
                     </Grid>
 
-                    <Grid Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(SelectedConversionType.VideoConversionFileCollection.Count), Mode=OneWay}">
+                    <!--  视频转换文件信息列表  -->
+                    <ListView
+                        Padding="0,0,26,30"
+                        ItemsSource="{x:Bind VideoConversionTypeCollection[0].VideoFormatConversion.VideoFormatConversionFileCollection, Mode=OneWay}"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        ScrollViewer.HorizontalScrollMode="Disabled"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto"
+                        ScrollViewer.VerticalScrollMode="Enabled"
+                        SelectionMode="None"
+                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(VideoConversionTypeCollection[0].VideoFormatConversion.VideoFormatConversionFileCollection.Count), Mode=OneWay}">
+
+                        <ListView.ItemContainerStyle>
+                            <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                <Setter Property="Padding" Value="0" />
+                                <Setter Property="MinHeight" Value="0" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="model:VideoFormatConversionFileModel">
+                                <Grid
+                                    Height="100"
+                                    Margin="0,0,3,3"
+                                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="120" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid
+                                        Grid.Column="0"
+                                        Width="120"
+                                        Background="{ThemeResource SolidBackgroundFillColorBaseAltBrush}"
+                                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                        BorderThickness="0,0,1,0">
+
+                                        <Image Grid.Column="0" Source="{x:Bind FileThumbnailSource, Mode=OneWay}" />
+                                    </Grid>
+
+                                    <Grid
+                                        Grid.Column="1"
+                                        Margin="16,0,0,0"
+                                        VerticalAlignment="Center"
+                                        RowSpacing="5">
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Style="{StaticResource BodyStrongTextBlockStyle}"
+                                            Text="{x:Bind FileName}"
+                                            TextLineBounds="TrimToCapHeight"
+                                            TextWrapping="NoWrap">
+
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip
+                                                    MaxWidth="9999"
+                                                    Padding="0"
+                                                    Background="Transparent"
+                                                    Visibility="{Binding ElementName=DescriptionText, Path=IsTextTrimmed, Mode=OneWay}">
+
+                                                    <Grid>
+                                                        <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                        <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind FilePath}" />
+                                                    </Grid>
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </TextBlock>
+
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            TextTrimming="CharacterEllipsis">
+
+                                            <Run Text="{x:Bind FileSizeString}" />
+                                            <Run Text=" | " />
+                                            <Run Text="{x:Bind DurationString}" />
+                                            <Run Text=" | " />
+                                            <Run Text="{x:Bind ScreenSizeWidth}" /><Run Text="x" /><Run Text="{x:Bind ScreenSizeHeight}" />
+                                        </TextBlock>
+                                    </Grid>
+
+                                    <Grid Grid.Column="2" Margin="5,0,20,0">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Button
+                                            Grid.Column="0"
+                                            Width="32"
+                                            Height="32"
+                                            Padding="0"
+                                            Command="{StaticResource VideoEditCommand}"
+                                            CommandParameter="{x:Bind}"
+                                            CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                            <FontIcon FontSize="16" Glyph="&#xE8C6;" />
+
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip
+                                                    MaxWidth="9999"
+                                                    Padding="0"
+                                                    Background="Transparent">
+
+                                                    <Grid>
+                                                        <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                        <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('VideoEdit')}" />
+                                                    </Grid>
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </Button>
+
+                                        <Button
+                                            Grid.Column="1"
+                                            Width="32"
+                                            Height="32"
+                                            Margin="5,0,0,0"
+                                            Padding="7"
+                                            Command="{StaticResource OutputConfigurationCommand}"
+                                            CommandParameter="{x:Bind}"
+                                            CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                            <AnimatedIcon>
+                                                <AnimatedIcon.Source>
+                                                    <animatedvisuals:AnimatedSettingsVisualSource />
+                                                </AnimatedIcon.Source>
+                                                <AnimatedIcon.FallbackIconSource>
+                                                    <FontIconSource Glyph="&#xE713;" />
+                                                </AnimatedIcon.FallbackIconSource>
+                                            </AnimatedIcon>
+
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip
+                                                    MaxWidth="9999"
+                                                    Padding="0"
+                                                    Background="Transparent">
+
+                                                    <Grid>
+                                                        <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                        <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('OutputConfiguration')}" />
+                                                    </Grid>
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </Button>
+
+                                        <Button
+                                            Grid.Column="2"
+                                            Width="32"
+                                            Height="32"
+                                            Margin="5,0,0,0"
+                                            Padding="0"
+                                            Command="{StaticResource RemoveCommand}"
+                                            CommandParameter="{x:Bind}"
+                                            CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                            <FontIcon FontSize="16" Glyph="&#xE894;" />
+
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip
+                                                    MaxWidth="9999"
+                                                    Padding="0"
+                                                    Background="Transparent">
+
+                                                    <Grid>
+                                                        <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                        <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('Remove')}" />
+                                                    </Grid>
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+
+                <!--  视频合并控件  -->
+                <Grid x:Name="VideoConcatGrid" x:Load="{x:Bind x:Object.Equals(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoConcat), Mode=OneWay}">
+
+                    <!--  添加文件信息提示和按钮  -->
+                    <Grid
+                        Margin="0,0,30,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(VideoConversionTypeCollection[1].VideoConcat.VideoConcatFileCollection.Count), Mode=OneWay}">
+
+                        <Grid
+                            Margin="30"
+                            Canvas.ZIndex="1"
+                            RowSpacing="15">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock
+                                Grid.Row="0"
+                                HorizontalAlignment="Center"
+                                Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('DragAddFileTip')}" />
+
+                            <Button
+                                Grid.Row="1"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Click="{x:Bind OnAddFileClicked}"
+                                Content="{x:Bind rootservice:ResourceService.VideoListResource.GetString('AddFile')}" />
+                        </Grid>
+
+                        <Rectangle
+                            Canvas.ZIndex="0"
+                            Fill="Transparent"
+                            RadiusX="4"
+                            RadiusY="4"
+                            Stroke="{ThemeResource TextFillColorSecondaryBrush}"
+                            StrokeDashArray="5,2"
+                            StrokeThickness="1" />
+                    </Grid>
+
+                    <Grid Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(VideoConversionTypeCollection[1].VideoConcat.VideoConcatFileCollection.Count), Mode=OneWay}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
@@ -1274,8 +727,7 @@
                             HorizontalAlignment="Stretch"
                             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                            BorderThickness="0,1,0,1"
-                            Visibility="{x:Bind converter:ValueCheckConverterHelper.GetVideoConversionType(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoConcat, x:False), Mode=OneWay}">
+                            BorderThickness="0,1,0,1">
 
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="2*" />
@@ -1407,11 +859,11 @@
                             </TextBlock>
                         </Grid>
 
-                        <!--  视频转换文件信息列表  -->
+                        <!--  视频合并信息列表  -->
                         <ListView
                             Grid.Row="1"
                             Padding="0,0,26,30"
-                            ItemsSource="{x:Bind SelectedConversionType.VideoConversionFileCollection, Mode=OneWay}"
+                            ItemsSource="{x:Bind VideoConversionTypeCollection[1].VideoConcat.VideoConcatFileCollection, Mode=OneWay}"
                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                             ScrollViewer.HorizontalScrollMode="Disabled"
                             ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -1425,11 +877,998 @@
                                 </Style>
                             </ListView.ItemContainerStyle>
 
-                            <ListView.ItemTemplateSelector>
-                                <datatemplate:VideoConversionDataTemplateSelector VideoCardDataTemplate="{StaticResource VideoCardDataTemplate}" VideoListDataTemplate="{StaticResource VideoListDataTemplate}" />
-                            </ListView.ItemTemplateSelector>
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="model:VideoConcatFileModel">
+                                    <Grid
+                                        Height="35"
+                                        Margin="0,0,4,0"
+                                        HorizontalAlignment="Stretch"
+                                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                        BorderThickness="0,0,0,1">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="70" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock
+                                            x:Name="FileNameText"
+                                            Grid.Column="0"
+                                            Margin="10,0,0,0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            FontSize="14"
+                                            Text="{x:Bind FileName}"
+                                            TextAlignment="Left"
+                                            TextTrimming="CharacterEllipsis"
+                                            TextWrapping="NoWrap">
+
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip
+                                                    MaxWidth="9999"
+                                                    Padding="0"
+                                                    Background="Transparent"
+                                                    Visibility="{Binding ElementName=FileNameText, Path=IsTextTrimmed, Mode=OneWay}">
+
+                                                    <Grid>
+                                                        <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                        <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind FilePath}" />
+                                                    </Grid>
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </TextBlock>
+
+                                        <TextBlock
+                                            x:Name="FileSizeText"
+                                            Grid.Column="1"
+                                            Margin="10,0,0,0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            FontSize="14"
+                                            Text="{x:Bind FileSizeString}"
+                                            TextAlignment="Left"
+                                            TextTrimming="CharacterEllipsis"
+                                            TextWrapping="NoWrap">
+
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip
+                                                    MaxWidth="9999"
+                                                    Padding="0"
+                                                    Background="Transparent"
+                                                    Visibility="{Binding ElementName=FileSizeText, Path=IsTextTrimmed, Mode=OneWay}">
+
+                                                    <Grid>
+                                                        <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                        <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind FileSizeString}" />
+                                                    </Grid>
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </TextBlock>
+
+                                        <TextBlock
+                                            x:Name="DurationText"
+                                            Grid.Column="2"
+                                            Margin="10,0,0,0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            FontSize="14"
+                                            Text="{x:Bind DurationString}"
+                                            TextAlignment="Left"
+                                            TextTrimming="CharacterEllipsis"
+                                            TextWrapping="NoWrap">
+
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip
+                                                    MaxWidth="9999"
+                                                    Padding="0"
+                                                    Background="Transparent"
+                                                    Visibility="{Binding ElementName=DurationText, Path=IsTextTrimmed, Mode=OneWay}">
+
+                                                    <Grid>
+                                                        <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                        <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind DurationString}" />
+                                                    </Grid>
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </TextBlock>
+
+                                        <TextBlock
+                                            x:Name="ScreenSizeText"
+                                            Grid.Column="3"
+                                            Margin="10,0,0,0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            FontSize="14"
+                                            TextAlignment="Left"
+                                            TextTrimming="CharacterEllipsis"
+                                            TextWrapping="NoWrap">
+
+                                            <Run Text="{x:Bind ScreenSizeWidth}" /><Run Text="x" /><Run Text="{x:Bind ScreenSizeHeight}" />
+
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip
+                                                    MaxWidth="9999"
+                                                    Padding="0"
+                                                    Background="Transparent"
+                                                    Visibility="{Binding ElementName=ScreenSizeText, Path=IsTextTrimmed, Mode=OneWay}">
+
+                                                    <Grid>
+                                                        <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                        <TextBlock Padding="{StaticResource ToolTipBorderPadding}">
+                                                            <Run Text="{x:Bind ScreenSizeWidth}" /><Run Text="x" /><Run Text="{x:Bind ScreenSizeHeight}" />
+                                                        </TextBlock>
+                                                    </Grid>
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </TextBlock>
+
+                                        <HyperlinkButton
+                                            Grid.Column="4"
+                                            Margin="10,0,0,0"
+                                            Padding="0"
+                                            Command="{StaticResource RemoveCommand}"
+                                            CommandParameter="{x:Bind}"
+                                            Content="{x:Bind rootservice:ResourceService.VideoListResource.GetString('Remove')}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
                         </ListView>
                     </Grid>
+                </Grid>
+
+                <!--  视频混流控件  -->
+                <ScrollViewer
+                    x:Name="VideoMixedFlowScrollViewer"
+                    Margin="0,0,30,0"
+                    x:Load="{x:Bind x:Object.Equals(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoMixedFlow), Mode=OneWay}"
+                    HorizontalScrollBarVisibility="Disabled"
+                    HorizontalScrollMode="Disabled"
+                    VerticalScrollBarVisibility="Auto"
+                    VerticalScrollMode="Enabled">
+
+                    <Grid Margin="0,0,0,30" RowSpacing="5">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock
+                            Grid.Row="0"
+                            FontSize="16"
+                            Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('VideoSection')}" />
+
+                        <!--  视频文件添加信息提示按钮  -->
+                        <Grid
+                            Grid.Row="1"
+                            Height="100"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            AllowDrop="{x:Bind x:Object.Equals(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoMixedFlow), Mode=OneWay}"
+                            CornerRadius="{StaticResource ControlCornerRadius}"
+                            DragEnter="{x:Bind OnVideoMixedFlowDragEnter}"
+                            Drop="{x:Bind OnVideoMixedFlowVideoDrop}"
+                            Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(VideoConversionTypeCollection[2].VideoMixedFlow.IsVideoFileExisted), Mode=OneWay}">
+
+                            <Grid Canvas.ZIndex="1">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Margin="0,0,0,10"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom"
+                                    Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('DragAddVideoFileTip')}" />
+
+                                <Button
+                                    Grid.Row="1"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Top"
+                                    Click="{x:Bind OnAddVideoFileClicked}"
+                                    Content="{x:Bind rootservice:ResourceService.VideoListResource.GetString('AddVideoFile')}" />
+                            </Grid>
+
+                            <Rectangle
+                                Canvas.ZIndex="0"
+                                Fill="Transparent"
+                                RadiusX="4"
+                                RadiusY="4"
+                                Stroke="{ThemeResource TextFillColorSecondaryBrush}"
+                                StrokeDashArray="5,2"
+                                StrokeThickness="1" />
+                        </Grid>
+
+                        <!--  视频文件信息控件  -->
+                        <Grid
+                            Grid.Row="1"
+                            Height="100"
+                            Margin="0,0,0,5"
+                            AllowDrop="{x:Bind x:Object.Equals(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoMixedFlow), Mode=OneWay}"
+                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1"
+                            CornerRadius="{StaticResource ControlCornerRadius}"
+                            DragEnter="{x:Bind OnVideoMixedFlowDragEnter}"
+                            Drop="{x:Bind OnVideoMixedFlowVideoDrop}"
+                            Visibility="{x:Bind VideoConversionTypeCollection[2].VideoMixedFlow.IsVideoFileExisted, Mode=OneWay}">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Grid
+                                Grid.Column="0"
+                                Width="120"
+                                Background="{ThemeResource SolidBackgroundFillColorBaseAltBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="0,0,1,0">
+
+                                <Image Grid.Column="0" Source="{x:Bind VideoConversionTypeCollection[2].VideoMixedFlow.VideoFile.FileThumbnailSource, Mode=OneWay}" />
+                            </Grid>
+
+                            <Grid
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                RowSpacing="5">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Style="{StaticResource BodyStrongTextBlockStyle}"
+                                    Text="{x:Bind VideoConversionTypeCollection[2].VideoMixedFlow.VideoFile.FileName, Mode=OneWay}"
+                                    TextLineBounds="TrimToCapHeight"
+                                    TextWrapping="NoWrap">
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Padding="0"
+                                            Background="Transparent">
+
+                                            <Grid>
+                                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind VideoConversionTypeCollection[2].VideoMixedFlow.VideoFile.FilePath, Mode=OneWay}" />
+                                            </Grid>
+                                        </ToolTip>
+                                    </ToolTipService.ToolTip>
+                                </TextBlock>
+
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    TextTrimming="CharacterEllipsis">
+
+                                    <Run Text="{x:Bind VideoConversionTypeCollection[2].VideoMixedFlow.VideoFile.FileSize, Mode=OneWay}" />
+                                    <Run Text=" | " />
+                                    <Run Text="{x:Bind VideoConversionTypeCollection[2].VideoMixedFlow.VideoFile.Duration, Mode=OneWay}" />
+                                    <Run Text=" | " />
+                                    <Run Text="{x:Bind VideoConversionTypeCollection[2].VideoMixedFlow.VideoFile.ScreenSizeWidth, Mode=OneWay}" /><Run Text="x" /><Run Text="{x:Bind VideoConversionTypeCollection[2].VideoMixedFlow.VideoFile.ScreenSizeHeight, Mode=OneWay}" />
+                                </TextBlock>
+                            </Grid>
+
+                            <Button
+                                Grid.Column="2"
+                                Width="32"
+                                Height="32"
+                                Margin="5,0,20,0"
+                                Padding="0"
+                                Click="{x:Bind OnRemoveVideoMixedFlowVideoFileClicked}"
+                                CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                <FontIcon FontSize="16" Glyph="&#xE894;" />
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip
+                                        MaxWidth="9999"
+                                        Padding="0"
+                                        Background="Transparent">
+
+                                        <Grid>
+                                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('Remove')}" />
+                                        </Grid>
+                                    </ToolTip>
+                                </ToolTipService.ToolTip>
+                            </Button>
+                        </Grid>
+
+                        <TextBlock
+                            Grid.Row="2"
+                            FontSize="16"
+                            Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('AudioSection')}" />
+
+                        <!--  音频文件添加信息提示按钮  -->
+                        <Grid
+                            Grid.Row="3"
+                            Height="100"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            AllowDrop="{x:Bind x:Object.Equals(VideoConversionTypeCollection[2].VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoMixedFlow), Mode=OneWay}"
+                            CornerRadius="{StaticResource ControlCornerRadius}"
+                            DragEnter="{x:Bind OnVideoMixedFlowDragEnter}"
+                            Drop="{x:Bind OnVideoMixedFlowAudioDrop}"
+                            Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(VideoConversionTypeCollection[2].VideoMixedFlow.IsAudioFileExisted), Mode=OneWay}">
+
+                            <Grid Canvas.ZIndex="1">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Margin="0,0,0,10"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom"
+                                    Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('DragAddAudioFileTip')}" />
+
+                                <Button
+                                    Grid.Row="1"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Top"
+                                    Click="{x:Bind OnAddAudiofileClicked}"
+                                    Content="{x:Bind rootservice:ResourceService.VideoListResource.GetString('AddAudioFile')}" />
+                            </Grid>
+
+                            <Rectangle
+                                Canvas.ZIndex="0"
+                                Fill="Transparent"
+                                RadiusX="4"
+                                RadiusY="4"
+                                Stroke="{ThemeResource TextFillColorSecondaryBrush}"
+                                StrokeDashArray="5,2"
+                                StrokeThickness="1" />
+                        </Grid>
+
+                        <!--  音频文件信息控件  -->
+                        <Grid
+                            Grid.Row="3"
+                            Height="100"
+                            Margin="0,0,0,5"
+                            AllowDrop="{x:Bind x:Object.Equals(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoMixedFlow), Mode=OneWay}"
+                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1"
+                            CornerRadius="{StaticResource ControlCornerRadius}"
+                            DragEnter="{x:Bind OnVideoMixedFlowDragEnter}"
+                            Drop="{x:Bind OnVideoMixedFlowAudioDrop}"
+                            Visibility="{x:Bind VideoConversionTypeCollection[2].VideoMixedFlow.IsAudioFileExisted, Mode=OneWay}">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Grid
+                                Grid.Column="0"
+                                Width="120"
+                                Background="{ThemeResource SolidBackgroundFillColorBaseAltBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="0,0,1,0">
+
+                                <Image Grid.Column="0" Source="{x:Bind VideoConversionTypeCollection[2].VideoMixedFlow.AudioFile.FileThumbnailSource, Mode=OneWay}" />
+                            </Grid>
+
+                            <Grid
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                RowSpacing="5">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Style="{StaticResource BodyStrongTextBlockStyle}"
+                                    Text="{x:Bind VideoConversionTypeCollection[2].VideoMixedFlow.AudioFile.FileName, Mode=OneWay}"
+                                    TextLineBounds="TrimToCapHeight"
+                                    TextWrapping="NoWrap">
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Padding="0"
+                                            Background="Transparent">
+
+                                            <Grid>
+                                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind VideoConversionTypeCollection[2].VideoMixedFlow.AudioFile.FilePath, Mode=OneWay}" />
+                                            </Grid>
+                                        </ToolTip>
+                                    </ToolTipService.ToolTip>
+                                </TextBlock>
+
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    TextTrimming="CharacterEllipsis">
+
+                                    <Run Text="{x:Bind VideoConversionTypeCollection[2].VideoMixedFlow.AudioFile.FileSize, Mode=OneWay}" />
+                                    <Run Text=" | " />
+                                    <Run Text="{x:Bind VideoConversionTypeCollection[2].VideoMixedFlow.AudioFile.Duration, Mode=OneWay}" />
+                                    <Run Text=" | " />
+                                    <Run Text="{x:Bind VideoConversionTypeCollection[2].VideoMixedFlow.AudioFile.Channel, Mode=OneWay}" />
+                                    <Run Text=" | " />
+                                    <Run Text="{x:Bind VideoConversionTypeCollection[2].VideoMixedFlow.AudioFile.SamplingRate, Mode=OneWay}" />
+                                    <Run Text=" | " />
+                                    <Run Text="{x:Bind VideoConversionTypeCollection[2].VideoMixedFlow.AudioFile.BitRate, Mode=OneWay}" />
+                                </TextBlock>
+                            </Grid>
+
+                            <Button
+                                Grid.Column="2"
+                                Width="32"
+                                Height="32"
+                                Margin="5,0,20,0"
+                                Padding="0"
+                                Click="{x:Bind OnRemoveVideoMixedFlowAudioFileClicked}"
+                                CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                <FontIcon FontSize="16" Glyph="&#xE894;" />
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip
+                                        MaxWidth="9999"
+                                        Padding="0"
+                                        Background="Transparent">
+
+                                        <Grid>
+                                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('Remove')}" />
+                                        </Grid>
+                                    </ToolTip>
+                                </ToolTipService.ToolTip>
+                            </Button>
+                        </Grid>
+
+                        <TextBlock
+                            Grid.Row="4"
+                            FontSize="16"
+                            Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('SubtitleSection')}" />
+
+                        <!--  字幕文件添加信息提示按钮  -->
+                        <Grid
+                            Grid.Row="5"
+                            Height="100"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            AllowDrop="{x:Bind x:Object.Equals(VideoConversionTypeCollection[2].VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoMixedFlow), Mode=OneWay}"
+                            CornerRadius="{StaticResource ControlCornerRadius}"
+                            DragEnter="{x:Bind OnVideoMixedFlowDragEnter}"
+                            Drop="{x:Bind OnVideoMixedFlowSubtitleDrop}"
+                            Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(VideoConversionTypeCollection[2].VideoMixedFlow.IsSubtitleFileExisted), Mode=OneWay}">
+
+                            <Grid Margin="0" Canvas.ZIndex="1">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Margin="0,0,0,10"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom"
+                                    Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('DragAddSubtitleFileTip')}" />
+
+                                <Button
+                                    Grid.Row="1"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Top"
+                                    Click="{x:Bind OnAddSubtitlefileClicked}"
+                                    Content="{x:Bind rootservice:ResourceService.VideoListResource.GetString('AddSubtitleFile')}" />
+                            </Grid>
+
+                            <Rectangle
+                                Canvas.ZIndex="0"
+                                Fill="Transparent"
+                                RadiusX="4"
+                                RadiusY="4"
+                                Stroke="{ThemeResource TextFillColorSecondaryBrush}"
+                                StrokeDashArray="5,2"
+                                StrokeThickness="1" />
+                        </Grid>
+
+                        <!--  字幕文件信息控件  -->
+                        <Grid
+                            Grid.Row="5"
+                            Height="100"
+                            Margin="0,0,0,5"
+                            AllowDrop="{x:Bind x:Object.Equals(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoMixedFlow), Mode=OneWay}"
+                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1"
+                            CornerRadius="{StaticResource ControlCornerRadius}"
+                            DragEnter="{x:Bind OnVideoMixedFlowDragEnter}"
+                            Drop="{x:Bind OnVideoMixedFlowSubtitleDrop}"
+                            Visibility="{x:Bind VideoConversionTypeCollection[2].VideoMixedFlow.IsSubtitleFileExisted, Mode=OneWay}">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Grid
+                                Grid.Column="0"
+                                Width="120"
+                                Background="{ThemeResource SolidBackgroundFillColorBaseAltBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="0,0,1,0">
+
+                                <Image Grid.Column="0" Source="{x:Bind VideoConversionTypeCollection[2].VideoMixedFlow.SubtitleFile.FileThumbnailSource, Mode=OneWay}" />
+                            </Grid>
+
+                            <Grid
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                RowSpacing="5">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Style="{StaticResource BodyStrongTextBlockStyle}"
+                                    Text="{x:Bind VideoConversionTypeCollection[2].VideoMixedFlow.SubtitleFile.FileName, Mode=OneWay}"
+                                    TextLineBounds="TrimToCapHeight"
+                                    TextWrapping="NoWrap">
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Padding="0"
+                                            Background="Transparent">
+
+                                            <Grid>
+                                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind VideoConversionTypeCollection[2].VideoMixedFlow.SubtitleFile.FilePath, Mode=OneWay}" />
+                                            </Grid>
+                                        </ToolTip>
+                                    </ToolTipService.ToolTip>
+                                </TextBlock>
+
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="{x:Bind VideoConversionTypeCollection[2].VideoMixedFlow.SubtitleFile.FileSize, Mode=OneWay}"
+                                    TextTrimming="CharacterEllipsis" />
+                            </Grid>
+
+                            <Button
+                                Grid.Column="2"
+                                Width="32"
+                                Height="32"
+                                Margin="5,0,20,0"
+                                Padding="0"
+                                Click="{x:Bind OnRemoveVideoMixedFlowSubtitleFileClicked}"
+                                CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                <FontIcon FontSize="16" Glyph="&#xE894;" />
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip
+                                        MaxWidth="9999"
+                                        Padding="0"
+                                        Background="Transparent">
+
+                                        <Grid>
+                                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('Remove')}" />
+                                        </Grid>
+                                    </ToolTip>
+                                </ToolTipService.ToolTip>
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </ScrollViewer>
+
+                <!--  视频分离控件  -->
+                <Grid x:Name="VideoSeparationGrid" x:Load="{x:Bind x:Object.Equals(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoSeparation), Mode=OneWay}">
+
+                    <!--  添加文件信息提示和按钮  -->
+                    <Grid
+                        Margin="0,0,30,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(VideoConversionTypeCollection[3].VideoSeparation.VideoSeparationFileCollection.Count), Mode=OneWay}">
+
+                        <Grid
+                            Margin="30"
+                            Canvas.ZIndex="1"
+                            RowSpacing="15">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock
+                                Grid.Row="0"
+                                HorizontalAlignment="Center"
+                                Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('DragAddFileTip')}" />
+
+                            <Button
+                                Grid.Row="1"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Click="{x:Bind OnAddFileClicked}"
+                                Content="{x:Bind rootservice:ResourceService.VideoListResource.GetString('AddFile')}" />
+                        </Grid>
+
+                        <Rectangle
+                            Canvas.ZIndex="0"
+                            Fill="Transparent"
+                            RadiusX="4"
+                            RadiusY="4"
+                            Stroke="{ThemeResource TextFillColorSecondaryBrush}"
+                            StrokeDashArray="5,2"
+                            StrokeThickness="1" />
+                    </Grid>
+
+                    <!--  视频分离文件信息列表  -->
+                    <ListView
+                        Padding="0,0,26,30"
+                        ItemsSource="{x:Bind VideoConversionTypeCollection[3].VideoSeparation.VideoSeparationFileCollection, Mode=OneWay}"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        ScrollViewer.HorizontalScrollMode="Disabled"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto"
+                        ScrollViewer.VerticalScrollMode="Enabled"
+                        SelectionMode="None"
+                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(VideoConversionTypeCollection[3].VideoSeparation.VideoSeparationFileCollection.Count), Mode=OneWay}">
+
+                        <ListView.ItemContainerStyle>
+                            <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                <Setter Property="Padding" Value="0" />
+                                <Setter Property="MinHeight" Value="0" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="model:VideoSeparationFileModel">
+                                <Grid
+                                    Height="100"
+                                    Margin="0,0,3,3"
+                                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="120" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid
+                                        Grid.Column="0"
+                                        Width="120"
+                                        Background="{ThemeResource SolidBackgroundFillColorBaseAltBrush}"
+                                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                        BorderThickness="0,0,1,0">
+
+                                        <Image Grid.Column="0" Source="{x:Bind FileThumbnailSource, Mode=OneWay}" />
+                                    </Grid>
+
+                                    <Grid
+                                        Grid.Column="1"
+                                        Margin="16,0,0,0"
+                                        VerticalAlignment="Center"
+                                        RowSpacing="5">
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Style="{StaticResource BodyStrongTextBlockStyle}"
+                                            Text="{x:Bind FileName}"
+                                            TextLineBounds="TrimToCapHeight"
+                                            TextWrapping="NoWrap">
+
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip
+                                                    MaxWidth="9999"
+                                                    Padding="0"
+                                                    Background="Transparent"
+                                                    Visibility="{Binding ElementName=DescriptionText, Path=IsTextTrimmed, Mode=OneWay}">
+
+                                                    <Grid>
+                                                        <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                        <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind FilePath}" />
+                                                    </Grid>
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </TextBlock>
+
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            TextTrimming="CharacterEllipsis">
+
+                                            <Run Text="{x:Bind FileSizeString}" />
+                                            <Run Text=" | " />
+                                            <Run Text="{x:Bind DurationString}" />
+                                            <Run Text=" | " />
+                                            <Run Text="{x:Bind ScreenSizeWidth}" /><Run Text="x" /><Run Text="{x:Bind ScreenSizeHeight}" />
+                                        </TextBlock>
+                                    </Grid>
+
+                                    <Grid Grid.Column="2" Margin="5,0,20,0">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Button
+                                            Grid.Column="0"
+                                            Width="32"
+                                            Height="32"
+                                            Margin="5,0,0,0"
+                                            Padding="7"
+                                            Command="{StaticResource OutputConfigurationCommand}"
+                                            CommandParameter="{x:Bind}"
+                                            CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                            <AnimatedIcon>
+                                                <AnimatedIcon.Source>
+                                                    <animatedvisuals:AnimatedSettingsVisualSource />
+                                                </AnimatedIcon.Source>
+                                                <AnimatedIcon.FallbackIconSource>
+                                                    <FontIconSource Glyph="&#xE713;" />
+                                                </AnimatedIcon.FallbackIconSource>
+                                            </AnimatedIcon>
+
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip
+                                                    MaxWidth="9999"
+                                                    Padding="0"
+                                                    Background="Transparent">
+
+                                                    <Grid>
+                                                        <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                        <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('OutputConfiguration')}" />
+                                                    </Grid>
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </Button>
+
+                                        <Button
+                                            Grid.Column="1"
+                                            Width="32"
+                                            Height="32"
+                                            Margin="5,0,0,0"
+                                            Padding="0"
+                                            Command="{StaticResource RemoveCommand}"
+                                            CommandParameter="{x:Bind}"
+                                            CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                            <FontIcon FontSize="16" Glyph="&#xE894;" />
+
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip
+                                                    MaxWidth="9999"
+                                                    Padding="0"
+                                                    Background="Transparent">
+
+                                                    <Grid>
+                                                        <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                        <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('Remove')}" />
+                                                    </Grid>
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+
+                <!--  视频导出图片控件  -->
+                <Grid x:Name="VideoExportPictureGrid" x:Load="{x:Bind x:Object.Equals(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoExportPicture), Mode=OneWay}">
+
+                    <!--  添加文件信息提示和按钮  -->
+                    <Grid
+                        Margin="0,0,30,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(VideoConversionTypeCollection[4].VideoExportPicture.VideoExportPictureFileCollection.Count), Mode=OneWay}">
+
+                        <Grid
+                            Margin="30"
+                            Canvas.ZIndex="1"
+                            RowSpacing="15">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock
+                                Grid.Row="0"
+                                HorizontalAlignment="Center"
+                                Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('DragAddFileTip')}" />
+
+                            <Button
+                                Grid.Row="1"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Click="{x:Bind OnAddFileClicked}"
+                                Content="{x:Bind rootservice:ResourceService.VideoListResource.GetString('AddFile')}" />
+                        </Grid>
+
+                        <Rectangle
+                            Canvas.ZIndex="0"
+                            Fill="Transparent"
+                            RadiusX="4"
+                            RadiusY="4"
+                            Stroke="{ThemeResource TextFillColorSecondaryBrush}"
+                            StrokeDashArray="5,2"
+                            StrokeThickness="1" />
+                    </Grid>
+
+                    <!--  视频导出图片文件信息列表  -->
+                    <ListView
+                        Padding="0,0,26,30"
+                        ItemsSource="{x:Bind VideoConversionTypeCollection[4].VideoExportPicture.VideoExportPictureFileCollection, Mode=OneWay}"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        ScrollViewer.HorizontalScrollMode="Disabled"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto"
+                        ScrollViewer.VerticalScrollMode="Enabled"
+                        SelectionMode="None"
+                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(VideoConversionTypeCollection[4].VideoExportPicture.VideoExportPictureFileCollection.Count), Mode=OneWay}">
+
+                        <ListView.ItemContainerStyle>
+                            <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                <Setter Property="Padding" Value="0" />
+                                <Setter Property="MinHeight" Value="0" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="model:VideoExportPictureFileModel">
+                                <Grid
+                                    Height="100"
+                                    Margin="0,0,3,3"
+                                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="120" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid
+                                        Grid.Column="0"
+                                        Width="120"
+                                        Background="{ThemeResource SolidBackgroundFillColorBaseAltBrush}"
+                                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                        BorderThickness="0,0,1,0">
+
+                                        <Image Grid.Column="0" Source="{x:Bind FileThumbnailSource, Mode=OneWay}" />
+                                    </Grid>
+
+                                    <Grid
+                                        Grid.Column="1"
+                                        Margin="16,0,0,0"
+                                        VerticalAlignment="Center"
+                                        RowSpacing="5">
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Style="{StaticResource BodyStrongTextBlockStyle}"
+                                            Text="{x:Bind FileName}"
+                                            TextLineBounds="TrimToCapHeight"
+                                            TextWrapping="NoWrap">
+
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip
+                                                    MaxWidth="9999"
+                                                    Padding="0"
+                                                    Background="Transparent"
+                                                    Visibility="{Binding ElementName=DescriptionText, Path=IsTextTrimmed, Mode=OneWay}">
+
+                                                    <Grid>
+                                                        <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                        <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind FilePath}" />
+                                                    </Grid>
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </TextBlock>
+
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            TextTrimming="CharacterEllipsis">
+
+                                            <Run Text="{x:Bind FileSizeString}" />
+                                            <Run Text=" | " />
+                                            <Run Text="{x:Bind DurationString}" />
+                                            <Run Text=" | " />
+                                            <Run Text="{x:Bind ScreenSizeWidth}" /><Run Text="x" /><Run Text="{x:Bind ScreenSizeHeight}" />
+                                        </TextBlock>
+                                    </Grid>
+
+                                    <Grid Grid.Column="2" Margin="5,0,20,0">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Button
+                                            Grid.Column="0"
+                                            Width="32"
+                                            Height="32"
+                                            Margin="5,0,0,0"
+                                            Padding="0"
+                                            Command="{StaticResource RemoveCommand}"
+                                            CommandParameter="{x:Bind}"
+                                            CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                            <FontIcon FontSize="16" Glyph="&#xE894;" />
+
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip
+                                                    MaxWidth="9999"
+                                                    Padding="0"
+                                                    Background="Transparent">
+
+                                                    <Grid>
+                                                        <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                                        <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('Remove')}" />
+                                                    </Grid>
+                                                </ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </Grid>
             </Grid>
         </Grid>
