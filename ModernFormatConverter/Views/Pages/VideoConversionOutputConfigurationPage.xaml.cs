@@ -1,23 +1,15 @@
-﻿using Microsoft.UI;
-using Microsoft.UI.Composition.SystemBackdrops;
-using Microsoft.UI.Content;
-using Microsoft.UI.Input;
-using Microsoft.UI.Windowing;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media;
-using ModernFormatConverter.Extensions.Backdrop;
+using Microsoft.UI.Xaml.Navigation;
 using ModernFormatConverter.Extensions.DataType.Class;
 using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
-using ModernFormatConverter.Services.Settings;
+using ModernFormatConverter.Views.Pages;
 using ModernFormatConverter.WindowsAPI.ComTypes;
-using ModernFormatConverter.WindowsAPI.PInvoke.Comctl32;
 using ModernFormatConverter.WindowsAPI.PInvoke.Dxgi;
-using ModernFormatConverter.WindowsAPI.PInvoke.User32;
-using ModernFormatConverter.WindowsAPI.PInvoke.Uxtheme;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,11 +17,9 @@ using System.Diagnostics;
 using System.Drawing.Text;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using Windows.Foundation;
-using Windows.System;
 using Windows.UI;
 
 // 抑制 CA1806，CA1822，IDE0060 警告
@@ -38,9 +28,9 @@ using Windows.UI;
 namespace ModernFormatConverter.Views.Windows
 {
     /// <summary>
-    /// 视频转换输出配置窗口
+    /// 视频转换输出配置页面
     /// </summary>
-    public sealed partial class VideoConversionOutputConfigurationWindow : Window, INotifyPropertyChanged
+    public sealed partial class VideoConversionOutputConfigurationPage : Page, INotifyPropertyChanged
     {
         private readonly string AllFilesString = ResourceService.VideoConversionOutputConfigurationResource.GetString("AllFiles");
         private readonly string BorderAndShadowString = ResourceService.VideoConversionOutputConfigurationResource.GetString("BorderAndShadow");
@@ -67,49 +57,9 @@ namespace ModernFormatConverter.Views.Windows
         private readonly string UnsideDownString = ResourceService.VideoConversionOutputConfigurationResource.GetString("UnsideDown");
         private readonly Guid CLSID_DxgiFactory = new("7B7166EC-21C7-44AE-B21A-C9AE321AE369");
         private readonly List<ComboBoxItemModel> GPUList = [];
-        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly Color accentColor = (Color)Application.Current.Resources["SystemAccentColor"];
-        private readonly bool isInitialized;
-        private OverlappedPresenter overlappedPresenter;
-        private SUBCLASSPROC videoConversionOutputConfigurationWindowSubClassProc;
-        private ContentIsland contentIsland;
-        private InputKeyboardSource inputKeyboardSource;
-        private InputPointerSource inputPointerSource;
-        private TaskCompletionSource<ContentDialogResult> taskCompletionSource;
-
-        private ConversionToolsWindow ConversionToolsWindow { get; set; }
-
-        private SystemBackdrop _windowSystemBackdrop;
-
-        public SystemBackdrop WindowSystemBackdrop
-        {
-            get { return _windowSystemBackdrop; }
-
-            set
-            {
-                if (!Equals(_windowSystemBackdrop, value))
-                {
-                    _windowSystemBackdrop = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowSystemBackdrop)));
-                }
-            }
-        }
-
-        private ElementTheme _windowTheme;
-
-        public ElementTheme WindowTheme
-        {
-            get { return _windowTheme; }
-
-            set
-            {
-                if (!Equals(_windowTheme, value))
-                {
-                    _windowTheme = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowTheme)));
-                }
-            }
-        }
+        private bool isInitialized;
+        private VideoConversionNavigationParameterModel videoConversionNavigationParameter;
 
         private SelectorBarItem _selectedItem;
 
@@ -1060,103 +1010,76 @@ namespace ModernFormatConverter.Views.Windows
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public VideoConversionOutputConfigurationWindow(VideoConversionTypeKind videoConversionTypeKind, ConversionToolsWindow conversionToolsWindow, VideoConversionOutputConfigurationModel videoConversionOutputConfiguration = null)
+        public VideoConversionOutputConfigurationPage()
         {
-            SelectedVideoConversionTypeKind = videoConversionTypeKind;
-            InitializeData(videoConversionOutputConfiguration);
+            InitializeData();
             InitializeComponent();
-            InitializeUI(conversionToolsWindow);
+        }
+
+        #region 第一部分：重载父类事件
+
+        /// <summary>
+        /// 导航到该页面触发的事件
+        /// </summary>
+        protected override async void OnNavigatedTo(NavigationEventArgs args)
+        {
+            base.OnNavigatedTo(args);
+
+            SelectedItem = VideoConversionOutputConfigurationSelectorBar.Items[0];
+            if (args.Parameter is VideoConversionNavigationParameterModel videoConversionNavigationParameterData)
+            {
+                videoConversionNavigationParameter = videoConversionNavigationParameterData;
+                SelectedVideoConversionTypeKind = videoConversionNavigationParameter.VideoConversionTypeKind;
+
+                // 视频格式转换
+                if (SelectedVideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion)
+                {
+                    if (videoConversionNavigationParameter.IsGlobalSettings)
+                    {
+                        UpdateData(null);
+                    }
+                    else
+                    {
+                        if (videoConversionNavigationParameter.VideoConversionData is VideoFormatConversionFileModel videoFormatConversionFile && videoFormatConversionFile.VideoConversionOutputConfiguration is not null)
+                        {
+                            UpdateData(videoFormatConversionFile.VideoConversionOutputConfiguration);
+                        }
+                    }
+                }
+                // 视频合并
+                else if (SelectedVideoConversionTypeKind is VideoConversionTypeKind.VideoConcat)
+                {
+                    if (videoConversionNavigationParameter.IsGlobalSettings && videoConversionNavigationParameter.VideoConversionData is VideoConcatModel videoConcat && videoConcat.VideoConversionOutputConfiguration is not null)
+                    {
+                        UpdateData(videoConcat.VideoConversionOutputConfiguration);
+                    }
+                }
+                // 视频混流
+                else if (SelectedVideoConversionTypeKind is VideoConversionTypeKind.VideoMixedFlow)
+                {
+                    if (videoConversionNavigationParameter.IsGlobalSettings && videoConversionNavigationParameter.VideoConversionData is VideoMixedFlowModel videoMixedFlow && videoMixedFlow.VideoConversionOutputConfiguration is not null)
+                    {
+                        UpdateData(videoMixedFlow.VideoConversionOutputConfiguration);
+                    }
+                }
+            }
+
             isInitialized = true;
         }
 
-        #region 第一部分：窗口辅助类挂载的事件
-
         /// <summary>
-        /// 处理键盘系统按键事件
+        /// 离开该页面触发的事件
         /// </summary>
-        private async void OnSystemKeyDown(InputKeyboardSource sender, KeyEventArgs args)
+        protected override void OnNavigatedFrom(NavigationEventArgs args)
         {
-            if (args.VirtualKey is VirtualKey.F10 && Content is not null && Content.XamlRoot is not null)
-            {
-                await Task.Delay(50);
-                SetPopupControlTheme(WindowTheme);
-            }
+            base.OnNavigatedFrom(args);
+            isInitialized = false;
+            videoConversionNavigationParameter = null;
         }
 
-        /// <summary>
-        /// 处理鼠标事件
-        /// </summary>
-        private async void OnPointerReleased(InputPointerSource sender, PointerEventArgs args)
-        {
-            if (args.CurrentPoint.Properties.PointerUpdateKind is PointerUpdateKind.RightButtonReleased && Content is not null && Content.XamlRoot is not null)
-            {
-                await Task.Delay(50);
-                SetPopupControlTheme(WindowTheme);
-            }
-        }
+        #endregion 第一部分：重载父类事件
 
-        #endregion 第一部分：窗口辅助类挂载的事件
-
-        #region 第二部分：窗口右键菜单事件
-
-        /// <summary>
-        /// 窗口移动
-        /// </summary>
-        private void OnMoveClicked(object sender, RoutedEventArgs args)
-        {
-            if (sender is MenuFlyoutItem menuFlyoutItem && menuFlyoutItem.Tag is MenuFlyout menuFlyout)
-            {
-                menuFlyout.Hide();
-                User32Library.SendMessage((nint)AppWindow.Id.Value, WindowMessage.WM_SYSCOMMAND, (nuint)SYSTEMCOMMAND.SC_MOVE, 0);
-            }
-        }
-
-        /// <summary>
-        /// 窗口大小
-        /// </summary>
-        private void OnSizeClicked(object sender, RoutedEventArgs args)
-        {
-            if (sender is MenuFlyoutItem menuFlyoutItem && menuFlyoutItem.Tag is MenuFlyout menuFlyout)
-            {
-                menuFlyout.Hide();
-                User32Library.SendMessage((nint)AppWindow.Id.Value, WindowMessage.WM_SYSCOMMAND, (nuint)SYSTEMCOMMAND.SC_SIZE, 0);
-            }
-        }
-
-        /// <summary>
-        /// 窗口关闭
-        /// </summary>
-        private void OnCloseClicked(object sender, RoutedEventArgs args)
-        {
-            User32Library.SendMessage((nint)AppWindow.Id.Value, WindowMessage.WM_SYSCOMMAND, (nuint)SYSTEMCOMMAND.SC_CLOSE, 0);
-        }
-
-        #endregion 第二部分：窗口右键菜单事件
-
-        #region 第三部分：窗口内容挂载的事件
-
-        /// <summary>
-        /// 应用主题变化时设置标题栏按钮的颜色
-        /// </summary>
-        private void OnActualThemeChanged(FrameworkElement sender, object args)
-        {
-            SetTitleBarTheme(sender.ActualTheme);
-            SetClassicMenuTheme(sender.ActualTheme);
-        }
-
-        #endregion 第三部分：窗口内容挂载的事件
-
-        #region 第四部分：内容挂载的事件
-
-        /// <summary>
-        /// 加载完成后触发的事件
-        /// </summary>
-        private async void OnLoaded(object sender, RoutedEventArgs args)
-        {
-            // 设置标题栏主题
-            SetTitleBarTheme((Content as FrameworkElement).ActualTheme);
-            SetPopupControlTheme(WindowTheme);
-        }
+        #region 第二部分：视频转换输出配置页面——挂载的事件
 
         /// <summary>
         /// 点击选择器栏选中项发生变化时发生的事件
@@ -1203,11 +1126,206 @@ namespace ModernFormatConverter.Views.Windows
         /// </summary>
         private void OnOkClicked(object sender, RoutedEventArgs args)
         {
-            if (!taskCompletionSource.Task.IsCompleted)
+            // 更新数据
+            // 视频格式转换
+            if (SelectedVideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion)
             {
-                taskCompletionSource.TrySetResult(ContentDialogResult.Primary);
+                if (videoConversionNavigationParameter.IsGlobalSettings)
+                {
+                    if (videoConversionNavigationParameter.VideoConversionData is List<VideoFormatConversionFileModel> videoFormatConversionFileList)
+                    {
+                        foreach (VideoFormatConversionFileModel videoFormatConversionFile in videoFormatConversionFileList)
+                        {
+                            if (videoFormatConversionFile.VideoConversionOutputConfiguration is not null)
+                            {
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.FormatConversionType = Convert.ToString(SelectedFormatConversionType.SelectedValue);
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.SizeLimitation = Convert.ToString(SelectedSizeLimitation.SelectedValue);
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.VideoEncoding = Convert.ToString(SelectedVideoEncoding.SelectedValue);
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.ScreenSize = Convert.ToString(SelectedScreenSize.SelectedValue);
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.VideoBitRate = Convert.ToString(SelectedVideoBitRate.SelectedValue);
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.CRF = UseCRF ? CRF : -1;
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.GPU = Convert.ToString(SelectedGPU.SelectedValue);
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.FramePerSecond = Convert.ToString(SelectedFramePerSecond.SelectedValue);
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.AspectRatio = Convert.ToString(SelectedAspectRatio.SelectedValue);
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.SecondaryEncoding = SecondaryEncoding;
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.KeyFrameInterval = Convert.ToString(SelectedKeyFrameInterval.SelectedValue);
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.DeInterlace = DeInterlace;
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.SpeedPlayback = SpeedPlayback;
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.ReverseVideo = ReverseVideo;
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.Rotation = (Rotation)SelectedRotation.SelectedValue;
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.MirrorReversal = MirrorReversal;
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.VideoFadeInEffect = Convert.ToString(SelectedVideoFadeInEffect);
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.VideoFadeOutEffect = Convert.ToString(SelectedVideoFadeOutEffect);
+
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.AudioEncoding = Convert.ToString(SelectedAudioEncoding.SelectedValue);
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.SamplingRate = Convert.ToString(SelectedSamplingRate.SelectedValue);
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.AudioBitRate = Convert.ToString(SelectedAudioBitRate.SelectedValue);
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.SoundTrack = Convert.ToString(SelectedSoundTrack.SelectedValue);
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.CloseSoundEffect = CloseSoundEffect;
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.Volume = Convert.ToString(SelectedVolume.SelectedValue);
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.PreserveAllSourceInputAudioStream = PreserveAllSourceInputAudioStream;
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.AudioFadeInEffect = Convert.ToString(SelectedAudioFadeInEffect.SelectedValue);
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.AudioFadeOutEffect = Convert.ToString(SelectedAudioFadeOutEffect.SelectedValue);
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.Echo = Echo;
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.DeNoise = DeNoise;
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.Reverse = Reverse;
+
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.PreserveAllSourceInputSubtitleStream = PreserveAllSourceInputSubtitleStream;
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.AdditionalSubtitlePath = AdditionalSubtitlePath;
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.SubtitleNestType = Convert.ToString(SelectedSubtitleNestType.SelectedValue);
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.FontName = FontName;
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.FontSize = Convert.ToInt32(SelectedFontSize.SelectedValue);
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.FontColor = FontColor;
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.FontBorderStyle = Convert.ToString(SelectedFontBorderStyle.SelectedValue);
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.CounterLineSize = Convert.ToInt32(SelectedCounterLineSize.SelectedValue);
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.CounterLineColor = CounterLineColor;
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.ShadowSize = Convert.ToInt32(SelectedShadowSize.SelectedValue);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (videoConversionNavigationParameter.VideoConversionData is VideoFormatConversionFileModel videoFormatConversionFile && videoFormatConversionFile.VideoConversionOutputConfiguration is not null)
+                    {
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.FormatConversionType = Convert.ToString(SelectedFormatConversionType.SelectedValue);
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.SizeLimitation = Convert.ToString(SelectedSizeLimitation.SelectedValue);
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.VideoEncoding = Convert.ToString(SelectedVideoEncoding.SelectedValue);
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.ScreenSize = Convert.ToString(SelectedScreenSize.SelectedValue);
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.VideoBitRate = Convert.ToString(SelectedVideoBitRate.SelectedValue);
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.CRF = UseCRF ? CRF : -1;
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.GPU = Convert.ToString(SelectedGPU.SelectedValue);
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.FramePerSecond = Convert.ToString(SelectedFramePerSecond.SelectedValue);
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.AspectRatio = Convert.ToString(SelectedAspectRatio.SelectedValue);
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.SecondaryEncoding = SecondaryEncoding;
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.KeyFrameInterval = Convert.ToString(SelectedKeyFrameInterval.SelectedValue);
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.DeInterlace = DeInterlace;
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.SpeedPlayback = SpeedPlayback;
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.ReverseVideo = ReverseVideo;
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.Rotation = (Rotation)SelectedRotation.SelectedValue;
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.MirrorReversal = MirrorReversal;
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.VideoFadeInEffect = Convert.ToString(SelectedVideoFadeInEffect);
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.VideoFadeOutEffect = Convert.ToString(SelectedVideoFadeOutEffect);
+
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.AudioEncoding = Convert.ToString(SelectedAudioEncoding.SelectedValue);
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.SamplingRate = Convert.ToString(SelectedSamplingRate.SelectedValue);
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.AudioBitRate = Convert.ToString(SelectedAudioBitRate.SelectedValue);
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.SoundTrack = Convert.ToString(SelectedSoundTrack.SelectedValue);
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.CloseSoundEffect = CloseSoundEffect;
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.Volume = Convert.ToString(SelectedVolume.SelectedValue);
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.PreserveAllSourceInputAudioStream = PreserveAllSourceInputAudioStream;
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.AudioFadeInEffect = Convert.ToString(SelectedAudioFadeInEffect.SelectedValue);
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.AudioFadeOutEffect = Convert.ToString(SelectedAudioFadeOutEffect.SelectedValue);
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.Echo = Echo;
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.DeNoise = DeNoise;
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.Reverse = Reverse;
+
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.PreserveAllSourceInputSubtitleStream = PreserveAllSourceInputSubtitleStream;
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.AdditionalSubtitlePath = AdditionalSubtitlePath;
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.SubtitleNestType = Convert.ToString(SelectedSubtitleNestType.SelectedValue);
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.FontName = FontName;
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.FontSize = Convert.ToInt32(SelectedFontSize.SelectedValue);
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.FontColor = FontColor;
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.FontBorderStyle = Convert.ToString(SelectedFontBorderStyle.SelectedValue);
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.CounterLineSize = Convert.ToInt32(SelectedCounterLineSize.SelectedValue);
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.CounterLineColor = CounterLineColor;
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.ShadowSize = Convert.ToInt32(SelectedShadowSize.SelectedValue);
+                    }
+                }
             }
-            Close();
+            // 视频合并
+            else if (SelectedVideoConversionTypeKind is VideoConversionTypeKind.VideoConcat)
+            {
+                if (videoConversionNavigationParameter.IsGlobalSettings && videoConversionNavigationParameter.VideoConversionData is VideoConcatModel videoConcat && videoConcat.VideoConversionOutputConfiguration is not null)
+                {
+                    videoConcat.VideoConversionOutputConfiguration.FormatConversionType = Convert.ToString(SelectedFormatConversionType.SelectedValue);
+                    videoConcat.VideoConversionOutputConfiguration.SizeLimitation = Convert.ToString(SelectedSizeLimitation.SelectedValue);
+                    videoConcat.VideoConversionOutputConfiguration.VideoEncoding = Convert.ToString(SelectedVideoEncoding.SelectedValue);
+                    videoConcat.VideoConversionOutputConfiguration.ScreenSize = Convert.ToString(SelectedScreenSize.SelectedValue);
+                    videoConcat.VideoConversionOutputConfiguration.VideoBitRate = Convert.ToString(SelectedVideoBitRate.SelectedValue);
+                    videoConcat.VideoConversionOutputConfiguration.CRF = UseCRF ? CRF : -1;
+                    videoConcat.VideoConversionOutputConfiguration.GPU = Convert.ToString(SelectedGPU.SelectedValue);
+                    videoConcat.VideoConversionOutputConfiguration.FramePerSecond = Convert.ToString(SelectedFramePerSecond.SelectedValue);
+                    videoConcat.VideoConversionOutputConfiguration.AspectRatio = Convert.ToString(SelectedAspectRatio.SelectedValue);
+                    videoConcat.VideoConversionOutputConfiguration.SecondaryEncoding = SecondaryEncoding;
+                    videoConcat.VideoConversionOutputConfiguration.KeyFrameInterval = Convert.ToString(SelectedKeyFrameInterval.SelectedValue);
+                    videoConcat.VideoConversionOutputConfiguration.DeInterlace = DeInterlace;
+                    videoConcat.VideoConversionOutputConfiguration.SpeedPlayback = SpeedPlayback;
+                    videoConcat.VideoConversionOutputConfiguration.ReverseVideo = ReverseVideo;
+                    videoConcat.VideoConversionOutputConfiguration.Rotation = (Rotation)SelectedRotation.SelectedValue;
+                    videoConcat.VideoConversionOutputConfiguration.MirrorReversal = MirrorReversal;
+                    videoConcat.VideoConversionOutputConfiguration.VideoFadeInEffect = Convert.ToString(SelectedVideoFadeInEffect);
+                    videoConcat.VideoConversionOutputConfiguration.VideoFadeOutEffect = Convert.ToString(SelectedVideoFadeOutEffect);
+
+                    videoConcat.VideoConversionOutputConfiguration.AudioEncoding = Convert.ToString(SelectedAudioEncoding.SelectedValue);
+                    videoConcat.VideoConversionOutputConfiguration.SamplingRate = Convert.ToString(SelectedSamplingRate.SelectedValue);
+                    videoConcat.VideoConversionOutputConfiguration.AudioBitRate = Convert.ToString(SelectedAudioBitRate.SelectedValue);
+                    videoConcat.VideoConversionOutputConfiguration.SoundTrack = Convert.ToString(SelectedSoundTrack.SelectedValue);
+                    videoConcat.VideoConversionOutputConfiguration.CloseSoundEffect = CloseSoundEffect;
+                    videoConcat.VideoConversionOutputConfiguration.Volume = Convert.ToString(SelectedVolume.SelectedValue);
+                    videoConcat.VideoConversionOutputConfiguration.PreserveAllSourceInputAudioStream = PreserveAllSourceInputAudioStream;
+                    videoConcat.VideoConversionOutputConfiguration.AudioFadeInEffect = Convert.ToString(SelectedAudioFadeInEffect.SelectedValue);
+                    videoConcat.VideoConversionOutputConfiguration.AudioFadeOutEffect = Convert.ToString(SelectedAudioFadeOutEffect.SelectedValue);
+                    videoConcat.VideoConversionOutputConfiguration.Echo = Echo;
+                    videoConcat.VideoConversionOutputConfiguration.DeNoise = DeNoise;
+                    videoConcat.VideoConversionOutputConfiguration.Reverse = Reverse;
+                }
+            }
+            // 视频混流
+            else if (SelectedVideoConversionTypeKind is VideoConversionTypeKind.VideoMixedFlow)
+            {
+                if (videoConversionNavigationParameter.IsGlobalSettings && videoConversionNavigationParameter.VideoConversionData is VideoMixedFlowModel videoMixedFlow && videoMixedFlow.VideoConversionOutputConfiguration is not null)
+                {
+                    videoMixedFlow.VideoConversionOutputConfiguration.FormatConversionType = Convert.ToString(SelectedFormatConversionType.SelectedValue);
+                    videoMixedFlow.VideoConversionOutputConfiguration.SizeLimitation = Convert.ToString(SelectedSizeLimitation.SelectedValue);
+                    videoMixedFlow.VideoConversionOutputConfiguration.VideoEncoding = Convert.ToString(SelectedVideoEncoding.SelectedValue);
+                    videoMixedFlow.VideoConversionOutputConfiguration.ScreenSize = Convert.ToString(SelectedScreenSize.SelectedValue);
+                    videoMixedFlow.VideoConversionOutputConfiguration.VideoBitRate = Convert.ToString(SelectedVideoBitRate.SelectedValue);
+                    videoMixedFlow.VideoConversionOutputConfiguration.CRF = UseCRF ? CRF : -1;
+                    videoMixedFlow.VideoConversionOutputConfiguration.GPU = Convert.ToString(SelectedGPU.SelectedValue);
+                    videoMixedFlow.VideoConversionOutputConfiguration.FramePerSecond = Convert.ToString(SelectedFramePerSecond.SelectedValue);
+                    videoMixedFlow.VideoConversionOutputConfiguration.AspectRatio = Convert.ToString(SelectedAspectRatio.SelectedValue);
+                    videoMixedFlow.VideoConversionOutputConfiguration.SecondaryEncoding = SecondaryEncoding;
+                    videoMixedFlow.VideoConversionOutputConfiguration.KeyFrameInterval = Convert.ToString(SelectedKeyFrameInterval.SelectedValue);
+                    videoMixedFlow.VideoConversionOutputConfiguration.DeInterlace = DeInterlace;
+                    videoMixedFlow.VideoConversionOutputConfiguration.SpeedPlayback = SpeedPlayback;
+                    videoMixedFlow.VideoConversionOutputConfiguration.ReverseVideo = ReverseVideo;
+                    videoMixedFlow.VideoConversionOutputConfiguration.Rotation = (System.Windows.Media.Imaging.Rotation)SelectedRotation.SelectedValue;
+                    videoMixedFlow.VideoConversionOutputConfiguration.MirrorReversal = MirrorReversal;
+                    videoMixedFlow.VideoConversionOutputConfiguration.VideoFadeInEffect = Convert.ToString(SelectedVideoFadeInEffect);
+                    videoMixedFlow.VideoConversionOutputConfiguration.VideoFadeOutEffect = Convert.ToString(SelectedVideoFadeOutEffect);
+
+                    videoMixedFlow.VideoConversionOutputConfiguration.AudioEncoding = Convert.ToString(SelectedAudioEncoding.SelectedValue);
+                    videoMixedFlow.VideoConversionOutputConfiguration.SamplingRate = Convert.ToString(SelectedSamplingRate.SelectedValue);
+                    videoMixedFlow.VideoConversionOutputConfiguration.AudioBitRate = Convert.ToString(SelectedAudioBitRate.SelectedValue);
+                    videoMixedFlow.VideoConversionOutputConfiguration.SoundTrack = Convert.ToString(SelectedSoundTrack.SelectedValue);
+                    videoMixedFlow.VideoConversionOutputConfiguration.CloseSoundEffect = CloseSoundEffect;
+                    videoMixedFlow.VideoConversionOutputConfiguration.Volume = Convert.ToString(SelectedVolume.SelectedValue);
+                    videoMixedFlow.VideoConversionOutputConfiguration.PreserveAllSourceInputAudioStream = PreserveAllSourceInputAudioStream;
+                    videoMixedFlow.VideoConversionOutputConfiguration.AudioFadeInEffect = Convert.ToString(SelectedAudioFadeInEffect.SelectedValue);
+                    videoMixedFlow.VideoConversionOutputConfiguration.AudioFadeOutEffect = Convert.ToString(SelectedAudioFadeOutEffect.SelectedValue);
+                    videoMixedFlow.VideoConversionOutputConfiguration.Echo = Echo;
+                    videoMixedFlow.VideoConversionOutputConfiguration.DeNoise = DeNoise;
+                    videoMixedFlow.VideoConversionOutputConfiguration.Reverse = Reverse;
+
+                    videoMixedFlow.VideoConversionOutputConfiguration.PreserveAllSourceInputSubtitleStream = PreserveAllSourceInputSubtitleStream;
+                    videoMixedFlow.VideoConversionOutputConfiguration.AdditionalSubtitlePath = AdditionalSubtitlePath;
+                    videoMixedFlow.VideoConversionOutputConfiguration.SubtitleNestType = Convert.ToString(SelectedSubtitleNestType.SelectedValue);
+                    videoMixedFlow.VideoConversionOutputConfiguration.FontName = FontName;
+                    videoMixedFlow.VideoConversionOutputConfiguration.FontSize = Convert.ToInt32(SelectedFontSize.SelectedValue);
+                    videoMixedFlow.VideoConversionOutputConfiguration.FontColor = FontColor;
+                    videoMixedFlow.VideoConversionOutputConfiguration.FontBorderStyle = Convert.ToString(SelectedFontBorderStyle.SelectedValue);
+                    videoMixedFlow.VideoConversionOutputConfiguration.CounterLineSize = Convert.ToInt32(SelectedCounterLineSize.SelectedValue);
+                    videoMixedFlow.VideoConversionOutputConfiguration.CounterLineColor = CounterLineColor;
+                    videoMixedFlow.VideoConversionOutputConfiguration.ShadowSize = Convert.ToInt32(SelectedShadowSize.SelectedValue);
+                }
+            }
+
+            // 返回到上一页面
+            if (MainWindow.Current.GetFrameContent() is VideoConversionPage videoConversionPage)
+            {
+                videoConversionPage.NavigateTo(videoConversionPage.PageList[0], null, false);
+            }
         }
 
         /// <summary>
@@ -1215,22 +1333,34 @@ namespace ModernFormatConverter.Views.Windows
         /// </summary>
         private void OnViewChanged(object sender, ScrollViewerViewChangedEventArgs args)
         {
-            double currentScrollPosition = VideoConversionOutputConfigurationScroll.VerticalOffset;
-            Point currentPoint = new(0, (int)currentScrollPosition);
-            Point audioHeaderTargetPosition = AudioHeader.TransformToVisual(VideoConversionOutputConfigurationScroll).TransformPoint(currentPoint);
-            Point subtitleHeaderTargetPosition = SubtitleHeader.TransformToVisual(VideoConversionOutputConfigurationScroll).TransformPoint(currentPoint);
+            // 视频格式转换 或 视频混流
+            if (SelectedVideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion || SelectedVideoConversionTypeKind is VideoConversionTypeKind.VideoMixedFlow)
+            {
+                double currentScrollPosition = VideoConversionOutputConfigurationScroll.VerticalOffset;
+                Point currentPoint = new(0, (int)currentScrollPosition);
+                Point audioHeaderTargetPosition = AudioHeader.TransformToVisual(VideoConversionOutputConfigurationScroll).TransformPoint(currentPoint);
+                Point subtitleHeaderTargetPosition = SubtitleHeader.TransformToVisual(VideoConversionOutputConfigurationScroll).TransformPoint(currentPoint);
 
-            if (currentScrollPosition >= subtitleHeaderTargetPosition.Y)
-            {
-                SelectedItem = VideoConversionOutputConfigurationSelectorBar.Items[2];
+                if (currentScrollPosition >= subtitleHeaderTargetPosition.Y)
+                {
+                    SelectedItem = VideoConversionOutputConfigurationSelectorBar.Items[2];
+                }
+                else if (currentScrollPosition >= audioHeaderTargetPosition.Y && currentScrollPosition < subtitleHeaderTargetPosition.Y)
+                {
+                    SelectedItem = VideoConversionOutputConfigurationSelectorBar.Items[1];
+                }
+                else
+                {
+                    SelectedItem = VideoConversionOutputConfigurationSelectorBar.Items[0];
+                }
             }
-            else if (currentScrollPosition >= audioHeaderTargetPosition.Y && currentScrollPosition < subtitleHeaderTargetPosition.Y)
+            // 视频合并
+            else if (SelectedVideoConversionTypeKind is VideoConversionTypeKind.VideoConcat)
             {
-                SelectedItem = VideoConversionOutputConfigurationSelectorBar.Items[1];
-            }
-            else
-            {
-                SelectedItem = VideoConversionOutputConfigurationSelectorBar.Items[0];
+                double currentScrollPosition = VideoConversionOutputConfigurationScroll.VerticalOffset;
+                Point currentPoint = new(0, (int)currentScrollPosition);
+                Point audioHeaderTargetPosition = AudioHeader.TransformToVisual(VideoConversionOutputConfigurationScroll).TransformPoint(currentPoint);
+                SelectedItem = currentScrollPosition >= audioHeaderTargetPosition.Y ? VideoConversionOutputConfigurationSelectorBar.Items[1] : VideoConversionOutputConfigurationSelectorBar.Items[0];
             }
         }
 
@@ -1361,7 +1491,7 @@ namespace ModernFormatConverter.Views.Windows
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionOutputConfigurationWindow), nameof(OnScreenWidthValueChanged), 1, e);
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionOutputConfigurationPage), nameof(OnScreenWidthValueChanged), 1, e);
                 }
             }
         }
@@ -1381,7 +1511,7 @@ namespace ModernFormatConverter.Views.Windows
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionOutputConfigurationWindow), nameof(OnScreenHeightValueChanged), 1, e);
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionOutputConfigurationPage), nameof(OnScreenHeightValueChanged), 1, e);
                 }
             }
         }
@@ -1425,7 +1555,7 @@ namespace ModernFormatConverter.Views.Windows
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionOutputConfigurationWindow), nameof(OnCRFValueChanged), 1, e);
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionOutputConfigurationPage), nameof(OnCRFValueChanged), 1, e);
                 }
             }
         }
@@ -1517,7 +1647,7 @@ namespace ModernFormatConverter.Views.Windows
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionOutputConfigurationWindow), nameof(OnSpeedPlaybackValueChanged), 1, e);
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionOutputConfigurationPage), nameof(OnSpeedPlaybackValueChanged), 1, e);
                 }
             }
         }
@@ -1760,7 +1890,7 @@ namespace ModernFormatConverter.Views.Windows
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionOutputConfigurationWindow), nameof(OnAdditionalSubtitlePathClicked), 1, e);
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionOutputConfigurationPage), nameof(OnAdditionalSubtitlePathClicked), 1, e);
                 }
             });
         }
@@ -1960,332 +2090,13 @@ namespace ModernFormatConverter.Views.Windows
             }
         }
 
-        #endregion 第四部分：内容挂载的事件
-
-        #region 第五部分：自定义事件
-
-        /// <summary>
-        /// 设置选项发生变化时触发的事件
-        /// </summary>
-        private void OnServicePropertyChanged(object sender, PropertyChangedEventArgs args)
-        {
-            synchronizationContext.Post((_) =>
-            {
-                if (string.Equals(args.PropertyName, nameof(ThemeService.AppTheme)))
-                {
-                    SetWindowTheme();
-                }
-                if (string.Equals(args.PropertyName, nameof(BackdropService.AppBackdrop)))
-                {
-                    SetSystemBackdrop();
-                }
-            }, null);
-        }
-
-        #endregion 第五部分：自定义事件
-
-        #region 第六部分：窗口及内容属性设置
-
-        /// <summary>
-        /// 设置应用显示的主题
-        /// </summary>
-        public void SetWindowTheme()
-        {
-            WindowTheme = string.Equals(ThemeService.AppTheme, ThemeService.ThemeList[0]) ? Application.Current.RequestedTheme is ApplicationTheme.Light ? ElementTheme.Light : ElementTheme.Dark : Enum.TryParse(ThemeService.AppTheme, out ElementTheme elementTheme) ? elementTheme : ElementTheme.Default;
-        }
-
-        /// <summary>
-        /// 设置应用的背景色
-        /// </summary>
-        private void SetSystemBackdrop()
-        {
-            if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[1]))
-            {
-                WindowSystemBackdrop = new MaterialBackdrop(MicaKind.Base);
-                VisualStateManager.GoToState(VideoConversionOutputConfigurationPage, "BackgroundTransparent", false);
-            }
-            else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[2]))
-            {
-                WindowSystemBackdrop = new MaterialBackdrop(MicaKind.BaseAlt);
-                VisualStateManager.GoToState(VideoConversionOutputConfigurationPage, "BackgroundTransparent", false);
-            }
-            else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[3]))
-            {
-                WindowSystemBackdrop = new MaterialBackdrop(DesktopAcrylicKind.Default);
-                VisualStateManager.GoToState(VideoConversionOutputConfigurationPage, "BackgroundTransparent", false);
-            }
-            else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[4]))
-            {
-                WindowSystemBackdrop = new MaterialBackdrop(DesktopAcrylicKind.Base);
-                VisualStateManager.GoToState(VideoConversionOutputConfigurationPage, "BackgroundTransparent", false);
-            }
-            else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[5]))
-            {
-                WindowSystemBackdrop = new MaterialBackdrop(DesktopAcrylicKind.Thin);
-                VisualStateManager.GoToState(VideoConversionOutputConfigurationPage, "BackgroundTransparent", false);
-            }
-            else
-            {
-                WindowSystemBackdrop = null;
-                VisualStateManager.GoToState(VideoConversionOutputConfigurationPage, "BackgroundDefault", false);
-            }
-        }
-
-        /// <summary>
-        /// 设置标题栏按钮的主题色
-        /// </summary>
-        private void SetTitleBarTheme(ElementTheme theme)
-        {
-            AppWindowTitleBar titleBar = AppWindow.TitleBar;
-
-            titleBar.BackgroundColor = Colors.Transparent;
-            titleBar.ForegroundColor = Colors.Transparent;
-            titleBar.InactiveBackgroundColor = Colors.Transparent;
-            titleBar.InactiveForegroundColor = Colors.Transparent;
-            titleBar.ButtonBackgroundColor = Colors.Transparent;
-            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-
-            if (theme is ElementTheme.Light)
-            {
-                titleBar.ButtonForegroundColor = Color.FromArgb(255, 23, 23, 23);
-                titleBar.ButtonHoverBackgroundColor = Color.FromArgb(25, 0, 0, 0);
-                titleBar.ButtonHoverForegroundColor = Colors.Black;
-                titleBar.ButtonPressedBackgroundColor = Color.FromArgb(51, 0, 0, 0);
-                titleBar.ButtonPressedForegroundColor = Colors.Black;
-                titleBar.ButtonInactiveForegroundColor = Color.FromArgb(255, 153, 153, 153);
-            }
-            else
-            {
-                titleBar.ButtonForegroundColor = Color.FromArgb(255, 242, 242, 242);
-                titleBar.ButtonHoverBackgroundColor = Color.FromArgb(25, 255, 255, 255);
-                titleBar.ButtonHoverForegroundColor = Colors.White;
-                titleBar.ButtonPressedBackgroundColor = Color.FromArgb(51, 255, 255, 255);
-                titleBar.ButtonPressedForegroundColor = Colors.White;
-                titleBar.ButtonInactiveForegroundColor = Color.FromArgb(255, 102, 102, 102);
-            }
-        }
-
-        /// <summary>
-        /// 设置传统菜单标题栏按钮的主题色
-        /// </summary>
-        private void SetClassicMenuTheme(ElementTheme theme)
-        {
-            AppWindowTitleBar titleBar = AppWindow.TitleBar;
-
-            if (theme is ElementTheme.Light)
-            {
-                titleBar.PreferredTheme = TitleBarTheme.Light;
-                UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceLight);
-            }
-            else
-            {
-                titleBar.PreferredTheme = TitleBarTheme.Dark;
-                UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceDark);
-            }
-
-            UxthemeLibrary.FlushMenuThemes();
-        }
-
-        /// <summary>
-        /// 设置所有弹出控件主题
-        /// </summary>
-        private void SetPopupControlTheme(ElementTheme elementTheme)
-        {
-            foreach (Popup popup in VisualTreeHelper.GetOpenPopupsForXamlRoot(Content.XamlRoot))
-            {
-                popup.RequestedTheme = elementTheme;
-
-                if (popup.Child is FlyoutPresenter flyoutPresenter)
-                {
-                    flyoutPresenter.RequestedTheme = elementTheme;
-                }
-
-                if (popup.Child is Grid grid && grid.Name is "OuterOverflowContentRootV2")
-                {
-                    grid.RequestedTheme = elementTheme;
-                }
-            }
-        }
-
-        #endregion 第六部分：窗口及内容属性设置
-
-        #region 第七部分：窗口过程
-
-        /// <summary>
-        /// 视频转换输出配置窗口消息处理
-        /// </summary>
-        private nint VideoConversionOutputConfigurationWindowSubClassProc(nint hWnd, WindowMessage Msg, nuint wParam, nint lParam, uint uIdSubclass, nint dwRefData)
-        {
-            switch (Msg)
-            {
-                // 窗口位置发生变化时触发的消息
-                case WindowMessage.WM_MOVE:
-                    {
-                        synchronizationContext.Post((_) =>
-                        {
-                            if (TitlebarMenuFlyout.IsOpen)
-                            {
-                                TitlebarMenuFlyout.Hide();
-                            }
-                        }, null);
-                        break;
-                    }
-                // 窗口大小发生变化时触发的消息
-                case WindowMessage.WM_SIZE:
-                    {
-                        synchronizationContext.Post((_) =>
-                        {
-                            if (TitlebarMenuFlyout.IsOpen)
-                            {
-                                TitlebarMenuFlyout.Hide();
-                            }
-                        }, null);
-                        break;
-                    }
-                // 窗口激活状态发生变化时触发的消息
-                case WindowMessage.WM_ACTIVATEAPP:
-                    {
-                        synchronizationContext.Post((_) =>
-                        {
-                            try
-                            {
-                                if (WindowSystemBackdrop is MaterialBackdrop materialBackdrop && materialBackdrop.BackdropConfiguration is not null)
-                                {
-                                    materialBackdrop.BackdropConfiguration.IsInputActive = AlwaysShowBackdropService.AlwaysShowBackdropValue || wParam is not 0;
-                                }
-                            }
-                            catch (Exception e)
-                            {
-                                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionOutputConfigurationWindow), nameof(VideoConversionOutputConfigurationWindowSubClassProc), 1, e);
-                            }
-                        }, null);
-                        break;
-                    }
-                // 窗口销毁后触发的消息
-                case WindowMessage.WM_DESTROY:
-                    {
-                        ThemeService.PropertyChanged -= OnServicePropertyChanged;
-                        BackdropService.PropertyChanged -= OnServicePropertyChanged;
-                        inputKeyboardSource.SystemKeyDown -= OnSystemKeyDown;
-                        inputPointerSource.PointerReleased -= OnPointerReleased;
-                        Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, videoConversionOutputConfigurationWindowSubClassProc, 0);
-                        if (!taskCompletionSource.Task.IsCompleted)
-                        {
-                            taskCompletionSource.TrySetResult(ContentDialogResult.None);
-                        }
-                        ConversionToolsWindow.Activate();
-                        ConversionToolsWindow = null;
-                        break;
-                    }
-                // 当用户按下鼠标左键时，光标位于窗口的非工作区内的消息
-                case WindowMessage.WM_NCLBUTTONDOWN:
-                    {
-                        if (TitlebarMenuFlyout.IsOpen)
-                        {
-                            TitlebarMenuFlyout.Hide();
-                        }
-                        break;
-                    }
-                // 当用户按下鼠标右键并释放时，光标位于窗口的非工作区内的消息
-                case WindowMessage.WM_NCRBUTTONUP:
-                    {
-                        if (wParam is 2 && Content is not null && Content.XamlRoot is not null)
-                        {
-                            System.Drawing.Point cursorPos = new((int)LOWORD((uint)lParam), (int)HIWORD((uint)lParam));
-                            User32Library.MapWindowPoints(0, hWnd, ref cursorPos, 2); ;
-                            double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
-
-                            FlyoutShowOptions options = new()
-                            {
-                                ShowMode = FlyoutShowMode.Standard,
-                                Position = Environment.OSVersion.Version.Build > 22000 ? new Point(cursorPos.X / dpi, cursorPos.Y / dpi) : new Point(cursorPos.X, cursorPos.Y)
-                            };
-
-                            TitlebarMenuFlyout.ShowAt(Content, options);
-                        }
-                        return 0;
-                    }
-                // 应用主题设置跟随系统发生变化时，当系统主题设置发生变化时修改修改应用背景色
-                case WindowMessage.WM_SETTINGCHANGE:
-                    {
-                        SetWindowTheme();
-                        SetClassicMenuTheme(WindowTheme);
-
-                        synchronizationContext.Post((_) =>
-                        {
-                            SetPopupControlTheme(WindowTheme);
-                        }, null);
-                        break;
-                    }
-                // 窗口 DPI 发生变化后触发的消息
-                case WindowMessage.WM_DPICHANGED:
-                    {
-                        overlappedPresenter.PreferredMinimumWidth = Convert.ToInt32(768 * Convert.ToDouble(wParam) / 96);
-                        overlappedPresenter.PreferredMinimumHeight = Convert.ToInt32(560 * Convert.ToDouble(wParam) / 96);
-                        break;
-                    }
-                // 选择窗口右键菜单的条目时接收到的消息
-                case WindowMessage.WM_SYSCOMMAND:
-                    {
-                        SYSTEMCOMMAND sysCommand = (SYSTEMCOMMAND)(wParam & 0xFFF0);
-
-                        if (sysCommand is SYSTEMCOMMAND.SC_MOUSEMENU)
-                        {
-                            FlyoutShowOptions options = new()
-                            {
-                                Position = new Point(0, 15),
-                                ShowMode = FlyoutShowMode.Standard
-                            };
-                            TitlebarMenuFlyout.ShowAt(null, options);
-                            return 0;
-                        }
-                        else if (sysCommand is SYSTEMCOMMAND.SC_KEYMENU)
-                        {
-                            if (lParam is (int)System.Windows.Forms.Keys.Space)
-                            {
-                                FlyoutShowOptions options = new()
-                                {
-                                    Position = new Point(0, 30),
-                                    ShowMode = FlyoutShowMode.Standard
-                                };
-                                TitlebarMenuFlyout.ShowAt(null, options);
-                                return 0;
-                            }
-                        }
-                        break;
-                    }
-            }
-            return Comctl32Library.DefSubclassProc(hWnd, Msg, wParam, lParam);
-        }
-
-        #endregion 第七部分：窗口过程
+        #endregion 第二部分：视频转换输出配置页面——挂载的事件
 
         /// <summary>
         /// 初始化数据
         /// </summary>
-        private void InitializeData(VideoConversionOutputConfigurationModel videoConversionOutputConfiguration = null)
+        private void InitializeData()
         {
-            SelectedFormatConversionType = videoConversionOutputConfiguration is not null && FormatConversionTypeList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.FormatConversionType)) is ComboBoxItemModel selectedFormatConversionType ? selectedFormatConversionType : FormatConversionTypeList[0];
-
-            ResetVideoEncoding();
-            SelectedVideoEncoding = videoConversionOutputConfiguration is not null && VideoEncodingCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.VideoEncoding)) is ComboBoxItemModel selectedVideoEncoding ? selectedVideoEncoding : VideoEncodingCollection[0];
-
-            ResetSizeLimitation();
-            SelectedSizeLimitation = videoConversionOutputConfiguration is not null && SizeLimitationCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.SizeLimitation)) is ComboBoxItemModel selectedSizeLimitation ? selectedSizeLimitation : SizeLimitationCollection[0];
-
-            ResetScreenSize();
-            SelectedScreenSize = videoConversionOutputConfiguration is not null && ScreenSizeCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.ScreenSize)) is ComboBoxItemModel selectedScreenSize ? selectedScreenSize : ScreenSizeCollection[0];
-
-            ResetVideoBitRate();
-            SelectedVideoBitRate = videoConversionOutputConfiguration is not null && VideoBitRateCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.VideoBitRate)) is ComboBoxItemModel selectedVideoBitRate ? selectedVideoBitRate : VideoBitRateCollection[0];
-
-            ResetCRF();
-            if (IsCRFSupported && videoConversionOutputConfiguration is not null)
-            {
-                UseCRF = videoConversionOutputConfiguration.CRF is not -1;
-                CRF = videoConversionOutputConfiguration.CRF is not -1 && videoConversionOutputConfiguration.CRF >= 10 && videoConversionOutputConfiguration.CRF <= 50 ? videoConversionOutputConfiguration.CRF : 10;
-            }
-
             uint iAdapterNum = 0;
             int DXGI_ERROR_NOT_FOUND = unchecked((int)0x887A0002);
             List<uint> dxgiAdapterList = [];
@@ -2324,9 +2135,6 @@ namespace ModernFormatConverter.Views.Windows
                 GPUList.Add(new ComboBoxItemModel() { SelectedValue = "AMD", DisplayMember = "AMD" });
             }
 
-            ResetGPU();
-            SelectedGPU = videoConversionOutputConfiguration is not null && GPUCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.GPU)) is ComboBoxItemModel selectedGPU ? selectedGPU : GPUCollection[0];
-
             FramePerSecondList.Add(new ComboBoxItemModel() { SelectedValue = "Default", DisplayMember = DefaultString });
             FramePerSecondList.Add(new ComboBoxItemModel() { SelectedValue = "12", DisplayMember = "12" });
             FramePerSecondList.Add(new ComboBoxItemModel() { SelectedValue = "15", DisplayMember = "15" });
@@ -2339,6 +2147,95 @@ namespace ModernFormatConverter.Views.Windows
             FramePerSecondList.Add(new ComboBoxItemModel() { SelectedValue = "30", DisplayMember = "30" });
             FramePerSecondList.Add(new ComboBoxItemModel() { SelectedValue = "50", DisplayMember = "50" });
             FramePerSecondList.Add(new ComboBoxItemModel() { SelectedValue = "60", DisplayMember = "60" });
+
+            RotationList.Add(new ComboBoxItemModel() { SelectedValue = System.Windows.Media.Imaging.Rotation.Rotate0, DisplayMember = NoRotateString });
+            RotationList.Add(new ComboBoxItemModel() { SelectedValue = System.Windows.Media.Imaging.Rotation.Rotate90, DisplayMember = RotateRightString });
+            RotationList.Add(new ComboBoxItemModel() { SelectedValue = System.Windows.Media.Imaging.Rotation.Rotate180, DisplayMember = UnsideDownString });
+            RotationList.Add(new ComboBoxItemModel() { SelectedValue = System.Windows.Media.Imaging.Rotation.Rotate270, DisplayMember = RotateLeftString });
+
+            VideoFadeInEffectList.Add(new ComboBoxItemModel() { SelectedValue = "None", DisplayMember = NoneString });
+            VideoFadeInEffectList.Add(new ComboBoxItemModel() { SelectedValue = "1", DisplayMember = "1" + SecondString });
+            VideoFadeInEffectList.Add(new ComboBoxItemModel() { SelectedValue = "2", DisplayMember = "2" + SecondString });
+            VideoFadeInEffectList.Add(new ComboBoxItemModel() { SelectedValue = "3", DisplayMember = "3" + SecondString });
+            VideoFadeInEffectList.Add(new ComboBoxItemModel() { SelectedValue = "4", DisplayMember = "4" + SecondString });
+            VideoFadeInEffectList.Add(new ComboBoxItemModel() { SelectedValue = "5", DisplayMember = "5" + SecondString });
+
+            VideoFadeOutEffectList.Add(new ComboBoxItemModel() { SelectedValue = "None", DisplayMember = NoneString });
+            VideoFadeOutEffectList.Add(new ComboBoxItemModel() { SelectedValue = "1", DisplayMember = "1" + SecondString });
+            VideoFadeOutEffectList.Add(new ComboBoxItemModel() { SelectedValue = "2", DisplayMember = "2" + SecondString });
+            VideoFadeOutEffectList.Add(new ComboBoxItemModel() { SelectedValue = "3", DisplayMember = "3" + SecondString });
+            VideoFadeOutEffectList.Add(new ComboBoxItemModel() { SelectedValue = "4", DisplayMember = "4" + SecondString });
+            VideoFadeOutEffectList.Add(new ComboBoxItemModel() { SelectedValue = "5", DisplayMember = "5" + SecondString });
+
+            SubtitleNestTypeList.Add(new ComboBoxItemModel() { SelectedValue = "Default", DisplayMember = DefaultString });
+            SubtitleNestTypeList.Add(new ComboBoxItemModel() { SelectedValue = "None", DisplayMember = NoneString });
+            SubtitleNestTypeList.Add(new ComboBoxItemModel() { SelectedValue = "Embedded", DisplayMember = "Embedded" });
+            SubtitleNestTypeList.Add(new ComboBoxItemModel() { SelectedValue = "Ansi", DisplayMember = "Ansi" });
+            SubtitleNestTypeList.Add(new ComboBoxItemModel() { SelectedValue = "Unicode", DisplayMember = "Unicode" });
+            SubtitleNestTypeList.Add(new ComboBoxItemModel() { SelectedValue = "UTF8", DisplayMember = "UTF8" });
+
+            InstalledFontCollection installedFontCollection = new();
+
+            foreach (System.Drawing.FontFamily fontFamily in installedFontCollection.Families)
+            {
+                FontNameList.Add(new ComboBoxItemModel()
+                {
+                    DisplayMember = fontFamily.Name,
+                    SelectedValue = fontFamily.Name
+                });
+            }
+
+            FontSizeList.Add(new ComboBoxItemModel() { SelectedValue = 1, DisplayMember = string.Format("{0} {1}", 1, SmallString) });
+            FontSizeList.Add(new ComboBoxItemModel() { SelectedValue = 2, DisplayMember = "2" });
+            FontSizeList.Add(new ComboBoxItemModel() { SelectedValue = 3, DisplayMember = string.Format("{0} {1}", 3, NormalString) });
+            FontSizeList.Add(new ComboBoxItemModel() { SelectedValue = 4, DisplayMember = "4" });
+            FontSizeList.Add(new ComboBoxItemModel() { SelectedValue = 5, DisplayMember = string.Format("{0} {1}", 5, LargeString) });
+
+            FontBorderStyleList.Add(new ComboBoxItemModel() { SelectedValue = "BorderAndShadow", DisplayMember = BorderAndShadowString });
+            FontBorderStyleList.Add(new ComboBoxItemModel() { SelectedValue = "SolidColorBackground", DisplayMember = SolidColorBackgroundString });
+
+            CounterLineSizeList.Add(new ComboBoxItemModel() { SelectedValue = 0, DisplayMember = "0" });
+            CounterLineSizeList.Add(new ComboBoxItemModel() { SelectedValue = 1, DisplayMember = "1" });
+            CounterLineSizeList.Add(new ComboBoxItemModel() { SelectedValue = 2, DisplayMember = "2" });
+            CounterLineSizeList.Add(new ComboBoxItemModel() { SelectedValue = 3, DisplayMember = "3" });
+            CounterLineSizeList.Add(new ComboBoxItemModel() { SelectedValue = 4, DisplayMember = "4" });
+
+            ShadowSizeList.Add(new ComboBoxItemModel() { SelectedValue = 0, DisplayMember = "0" });
+            ShadowSizeList.Add(new ComboBoxItemModel() { SelectedValue = 1, DisplayMember = "1" });
+            ShadowSizeList.Add(new ComboBoxItemModel() { SelectedValue = 2, DisplayMember = "2" });
+            ShadowSizeList.Add(new ComboBoxItemModel() { SelectedValue = 3, DisplayMember = "3" });
+            ShadowSizeList.Add(new ComboBoxItemModel() { SelectedValue = 4, DisplayMember = "4" });
+        }
+
+        /// <summary>
+        /// 更新数据
+        /// </summary>
+        private void UpdateData(VideoConversionOutputConfigurationModel videoConversionOutputConfiguration)
+        {
+            SelectedFormatConversionType = videoConversionOutputConfiguration is not null && FormatConversionTypeList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.FormatConversionType)) is ComboBoxItemModel selectedFormatConversionType ? selectedFormatConversionType : FormatConversionTypeList[0];
+
+            ResetVideoEncoding();
+            SelectedVideoEncoding = videoConversionOutputConfiguration is not null && VideoEncodingCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.VideoEncoding)) is ComboBoxItemModel selectedVideoEncoding ? selectedVideoEncoding : VideoEncodingCollection[0];
+
+            ResetSizeLimitation();
+            SelectedSizeLimitation = videoConversionOutputConfiguration is not null && SizeLimitationCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.SizeLimitation)) is ComboBoxItemModel selectedSizeLimitation ? selectedSizeLimitation : SizeLimitationCollection[0];
+
+            ResetScreenSize();
+            SelectedScreenSize = videoConversionOutputConfiguration is not null && ScreenSizeCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.ScreenSize)) is ComboBoxItemModel selectedScreenSize ? selectedScreenSize : ScreenSizeCollection[0];
+
+            ResetVideoBitRate();
+            SelectedVideoBitRate = videoConversionOutputConfiguration is not null && VideoBitRateCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.VideoBitRate)) is ComboBoxItemModel selectedVideoBitRate ? selectedVideoBitRate : VideoBitRateCollection[0];
+
+            ResetCRF();
+            if (IsCRFSupported && videoConversionOutputConfiguration is not null)
+            {
+                UseCRF = videoConversionOutputConfiguration.CRF is not -1;
+                CRF = videoConversionOutputConfiguration.CRF is not -1 && videoConversionOutputConfiguration.CRF >= 10 && videoConversionOutputConfiguration.CRF <= 50 ? videoConversionOutputConfiguration.CRF : 10;
+            }
+
+            ResetGPU();
+            SelectedGPU = videoConversionOutputConfiguration is not null && GPUCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.GPU)) is ComboBoxItemModel selectedGPU ? selectedGPU : GPUCollection[0];
+
             SelectedFramePerSecond = videoConversionOutputConfiguration is not null && FramePerSecondList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.FramePerSecond)) is ComboBoxItemModel selectedFramePerSecond ? selectedFramePerSecond : FramePerSecondList[0];
 
             ResetAspectRatio();
@@ -2358,10 +2255,6 @@ namespace ModernFormatConverter.Views.Windows
                 DeInterlace = videoConversionOutputConfiguration.DeInterlace;
             }
 
-            RotationList.Add(new ComboBoxItemModel() { SelectedValue = Rotation.Rotate0, DisplayMember = NoRotateString });
-            RotationList.Add(new ComboBoxItemModel() { SelectedValue = Rotation.Rotate90, DisplayMember = RotateRightString });
-            RotationList.Add(new ComboBoxItemModel() { SelectedValue = Rotation.Rotate180, DisplayMember = UnsideDownString });
-            RotationList.Add(new ComboBoxItemModel() { SelectedValue = Rotation.Rotate270, DisplayMember = RotateLeftString });
             SelectedRotation = videoConversionOutputConfiguration is not null && RotationList.Find(item => Equals((Rotation)item.SelectedValue, videoConversionOutputConfiguration.Rotation)) is ComboBoxItemModel selectedRotation ? selectedRotation : RotationList[0];
 
             SpeedPlayback = videoConversionOutputConfiguration is not null && videoConversionOutputConfiguration.SpeedPlayback >= 0.1 && videoConversionOutputConfiguration.SpeedPlayback <= 5.0 ? videoConversionOutputConfiguration.SpeedPlayback : 1.0;
@@ -2376,20 +2269,7 @@ namespace ModernFormatConverter.Views.Windows
                 MirrorReversal = videoConversionOutputConfiguration.MirrorReversal;
             }
 
-            VideoFadeInEffectList.Add(new ComboBoxItemModel() { SelectedValue = "None", DisplayMember = NoneString });
-            VideoFadeInEffectList.Add(new ComboBoxItemModel() { SelectedValue = "1", DisplayMember = "1" + SecondString });
-            VideoFadeInEffectList.Add(new ComboBoxItemModel() { SelectedValue = "2", DisplayMember = "2" + SecondString });
-            VideoFadeInEffectList.Add(new ComboBoxItemModel() { SelectedValue = "3", DisplayMember = "3" + SecondString });
-            VideoFadeInEffectList.Add(new ComboBoxItemModel() { SelectedValue = "4", DisplayMember = "4" + SecondString });
-            VideoFadeInEffectList.Add(new ComboBoxItemModel() { SelectedValue = "5", DisplayMember = "5" + SecondString });
             SelectedVideoFadeInEffect = videoConversionOutputConfiguration is not null && VideoFadeInEffectList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.VideoFadeInEffect)) is ComboBoxItemModel selectedVideoFadeInEffect ? selectedVideoFadeInEffect : VideoFadeInEffectList[0];
-
-            VideoFadeOutEffectList.Add(new ComboBoxItemModel() { SelectedValue = "None", DisplayMember = NoneString });
-            VideoFadeOutEffectList.Add(new ComboBoxItemModel() { SelectedValue = "1", DisplayMember = "1" + SecondString });
-            VideoFadeOutEffectList.Add(new ComboBoxItemModel() { SelectedValue = "2", DisplayMember = "2" + SecondString });
-            VideoFadeOutEffectList.Add(new ComboBoxItemModel() { SelectedValue = "3", DisplayMember = "3" + SecondString });
-            VideoFadeOutEffectList.Add(new ComboBoxItemModel() { SelectedValue = "4", DisplayMember = "4" + SecondString });
-            VideoFadeOutEffectList.Add(new ComboBoxItemModel() { SelectedValue = "5", DisplayMember = "5" + SecondString });
 
             SelectedVideoFadeOutEffect = videoConversionOutputConfiguration is not null && VideoFadeOutEffectList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.VideoFadeOutEffect)) is ComboBoxItemModel selectedVideoFadeOutEffect ? selectedVideoFadeOutEffect : VideoFadeOutEffectList[0];
 
@@ -2444,55 +2324,21 @@ namespace ModernFormatConverter.Views.Windows
                 AdditionalSubtitlePath = videoConversionOutputConfiguration.AdditionalSubtitlePath;
             }
 
-            SubtitleNestTypeList.Add(new ComboBoxItemModel() { SelectedValue = "Default", DisplayMember = DefaultString });
-            SubtitleNestTypeList.Add(new ComboBoxItemModel() { SelectedValue = "None", DisplayMember = NoneString });
-            SubtitleNestTypeList.Add(new ComboBoxItemModel() { SelectedValue = "Embedded", DisplayMember = "Embedded" });
-            SubtitleNestTypeList.Add(new ComboBoxItemModel() { SelectedValue = "Ansi", DisplayMember = "Ansi" });
-            SubtitleNestTypeList.Add(new ComboBoxItemModel() { SelectedValue = "Unicode", DisplayMember = "Unicode" });
-            SubtitleNestTypeList.Add(new ComboBoxItemModel() { SelectedValue = "UTF8", DisplayMember = "UTF8" });
             SelectedSubtitleNestType = videoConversionOutputConfiguration is not null && SubtitleNestTypeList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.SubtitleNestType)) is ComboBoxItemModel selectedSubtitleNestType ? selectedSubtitleNestType : SubtitleNestTypeList[0];
-
-            InstalledFontCollection installedFontCollection = new();
-
-            foreach (System.Drawing.FontFamily fontFamily in installedFontCollection.Families)
-            {
-                FontNameList.Add(new ComboBoxItemModel()
-                {
-                    DisplayMember = fontFamily.Name,
-                    SelectedValue = fontFamily.Name
-                });
-            }
 
             SelectedFontName = videoConversionOutputConfiguration is not null && !string.IsNullOrEmpty(videoConversionOutputConfiguration.FontName) && FontNameList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.FontName)) is ComboBoxItemModel selectedFontName ? selectedFontName : FontNameList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), System.Drawing.SystemFonts.DefaultFont.Name)) is ComboBoxItemModel defaultFontName ? defaultFontName : FontNameList[0];
             FontName = Convert.ToString(SelectedFontName.SelectedValue);
 
-            FontSizeList.Add(new ComboBoxItemModel() { SelectedValue = 1, DisplayMember = string.Format("{0} {1}", 1, SmallString) });
-            FontSizeList.Add(new ComboBoxItemModel() { SelectedValue = 2, DisplayMember = "2" });
-            FontSizeList.Add(new ComboBoxItemModel() { SelectedValue = 3, DisplayMember = string.Format("{0} {1}", 3, NormalString) });
-            FontSizeList.Add(new ComboBoxItemModel() { SelectedValue = 4, DisplayMember = "4" });
-            FontSizeList.Add(new ComboBoxItemModel() { SelectedValue = 5, DisplayMember = string.Format("{0} {1}", 5, LargeString) });
             SelectedFontSize = videoConversionOutputConfiguration is not null && FontSizeList.Find(item => Equals(Convert.ToInt32(item.SelectedValue), videoConversionOutputConfiguration.FontSize)) is ComboBoxItemModel selectedFontSize ? selectedFontSize : FontSizeList[0];
 
             FontColor = videoConversionOutputConfiguration is not null && videoConversionOutputConfiguration.FontColor.HasValue ? videoConversionOutputConfiguration.FontColor.Value : accentColor;
 
-            FontBorderStyleList.Add(new ComboBoxItemModel() { SelectedValue = "BorderAndShadow", DisplayMember = BorderAndShadowString });
-            FontBorderStyleList.Add(new ComboBoxItemModel() { SelectedValue = "SolidColorBackground", DisplayMember = SolidColorBackgroundString });
             SelectedFontBorderStyle = videoConversionOutputConfiguration is not null && FontBorderStyleList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.FontBorderStyle)) is ComboBoxItemModel selectedFontBorderStyle ? selectedFontBorderStyle : FontBorderStyleList[0];
 
-            CounterLineSizeList.Add(new ComboBoxItemModel() { SelectedValue = 0, DisplayMember = "0" });
-            CounterLineSizeList.Add(new ComboBoxItemModel() { SelectedValue = 1, DisplayMember = "1" });
-            CounterLineSizeList.Add(new ComboBoxItemModel() { SelectedValue = 2, DisplayMember = "2" });
-            CounterLineSizeList.Add(new ComboBoxItemModel() { SelectedValue = 3, DisplayMember = "3" });
-            CounterLineSizeList.Add(new ComboBoxItemModel() { SelectedValue = 4, DisplayMember = "4" });
             SelectedCounterLineSize = videoConversionOutputConfiguration is not null && CounterLineSizeList.Find(item => Equals(Convert.ToInt32(item.SelectedValue), videoConversionOutputConfiguration.CounterLineSize)) is ComboBoxItemModel selectedCounterLineSize ? selectedCounterLineSize : CounterLineSizeList[0];
 
             CounterLineColor = videoConversionOutputConfiguration is not null && videoConversionOutputConfiguration.CounterLineColor.HasValue ? videoConversionOutputConfiguration.CounterLineColor.Value : accentColor;
 
-            ShadowSizeList.Add(new ComboBoxItemModel() { SelectedValue = 0, DisplayMember = "0" });
-            ShadowSizeList.Add(new ComboBoxItemModel() { SelectedValue = 1, DisplayMember = "1" });
-            ShadowSizeList.Add(new ComboBoxItemModel() { SelectedValue = 2, DisplayMember = "2" });
-            ShadowSizeList.Add(new ComboBoxItemModel() { SelectedValue = 3, DisplayMember = "3" });
-            ShadowSizeList.Add(new ComboBoxItemModel() { SelectedValue = 4, DisplayMember = "4" });
             SelectedShadowSize = videoConversionOutputConfiguration is not null && ShadowSizeList.Find(item => Equals(Convert.ToInt32(item.SelectedValue), videoConversionOutputConfiguration.ShadowSize)) is ComboBoxItemModel selectedShadowSize ? selectedShadowSize : ShadowSizeList[0];
         }
 
@@ -3253,71 +3099,6 @@ namespace ModernFormatConverter.Views.Windows
         }
 
         /// <summary>
-        /// 初始化界面
-        /// </summary>
-        private void InitializeUI(ConversionToolsWindow conversionToolsWindow)
-        {
-            ConversionToolsWindow = conversionToolsWindow;
-            if (IntPtr.Size is 8)
-            {
-                User32Library.SetWindowLongPtr((nint)AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, ConversionToolsWindow.AppWindow.Id.Value);
-            }
-            else
-            {
-                User32Library.SetWindowLong((nint)AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, ConversionToolsWindow.AppWindow.Id.Value);
-            }
-            overlappedPresenter = OverlappedPresenter.CreateForDialog();
-            ExtendsContentIntoTitleBar = true;
-            overlappedPresenter.IsResizable = false;
-            overlappedPresenter.IsMinimizable = false;
-            overlappedPresenter.IsMaximizable = false;
-            overlappedPresenter.IsModal = true;
-            AppWindow.SetPresenter(overlappedPresenter);
-            AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
-            AppWindow.TitleBar.InactiveBackgroundColor = Colors.Transparent;
-            AppWindow.TitleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
-            double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
-            int width = Convert.ToInt32(768 * dpi);
-            int height = Convert.ToInt32(560 * dpi);
-            overlappedPresenter.PreferredMinimumWidth = width;
-            overlappedPresenter.PreferredMinimumHeight = height;
-            User32Library.GetWindowRect((nint)ConversionToolsWindow.AppWindow.Id.Value, out RECT parentRect);
-            int childX = parentRect.left + (parentRect.right - parentRect.left - width) / 2;
-            int childY = parentRect.top + (parentRect.bottom - parentRect.top - height) / 2;
-            User32Library.SetWindowPos((nint)AppWindow.Id.Value, 0, childX, childY, width, height, SetWindowPosFlags.SWP_NOREPOSITION | SetWindowPosFlags.SWP_NOZORDER);
-            contentIsland = ContentIsland.FindAllForCompositor(Compositor)[0];
-            inputKeyboardSource = InputKeyboardSource.GetForIsland(contentIsland);
-            inputPointerSource = InputPointerSource.GetForIsland(contentIsland);
-            SelectedItem = VideoConversionOutputConfigurationSelectorBar.Items[0];
-
-            // 挂载相应的事件
-            ThemeService.PropertyChanged += OnServicePropertyChanged;
-            BackdropService.PropertyChanged += OnServicePropertyChanged;
-            inputKeyboardSource.SystemKeyDown += OnSystemKeyDown;
-            inputPointerSource.PointerReleased += OnPointerReleased;
-
-            // 标题栏和右键菜单设置
-            SetClassicMenuTheme((Content as FrameworkElement).ActualTheme);
-
-            // 为窗口添加窗口过程
-            videoConversionOutputConfigurationWindowSubClassProc = new SUBCLASSPROC(VideoConversionOutputConfigurationWindowSubClassProc);
-            Comctl32Library.SetWindowSubclass((nint)AppWindow.Id.Value, videoConversionOutputConfigurationWindowSubClassProc, 0, 0);
-
-            SetWindowTheme();
-            SetSystemBackdrop();
-        }
-
-        /// <summary>
-        /// 显示模态窗口
-        /// </summary>
-        public async Task<ContentDialogResult> ShowAsync()
-        {
-            taskCompletionSource = new();
-            AppWindow.Show();
-            return await taskCompletionSource.Task;
-        }
-
-        /// <summary>
         /// 获取是否选中了自定义屏幕项
         /// </summary>
         private Visibility GetIsCustomScreenSizeSelected(ComboBoxItemModel selectedScreenSize)
@@ -3336,16 +3117,6 @@ namespace ModernFormatConverter.Views.Windows
         private Visibility CheckAdditionalSubtitlePath(string additionalSubtitlePath)
         {
             return string.IsNullOrEmpty(additionalSubtitlePath) ? Visibility.Collapsed : Visibility.Visible;
-        }
-
-        private uint HIWORD(uint dword)
-        {
-            return (dword >> 16) & 0xffff;
-        }
-
-        private uint LOWORD(uint dword)
-        {
-            return dword & 0xffff;
         }
     }
 }
