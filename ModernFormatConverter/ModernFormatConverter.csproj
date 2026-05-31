@@ -263,12 +263,16 @@
     <None Remove="Views\Pages\SettingsGeneralPage.xaml" />
     <None Remove="Views\Pages\SettingsPage.xaml" />
     <None Remove="Views\Pages\TaskManagerPage.xaml" />
+    <None Remove="Views\Pages\VideoConversionOutputConfigurationPage.xaml" />
     <None Remove="Views\Pages\VideoConversionPage.xaml" />
     <None Remove="Views\Pages\VideoEditPage.xaml" />
     <None Remove="Views\Pages\VideoListPage.xaml" />
+    <None Remove="Views\Windows\AudioConversionOutputConfigurationWindow.xaml" />
     <None Remove="Views\Windows\ConversionToolsWindow.xaml" />
+    <None Remove="Views\Windows\CutAudioWindow.xaml" />
     <None Remove="Views\Windows\MainWindow.xaml" />
-    <None Remove="Views\Windows\VideoConversionOutputConfigurationWindow.xaml" />
+    <None Remove="Views\Windows\PhotoConversionOutputConfigurationWindow.xaml" />
+    <None Remove="Views\Windows\TextToAudioOutputConfigurationWindow.xaml" />
     <None Remove="Views\Windows\VideoExportPictureOutputConfigurationWindow.xaml" />
     
     <Page Include="Styles\AppBarButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -297,6 +301,7 @@
     <Page Include="Views\Pages\SettingsGeneralPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\SettingsPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\TaskManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Pages\VideoConversionOutputConfigurationPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\VideoConversionPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\VideoEditPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\VideoListPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -306,7 +311,6 @@
     <Page Include="Views\Windows\MainWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\PhotoConversionOutputConfigurationWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\TextToAudioOutputConfigurationWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Views\Windows\VideoConversionOutputConfigurationWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\VideoExportPictureOutputConfigurationWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     
     <PRIResource Include="Strings\en-us\Resources.resjson" />

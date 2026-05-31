@@ -27,6 +27,5 @@ namespace ModernFormatConverter.Models
         /// 图片转换文件配置列表
         /// </summary>
         public WinRTObservableCollection<PhotoConversionFileModel> PhotoConversionFileCollection { get; } = [];
-
     }
 }

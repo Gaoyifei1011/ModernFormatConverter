@@ -42,14 +42,6 @@ namespace ModernFormatConverter.Helpers.Converters
         }
 
         /// <summary>
-        /// 检查是否是视频格式转换
-        /// </summary>
-        public static Visibility GetIsVideoFormatCovnersion(VideoConversionOutputConfigurationModel videoConversionOutputConfiguration)
-        {
-            return videoConversionOutputConfiguration is not null ? videoConversionOutputConfiguration.VideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion ? Visibility.Visible : Visibility.Collapsed : Visibility.Collapsed;
-        }
-
-        /// <summary>
         /// 检查是否是音频格式转换
         /// </summary>
         public static Visibility GetIsAudioFormatCovnersion(AudioConversionOutputConfigurationModel audioConversionOutputConfiguration)

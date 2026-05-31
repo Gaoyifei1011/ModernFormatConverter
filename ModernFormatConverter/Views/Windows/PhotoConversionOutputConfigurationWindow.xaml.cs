@@ -508,7 +508,6 @@ namespace ModernFormatConverter.Views.Windows
             }
         }
 
-
         public List<ComboBoxItemModel> FormatConversionTypeList { get; } =
         [
             new ComboBoxItemModel(){ SelectedValue = "JPG", DisplayMember = ".jpg" },
@@ -622,7 +621,7 @@ namespace ModernFormatConverter.Views.Windows
             SetTitleBarTheme((Content as FrameworkElement).ActualTheme);
             SetPopupControlTheme(WindowTheme);
 
-            if(!IsGlobalSettings)
+            if (!IsGlobalSettings)
             {
                 PhotoConversionOutputConfigurationImageCropper.AspectRatio = Convert.ToDouble(SelectedAspectRatio.SelectedValue);
             }
@@ -646,7 +645,7 @@ namespace ModernFormatConverter.Views.Windows
                     convertParametersBuilder.Append("gblur=sigma={4}");
                     convertParametersBuilder.Append(',');
                     convertParametersBuilder.Append(GrayScale ? "hue=s=0:h={5}" : "hue=h={5}");
-                    if(Reversal)
+                    if (Reversal)
                     {
                         convertParametersBuilder.Append(',');
                         convertParametersBuilder.Append("negate");
@@ -676,7 +675,7 @@ namespace ModernFormatConverter.Views.Windows
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutVideoWindow), nameof(OnPreviewPhotoClicked), 1, e);
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(PhotoConversionOutputConfigurationWindow), nameof(OnPreviewPhotoClicked), 1, e);
                 }
             });
         }
@@ -725,7 +724,7 @@ namespace ModernFormatConverter.Views.Windows
         /// <summary>
         /// 是否裁剪图片
         /// </summary>
-        private void OnImageCroppedToggled(object sender,RoutedEventArgs args)
+        private void OnImageCroppedToggled(object sender, RoutedEventArgs args)
         {
             if (sender is ToggleSwitch toggleSwitch)
             {
@@ -736,7 +735,7 @@ namespace ModernFormatConverter.Views.Windows
         /// <summary>
         /// 裁剪图片
         /// </summary>
-        private async void OnCutImageClicked(object sender,RoutedEventArgs args)
+        private async void OnCutImageClicked(object sender, RoutedEventArgs args)
         {
             IsCroppingImage = true;
             double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
@@ -769,19 +768,19 @@ namespace ModernFormatConverter.Views.Windows
                 {
                     ImageWidth = 1;
                     // 按纵横比调整图片高度
-                    if(LockRatio)
+                    if (LockRatio)
                     {
                         ImageHeight = 1;
                     }
                 }
                 else
                 {
-                        ImageWidth = newValue;
-                        // 按纵横比调整图片高度
-                        if (LockRatio && aspectRatio is not 0)
-                        {
-                            ImageHeight = Convert.ToInt32(ImageWidth * aspectRatio);
-                        }
+                    ImageWidth = newValue;
+                    // 按纵横比调整图片高度
+                    if (LockRatio && aspectRatio is not 0)
+                    {
+                        ImageHeight = Convert.ToInt32(ImageWidth * aspectRatio);
+                    }
                 }
             }
         }
@@ -808,12 +807,12 @@ namespace ModernFormatConverter.Views.Windows
                 }
                 else
                 {
-                        ImageHeight = newValue;
-                        // 按纵横比调整图片宽度
-                        if (LockRatio && aspectRatio is not 0)
-                        {
-                            ImageWidth = Convert.ToInt32(ImageHeight / aspectRatio);
-                        }
+                    ImageHeight = newValue;
+                    // 按纵横比调整图片宽度
+                    if (LockRatio && aspectRatio is not 0)
+                    {
+                        ImageWidth = Convert.ToInt32(ImageHeight / aspectRatio);
+                    }
                 }
             }
         }
@@ -832,7 +831,7 @@ namespace ModernFormatConverter.Views.Windows
         /// <summary>
         /// 截取起点 X 坐标发生变化时触发的事件
         /// </summary>
-        private void OnXCoordinateValueChanged(NumberBox sender,NumberBoxValueChangedEventArgs args)
+        private void OnXCoordinateValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
         {
             if (args.NewValue is not double.NaN && args.OldValue is not double.NaN)
             {
@@ -846,7 +845,7 @@ namespace ModernFormatConverter.Views.Windows
                 }
                 else
                 {
-                    if(XCoordinate + ClipWidth > rawImageWidth)
+                    if (XCoordinate + ClipWidth > rawImageWidth)
                     {
                         XCoordinate = rawImageWidth - ClipWidth;
                     }
@@ -948,9 +947,9 @@ namespace ModernFormatConverter.Views.Windows
         /// <summary>
         /// 调整图片
         /// </summary>
-        private void OnAdjustPhotoToggled(object sender,RoutedEventArgs args)
+        private void OnAdjustPhotoToggled(object sender, RoutedEventArgs args)
         {
-            if(sender is ToggleSwitch toggleSwitch)
+            if (sender is ToggleSwitch toggleSwitch)
             {
                 AdjustPhoto = toggleSwitch.IsOn;
             }
@@ -977,7 +976,7 @@ namespace ModernFormatConverter.Views.Windows
         /// <summary>
         /// 重置对比度
         /// </summary>
-        private void OnResetContrastRatioClicked(object sender,RoutedEventArgs args)
+        private void OnResetContrastRatioClicked(object sender, RoutedEventArgs args)
         {
             ContrastRatio = 1;
         }
@@ -1450,7 +1449,7 @@ namespace ModernFormatConverter.Views.Windows
                 // 窗口 DPI 发生变化后触发的消息
                 case WindowMessage.WM_DPICHANGED:
                     {
-                        if(IsCroppingImage)
+                        if (IsCroppingImage)
                         {
                             double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
                             int width = Convert.ToInt32(1366 * dpi);
@@ -1512,7 +1511,7 @@ namespace ModernFormatConverter.Views.Windows
         private void InitializeData(PhotoConversionFileModel photoConversionFile)
         {
             IsGlobalSettings = photoConversionFile is null;
-            if(IsGlobalSettings)
+            if (IsGlobalSettings)
             {
                 filePath = string.Empty;
                 aspectRatio = 1;
@@ -1647,7 +1646,7 @@ namespace ModernFormatConverter.Views.Windows
             return dword & 0xffff;
         }
 
-        private Visibility GetIsPreviewPhotoEnabled(bool isGlobalSettings,bool adjustPhoto)
+        private Visibility GetIsPreviewPhotoEnabled(bool isGlobalSettings, bool adjustPhoto)
         {
             return isGlobalSettings ? Visibility.Collapsed : adjustPhoto ? Visibility.Visible : Visibility.Collapsed;
         }

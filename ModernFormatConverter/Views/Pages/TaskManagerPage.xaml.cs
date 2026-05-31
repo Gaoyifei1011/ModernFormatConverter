@@ -6,9 +6,9 @@ namespace ModernFormatConverter.Views.Pages
     /// 任务管理页面
     /// TODO：未完成
     /// </summary>
-    public sealed partial class TaskMangerPage : Page
+    public sealed partial class TaskManagerPage : Page
     {
-        public TaskMangerPage()
+        public TaskManagerPage()
         {
             InitializeComponent();
         }

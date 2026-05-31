@@ -1,9 +1,7 @@
 ﻿using Microsoft.UI.Xaml.Controls;
-using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.Views.Windows;
-using System;
 using System.Collections.Generic;
 
 // 抑制 IDE0060 警告

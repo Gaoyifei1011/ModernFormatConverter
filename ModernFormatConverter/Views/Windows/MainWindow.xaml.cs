@@ -343,9 +343,9 @@ namespace ModernFormatConverter.Views.Windows
 
         #region 第一部分：窗口辅助类挂载的事件
 
-            /// <summary>
-            /// 处理键盘系统按键事件
-            /// </summary>
+        /// <summary>
+        /// 处理键盘系统按键事件
+        /// </summary>
         private async void OnSystemKeyDown(InputKeyboardSource sender, KeyEventArgs args)
         {
             if (args.VirtualKey is VirtualKey.F10 && Content is not null && Content.XamlRoot is not null)

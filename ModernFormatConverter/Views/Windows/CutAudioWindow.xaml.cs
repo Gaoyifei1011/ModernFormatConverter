@@ -1523,7 +1523,7 @@ namespace ModernFormatConverter.Views.Windows
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutVideoWindow), nameof(OnMediaOpened), 1, e);
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutAudioWindow), nameof(OnMediaOpened), 1, e);
                 }
             });
         }
