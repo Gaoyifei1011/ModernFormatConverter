@@ -10,6 +10,6 @@ namespace ModernFormatConverter.Models
         /// <summary>
         /// 视频导出图片列表
         /// </summary>
-        public WinRTObservableCollection<VideoExportPictureFileModel> VideoExportPictureCollection { get; } = [];
+        public WinRTObservableCollection<VideoExportPictureFileModel> VideoExportPictureFileCollection { get; } = [];
     }
 }

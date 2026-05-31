@@ -7,7 +7,7 @@ namespace ModernFormatConverter.Models
     /// <summary>
     /// 视频导出图片数据模型
     /// </summary>
-    public class VideoExportPictureFileModel
+    public class VideoExportPictureFileModel : INotifyPropertyChanged
     {
         /// <summary>
         /// 文件缩略图
@@ -71,7 +71,7 @@ namespace ModernFormatConverter.Models
         /// <summary>
         /// 视频导出图片输出配置
         /// </summary>
-        public VideoExportPictureOutputConfigurationModel VideoExportOutputConfiguration { get; set; }
+        public VideoExportPictureOutputConfigurationModel VideoExportPictureOutputConfiguration { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

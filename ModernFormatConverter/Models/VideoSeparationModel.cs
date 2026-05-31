@@ -7,6 +7,6 @@ namespace ModernFormatConverter.Models
     /// </summary>
     public class VideoSeparationModel
     {
-        public WinRTObservableCollection<VideoSeparationFileModel> VideoSeparationCollection { get; } = [];
+        public WinRTObservableCollection<VideoSeparationFileModel> VideoSeparationFileCollection { get; } = [];
     }
 }
