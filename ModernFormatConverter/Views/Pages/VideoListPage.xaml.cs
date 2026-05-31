@@ -1100,7 +1100,7 @@ namespace ModernFormatConverter.Views.Pages
                     {
                         VideoConversionTypeKind = VideoConversionTypeKind.VideoExportPicture,
                         IsGlobalSettings = true,
-                        VideoConversionData = VideoConversionTypeCollection[3].VideoExportPicture.VideoExportPictureFileCollection.ToList()
+                        VideoConversionData = VideoConversionTypeCollection[4].VideoExportPicture.VideoExportPictureFileCollection.ToList()
                     }, true);
                 }
             }
