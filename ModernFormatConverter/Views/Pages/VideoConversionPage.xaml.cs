@@ -2,6 +2,7 @@
 using Microsoft.UI.Xaml.Navigation;
 using ModernFormatConverter.Extensions.DataType.Class;
 using ModernFormatConverter.Services.Root;
+using ModernFormatConverter.Views.Windows;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,11 +18,11 @@ namespace ModernFormatConverter.Views.Pages
     /// </summary>
     public sealed partial class VideoConversionPage : Page
     {
+        private readonly string OutputConfigurationString = ResourceService.VideoConversionResource.GetString("OutputConfiguration");
         private readonly string VideoListString = ResourceService.VideoConversionResource.GetString("VideoList");
         private readonly string VideoEditString = ResourceService.VideoConversionResource.GetString("VideoEdit");
 
-        // TODO：未完成
-        public List<Type> PageList { get; } = [typeof(VideoListPage), typeof(VideoEditPage)];
+        public List<Type> PageList { get; } = [typeof(VideoListPage), typeof(VideoEditPage), typeof(VideoConversionOutputConfigurationPage), typeof(VideoExportPictureOutputConfigurationPage)];
 
         public WinRTObservableCollection<DictionaryEntry> BreadCollection { get; } = [];
 
@@ -81,6 +82,22 @@ namespace ModernFormatConverter.Views.Pages
                 {
                     Key = "VideoEdit",
                     Value = VideoEditString
+                });
+            }
+            else if (BreadCollection.Count is 1 && Equals(GetCurrentPageType(), PageList[2]))
+            {
+                BreadCollection.Add(new DictionaryEntry()
+                {
+                    Key = "OutputConfiguration",
+                    Value = OutputConfigurationString
+                });
+            }
+            else if (BreadCollection.Count is 1 && Equals(GetCurrentPageType(), PageList[3]))
+            {
+                BreadCollection.Add(new DictionaryEntry()
+                {
+                    Key = "OutputConfiguration",
+                    Value = OutputConfigurationString
                 });
             }
             else if (BreadCollection.Count is 2 && Equals(GetCurrentPageType(), PageList[0]))
