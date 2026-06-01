@@ -4,12 +4,12 @@ using System;
 // 抑制 CA1806 警告
 #pragma warning disable CA1806
 
-namespace ModernFormatConverter.Views.Converters
+namespace ModernFormatConverter.Views.ValueConveters
 {
     /// <summary>
     /// 滑动条数字格式化显示
     /// </summary>
-    public class SliderThumbnailToolTipConverter : IValueConverter
+    public class SliderThumbnailToolTipValueConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {

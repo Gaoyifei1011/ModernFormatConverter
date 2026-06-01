@@ -2,13 +2,13 @@
     x:Class="ModernFormatConverter.Views.Windows.VideoConversionOutputConfigurationPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controlconverter="using:ModernFormatConverter.Views.Converters"
     xmlns:converter="using:ModernFormatConverter.Helpers.Converters"
-    xmlns:rootservice="using:ModernFormatConverter.Services.Root">
+    xmlns:rootservice="using:ModernFormatConverter.Services.Root"
+    xmlns:valueconverter="using:ModernFormatConverter.Views.ValueConveters">
 
     <Page.Resources>
         <ResourceDictionary>
-            <controlconverter:SliderThumbnailToolTipConverter x:Name="SliderThumbnailToolTipConverter" />
+            <valueconverter:SliderThumbnailToolTipValueConverter x:Name="SliderThumbnailToolTipValueConverter" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -692,7 +692,7 @@
                                             Minimum="0.1"
                                             SmallChange="0.1"
                                             StepFrequency="0.1"
-                                            ThumbToolTipValueConverter="{StaticResource SliderThumbnailToolTipConverter}"
+                                            ThumbToolTipValueConverter="{StaticResource SliderThumbnailToolTipValueConverter}"
                                             ValueChanged="{x:Bind OnSpeedPlaybackValueChanged}"
                                             Value="{x:Bind SelectedSpeedPlayback, Mode=OneWay}" />
 
