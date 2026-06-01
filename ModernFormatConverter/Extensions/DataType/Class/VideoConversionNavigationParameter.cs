@@ -1,11 +1,11 @@
 ﻿using ModernFormatConverter.Extensions.DataType.Enums;
 
-namespace ModernFormatConverter.Models
+namespace ModernFormatConverter.Extensions.DataType.Class
 {
     /// <summary>
-    /// 视频转换导航参数数据模型
+    /// 视频转换导航参数
     /// </summary>
-    public class VideoConversionNavigationParameterModel
+    public class VideoConversionNavigationParameter
     {
         /// <summary>
         /// 视频转换类型

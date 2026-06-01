@@ -59,7 +59,7 @@ namespace ModernFormatConverter.Views.Windows
         private readonly List<ComboBoxItemModel> GPUList = [];
         private readonly Color accentColor = (Color)Application.Current.Resources["SystemAccentColor"];
         private bool isInitialized;
-        private VideoConversionNavigationParameterModel videoConversionNavigationParameter;
+        private VideoConversionNavigationParameter videoConversionNavigationParameter;
 
         private SelectorBarItem _selectedItem;
 
@@ -1026,7 +1026,7 @@ namespace ModernFormatConverter.Views.Windows
             base.OnNavigatedTo(args);
 
             SelectedItem = VideoConversionOutputConfigurationSelectorBar.Items[0];
-            if (args.Parameter is VideoConversionNavigationParameterModel videoConversionNavigationParameterData)
+            if (args.Parameter is VideoConversionNavigationParameter videoConversionNavigationParameterData)
             {
                 videoConversionNavigationParameter = videoConversionNavigationParameterData;
                 SelectedVideoConversionTypeKind = videoConversionNavigationParameter.VideoConversionTypeKind;

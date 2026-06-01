@@ -1,6 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
+using ModernFormatConverter.Extensions.DataType.Class;
 using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
@@ -21,7 +22,7 @@ namespace ModernFormatConverter.Views.Pages
     {
         private readonly string TimePeriodString = ResourceService.VideoExportPictureOutputConfigurationResource.GetString("TimePeriod");
         private readonly string TimePointString = ResourceService.VideoExportPictureOutputConfigurationResource.GetString("TimePoint");
-        private VideoConversionNavigationParameterModel videoConversionNavigationParameter;
+        private VideoConversionNavigationParameter videoConversionNavigationParameter;
 
         private SelectorBarItem _selectedItem;
 
@@ -278,7 +279,7 @@ namespace ModernFormatConverter.Views.Pages
             base.OnNavigatedTo(args);
 
             SelectedItem = VideoExportPictureOutputConfigurationSelectorBar.Items[0];
-            if (args.Parameter is VideoConversionNavigationParameterModel videoConversionNavigationParameterData)
+            if (args.Parameter is VideoConversionNavigationParameter videoConversionNavigationParameterData)
             {
                 videoConversionNavigationParameter = videoConversionNavigationParameterData;
                 if(videoConversionNavigationParameter.IsGlobalSettings)

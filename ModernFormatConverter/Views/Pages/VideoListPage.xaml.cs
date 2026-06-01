@@ -350,7 +350,7 @@ namespace ModernFormatConverter.Views.Pages
                 // 视频格式转换
                 if (args.Parameter is VideoFormatConversionFileModel videoFormatConversionFile && videoFormatConversionFile.VideoConversionOutputConfiguration is not null)
                 {
-                    videoConversionPage.NavigateTo(videoConversionPage.PageList[2], new VideoConversionNavigationParameterModel()
+                    videoConversionPage.NavigateTo(videoConversionPage.PageList[2], new VideoConversionNavigationParameter()
                     {
                         VideoConversionTypeKind = VideoConversionTypeKind.VideoFormatConversion,
                         IsGlobalSettings = false,
@@ -360,7 +360,7 @@ namespace ModernFormatConverter.Views.Pages
                 // 视频导出图片
                 else if (args.Parameter is VideoExportPictureFileModel videoExportPictureFile && videoExportPictureFile.VideoExportPictureOutputConfiguration is not null)
                 {
-                    videoConversionPage.NavigateTo(videoConversionPage.PageList[3], new VideoConversionNavigationParameterModel()
+                    videoConversionPage.NavigateTo(videoConversionPage.PageList[3], new VideoConversionNavigationParameter()
                     {
                         VideoConversionTypeKind = VideoConversionTypeKind.VideoExportPicture,
                         IsGlobalSettings = false,
