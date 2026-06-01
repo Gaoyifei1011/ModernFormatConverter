@@ -50,7 +50,7 @@ namespace ModernFormatConverter.Views.Pages
 
         #endregion 第一部分：重写父类事件
 
-        #region 第二部分：自定义扩展菜单页面——挂载的事件
+        #region 第二部分：视频转换页面——挂载的事件
 
         /// <summary>
         /// 单击痕迹栏条目时发生的事件
@@ -114,7 +114,7 @@ namespace ModernFormatConverter.Views.Pages
             args.Handled = true;
         }
 
-        #endregion 第二部分：自定义扩展菜单页面——挂载的事件
+        #endregion 第二部分：视频转换页面——挂载的事件
 
         /// <summary>
         /// 页面向前导航
