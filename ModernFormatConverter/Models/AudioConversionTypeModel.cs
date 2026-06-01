@@ -1,5 +1,4 @@
-﻿using ModernFormatConverter.Extensions.DataType.Class;
-using ModernFormatConverter.Extensions.DataType.Enums;
+﻿using ModernFormatConverter.Extensions.DataType.Enums;
 
 namespace ModernFormatConverter.Models
 {
@@ -24,13 +23,18 @@ namespace ModernFormatConverter.Models
         public AudioConversionTypeKind AudioConversionTypeKind { get; set; }
 
         /// <summary>
-        /// 文本转语音数据模型（仅用于文本转语音页面）
+        /// 音频格式转换数据类型（仅用于音频格式转换）
         /// </summary>
-        public TextToAudioModel TextToAudio { get; set; }
+        public AudioFormatConversionModel AudioFormatConversion { get; set; }
 
         /// <summary>
-        /// 音频转换文件配置列表
+        /// 音频合并数据模型（仅用于音频合并）
         /// </summary>
-        public WinRTObservableCollection<AudioConversionFileModel> AudioConversionFileCollection { get; } = [];
+        public AudioConcatModel AudioConcat { get; set; }
+
+        /// <summary>
+        /// 文本转语音数据模型（仅用于文本转语音）
+        /// </summary>
+        public TextToAudioModel TextToAudio { get; set; }
     }
 }

@@ -3,9 +3,9 @@
 namespace ModernFormatConverter.Models
 {
     /// <summary>
-    /// 剪辑音频数据模型
+    /// 音频编辑数据模型
     /// </summary>
-    public class CutAudioModel
+    public class AudioEditModel
     {
         /// <summary>
         /// 起始时间

@@ -5,9 +5,9 @@ using System.ComponentModel;
 namespace ModernFormatConverter.Models
 {
     /// <summary>
-    /// 音频转换文件类型
+    /// 音频格式转换文件数据模型
     /// </summary>
-    public class AudioConversionFileModel : INotifyPropertyChanged
+    public class AudioFormatConversionFileModel : INotifyPropertyChanged
     {
         /// <summary>
         /// 文件缩略图
@@ -39,19 +39,9 @@ namespace ModernFormatConverter.Models
         public long FileSize { get; set; }
 
         /// <summary>
-        /// 文件大小
-        /// </summary>
-        public string FileSizeString { get; set; }
-
-        /// <summary>
         /// 音频持续时间
         /// </summary>
         public TimeSpan Duration { get; set; }
-
-        /// <summary>
-        /// 音频持续时间
-        /// </summary>
-        public string DurationString { get; set; }
 
         /// <summary>
         /// 通道
@@ -74,9 +64,9 @@ namespace ModernFormatConverter.Models
         public string FilePath { get; set; }
 
         /// <summary>
-        /// 剪切音频
+        /// 音频编辑
         /// </summary>
-        public CutAudioModel CutAudio { get; set; }
+        public AudioEditModel AudioEdit { get; set; }
 
         /// <summary>
         /// 音频转换输出配置
