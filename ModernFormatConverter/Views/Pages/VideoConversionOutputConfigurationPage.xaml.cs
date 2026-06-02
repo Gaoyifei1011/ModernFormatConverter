@@ -7,7 +7,7 @@ using ModernFormatConverter.Extensions.DataType.Class;
 using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
-using ModernFormatConverter.Views.Pages;
+using ModernFormatConverter.Views.Windows;
 using ModernFormatConverter.WindowsAPI.ComTypes;
 using ModernFormatConverter.WindowsAPI.PInvoke.Dxgi;
 using System;
@@ -25,7 +25,7 @@ using Windows.UI;
 // 抑制 CA1806，CA1822，IDE0060 警告
 #pragma warning disable CA1806,CA1822,IDE0060
 
-namespace ModernFormatConverter.Views.Windows
+namespace ModernFormatConverter.Views.Pages
 {
     /// <summary>
     /// 视频转换输出配置页面
@@ -1290,7 +1290,7 @@ namespace ModernFormatConverter.Views.Windows
                     videoMixedFlow.VideoConversionOutputConfiguration.DeInterlace = DeInterlace;
                     videoMixedFlow.VideoConversionOutputConfiguration.SpeedPlayback = SpeedPlayback;
                     videoMixedFlow.VideoConversionOutputConfiguration.ReverseVideo = ReverseVideo;
-                    videoMixedFlow.VideoConversionOutputConfiguration.Rotation = (System.Windows.Media.Imaging.Rotation)SelectedRotation.SelectedValue;
+                    videoMixedFlow.VideoConversionOutputConfiguration.Rotation = (Rotation)SelectedRotation.SelectedValue;
                     videoMixedFlow.VideoConversionOutputConfiguration.MirrorReversal = MirrorReversal;
                     videoMixedFlow.VideoConversionOutputConfiguration.VideoFadeInEffect = Convert.ToString(SelectedVideoFadeInEffect);
                     videoMixedFlow.VideoConversionOutputConfiguration.VideoFadeOutEffect = Convert.ToString(SelectedVideoFadeOutEffect);
