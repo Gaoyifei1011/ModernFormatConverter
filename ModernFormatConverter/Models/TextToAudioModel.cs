@@ -4,6 +4,9 @@ using System.ComponentModel;
 
 namespace ModernFormatConverter.Models
 {
+    /// <summary>
+    /// 语音转文本数据模型
+    /// </summary>
     public class TextToAudioModel : INotifyPropertyChanged
     {
         /// <summary>

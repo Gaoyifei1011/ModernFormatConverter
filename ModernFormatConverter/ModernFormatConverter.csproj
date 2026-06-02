@@ -251,8 +251,8 @@
     <None Remove="Styles\ToggleSwitch.xaml" />
     <None Remove="Views\Dialogs\AppInformationDialog.xaml" />
     <None Remove="Views\Dialogs\LicenseDialog.xaml" />
-    <None Remove="Views\Windows\RestartAppsDialog.xaml" />
-    <None Remove="Views\Windows\UpdateAppDialog.xaml" />
+    <None Remove="Views\Dialogs\RestartAppsDialog.xaml" />
+    <None Remove="Views\Dialogs\UpdateAppDialog.xaml" />
     <None Remove="Views\NotificationTips\CopyPasteNotificationTip.xaml" />
     <None Remove="Views\NotificationTips\OperationResultNotificationTip.xaml" />
     <None Remove="Views\Pages\AudioConversionOutputConfigurationPage.xaml" />
@@ -269,6 +269,7 @@
     <None Remove="Views\Pages\SettingsGeneralPage.xaml" />
     <None Remove="Views\Pages\SettingsPage.xaml" />
     <None Remove="Views\Pages\TaskManagerPage.xaml" />
+    <None Remove="Views\Pages\TextToAudioOutputConfigurationPage.xaml" />
     <None Remove="Views\Pages\VideoConversionOutputConfigurationPage.xaml" />
     <None Remove="Views\Pages\VideoConversionPage.xaml" />
     <None Remove="Views\Pages\VideoEditPage.xaml" />
@@ -277,7 +278,6 @@
     <None Remove="Views\Windows\ConversionToolsWindow.xaml" />
     <None Remove="Views\Windows\MainWindow.xaml" />
     <None Remove="Views\Windows\PhotoConversionOutputConfigurationWindow.xaml" />
-    <None Remove="Views\Windows\TextToAudioOutputConfigurationWindow.xaml" />
     
     <Page Include="Styles\AppBarButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\ColorPicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -308,6 +308,7 @@
     <Page Include="Views\Pages\SettingsGeneralPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\SettingsPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\TaskManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Pages\TextToAudioOutputConfigurationPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\VideoConversionOutputConfigurationPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\VideoConversionPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\VideoEditPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -316,7 +317,6 @@
     <Page Include="Views\Windows\ConversionToolsWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\MainWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\PhotoConversionOutputConfigurationWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Views\Windows\TextToAudioOutputConfigurationWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     
     <PRIResource Include="Strings\en-us\Resources.resjson" />
 		<PRIResource Include="Strings\zh-hans\Resources.resjson" />

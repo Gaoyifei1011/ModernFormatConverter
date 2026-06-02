@@ -1,14 +1,8 @@
 Close=Close
-Maximize=Maximize
-Minimize=Minimize
-Move=Move
 OK=Ok
 OutputConfiguration=Output configuration
 ReadingSpeed=Reading speed
-Restore=Restore
-Size=Size
 SystemSettings=System settings
 SystemVoiceEmpty=App did not detect any installed voice
-Title=Text to audio output configuration
 VoiceType=Voice type
 Volume=Volume
