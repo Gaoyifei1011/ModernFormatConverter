@@ -275,12 +275,12 @@ namespace ModernFormatConverter.Views.Pages
         private void OnRemoveExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             // 音频格式转换
-            if(SelectedConversionType.AudioConversionTypeKind is AudioConversionTypeKind.AudioFormatConversion)
+            if (SelectedConversionType.AudioConversionTypeKind is AudioConversionTypeKind.AudioFormatConversion)
             {
                 SelectedConversionType.AudioFormatConversion.AudioFormatConversionFileCollection.Remove(args.Parameter as AudioFormatConversionFileModel);
             }
             // 音频合并
-            else if(SelectedConversionType.AudioConversionTypeKind is AudioConversionTypeKind.AudioConcat)
+            else if (SelectedConversionType.AudioConversionTypeKind is AudioConversionTypeKind.AudioConcat)
             {
                 SelectedConversionType.AudioConcat.AudioConcatFileCollection.Remove(args.Parameter as AudioConcatFileModel);
             }
@@ -291,10 +291,10 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnOutputConfigurationExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
-            if(MainWindow.Current.GetFrameContent() is AudioConversionPage audioConversionPage)
+            if (MainWindow.Current.GetFrameContent() is AudioConversionPage audioConversionPage)
             {
                 // 音频格式转换
-                if(args.Parameter is AudioFormatConversionFileModel audioFormatConversionFile && audioFormatConversionFile.AudioConversionOutputConfiguration is not null)
+                if (args.Parameter is AudioFormatConversionFileModel audioFormatConversionFile && audioFormatConversionFile.AudioConversionOutputConfiguration is not null)
                 {
                     audioConversionPage.NavigateTo(audioConversionPage.PageList[2], new AudioConversionNavigationParameter()
                     {
@@ -499,33 +499,6 @@ namespace ModernFormatConverter.Views.Pages
             if (fileList is not null && fileList.Count > 0)
             {
                 await AddAudioDataAsync(fileList);
-                //List<AudioConversionFileModel> audioConversionFileList = [.. SelectedConversionType.AudioConversionFileCollection];
-                //List<Task> taskList = [];
-                //object fileInformationLock = new();
-                //foreach (IStorageItem file in fileList)
-                //{
-                //    taskList.Add(Task.Run(async () =>
-                //    {
-                //        if (GetFileInformation(file.Path) is AudioConversionFileModel audioConcatFile)
-                //        {
-                //            lock (fileInformationLock)
-                //            {
-                //                audioConversionFileList.Add(audioConcatFile);
-                //            }
-                //        }
-                //    }));
-                //}
-                //await Task.WhenAll(taskList);
-                //List<AudioConversionFileModel> sortedAudioConversionFileList = SortData(audioConversionFileList);
-                //SelectedConversionType.AudioConversionFileCollection.Clear();
-                //foreach (AudioConversionFileModel sortedAudioConversionFile in sortedAudioConversionFileList)
-                //{
-                //    if (!Equals(SelectedConversionType.AudioConversionTypeKind, AudioConversionTypeKind.AudioConcat) && sortedAudioConversionFile.FileThumbnailSource is null)
-                //    {
-                //        sortedAudioConversionFile.FileThumbnailSource = GetThumbnail(sortedAudioConversionFile.FilePath);
-                //    }
-                //    SelectedConversionType.AudioConversionFileCollection.Add(sortedAudioConversionFile);
-                //}
             }
             IsGettingFileInformation = false;
         }
@@ -786,10 +759,10 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnOutputConfigurationClicked(object sender, RoutedEventArgs args)
         {
-            if(MainWindow.Current.GetFrameContent() is AudioConversionPage audioConversionPage)
+            if (MainWindow.Current.GetFrameContent() is AudioConversionPage audioConversionPage)
             {
                 // 音频格式转换
-                if(SelectedConversionType.AudioConversionTypeKind is AudioConversionTypeKind.AudioFormatConversion)
+                if (SelectedConversionType.AudioConversionTypeKind is AudioConversionTypeKind.AudioFormatConversion)
                 {
                     audioConversionPage.NavigateTo(audioConversionPage.PageList[2], new AudioConversionNavigationParameter()
                     {
@@ -819,7 +792,6 @@ namespace ModernFormatConverter.Views.Pages
                     }, true);
                 }
             }
-
 
             // 音频格式转换输出配置 & 音频合并输出配置
             //if (Equals(SelectedConversionType, AudioConversionTypeCollection[0]) || Equals(SelectedConversionType, AudioConversionTypeCollection[1]))
@@ -875,7 +847,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnTextToAudioSelectorBarLoaded(object sender, RoutedEventArgs args)
         {
-            if(textToAudioSelectorBarIndex is -1 && TextToAudioSelectedItem is null)
+            if (textToAudioSelectorBarIndex is -1 && TextToAudioSelectedItem is null)
             {
                 textToAudioSelectorBarIndex = 0;
             }
@@ -1239,7 +1211,7 @@ namespace ModernFormatConverter.Views.Pages
                         return audioFormatConversionFile;
                     }
                     // 音频合并
-                    else if(SelectedConversionType.AudioConversionTypeKind is AudioConversionTypeKind.AudioConcat)
+                    else if (SelectedConversionType.AudioConversionTypeKind is AudioConversionTypeKind.AudioConcat)
                     {
                         AudioConcatFileModel audioConcatFile = new()
                         {

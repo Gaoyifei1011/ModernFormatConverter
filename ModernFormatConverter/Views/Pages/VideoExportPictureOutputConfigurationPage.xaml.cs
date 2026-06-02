@@ -282,13 +282,13 @@ namespace ModernFormatConverter.Views.Pages
             if (args.Parameter is VideoConversionNavigationParameter videoConversionNavigationParameterData)
             {
                 videoConversionNavigationParameter = videoConversionNavigationParameterData;
-                if(videoConversionNavigationParameter.IsGlobalSettings)
+                if (videoConversionNavigationParameter.IsGlobalSettings)
                 {
                     UpdateData(null);
                 }
                 else
                 {
-                    if(videoConversionNavigationParameter.VideoConversionData is VideoExportPictureFileModel videoExportPictureFile && videoExportPictureFile.VideoExportPictureOutputConfiguration is not null)
+                    if (videoConversionNavigationParameter.VideoConversionData is VideoExportPictureFileModel videoExportPictureFile && videoExportPictureFile.VideoExportPictureOutputConfiguration is not null)
                     {
                         UpdateData(videoExportPictureFile.VideoExportPictureOutputConfiguration);
                     }
@@ -305,7 +305,7 @@ namespace ModernFormatConverter.Views.Pages
             videoConversionNavigationParameter = null;
         }
 
-        #endregion 第一部分：窗口辅助类挂载的事件
+        #endregion 第一部分：重载父类事件
 
         #region 第二部分：视频导出图片输出配置页面——挂载的事件
 
@@ -315,9 +315,9 @@ namespace ModernFormatConverter.Views.Pages
         private void OnOkClicked(object sender, RoutedEventArgs args)
         {
             // 视频导出图片
-            if(videoConversionNavigationParameter.IsGlobalSettings)
+            if (videoConversionNavigationParameter.IsGlobalSettings)
             {
-                if(videoConversionNavigationParameter.VideoConversionData is List<VideoExportPictureFileModel> videoExportPictureFileList)
+                if (videoConversionNavigationParameter.VideoConversionData is List<VideoExportPictureFileModel> videoExportPictureFileList)
                 {
                     foreach (VideoExportPictureFileModel videoExportPictureFile in videoExportPictureFileList)
                     {
@@ -335,7 +335,7 @@ namespace ModernFormatConverter.Views.Pages
             }
             else
             {
-                if(videoConversionNavigationParameter.VideoConversionData is VideoExportPictureFileModel videoExportPictureFile && videoExportPictureFile.VideoExportPictureOutputConfiguration is not null)
+                if (videoConversionNavigationParameter.VideoConversionData is VideoExportPictureFileModel videoExportPictureFile && videoExportPictureFile.VideoExportPictureOutputConfiguration is not null)
                 {
                     videoExportPictureFile.VideoExportPictureOutputConfiguration.SavePictureFormat = Convert.ToString(SelectedSavePictureFormat.SelectedValue);
                     videoExportPictureFile.VideoExportPictureOutputConfiguration.VideoExportPictureKind = Convert.ToString(SelectedVideoExportPictureKind.SelectedValue);

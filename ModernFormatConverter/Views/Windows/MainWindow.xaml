@@ -4,10 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
     xmlns:converter="using:ModernFormatConverter.Helpers.Converters"
-    xmlns:datatemplate="using:ModernFormatConverter.Views.DataTemplates"
     xmlns:model="using:ModernFormatConverter.Models"
     xmlns:rootservice="using:ModernFormatConverter.Services.Root"
     xmlns:settingsservice="using:ModernFormatConverter.Services.Settings"
+    xmlns:datatemplate="using:ModernFormatConverter.Views.DataTemplates"
     Title="{x:Bind WindowTitle, Mode=OneWay}"
     SystemBackdrop="{x:Bind WindowSystemBackdrop, Mode=OneWay}">
 

@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading;
 
 // 抑制 CA1806，CA1822，IDE0060 警告
 #pragma warning disable CA1806,CA1822,IDE0060
@@ -398,7 +397,7 @@ namespace ModernFormatConverter.Views.Pages
             audioConversionNavigationParameter = null;
         }
 
-        #endregion 第一部分：窗口辅助类挂载的事件
+        #endregion 第一部分：重载父类事件
 
         #region 第二部分：音频转换输出配置页面——挂载的事件
 
@@ -409,7 +408,7 @@ namespace ModernFormatConverter.Views.Pages
         {
             // 更新数据
             // 音频格式转换
-            if(SelectedAudioConversionTypeKind is AudioConversionTypeKind.AudioFormatConversion)
+            if (SelectedAudioConversionTypeKind is AudioConversionTypeKind.AudioFormatConversion)
             {
                 if (audioConversionNavigationParameter.IsGlobalSettings)
                 {
@@ -459,7 +458,7 @@ namespace ModernFormatConverter.Views.Pages
                 }
             }
             // 音频合并
-            else if(SelectedAudioConversionTypeKind is AudioConversionTypeKind.AudioConcat)
+            else if (SelectedAudioConversionTypeKind is AudioConversionTypeKind.AudioConcat)
             {
                 if (audioConversionNavigationParameter.IsGlobalSettings && audioConversionNavigationParameter.AudioConversionData is AudioConcatModel audioConcat && audioConcat.AudioConversionOutputConfiguration is not null)
                 {
@@ -676,7 +675,7 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
-        #endregion 第二部分：视频转换输出配置页面——挂载的事件
+        #endregion 第二部分：音频转换输出配置页面——挂载的事件
 
         /// <summary>
         /// 初始化数据
