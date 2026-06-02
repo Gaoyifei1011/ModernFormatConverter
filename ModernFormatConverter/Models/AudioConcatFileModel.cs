@@ -47,7 +47,5 @@ namespace ModernFormatConverter.Models
         /// 视频转换输出配置
         /// </summary>
         public AudioConversionOutputConfigurationModel AudioConversionOutputConfiguration { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

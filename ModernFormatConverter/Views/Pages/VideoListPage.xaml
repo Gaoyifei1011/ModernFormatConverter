@@ -479,7 +479,7 @@
                             StrokeThickness="1" />
                     </Grid>
 
-                    <!--  视频转换文件信息列表  -->
+                    <!--  视频格式转换文件信息列表  -->
                     <ListView
                         Padding="0,0,26,30"
                         ItemsSource="{x:Bind VideoConversionTypeCollection[0].VideoFormatConversion.VideoFormatConversionFileCollection, Mode=OneWay}"

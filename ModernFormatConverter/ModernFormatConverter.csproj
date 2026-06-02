@@ -155,13 +155,16 @@
     
     <EmbeddedResource Include="Strings\AppInformation.en-us.restext" />
     <EmbeddedResource Include="Strings\AppInformation.restext" />
-    <EmbeddedResource Include="Strings\AppInformation.zh-hans.restext" />    
+    <EmbeddedResource Include="Strings\AppInformation.zh-hans.restext" />
     <EmbeddedResource Include="Strings\AudioConversion.en-us.restext" />
     <EmbeddedResource Include="Strings\AudioConversion.restext" />
     <EmbeddedResource Include="Strings\AudioConversion.zh-hans.restext" />
     <EmbeddedResource Include="Strings\AudioConversionOutputConfiguration.en-us.restext" />
     <EmbeddedResource Include="Strings\AudioConversionOutputConfiguration.restext" />
     <EmbeddedResource Include="Strings\AudioConversionOutputConfiguration.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\AudioList.en-us.restext" />
+    <EmbeddedResource Include="Strings\AudioList.restext" />
+    <EmbeddedResource Include="Strings\AudioList.zh-hans.restext" />
     <EmbeddedResource Include="Strings\ConversionTools.en-us.restext" />
     <EmbeddedResource Include="Strings\ConversionTools.restext" />
     <EmbeddedResource Include="Strings\ConversionTools.zh-hans.restext" />
@@ -290,6 +293,7 @@
     <Page Include="Views\Dialogs\UpdateAppDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\NotificationTips\CopyPasteNotificationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\NotificationTips\OperationResultNotificationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Pages\AudioListPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\AudioConversionPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\CustomCommandPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\FileInformationPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
