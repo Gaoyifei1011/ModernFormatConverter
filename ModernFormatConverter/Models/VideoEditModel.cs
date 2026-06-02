@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace ModernFormatConverter.Models
 {
     /// <summary>
-    /// 剪辑视频数据模型
+    /// 视频编辑数据模型
     /// </summary>
     public class VideoEditModel
     {

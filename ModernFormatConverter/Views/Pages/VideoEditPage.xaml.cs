@@ -30,7 +30,7 @@ using Windows.Storage.Streams;
 namespace ModernFormatConverter.Views.Pages
 {
     /// <summary>
-    /// 视频编辑窗口
+    /// 视频编辑页面
     /// </summary>
     public sealed partial class VideoEditPage : Page, INotifyPropertyChanged
     {
@@ -499,7 +499,7 @@ namespace ModernFormatConverter.Views.Pages
             if (args.Parameter is VideoFormatConversionFileModel videoFormatConversionFile)
             {
                 selectedVideoFormatConversionFile = videoFormatConversionFile;
-                FileName = Path.GetFileName(selectedVideoFormatConversionFile.FilePath);
+                FileName = selectedVideoFormatConversionFile.FileName;
                 UpdateData(selectedVideoFormatConversionFile.VideoEdit);
                 VideoEditSelectedItem = VideoEditSelectorBar.Items[0];
 
@@ -567,7 +567,7 @@ namespace ModernFormatConverter.Views.Pages
             {
                 VideoEditResultKind = VideoEditResultKind.None;
                 MediaSource = null;
-                videoRandomAccessStream.Dispose();
+                videoRandomAccessStream?.Dispose();
                 VideoEditMediaPlayerElement.MediaPlayer.MediaOpened -= OnMediaOpened;
                 VideoEditMediaPlayerElement.MediaPlayer.MediaFailed -= OnMediaFailed;
             }
@@ -594,7 +594,7 @@ namespace ModernFormatConverter.Views.Pages
 
         #endregion 第二部分：ExecuteCommand 命令调用时挂载的事件
 
-        #region 第三部分：视频编辑窗口——挂载的事件
+        #region 第三部分：视频编辑页面——挂载的事件
 
         /// <summary>
         /// 视频加载失败后触发的事件
@@ -784,7 +784,7 @@ namespace ModernFormatConverter.Views.Pages
         }
 
         /// <summary>
-        /// 剪辑视频选中项发生变化时触发的事件
+        /// 视频编辑选中项发生变化时触发的事件
         /// </summary>
         private void OnVideoEditSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
         {
@@ -1548,14 +1548,7 @@ namespace ModernFormatConverter.Views.Pages
                         int videoWidth = Convert.ToInt32(VideoEditMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalVideoWidth);
 
                         // 防止时间溢出
-                        if (newValue + ClipWidth > videoWidth)
-                        {
-                            XCoordinate = videoWidth - ClipWidth;
-                        }
-                        else
-                        {
-                            XCoordinate = newValue;
-                        }
+                        XCoordinate = newValue + ClipWidth > videoWidth ? videoWidth - ClipWidth : newValue;
                     }
                     else
                     {
@@ -1587,14 +1580,7 @@ namespace ModernFormatConverter.Views.Pages
                         int videoHeight = Convert.ToInt32(VideoEditMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalVideoHeight);
 
                         // 防止时间溢出
-                        if (newValue + ClipHeight > videoHeight)
-                        {
-                            YCoordinate = videoHeight - ClipHeight;
-                        }
-                        else
-                        {
-                            YCoordinate = newValue;
-                        }
+                        YCoordinate = newValue + ClipHeight > videoHeight ? videoHeight - ClipHeight : newValue;
                     }
                     else
                     {
@@ -1626,14 +1612,7 @@ namespace ModernFormatConverter.Views.Pages
                         int videoWidth = Convert.ToInt32(VideoEditMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalVideoWidth);
 
                         // 防止时间溢出
-                        if (newValue + XCoordinate > videoWidth)
-                        {
-                            ClipWidth = videoWidth - XCoordinate;
-                        }
-                        else
-                        {
-                            ClipWidth = newValue;
-                        }
+                        ClipWidth = newValue + XCoordinate > videoWidth ? videoWidth - XCoordinate : newValue;
                     }
                     else
                     {
@@ -1665,14 +1644,7 @@ namespace ModernFormatConverter.Views.Pages
                         int videoHeight = Convert.ToInt32(VideoEditMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalVideoHeight);
 
                         // 防止时间溢出
-                        if (newValue + YCoordinate > videoHeight)
-                        {
-                            ClipHeight = videoHeight - YCoordinate;
-                        }
-                        else
-                        {
-                            ClipHeight = newValue;
-                        }
+                        ClipHeight = newValue + YCoordinate > videoHeight ? videoHeight - YCoordinate : newValue;
                     }
                     else
                     {
@@ -1682,7 +1654,7 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
-        #endregion 第三部分：视频编辑窗口——挂载的事件
+        #endregion 第三部分：视频编辑页面——挂载的事件
 
         /// <summary>
         /// 初始化数据

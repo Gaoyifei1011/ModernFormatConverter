@@ -298,7 +298,7 @@ namespace ModernFormatConverter.Views.Dialogs
         }
 
         /// <summary>
-        /// 取消更新或关闭更新窗口
+        /// 取消更新或关闭更新对话框
         /// </summary>
         private void OnCancelOrCloseClicked(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
