@@ -930,6 +930,12 @@ namespace ModernFormatConverter.Views.Windows
                 return;
             }
 
+            if (GetFrameContent() is AudioConversionPage audioConversionPage && audioConversionPage.BreadCollection.Count is 2)
+            {
+                audioConversionPage.NavigateTo(audioConversionPage.PageList[0], null, false);
+                return;
+            }
+
             if ((MainNavigationView.Content as Frame).CanGoBack)
             {
                 (MainNavigationView.Content as Frame).GoBack();

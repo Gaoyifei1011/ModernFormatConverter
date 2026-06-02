@@ -23,7 +23,7 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string AudioEditString = ResourceService.AudioConversionResource.GetString("AudioEdit");
 
         // TODO：未完成
-        public List<Type> PageList { get; } = [typeof(AudioListPage), /*typeof(AudioEditPage), typeof(AudioConversionOutputConfigurationPage), typeof(VideoExportPictureOutputConfigurationPage)*/];
+        public List<Type> PageList { get; } = [typeof(AudioListPage), typeof(VideoEditPage), typeof(AudioConversionOutputConfigurationPage), typeof(VideoExportPictureOutputConfigurationPage)];
 
         public WinRTObservableCollection<AudioConversionTypeModel> AudioConversionTypeCollection { get; } = [];
 
