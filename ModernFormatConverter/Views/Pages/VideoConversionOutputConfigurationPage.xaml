@@ -4,7 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converter="using:ModernFormatConverter.Helpers.Converters"
     xmlns:rootservice="using:ModernFormatConverter.Services.Root"
-    xmlns:valueconverter="using:ModernFormatConverter.Views.ValueConveters">
+    xmlns:valueconverter="using:ModernFormatConverter.Views.ValueConveters"
+    NavigationCacheMode="Enabled">
 
     <Page.Resources>
         <ResourceDictionary>

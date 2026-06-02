@@ -6,6 +6,7 @@
     xmlns:local="using:ModernFormatConverter.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:rootservice="using:ModernFormatConverter.Services.Root"
+    NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
     <Grid>
