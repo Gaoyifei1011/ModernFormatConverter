@@ -1,6 +1,5 @@
 ﻿using Microsoft.UI.Xaml;
 using ModernFormatConverter.Extensions.DataType.Enums;
-using ModernFormatConverter.Models;
 
 namespace ModernFormatConverter.Helpers.Converters
 {
@@ -39,14 +38,6 @@ namespace ModernFormatConverter.Helpers.Converters
         public static Visibility GetAudioConversionType(AudioConversionTypeKind selectedAudioConversionTypeKind, AudioConversionTypeKind comparedAudioConversionTypeKind, bool needReverse)
         {
             return needReverse ? Equals(selectedAudioConversionTypeKind, comparedAudioConversionTypeKind) ? Visibility.Collapsed : Visibility.Visible : Equals(selectedAudioConversionTypeKind, comparedAudioConversionTypeKind) ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        /// <summary>
-        /// 检查是否是音频格式转换
-        /// </summary>
-        public static Visibility GetIsAudioFormatCovnersion(AudioConversionOutputConfigurationModel audioConversionOutputConfiguration)
-        {
-            return audioConversionOutputConfiguration is not null ? audioConversionOutputConfiguration.AudioConversionTypeKind is AudioConversionTypeKind.AudioFormatConversion ? Visibility.Visible : Visibility.Collapsed : Visibility.Collapsed;
         }
     }
 }

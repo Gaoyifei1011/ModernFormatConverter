@@ -314,6 +314,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnOkClicked(object sender, RoutedEventArgs args)
         {
+            // 更新数据
             // 视频导出图片
             if (videoConversionNavigationParameter.IsGlobalSettings)
             {

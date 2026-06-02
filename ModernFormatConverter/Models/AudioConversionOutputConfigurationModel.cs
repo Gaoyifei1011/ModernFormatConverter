@@ -1,14 +1,10 @@
-﻿using ModernFormatConverter.Extensions.DataType.Enums;
-
-namespace ModernFormatConverter.Models
+﻿namespace ModernFormatConverter.Models
 {
     /// <summary>
     /// 音频转换输出配置数据类型
     /// </summary>
     public class AudioConversionOutputConfigurationModel
     {
-        public AudioConversionTypeKind AudioConversionTypeKind { get; set; }
-
         #region 音频参数部分
 
         /// <summary>

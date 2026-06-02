@@ -218,8 +218,6 @@ namespace ModernFormatConverter.Views.Pages
                 {
                     AudioConversionOutputConfiguration = new()
                     {
-                        AudioConversionTypeKind = AudioConversionTypeKind.AudioConcat,
-
                         FormatConversionType = ".mp3",
                         AudioEncoding = "Copy",
                         SamplingRate = "Default",
@@ -766,46 +764,6 @@ namespace ModernFormatConverter.Views.Pages
                     }, true);
                 }
             }
-
-            // 音频格式转换输出配置 & 音频合并输出配置
-            //if (Equals(SelectedConversionType, AudioConversionTypeCollection[0]) || Equals(SelectedConversionType, AudioConversionTypeCollection[1]))
-            //{
-            //    AudioConversionOutputConfigurationWindow audioConversionOutputConfigurationWindow = new(SelectedConversionType.AudioConversionTypeKind, ConversionToolsWindow.Current);
-            //    if (await audioConversionOutputConfigurationWindow.ShowAsync() is ContentDialogResult.Primary && SelectedConversionType.AudioConversionTypeKind is AudioConversionTypeKind.AudioFormatConversion)
-            //    {
-            //        foreach (AudioConversionFileModel audioConcatFile in SelectedConversionType.AudioConversionFileCollection)
-            //        {
-            //            if (audioConcatFile.AudioConversionOutputConfiguration is not null)
-            //            {
-            //                audioConcatFile.AudioConversionOutputConfiguration.FormatConversionType = Convert.ToString(audioConversionOutputConfigurationWindow.SelectedFormatConversionType.SelectedValue);
-            //                audioConcatFile.AudioConversionOutputConfiguration.AudioEncoding = Convert.ToString(audioConversionOutputConfigurationWindow.SelectedAudioEncoding.SelectedValue);
-            //                audioConcatFile.AudioConversionOutputConfiguration.SamplingRate = Convert.ToString(audioConversionOutputConfigurationWindow.SelectedSamplingRate.SelectedValue);
-            //                audioConcatFile.AudioConversionOutputConfiguration.AudioBitRate = Convert.ToString(audioConversionOutputConfigurationWindow.SelectedAudioBitRate.SelectedValue);
-            //                audioConcatFile.AudioConversionOutputConfiguration.SoundTrack = Convert.ToString(audioConversionOutputConfigurationWindow.SelectedSoundTrack.SelectedValue);
-            //                audioConcatFile.AudioConversionOutputConfiguration.CloseSoundEffect = audioConversionOutputConfigurationWindow.CloseSoundEffect;
-            //                audioConcatFile.AudioConversionOutputConfiguration.Volume = Convert.ToString(audioConversionOutputConfigurationWindow.SelectedVolume.SelectedValue);
-            //                audioConcatFile.AudioConversionOutputConfiguration.VariableBitRate = audioConversionOutputConfigurationWindow.IsVariableBitRateSupported ? Convert.ToString(audioConversionOutputConfigurationWindow.SelectedVariableBitRate.SelectedValue) : string.Empty;
-            //                audioConcatFile.AudioConversionOutputConfiguration.SamplingFormat = Convert.ToString(audioConversionOutputConfigurationWindow.SelectedSamplingFormat);
-            //                audioConcatFile.AudioConversionOutputConfiguration.AudioFadeInEffect = Convert.ToString(audioConversionOutputConfigurationWindow.SelectedAudioFadeInEffect.SelectedValue);
-            //                audioConcatFile.AudioConversionOutputConfiguration.AudioFadeOutEffect = Convert.ToString(audioConversionOutputConfigurationWindow.SelectedAudioFadeOutEffect.SelectedValue);
-            //                audioConcatFile.AudioConversionOutputConfiguration.Echo = audioConversionOutputConfigurationWindow.Echo;
-            //                audioConcatFile.AudioConversionOutputConfiguration.DeNoise = audioConversionOutputConfigurationWindow.DeNoise;
-            //                audioConcatFile.AudioConversionOutputConfiguration.Reverse = audioConversionOutputConfigurationWindow.Reverse;
-            //            }
-            //        }
-            //    }
-            //}
-            //// 文本转音频输出配置
-            //else if (Equals(SelectedConversionType, AudioConversionTypeCollection[2]) && SelectedConversionType.TextToAudio is not null)
-            //{
-            //    TextToAudioOutputConfigurationWindow textToAudioConfigurationWindow = new(ConversionToolsWindow.Current, SelectedConversionType.TextToAudio.TextToAudioOutputConfiguration);
-            //    if (await textToAudioConfigurationWindow.ShowAsync() is ContentDialogResult.Primary && SelectedConversionType.AudioConversionTypeKind is AudioConversionTypeKind.TextToAudio)
-            //    {
-            //        SelectedConversionType.TextToAudio.TextToAudioOutputConfiguration.VoiceType = Convert.ToString(textToAudioConfigurationWindow.SelectedVoiceType.SelectedValue);
-            //        SelectedConversionType.TextToAudio.TextToAudioOutputConfiguration.ReadingSpeed = textToAudioConfigurationWindow.ReadingSpeed;
-            //        SelectedConversionType.TextToAudio.TextToAudioOutputConfiguration.Volume = textToAudioConfigurationWindow.Volume;
-            //    }
-            //}
         }
 
         /// <summary>
@@ -845,6 +803,7 @@ namespace ModernFormatConverter.Views.Pages
             if (!Equals(sender.SelectedItem, TextToAudioSelectedItem) && SelectedConversionType.TextToAudio is TextToAudioModel textToAudio)
             {
                 TextToAudioSelectedItem = sender.SelectedItem;
+                textToAudioSelectorBarIndex = sender.Items.IndexOf(TextToAudioSelectedItem);
                 textToAudio.TextToAudioType = (TextToAudioType)TextToAudioSelectorBar.Items.IndexOf(TextToAudioSelectedItem);
             }
         }
@@ -1157,8 +1116,6 @@ namespace ModernFormatConverter.Views.Pages
 
                         audioFormatConversionFile.AudioConversionOutputConfiguration = new()
                         {
-                            AudioConversionTypeKind = SelectedConversionType.AudioConversionTypeKind,
-
                             FormatConversionType = ".mp3",
                             AudioEncoding = "Copy",
                             SamplingRate = "Default",

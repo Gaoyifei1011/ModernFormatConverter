@@ -6,7 +6,6 @@
     xmlns:class="using:ModernFormatConverter.Extensions.DataType.Class"
     xmlns:converter="using:ModernFormatConverter.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:datatemplate="using:ModernFormatConverter.Views.DataTemplates"
     xmlns:enum="using:ModernFormatConverter.Extensions.DataType.Enums"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:ModernFormatConverter.Models"
@@ -558,8 +557,7 @@
                                             Padding="0"
                                             Command="{StaticResource AudioEditCommand}"
                                             CommandParameter="{x:Bind}"
-                                            CornerRadius="{StaticResource ControlCornerRadius}"
-                                            Visibility="{x:Bind converter:ValueCheckConverterHelper.GetIsAudioFormatCovnersion(AudioConversionOutputConfiguration)}">
+                                            CornerRadius="{StaticResource ControlCornerRadius}">
 
                                             <FontIcon FontSize="16" Glyph="&#xE8C6;" />
 
