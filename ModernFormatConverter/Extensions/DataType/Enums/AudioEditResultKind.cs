@@ -1,9 +1,9 @@
 ﻿namespace ModernFormatConverter.Extensions.DataType.Enums
 {
     /// <summary>
-    /// 剪辑音频结果类型
+    /// 音频编辑结果类型
     /// </summary>
-    public enum CutAudioResultKind
+    public enum AudioEditResultKind
     {
         None = 0,
         Loading = 1,

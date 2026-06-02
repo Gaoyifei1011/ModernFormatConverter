@@ -16,13 +16,13 @@ namespace ModernFormatConverter.Services.Root
 
         public static ResourceManager AudioConversionOutputConfigurationResource { get; } = new("ModernFormatConverter.Strings.AudioConversionOutputConfiguration", CurrentAssembly);
 
+        public static ResourceManager AudioEditResource { get; } = new("ModernFormatConverter.Strings.AudioEdit", CurrentAssembly);
+
         public static ResourceManager AudioListResource { get; } = new("ModernFormatConverter.Strings.AudioList", CurrentAssembly);
 
         public static ResourceManager ConversionToolsResource { get; } = new("ModernFormatConverter.Strings.ConversionTools", CurrentAssembly);
 
         public static ResourceManager CustomCommandResource { get; } = new("ModernFormatConverter.Strings.CustomCommand", CurrentAssembly);
-
-        public static ResourceManager CutAudioResource { get; } = new("ModernFormatConverter.Strings.CutAudio", CurrentAssembly);
 
         public static ResourceManager FileInformationResource { get; } = new("ModernFormatConverter.Strings.FileInformation", CurrentAssembly);
 

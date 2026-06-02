@@ -304,32 +304,6 @@ namespace ModernFormatConverter.Views.Pages
                     }, true);
                 }
             }
-
-            //if (args.Parameter is AudioConversionFileModel audioConcatFile)
-            //{
-            //    // 音频格式转换输出配置 & 音频合并输出配置
-            //    if (Equals(SelectedConversionType, AudioConversionTypeCollection[0]) || Equals(SelectedConversionType, AudioConversionTypeCollection[1]))
-            //    {
-            //        AudioConversionOutputConfigurationWindow audioConversionOutputConfigurationWindow = new(SelectedConversionType.AudioConversionTypeKind, ConversionToolsWindow.Current, audioConcatFile.AudioConversionOutputConfiguration);
-            //        if (await audioConversionOutputConfigurationWindow.ShowAsync() is ContentDialogResult.Primary && SelectedConversionType.AudioConversionTypeKind is AudioConversionTypeKind.AudioFormatConversion && audioConcatFile.AudioConversionOutputConfiguration is not null)
-            //        {
-            //            audioConcatFile.AudioConversionOutputConfiguration.FormatConversionType = Convert.ToString(audioConversionOutputConfigurationWindow.SelectedFormatConversionType.SelectedValue);
-            //            audioConcatFile.AudioConversionOutputConfiguration.AudioEncoding = Convert.ToString(audioConversionOutputConfigurationWindow.SelectedAudioEncoding.SelectedValue);
-            //            audioConcatFile.AudioConversionOutputConfiguration.SamplingRate = Convert.ToString(audioConversionOutputConfigurationWindow.SelectedSamplingRate.SelectedValue);
-            //            audioConcatFile.AudioConversionOutputConfiguration.AudioBitRate = Convert.ToString(audioConversionOutputConfigurationWindow.SelectedAudioBitRate.SelectedValue);
-            //            audioConcatFile.AudioConversionOutputConfiguration.SoundTrack = Convert.ToString(audioConversionOutputConfigurationWindow.SelectedSoundTrack.SelectedValue);
-            //            audioConcatFile.AudioConversionOutputConfiguration.CloseSoundEffect = audioConversionOutputConfigurationWindow.CloseSoundEffect;
-            //            audioConcatFile.AudioConversionOutputConfiguration.Volume = Convert.ToString(audioConversionOutputConfigurationWindow.SelectedVolume.SelectedValue);
-            //            audioConcatFile.AudioConversionOutputConfiguration.VariableBitRate = audioConversionOutputConfigurationWindow.IsVariableBitRateSupported ? Convert.ToString(audioConversionOutputConfigurationWindow.SelectedVariableBitRate.SelectedValue) : string.Empty;
-            //            audioConcatFile.AudioConversionOutputConfiguration.SamplingFormat = Convert.ToString(audioConversionOutputConfigurationWindow.SelectedSamplingFormat);
-            //            audioConcatFile.AudioConversionOutputConfiguration.AudioFadeInEffect = Convert.ToString(audioConversionOutputConfigurationWindow.SelectedAudioFadeInEffect.SelectedValue);
-            //            audioConcatFile.AudioConversionOutputConfiguration.AudioFadeOutEffect = Convert.ToString(audioConversionOutputConfigurationWindow.SelectedAudioFadeOutEffect.SelectedValue);
-            //            audioConcatFile.AudioConversionOutputConfiguration.Echo = audioConversionOutputConfigurationWindow.Echo;
-            //            audioConcatFile.AudioConversionOutputConfiguration.DeNoise = audioConversionOutputConfigurationWindow.DeNoise;
-            //            audioConcatFile.AudioConversionOutputConfiguration.Reverse = audioConversionOutputConfigurationWindow.Reverse;
-            //        }
-            //    }
-            //}
         }
 
         /// <summary>

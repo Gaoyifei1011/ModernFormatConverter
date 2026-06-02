@@ -162,6 +162,9 @@
     <EmbeddedResource Include="Strings\AudioConversionOutputConfiguration.en-us.restext" />
     <EmbeddedResource Include="Strings\AudioConversionOutputConfiguration.restext" />
     <EmbeddedResource Include="Strings\AudioConversionOutputConfiguration.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\AudioEdit.en-us.restext" />
+    <EmbeddedResource Include="Strings\AudioEdit.restext" />
+    <EmbeddedResource Include="Strings\AudioEdit.zh-hans.restext" />
     <EmbeddedResource Include="Strings\AudioList.en-us.restext" />
     <EmbeddedResource Include="Strings\AudioList.restext" />
     <EmbeddedResource Include="Strings\AudioList.zh-hans.restext" />
@@ -171,9 +174,6 @@
     <EmbeddedResource Include="Strings\CustomCommand.en-us.restext" />
     <EmbeddedResource Include="Strings\CustomCommand.restext" />
     <EmbeddedResource Include="Strings\CustomCommand.zh-hans.restext" />
-    <EmbeddedResource Include="Strings\CutAudio.en-us.restext" />
-    <EmbeddedResource Include="Strings\CutAudio.restext" />
-    <EmbeddedResource Include="Strings\CutAudio.zh-hans.restext" />
     <EmbeddedResource Include="Strings\FileInformation.en-us.restext" />
     <EmbeddedResource Include="Strings\FileInformation.restext" />
     <EmbeddedResource Include="Strings\FileInformation.zh-hans.restext" />
@@ -257,6 +257,7 @@
     <None Remove="Views\NotificationTips\OperationResultNotificationTip.xaml" />
     <None Remove="Views\Pages\AudioConversionOutputConfigurationPage.xaml" />
     <None Remove="Views\Pages\AudioConversionPage.xaml" />
+    <None Remove="Views\Pages\AudioEditPage.xaml" />
     <None Remove="Views\Pages\AudioListPage.xaml" />
     <None Remove="Views\Pages\CustomCommandPage.xaml" />
     <None Remove="Views\Pages\FileInformationPage.xaml" />
@@ -274,7 +275,6 @@
     <None Remove="Views\Pages\VideoExportPictureOutputConfigurationPage.xaml" />
     <None Remove="Views\Pages\VideoListPage.xaml" />
     <None Remove="Views\Windows\ConversionToolsWindow.xaml" />
-    <None Remove="Views\Windows\CutAudioWindow.xaml" />
     <None Remove="Views\Windows\MainWindow.xaml" />
     <None Remove="Views\Windows\PhotoConversionOutputConfigurationWindow.xaml" />
     <None Remove="Views\Windows\TextToAudioOutputConfigurationWindow.xaml" />
@@ -296,6 +296,7 @@
     <Page Include="Views\NotificationTips\OperationResultNotificationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\AudioConversionOutputConfigurationPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\AudioConversionPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Pages\AudioEditPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\AudioListPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\CustomCommandPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\FileInformationPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -313,7 +314,6 @@
     <Page Include="Views\Pages\VideoExportPictureOutputConfigurationPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\VideoListPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\ConversionToolsWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Views\Windows\CutAudioWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\MainWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\PhotoConversionOutputConfigurationWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\TextToAudioOutputConfigurationWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />

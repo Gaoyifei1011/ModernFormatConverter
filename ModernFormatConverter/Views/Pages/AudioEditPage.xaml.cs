@@ -1,24 +1,15 @@
 ﻿using FFmpegInterop;
-using Microsoft.UI;
-using Microsoft.UI.Composition.SystemBackdrops;
-using Microsoft.UI.Content;
-using Microsoft.UI.Input;
-using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using ModernFormatConverter.Extensions.Backdrop;
+using Microsoft.UI.Xaml.Navigation;
 using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
-using ModernFormatConverter.Services.Settings;
-using ModernFormatConverter.WindowsAPI.PInvoke.Comctl32;
+using ModernFormatConverter.Views.Windows;
 using ModernFormatConverter.WindowsAPI.PInvoke.MediaInfo;
 using ModernFormatConverter.WindowsAPI.PInvoke.Shell32;
-using ModernFormatConverter.WindowsAPI.PInvoke.User32;
-using ModernFormatConverter.WindowsAPI.PInvoke.Uxtheme;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -27,70 +18,25 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Foundation;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Windows.System;
-using Windows.UI;
 
 // 抑制 CA1806，CA1822，IDE0060 警告
 #pragma warning disable CA1806,CA1822,IDE0060
 
-namespace ModernFormatConverter.Views.Windows
+namespace ModernFormatConverter.Views.Pages
 {
     /// <summary>
-    /// 剪辑音频窗口
+    /// 音频编辑页面
     /// </summary>
-    public sealed partial class CutAudioWindow : Window, INotifyPropertyChanged
+    public sealed partial class AudioEditPage : Page, INotifyPropertyChanged
     {
-        private readonly string SelectFileString = ResourceService.CutAudioResource.GetString("SelectFile");
+        private readonly string SelectFileString = ResourceService.AudioEditResource.GetString("SelectFile");
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
-        private readonly string filePath;
-        private OverlappedPresenter overlappedPresenter;
-        private SUBCLASSPROC cutAudioWindowSubClassProc;
-        private ContentIsland contentIsland;
-        private InputKeyboardSource inputKeyboardSource;
-        private InputPointerSource inputPointerSource;
-        private TaskCompletionSource<ContentDialogResult> taskCompletionSource;
+        private AudioFormatConversionFileModel selectedAudioFormatConversionFile;
         private IRandomAccessStream audioRandomAccessStream;
-
-        public new static CutAudioWindow Current { get; private set; }
-
-        private ConversionToolsWindow ConversionToolsWindow { get; set; }
-
-        private SystemBackdrop _windowSystemBackdrop;
-
-        public SystemBackdrop WindowSystemBackdrop
-        {
-            get { return _windowSystemBackdrop; }
-
-            set
-            {
-                if (!Equals(_windowSystemBackdrop, value))
-                {
-                    _windowSystemBackdrop = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowSystemBackdrop)));
-                }
-            }
-        }
-
-        private ElementTheme _windowTheme;
-
-        public ElementTheme WindowTheme
-        {
-            get { return _windowTheme; }
-
-            set
-            {
-                if (!Equals(_windowTheme, value))
-                {
-                    _windowTheme = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowTheme)));
-                }
-            }
-        }
 
         private MediaSource _mediaSource;
 
@@ -124,18 +70,18 @@ namespace ModernFormatConverter.Views.Windows
             }
         }
 
-        private CutAudioResultKind _cutAudioResultKind;
+        private AudioEditResultKind _audioEditResultKind;
 
-        public CutAudioResultKind CutAudioResultKind
+        public AudioEditResultKind AudioEditResultKind
         {
-            get { return _cutAudioResultKind; }
+            get { return _audioEditResultKind; }
 
             set
             {
-                if (!Equals(_cutAudioResultKind, value))
+                if (!Equals(_audioEditResultKind, value))
                 {
-                    _cutAudioResultKind = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CutAudioResultKind)));
+                    _audioEditResultKind = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioEditResultKind)));
                 }
             }
         }
@@ -156,18 +102,18 @@ namespace ModernFormatConverter.Views.Windows
             }
         }
 
-        private SelectorBarItem _cutAudioSelectedItem;
+        private SelectorBarItem _audioEditSelectedItem;
 
-        public SelectorBarItem CutAudioSelectedItem
+        public SelectorBarItem AudioEditSelectedItem
         {
-            get { return _cutAudioSelectedItem; }
+            get { return _audioEditSelectedItem; }
 
             set
             {
-                if (!Equals(_cutAudioSelectedItem, value))
+                if (!Equals(_audioEditSelectedItem, value))
                 {
-                    _cutAudioSelectedItem = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CutAudioSelectedItem)));
+                    _audioEditSelectedItem = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AudioEditSelectedItem)));
                 }
             }
         }
@@ -366,161 +312,111 @@ namespace ModernFormatConverter.Views.Windows
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public CutAudioWindow(ConversionToolsWindow conversionToolsWindow, CutAudioModel cutAudio, string selectedFilePath)
+        public AudioEditPage()
         {
-            filePath = selectedFilePath;
-            FileName = Path.GetFileName(filePath);
-            InitializeData(cutAudio);
             InitializeComponent();
-            InitializeUI(conversionToolsWindow);
         }
 
-        #region 第一部分：窗口辅助类挂载的事件
+        #region 第一部分：重载分类事件
 
         /// <summary>
-        /// 处理键盘系统按键事件
+        /// 导航到该页面触发的事件
         /// </summary>
-        private async void OnSystemKeyDown(InputKeyboardSource sender, KeyEventArgs args)
+        protected override async void OnNavigatedTo(NavigationEventArgs args)
         {
-            if (args.VirtualKey is VirtualKey.F10 && Content is not null && Content.XamlRoot is not null)
+            base.OnNavigatedTo(args);
+
+            if(args.Parameter is AudioFormatConversionFileModel audioFormatConversionFile)
             {
-                await Task.Delay(50);
-                SetPopupControlTheme(WindowTheme);
-            }
-        }
+                selectedAudioFormatConversionFile = audioFormatConversionFile;
+                FileName = selectedAudioFormatConversionFile.FileName;
+                UpdateData(selectedAudioFormatConversionFile.AudioEdit);
+                AudioEditSelectedItem = AudioEditSelectorBar.Items[0];
 
-        /// <summary>
-        /// 处理鼠标事件
-        /// </summary>
-        private async void OnPointerReleased(InputPointerSource sender, PointerEventArgs args)
-        {
-            if (args.CurrentPoint.Properties.PointerUpdateKind is PointerUpdateKind.RightButtonReleased && Content is not null && Content.XamlRoot is not null)
-            {
-                await Task.Delay(50);
-                SetPopupControlTheme(WindowTheme);
-            }
-        }
-
-        #endregion 第一部分：窗口辅助类挂载的事件
-
-        #region 第二部分：窗口右键菜单事件
-
-        /// <summary>
-        /// 窗口移动
-        /// </summary>
-        private void OnMoveClicked(object sender, RoutedEventArgs args)
-        {
-            if (sender is MenuFlyoutItem menuFlyoutItem && menuFlyoutItem.Tag is MenuFlyout menuFlyout)
-            {
-                menuFlyout.Hide();
-                User32Library.SendMessage((nint)AppWindow.Id.Value, WindowMessage.WM_SYSCOMMAND, (nuint)SYSTEMCOMMAND.SC_MOVE, 0);
-            }
-        }
-
-        /// <summary>
-        /// 窗口大小
-        /// </summary>
-        private void OnSizeClicked(object sender, RoutedEventArgs args)
-        {
-            if (sender is MenuFlyoutItem menuFlyoutItem && menuFlyoutItem.Tag is MenuFlyout menuFlyout)
-            {
-                menuFlyout.Hide();
-                User32Library.SendMessage((nint)AppWindow.Id.Value, WindowMessage.WM_SYSCOMMAND, (nuint)SYSTEMCOMMAND.SC_SIZE, 0);
-            }
-        }
-
-        /// <summary>
-        /// 窗口关闭
-        /// </summary>
-        private void OnCloseClicked(object sender, RoutedEventArgs args)
-        {
-            User32Library.SendMessage((nint)AppWindow.Id.Value, WindowMessage.WM_SYSCOMMAND, (nuint)SYSTEMCOMMAND.SC_CLOSE, 0);
-        }
-
-        #endregion 第二部分：窗口右键菜单事件
-
-        #region 第三部分：窗口内容挂载的事件
-
-        /// <summary>
-        /// 应用主题变化时设置标题栏按钮的颜色
-        /// </summary>
-        private void OnActualThemeChanged(FrameworkElement sender, object args)
-        {
-            SetTitleBarTheme(sender.ActualTheme);
-            SetClassicMenuTheme(sender.ActualTheme);
-        }
-
-        #endregion 第三部分：窗口内容挂载的事件
-
-        #region 第四部分：内容挂载的事件
-
-        /// <summary>
-        /// 加载完成后触发的事件
-        /// </summary>
-        private async void OnLoaded(object sender, RoutedEventArgs args)
-        {
-            // 设置标题栏主题
-            SetTitleBarTheme((Content as FrameworkElement).ActualTheme);
-            SetPopupControlTheme(WindowTheme);
-
-            if (CutAudioResultKind is CutAudioResultKind.None)
-            {
-                CutAudioResultKind = CutAudioResultKind.Loading;
-                CutAudioMediaPlayerElement.MediaPlayer.MediaOpened += OnMediaOpened;
-                CutAudioMediaPlayerElement.MediaPlayer.MediaFailed += OnMediaFailed;
-                GetCoverImage(filePath);
-
-                (bool isLoadedSccessfully, MediaSource mediaSource, Exception exception) = await Task.Run(async () =>
+                if (AudioEditResultKind is AudioEditResultKind.None)
                 {
-                    try
+                    AudioEditResultKind = AudioEditResultKind.Loading;
+                    AudioEditMediaPlayerElement.MediaPlayer.MediaOpened += OnMediaOpened;
+                    AudioEditMediaPlayerElement.MediaPlayer.MediaFailed += OnMediaFailed;
+                    GetCoverImage(selectedAudioFormatConversionFile.FilePath);
+
+                    (bool isLoadedSccessfully, MediaSource mediaSource, Exception exception) = await Task.Run(async () =>
                     {
-                        IActivationFactory activationFactory = WindowsRuntimeMarshal.GetActivationFactory(typeof(MediaStreamSource));
-                        MediaStreamSource mediaStreamSource = activationFactory.ActivateInstance() as MediaStreamSource;
-                        audioRandomAccessStream = await (await StorageFile.GetFileFromPathAsync(filePath)).OpenAsync(FileAccessMode.Read);
-                        FFmpegInteropMSSConfig ffmpegInteropMSSConfig = new()
+                        try
                         {
-                            ForceVideoDecode = true,
-                            ForceAudioDecode = true
-                        };
-                        FFmpegInteropMSS.InitializeFromStream(audioRandomAccessStream, mediaStreamSource, ffmpegInteropMSSConfig);
-                        MediaSource meidaSource = MediaSource.CreateFromMediaStreamSource(mediaStreamSource);
-                        return ValueTuple.Create<bool, MediaSource, Exception>(true, meidaSource, null);
-                    }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutAudioWindow), nameof(OnLoaded), 1, e);
-                        return ValueTuple.Create<bool, MediaSource, Exception>(false, null, e);
-                    }
-                });
+                            IActivationFactory activationFactory = WindowsRuntimeMarshal.GetActivationFactory(typeof(MediaStreamSource));
+                            MediaStreamSource mediaStreamSource = activationFactory.ActivateInstance() as MediaStreamSource;
+                            audioRandomAccessStream = await (await StorageFile.GetFileFromPathAsync(selectedAudioFormatConversionFile.FilePath)).OpenAsync(FileAccessMode.Read);
+                            FFmpegInteropMSSConfig ffmpegInteropMSSConfig = new()
+                            {
+                                ForceVideoDecode = true,
+                                ForceAudioDecode = true
+                            };
+                            FFmpegInteropMSS.InitializeFromStream(audioRandomAccessStream, mediaStreamSource, ffmpegInteropMSSConfig);
+                            MediaSource meidaSource = MediaSource.CreateFromMediaStreamSource(mediaStreamSource);
+                            return ValueTuple.Create<bool, MediaSource, Exception>(true, meidaSource, null);
+                        }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(AudioEditPage), nameof(OnNavigatedTo), 1, e);
+                            return ValueTuple.Create<bool, MediaSource, Exception>(false, null, e);
+                        }
+                    });
 
-                if (isLoadedSccessfully)
-                {
-                    MediaSource = mediaSource;
-                }
-                else
-                {
-                    CutAudioResultKind = CutAudioResultKind.Failed;
-                    MediaSource = null;
-                    ErrorReason = exception is not null ? string.Format("0x{0:X8},{1}", exception.HResult, exception.Message) : "N/A";
+                    if (isLoadedSccessfully)
+                    {
+                        MediaSource = mediaSource;
+                    }
+                    else
+                    {
+                        AudioEditResultKind = AudioEditResultKind.Failed;
+                        MediaSource = null;
+                        ErrorReason = exception is not null ? string.Format("0x{0:X8},{1}", exception.HResult, exception.Message) : "N/A";
+                    }
                 }
             }
         }
 
         /// <summary>
-        /// 视频加载失败后触发的事件
+        /// 离开该页面触发的事件
+        /// </summary>
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs args)
+        {
+            base.OnNavigatingFrom(args);
+
+            try
+            {
+                AudioEditResultKind = AudioEditResultKind.None;
+                MediaSource = null;
+                audioRandomAccessStream?.Dispose();
+                AudioEditMediaPlayerElement.MediaPlayer.MediaOpened -= OnMediaOpened;
+                AudioEditMediaPlayerElement.MediaPlayer.MediaFailed -= OnMediaFailed;
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(AudioEditPage), nameof(OnNavigatingFrom), 2, e);
+            }
+        }
+
+        #endregion 第一部分：重载分类事件
+
+        #region 第二部分：音频编辑页面——挂载的事件
+
+        /// <summary>
+        /// 音频加载失败后触发的事件
         /// </summary>
         private void OnMediaFailed(MediaPlayer sender, MediaPlayerFailedEventArgs args)
         {
             synchronizationContext.Post((_) =>
             {
-                CutAudioResultKind = CutAudioResultKind.Failed;
+                AudioEditResultKind = AudioEditResultKind.Failed;
                 ErrorReason = args.ExtendedErrorCode is not null ? string.Format("0x{0:X8},{1}", args.ExtendedErrorCode.HResult, args.ExtendedErrorCode.Message) : "N/A";
             }, null);
-            LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutAudioWindow), nameof(OnMediaFailed), 1, args.ExtendedErrorCode is not null ? args.ExtendedErrorCode : new Exception());
+            LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(AudioEditPage), nameof(OnMediaFailed), 1, args.ExtendedErrorCode is not null ? args.ExtendedErrorCode : new Exception());
         }
 
         /// <summary>
-        /// 视频加载成功后触发的事件
+        /// 音频加载成功后触发的事件
         /// </summary>
         private void OnMediaOpened(MediaPlayer sender, object args)
         {
@@ -536,7 +432,7 @@ namespace ModernFormatConverter.Views.Windows
 
             synchronizationContext.Post((_) =>
             {
-                CutAudioResultKind = CutAudioResultKind.Successfully;
+                AudioEditResultKind = AudioEditResultKind.Successfully;
                 ErrorReason = string.Empty;
             }, null);
         }
@@ -550,23 +446,23 @@ namespace ModernFormatConverter.Views.Windows
             {
                 try
                 {
-                    Process.Start(filePath);
+                    Process.Start(selectedAudioFormatConversionFile.FilePath);
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutAudioWindow), nameof(OnPlayWithSystemAudioClicked), 1, e);
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(AudioEditPage), nameof(OnPlayWithSystemAudioClicked), 1, e);
                 }
             });
         }
 
         /// <summary>
-        /// 剪辑视频选中项发生变化时触发的事件
+        /// 音频编辑选中项发生变化时触发的事件
         /// </summary>
-        private void OnCutAudioSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
+        private void OnAudioEditSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
         {
-            if (!Equals(sender.SelectedItem, CutAudioSelectedItem))
+            if (!Equals(sender.SelectedItem, AudioEditSelectedItem))
             {
-                CutAudioSelectedItem = sender.SelectedItem;
+                AudioEditSelectedItem = sender.SelectedItem;
             }
         }
 
@@ -575,11 +471,17 @@ namespace ModernFormatConverter.Views.Windows
         /// </summary>
         private void OnOkClicked(object sender, RoutedEventArgs args)
         {
-            if (!taskCompletionSource.Task.IsCompleted)
+            // 更新数据
+            selectedAudioFormatConversionFile.AudioEdit.StartTime = new(0, TimeStartHours, TimeStartMinutes, TimeStartSeconds, TimeStartMillseconds);
+            selectedAudioFormatConversionFile.AudioEdit.EndTime = new(0, TimeEndHours, TimeEndMinutes, TimeEndSeconds, TimeEndMillseconds);
+            selectedAudioFormatConversionFile.AudioEdit.AudioCoverFilePath = AudioCoverFilePath;
+            selectedAudioFormatConversionFile = null;
+
+            // 返回到上一页面
+            if (MainWindow.Current.GetFrameContent() is AudioConversionPage audioConversionPage)
             {
-                taskCompletionSource.TrySetResult(ContentDialogResult.Primary);
+                audioConversionPage.NavigateTo(audioConversionPage.PageList[0], null, false);
             }
-            Close();
         }
 
         /// <summary>
@@ -599,9 +501,9 @@ namespace ModernFormatConverter.Views.Windows
                 }
                 else
                 {
-                    if (CutAudioResultKind is CutAudioResultKind.Successfully)
+                    if (AudioEditResultKind is AudioEditResultKind.Successfully)
                     {
-                        TimeSpan totalDuration = CutAudioMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
+                        TimeSpan totalDuration = AudioEditMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
                         TimeSpan currentDuration = new(0, newValue, TimeStartMinutes, TimeStartSeconds, TimeStartMillseconds);
 
                         // 防止时间溢出
@@ -646,9 +548,9 @@ namespace ModernFormatConverter.Views.Windows
                 }
                 else
                 {
-                    if (CutAudioResultKind is CutAudioResultKind.Successfully)
+                    if (AudioEditResultKind is AudioEditResultKind.Successfully)
                     {
-                        TimeSpan totalDuration = CutAudioMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
+                        TimeSpan totalDuration = AudioEditMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
                         TimeSpan currentDuration = new(0, TimeStartHours, newValue, TimeStartSeconds, TimeStartMillseconds);
 
                         // 防止时间溢出
@@ -693,9 +595,9 @@ namespace ModernFormatConverter.Views.Windows
                 }
                 else
                 {
-                    if (CutAudioResultKind is CutAudioResultKind.Successfully)
+                    if (AudioEditResultKind is AudioEditResultKind.Successfully)
                     {
-                        TimeSpan totalDuration = CutAudioMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
+                        TimeSpan totalDuration = AudioEditMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
                         TimeSpan currentDuration = new(0, TimeStartHours, TimeStartMinutes, newValue, TimeStartMillseconds);
 
                         // 防止时间溢出
@@ -740,9 +642,9 @@ namespace ModernFormatConverter.Views.Windows
                 }
                 else
                 {
-                    if (CutAudioResultKind is CutAudioResultKind.Successfully)
+                    if (AudioEditResultKind is AudioEditResultKind.Successfully)
                     {
-                        TimeSpan totalDuration = CutAudioMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
+                        TimeSpan totalDuration = AudioEditMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
                         TimeSpan currentDuration = new(0, TimeStartHours, TimeStartMinutes, TimeStartSeconds, newValue);
 
                         // 防止时间溢出
@@ -771,7 +673,7 @@ namespace ModernFormatConverter.Views.Windows
         /// </summary>
         private async void OnTimeStartLocationClicked(object sender, RoutedEventArgs args)
         {
-            TimeSpan currentPosition = CutAudioMediaPlayerElement.MediaPlayer.PlaybackSession.Position;
+            TimeSpan currentPosition = AudioEditMediaPlayerElement.MediaPlayer.PlaybackSession.Position;
             TimeStartHours = (int)Math.Truncate(currentPosition.TotalHours);
             TimeStartMinutes = currentPosition.Minutes;
             TimeStartSeconds = currentPosition.Seconds;
@@ -779,11 +681,11 @@ namespace ModernFormatConverter.Views.Windows
         }
 
         /// <summary>
-        /// 从起始位置时间播放视频
+        /// 从起始位置时间播放音频
         /// </summary>
         private void OnTimeStartLocateVdieoClicked(object sender, RoutedEventArgs args)
         {
-            CutAudioMediaPlayerElement.MediaPlayer.PlaybackSession.Position = new(0, TimeStartHours, TimeStartMinutes, TimeStartSeconds, TimeStartMillseconds);
+            AudioEditMediaPlayerElement.MediaPlayer.PlaybackSession.Position = new(0, TimeStartHours, TimeStartMinutes, TimeStartSeconds, TimeStartMillseconds);
         }
 
         /// <summary>
@@ -803,9 +705,9 @@ namespace ModernFormatConverter.Views.Windows
                 }
                 else
                 {
-                    if (CutAudioResultKind is CutAudioResultKind.Successfully)
+                    if (AudioEditResultKind is AudioEditResultKind.Successfully)
                     {
-                        TimeSpan totalDuration = CutAudioMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
+                        TimeSpan totalDuration = AudioEditMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
                         TimeSpan currentDuration = new(0, newValue, TimeEndMinutes, TimeEndSeconds, TimeEndMillseconds);
 
                         // 防止时间溢出
@@ -850,9 +752,9 @@ namespace ModernFormatConverter.Views.Windows
                 }
                 else
                 {
-                    if (CutAudioResultKind is CutAudioResultKind.Successfully)
+                    if (AudioEditResultKind is AudioEditResultKind.Successfully)
                     {
-                        TimeSpan totalDuration = CutAudioMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
+                        TimeSpan totalDuration = AudioEditMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
                         TimeSpan currentDuration = new(0, TimeEndHours, newValue, TimeEndSeconds, TimeEndMillseconds);
 
                         // 防止时间溢出
@@ -897,9 +799,9 @@ namespace ModernFormatConverter.Views.Windows
                 }
                 else
                 {
-                    if (CutAudioResultKind is CutAudioResultKind.Successfully)
+                    if (AudioEditResultKind is AudioEditResultKind.Successfully)
                     {
-                        TimeSpan totalDuration = CutAudioMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
+                        TimeSpan totalDuration = AudioEditMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
                         TimeSpan currentDuration = new(0, TimeEndHours, TimeEndMinutes, newValue, TimeEndMillseconds);
 
                         // 防止时间溢出
@@ -944,9 +846,9 @@ namespace ModernFormatConverter.Views.Windows
                 }
                 else
                 {
-                    if (CutAudioResultKind is CutAudioResultKind.Successfully)
+                    if (AudioEditResultKind is AudioEditResultKind.Successfully)
                     {
-                        TimeSpan totalDuration = CutAudioMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
+                        TimeSpan totalDuration = AudioEditMediaPlayerElement.MediaPlayer.PlaybackSession.NaturalDuration;
                         TimeSpan currentDuration = new(0, TimeEndHours, TimeEndMinutes, TimeEndSeconds, newValue);
 
                         // 防止时间溢出
@@ -975,7 +877,7 @@ namespace ModernFormatConverter.Views.Windows
         /// </summary>
         private async void OnTimeEndLocationClicked(object sender, RoutedEventArgs args)
         {
-            TimeSpan currentPosition = CutAudioMediaPlayerElement.MediaPlayer.PlaybackSession.Position;
+            TimeSpan currentPosition = AudioEditMediaPlayerElement.MediaPlayer.PlaybackSession.Position;
             TimeEndHours = (int)Math.Truncate(currentPosition.TotalHours);
             TimeEndMinutes = currentPosition.Minutes;
             TimeEndSeconds = currentPosition.Seconds;
@@ -983,11 +885,11 @@ namespace ModernFormatConverter.Views.Windows
         }
 
         /// <summary>
-        /// 从结束位置时间播放视频
+        /// 从结束位置时间播放音频
         /// </summary>
         private void OnTimeEndLocateVdieoClicked(object sender, RoutedEventArgs args)
         {
-            CutAudioMediaPlayerElement.MediaPlayer.PlaybackSession.Position = new(0, TimeEndHours, TimeEndMinutes, TimeEndSeconds, TimeEndMillseconds);
+            AudioEditMediaPlayerElement.MediaPlayer.PlaybackSession.Position = new(0, TimeEndHours, TimeEndMinutes, TimeEndSeconds, TimeEndMillseconds);
         }
 
         /// <summary>
@@ -1054,416 +956,33 @@ namespace ModernFormatConverter.Views.Windows
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutAudioWindow), nameof(OnAudioCoverFilePathClicked), 1, e);
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(AudioEditPage), nameof(OnAudioCoverFilePathClicked), 1, e);
                 }
             });
         }
 
-        #endregion 第四部分：内容挂载的事件
-
-        #region 第五部分：自定义事件
+        #endregion 第二部分：音频编辑页面——挂载的事件
 
         /// <summary>
-        /// 设置选项发生变化时触发的事件
+        /// 更新数据
         /// </summary>
-        private void OnServicePropertyChanged(object sender, PropertyChangedEventArgs args)
+        private void UpdateData(AudioEditModel audioEdit)
         {
-            synchronizationContext.Post((_) =>
+            TimeStartHours = (int)Math.Truncate(audioEdit.StartTime.TotalHours);
+            TimeStartMinutes = audioEdit.StartTime.Minutes;
+            TimeStartSeconds = audioEdit.StartTime.Seconds;
+            TimeStartMillseconds = audioEdit.StartTime.Milliseconds;
+
+            TimeEndHours = (int)Math.Truncate(audioEdit.EndTime.TotalHours);
+            TimeEndMinutes = audioEdit.EndTime.Minutes;
+            TimeEndSeconds = audioEdit.EndTime.Seconds;
+            TimeEndMillseconds = audioEdit.EndTime.Milliseconds;
+
+            if (File.Exists(audioEdit.AudioCoverFilePath))
             {
-                if (string.Equals(args.PropertyName, nameof(ThemeService.AppTheme)))
-                {
-                    SetWindowTheme();
-                }
-                if (string.Equals(args.PropertyName, nameof(BackdropService.AppBackdrop)))
-                {
-                    SetSystemBackdrop();
-                }
-            }, null);
-        }
-
-        #endregion 第五部分：自定义事件
-
-        #region 第七部分：窗口及内容属性设置
-
-        /// <summary>
-        /// 设置应用显示的主题
-        /// </summary>
-        public void SetWindowTheme()
-        {
-            WindowTheme = string.Equals(ThemeService.AppTheme, ThemeService.ThemeList[0]) ? Application.Current.RequestedTheme is ApplicationTheme.Light ? ElementTheme.Light : ElementTheme.Dark : Enum.TryParse(ThemeService.AppTheme, out ElementTheme elementTheme) ? elementTheme : ElementTheme.Default;
-        }
-
-        /// <summary>
-        /// 设置应用的背景色
-        /// </summary>
-        private void SetSystemBackdrop()
-        {
-            if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[1]))
-            {
-                WindowSystemBackdrop = new MaterialBackdrop(MicaKind.Base);
-                VisualStateManager.GoToState(CutAudioPage, "BackgroundTransparent", false);
+                AudioCoverFilePath = audioEdit.AudioCoverFilePath;
+                SelectedAudioCoverImage = new BitmapImage() { UriSource = new Uri(audioEdit.AudioCoverFilePath) };
             }
-            else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[2]))
-            {
-                WindowSystemBackdrop = new MaterialBackdrop(MicaKind.BaseAlt);
-                VisualStateManager.GoToState(CutAudioPage, "BackgroundTransparent", false);
-            }
-            else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[3]))
-            {
-                WindowSystemBackdrop = new MaterialBackdrop(DesktopAcrylicKind.Default);
-                VisualStateManager.GoToState(CutAudioPage, "BackgroundTransparent", false);
-            }
-            else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[4]))
-            {
-                WindowSystemBackdrop = new MaterialBackdrop(DesktopAcrylicKind.Base);
-                VisualStateManager.GoToState(CutAudioPage, "BackgroundTransparent", false);
-            }
-            else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[5]))
-            {
-                WindowSystemBackdrop = new MaterialBackdrop(DesktopAcrylicKind.Thin);
-                VisualStateManager.GoToState(CutAudioPage, "BackgroundTransparent", false);
-            }
-            else
-            {
-                WindowSystemBackdrop = null;
-                VisualStateManager.GoToState(CutAudioPage, "BackgroundDefault", false);
-            }
-        }
-
-        /// <summary>
-        /// 设置标题栏按钮的主题色
-        /// </summary>
-        private void SetTitleBarTheme(ElementTheme theme)
-        {
-            AppWindowTitleBar titleBar = AppWindow.TitleBar;
-
-            titleBar.BackgroundColor = Colors.Transparent;
-            titleBar.ForegroundColor = Colors.Transparent;
-            titleBar.InactiveBackgroundColor = Colors.Transparent;
-            titleBar.InactiveForegroundColor = Colors.Transparent;
-            titleBar.ButtonBackgroundColor = Colors.Transparent;
-            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-
-            if (theme is ElementTheme.Light)
-            {
-                titleBar.ButtonForegroundColor = Color.FromArgb(255, 23, 23, 23);
-                titleBar.ButtonHoverBackgroundColor = Color.FromArgb(25, 0, 0, 0);
-                titleBar.ButtonHoverForegroundColor = Colors.Black;
-                titleBar.ButtonPressedBackgroundColor = Color.FromArgb(51, 0, 0, 0);
-                titleBar.ButtonPressedForegroundColor = Colors.Black;
-                titleBar.ButtonInactiveForegroundColor = Color.FromArgb(255, 153, 153, 153);
-            }
-            else
-            {
-                titleBar.ButtonForegroundColor = Color.FromArgb(255, 242, 242, 242);
-                titleBar.ButtonHoverBackgroundColor = Color.FromArgb(25, 255, 255, 255);
-                titleBar.ButtonHoverForegroundColor = Colors.White;
-                titleBar.ButtonPressedBackgroundColor = Color.FromArgb(51, 255, 255, 255);
-                titleBar.ButtonPressedForegroundColor = Colors.White;
-                titleBar.ButtonInactiveForegroundColor = Color.FromArgb(255, 102, 102, 102);
-            }
-        }
-
-        /// <summary>
-        /// 设置传统菜单标题栏按钮的主题色
-        /// </summary>
-        private void SetClassicMenuTheme(ElementTheme theme)
-        {
-            AppWindowTitleBar titleBar = AppWindow.TitleBar;
-
-            if (theme is ElementTheme.Light)
-            {
-                titleBar.PreferredTheme = TitleBarTheme.Light;
-                UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceLight);
-            }
-            else
-            {
-                titleBar.PreferredTheme = TitleBarTheme.Dark;
-                UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceDark);
-            }
-
-            UxthemeLibrary.FlushMenuThemes();
-        }
-
-        /// <summary>
-        /// 设置所有弹出控件主题
-        /// </summary>
-        private void SetPopupControlTheme(ElementTheme elementTheme)
-        {
-            foreach (Popup popup in VisualTreeHelper.GetOpenPopupsForXamlRoot(Content.XamlRoot))
-            {
-                popup.RequestedTheme = elementTheme;
-
-                if (popup.Child is FlyoutPresenter flyoutPresenter)
-                {
-                    flyoutPresenter.RequestedTheme = elementTheme;
-                }
-
-                if (popup.Child is Grid grid && grid.Name is "OuterOverflowContentRootV2")
-                {
-                    grid.RequestedTheme = elementTheme;
-                }
-            }
-        }
-
-        #endregion 第七部分：窗口及内容属性设置
-
-        #region 第八部分：窗口过程
-
-        /// <summary>
-        /// 许可证文字内容窗口消息处理
-        /// </summary>
-        private nint CutAudioWindowSubClassProc(nint hWnd, WindowMessage Msg, nuint wParam, nint lParam, uint uIdSubclass, nint dwRefData)
-        {
-            switch (Msg)
-            {
-                // 窗口位置发生变化时触发的消息
-                case WindowMessage.WM_MOVE:
-                    {
-                        if (TitlebarMenuFlyout.IsOpen)
-                        {
-                            TitlebarMenuFlyout.Hide();
-                        }
-                        break;
-                    }
-                // 窗口大小发生变化时触发的消息
-                case WindowMessage.WM_SIZE:
-                    {
-                        if (TitlebarMenuFlyout.IsOpen)
-                        {
-                            TitlebarMenuFlyout.Hide();
-                        }
-                        break;
-                    }
-                // 窗口激活状态发生变化时触发的消息
-                case WindowMessage.WM_ACTIVATEAPP:
-                    {
-                        try
-                        {
-                            if (WindowSystemBackdrop is MaterialBackdrop materialBackdrop && materialBackdrop.BackdropConfiguration is not null)
-                            {
-                                materialBackdrop.BackdropConfiguration.IsInputActive = AlwaysShowBackdropService.AlwaysShowBackdropValue || wParam is not 0;
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutAudioWindow), nameof(CutAudioWindowSubClassProc), 1, e);
-                        }
-                        break;
-                    }
-                // 窗口销毁后触发的消息
-                case WindowMessage.WM_DESTROY:
-                    {
-                        try
-                        {
-                            Current = null;
-                            MediaSource = null;
-                            audioRandomAccessStream.Dispose();
-                            ThemeService.PropertyChanged -= OnServicePropertyChanged;
-                            BackdropService.PropertyChanged -= OnServicePropertyChanged;
-                            inputKeyboardSource.SystemKeyDown -= OnSystemKeyDown;
-                            inputPointerSource.PointerReleased -= OnPointerReleased;
-                            CutAudioMediaPlayerElement.MediaPlayer.MediaOpened -= OnMediaOpened;
-                            CutAudioMediaPlayerElement.MediaPlayer.MediaFailed -= OnMediaFailed;
-                            Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, cutAudioWindowSubClassProc, 0);
-                            if (!taskCompletionSource.Task.IsCompleted)
-                            {
-                                taskCompletionSource.TrySetResult(ContentDialogResult.None);
-                            }
-                            ConversionToolsWindow.Activate();
-                            ConversionToolsWindow = null;
-                        }
-                        catch (Exception e)
-                        {
-                            LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutAudioWindow), nameof(CutAudioWindowSubClassProc), 2, e);
-                        }
-
-                        break;
-                    }
-                // 当用户按下鼠标左键时，光标位于窗口的非工作区内的消息
-                case WindowMessage.WM_NCLBUTTONDOWN:
-                    {
-                        if (TitlebarMenuFlyout.IsOpen)
-                        {
-                            TitlebarMenuFlyout.Hide();
-                        }
-                        break;
-                    }
-                // 当用户按下鼠标右键并释放时，光标位于窗口的非工作区内的消息
-                case WindowMessage.WM_NCRBUTTONUP:
-                    {
-                        if (wParam is 2 && Content is not null && Content.XamlRoot is not null)
-                        {
-                            System.Drawing.Point cursorPos = new((int)LOWORD((uint)lParam), (int)HIWORD((uint)lParam));
-                            User32Library.MapWindowPoints(0, hWnd, ref cursorPos, 2); ;
-                            double dpi = Convert.ToDouble(User32Library.GetDpiForWindow((nint)AppWindow.Id.Value)) / 96;
-
-                            FlyoutShowOptions options = new()
-                            {
-                                ShowMode = FlyoutShowMode.Standard,
-                                Position = Environment.OSVersion.Version.Build > 22000 ? new Point(cursorPos.X / dpi, cursorPos.Y / dpi) : new Point(cursorPos.X, cursorPos.Y)
-                            };
-
-                            TitlebarMenuFlyout.ShowAt(Content, options);
-                        }
-                        return 0;
-                    }
-                // 应用主题设置跟随系统发生变化时，当系统主题设置发生变化时修改修改应用背景色
-                case WindowMessage.WM_SETTINGCHANGE:
-                    {
-                        SetWindowTheme();
-                        SetClassicMenuTheme(WindowTheme);
-
-                        synchronizationContext.Post((_) =>
-                        {
-                            SetPopupControlTheme(WindowTheme);
-                        }, null);
-                        break;
-                    }
-                // 窗口 DPI 发生变化后触发的消息
-                case WindowMessage.WM_DPICHANGED:
-                    {
-                        overlappedPresenter.PreferredMinimumWidth = Convert.ToInt32(1000 * Convert.ToDouble(wParam) / 96);
-                        overlappedPresenter.PreferredMinimumHeight = Convert.ToInt32(600 * Convert.ToDouble(wParam) / 96);
-                        break;
-                    }
-                // 选择窗口右键菜单的条目时接收到的消息
-                case WindowMessage.WM_SYSCOMMAND:
-                    {
-                        SYSTEMCOMMAND sysCommand = (SYSTEMCOMMAND)(wParam & 0xFFF0);
-
-                        if (sysCommand is SYSTEMCOMMAND.SC_MOUSEMENU)
-                        {
-                            return 0;
-                        }
-                        else if (sysCommand is SYSTEMCOMMAND.SC_KEYMENU)
-                        {
-                            if (lParam is (int)System.Windows.Forms.Keys.Space)
-                            {
-                                return 0;
-                            }
-                        }
-                        break;
-                    }
-            }
-            return Comctl32Library.DefSubclassProc(hWnd, Msg, wParam, lParam);
-        }
-
-        #endregion 第八部分：窗口过程
-
-        #region 第九部分：显示应用通知
-
-        /// <summary>
-        /// 使用教学提示显示应用内通知
-        /// </summary>
-        public async Task ShowNotificationAsync(TeachingTip teachingTip, int duration = 2000)
-        {
-            if (teachingTip is not null && Content is Page page && page.Content is Grid grid)
-            {
-                try
-                {
-                    grid.Children.Add(teachingTip);
-
-                    teachingTip.IsOpen = true;
-                    await Task.Delay(duration);
-                    teachingTip.IsOpen = false;
-
-                    // 应用内通知关闭动画显示耗费 300 ms
-                    await Task.Delay(300);
-                    grid.Children.Remove(teachingTip);
-                }
-                catch (Exception e)
-                {
-                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutAudioWindow), nameof(ShowNotificationAsync), 1, e);
-                }
-            }
-        }
-
-        #endregion 第九部分：显示应用通知
-
-        /// <summary>
-        /// 初始化数据
-        /// </summary>
-        private void InitializeData(CutAudioModel cutAudio)
-        {
-            TimeStartHours = (int)Math.Truncate(cutAudio.StartTime.TotalHours);
-            TimeStartMinutes = cutAudio.StartTime.Minutes;
-            TimeStartSeconds = cutAudio.StartTime.Seconds;
-            TimeStartMillseconds = cutAudio.StartTime.Milliseconds;
-
-            TimeEndHours = (int)Math.Truncate(cutAudio.EndTime.TotalHours);
-            TimeEndMinutes = cutAudio.EndTime.Minutes;
-            TimeEndSeconds = cutAudio.EndTime.Seconds;
-            TimeEndMillseconds = cutAudio.EndTime.Milliseconds;
-
-            if (File.Exists(cutAudio.AudioCoverFilePath))
-            {
-                AudioCoverFilePath = cutAudio.AudioCoverFilePath;
-                SelectedAudioCoverImage = new BitmapImage() { UriSource = new Uri(cutAudio.AudioCoverFilePath) };
-            }
-        }
-
-        /// <summary>
-        /// 初始化界面
-        /// </summary>
-        private void InitializeUI(ConversionToolsWindow conversionToolsWindow)
-        {
-            // 窗口部分初始化
-            Current = this;
-            ConversionToolsWindow = conversionToolsWindow;
-
-            if (IntPtr.Size is 8)
-            {
-                User32Library.SetWindowLongPtr((nint)AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, conversionToolsWindow.AppWindow.Id.Value);
-            }
-            else
-            {
-                User32Library.SetWindowLong((nint)AppWindow.Id.Value, WindowLongIndexFlags.GWLP_HWNDPARENT, conversionToolsWindow.AppWindow.Id.Value);
-            }
-            overlappedPresenter = OverlappedPresenter.CreateForDialog();
-            ExtendsContentIntoTitleBar = true;
-            overlappedPresenter.IsResizable = true;
-            overlappedPresenter.IsMinimizable = false;
-            overlappedPresenter.IsMaximizable = false;
-            overlappedPresenter.IsModal = true;
-            AppWindow.SetPresenter(overlappedPresenter);
-            AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
-            AppWindow.TitleBar.InactiveBackgroundColor = Colors.Transparent;
-            AppWindow.TitleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
-            int dpi = User32Library.GetDpiForWindow((nint)AppWindow.Id.Value);
-            overlappedPresenter.PreferredMinimumWidth = Convert.ToInt32(1000 * Convert.ToDouble(dpi) / 96);
-            overlappedPresenter.PreferredMinimumHeight = Convert.ToInt32(600 * Convert.ToDouble(dpi) / 96);
-            contentIsland = ContentIsland.FindAllForCompositor(Compositor)[0];
-            inputKeyboardSource = InputKeyboardSource.GetForIsland(contentIsland);
-            inputPointerSource = InputPointerSource.GetForIsland(contentIsland);
-
-            // 挂载相应的事件
-            ThemeService.PropertyChanged += OnServicePropertyChanged;
-            BackdropService.PropertyChanged += OnServicePropertyChanged;
-            inputKeyboardSource.SystemKeyDown += OnSystemKeyDown;
-            inputPointerSource.PointerReleased += OnPointerReleased;
-
-            // 标题栏和右键菜单设置
-            SetClassicMenuTheme((Content as FrameworkElement).ActualTheme);
-
-            // 为窗口添加窗口过程
-            cutAudioWindowSubClassProc = new SUBCLASSPROC(CutAudioWindowSubClassProc);
-            Comctl32Library.SetWindowSubclass((nint)AppWindow.Id.Value, cutAudioWindowSubClassProc, 0, 0);
-
-            SetWindowTheme();
-            SetSystemBackdrop();
-
-            CutAudioSelectedItem = CutAudioSelectorBar.Items[0];
-        }
-
-        /// <summary>
-        /// 显示模态窗口
-        /// </summary>
-        public async Task<ContentDialogResult> ShowAsync()
-        {
-            taskCompletionSource = new();
-            AppWindow.Show();
-            return await taskCompletionSource.Task;
         }
 
         /// <summary>
@@ -1523,27 +1042,17 @@ namespace ModernFormatConverter.Views.Windows
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CutAudioWindow), nameof(OnMediaOpened), 1, e);
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(AudioEditPage), nameof(OnMediaOpened), 1, e);
                 }
             });
         }
 
-        private uint HIWORD(uint dword)
-        {
-            return (dword >> 16) & 0xffff;
-        }
-
-        private uint LOWORD(uint dword)
-        {
-            return dword & 0xffff;
-        }
-
-        private Visibility GetCutAudioSelectedItem(SelectorBarItem selectedSelectorBarItem, SelectorBarItem comparedSelectorBarItem)
+        private Visibility GetAudioEditSelectedItem(SelectorBarItem selectedSelectorBarItem, SelectorBarItem comparedSelectorBarItem)
         {
             return Equals(selectedSelectorBarItem, comparedSelectorBarItem) ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        private Visibility GetCutAudioKind(CutAudioResultKind selectedAudioKind, CutAudioResultKind comparedAudioKind)
+        private Visibility GetAudioEditKind(AudioEditResultKind selectedAudioKind, AudioEditResultKind comparedAudioKind)
         {
             return Equals(selectedAudioKind, comparedAudioKind) ? Visibility.Visible : Visibility.Collapsed;
         }
