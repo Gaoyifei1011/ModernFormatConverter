@@ -1,5 +1,4 @@
-﻿using ModernFormatConverter.Extensions.DataType.Enums;
-using System.Windows.Media.Imaging;
+﻿using System.Windows.Media.Imaging;
 using Windows.UI;
 
 namespace ModernFormatConverter.Models
@@ -9,8 +8,6 @@ namespace ModernFormatConverter.Models
     /// </summary>
     public class VideoConversionOutputConfigurationModel
     {
-        public VideoConversionTypeKind VideoConversionTypeKind { get; set; }
-
         #region 视频参数部分
 
         /// <summary>

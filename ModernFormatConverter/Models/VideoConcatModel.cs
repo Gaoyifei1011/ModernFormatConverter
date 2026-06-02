@@ -7,6 +7,9 @@ namespace ModernFormatConverter.Models
     /// </summary>
     public class VideoConcatModel
     {
+        /// <summary>
+        /// 视频合并文件列表
+        /// </summary>
         public WinRTObservableCollection<VideoConcatFileModel> VideoConcatFileCollection { get; } = [];
 
         /// <summary>

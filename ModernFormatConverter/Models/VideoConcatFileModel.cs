@@ -18,19 +18,9 @@ namespace ModernFormatConverter.Models
         public long FileSize { get; set; }
 
         /// <summary>
-        /// 文件大小
-        /// </summary>
-        public string FileSizeString { get; set; }
-
-        /// <summary>
         /// 视频持续时间
         /// </summary>
         public TimeSpan Duration { get; set; }
-
-        /// <summary>
-        /// 视频持续时间
-        /// </summary>
-        public string DurationString { get; set; }
 
         /// <summary>
         /// 文件路径
