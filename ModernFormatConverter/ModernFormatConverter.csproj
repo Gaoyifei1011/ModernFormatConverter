@@ -168,9 +168,6 @@
     <EmbeddedResource Include="Strings\AudioList.en-us.restext" />
     <EmbeddedResource Include="Strings\AudioList.restext" />
     <EmbeddedResource Include="Strings\AudioList.zh-hans.restext" />
-    <EmbeddedResource Include="Strings\ConversionTools.en-us.restext" />
-    <EmbeddedResource Include="Strings\ConversionTools.restext" />
-    <EmbeddedResource Include="Strings\ConversionTools.zh-hans.restext" />
     <EmbeddedResource Include="Strings\CustomCommand.en-us.restext" />
     <EmbeddedResource Include="Strings\CustomCommand.restext" />
     <EmbeddedResource Include="Strings\CustomCommand.zh-hans.restext" />
@@ -279,7 +276,6 @@
     <None Remove="Views\Pages\VideoEditPage.xaml" />
     <None Remove="Views\Pages\VideoExportPictureOutputConfigurationPage.xaml" />
     <None Remove="Views\Pages\VideoListPage.xaml" />
-    <None Remove="Views\Windows\ConversionToolsWindow.xaml" />
     <None Remove="Views\Windows\MainWindow.xaml" />
     
     <Page Include="Styles\AppBarButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -319,7 +315,6 @@
     <Page Include="Views\Pages\VideoEditPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\VideoExportPictureOutputConfigurationPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\VideoListPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Views\Windows\ConversionToolsWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Windows\MainWindow.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     
     <PRIResource Include="Strings\en-us\Resources.resjson" />
