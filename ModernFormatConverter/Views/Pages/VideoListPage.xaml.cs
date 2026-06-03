@@ -206,6 +206,7 @@ namespace ModernFormatConverter.Views.Pages
                         MirrorReversal = false,
                         VideoFadeInEffect = "None",
                         VideoFadeOutEffect = "None",
+                        OutputFolder = string.Empty,
 
                         AudioEncoding = "Copy",
                         SamplingRate = "Default",
@@ -260,6 +261,7 @@ namespace ModernFormatConverter.Views.Pages
                         MirrorReversal = false,
                         VideoFadeInEffect = "None",
                         VideoFadeOutEffect = "None",
+                        OutputFolder = string.Empty,
 
                         AudioEncoding = "Copy",
                         SamplingRate = "Default",
@@ -1552,6 +1554,7 @@ namespace ModernFormatConverter.Views.Pages
                             MirrorReversal = false,
                             VideoFadeInEffect = "None",
                             VideoFadeOutEffect = "None",
+                            OutputFolder = string.Empty,
 
                             AudioEncoding = "Copy",
                             SamplingRate = "Default",

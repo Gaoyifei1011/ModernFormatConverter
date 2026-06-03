@@ -1,18 +1,24 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Navigation;
 using ModernFormatConverter.Extensions.DataType.Class;
 using ModernFormatConverter.Helpers.Reflection;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
+using ModernFormatConverter.Services.Settings;
 using ModernFormatConverter.Views.Windows;
+using ModernFormatConverter.WindowsAPI.ComTypes;
+using ModernFormatConverter.WindowsAPI.PInvoke.Shell32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Speech.Synthesis;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 // 抑制 CA1806，CA1822，IDE0060 警告
 #pragma warning disable CA1806,CA1822,IDE0060
@@ -24,6 +30,7 @@ namespace ModernFormatConverter.Views.Pages
     /// </summary>
     public sealed partial class TextToAudioOutputConfigurationPage : Page, INotifyPropertyChanged
     {
+        private readonly string SelectFolderString = ResourceService.TextToAudioOutputConfigurationResource.GetString("SelectFolder");
         private readonly bool isInitialized;
         private AudioConversionNavigationParameter audioConversionNavigationParameter;
 
@@ -107,6 +114,22 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
+        private string _outputFolder;
+
+        public string OutputFolder
+        {
+            get { return _outputFolder; }
+
+            set
+            {
+                if (!Equals(_outputFolder, value))
+                {
+                    _outputFolder = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(OutputFolder)));
+                }
+            }
+        }
+
         public List<VoiceTypeModel> VoiceTypeList { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -181,6 +204,7 @@ namespace ModernFormatConverter.Views.Pages
                 textToAudio.TextToAudioOutputConfiguration.VoiceType = Convert.ToString(SelectedVoiceType.SelectedValue);
                 textToAudio.TextToAudioOutputConfiguration.ReadingSpeed = ReadingSpeed;
                 textToAudio.TextToAudioOutputConfiguration.Volume = Volume;
+                textToAudio.TextToAudioOutputConfiguration.OutputFolder = OutputFolder;
             }
 
             // 返回到上一页面
@@ -237,6 +261,69 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
+        /// <summary>
+        /// 打开输出文件夹
+        /// </summary>
+        private void OnOpenOutputFolderClicked(Hyperlink sender, HyperlinkClickEventArgs args)
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    Process.Start(OutputFolder);
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(TextToAudioOutputConfigurationPage), nameof(OnOpenOutputFolderClicked), 1, e);
+                }
+            });
+        }
+
+        /// <summary>
+        /// 修改输出的文件夹
+        /// </summary>
+        private void OnOutputChangeFolderClicked(object sender, RoutedEventArgs args)
+        {
+            if (sender is MenuFlyoutItem menuFlyoutItem && menuFlyoutItem.Tag is string tag)
+            {
+                switch (tag)
+                {
+                    case "AppCache":
+                        {
+                            Shell32Library.SHGetKnownFolderPath(new("F1B32785-6FBA-4FCF-9D55-7B8E7F157091"), KNOWN_FOLDER_FLAG.KF_FLAG_FORCE_APP_DATA_REDIRECTION, 0, out string localAppDataPath);
+                            OutputFolder = Path.Combine(localAppDataPath, "Audios");
+                            break;
+                        }
+                    case "Music":
+                        {
+                            string musicFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+                            OutputFolder = musicFolder;
+                            break;
+                        }
+                    case "Desktop":
+                        {
+                            OutputFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                            break;
+                        }
+                    case "Custom":
+                        {
+                            OpenFolderDialog openFolderDialog = new((nint)MainWindow.Current.AppWindow.Id.Value)
+                            {
+                                Description = SelectFolderString,
+                                RootFolder = Environment.SpecialFolder.Desktop
+                            };
+                            DialogResult dialogResult = openFolderDialog.ShowDialog();
+                            if (dialogResult is DialogResult.OK || dialogResult is DialogResult.Yes)
+                            {
+                                OutputFolder = openFolderDialog.SelectedPath;
+                            }
+                            openFolderDialog.Dispose();
+                            break;
+                        }
+                }
+            }
+        }
+
         #endregion 第二部分：文本转语音输出配置页面——挂载的事件
 
         /// <summary>
@@ -289,6 +376,7 @@ namespace ModernFormatConverter.Views.Pages
 
             ReadingSpeed = textToAudioOutputConfiguration is not null ? textToAudioOutputConfiguration.ReadingSpeed : 0;
             Volume = textToAudioOutputConfiguration is not null ? textToAudioOutputConfiguration.Volume : 100;
+            OutputFolder = textToAudioOutputConfiguration is not null && !string.IsNullOrEmpty(textToAudioOutputConfiguration.OutputFolder) ? textToAudioOutputConfiguration.OutputFolder : ConvertConfigurationService.ConvertedAudioSavePath;
         }
     }
 }

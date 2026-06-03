@@ -1,7 +1,16 @@
+AppCacheFolder=应用缓存
+ChangeFolder=更改目录
 Close=关闭
+Custom=自定义
+DesktopFolder=桌面
+FileStoragePath=文件存储路径
+MusicFolder=音乐
 OK=确定
+OpenFolder=打开文件夹
+OutputFolder=输出文件夹
 OutputConfiguration=输出配置
 ReadingSpeed=阅读速率
+SelectFolder=选择文件夹
 SystemSettings=系统设置
 SystemVoiceEmpty=应用未检测到任何已安装的语音
 VoiceType=语音类型

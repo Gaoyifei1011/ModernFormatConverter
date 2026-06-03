@@ -1,7 +1,16 @@
+AppCacheFolder=App cache
+ChangeFolder=Change folder
 Close=Close
+Custom=Custom
+DesktopFolder=Desktop
+FileStoragePath=File storage path
+MusicFolder=Music folder
 OK=Ok
+OpenFolder=Open folder
+OutputFolder=Output folder
 OutputConfiguration=Output configuration
 ReadingSpeed=Reading speed
+SelectFolder=Select folder
 SystemSettings=System settings
 SystemVoiceEmpty=App did not detect any installed voice
 VoiceType=Voice type

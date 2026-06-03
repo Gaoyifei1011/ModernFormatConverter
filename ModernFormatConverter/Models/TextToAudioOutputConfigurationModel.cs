@@ -19,5 +19,10 @@
         /// 音量
         /// </summary>
         public int Volume { get; set; }
+
+        /// <summary>
+        /// 输出文件夹
+        /// </summary>
+        public string OutputFolder { get; set; }
     }
 }

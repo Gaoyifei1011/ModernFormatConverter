@@ -77,6 +77,11 @@
         /// </summary>
         public bool Reverse { get; set; }
 
+        /// <summary>
+        /// 输出文件夹
+        /// </summary>
+        public string OutputFolder { get; set; }
+
         #endregion 音频参数部分
     }
 }

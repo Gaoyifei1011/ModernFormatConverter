@@ -1,15 +1,18 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using ModernFormatConverter.Extensions.DataType.Class;
 using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
+using ModernFormatConverter.Services.Settings;
 using ModernFormatConverter.Views.Windows;
 using ModernFormatConverter.WindowsAPI.ComTypes;
 using ModernFormatConverter.WindowsAPI.PInvoke.Dxgi;
+using ModernFormatConverter.WindowsAPI.PInvoke.Shell32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,6 +21,7 @@ using System.Drawing.Text;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using Windows.Foundation;
 using Windows.UI;
@@ -48,6 +52,7 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string RotateRightString = ResourceService.VideoConversionOutputConfigurationResource.GetString("RotateRight");
         private readonly string SecondString = ResourceService.VideoConversionOutputConfigurationResource.GetString("Second");
         private readonly string SelectFileString = ResourceService.VideoConversionOutputConfigurationResource.GetString("SelectFile");
+        private readonly string SelectFolderString = ResourceService.VideoConversionOutputConfigurationResource.GetString("SelectFolder");
         private readonly string SmallString = ResourceService.VideoConversionOutputConfigurationResource.GetString("Small");
         private readonly string SolidColorBackgroundString = ResourceService.VideoConversionOutputConfigurationResource.GetString("SolidColorBackground");
         private readonly string StereoString = ResourceService.VideoConversionOutputConfigurationResource.GetString("Stereo");
@@ -57,7 +62,7 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string UnsideDownString = ResourceService.VideoConversionOutputConfigurationResource.GetString("UnsideDown");
         private readonly Guid CLSID_DxgiFactory = new("7B7166EC-21C7-44AE-B21A-C9AE321AE369");
         private readonly List<ComboBoxItemModel> GPUList = [];
-        private readonly Color accentColor = (Color)Application.Current.Resources["SystemAccentColor"];
+        private readonly Color accentColor = (Color)Microsoft.UI.Xaml.Application.Current.Resources["SystemAccentColor"];
         private bool isInitialized;
         private VideoConversionNavigationParameter videoConversionNavigationParameter;
 
@@ -492,6 +497,23 @@ namespace ModernFormatConverter.Views.Pages
                 }
             }
         }
+
+        private string _outputFolder;
+
+        public string OutputFolder
+        {
+            get { return _outputFolder; }
+
+            set
+            {
+                if (!Equals(_outputFolder, value))
+                {
+                    _outputFolder = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(OutputFolder)));
+                }
+            }
+        }
+
 
         private ComboBoxItemModel _selectedAudioEncoding;
 
@@ -1156,6 +1178,7 @@ namespace ModernFormatConverter.Views.Pages
                                 videoFormatConversionFile.VideoConversionOutputConfiguration.MirrorReversal = MirrorReversal;
                                 videoFormatConversionFile.VideoConversionOutputConfiguration.VideoFadeInEffect = Convert.ToString(SelectedVideoFadeInEffect);
                                 videoFormatConversionFile.VideoConversionOutputConfiguration.VideoFadeOutEffect = Convert.ToString(SelectedVideoFadeOutEffect);
+                                videoFormatConversionFile.VideoConversionOutputConfiguration.OutputFolder = OutputFolder;
 
                                 videoFormatConversionFile.VideoConversionOutputConfiguration.AudioEncoding = Convert.ToString(SelectedAudioEncoding.SelectedValue);
                                 videoFormatConversionFile.VideoConversionOutputConfiguration.SamplingRate = Convert.ToString(SelectedSamplingRate.SelectedValue);
@@ -1206,6 +1229,7 @@ namespace ModernFormatConverter.Views.Pages
                         videoFormatConversionFile.VideoConversionOutputConfiguration.MirrorReversal = MirrorReversal;
                         videoFormatConversionFile.VideoConversionOutputConfiguration.VideoFadeInEffect = Convert.ToString(SelectedVideoFadeInEffect);
                         videoFormatConversionFile.VideoConversionOutputConfiguration.VideoFadeOutEffect = Convert.ToString(SelectedVideoFadeOutEffect);
+                        videoFormatConversionFile.VideoConversionOutputConfiguration.OutputFolder = OutputFolder;
 
                         videoFormatConversionFile.VideoConversionOutputConfiguration.AudioEncoding = Convert.ToString(SelectedAudioEncoding.SelectedValue);
                         videoFormatConversionFile.VideoConversionOutputConfiguration.SamplingRate = Convert.ToString(SelectedSamplingRate.SelectedValue);
@@ -1256,6 +1280,7 @@ namespace ModernFormatConverter.Views.Pages
                     videoConcat.VideoConversionOutputConfiguration.MirrorReversal = MirrorReversal;
                     videoConcat.VideoConversionOutputConfiguration.VideoFadeInEffect = Convert.ToString(SelectedVideoFadeInEffect);
                     videoConcat.VideoConversionOutputConfiguration.VideoFadeOutEffect = Convert.ToString(SelectedVideoFadeOutEffect);
+                    videoConcat.VideoConversionOutputConfiguration.OutputFolder = OutputFolder;
 
                     videoConcat.VideoConversionOutputConfiguration.AudioEncoding = Convert.ToString(SelectedAudioEncoding.SelectedValue);
                     videoConcat.VideoConversionOutputConfiguration.SamplingRate = Convert.ToString(SelectedSamplingRate.SelectedValue);
@@ -1294,6 +1319,7 @@ namespace ModernFormatConverter.Views.Pages
                     videoMixedFlow.VideoConversionOutputConfiguration.MirrorReversal = MirrorReversal;
                     videoMixedFlow.VideoConversionOutputConfiguration.VideoFadeInEffect = Convert.ToString(SelectedVideoFadeInEffect);
                     videoMixedFlow.VideoConversionOutputConfiguration.VideoFadeOutEffect = Convert.ToString(SelectedVideoFadeOutEffect);
+                    videoMixedFlow.VideoConversionOutputConfiguration.OutputFolder = OutputFolder;
 
                     videoMixedFlow.VideoConversionOutputConfiguration.AudioEncoding = Convert.ToString(SelectedAudioEncoding.SelectedValue);
                     videoMixedFlow.VideoConversionOutputConfiguration.SamplingRate = Convert.ToString(SelectedSamplingRate.SelectedValue);
@@ -1727,6 +1753,69 @@ namespace ModernFormatConverter.Views.Pages
             if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel videoFadeOutEffect && !Equals(SelectedVideoFadeOutEffect, videoFadeOutEffect))
             {
                 SelectedVideoFadeOutEffect = videoFadeOutEffect;
+            }
+        }
+
+        /// <summary>
+        /// 打开输出文件夹
+        /// </summary>
+        private void OnOpenOutputFolderClicked(Hyperlink sender, HyperlinkClickEventArgs args)
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    Process.Start(OutputFolder);
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoConversionOutputConfigurationPage), nameof(OnOpenOutputFolderClicked), 1, e);
+                }
+            });
+        }
+
+        /// <summary>
+        /// 修改输出的文件夹
+        /// </summary>
+        private void OnOutputChangeFolderClicked(object sender, RoutedEventArgs args)
+        {
+            if (sender is MenuFlyoutItem menuFlyoutItem && menuFlyoutItem.Tag is string tag)
+            {
+                switch (tag)
+                {
+                    case "AppCache":
+                        {
+                            Shell32Library.SHGetKnownFolderPath(new("F1B32785-6FBA-4FCF-9D55-7B8E7F157091"), KNOWN_FOLDER_FLAG.KF_FLAG_FORCE_APP_DATA_REDIRECTION, 0, out string localAppDataPath);
+                            OutputFolder = Path.Combine(localAppDataPath, "Videos");
+                            break;
+                        }
+                    case "Video":
+                        {
+                            string videoFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+                            OutputFolder = videoFolder;
+                            break;
+                        }
+                    case "Desktop":
+                        {
+                            OutputFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                            break;
+                        }
+                    case "Custom":
+                        {
+                            OpenFolderDialog openFolderDialog = new((nint)MainWindow.Current.AppWindow.Id.Value)
+                            {
+                                Description = SelectFolderString,
+                                RootFolder = Environment.SpecialFolder.Desktop
+                            };
+                            DialogResult dialogResult = openFolderDialog.ShowDialog();
+                            if (dialogResult is DialogResult.OK || dialogResult is DialogResult.Yes)
+                            {
+                                OutputFolder = openFolderDialog.SelectedPath;
+                            }
+                            openFolderDialog.Dispose();
+                            break;
+                        }
+                }
             }
         }
 
@@ -2272,6 +2361,8 @@ namespace ModernFormatConverter.Views.Pages
             SelectedVideoFadeInEffect = videoConversionOutputConfiguration is not null && VideoFadeInEffectList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.VideoFadeInEffect)) is ComboBoxItemModel selectedVideoFadeInEffect ? selectedVideoFadeInEffect : VideoFadeInEffectList[0];
 
             SelectedVideoFadeOutEffect = videoConversionOutputConfiguration is not null && VideoFadeOutEffectList.Find(item => string.Equals(Convert.ToString(item.SelectedValue), videoConversionOutputConfiguration.VideoFadeOutEffect)) is ComboBoxItemModel selectedVideoFadeOutEffect ? selectedVideoFadeOutEffect : VideoFadeOutEffectList[0];
+
+            OutputFolder = videoConversionOutputConfiguration is not null && !string.IsNullOrEmpty(videoConversionOutputConfiguration.OutputFolder) ? videoConversionOutputConfiguration.OutputFolder : ConvertConfigurationService.ConvertedVideoSavePath;
 
             IsAudioConfigurationSupported = !Equals(SelectedFormatConversionType, FormatConversionTypeList[2]);
 

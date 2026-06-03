@@ -231,7 +231,8 @@ namespace ModernFormatConverter.Views.Pages
                         AudioFadeOutEffect = "None",
                         Echo = false,
                         DeNoise = false,
-                        Reverse = false
+                        Reverse = false,
+                        OutputFolder = string.Empty
                     }
                 }
             });
@@ -253,7 +254,8 @@ namespace ModernFormatConverter.Views.Pages
                     {
                         VoiceType = string.Empty,
                         ReadingSpeed = 0,
-                        Volume = 100
+                        Volume = 100,
+                        OutputFolder = string.Empty
                     }
                 }
             });
@@ -1129,7 +1131,8 @@ namespace ModernFormatConverter.Views.Pages
                             AudioFadeOutEffect = "None",
                             Echo = false,
                             DeNoise = false,
-                            Reverse = false
+                            Reverse = false,
+                            OutputFolder = string.Empty
                         };
 
                         audioFormatConversionFile.AudioEdit = new()

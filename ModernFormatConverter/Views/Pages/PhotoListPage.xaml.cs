@@ -649,7 +649,8 @@ namespace ModernFormatConverter.Views.Pages
                             Hue = 0,
                             Blur = 0,
                             GrayScale = false,
-                            Reversal = false
+                            Reversal = false,
+                            OutputFolder = string.Empty
                         };
 
                         return photoFormatConversionFile;

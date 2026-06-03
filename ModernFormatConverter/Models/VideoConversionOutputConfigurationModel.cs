@@ -100,6 +100,11 @@ namespace ModernFormatConverter.Models
         /// </summary>
         public string VideoFadeOutEffect { get; set; }
 
+        /// <summary>
+        /// 输出文件夹
+        /// </summary>
+        public string OutputFolder { get; set; }
+
         #endregion 视频参数部分
 
         #region 音频参数部分

@@ -1,11 +1,15 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Navigation;
 using ModernFormatConverter.Extensions.DataType.Class;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
+using ModernFormatConverter.Services.Settings;
 using ModernFormatConverter.Views.Windows;
+using ModernFormatConverter.WindowsAPI.ComTypes;
+using ModernFormatConverter.WindowsAPI.PInvoke.Shell32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +18,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Windows.Foundation;
 using Windows.Storage;
 
@@ -31,6 +36,7 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string FourToThreeString = ResourceService.PhotoConversionOutputConfigurationResource.GetString("FourToThree");
         private readonly string LandscapeString = ResourceService.PhotoConversionOutputConfigurationResource.GetString("Landscape");
         private readonly string PortraitString = ResourceService.PhotoConversionOutputConfigurationResource.GetString("Portrait");
+        private readonly string SelectFolderString = ResourceService.PhotoConversionOutputConfigurationResource.GetString("SelectFolder");
         private readonly string SquareString = ResourceService.PhotoConversionOutputConfigurationResource.GetString("Square");
         private readonly string ThreeToFourString = ResourceService.PhotoConversionOutputConfigurationResource.GetString("ThreeToFour");
         private readonly string ThreeToTwoString = ResourceService.PhotoConversionOutputConfigurationResource.GetString("ThreeToTwo");
@@ -458,6 +464,22 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
+        private string _outputFolder;
+
+        public string OutputFolder
+        {
+            get { return _outputFolder; }
+
+            set
+            {
+                if (!Equals(_outputFolder, value))
+                {
+                    _outputFolder = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(OutputFolder)));
+                }
+            }
+        }
+
         public List<ComboBoxItemModel> FormatConversionTypeList { get; } =
         [
             new ComboBoxItemModel(){ SelectedValue = "JPG", DisplayMember = ".jpg" },
@@ -599,6 +621,7 @@ namespace ModernFormatConverter.Views.Pages
                             photoFormatConversionFile.PhotoConversionOutputConfiguration.Blur = Blur;
                             photoFormatConversionFile.PhotoConversionOutputConfiguration.GrayScale = GrayScale;
                             photoFormatConversionFile.PhotoConversionOutputConfiguration.Reversal = Reversal;
+                            photoFormatConversionFile.PhotoConversionOutputConfiguration.OutputFolder = OutputFolder;
                         }
                     }
                 }
@@ -624,6 +647,7 @@ namespace ModernFormatConverter.Views.Pages
                     photoFormatConversionFile.PhotoConversionOutputConfiguration.Blur = Blur;
                     photoFormatConversionFile.PhotoConversionOutputConfiguration.GrayScale = GrayScale;
                     photoFormatConversionFile.PhotoConversionOutputConfiguration.Reversal = Reversal;
+                    photoFormatConversionFile.PhotoConversionOutputConfiguration.OutputFolder = OutputFolder;
                 }
             }
 
@@ -1053,6 +1077,69 @@ namespace ModernFormatConverter.Views.Pages
             IsCroppingImage = false;
         }
 
+        /// <summary>
+        /// 打开输出文件夹
+        /// </summary>
+        private void OnOpenOutputFolderClicked(Hyperlink sender, HyperlinkClickEventArgs args)
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    Process.Start(OutputFolder);
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(PhotoConversionOutputConfigurationPage), nameof(OnOpenOutputFolderClicked), 1, e);
+                }
+            });
+        }
+
+        /// <summary>
+        /// 修改输出的文件夹
+        /// </summary>
+        private void OnOutputChangeFolderClicked(object sender, RoutedEventArgs args)
+        {
+            if (sender is MenuFlyoutItem menuFlyoutItem && menuFlyoutItem.Tag is string tag)
+            {
+                switch (tag)
+                {
+                    case "AppCache":
+                        {
+                            Shell32Library.SHGetKnownFolderPath(new("F1B32785-6FBA-4FCF-9D55-7B8E7F157091"), KNOWN_FOLDER_FLAG.KF_FLAG_FORCE_APP_DATA_REDIRECTION, 0, out string localAppDataPath);
+                            OutputFolder = Path.Combine(localAppDataPath, "Pictures");
+                            break;
+                        }
+                    case "Photo":
+                        {
+                            string musicFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+                            OutputFolder = musicFolder;
+                            break;
+                        }
+                    case "Desktop":
+                        {
+                            OutputFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                            break;
+                        }
+                    case "Custom":
+                        {
+                            OpenFolderDialog openFolderDialog = new((nint)MainWindow.Current.AppWindow.Id.Value)
+                            {
+                                Description = SelectFolderString,
+                                RootFolder = Environment.SpecialFolder.Desktop
+                            };
+                            DialogResult dialogResult = openFolderDialog.ShowDialog();
+                            if (dialogResult is DialogResult.OK || dialogResult is DialogResult.Yes)
+                            {
+                                OutputFolder = openFolderDialog.SelectedPath;
+                            }
+                            openFolderDialog.Dispose();
+                            break;
+                        }
+                }
+            }
+        }
+
         #endregion 第二部分：音频转换输出配置页面——挂载的事件
 
         /// <summary>
@@ -1125,8 +1212,9 @@ namespace ModernFormatConverter.Views.Pages
                     SelectedAspectRatio = AspectRatioList[0];
                     PhotoConversionOutputConfigurationImageCropper.AspectRatio = Convert.ToDouble(SelectedAspectRatio.SelectedValue);
                 }
-
             }
+
+            OutputFolder = photoFormatConversionFile is not null && photoFormatConversionFile.PhotoConversionOutputConfiguration is not null && !string.IsNullOrEmpty(photoFormatConversionFile.PhotoConversionOutputConfiguration.OutputFolder) ? photoFormatConversionFile.PhotoConversionOutputConfiguration.OutputFolder : ConvertConfigurationService.ConvertedPhotoSavePath;
         }
 
         private Visibility GetIsPreviewPhotoEnabled(bool isGlobalSettings, bool adjustPhoto)

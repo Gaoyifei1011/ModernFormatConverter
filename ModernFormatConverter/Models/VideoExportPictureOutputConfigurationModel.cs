@@ -39,5 +39,10 @@ namespace ModernFormatConverter.Models
         /// 每秒导出图片数量（单位：毫秒）
         /// </summary>
         public int PictureExportPerSecond { get; set; }
+
+        /// <summary>
+        /// 输出文件夹
+        /// </summary>
+        public string OutputFolder { get; set; }
     }
 }

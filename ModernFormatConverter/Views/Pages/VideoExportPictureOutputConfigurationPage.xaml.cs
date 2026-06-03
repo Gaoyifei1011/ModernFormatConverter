@@ -1,14 +1,22 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Navigation;
 using ModernFormatConverter.Extensions.DataType.Class;
 using ModernFormatConverter.Extensions.DataType.Enums;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
+using ModernFormatConverter.Services.Settings;
 using ModernFormatConverter.Views.Windows;
+using ModernFormatConverter.WindowsAPI.ComTypes;
+using ModernFormatConverter.WindowsAPI.PInvoke.Shell32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 // 抑制 CA1806，CA1822，IDE0060 警告
 #pragma warning disable CA1806,CA1822,IDE0060
@@ -22,6 +30,7 @@ namespace ModernFormatConverter.Views.Pages
     {
         private readonly string TimePeriodString = ResourceService.VideoExportPictureOutputConfigurationResource.GetString("TimePeriod");
         private readonly string TimePointString = ResourceService.VideoExportPictureOutputConfigurationResource.GetString("TimePoint");
+        private readonly string SelectFolderString = ResourceService.VideoExportPictureOutputConfigurationResource.GetString("SelectFolder");
         private VideoConversionNavigationParameter videoConversionNavigationParameter;
 
         private SelectorBarItem _selectedItem;
@@ -248,6 +257,22 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
+        private string _outputFolder;
+
+        public string OutputFolder
+        {
+            get { return _outputFolder; }
+
+            set
+            {
+                if (!Equals(_outputFolder, value))
+                {
+                    _outputFolder = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(OutputFolder)));
+                }
+            }
+        }
+
         public List<ComboBoxItemModel> SavePictureFormatList { get; } =
         [
             new ComboBoxItemModel(){ SelectedValue = "BMP", DisplayMember = ".bmp" },
@@ -330,6 +355,7 @@ namespace ModernFormatConverter.Views.Pages
                             videoExportPictureFile.VideoExportPictureOutputConfiguration.StartTime = new(TimeStartHours, TimeStartMinutes, TimeStartSeconds);
                             videoExportPictureFile.VideoExportPictureOutputConfiguration.EndTime = new(TimeEndHours, TimeEndMinutes, TimeEndSeconds);
                             videoExportPictureFile.VideoExportPictureOutputConfiguration.PictureExportPerSecond = PictureExportPerSecond;
+                            videoExportPictureFile.VideoExportPictureOutputConfiguration.OutputFolder = OutputFolder;
                         }
                     }
                 }
@@ -344,6 +370,7 @@ namespace ModernFormatConverter.Views.Pages
                     videoExportPictureFile.VideoExportPictureOutputConfiguration.StartTime = new(TimeStartHours, TimeStartMinutes, TimeStartSeconds);
                     videoExportPictureFile.VideoExportPictureOutputConfiguration.EndTime = new(TimeEndHours, TimeEndMinutes, TimeEndSeconds);
                     videoExportPictureFile.VideoExportPictureOutputConfiguration.PictureExportPerSecond = PictureExportPerSecond;
+                    videoExportPictureFile.VideoExportPictureOutputConfiguration.OutputFolder = OutputFolder;
                 }
             }
 
@@ -586,6 +613,69 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
+        /// <summary>
+        /// 打开输出文件夹
+        /// </summary>
+        private void OnOpenOutputFolderClicked(Hyperlink sender, HyperlinkClickEventArgs args)
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    Process.Start(OutputFolder);
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoExportPictureOutputConfigurationPage), nameof(OnOpenOutputFolderClicked), 1, e);
+                }
+            });
+        }
+
+        /// <summary>
+        /// 修改输出的文件夹
+        /// </summary>
+        private void OnOutputChangeFolderClicked(object sender, RoutedEventArgs args)
+        {
+            if (sender is MenuFlyoutItem menuFlyoutItem && menuFlyoutItem.Tag is string tag)
+            {
+                switch (tag)
+                {
+                    case "AppCache":
+                        {
+                            Shell32Library.SHGetKnownFolderPath(new("F1B32785-6FBA-4FCF-9D55-7B8E7F157091"), KNOWN_FOLDER_FLAG.KF_FLAG_FORCE_APP_DATA_REDIRECTION, 0, out string localAppDataPath);
+                            OutputFolder = Path.Combine(localAppDataPath, "Videos");
+                            break;
+                        }
+                    case "Video":
+                        {
+                            string videoFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+                            OutputFolder = videoFolder;
+                            break;
+                        }
+                    case "Desktop":
+                        {
+                            OutputFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                            break;
+                        }
+                    case "Custom":
+                        {
+                            OpenFolderDialog openFolderDialog = new((nint)MainWindow.Current.AppWindow.Id.Value)
+                            {
+                                Description = SelectFolderString,
+                                RootFolder = Environment.SpecialFolder.Desktop
+                            };
+                            DialogResult dialogResult = openFolderDialog.ShowDialog();
+                            if (dialogResult is DialogResult.OK || dialogResult is DialogResult.Yes)
+                            {
+                                OutputFolder = openFolderDialog.SelectedPath;
+                            }
+                            openFolderDialog.Dispose();
+                            break;
+                        }
+                }
+            }
+        }
+
         #endregion 第二部分：视频导出图片输出配置页面——挂载的事件
 
         /// <summary>
@@ -619,6 +709,8 @@ namespace ModernFormatConverter.Views.Pages
             TimeEndSeconds = videoExportPictureOutputConfiguration is not null ? videoExportPictureOutputConfiguration.EndTime.Seconds : 0;
 
             PictureExportPerSecond = videoExportPictureOutputConfiguration is not null ? videoExportPictureOutputConfiguration.PictureExportPerSecond : 1;
+
+            OutputFolder = videoExportPictureOutputConfiguration is not null && !string.IsNullOrEmpty(videoExportPictureOutputConfiguration.OutputFolder) ? videoExportPictureOutputConfiguration.OutputFolder : ConvertConfigurationService.ConvertedVideoSavePath;
         }
 
         private Visibility GetSelectedVideoExportPictureKind(object selectedVideoExportPictureKind, object videoExportPictureKind)

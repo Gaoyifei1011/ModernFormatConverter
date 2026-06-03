@@ -7,8 +7,6 @@ namespace ModernFormatConverter.Models
     /// </summary>
     public class PhotoConversionOutputConfigurationModel
     {
-        public PhotoConversionTypeKind PhotoConversionTypeKind { get; set; }
-
         #region 图片参数部分
 
         /// <summary>
@@ -95,6 +93,11 @@ namespace ModernFormatConverter.Models
         /// 反相
         /// </summary>
         public bool Reversal { get; set; }
+
+        /// <summary>
+        /// 输出文件夹
+        /// </summary>
+        public string OutputFolder { get; set; }
 
         #endregion 图片参数部分
     }
