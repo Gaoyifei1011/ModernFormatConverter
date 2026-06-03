@@ -35,7 +35,6 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string ThreeToFourString = ResourceService.PhotoConversionOutputConfigurationResource.GetString("ThreeToFour");
         private readonly string ThreeToTwoString = ResourceService.PhotoConversionOutputConfigurationResource.GetString("ThreeToTwo");
         private readonly string TwoToThreeString = ResourceService.PhotoConversionOutputConfigurationResource.GetString("TwoToThree");
-        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly bool isInitialized;
         private PhotoConversionNavigationParameter photoConversionNavigationParameter;
         private string filePath;
@@ -1113,7 +1112,7 @@ namespace ModernFormatConverter.Views.Pages
                     Blur = photoFormatConversionFile.PhotoConversionOutputConfiguration is not null ? photoFormatConversionFile.PhotoConversionOutputConfiguration.Blur : 0;
                     GrayScale = photoFormatConversionFile.PhotoConversionOutputConfiguration is not null && photoFormatConversionFile.PhotoConversionOutputConfiguration.GrayScale;
                     Reversal = photoFormatConversionFile.PhotoConversionOutputConfiguration is not null && photoFormatConversionFile.PhotoConversionOutputConfiguration.Reversal;
-
+                   
                     AspectRatioList.Clear();
                     AspectRatioList.Add(new ComboBoxItemModel() { SelectedValue = -1, DisplayMember = CustomString });
                     AspectRatioList.Add(new ComboBoxItemModel() { SelectedValue = 1, DisplayMember = SquareString });

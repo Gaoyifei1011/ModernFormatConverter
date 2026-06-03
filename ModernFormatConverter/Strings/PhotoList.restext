@@ -1,17 +1,13 @@
 ﻿Add=Add
 AddFile=Add file
 AddFromFolder=Add from folder
-AppCacheFolder=App cache
 Clear=Clear
-Custom=Custom
-DesktopFolder=Desktop
 DragAddFileTip=Drag and drop or manually add files to the list
 GettingFileInformation=Getting file information, please wait...
 NoFolder=Folders are not supported
 NotSort=Not sort
 OK=Ok
 OutputConfiguration=Output configuration
-PhotoFolder=Photo
 PhotoFormatConversion=Photo format conversion
 PhotoFormatConversionDragOverContent=Add to Photo Conversion list
 Remove=Remove
