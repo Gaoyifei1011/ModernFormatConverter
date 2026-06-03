@@ -195,6 +195,9 @@
     <EmbeddedResource Include="Strings\PhotoConversionOutputConfiguration.en-us.restext" />
     <EmbeddedResource Include="Strings\PhotoConversionOutputConfiguration.restext" />
     <EmbeddedResource Include="Strings\PhotoConversionOutputConfiguration.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\PhotoList.en-us.restext" />
+    <EmbeddedResource Include="Strings\PhotoList.restext" />
+    <EmbeddedResource Include="Strings\PhotoList.zh-hans.restext" />
     <EmbeddedResource Include="Strings\Resources.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
     <EmbeddedResource Include="Strings\RestartApps.en-us.restext" />
     <EmbeddedResource Include="Strings\RestartApps.restext" />
@@ -302,6 +305,7 @@
     <Page Include="Views\Pages\FileInformationPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\HATestPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\HomePage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Pages\PhotoListPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\PhotoConversionPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\SettingsAboutPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\SettingsAdvancedPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
