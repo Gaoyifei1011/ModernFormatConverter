@@ -196,44 +196,16 @@ namespace ModernFormatConverter.Views.Pages
             if (MainWindow.Current.GetFrameContent() is PhotoConversionPage photoConversionPage)
             {
                 // 图片格式转换
-                //if (args.Parameter is PhotoFormatConversionFileModel photoFormatConversionFile && photoFormatConversionFile.PhotoConversionOutputConfiguration is not null)
-                //{
-                //    photoConversionPage.NavigateTo(photoConversionPage.PageList[1], new PhotoConversionNavigationParameter()
-                //    {
-                //        PhotoConversionTypeKind = PhotoConversionTypeKind.PhotoFormatConversion,
-                //        IsGlobalSettings = false,
-                //        PhotoConversionData = photoFormatConversionFile
-                //    }, true);
-                //}
+                if (args.Parameter is PhotoFormatConversionFileModel photoFormatConversionFile && photoFormatConversionFile.PhotoConversionOutputConfiguration is not null)
+                {
+                    photoConversionPage.NavigateTo(photoConversionPage.PageList[1], new PhotoConversionNavigationParameter()
+                    {
+                        PhotoConversionTypeKind = PhotoConversionTypeKind.PhotoFormatConversion,
+                        IsGlobalSettings = false,
+                        PhotoConversionData = photoFormatConversionFile
+                    }, true);
+                }
             }
-            //if (args.Parameter is PhotoConversionFileModel photoConversionFile)
-            //{
-            //    // 图片格式转换输出配置
-            //    if (Equals(SelectedConversionType, PhotoConversionTypeCollection[0]) || Equals(SelectedConversionType, PhotoConversionTypeCollection[1]))
-            //    {
-            //        PhotoConversionOutputConfigurationWindow photoConversionOutputConfigurationWindow = new(ConversionToolsWindow.Current, photoConversionFile);
-            //        if (await photoConversionOutputConfigurationWindow.ShowAsync() is ContentDialogResult.Primary && SelectedConversionType.PhotoConversionTypeKind is PhotoConversionTypeKind.PhotoFormatConversion)
-            //        {
-            //            photoConversionFile.PhotoConversionOutputConfiguration.FormatConversionType = Convert.ToString(photoConversionOutputConfigurationWindow.SelectedFormatConversionType.SelectedValue);
-            //            photoConversionFile.PhotoConversionOutputConfiguration.IsImageCropped = photoConversionOutputConfigurationWindow.IsImageCropped;
-            //            photoConversionFile.PhotoConversionOutputConfiguration.ImageWidth = photoConversionOutputConfigurationWindow.ImageWidth;
-            //            photoConversionFile.PhotoConversionOutputConfiguration.ImageHeight = photoConversionOutputConfigurationWindow.ImageHeight;
-            //            photoConversionFile.PhotoConversionOutputConfiguration.XCoordinate = photoConversionOutputConfigurationWindow.XCoordinate;
-            //            photoConversionFile.PhotoConversionOutputConfiguration.YCoordinate = photoConversionOutputConfigurationWindow.YCoordinate;
-            //            photoConversionFile.PhotoConversionOutputConfiguration.ClipWidth = photoConversionOutputConfigurationWindow.ClipWidth;
-            //            photoConversionFile.PhotoConversionOutputConfiguration.ClipHeight = photoConversionOutputConfigurationWindow.ClipHeight;
-            //            photoConversionFile.PhotoConversionOutputConfiguration.AdjustPhoto = photoConversionOutputConfigurationWindow.AdjustPhoto;
-            //            photoConversionFile.PhotoConversionOutputConfiguration.ContrastRatio = photoConversionOutputConfigurationWindow.ContrastRatio;
-            //            photoConversionFile.PhotoConversionOutputConfiguration.Brightness = photoConversionOutputConfigurationWindow.Brightness;
-            //            photoConversionFile.PhotoConversionOutputConfiguration.Saturation = photoConversionOutputConfigurationWindow.Saturation;
-            //            photoConversionFile.PhotoConversionOutputConfiguration.ColorTemperature = photoConversionOutputConfigurationWindow.ColorTemperature;
-            //            photoConversionFile.PhotoConversionOutputConfiguration.Hue = photoConversionOutputConfigurationWindow.Hue;
-            //            photoConversionFile.PhotoConversionOutputConfiguration.Blur = photoConversionOutputConfigurationWindow.Blur;
-            //            photoConversionFile.PhotoConversionOutputConfiguration.GrayScale = photoConversionOutputConfigurationWindow.GrayScale;
-            //            photoConversionFile.PhotoConversionOutputConfiguration.Reversal = photoConversionOutputConfigurationWindow.Reversal;
-            //        }
-            //    }
-            //}
         }
 
         #endregion 第一部分：ExecuteCommand 命令调用时挂载的事件
@@ -521,39 +493,15 @@ namespace ModernFormatConverter.Views.Pages
                 // 图片格式转换
                 if (SelectedConversionType.PhotoConversionTypeKind is PhotoConversionTypeKind.PhotoFormatConversion)
                 {
-                    //photoConversionPage.NavigateTo(photoConversionPage.PageList[1], new PhotoConversionNavigationParameter()
-                    //{
-                    //    PhotoConversionTypeKind = PhotoConversionTypeKind.PhotoFormatConversion,
-                    //    IsGlobalSettings = true,
-                    //    PhotoConversionData = PhotoConversionTypeCollection[0].PhotoFormatConversion.PhotoFormatConversionFileCollection.ToList()
-                    //}, true);
+                    photoConversionPage.NavigateTo(photoConversionPage.PageList[1], new PhotoConversionNavigationParameter()
+                    {
+                        PhotoConversionTypeKind = PhotoConversionTypeKind.PhotoFormatConversion,
+                        IsGlobalSettings = true,
+                        PhotoConversionData = PhotoConversionTypeCollection[0].PhotoFormatConversion.PhotoFormatConversionFileCollection.ToList()
+                    }, true);
                 }
             }
-                // 图片格式转换输出配置
-                //if (Equals(SelectedConversionType, PhotoConversionTypeCollection[0]))
-                //{
-                //    PhotoConversionOutputConfigurationWindow photoConversionOutputConfigurationWindow = new(ConversionToolsWindow.Current);
-                //    if (await photoConversionOutputConfigurationWindow.ShowAsync() is ContentDialogResult.Primary && SelectedConversionType.PhotoConversionTypeKind is PhotoConversionTypeKind.PhotoFormatConversion)
-                //    {
-                //        foreach (PhotoConversionFileModel photoConversionFile in SelectedConversionType.PhotoConversionFileCollection)
-                //        {
-                //            if (photoConversionFile.PhotoConversionOutputConfiguration is not null)
-                //            {
-                //                photoConversionFile.PhotoConversionOutputConfiguration.FormatConversionType = Convert.ToString(photoConversionOutputConfigurationWindow.SelectedFormatConversionType.SelectedValue);
-                //                photoConversionFile.PhotoConversionOutputConfiguration.AdjustPhoto = photoConversionOutputConfigurationWindow.AdjustPhoto;
-                //                photoConversionFile.PhotoConversionOutputConfiguration.ContrastRatio = photoConversionOutputConfigurationWindow.ContrastRatio;
-                //                photoConversionFile.PhotoConversionOutputConfiguration.Brightness = photoConversionOutputConfigurationWindow.Brightness;
-                //                photoConversionFile.PhotoConversionOutputConfiguration.Saturation = photoConversionOutputConfigurationWindow.Saturation;
-                //                photoConversionFile.PhotoConversionOutputConfiguration.ColorTemperature = photoConversionOutputConfigurationWindow.ColorTemperature;
-                //                photoConversionFile.PhotoConversionOutputConfiguration.Hue = photoConversionOutputConfigurationWindow.Hue;
-                //                photoConversionFile.PhotoConversionOutputConfiguration.Blur = photoConversionOutputConfigurationWindow.Blur;
-                //                photoConversionFile.PhotoConversionOutputConfiguration.GrayScale = photoConversionOutputConfigurationWindow.GrayScale;
-                //                photoConversionFile.PhotoConversionOutputConfiguration.Reversal = photoConversionOutputConfigurationWindow.Reversal;
-                //            }
-                //        }
-                //    }
-                //}
-            }
+        }
 
         /// <summary>
         /// 确定

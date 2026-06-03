@@ -936,6 +936,12 @@ namespace ModernFormatConverter.Views.Windows
                 return;
             }
 
+            if (GetFrameContent() is PhotoConversionPage photoConversionPage && photoConversionPage.BreadCollection.Count is 2)
+            {
+                photoConversionPage.NavigateTo(photoConversionPage.PageList[0], null, false);
+                return;
+            }
+
             if ((MainNavigationView.Content as Frame).CanGoBack)
             {
                 (MainNavigationView.Content as Frame).GoBack();

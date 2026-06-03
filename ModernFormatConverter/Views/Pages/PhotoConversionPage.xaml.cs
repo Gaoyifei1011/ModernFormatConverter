@@ -22,7 +22,7 @@ namespace ModernFormatConverter.Views.Pages
         private readonly string OutputConfigurationString = ResourceService.PhotoConversionResource.GetString("OutputConfiguration");
         private readonly string PhotoListString = ResourceService.PhotoConversionResource.GetString("PhotoList");
 
-        public List<Type> PageList { get; } = [typeof(PhotoListPage), typeof(PhotoConversionOutputConfigurationWindow)];
+        public List<Type> PageList { get; } = [typeof(PhotoListPage), typeof(PhotoConversionOutputConfigurationPage)];
 
         public WinRTObservableCollection<PhotoConversionTypeModel> PhotoConversionTypeCollection { get; } = [];
 
