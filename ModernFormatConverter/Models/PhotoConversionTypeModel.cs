@@ -1,5 +1,4 @@
-﻿using ModernFormatConverter.Extensions.DataType.Class;
-using ModernFormatConverter.Extensions.DataType.Enums;
+﻿using ModernFormatConverter.Extensions.DataType.Enums;
 
 namespace ModernFormatConverter.Models
 {
@@ -24,8 +23,8 @@ namespace ModernFormatConverter.Models
         public PhotoConversionTypeKind PhotoConversionTypeKind { get; set; }
 
         /// <summary>
-        /// 图片转换文件配置列表
+        /// 图片格式转换数据类型（仅用于图片格式转换）
         /// </summary>
-        public WinRTObservableCollection<PhotoConversionFileModel> PhotoConversionFileCollection { get; } = [];
+        public PhotoFormatConversionModel PhotoFormatConversion { get; set; }
     }
 }
