@@ -317,7 +317,7 @@ namespace ModernFormatConverter.Views.Pages
 
         #endregion 第一部分：ExecuteCommand 命令调用时挂载的事件
 
-        #region 第二部分：音频转换页面——挂载的事件
+        #region 第二部分：音频列表页面——挂载的事件
 
         /// <summary>
         /// 设置拖动的数据的可视表示形式
@@ -700,8 +700,8 @@ namespace ModernFormatConverter.Views.Pages
             {
                 IsGettingFileInformation = true;
                 await AddAudioDataAsync([.. openFileDialog.FileNames]);
+                IsGettingFileInformation = false;
             }
-            IsGettingFileInformation = false;
             openFileDialog.Dispose();
         }
 
@@ -883,7 +883,7 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
-        #endregion 第二部分：音频转换页面——挂载的事件
+        #endregion 第二部分：音频列表页面——挂载的事件
 
         /// <summary>
         /// 添加音频数据

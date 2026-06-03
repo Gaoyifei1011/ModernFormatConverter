@@ -144,7 +144,7 @@
                     <FontIcon FontSize="14" Glyph="&#xE8CB;" />
 
                     <Button.Flyout>
-                        <MenuFlyout Placement="Top">
+                        <MenuFlyout Placement="Bottom">
                             <RadioMenuFlyoutItem
                                 Click="{x:Bind OnSortRuleClicked}"
                                 GroupName="AudioSortRuleGroup"
@@ -251,7 +251,7 @@
                     <FontIcon FontSize="14" Glyph="&#xE710;" />
 
                     <Button.Flyout>
-                        <MenuFlyout Placement="Top">
+                        <MenuFlyout Placement="Bottom">
                             <MenuFlyoutItem
                                 Click="{x:Bind OnAddFileClicked}"
                                 Text="{x:Bind rootservice:ResourceService.AudioListResource.GetString('AddFile')}"
