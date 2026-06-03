@@ -1039,8 +1039,8 @@ namespace ModernFormatConverter.Views.Pages
             {
                 IsGettingFileInformation = true;
                 await AddVideoDataAsync([.. openFileDialog.FileNames]);
+                IsGettingFileInformation = false;
             }
-            IsGettingFileInformation = false;
             openFileDialog.Dispose();
         }
 
