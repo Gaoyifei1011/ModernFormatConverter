@@ -165,17 +165,7 @@
                         TextTrimming="CharacterEllipsis">
 
                         <ToolTipService.ToolTip>
-                            <ToolTip
-                                MaxWidth="9999"
-                                Padding="0"
-                                Background="Transparent"
-                                Visibility="{x:Bind FileNameText.IsTextTrimmed, Mode=OneWay}">
-
-                                <Grid>
-                                    <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                    <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind FileName, Mode=OneWay}" />
-                                </Grid>
-                            </ToolTip>
+                            <ToolTip Content="{x:Bind FileName, Mode=OneWay}" Visibility="{x:Bind FileNameText.IsTextTrimmed, Mode=OneWay}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
 
@@ -1278,22 +1268,10 @@
                                                     Height="32"
                                                     Padding="0"
                                                     Click="{x:Bind OnForwardVideoDetailVideoInfoClicked}"
-                                                    CornerRadius="{StaticResource ControlCornerRadius}">
+                                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardVideoInfo')}">
 
                                                     <FontIcon FontSize="16" Glyph="&#xE76B;" />
-
-                                                    <ToolTipService.ToolTip>
-                                                        <ToolTip
-                                                            MaxWidth="9999"
-                                                            Padding="0"
-                                                            Background="Transparent">
-
-                                                            <Grid>
-                                                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardVideoInfo')}" />
-                                                            </Grid>
-                                                        </ToolTip>
-                                                    </ToolTipService.ToolTip>
                                                 </Button>
 
                                                 <NumberBox ValueChanged="{x:Bind OnVideoDetailVideoInfoSelectedIndexValueChanged}" Value="{x:Bind VideoDetailVideoInfoSelectedIndex, Mode=OneWay}">
@@ -1313,22 +1291,10 @@
                                                     Height="32"
                                                     Padding="0"
                                                     Click="{x:Bind OnNextVideoDetailVideoInfoClicked}"
-                                                    CornerRadius="{StaticResource ControlCornerRadius}">
+                                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextVideoInfo')}">
 
                                                     <FontIcon FontSize="16" Glyph="&#xE76C;" />
-
-                                                    <ToolTipService.ToolTip>
-                                                        <ToolTip
-                                                            MaxWidth="9999"
-                                                            Padding="0"
-                                                            Background="Transparent">
-
-                                                            <Grid>
-                                                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextVideoInfo')}" />
-                                                            </Grid>
-                                                        </ToolTip>
-                                                    </ToolTipService.ToolTip>
                                                 </Button>
                                             </StackPanel>
                                         </Grid>
@@ -1637,22 +1603,10 @@
                                                     Height="32"
                                                     Padding="0"
                                                     Click="{x:Bind OnForwardVideoDetailAudioInfoClicked}"
-                                                    CornerRadius="{StaticResource ControlCornerRadius}">
+                                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardAudioInfo')}">
 
                                                     <FontIcon FontSize="16" Glyph="&#xE76B;" />
-
-                                                    <ToolTipService.ToolTip>
-                                                        <ToolTip
-                                                            MaxWidth="9999"
-                                                            Padding="0"
-                                                            Background="Transparent">
-
-                                                            <Grid>
-                                                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardAudioInfo')}" />
-                                                            </Grid>
-                                                        </ToolTip>
-                                                    </ToolTipService.ToolTip>
                                                 </Button>
 
                                                 <NumberBox ValueChanged="{x:Bind OnVideoDetailAudioInfoSelectedIndexValueChanged}" Value="{x:Bind VideoDetailAudioInfoSelectedIndex, Mode=OneWay}">
@@ -1672,22 +1626,10 @@
                                                     Height="32"
                                                     Padding="0"
                                                     Click="{x:Bind OnNextVideoDetailAudioInfoClicked}"
-                                                    CornerRadius="{StaticResource ControlCornerRadius}">
+                                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextAudioInfo')}">
 
                                                     <FontIcon FontSize="16" Glyph="&#xE76C;" />
-
-                                                    <ToolTipService.ToolTip>
-                                                        <ToolTip
-                                                            MaxWidth="9999"
-                                                            Padding="0"
-                                                            Background="Transparent">
-
-                                                            <Grid>
-                                                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextAudioInfo')}" />
-                                                            </Grid>
-                                                        </ToolTip>
-                                                    </ToolTipService.ToolTip>
                                                 </Button>
                                             </StackPanel>
                                         </Grid>
@@ -1894,22 +1836,10 @@
                                                     Height="32"
                                                     Padding="0"
                                                     Click="{x:Bind OnForwardVideoDetailTextInfoClicked}"
-                                                    CornerRadius="{StaticResource ControlCornerRadius}">
+                                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardTextInfo')}">
 
                                                     <FontIcon FontSize="16" Glyph="&#xE76B;" />
-
-                                                    <ToolTipService.ToolTip>
-                                                        <ToolTip
-                                                            MaxWidth="9999"
-                                                            Padding="0"
-                                                            Background="Transparent">
-
-                                                            <Grid>
-                                                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardTextInfo')}" />
-                                                            </Grid>
-                                                        </ToolTip>
-                                                    </ToolTipService.ToolTip>
                                                 </Button>
 
                                                 <NumberBox ValueChanged="{x:Bind OnVideoDetailTextInfoSelectedIndexValueChanged}" Value="{x:Bind VideoDetailTextInfoSelectedIndex, Mode=OneWay}">
@@ -1929,22 +1859,10 @@
                                                     Height="32"
                                                     Padding="0"
                                                     Click="{x:Bind OnNextVideoDetailTextInfoClicked}"
-                                                    CornerRadius="{StaticResource ControlCornerRadius}">
+                                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextTextInfo')}">
 
                                                     <FontIcon FontSize="16" Glyph="&#xE76C;" />
-
-                                                    <ToolTipService.ToolTip>
-                                                        <ToolTip
-                                                            MaxWidth="9999"
-                                                            Padding="0"
-                                                            Background="Transparent">
-
-                                                            <Grid>
-                                                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextTextInfo')}" />
-                                                            </Grid>
-                                                        </ToolTip>
-                                                    </ToolTipService.ToolTip>
                                                 </Button>
                                             </StackPanel>
                                         </Grid>
@@ -2688,22 +2606,10 @@
                                                     Height="32"
                                                     Padding="0"
                                                     Click="{x:Bind OnForwardAudioDetailAudioInfoClicked}"
-                                                    CornerRadius="{StaticResource ControlCornerRadius}">
+                                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardAudioInfo')}">
 
                                                     <FontIcon FontSize="16" Glyph="&#xE76B;" />
-
-                                                    <ToolTipService.ToolTip>
-                                                        <ToolTip
-                                                            MaxWidth="9999"
-                                                            Padding="0"
-                                                            Background="Transparent">
-
-                                                            <Grid>
-                                                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardAudioInfo')}" />
-                                                            </Grid>
-                                                        </ToolTip>
-                                                    </ToolTipService.ToolTip>
                                                 </Button>
 
                                                 <NumberBox ValueChanged="{x:Bind OnAudioDetailAudioInfoSelectedIndexValueChanged}" Value="{x:Bind AudioDetailAudioInfoSelectedIndex, Mode=OneWay}">
@@ -2723,22 +2629,10 @@
                                                     Height="32"
                                                     Padding="0"
                                                     Click="{x:Bind OnNextAudioDetailAudioInfoClicked}"
-                                                    CornerRadius="{StaticResource ControlCornerRadius}">
+                                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextAudioInfo')}">
 
                                                     <FontIcon FontSize="16" Glyph="&#xE76C;" />
-
-                                                    <ToolTipService.ToolTip>
-                                                        <ToolTip
-                                                            MaxWidth="9999"
-                                                            Padding="0"
-                                                            Background="Transparent">
-
-                                                            <Grid>
-                                                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextAudioInfo')}" />
-                                                            </Grid>
-                                                        </ToolTip>
-                                                    </ToolTipService.ToolTip>
                                                 </Button>
                                             </StackPanel>
                                         </Grid>
@@ -3409,22 +3303,10 @@
                                                     Height="32"
                                                     Padding="0"
                                                     Click="{x:Bind OnForwardImageDetailInfoClicked}"
-                                                    CornerRadius="{StaticResource ControlCornerRadius}">
+                                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardImageInfo')}">
 
                                                     <FontIcon FontSize="16" Glyph="&#xE76B;" />
-
-                                                    <ToolTipService.ToolTip>
-                                                        <ToolTip
-                                                            MaxWidth="9999"
-                                                            Padding="0"
-                                                            Background="Transparent">
-
-                                                            <Grid>
-                                                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ForwardImageInfo')}" />
-                                                            </Grid>
-                                                        </ToolTip>
-                                                    </ToolTipService.ToolTip>
                                                 </Button>
 
                                                 <NumberBox ValueChanged="{x:Bind OnImageDetailInfoSelectedIndexValueChanged}" Value="{x:Bind ImageDetailInfoSelectedIndex, Mode=OneWay}">
@@ -3444,22 +3326,10 @@
                                                     Height="32"
                                                     Padding="0"
                                                     Click="{x:Bind OnNextImageDetailInfoClicked}"
-                                                    CornerRadius="{StaticResource ControlCornerRadius}">
+                                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextImageInfo')}">
 
                                                     <FontIcon FontSize="16" Glyph="&#xE76C;" />
-
-                                                    <ToolTipService.ToolTip>
-                                                        <ToolTip
-                                                            MaxWidth="9999"
-                                                            Padding="0"
-                                                            Background="Transparent">
-
-                                                            <Grid>
-                                                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('NextImageInfo')}" />
-                                                            </Grid>
-                                                        </ToolTip>
-                                                    </ToolTipService.ToolTip>
                                                 </Button>
                                             </StackPanel>
                                         </Grid>
@@ -4402,25 +4272,13 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Click="{x:Bind OnCloseClicked}"
-                            Style="{StaticResource AlternateCloseButtonStyle}">
+                            Style="{StaticResource AlternateCloseButtonStyle}"
+                            ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Close')}">
 
                             <FontIcon
                                 Margin="4"
                                 FontSize="16"
                                 Glyph="&#xE711;" />
-
-                            <ToolTipService.ToolTip>
-                                <ToolTip
-                                    MaxWidth="9999"
-                                    Padding="0"
-                                    Background="Transparent">
-
-                                    <Grid>
-                                        <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                        <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Close')}" />
-                                    </Grid>
-                                </ToolTip>
-                            </ToolTipService.ToolTip>
                         </Button>
                     </Grid>
 

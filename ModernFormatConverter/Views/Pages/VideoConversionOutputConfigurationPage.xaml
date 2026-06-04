@@ -50,22 +50,10 @@
                 VerticalAlignment="Center"
                 Click="{x:Bind OnOkClicked}"
                 CornerRadius="{StaticResource ControlCornerRadius}"
-                Style="{StaticResource AccentButtonStyle}">
+                Style="{StaticResource AccentButtonStyle}"
+                ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.VideoConversionOutputConfigurationResource.GetString('OK')}">
 
                 <FontIcon FontSize="14" Glyph="&#xE8FB;" />
-
-                <ToolTipService.ToolTip>
-                    <ToolTip
-                        MaxWidth="9999"
-                        Padding="0"
-                        Background="Transparent">
-
-                        <Grid>
-                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                            <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.VideoConversionOutputConfigurationResource.GetString('OK')}" />
-                        </Grid>
-                    </ToolTip>
-                </ToolTipService.ToolTip>
             </Button>
         </Grid>
 
@@ -392,24 +380,15 @@
                                 Text="{x:Bind rootservice:ResourceService.VideoConversionOutputConfigurationResource.GetString('CRFSize')}">
 
                                 <ToolTipService.ToolTip>
-                                    <ToolTip
-                                        MaxWidth="9999"
-                                        Padding="0"
-                                        Background="Transparent">
-
+                                    <ToolTip>
                                         <Grid>
-                                            <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
 
-                                            <Grid Padding="{StaticResource ToolTipBorderPadding}">
-
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="Auto" />
-                                                </Grid.RowDefinitions>
-
-                                                <TextBlock Grid.Row="0" Text="{x:Bind rootservice:ResourceService.VideoConversionOutputConfigurationResource.GetString('CRFSizeScale')}" />
-                                                <TextBlock Grid.Row="1" Text="{x:Bind rootservice:ResourceService.VideoConversionOutputConfigurationResource.GetString('CRFSizeInformation')}" />
-                                            </Grid>
+                                            <TextBlock Grid.Row="0" Text="{x:Bind rootservice:ResourceService.VideoConversionOutputConfigurationResource.GetString('CRFSizeScale')}" />
+                                            <TextBlock Grid.Row="1" Text="{x:Bind rootservice:ResourceService.VideoConversionOutputConfigurationResource.GetString('CRFSizeInformation')}" />
                                         </Grid>
                                     </ToolTip>
                                 </ToolTipService.ToolTip>
@@ -931,21 +910,13 @@
                             </Hyperlink>
 
                             <ToolTipService.ToolTip>
-                                <ToolTip
-                                    MaxWidth="9999"
-                                    Padding="0"
-                                    Background="Transparent">
-
-                                    <Grid>
-                                        <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-
-                                        <StackPanel Padding="{StaticResource ToolTipBorderPadding}" HorizontalAlignment="Stretch">
-                                            <TextBlock Text="{x:Bind rootservice:ResourceService.VideoConversionOutputConfigurationResource.GetString('FileStoragePath')}" />
-                                            <TextBlock Text="{x:Bind OutputFolder, Mode=OneWay}" />
-                                            <MenuFlyoutSeparator Margin="4,3" />
-                                            <TextBlock Text="{x:Bind rootservice:ResourceService.VideoConversionOutputConfigurationResource.GetString('OpenFolder')}" />
-                                        </StackPanel>
-                                    </Grid>
+                                <ToolTip>
+                                    <StackPanel HorizontalAlignment="Stretch">
+                                        <TextBlock Text="{x:Bind rootservice:ResourceService.VideoConversionOutputConfigurationResource.GetString('FileStoragePath')}" />
+                                        <TextBlock Text="{x:Bind OutputFolder, Mode=OneWay}" />
+                                        <MenuFlyoutSeparator Margin="4,3" />
+                                        <TextBlock Text="{x:Bind rootservice:ResourceService.VideoConversionOutputConfigurationResource.GetString('OpenFolder')}" />
+                                    </StackPanel>
                                 </ToolTip>
                             </ToolTipService.ToolTip>
                         </TextBlock>
@@ -1503,21 +1474,13 @@
                             </Hyperlink>
 
                             <ToolTipService.ToolTip>
-                                <ToolTip
-                                    MaxWidth="9999"
-                                    Padding="0"
-                                    Background="Transparent">
-
-                                    <Grid>
-                                        <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-
-                                        <StackPanel Padding="{StaticResource ToolTipBorderPadding}" HorizontalAlignment="Stretch">
-                                            <TextBlock Text="{x:Bind rootservice:ResourceService.VideoConversionOutputConfigurationResource.GetString('AdditionalSubtitlePath')}" />
-                                            <TextBlock Text="{x:Bind AdditionalSubtitlePath, Mode=OneWay}" />
-                                            <MenuFlyoutSeparator Margin="4,3" />
-                                            <TextBlock Text="{x:Bind rootservice:ResourceService.VideoConversionOutputConfigurationResource.GetString('OpenFolder')}" />
-                                        </StackPanel>
-                                    </Grid>
+                                <ToolTip>
+                                    <StackPanel HorizontalAlignment="Stretch">
+                                        <TextBlock Text="{x:Bind rootservice:ResourceService.VideoConversionOutputConfigurationResource.GetString('AdditionalSubtitlePath')}" />
+                                        <TextBlock Text="{x:Bind AdditionalSubtitlePath, Mode=OneWay}" />
+                                        <MenuFlyoutSeparator Margin="4,3" />
+                                        <TextBlock Text="{x:Bind rootservice:ResourceService.VideoConversionOutputConfigurationResource.GetString('OpenFolder')}" />
+                                    </StackPanel>
                                 </ToolTip>
                             </ToolTipService.ToolTip>
                         </TextBlock>
@@ -1530,22 +1493,10 @@
                         Margin="5,0,-5,0"
                         Padding="0"
                         Click="{x:Bind OnSelectAdditionalSubtitleClicked}"
-                        CornerRadius="{StaticResource ControlCornerRadius}">
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.VideoConversionOutputConfigurationResource.GetString('SelectAdditionalSubtitle')}">
 
                         <FontIcon FontSize="14" Glyph="&#xE838;" />
-
-                        <ToolTipService.ToolTip>
-                            <ToolTip
-                                MaxWidth="9999"
-                                Padding="0"
-                                Background="Transparent">
-
-                                <Grid>
-                                    <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                    <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.VideoConversionOutputConfigurationResource.GetString('SelectAdditionalSubtitle')}" />
-                                </Grid>
-                            </ToolTip>
-                        </ToolTipService.ToolTip>
                     </Button>
                 </Grid>
 

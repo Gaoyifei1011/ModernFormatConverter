@@ -123,7 +123,8 @@
                     Margin="0,0,5,0"
                     Padding="0"
                     CornerRadius="{StaticResource ControlCornerRadius}"
-                    IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsGettingFileInformation), Mode=OneWay}">
+                    IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsGettingFileInformation), Mode=OneWay}"
+                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.PhotoListResource.GetString('Sort')}">
 
                     <FontIcon FontSize="14" Glyph="&#xE8CB;" />
 
@@ -189,19 +190,6 @@
                             </RadioMenuFlyoutItem>
                         </MenuFlyout>
                     </Button.Flyout>
-
-                    <ToolTipService.ToolTip>
-                        <ToolTip
-                            MaxWidth="9999"
-                            Padding="0"
-                            Background="Transparent">
-
-                            <Grid>
-                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.PhotoListResource.GetString('Sort')}" />
-                            </Grid>
-                        </ToolTip>
-                    </ToolTipService.ToolTip>
                 </Button>
 
                 <Button
@@ -212,22 +200,10 @@
                     Padding="0"
                     Click="{x:Bind OnClearClicked}"
                     CornerRadius="{StaticResource ControlCornerRadius}"
-                    IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsGettingFileInformation), Mode=OneWay}">
+                    IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsGettingFileInformation), Mode=OneWay}"
+                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.PhotoListResource.GetString('Clear')}">
 
                     <FontIcon FontSize="14" Glyph="&#xE711;" />
-
-                    <ToolTipService.ToolTip>
-                        <ToolTip
-                            MaxWidth="9999"
-                            Padding="0"
-                            Background="Transparent">
-
-                            <Grid>
-                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.PhotoListResource.GetString('Clear')}" />
-                            </Grid>
-                        </ToolTip>
-                    </ToolTipService.ToolTip>
                 </Button>
 
                 <Button
@@ -237,7 +213,8 @@
                     Margin="0,0,5,0"
                     Padding="0"
                     CornerRadius="{StaticResource ControlCornerRadius}"
-                    IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsGettingFileInformation), Mode=OneWay}">
+                    IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsGettingFileInformation), Mode=OneWay}"
+                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.PhotoListResource.GetString('Add')}">
 
                     <FontIcon FontSize="14" Glyph="&#xE710;" />
 
@@ -258,19 +235,6 @@
                             </MenuFlyoutItem>
                         </MenuFlyout>
                     </Button.Flyout>
-
-                    <ToolTipService.ToolTip>
-                        <ToolTip
-                            MaxWidth="9999"
-                            Padding="0"
-                            Background="Transparent">
-
-                            <Grid>
-                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.PhotoListResource.GetString('Add')}" />
-                            </Grid>
-                        </ToolTip>
-                    </ToolTipService.ToolTip>
                 </Button>
 
                 <Button
@@ -281,7 +245,8 @@
                     Padding="7"
                     Click="{x:Bind OnOutputConfigurationClicked}"
                     CornerRadius="{StaticResource ControlCornerRadius}"
-                    IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsGettingFileInformation), Mode=OneWay}">
+                    IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsGettingFileInformation), Mode=OneWay}"
+                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.PhotoListResource.GetString('OutputConfiguration')}">
 
                     <AnimatedIcon>
                         <AnimatedIcon.Source>
@@ -291,19 +256,6 @@
                             <FontIconSource Glyph="&#xE713;" />
                         </AnimatedIcon.FallbackIconSource>
                     </AnimatedIcon>
-
-                    <ToolTipService.ToolTip>
-                        <ToolTip
-                            MaxWidth="9999"
-                            Padding="0"
-                            Background="Transparent">
-
-                            <Grid>
-                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.PhotoListResource.GetString('OutputConfiguration')}" />
-                            </Grid>
-                        </ToolTip>
-                    </ToolTipService.ToolTip>
                 </Button>
 
                 <Button
@@ -313,22 +265,10 @@
                     Padding="0"
                     Click="{x:Bind OnOkClicked}"
                     CornerRadius="{StaticResource ControlCornerRadius}"
-                    Style="{StaticResource AccentButtonStyle}">
+                    Style="{StaticResource AccentButtonStyle}"
+                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.PhotoListResource.GetString('OK')}">
 
                     <FontIcon FontSize="14" Glyph="&#xE8FB;" />
-
-                    <ToolTipService.ToolTip>
-                        <ToolTip
-                            MaxWidth="9999"
-                            Padding="0"
-                            Background="Transparent">
-
-                            <Grid>
-                                <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.PhotoListResource.GetString('OK')}" />
-                            </Grid>
-                        </ToolTip>
-                    </ToolTipService.ToolTip>
                 </Button>
             </Grid>
         </Grid>
@@ -485,17 +425,7 @@
                                         TextWrapping="NoWrap">
 
                                         <ToolTipService.ToolTip>
-                                            <ToolTip
-                                                MaxWidth="9999"
-                                                Padding="0"
-                                                Background="Transparent"
-                                                Visibility="{Binding ElementName=DescriptionText, Path=IsTextTrimmed, Mode=OneWay}">
-
-                                                <Grid>
-                                                    <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                    <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind FilePath}" />
-                                                </Grid>
-                                            </ToolTip>
+                                            <ToolTip Content="{x:Bind FilePath}" Visibility="{Binding ElementName=DescriptionText, Path=IsTextTrimmed, Mode=OneWay}" />
                                         </ToolTipService.ToolTip>
                                     </TextBlock>
 
@@ -526,7 +456,8 @@
                                         Padding="7"
                                         Command="{StaticResource OutputConfigurationCommand}"
                                         CommandParameter="{x:Bind}"
-                                        CornerRadius="{StaticResource ControlCornerRadius}">
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
+                                        ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.PhotoListResource.GetString('OutputConfiguration')}">
 
                                         <AnimatedIcon>
                                             <AnimatedIcon.Source>
@@ -536,19 +467,6 @@
                                                 <FontIconSource Glyph="&#xE713;" />
                                             </AnimatedIcon.FallbackIconSource>
                                         </AnimatedIcon>
-
-                                        <ToolTipService.ToolTip>
-                                            <ToolTip
-                                                MaxWidth="9999"
-                                                Padding="0"
-                                                Background="Transparent">
-
-                                                <Grid>
-                                                    <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                    <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.PhotoListResource.GetString('OutputConfiguration')}" />
-                                                </Grid>
-                                            </ToolTip>
-                                        </ToolTipService.ToolTip>
                                     </Button>
 
                                     <Button
@@ -559,22 +477,10 @@
                                         Padding="0"
                                         Command="{StaticResource RemoveCommand}"
                                         CommandParameter="{x:Bind}"
-                                        CornerRadius="{StaticResource ControlCornerRadius}">
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
+                                        ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.PhotoListResource.GetString('Remove')}">
 
                                         <FontIcon FontSize="16" Glyph="&#xE894;" />
-
-                                        <ToolTipService.ToolTip>
-                                            <ToolTip
-                                                MaxWidth="9999"
-                                                Padding="0"
-                                                Background="Transparent">
-
-                                                <Grid>
-                                                    <SystemBackdropElement CornerRadius="{StaticResource ControlCornerRadius}" SystemBackdrop="{StaticResource AcrylicBackgroundFillColorDefaultBackdrop}" />
-                                                    <TextBlock Padding="{StaticResource ToolTipBorderPadding}" Text="{x:Bind rootservice:ResourceService.PhotoListResource.GetString('Remove')}" />
-                                                </Grid>
-                                            </ToolTip>
-                                        </ToolTipService.ToolTip>
                                     </Button>
                                 </Grid>
                             </Grid>
