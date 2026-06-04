@@ -22,5 +22,72 @@
             Margin="30,15,30,0"
             FontSize="22"
             Text="{x:Bind rootservice:ResourceService.TaskManagerResource.GetString('TaskManager')}" />
+
+        <!--  任务控制栏  -->
+        <Grid
+            Grid.Row="1"
+            Height="60"
+            Margin="30,5,30,3"
+            Padding="18,0,0,0"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="{StaticResource ControlCornerRadius}">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <FontIcon
+                Grid.Column="0"
+                Margin="0,0,12,0"
+                FontSize="16"
+                Glyph="&#xE74C;" />
+
+            <TextBlock
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                Text="{x:Bind rootservice:ResourceService.TaskManagerResource.GetString('Operation')}" />
+
+            <CommandBar
+                Grid.Column="2"
+                VerticalAlignment="Center"
+                DefaultLabelPosition="Right"
+                Style="{StaticResource CommandBarStyle}">
+
+                <CommandBar.PrimaryCommands>
+                    <!--<AppBarButton Click="{x:Bind OnStartClicked}" Label="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Start')}">
+
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE768;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+
+                    <AppBarButton Click="{x:Bind OnStopClicked}" Label="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('Stop')}">
+
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE71A;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+
+                    <AppBarButton Click="{x:Bind OnClearListClicked}" Label="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('ClearList')}">
+
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE894;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>-->
+                </CommandBar.PrimaryCommands>
+
+                <CommandBar.SecondaryCommands>
+                    <!--<AppBarButton Click="{x:Bind OnUseInstructionClicked}" Label="{x:Bind rootservice:ResourceService.FileInformationResource.GetString('UseInstruction')}">
+                            <AppBarButton.Icon>
+                                <FontIcon Glyph="&#xE946;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>-->
+                </CommandBar.SecondaryCommands>
+            </CommandBar>
+        </Grid>
     </Grid>
 </Page>

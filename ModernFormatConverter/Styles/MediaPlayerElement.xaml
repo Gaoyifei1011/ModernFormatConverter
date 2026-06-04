@@ -39,7 +39,7 @@
                             </Style>
                             <!--  New CommandBar Style  -->
                             <Style
-                                x:Key="CommandBarStyle"
+                                x:Key="MediaPlayerElementCommandBarStyle"
                                 BasedOn="{StaticResource DefaultCommandBarStyle}"
                                 TargetType="CommandBar">
                                 <Setter Property="Background" Value="Transparent" />
@@ -193,7 +193,7 @@
                                         x:Name="MediaControlsCommandBar"
                                         Margin="0,3"
                                         IsDynamicOverflowEnabled="False"
-                                        Style="{StaticResource CommandBarStyle}">
+                                        Style="{StaticResource MediaPlayerElementCommandBarStyle}">
                                         <CommandBar.Resources>
                                             <Thickness x:Key="AppBarButtonInnerBorderMargin">5</Thickness>
                                             <Thickness x:Key="AppBarButtonContentViewboxCollapsedMargin">0,12</Thickness>

@@ -9,4 +9,3 @@ Tips=小提示
 TipContent1=1.自定义命令功能需要用户具备一定的命令行使用基础
 TipContent2=2.自定义命令已与程序关联，您只需输入命令名称即可调用，无需指定其所在路径
 TipContent3=3.FFmpeg 程序使用非用户交互模式
-ViewMore=查看更多
