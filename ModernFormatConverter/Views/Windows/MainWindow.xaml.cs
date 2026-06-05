@@ -1,7 +1,5 @@
 ﻿using Microsoft.UI;
 using Microsoft.UI.Composition.SystemBackdrops;
-using Microsoft.UI.Content;
-using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -45,9 +43,6 @@ namespace ModernFormatConverter.Views.Windows
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly OverlappedPresenter overlappedPresenter;
         private readonly SUBCLASSPROC mainWindowSubClassProc;
-        private readonly ContentIsland contentIsland;
-        private readonly InputKeyboardSource inputKeyboardSource;
-        private readonly InputPointerSource inputPointerSource;
         private bool isProgrammaticExpand;
 
         public new static MainWindow Current { get; private set; }
@@ -167,15 +162,10 @@ namespace ModernFormatConverter.Views.Windows
             AppWindow.TitleBar.InactiveBackgroundColor = Colors.Transparent;
             AppWindow.TitleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
             IsWindowMaximized = overlappedPresenter.State is OverlappedPresenterState.Maximized;
-            contentIsland = ContentIsland.FindAllForCompositor(Compositor)[0];
-            inputKeyboardSource = InputKeyboardSource.GetForIsland(contentIsland);
-            inputPointerSource = InputPointerSource.GetForIsland(contentIsland);
 
             // 挂载相应的事件
             ThemeService.PropertyChanged += OnServicePropertyChanged;
             BackdropService.PropertyChanged += OnServicePropertyChanged;
-            inputKeyboardSource.SystemKeyDown += OnSystemKeyDown;
-            inputPointerSource.PointerReleased += OnPointerReleased;
 
             // 标题栏和右键菜单设置
             SetClassicMenuTheme((Content as FrameworkElement).ActualTheme);
@@ -341,35 +331,7 @@ namespace ModernFormatConverter.Views.Windows
             });
         }
 
-        #region 第一部分：窗口辅助类挂载的事件
-
-        /// <summary>
-        /// 处理键盘系统按键事件
-        /// </summary>
-        private async void OnSystemKeyDown(InputKeyboardSource sender, KeyEventArgs args)
-        {
-            if (args.VirtualKey is VirtualKey.F10 && Content is not null && Content.XamlRoot is not null)
-            {
-                await Task.Delay(50);
-                SetPopupControlTheme(WindowTheme);
-            }
-        }
-
-        /// <summary>
-        /// 处理鼠标事件
-        /// </summary>
-        private async void OnPointerReleased(InputPointerSource sender, PointerEventArgs args)
-        {
-            if (args.CurrentPoint.Properties.PointerUpdateKind is PointerUpdateKind.RightButtonReleased && Content is not null && Content.XamlRoot is not null)
-            {
-                await Task.Delay(50);
-                SetPopupControlTheme(WindowTheme);
-            }
-        }
-
-        #endregion 第一部分：窗口辅助类挂载的事件
-
-        #region 第二部分：窗口右键菜单事件
+        #region 第一部分：窗口右键菜单事件
 
         /// <summary>
         /// 窗口还原
@@ -427,9 +389,9 @@ namespace ModernFormatConverter.Views.Windows
             User32Library.SendMessage((nint)AppWindow.Id.Value, WindowMessage.WM_SYSCOMMAND, (nuint)SYSTEMCOMMAND.SC_CLOSE, 0);
         }
 
-        #endregion 第二部分：窗口右键菜单事件
+        #endregion 第一部分：窗口右键菜单事件
 
-        #region 第三部分：窗口内容挂载的事件
+        #region 第二部分：窗口内容挂载的事件
 
         /// <summary>
         /// 应用主题变化时设置标题栏按钮的颜色
@@ -451,9 +413,9 @@ namespace ModernFormatConverter.Views.Windows
             }
         }
 
-        #endregion 第三部分：窗口内容挂载的事件
+        #endregion 第二部分：窗口内容挂载的事件
 
-        #region 第四部分：导航控件及其内容挂载的事件
+        #region 第三部分：导航控件及其内容挂载的事件
 
         /// <summary>
         /// 当后退按钮收到交互（如单击或点击）时发生
@@ -474,7 +436,6 @@ namespace ModernFormatConverter.Views.Windows
             SelectedItem = NavigationViewItemMenuItemsCollection[0];
             NavigateTo(typeof(HomePage));
             IsBackEnabled = CanGoBack();
-            SetPopupControlTheme(WindowTheme);
         }
 
         /// <summary>
@@ -602,9 +563,9 @@ namespace ModernFormatConverter.Views.Windows
             (Application.Current as MainApp).Dispose();
         }
 
-        #endregion 第四部分：导航控件及其内容挂载的事件
+        #endregion 第三部分：导航控件及其内容挂载的事件
 
-        #region 第五部分：自定义事件
+        #region 第四部分：自定义事件
 
         /// <summary>
         /// 设置选项发生变化时触发的事件
@@ -624,9 +585,9 @@ namespace ModernFormatConverter.Views.Windows
             }, null);
         }
 
-        #endregion 第五部分：自定义事件
+        #endregion 第四部分：自定义事件
 
-        #region 第六部分：窗口及内容属性设置
+        #region 第五部分：窗口及内容属性设置
 
         /// <summary>
         /// 设置应用显示的主题
@@ -728,30 +689,9 @@ namespace ModernFormatConverter.Views.Windows
             UxthemeLibrary.FlushMenuThemes();
         }
 
-        /// <summary>
-        /// 设置所有弹出控件主题
-        /// </summary>
-        private void SetPopupControlTheme(ElementTheme elementTheme)
-        {
-            foreach (Popup popup in VisualTreeHelper.GetOpenPopupsForXamlRoot(Content.XamlRoot))
-            {
-                popup.RequestedTheme = elementTheme;
+        #endregion 第五部分：窗口及内容属性设置
 
-                if (popup.Child is FlyoutPresenter flyoutPresenter)
-                {
-                    flyoutPresenter.RequestedTheme = elementTheme;
-                }
-
-                if (popup.Child is Grid grid && grid.Name is "OuterOverflowContentRootV2")
-                {
-                    grid.RequestedTheme = elementTheme;
-                }
-            }
-        }
-
-        #endregion 第六部分：窗口及内容属性设置
-
-        #region 第七部分：窗口过程
+        #region 第六部分：窗口过程
 
         /// <summary>
         /// 应用主窗口消息处理
@@ -809,8 +749,6 @@ namespace ModernFormatConverter.Views.Windows
                     {
                         ThemeService.PropertyChanged -= OnServicePropertyChanged;
                         BackdropService.PropertyChanged -= OnServicePropertyChanged;
-                        inputKeyboardSource.SystemKeyDown -= OnSystemKeyDown;
-                        inputPointerSource.PointerReleased -= OnPointerReleased;
                         Comctl32Library.RemoveWindowSubclass((nint)AppWindow.Id.Value, mainWindowSubClassProc, 0);
                         (Application.Current as MainApp).Dispose();
                         return 0;
@@ -848,11 +786,6 @@ namespace ModernFormatConverter.Views.Windows
                     {
                         SetWindowTheme();
                         SetClassicMenuTheme(WindowTheme);
-
-                        synchronizationContext.Post((_) =>
-                        {
-                            SetPopupControlTheme(WindowTheme);
-                        }, null);
                         break;
                     }
                 // 窗口 DPI 发生变化后触发的消息
@@ -896,9 +829,9 @@ namespace ModernFormatConverter.Views.Windows
             return Comctl32Library.DefSubclassProc(hWnd, Msg, wParam, lParam);
         }
 
-        #endregion 第七部分：窗口过程
+        #endregion 第六部分：窗口过程
 
-        #region 第八部分：窗口导航方法
+        #region 第七部分：窗口导航方法
 
         /// <summary>
         /// 页面向前导航
@@ -1038,9 +971,9 @@ namespace ModernFormatConverter.Views.Windows
             return false;
         }
 
-        #endregion 第八部分：窗口导航方法
+        #endregion 第七部分：窗口导航方法
 
-        #region 第九部分：显示对话框和应用通知
+        #region 第八部分：显示对话框和应用通知
 
         /// <summary>
         /// 显示内容对话框
@@ -1103,7 +1036,7 @@ namespace ModernFormatConverter.Views.Windows
             }
         }
 
-        #endregion 第九部分：显示对话框和应用通知
+        #endregion 第八部分：显示对话框和应用通知
 
         private uint HIWORD(uint dword)
         {
