@@ -211,6 +211,9 @@
     <EmbeddedResource Include="Strings\SettingsGeneral.en-us.restext" />
     <EmbeddedResource Include="Strings\SettingsGeneral.restext" />
     <EmbeddedResource Include="Strings\SettingsGeneral.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\TaskList.en-us.restext" />
+    <EmbeddedResource Include="Strings\TaskList.restext" />
+    <EmbeddedResource Include="Strings\TaskList.zh-hans.restext" />
     <EmbeddedResource Include="Strings\TaskManager.en-us.restext" />
     <EmbeddedResource Include="Strings\TaskManager.restext" />
     <EmbeddedResource Include="Strings\TaskManager.zh-hans.restext" />
@@ -270,6 +273,7 @@
     <None Remove="Views\Pages\SettingsAdvancedPage.xaml" />
     <None Remove="Views\Pages\SettingsGeneralPage.xaml" />
     <None Remove="Views\Pages\SettingsPage.xaml" />
+    <None Remove="Views\Pages\TaskListPage.xaml" />
     <None Remove="Views\Pages\TaskManagerPage.xaml" />
     <None Remove="Views\Pages\TextToAudioOutputConfigurationPage.xaml" />
     <None Remove="Views\Pages\VideoConversionOutputConfigurationPage.xaml" />
@@ -310,6 +314,7 @@
     <Page Include="Views\Pages\SettingsAdvancedPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\SettingsGeneralPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\SettingsPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Pages\TaskListPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\TaskManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\TextToAudioOutputConfigurationPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\VideoConversionOutputConfigurationPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -326,10 +331,10 @@
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools.MSIX" Version="1.7.260518100" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
     <PackageReference Include="Microsoft.Windows.SDK.NET.Ref" Version="10.0.26100.84" PrivateAssets="none" IncludeAssets="none" GeneratePathProperty="true" />
     <PackageReference Include="Microsoft.WindowsAppSDK.Base" Version="2.0.4" />
-    <PackageReference Include="Microsoft.WindowsAppSDK.Foundation" Version="2.0.21" />
-    <PackageReference Include="Microsoft.WindowsAppSDK.InteractiveExperiences" Version="2.0.13" GeneratePathProperty="True" />
-    <PackageReference Include="Microsoft.WindowsAppSDK.Runtime" Version="2.1.3" />
-    <PackageReference Include="Microsoft.WindowsAppSDK.WinUI" Version="2.1.0" GeneratePathProperty="True" IncludeAssets="none" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.WindowsAppSDK.Foundation" Version="2.1.0" />
+    <PackageReference Include="Microsoft.WindowsAppSDK.InteractiveExperiences" Version="2.0.15" GeneratePathProperty="True" />
+    <PackageReference Include="Microsoft.WindowsAppSDK.Runtime" Version="2.2.0" />
+    <PackageReference Include="Microsoft.WindowsAppSDK.WinUI" Version="2.2.1" GeneratePathProperty="True" IncludeAssets="none" PrivateAssets="all" />
     <PackageReference Include="System.Numerics.Vectors" Version="4.6.1" />
     <PackageReference Include="System.Runtime.WindowsRuntime" Version="4.7.0" />
 
