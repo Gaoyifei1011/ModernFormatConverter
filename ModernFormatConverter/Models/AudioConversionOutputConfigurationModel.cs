@@ -33,11 +33,6 @@
         public string SoundTrack { get; set; }
 
         /// <summary>
-        /// 关闭音效
-        /// </summary>
-        public bool CloseSoundEffect { get; set; }
-
-        /// <summary>
         /// 音量
         /// </summary>
         public string Volume { get; set; }

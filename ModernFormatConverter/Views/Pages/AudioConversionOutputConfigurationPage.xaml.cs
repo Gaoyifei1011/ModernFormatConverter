@@ -153,22 +153,6 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
-        private bool _closeSoundEffect;
-
-        public bool CloseSoundEffect
-        {
-            get { return _closeSoundEffect; }
-
-            set
-            {
-                if (!Equals(_closeSoundEffect, value))
-                {
-                    _closeSoundEffect = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CloseSoundEffect)));
-                }
-            }
-        }
-
         private ComboBoxItemModel _selectedVolume;
 
         public ComboBoxItemModel SelectedVolume
@@ -448,7 +432,6 @@ namespace ModernFormatConverter.Views.Pages
                                 audioFormatConversionFile.AudioConversionOutputConfiguration.SamplingRate = Convert.ToString(SelectedSamplingRate.SelectedValue);
                                 audioFormatConversionFile.AudioConversionOutputConfiguration.AudioBitRate = Convert.ToString(SelectedAudioBitRate.SelectedValue);
                                 audioFormatConversionFile.AudioConversionOutputConfiguration.SoundTrack = Convert.ToString(SelectedSoundTrack.SelectedValue);
-                                audioFormatConversionFile.AudioConversionOutputConfiguration.CloseSoundEffect = CloseSoundEffect;
                                 audioFormatConversionFile.AudioConversionOutputConfiguration.Volume = Convert.ToString(SelectedVolume.SelectedValue);
                                 audioFormatConversionFile.AudioConversionOutputConfiguration.VariableBitRate = IsVariableBitRateSupported ? Convert.ToString(SelectedVariableBitRate.SelectedValue) : string.Empty;
                                 audioFormatConversionFile.AudioConversionOutputConfiguration.SamplingFormat = Convert.ToString(SelectedSamplingFormat);
@@ -471,7 +454,6 @@ namespace ModernFormatConverter.Views.Pages
                         audioFormatConversionFile.AudioConversionOutputConfiguration.SamplingRate = Convert.ToString(SelectedSamplingRate.SelectedValue);
                         audioFormatConversionFile.AudioConversionOutputConfiguration.AudioBitRate = Convert.ToString(SelectedAudioBitRate.SelectedValue);
                         audioFormatConversionFile.AudioConversionOutputConfiguration.SoundTrack = Convert.ToString(SelectedSoundTrack.SelectedValue);
-                        audioFormatConversionFile.AudioConversionOutputConfiguration.CloseSoundEffect = CloseSoundEffect;
                         audioFormatConversionFile.AudioConversionOutputConfiguration.Volume = Convert.ToString(SelectedVolume.SelectedValue);
                         audioFormatConversionFile.AudioConversionOutputConfiguration.VariableBitRate = IsVariableBitRateSupported ? Convert.ToString(SelectedVariableBitRate.SelectedValue) : string.Empty;
                         audioFormatConversionFile.AudioConversionOutputConfiguration.SamplingFormat = Convert.ToString(SelectedSamplingFormat);
@@ -494,7 +476,6 @@ namespace ModernFormatConverter.Views.Pages
                     audioConcat.AudioConversionOutputConfiguration.SamplingRate = Convert.ToString(SelectedSamplingRate.SelectedValue);
                     audioConcat.AudioConversionOutputConfiguration.AudioBitRate = Convert.ToString(SelectedAudioBitRate.SelectedValue);
                     audioConcat.AudioConversionOutputConfiguration.SoundTrack = Convert.ToString(SelectedSoundTrack.SelectedValue);
-                    audioConcat.AudioConversionOutputConfiguration.CloseSoundEffect = CloseSoundEffect;
                     audioConcat.AudioConversionOutputConfiguration.Volume = Convert.ToString(SelectedVolume.SelectedValue);
                     audioConcat.AudioConversionOutputConfiguration.VariableBitRate = IsVariableBitRateSupported ? Convert.ToString(SelectedVariableBitRate.SelectedValue) : string.Empty;
                     audioConcat.AudioConversionOutputConfiguration.SamplingFormat = Convert.ToString(SelectedSamplingFormat);
@@ -549,7 +530,6 @@ namespace ModernFormatConverter.Views.Pages
                 SelectedAudioFadeInEffect = AudioFadeInEffectList[0];
                 SelectedAudioFadeOutEffect = AudioFadeOutEffectList[0];
 
-                CloseSoundEffect = false;
                 Echo = false;
                 DeNoise = false;
                 Reverse = false;
@@ -601,17 +581,6 @@ namespace ModernFormatConverter.Views.Pages
             if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel soundTrack && !Equals(SelectedSoundTrack, soundTrack))
             {
                 SelectedSoundTrack = soundTrack;
-            }
-        }
-
-        /// <summary>
-        /// 是否关闭音效
-        /// </summary>
-        private void OnCloseSoundEffectToggled(object sender, RoutedEventArgs args)
-        {
-            if (sender is ToggleSwitch toggleSwitch)
-            {
-                CloseSoundEffect = toggleSwitch.IsOn;
             }
         }
 
@@ -675,7 +644,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnEchoToggled(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleSwitch toggleSwitch)
+            if (sender is ToggleSwitch toggleSwitch && !Equals(Echo, toggleSwitch.IsOn))
             {
                 Echo = toggleSwitch.IsOn;
             }
@@ -686,7 +655,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnDeNoiseToggled(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleSwitch toggleSwitch)
+            if (sender is ToggleSwitch toggleSwitch && !Equals(DeNoise, toggleSwitch.IsOn))
             {
                 DeNoise = toggleSwitch.IsOn;
             }
@@ -697,7 +666,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnReverseToggled(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleSwitch toggleSwitch)
+            if (sender is ToggleSwitch toggleSwitch && !Equals(Reverse, toggleSwitch.IsOn))
             {
                 Reverse = toggleSwitch.IsOn;
             }
@@ -816,11 +785,6 @@ namespace ModernFormatConverter.Views.Pages
 
             ResetSoundTrack();
             SelectedSoundTrack = audioConversionOutputConfiguration is not null && SoundTrackCollection.FirstOrDefault(item => string.Equals(Convert.ToString(item.SelectedValue), audioConversionOutputConfiguration.SoundTrack)) is ComboBoxItemModel selectedSoundTrack ? selectedSoundTrack : SoundTrackCollection[0];
-
-            if (audioConversionOutputConfiguration is not null)
-            {
-                CloseSoundEffect = audioConversionOutputConfiguration.CloseSoundEffect;
-            }
 
             VolumeList.Add(new ComboBoxItemModel() { SelectedValue = "10%", DisplayMember = "10%" });
             VolumeList.Add(new ComboBoxItemModel() { SelectedValue = "25%", DisplayMember = "25%" });

@@ -326,7 +326,7 @@ namespace ModernFormatConverter.Views.Pages
         {
             base.OnNavigatedTo(args);
 
-            if(args.Parameter is AudioFormatConversionFileModel audioFormatConversionFile)
+            if (args.Parameter is AudioFormatConversionFileModel audioFormatConversionFile)
             {
                 selectedAudioFormatConversionFile = audioFormatConversionFile;
                 FileName = selectedAudioFormatConversionFile.FileName;

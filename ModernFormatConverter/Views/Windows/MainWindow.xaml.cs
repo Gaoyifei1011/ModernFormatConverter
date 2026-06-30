@@ -735,7 +735,7 @@ namespace ModernFormatConverter.Views.Windows
                         {
                             if (WindowSystemBackdrop is MaterialBackdrop materialBackdrop && materialBackdrop.BackdropConfiguration is not null)
                             {
-                                materialBackdrop.BackdropConfiguration.IsInputActive = AlwaysShowBackdropService.AlwaysShowBackdropValue || wParam is not 0;
+                                materialBackdrop.BackdropConfiguration.IsInputActive = AlwaysShowBackdropService.AlwaysShowBackdrop || wParam is not 0;
                             }
                         }
                         catch (Exception e)

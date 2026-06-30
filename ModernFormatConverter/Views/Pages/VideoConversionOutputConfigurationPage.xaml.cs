@@ -514,7 +514,6 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
-
         private ComboBoxItemModel _selectedAudioEncoding;
 
         public ComboBoxItemModel SelectedAudioEncoding
@@ -1558,7 +1557,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnUseCRFToggled(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleSwitch toggleSwitch)
+            if (sender is ToggleSwitch toggleSwitch && !Equals(UseCRF, toggleSwitch.IsOn))
             {
                 UseCRF = toggleSwitch.IsOn;
                 if (!UseCRF)
@@ -1624,7 +1623,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnSecondaryEncodingToggled(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleSwitch toggleSwitch)
+            if (sender is ToggleSwitch toggleSwitch && !Equals(SecondaryEncoding, toggleSwitch.IsOn))
             {
                 SecondaryEncoding = toggleSwitch.IsOn;
             }
@@ -1646,7 +1645,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnDeInterlaceToggled(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleSwitch toggleSwitch)
+            if (sender is ToggleSwitch toggleSwitch && !Equals(DeInterlace, toggleSwitch.IsOn))
             {
                 DeInterlace = toggleSwitch.IsOn;
             }
@@ -1706,7 +1705,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnReverseVideoToggled(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleSwitch toggleSwitch)
+            if (sender is ToggleSwitch toggleSwitch && !Equals(ReverseVideo, toggleSwitch.IsOn))
             {
                 ReverseVideo = toggleSwitch.IsOn;
             }
@@ -1728,7 +1727,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnMirrorReversalToggled(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleSwitch toggleSwitch)
+            if (sender is ToggleSwitch toggleSwitch && !Equals(MirrorReversal, toggleSwitch.IsOn))
             {
                 MirrorReversal = toggleSwitch.IsOn;
             }
@@ -1872,7 +1871,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnCloseSoundEffectToggled(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleSwitch toggleSwitch)
+            if (sender is ToggleSwitch toggleSwitch && !Equals(CloseSoundEffect, toggleSwitch.IsOn))
             {
                 CloseSoundEffect = toggleSwitch.IsOn;
             }
@@ -1894,7 +1893,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnPreserveAllSourceInputAudioStreamToggled(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleSwitch toggleSwitch)
+            if (sender is ToggleSwitch toggleSwitch && !Equals(PreserveAllSourceInputAudioStream, toggleSwitch.IsOn))
             {
                 PreserveAllSourceInputAudioStream = toggleSwitch.IsOn;
             }
@@ -1927,7 +1926,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnEchoToggled(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleSwitch toggleSwitch)
+            if (sender is ToggleSwitch toggleSwitch && !Equals(Echo, toggleSwitch.IsOn))
             {
                 Echo = toggleSwitch.IsOn;
             }
@@ -1938,7 +1937,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnDeNoiseToggled(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleSwitch toggleSwitch)
+            if (sender is ToggleSwitch toggleSwitch && !Equals(DeNoise, toggleSwitch.IsOn))
             {
                 DeNoise = toggleSwitch.IsOn;
             }
@@ -1949,7 +1948,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnReverseToggled(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleSwitch toggleSwitch)
+            if (sender is ToggleSwitch toggleSwitch && !Equals(Reverse, toggleSwitch.IsOn))
             {
                 Reverse = toggleSwitch.IsOn;
             }
@@ -1960,7 +1959,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnPreserveAllSourceInputSubtitleStreamToggled(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleSwitch toggleSwitch)
+            if (sender is ToggleSwitch toggleSwitch && !Equals(PreserveAllSourceInputSubtitleStream, toggleSwitch.IsOn))
             {
                 PreserveAllSourceInputSubtitleStream = toggleSwitch.IsOn;
             }

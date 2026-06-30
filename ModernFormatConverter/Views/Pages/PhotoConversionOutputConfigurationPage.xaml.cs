@@ -692,7 +692,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnImageCroppedToggled(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleSwitch toggleSwitch)
+            if (sender is ToggleSwitch toggleSwitch && !Equals(IsImageCropped, toggleSwitch.IsOn))
             {
                 IsImageCropped = toggleSwitch.IsOn;
             }
@@ -782,7 +782,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnLockRatioToggled(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleSwitch toggleSwitch)
+            if (sender is ToggleSwitch toggleSwitch && !Equals(LockRatio, toggleSwitch.IsOn))
             {
                 LockRatio = toggleSwitch.IsOn;
             }
@@ -849,7 +849,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnAdjustPhotoToggled(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleSwitch toggleSwitch)
+            if (sender is ToggleSwitch toggleSwitch && !Equals(AdjustPhoto, toggleSwitch.IsOn))
             {
                 AdjustPhoto = toggleSwitch.IsOn;
             }
@@ -1016,7 +1016,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnGrayScaleToggled(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleSwitch toggleSwitch)
+            if (sender is ToggleSwitch toggleSwitch && !Equals(GrayScale, toggleSwitch.IsOn))
             {
                 GrayScale = toggleSwitch.IsOn;
             }
@@ -1027,7 +1027,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnReversalToggled(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleSwitch toggleSwitch)
+            if (sender is ToggleSwitch toggleSwitch && !Equals(Reversal, toggleSwitch.IsOn))
             {
                 Reversal = toggleSwitch.IsOn;
             }
@@ -1145,7 +1145,7 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 更新数据
         /// </summary>
-        private void UpdateData(bool isGlobalSettings,PhotoFormatConversionFileModel photoFormatConversionFile)
+        private void UpdateData(bool isGlobalSettings, PhotoFormatConversionFileModel photoFormatConversionFile)
         {
             IsGlobalSettings = isGlobalSettings;
             if (IsGlobalSettings)
@@ -1175,7 +1175,7 @@ namespace ModernFormatConverter.Views.Pages
             }
             else
             {
-                if(photoFormatConversionFile is not null)
+                if (photoFormatConversionFile is not null)
                 {
                     filePath = photoFormatConversionFile.FilePath;
                     aspectRatio = ImageHeight is not 0 ? (double)photoFormatConversionFile.ImageWidth / photoFormatConversionFile.ImageHeight : 1;
@@ -1199,7 +1199,7 @@ namespace ModernFormatConverter.Views.Pages
                     Blur = photoFormatConversionFile.PhotoConversionOutputConfiguration is not null ? photoFormatConversionFile.PhotoConversionOutputConfiguration.Blur : 0;
                     GrayScale = photoFormatConversionFile.PhotoConversionOutputConfiguration is not null && photoFormatConversionFile.PhotoConversionOutputConfiguration.GrayScale;
                     Reversal = photoFormatConversionFile.PhotoConversionOutputConfiguration is not null && photoFormatConversionFile.PhotoConversionOutputConfiguration.Reversal;
-                   
+
                     AspectRatioList.Clear();
                     AspectRatioList.Add(new ComboBoxItemModel() { SelectedValue = -1, DisplayMember = CustomString });
                     AspectRatioList.Add(new ComboBoxItemModel() { SelectedValue = 1, DisplayMember = SquareString });

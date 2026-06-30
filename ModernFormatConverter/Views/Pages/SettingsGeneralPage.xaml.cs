@@ -72,18 +72,18 @@ namespace ModernFormatConverter.Views.Pages
             }
         }
 
-        private bool _alwaysShowBackdropValue = AlwaysShowBackdropService.AlwaysShowBackdropValue;
+        private bool _alwaysShowBackdrop = AlwaysShowBackdropService.AlwaysShowBackdrop;
 
-        public bool AlwaysShowBackdropValue
+        public bool AlwaysShowBackdrop
         {
-            get { return _alwaysShowBackdropValue; }
+            get { return _alwaysShowBackdrop; }
 
             set
             {
-                if (!Equals(_alwaysShowBackdropValue, value))
+                if (!Equals(_alwaysShowBackdrop, value))
                 {
-                    _alwaysShowBackdropValue = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AlwaysShowBackdropValue)));
+                    _alwaysShowBackdrop = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AlwaysShowBackdrop)));
                 }
             }
         }
@@ -216,6 +216,7 @@ namespace ModernFormatConverter.Views.Pages
             {
                 Theme = theme;
                 ThemeService.SetTheme(Convert.ToString(Theme.SelectedValue));
+                Theme = ThemeList.Find(item => Equals(Convert.ToString(item.SelectedValue), ThemeService.AppTheme));
             }
         }
 
@@ -228,12 +229,13 @@ namespace ModernFormatConverter.Views.Pages
             {
                 Backdrop = backdrop;
                 BackdropService.SetBackdrop(Convert.ToString(Backdrop.SelectedValue));
+                Backdrop = BackdropList.Find(item => Equals(Convert.ToString(item.SelectedValue), BackdropService.AppBackdrop));
                 AlwaysShowBackdropEnabled = IsAdvancedEffectsEnabled() && !string.Equals(Convert.ToString(Backdrop.SelectedValue), Convert.ToString(BackdropList[0].SelectedValue));
 
                 if (Equals(Backdrop, BackdropList[0]))
                 {
-                    AlwaysShowBackdropService.SetAlwaysShowBackdropValue(false);
-                    AlwaysShowBackdropValue = false;
+                    AlwaysShowBackdropService.SetAlwaysShowBackdrop(false);
+                    AlwaysShowBackdrop = false;
                 }
             }
         }
@@ -279,10 +281,11 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnAlwaysShowBackdropToggled(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleSwitch toggleSwitch)
+            if (sender is ToggleSwitch toggleSwitch && !Equals(AlwaysShowBackdrop, toggleSwitch.IsOn))
             {
-                AlwaysShowBackdropService.SetAlwaysShowBackdropValue(toggleSwitch.IsOn);
-                AlwaysShowBackdropValue = toggleSwitch.IsOn;
+                AlwaysShowBackdrop = toggleSwitch.IsOn;
+                AlwaysShowBackdropService.SetAlwaysShowBackdrop(toggleSwitch.IsOn);
+                AlwaysShowBackdrop = AlwaysShowBackdropService.AlwaysShowBackdrop;
             }
         }
 
@@ -294,8 +297,15 @@ namespace ModernFormatConverter.Views.Pages
             if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel language && !Equals(AppLanguage, language))
             {
                 AppLanguage = language;
-
                 LanguageService.SetLanguage(LanguageService.LanguageList.Find(item => string.Equals(Convert.ToString(AppLanguage.SelectedValue), item.Key)));
+                foreach (ComboBoxItemModel languageItem in LanguageCollection)
+                {
+                    if (string.Equals(Convert.ToString(languageItem.SelectedValue), LanguageService.AppLanguage.Key, StringComparison.OrdinalIgnoreCase))
+                    {
+                        AppLanguage = languageItem;
+                        break;
+                    }
+                }
                 await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.LanguageChange));
             }
         }

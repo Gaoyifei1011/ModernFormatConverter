@@ -193,7 +193,7 @@
                 <ToggleSwitch
                     Grid.Column="2"
                     IsEnabled="{x:Bind AlwaysShowBackdropEnabled, Mode=OneWay}"
-                    IsOn="{x:Bind AlwaysShowBackdropValue, Mode=OneWay}"
+                    IsOn="{x:Bind AlwaysShowBackdrop, Mode=OneWay}"
                     OffContent="{x:Bind rootservice:ResourceService.SettingsGeneralResource.GetString('AlwaysShowBackdropOffContent')}"
                     OnContent="{x:Bind rootservice:ResourceService.SettingsGeneralResource.GetString('AlwaysShowBackdropOnContent')}"
                     Style="{StaticResource ToggleSwitchStyle}"

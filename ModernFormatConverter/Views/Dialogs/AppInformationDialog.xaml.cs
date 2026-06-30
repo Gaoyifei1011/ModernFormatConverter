@@ -60,9 +60,9 @@ namespace ModernFormatConverter.Views.Dialogs
         /// </summary>
         private async void OnOpened(object sender, object args)
         {
-            List<KeyValuePair<string, Version>> dependencyInformationList = [];
-            await Task.Run(() =>
+            List<KeyValuePair<string, Version>> dependencyInformationList = await Task.Run(() =>
             {
+                List<KeyValuePair<string, Version>> dependencyInformationList = [];
                 uint bufferLength = 0;
 
                 KernelAppCoreLibrary.GetCurrentPackageInfo(PACKAGE_FLAGS.PACKAGE_PROPERTY_STATIC, ref bufferLength, null, out uint count);
@@ -102,6 +102,7 @@ namespace ModernFormatConverter.Views.Dialogs
                     FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(Path.Combine(Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath), "MediaInfo.dll"));
                     dependencyInformationList.Add(new KeyValuePair<string, Version>(MediaInfoVersionString, new Version(fileVersionInfo.FileVersion)));
                 }
+                return dependencyInformationList;
             });
 
             foreach (KeyValuePair<string, Version> dependencyInformation in dependencyInformationList)
