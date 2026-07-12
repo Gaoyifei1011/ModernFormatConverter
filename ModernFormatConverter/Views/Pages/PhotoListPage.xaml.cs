@@ -399,7 +399,11 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnSelectorBarSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
         {
-            SelectedItem = sender.SelectedItem;
+            if (!Equals(SelectedItem, sender.SelectedItem))
+            {
+                SelectedItem = sender.SelectedItem;
+            }
+
             SelectedConversionType = PhotoConversionTypeCollection[sender.Items.IndexOf(SelectedItem)];
         }
 

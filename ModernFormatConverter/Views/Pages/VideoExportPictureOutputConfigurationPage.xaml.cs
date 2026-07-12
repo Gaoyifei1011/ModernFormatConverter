@@ -386,9 +386,9 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnSelectedSavePictureFormatSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel savePictureFormat && !Equals(SelectedSavePictureFormat, savePictureFormat))
+            if (sender is Microsoft.UI.Xaml.Controls.ComboBox comboBox && !Equals(SelectedSavePictureFormat, comboBox.SelectedItem))
             {
-                SelectedSavePictureFormat = savePictureFormat;
+                SelectedSavePictureFormat = comboBox.SelectedItem is ComboBoxItemModel savePictureFormat ? savePictureFormat : null;
             }
         }
 
@@ -397,9 +397,9 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnSelectedVideoExportPictureKindSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel videoExportPictureKind && !Equals(SelectedVideoExportPictureKind, videoExportPictureKind))
+            if (sender is Microsoft.UI.Xaml.Controls.ComboBox comboBox && !Equals(SelectedVideoExportPictureKind, comboBox.SelectedItem))
             {
-                SelectedVideoExportPictureKind = videoExportPictureKind;
+                SelectedVideoExportPictureKind = comboBox.SelectedItem is ComboBoxItemModel videoExportPictureKind ? videoExportPictureKind : null;
             }
         }
 

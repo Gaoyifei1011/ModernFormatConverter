@@ -500,9 +500,9 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnFormatConversionTypeSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel formatConversionType && !Equals(SelectedFormatConversionType, formatConversionType))
+            if (sender is Microsoft.UI.Xaml.Controls.ComboBox comboBox && !Equals(SelectedFormatConversionType, comboBox.SelectedItem))
             {
-                SelectedFormatConversionType = formatConversionType;
+                SelectedFormatConversionType = comboBox.SelectedItem is ComboBoxItemModel formatConversionType ? formatConversionType : null;
 
                 ResetAudioEncoding();
                 SelectedAudioEncoding = AudioEncodingCollection[0];
@@ -541,12 +541,11 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnAudioEncodingSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel audioEncoding && !Equals(SelectedAudioEncoding, audioEncoding))
+            if (sender is Microsoft.UI.Xaml.Controls.ComboBox comboBox && !Equals(SelectedAudioEncoding, comboBox.SelectedItem))
             {
-                SelectedAudioEncoding = audioEncoding;
+                SelectedAudioEncoding = comboBox.SelectedItem is ComboBoxItemModel audioEncoding ? audioEncoding : null;
 
                 ResetSamplingFormat();
-
                 SelectedSamplingFormat = SamplingFormatCollection[0];
             }
         }
@@ -556,9 +555,9 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnSamplingRateSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel samplingRate && !Equals(SelectedSamplingRate, samplingRate))
+            if (sender is Microsoft.UI.Xaml.Controls.ComboBox comboBox && !Equals(SelectedSamplingRate, comboBox.SelectedItem))
             {
-                SelectedSamplingRate = samplingRate;
+                SelectedSamplingRate = comboBox.SelectedItem is ComboBoxItemModel samplingRate ? samplingRate : null;
             }
         }
 
@@ -567,9 +566,9 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnAudioBitRateSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel audioBitRate && !Equals(SelectedAudioBitRate, audioBitRate))
+            if (sender is Microsoft.UI.Xaml.Controls.ComboBox comboBox && !Equals(SelectedAudioBitRate, comboBox.SelectedItem))
             {
-                SelectedAudioBitRate = audioBitRate;
+                SelectedAudioBitRate = comboBox.SelectedItem is ComboBoxItemModel audioBitRate ? audioBitRate : null;
             }
         }
 
@@ -578,9 +577,9 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnSoundTrackSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel soundTrack && !Equals(SelectedSoundTrack, soundTrack))
+            if (sender is Microsoft.UI.Xaml.Controls.ComboBox comboBox && !Equals(SelectedSoundTrack, comboBox.SelectedItem))
             {
-                SelectedSoundTrack = soundTrack;
+                SelectedSoundTrack = comboBox.SelectedItem is ComboBoxItemModel soundTrack ? soundTrack : null;
             }
         }
 
@@ -589,9 +588,9 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnVolumeSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel volume && !Equals(SelectedVolume, volume))
+            if (sender is Microsoft.UI.Xaml.Controls.ComboBox comboBox && !Equals(SelectedVolume, comboBox.SelectedItem))
             {
-                SelectedVolume = volume;
+                SelectedVolume = comboBox.SelectedItem is ComboBoxItemModel volume ? volume : null;
             }
         }
 
@@ -600,9 +599,9 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnVariableBitRateSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel variableBitRate && !Equals(SelectedVariableBitRate, variableBitRate))
+            if (sender is Microsoft.UI.Xaml.Controls.ComboBox comboBox && !Equals(SelectedVariableBitRate, comboBox.SelectedItem))
             {
-                SelectedVariableBitRate = variableBitRate;
+                SelectedVariableBitRate = comboBox.SelectedItem is ComboBoxItemModel variableBitRate ? variableBitRate : null;
             }
         }
 
@@ -611,9 +610,9 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnSamplingFormatSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel samplingFormat && !Equals(SelectedSamplingFormat, samplingFormat))
+            if (sender is Microsoft.UI.Xaml.Controls.ComboBox comboBox && !Equals(SelectedSamplingFormat, comboBox.SelectedItem))
             {
-                SelectedSamplingFormat = samplingFormat;
+                SelectedSamplingFormat = comboBox.SelectedItem is ComboBoxItemModel samplingFormat ? samplingFormat : null;
             }
         }
 
@@ -622,9 +621,9 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnAudioFadeInEffectSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel audioFadeInEffect && !Equals(SelectedAudioFadeInEffect, audioFadeInEffect))
+            if (sender is Microsoft.UI.Xaml.Controls.ComboBox comboBox && !Equals(SelectedAudioFadeInEffect, comboBox.SelectedItem))
             {
-                SelectedAudioFadeInEffect = audioFadeInEffect;
+                SelectedAudioFadeInEffect = comboBox.SelectedItem is ComboBoxItemModel audioFadeInEffect ? audioFadeInEffect : null;
             }
         }
 
@@ -633,9 +632,9 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnAudioFadeOutEffectSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel audioFadeOutEffect && !Equals(SelectedAudioFadeOutEffect, audioFadeOutEffect))
+            if (sender is Microsoft.UI.Xaml.Controls.ComboBox comboBox && !Equals(SelectedAudioFadeOutEffect, comboBox.SelectedItem))
             {
-                SelectedAudioFadeOutEffect = audioFadeOutEffect;
+                SelectedAudioFadeOutEffect = comboBox.SelectedItem is ComboBoxItemModel audioFadeOutEffect ? audioFadeOutEffect : null;
             }
         }
 

@@ -681,9 +681,9 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnFormatConversionTypeSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel formatConversionType && !Equals(SelectedFormatConversionType, formatConversionType))
+            if (sender is Microsoft.UI.Xaml.Controls.ComboBox comboBox && !Equals(SelectedFormatConversionType, comboBox.SelectedItem))
             {
-                SelectedFormatConversionType = formatConversionType;
+                SelectedFormatConversionType = comboBox.SelectedItem is ComboBoxItemModel formatConversionType ? formatConversionType : null;
             }
         }
 
@@ -1049,9 +1049,9 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnAspectRatioSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel aspectRatio && !Equals(SelectedAspectRatio, aspectRatio))
+            if (sender is Microsoft.UI.Xaml.Controls.ComboBox comboBox && !Equals(SelectedAspectRatio, comboBox.SelectedItem))
             {
-                SelectedAspectRatio = aspectRatio;
+                SelectedAspectRatio = comboBox.SelectedItem is ComboBoxItemModel aspectRatio ? aspectRatio : null;
                 PhotoConversionOutputConfigurationImageCropper.AspectRatio = Convert.ToDouble(SelectedAspectRatio.SelectedValue);
             }
         }

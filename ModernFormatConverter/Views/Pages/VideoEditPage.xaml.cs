@@ -1409,9 +1409,9 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnSelectRegionOperationSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is ComboBoxItemModel selectRegionOperation && !Equals(SelectedSelectRegionOperation, selectRegionOperation))
+            if (sender is ComboBox comboBox && !Equals(SelectedSelectRegionOperation, comboBox.SelectedItem))
             {
-                SelectedSelectRegionOperation = selectRegionOperation;
+                SelectedSelectRegionOperation = comboBox.SelectedItem is ComboBoxItemModel selectRegionOperation ? selectRegionOperation : null;
             }
         }
 

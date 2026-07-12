@@ -219,9 +219,9 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnSelectedVoiceTypeSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.AddedItems.Count > 0 && args.AddedItems[0] is VoiceTypeModel voiceType && !Equals(SelectedVoiceType, voiceType))
+            if (sender is Microsoft.UI.Xaml.Controls.ComboBox comboBox && !Equals(SelectedVoiceType, comboBox.SelectedItem))
             {
-                SelectedVoiceType = voiceType;
+                SelectedVoiceType = comboBox.SelectedItem is VoiceTypeModel voiceType ? voiceType : null;
             }
         }
 

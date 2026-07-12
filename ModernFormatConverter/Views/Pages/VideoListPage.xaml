@@ -304,12 +304,12 @@
                     ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.VideoListResource.GetString('OutputConfiguration')}"
                     Visibility="{x:Bind converter:ValueCheckConverterHelper.GetVideoConversionType(SelectedConversionType.VideoConversionTypeKind, enum:VideoConversionTypeKind.VideoSeparation, x:True), Mode=OneWay}">
 
-                    <AnimatedIcon x:Name="SearchAnimatedIcon">
+                    <AnimatedIcon>
                         <AnimatedIcon.Source>
                             <animatedvisuals:AnimatedSettingsVisualSource />
                         </AnimatedIcon.Source>
                         <AnimatedIcon.FallbackIconSource>
-                            <SymbolIconSource Symbol="Find" />
+                            <FontIconSource Glyph="&#xE713;" />
                         </AnimatedIcon.FallbackIconSource>
                     </AnimatedIcon>
                 </Button>

@@ -627,7 +627,10 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnSelectorBarSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
         {
-            SelectedItem = sender.SelectedItem;
+            if (!Equals(sender.SelectedItem, SelectedItem))
+            {
+                SelectedItem = sender.SelectedItem;
+            }
             SelectedConversionType = AudioConversionTypeCollection[sender.Items.IndexOf(SelectedItem)];
         }
 
