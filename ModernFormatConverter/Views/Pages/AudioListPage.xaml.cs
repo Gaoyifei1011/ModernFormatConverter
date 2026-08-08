@@ -435,45 +435,48 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnAudioListDrop(object sender, Microsoft.UI.Xaml.DragEventArgs args)
         {
-            IsGettingFileInformation = true;
-            DragOperationDeferral dragOperationDeferral = args.GetDeferral();
-            List<string> fileList = null;
-
-            try
+            if (!IsGettingFileInformation)
             {
-                DataPackageView dataPackageView = args.DataView;
-                fileList = await Task.Run(async () =>
+                IsGettingFileInformation = true;
+                DragOperationDeferral dragOperationDeferral = args.GetDeferral();
+                List<string> fileList = null;
+
+                try
                 {
-                    try
+                    DataPackageView dataPackageView = args.DataView;
+                    fileList = await Task.Run(async () =>
                     {
-                        if (dataPackageView.Contains(StandardDataFormats.StorageItems))
+                        try
                         {
-                            IReadOnlyList<IStorageItem> storeageItem = await dataPackageView.GetStorageItemsAsync();
-                            return storeageItem.Select(item => item.Path).ToList();
+                            if (dataPackageView.Contains(StandardDataFormats.StorageItems))
+                            {
+                                IReadOnlyList<IStorageItem> storeageItem = await dataPackageView.GetStorageItemsAsync();
+                                return storeageItem.Select(item => item.Path).ToList();
+                            }
                         }
-                    }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(AudioConversionPage), nameof(OnAudioListDrop), 1, e);
-                    }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(AudioConversionPage), nameof(OnAudioListDrop), 1, e);
+                        }
 
-                    return null;
-                });
-            }
-            catch (Exception e)
-            {
-                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(AudioConversionPage), nameof(OnAudioListDrop), 2, e);
-            }
-            finally
-            {
-                dragOperationDeferral.Complete();
-            }
+                        return null;
+                    });
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(AudioConversionPage), nameof(OnAudioListDrop), 2, e);
+                }
+                finally
+                {
+                    dragOperationDeferral.Complete();
+                }
 
-            if (fileList is not null && fileList.Count > 0)
-            {
-                await AddAudioDataAsync(fileList);
+                if (fileList is not null && fileList.Count > 0)
+                {
+                    await AddAudioDataAsync(fileList);
+                }
+                IsGettingFileInformation = false;
             }
-            IsGettingFileInformation = false;
         }
 
         /// <summary>
@@ -481,60 +484,63 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnTextFileDrop(object sender, Microsoft.UI.Xaml.DragEventArgs args)
         {
-            IsGettingFileInformation = true;
-            DragOperationDeferral dragOperationDeferral = args.GetDeferral();
-            string filePath = string.Empty;
-
-            try
+            if (!IsGettingFileInformation)
             {
-                DataPackageView dataPackageView = args.DataView;
-                IReadOnlyList<IStorageItem> filesList = await Task.Run(async () =>
+                IsGettingFileInformation = true;
+                DragOperationDeferral dragOperationDeferral = args.GetDeferral();
+                string filePath = string.Empty;
+
+                try
                 {
-                    try
+                    DataPackageView dataPackageView = args.DataView;
+                    IReadOnlyList<IStorageItem> filesList = await Task.Run(async () =>
                     {
-                        if (dataPackageView.Contains(StandardDataFormats.StorageItems))
+                        try
                         {
-                            return await dataPackageView.GetStorageItemsAsync();
+                            if (dataPackageView.Contains(StandardDataFormats.StorageItems))
+                            {
+                                return await dataPackageView.GetStorageItemsAsync();
+                            }
                         }
-                    }
-                    catch (Exception e)
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(FileInformationPage), nameof(OnTextFileDrop), 1, e);
+                        }
+
+                        return null;
+                    });
+
+                    if (filesList is not null && filesList.Count is 1)
                     {
-                        LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(FileInformationPage), nameof(OnTextFileDrop), 1, e);
+                        filePath = filesList[0].Path;
                     }
-
-                    return null;
-                });
-
-                if (filesList is not null && filesList.Count is 1)
-                {
-                    filePath = filesList[0].Path;
                 }
-            }
-            catch (Exception e)
-            {
-                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(AudioConversionPage), nameof(OnTextFileDrop), 2, e);
-            }
-            finally
-            {
-                dragOperationDeferral.Complete();
-            }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(AudioConversionPage), nameof(OnTextFileDrop), 2, e);
+                }
+                finally
+                {
+                    dragOperationDeferral.Complete();
+                }
 
-            if (File.Exists(filePath))
-            {
-                if (await Task.Run(() => { return GetFileInformation(filePath); }) is TextToAudioModel textToAudio && SelectedConversionType.TextToAudio is not null && textToAudio.TextToAudioType is TextToAudioType.File)
+                if (File.Exists(filePath))
                 {
-                    SelectedConversionType.TextToAudio.FileName = textToAudio.FileName;
-                    SelectedConversionType.TextToAudio.FilePath = textToAudio.FilePath;
-                    SelectedConversionType.TextToAudio.FileCharacterSize = textToAudio.FileCharacterSize;
-                    SelectedConversionType.TextToAudio.FileSize = textToAudio.FileSize;
-                    SelectedConversionType.TextToAudio.IsTextFileSelected = true;
+                    if (await Task.Run(() => { return GetFileInformation(filePath); }) is TextToAudioModel textToAudio && SelectedConversionType.TextToAudio is not null && textToAudio.TextToAudioType is TextToAudioType.File)
+                    {
+                        SelectedConversionType.TextToAudio.FileName = textToAudio.FileName;
+                        SelectedConversionType.TextToAudio.FilePath = textToAudio.FilePath;
+                        SelectedConversionType.TextToAudio.FileCharacterSize = textToAudio.FileCharacterSize;
+                        SelectedConversionType.TextToAudio.FileSize = textToAudio.FileSize;
+                        SelectedConversionType.TextToAudio.IsTextFileSelected = true;
+                    }
+                    if (Equals(SelectedConversionType.AudioConversionTypeKind, AudioConversionTypeKind.TextToAudio) && SelectedConversionType.TextToAudio.FileThumbnailSource is null)
+                    {
+                        SelectedConversionType.TextToAudio.FileThumbnailSource = GetThumbnail(filePath);
+                    }
                 }
-                if (Equals(SelectedConversionType.AudioConversionTypeKind, AudioConversionTypeKind.TextToAudio) && SelectedConversionType.TextToAudio.FileThumbnailSource is null)
-                {
-                    SelectedConversionType.TextToAudio.FileThumbnailSource = GetThumbnail(filePath);
-                }
+                IsGettingFileInformation = false;
             }
-            IsGettingFileInformation = false;
         }
 
         /// <summary>
@@ -642,9 +648,12 @@ namespace ModernFormatConverter.Views.Pages
             if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is not null)
             {
                 SelectedSortRule = Convert.ToString(radioMenuFlyoutItem.Tag);
-                IsGettingFileInformation = true;
-                await SortDataAsync();
-                IsGettingFileInformation = false;
+                if (!IsGettingFileInformation)
+                {
+                    IsGettingFileInformation = true;
+                    await SortDataAsync();
+                    IsGettingFileInformation = false;
+                }
             }
         }
 
@@ -656,9 +665,12 @@ namespace ModernFormatConverter.Views.Pages
             if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is not null)
             {
                 SortWay = Convert.ToBoolean(radioMenuFlyoutItem.Tag);
-                IsGettingFileInformation = true;
-                await SortDataAsync();
-                IsGettingFileInformation = false;
+                if (!IsGettingFileInformation)
+                {
+                    IsGettingFileInformation = true;
+                    await SortDataAsync();
+                    IsGettingFileInformation = false;
+                }
             }
         }
 
@@ -700,7 +712,7 @@ namespace ModernFormatConverter.Views.Pages
                 Multiselect = true,
                 Title = SelectFileString
             };
-            if (openFileDialog.ShowDialog() is DialogResult.OK)
+            if (openFileDialog.ShowDialog() is DialogResult.OK && !IsGettingFileInformation)
             {
                 IsGettingFileInformation = true;
                 await AddAudioDataAsync([.. openFileDialog.FileNames]);
@@ -720,7 +732,7 @@ namespace ModernFormatConverter.Views.Pages
                 RootFolder = Environment.SpecialFolder.Desktop
             };
             DialogResult dialogResult = openFolderDialog.ShowDialog();
-            if (dialogResult is DialogResult.OK || dialogResult is DialogResult.Yes)
+            if (dialogResult is DialogResult.OK || dialogResult is DialogResult.Yes && !IsGettingFileInformation)
             {
                 IsGettingFileInformation = true;
                 List<string> fileList = [.. Directory.GetFiles(openFolderDialog.SelectedPath)];
@@ -822,7 +834,7 @@ namespace ModernFormatConverter.Views.Pages
                 Multiselect = false,
                 Title = SelectFileString
             };
-            if (openFileDialog.ShowDialog() is DialogResult.OK)
+            if (openFileDialog.ShowDialog() is DialogResult.OK && !IsGettingFileInformation)
             {
                 IsGettingFileInformation = true;
                 if (await Task.Run(() => { return GetFileInformation(openFileDialog.FileName); }) is TextToAudioModel textToAudio && SelectedConversionType.AudioConversionTypeKind is AudioConversionTypeKind.TextToAudio && SelectedConversionType.TextToAudio is not null && textToAudio.TextToAudioType is TextToAudioType.File)
@@ -892,7 +904,7 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 添加音频数据
         /// </summary>
-        private async Task AddAudioDataAsync(List<string> fileList)
+        public async Task AddAudioDataAsync(List<string> fileList)
         {
             // 音频格式转换
             if (SelectedConversionType.AudioConversionTypeKind is AudioConversionTypeKind.AudioFormatConversion)
@@ -1079,7 +1091,7 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 获取文件信息
         /// </summary>
-        private object GetFileInformation(string filePath)
+        public object GetFileInformation(string filePath)
         {
             try
             {
@@ -1214,7 +1226,7 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 获取文件缩略图
         /// </summary>
-        private BitmapImage GetThumbnail(string filePath)
+        public BitmapImage GetThumbnail(string filePath)
         {
             MemoryStream memoryStream = null;
             try

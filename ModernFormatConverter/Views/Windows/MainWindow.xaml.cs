@@ -17,11 +17,14 @@ using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.Services.Settings;
 using ModernFormatConverter.Views.Pages;
 using ModernFormatConverter.WindowsAPI.PInvoke.Comctl32;
+using ModernFormatConverter.WindowsAPI.PInvoke.Shell32;
 using ModernFormatConverter.WindowsAPI.PInvoke.User32;
 using ModernFormatConverter.WindowsAPI.PInvoke.Uxtheme;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -182,6 +185,13 @@ namespace ModernFormatConverter.Views.Windows
             int width = rect.right - rect.left;
             int height = rect.bottom - rect.top;
             User32Library.SetWindowPos((nint)AppWindow.Id.Value, 0, (System.Windows.Forms.SystemInformation.WorkingArea.Width - width) / 2, (System.Windows.Forms.SystemInformation.WorkingArea.Height - height) / 2, 0, 0, SetWindowPosFlags.SWP_NOSIZE | SetWindowPosFlags.SWP_NOZORDER);
+
+            if (RuntimeHelper.IsElevated)
+            {
+                User32Library.ChangeWindowMessageFilter(WindowMessage.WM_DROPFILES, ChangeFilterFlags.MSGFLT_ADD);
+                User32Library.ChangeWindowMessageFilter(WindowMessage.WM_COPYGLOBALDATA, ChangeFilterFlags.MSGFLT_ADD);
+                Shell32Library.DragAcceptFiles((nint)AppWindow.Id.Value, true);
+            }
 
             int dpi = User32Library.GetDpiForWindow((nint)AppWindow.Id.Value);
             overlappedPresenter.PreferredMinimumWidth = Convert.ToInt32(1000 * Convert.ToDouble(dpi) / 96);
@@ -825,6 +835,35 @@ namespace ModernFormatConverter.Views.Windows
                         }
                         break;
                     }
+                // 提升权限时允许应用接收拖放消息
+                case WindowMessage.WM_DROPFILES:
+                    {
+                        Task.Run(() =>
+                        {
+                            List<string> filesList = [];
+                            char[] dragFileCharArray = new char[260];
+                            uint filesCount = Shell32Library.DragQueryFile(wParam, 0xffffffffu, null, 0);
+
+                            for (uint index = 0; index < filesCount; index++)
+                            {
+                                Array.Clear(dragFileCharArray, 0, dragFileCharArray.Length);
+                                if (Shell32Library.DragQueryFile(wParam, index, dragFileCharArray, (uint)dragFileCharArray.Length) > 0)
+                                {
+                                    filesList.Add(new string(dragFileCharArray).Replace("\0", string.Empty));
+                                }
+                            }
+
+                            Shell32Library.DragQueryPoint(wParam, out System.Drawing.Point point);
+                            Shell32Library.DragFinish(wParam);
+
+                            synchronizationContext.Post(async (_) =>
+                            {
+                                await SendReceivedFilesListAsync(filesList);
+                            }, null);
+                        });
+
+                        break;
+                    }
             }
             return Comctl32Library.DefSubclassProc(hWnd, Msg, wParam, lParam);
         }
@@ -1037,6 +1076,87 @@ namespace ModernFormatConverter.Views.Windows
         }
 
         #endregion 第八部分：显示对话框和应用通知
+
+        /// <summary>
+        /// 将提权模式下拖放获得到的文件列表发送到各个页面
+        /// </summary>
+        public async Task SendReceivedFilesListAsync(List<string> filesList)
+        {
+            object currentFrameContent = GetFrameContent();
+            if (currentFrameContent is VideoConversionPage videoConversionPage)
+            {
+                object currentVideoConversionContent = videoConversionPage.GetFrameContent();
+                if (currentVideoConversionContent is VideoListPage videoListPage)
+                {
+                    if (videoListPage.SelectedConversionType.VideoConversionTypeKind is not VideoConversionTypeKind.VideoMixedFlow && !videoListPage.IsGettingFileInformation)
+                    {
+                        videoListPage.IsGettingFileInformation = true;
+                        if (filesList is not null && filesList.Count > 0)
+                        {
+                            await videoListPage.AddVideoDataAsync(filesList);
+                        }
+                        videoListPage.IsGettingFileInformation = false;
+                    }
+                }
+            }
+            else if (currentFrameContent is AudioConversionPage audioConversionPage)
+            {
+                object currentAudioConversionContent = audioConversionPage.GetFrameContent();
+                if (currentAudioConversionContent is AudioListPage audioListPage)
+                {
+                    if (!audioListPage.IsGettingFileInformation)
+                    {
+                        if (audioListPage.SelectedConversionType.AudioConversionTypeKind is AudioConversionTypeKind.TextToAudio && Equals(audioListPage.TextToAudioSelectedItem, audioListPage.TextToAudioSelectorBar.Items[1]))
+                        {
+                            audioListPage.IsGettingFileInformation = true;
+                            string filePath = string.Empty;
+                            if (filesList is not null && filesList.Count is 1)
+                            {
+                                filePath = filesList[0];
+                            }
+                            if (File.Exists(filePath))
+                            {
+                                if (await Task.Run(() => { return audioListPage.GetFileInformation(filePath); }) is TextToAudioModel textToAudio && audioListPage.SelectedConversionType.TextToAudio is not null && textToAudio.TextToAudioType is TextToAudioType.File)
+                                {
+                                    audioListPage.SelectedConversionType.TextToAudio.FileName = textToAudio.FileName;
+                                    audioListPage.SelectedConversionType.TextToAudio.FilePath = textToAudio.FilePath;
+                                    audioListPage.SelectedConversionType.TextToAudio.FileCharacterSize = textToAudio.FileCharacterSize;
+                                    audioListPage.SelectedConversionType.TextToAudio.FileSize = textToAudio.FileSize;
+                                    audioListPage.SelectedConversionType.TextToAudio.IsTextFileSelected = true;
+                                }
+                                if (Equals(audioListPage.SelectedConversionType.AudioConversionTypeKind, AudioConversionTypeKind.TextToAudio) && audioListPage.SelectedConversionType.TextToAudio.FileThumbnailSource is null)
+                                {
+                                    audioListPage.SelectedConversionType.TextToAudio.FileThumbnailSource = audioListPage.GetThumbnail(filePath);
+                                }
+                            }
+                            audioListPage.IsGettingFileInformation = false;
+                        }
+                        else
+                        {
+                            audioListPage.IsGettingFileInformation = true;
+                            if (filesList is not null && filesList.Count > 0)
+                            {
+                                await audioListPage.AddAudioDataAsync(filesList);
+                            }
+                            audioListPage.IsGettingFileInformation = false;
+                        }
+                    }
+                }
+            }
+            else if (currentFrameContent is PhotoConversionPage photoConversionPage)
+            {
+                object currentPhotoConversionContent = photoConversionPage.GetFrameContent();
+                if (currentPhotoConversionContent is PhotoListPage photoListPage && !photoListPage.IsGettingFileInformation)
+                {
+                    photoListPage.IsGettingFileInformation = true;
+                    if (filesList is not null && filesList.Count > 0)
+                    {
+                        await photoListPage.AddPhotoDataAsync(filesList);
+                    }
+                    photoListPage.IsGettingFileInformation = false;
+                }
+            }
+        }
 
         private uint HIWORD(uint dword)
         {

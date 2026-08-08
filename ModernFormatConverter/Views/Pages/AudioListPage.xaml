@@ -290,6 +290,7 @@
                     Padding="0"
                     Click="{x:Bind OnOkClicked}"
                     CornerRadius="{StaticResource ControlCornerRadius}"
+                    IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsGettingFileInformation), Mode=OneWay}"
                     Style="{StaticResource AccentButtonStyle}"
                     ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.AudioListResource.GetString('OK')}">
 
@@ -539,7 +540,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         CornerRadius="{StaticResource ControlCornerRadius}"
-                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(AudioConversionTypeCollection[1].AudioFormatConversion.AudioFormatConversionFileCollection.Count), Mode=OneWay}">
+                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(AudioConversionTypeCollection[1].AudioConcat.AudioConcatFileCollection.Count), Mode=OneWay}">
 
                         <Grid
                             Margin="30"
@@ -879,6 +880,7 @@
                                 Grid.Row="0"
                                 Padding="0"
                                 HorizontalAlignment="Center"
+                                x:FieldModifier="public"
                                 Loaded="{x:Bind OnTextToAudioSelectorBarLoaded}"
                                 SelectedItem="{x:Bind TextToAudioSelectedItem, Mode=OneWay}"
                                 SelectionChanged="{x:Bind OnTextToAudioSelectorBarSelectionChanged}"

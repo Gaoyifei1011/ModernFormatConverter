@@ -515,45 +515,48 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnVideoListDrop(object sender, Microsoft.UI.Xaml.DragEventArgs args)
         {
-            IsGettingFileInformation = true;
-            DragOperationDeferral dragOperationDeferral = args.GetDeferral();
-            List<string> fileList = null;
-
-            try
+            if (!IsGettingFileInformation)
             {
-                DataPackageView dataPackageView = args.DataView;
-                fileList = await Task.Run(async () =>
+                IsGettingFileInformation = true;
+                DragOperationDeferral dragOperationDeferral = args.GetDeferral();
+                List<string> fileList = null;
+
+                try
                 {
-                    try
+                    DataPackageView dataPackageView = args.DataView;
+                    fileList = await Task.Run(async () =>
                     {
-                        if (dataPackageView.Contains(StandardDataFormats.StorageItems))
+                        try
                         {
-                            IReadOnlyList<IStorageItem> storeageItem = await dataPackageView.GetStorageItemsAsync();
-                            return storeageItem.Select(item => item.Path).ToList();
+                            if (dataPackageView.Contains(StandardDataFormats.StorageItems))
+                            {
+                                IReadOnlyList<IStorageItem> storeageItem = await dataPackageView.GetStorageItemsAsync();
+                                return storeageItem.Select(item => item.Path).ToList();
+                            }
                         }
-                    }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoListPage), nameof(OnVideoListDrop), 1, e);
-                    }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoListPage), nameof(OnVideoListDrop), 1, e);
+                        }
 
-                    return null;
-                });
-            }
-            catch (Exception e)
-            {
-                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoListPage), nameof(OnVideoListDrop), 2, e);
-            }
-            finally
-            {
-                dragOperationDeferral.Complete();
-            }
+                        return null;
+                    });
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoListPage), nameof(OnVideoListDrop), 2, e);
+                }
+                finally
+                {
+                    dragOperationDeferral.Complete();
+                }
 
-            if (fileList is not null && fileList.Count > 0)
-            {
-                await AddVideoDataAsync(fileList);
+                if (fileList is not null && fileList.Count > 0)
+                {
+                    await AddVideoDataAsync(fileList);
+                }
+                IsGettingFileInformation = false;
             }
-            IsGettingFileInformation = false;
         }
 
         /// <summary>
@@ -561,57 +564,60 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnVideoMixedFlowVideoDrop(object sender, Microsoft.UI.Xaml.DragEventArgs args)
         {
-            IsGettingFileInformation = true;
-            DragOperationDeferral dragOperationDeferral = args.GetDeferral();
-            string filePath = string.Empty;
-
-            try
+            if (!IsGettingFileInformation)
             {
-                DataPackageView dataPackageView = args.DataView;
-                IReadOnlyList<IStorageItem> filesList = await Task.Run(async () =>
+                IsGettingFileInformation = true;
+                DragOperationDeferral dragOperationDeferral = args.GetDeferral();
+                string filePath = string.Empty;
+
+                try
                 {
-                    try
+                    DataPackageView dataPackageView = args.DataView;
+                    IReadOnlyList<IStorageItem> filesList = await Task.Run(async () =>
                     {
-                        if (dataPackageView.Contains(StandardDataFormats.StorageItems))
+                        try
                         {
-                            return await dataPackageView.GetStorageItemsAsync();
+                            if (dataPackageView.Contains(StandardDataFormats.StorageItems))
+                            {
+                                return await dataPackageView.GetStorageItemsAsync();
+                            }
                         }
-                    }
-                    catch (Exception e)
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(FileInformationPage), nameof(OnVideoMixedFlowVideoDrop), 1, e);
+                        }
+
+                        return null;
+                    });
+
+                    if (filesList is not null && filesList.Count is 1)
                     {
-                        LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(FileInformationPage), nameof(OnVideoMixedFlowVideoDrop), 1, e);
+                        filePath = filesList[0].Path;
                     }
-
-                    return null;
-                });
-
-                if (filesList is not null && filesList.Count is 1)
-                {
-                    filePath = filesList[0].Path;
                 }
-            }
-            catch (Exception e)
-            {
-                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoListPage), nameof(OnVideoMixedFlowVideoDrop), 2, e);
-            }
-            finally
-            {
-                dragOperationDeferral.Complete();
-            }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoListPage), nameof(OnVideoMixedFlowVideoDrop), 2, e);
+                }
+                finally
+                {
+                    dragOperationDeferral.Complete();
+                }
 
-            if (File.Exists(filePath))
-            {
-                if (await Task.Run(() => { return GetFileInformation(filePath, StreamKind.Video); }) is VideoMixedFlowFileModel videoMixedFlowFile)
+                if (File.Exists(filePath))
                 {
-                    SelectedConversionType.VideoMixedFlow.VideoFile = videoMixedFlowFile;
-                    SelectedConversionType.VideoMixedFlow.IsVideoFileExisted = true;
+                    if (await Task.Run(() => { return GetFileInformation(filePath, StreamKind.Video); }) is VideoMixedFlowFileModel videoMixedFlowFile)
+                    {
+                        SelectedConversionType.VideoMixedFlow.VideoFile = videoMixedFlowFile;
+                        SelectedConversionType.VideoMixedFlow.IsVideoFileExisted = true;
+                    }
+                    if (Equals(SelectedConversionType.VideoConversionTypeKind, VideoConversionTypeKind.VideoMixedFlow) && SelectedConversionType.VideoMixedFlow.VideoFile.FileThumbnailSource is null)
+                    {
+                        SelectedConversionType.VideoMixedFlow.VideoFile.FileThumbnailSource = GetThumbnail(filePath);
+                    }
                 }
-                if (Equals(SelectedConversionType.VideoConversionTypeKind, VideoConversionTypeKind.VideoMixedFlow) && SelectedConversionType.VideoMixedFlow.VideoFile.FileThumbnailSource is null)
-                {
-                    SelectedConversionType.VideoMixedFlow.VideoFile.FileThumbnailSource = GetThumbnail(filePath);
-                }
+                IsGettingFileInformation = false;
             }
-            IsGettingFileInformation = false;
         }
 
         /// <summary>
@@ -780,57 +786,60 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnVideoMixedFlowAudioDrop(object sender, Microsoft.UI.Xaml.DragEventArgs args)
         {
-            IsGettingFileInformation = true;
-            DragOperationDeferral dragOperationDeferral = args.GetDeferral();
-            string filePath = string.Empty;
-
-            try
+            if (!IsGettingFileInformation)
             {
-                DataPackageView dataPackageView = args.DataView;
-                IReadOnlyList<IStorageItem> filesList = await Task.Run(async () =>
+                IsGettingFileInformation = true;
+                DragOperationDeferral dragOperationDeferral = args.GetDeferral();
+                string filePath = string.Empty;
+
+                try
                 {
-                    try
+                    DataPackageView dataPackageView = args.DataView;
+                    IReadOnlyList<IStorageItem> filesList = await Task.Run(async () =>
                     {
-                        if (dataPackageView.Contains(StandardDataFormats.StorageItems))
+                        try
                         {
-                            return await dataPackageView.GetStorageItemsAsync();
+                            if (dataPackageView.Contains(StandardDataFormats.StorageItems))
+                            {
+                                return await dataPackageView.GetStorageItemsAsync();
+                            }
                         }
-                    }
-                    catch (Exception e)
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(FileInformationPage), nameof(OnVideoMixedFlowAudioDrop), 1, e);
+                        }
+
+                        return null;
+                    });
+
+                    if (filesList is not null && filesList.Count is 1)
                     {
-                        LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(FileInformationPage), nameof(OnVideoMixedFlowAudioDrop), 1, e);
+                        filePath = filesList[0].Path;
                     }
-
-                    return null;
-                });
-
-                if (filesList is not null && filesList.Count is 1)
-                {
-                    filePath = filesList[0].Path;
                 }
-            }
-            catch (Exception e)
-            {
-                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoListPage), nameof(OnVideoMixedFlowAudioDrop), 2, e);
-            }
-            finally
-            {
-                dragOperationDeferral.Complete();
-            }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoListPage), nameof(OnVideoMixedFlowAudioDrop), 2, e);
+                }
+                finally
+                {
+                    dragOperationDeferral.Complete();
+                }
 
-            if (File.Exists(filePath))
-            {
-                if (await Task.Run(() => { return GetFileInformation(filePath, StreamKind.Audio); }) is VideoMixedFlowFileModel videoMixedFlowFile)
+                if (File.Exists(filePath))
                 {
-                    SelectedConversionType.VideoMixedFlow.AudioFile = videoMixedFlowFile;
-                    SelectedConversionType.VideoMixedFlow.IsAudioFileExisted = true;
+                    if (await Task.Run(() => { return GetFileInformation(filePath, StreamKind.Audio); }) is VideoMixedFlowFileModel videoMixedFlowFile)
+                    {
+                        SelectedConversionType.VideoMixedFlow.AudioFile = videoMixedFlowFile;
+                        SelectedConversionType.VideoMixedFlow.IsAudioFileExisted = true;
+                    }
+                    if (Equals(SelectedConversionType.VideoConversionTypeKind, VideoConversionTypeKind.VideoMixedFlow) && SelectedConversionType.VideoMixedFlow.AudioFile.FileThumbnailSource is null)
+                    {
+                        SelectedConversionType.VideoMixedFlow.AudioFile.FileThumbnailSource = GetThumbnail(filePath);
+                    }
                 }
-                if (Equals(SelectedConversionType.VideoConversionTypeKind, VideoConversionTypeKind.VideoMixedFlow) && SelectedConversionType.VideoMixedFlow.AudioFile.FileThumbnailSource is null)
-                {
-                    SelectedConversionType.VideoMixedFlow.AudioFile.FileThumbnailSource = GetThumbnail(filePath);
-                }
+                IsGettingFileInformation = false;
             }
-            IsGettingFileInformation = false;
         }
 
         /// <summary>
@@ -901,57 +910,60 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnVideoMixedFlowSubtitleDrop(object sender, Microsoft.UI.Xaml.DragEventArgs args)
         {
-            IsGettingFileInformation = true;
-            DragOperationDeferral dragOperationDeferral = args.GetDeferral();
-            string filePath = string.Empty;
-
-            try
+            if (!IsGettingFileInformation)
             {
-                DataPackageView dataPackageView = args.DataView;
-                IReadOnlyList<IStorageItem> filesList = await Task.Run(async () =>
+                IsGettingFileInformation = true;
+                DragOperationDeferral dragOperationDeferral = args.GetDeferral();
+                string filePath = string.Empty;
+
+                try
                 {
-                    try
+                    DataPackageView dataPackageView = args.DataView;
+                    IReadOnlyList<IStorageItem> filesList = await Task.Run(async () =>
                     {
-                        if (dataPackageView.Contains(StandardDataFormats.StorageItems))
+                        try
                         {
-                            return await dataPackageView.GetStorageItemsAsync();
+                            if (dataPackageView.Contains(StandardDataFormats.StorageItems))
+                            {
+                                return await dataPackageView.GetStorageItemsAsync();
+                            }
                         }
-                    }
-                    catch (Exception e)
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(FileInformationPage), nameof(OnVideoMixedFlowSubtitleDrop), 1, e);
+                        }
+
+                        return null;
+                    });
+
+                    if (filesList is not null && filesList.Count is 1)
                     {
-                        LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(FileInformationPage), nameof(OnVideoMixedFlowSubtitleDrop), 1, e);
+                        filePath = filesList[0].Path;
                     }
-
-                    return null;
-                });
-
-                if (filesList is not null && filesList.Count is 1)
-                {
-                    filePath = filesList[0].Path;
                 }
-            }
-            catch (Exception e)
-            {
-                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoListPage), nameof(OnVideoMixedFlowSubtitleDrop), 2, e);
-            }
-            finally
-            {
-                dragOperationDeferral.Complete();
-            }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(VideoListPage), nameof(OnVideoMixedFlowSubtitleDrop), 2, e);
+                }
+                finally
+                {
+                    dragOperationDeferral.Complete();
+                }
 
-            if (File.Exists(filePath))
-            {
-                if (await Task.Run(() => { return GetFileInformation(filePath); }) is VideoMixedFlowFileModel videoMixedFlowFile)
+                if (File.Exists(filePath))
                 {
-                    SelectedConversionType.VideoMixedFlow.SubtitleFile = videoMixedFlowFile;
-                    SelectedConversionType.VideoMixedFlow.IsSubtitleFileExisted = true;
+                    if (await Task.Run(() => { return GetFileInformation(filePath); }) is VideoMixedFlowFileModel videoMixedFlowFile)
+                    {
+                        SelectedConversionType.VideoMixedFlow.SubtitleFile = videoMixedFlowFile;
+                        SelectedConversionType.VideoMixedFlow.IsSubtitleFileExisted = true;
+                    }
+                    if (Equals(SelectedConversionType.VideoConversionTypeKind, VideoConversionTypeKind.VideoMixedFlow) && SelectedConversionType.VideoMixedFlow.SubtitleFile.FileThumbnailSource is null)
+                    {
+                        SelectedConversionType.VideoMixedFlow.SubtitleFile.FileThumbnailSource = GetThumbnail(filePath);
+                    }
                 }
-                if (Equals(SelectedConversionType.VideoConversionTypeKind, VideoConversionTypeKind.VideoMixedFlow) && SelectedConversionType.VideoMixedFlow.SubtitleFile.FileThumbnailSource is null)
-                {
-                    SelectedConversionType.VideoMixedFlow.SubtitleFile.FileThumbnailSource = GetThumbnail(filePath);
-                }
+                IsGettingFileInformation = false;
             }
-            IsGettingFileInformation = false;
         }
 
         /// <summary>
@@ -974,9 +986,12 @@ namespace ModernFormatConverter.Views.Pages
             if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is not null)
             {
                 SelectedSortRule = Convert.ToString(radioMenuFlyoutItem.Tag);
-                IsGettingFileInformation = true;
-                await SortDataAsync();
-                IsGettingFileInformation = false;
+                if (!IsGettingFileInformation)
+                {
+                    IsGettingFileInformation = true;
+                    await SortDataAsync();
+                    IsGettingFileInformation = false;
+                }
             }
         }
 
@@ -988,9 +1003,12 @@ namespace ModernFormatConverter.Views.Pages
             if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is not null)
             {
                 SortWay = Convert.ToBoolean(radioMenuFlyoutItem.Tag);
-                IsGettingFileInformation = true;
-                await SortDataAsync();
-                IsGettingFileInformation = false;
+                if (!IsGettingFileInformation)
+                {
+                    IsGettingFileInformation = true;
+                    await SortDataAsync();
+                    IsGettingFileInformation = false;
+                }
             }
         }
 
@@ -1041,7 +1059,7 @@ namespace ModernFormatConverter.Views.Pages
                 Multiselect = true,
                 Title = SelectFileString
             };
-            if (openFileDialog.ShowDialog() is DialogResult.OK)
+            if (openFileDialog.ShowDialog() is DialogResult.OK && !IsGettingFileInformation)
             {
                 IsGettingFileInformation = true;
                 await AddVideoDataAsync([.. openFileDialog.FileNames]);
@@ -1060,7 +1078,7 @@ namespace ModernFormatConverter.Views.Pages
                 Multiselect = false,
                 Title = SelectFileString
             };
-            if (openFileDialog.ShowDialog() is DialogResult.OK)
+            if (openFileDialog.ShowDialog() is DialogResult.OK && !IsGettingFileInformation)
             {
                 IsGettingFileInformation = true;
                 if (await Task.Run(() => { return GetFileInformation(openFileDialog.FileName, StreamKind.Video); }) is VideoMixedFlowFileModel videoMixedFlowFile)
@@ -1087,7 +1105,7 @@ namespace ModernFormatConverter.Views.Pages
                 Multiselect = false,
                 Title = SelectFileString
             };
-            if (openFileDialog.ShowDialog() is DialogResult.OK)
+            if (openFileDialog.ShowDialog() is DialogResult.OK && !IsGettingFileInformation)
             {
                 IsGettingFileInformation = true;
                 if (await Task.Run(() => { return GetFileInformation(openFileDialog.FileName, StreamKind.Audio); }) is VideoMixedFlowFileModel videoMixedFlowFile)
@@ -1114,7 +1132,7 @@ namespace ModernFormatConverter.Views.Pages
                 Multiselect = false,
                 Title = SelectFileString
             };
-            if (openFileDialog.ShowDialog() is DialogResult.OK)
+            if (openFileDialog.ShowDialog() is DialogResult.OK && !IsGettingFileInformation)
             {
                 IsGettingFileInformation = true;
                 if (await Task.Run(() => { return GetFileInformation(openFileDialog.FileName); }) is VideoMixedFlowFileModel videoMixedFlowFile)
@@ -1142,7 +1160,7 @@ namespace ModernFormatConverter.Views.Pages
                 RootFolder = Environment.SpecialFolder.Desktop
             };
             DialogResult dialogResult = openFolderDialog.ShowDialog();
-            if (dialogResult is DialogResult.OK || dialogResult is DialogResult.Yes)
+            if (dialogResult is DialogResult.OK || dialogResult is DialogResult.Yes && !IsGettingFileInformation)
             {
                 IsGettingFileInformation = true;
                 List<string> fileList = [.. Directory.GetFiles(openFolderDialog.SelectedPath)];
@@ -1215,7 +1233,7 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 添加视频数据
         /// </summary>
-        private async Task AddVideoDataAsync(List<string> fileList)
+        public async Task AddVideoDataAsync(List<string> fileList)
         {
             // 视频格式转换
             if (SelectedConversionType.VideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion)

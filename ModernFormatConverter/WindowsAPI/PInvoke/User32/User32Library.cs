@@ -14,6 +14,16 @@ namespace ModernFormatConverter.WindowsAPI.PInvoke.User32
         private const string User32 = "user32.dll";
 
         /// <summary>
+        /// 在用户界面特权隔离 (UIPI) 消息筛选器中添加或删除消息。
+        /// </summary>
+        /// <param name="msg">要向筛选器添加或从中删除的消息。</param>
+        /// <param name="flags">要执行的操作。</param>
+        /// <returns>如果成功，则为 TRUE;否则为 FALSE。</returns>
+        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "ChangeWindowMessageFilter", PreserveSig = true, SetLastError = false)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool ChangeWindowMessageFilter(WindowMessage message, ChangeFilterFlags dwFlag);
+
+        /// <summary>
         /// 返回指定窗口的每英寸点数 (dpi) 值。
         /// </summary>
         /// <param name="hwnd">要获取其相关信息的窗口。</param>

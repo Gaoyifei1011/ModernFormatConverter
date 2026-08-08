@@ -268,45 +268,48 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnPhotoListDrop(object sender, Microsoft.UI.Xaml.DragEventArgs args)
         {
-            IsGettingFileInformation = true;
-            DragOperationDeferral dragOperationDeferral = args.GetDeferral();
-            List<string> fileList = null;
-
-            try
+            if (!IsGettingFileInformation)
             {
-                DataPackageView dataPackageView = args.DataView;
-                fileList = await Task.Run(async () =>
+                IsGettingFileInformation = true;
+                DragOperationDeferral dragOperationDeferral = args.GetDeferral();
+                List<string> fileList = null;
+
+                try
                 {
-                    try
+                    DataPackageView dataPackageView = args.DataView;
+                    fileList = await Task.Run(async () =>
                     {
-                        if (dataPackageView.Contains(StandardDataFormats.StorageItems))
+                        try
                         {
-                            IReadOnlyList<IStorageItem> storeageItem = await dataPackageView.GetStorageItemsAsync();
-                            return storeageItem.Select(item => item.Path).ToList();
+                            if (dataPackageView.Contains(StandardDataFormats.StorageItems))
+                            {
+                                IReadOnlyList<IStorageItem> storeageItem = await dataPackageView.GetStorageItemsAsync();
+                                return storeageItem.Select(item => item.Path).ToList();
+                            }
                         }
-                    }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(PhotoListPage), nameof(OnPhotoListDrop), 1, e);
-                    }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(PhotoListPage), nameof(OnPhotoListDrop), 1, e);
+                        }
 
-                    return null;
-                });
-            }
-            catch (Exception e)
-            {
-                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(PhotoConversionPage), nameof(OnPhotoListDrop), 2, e);
-            }
-            finally
-            {
-                dragOperationDeferral.Complete();
-            }
+                        return null;
+                    });
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(PhotoConversionPage), nameof(OnPhotoListDrop), 2, e);
+                }
+                finally
+                {
+                    dragOperationDeferral.Complete();
+                }
 
-            if (fileList is not null && fileList.Count > 0)
-            {
-                await AddPhotoDataAsync(fileList);
+                if (fileList is not null && fileList.Count > 0)
+                {
+                    await AddPhotoDataAsync(fileList);
+                }
+                IsGettingFileInformation = false;
             }
-            IsGettingFileInformation = false;
         }
 
         /// <summary>
@@ -415,9 +418,12 @@ namespace ModernFormatConverter.Views.Pages
             if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is not null)
             {
                 SelectedSortRule = Convert.ToString(radioMenuFlyoutItem.Tag);
-                IsGettingFileInformation = true;
-                await SortDataAsync();
-                IsGettingFileInformation = false;
+                if (!IsGettingFileInformation)
+                {
+                    IsGettingFileInformation = true;
+                    await SortDataAsync();
+                    IsGettingFileInformation = false;
+                }
             }
         }
 
@@ -429,9 +435,12 @@ namespace ModernFormatConverter.Views.Pages
             if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is not null)
             {
                 SortWay = Convert.ToBoolean(radioMenuFlyoutItem.Tag);
-                IsGettingFileInformation = true;
-                await SortDataAsync();
-                IsGettingFileInformation = false;
+                if (!IsGettingFileInformation)
+                {
+                    IsGettingFileInformation = true;
+                    await SortDataAsync();
+                    IsGettingFileInformation = false;
+                }
             }
         }
 
@@ -457,7 +466,7 @@ namespace ModernFormatConverter.Views.Pages
                 Multiselect = true,
                 Title = SelectFileString
             };
-            if (openFileDialog.ShowDialog() is DialogResult.OK)
+            if (openFileDialog.ShowDialog() is DialogResult.OK && !IsGettingFileInformation)
             {
                 IsGettingFileInformation = true;
                 await AddPhotoDataAsync([.. openFileDialog.FileNames]);
@@ -477,7 +486,7 @@ namespace ModernFormatConverter.Views.Pages
                 RootFolder = Environment.SpecialFolder.Desktop
             };
             DialogResult dialogResult = openFolderDialog.ShowDialog();
-            if (dialogResult is DialogResult.OK || dialogResult is DialogResult.Yes)
+            if (dialogResult is DialogResult.OK || dialogResult is DialogResult.Yes && !IsGettingFileInformation)
             {
                 IsGettingFileInformation = true;
                 List<string> fileList = [.. Directory.GetFiles(openFolderDialog.SelectedPath)];
@@ -520,7 +529,7 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 添加图片数据
         /// </summary>
-        private async Task AddPhotoDataAsync(List<string> fileList)
+        public async Task AddPhotoDataAsync(List<string> fileList)
         {
             // 图片格式转换
             if (SelectedConversionType.PhotoConversionTypeKind is PhotoConversionTypeKind.PhotoFormatConversion)

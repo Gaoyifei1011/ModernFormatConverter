@@ -265,6 +265,7 @@
                     Padding="0"
                     Click="{x:Bind OnOkClicked}"
                     CornerRadius="{StaticResource ControlCornerRadius}"
+                    IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsGettingFileInformation), Mode=OneWay}"
                     Style="{StaticResource AccentButtonStyle}"
                     ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.PhotoListResource.GetString('OK')}">
 
