@@ -141,17 +141,17 @@
     <Content Include="Assets\Wide310x150Logo.scale-150.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" CopyToOutputDirectory="Always" />
-    <Content Include="$(ProjectDir)\Tools\$(Platform)\avcodec-62.dll" Link="avcodec-62.dll" CopyToOutputDirectory="Always" />
-    <Content Include="$(ProjectDir)\Tools\$(Platform)\avdevice-62.dll" Link="avdevice-62.dll" CopyToOutputDirectory="Always" />
-    <Content Include="$(ProjectDir)\Tools\$(Platform)\avfilter-11.dll" Link="avfilter-11.dll" CopyToOutputDirectory="Always" />
-    <Content Include="$(ProjectDir)\Tools\$(Platform)\avformat-62.dll" Link="avformat-62.dll" CopyToOutputDirectory="Always" />
-    <Content Include="$(ProjectDir)\Tools\$(Platform)\avutil-60.dll" Link="avutil-60.dll" CopyToOutputDirectory="Always" />
+    <Content Include="$(ProjectDir)\Tools\$(Platform)\avcodec-63.dll" Link="avcodec-63.dll" CopyToOutputDirectory="Always" />
+    <Content Include="$(ProjectDir)\Tools\$(Platform)\avdevice-63.dll" Link="avdevice-63.dll" CopyToOutputDirectory="Always" />
+    <Content Include="$(ProjectDir)\Tools\$(Platform)\avfilter-12.dll" Link="avfilter-12.dll" CopyToOutputDirectory="Always" />
+    <Content Include="$(ProjectDir)\Tools\$(Platform)\avformat-63.dll" Link="avformat-63.dll" CopyToOutputDirectory="Always" />
+    <Content Include="$(ProjectDir)\Tools\$(Platform)\avutil-61.dll" Link="avutil-61.dll" CopyToOutputDirectory="Always" />
     <Content Include="$(ProjectDir)\Tools\$(Platform)\ffmpeg.exe" Link="ffmpeg.exe" CopyToOutputDirectory="Always" />
     <Content Include="$(ProjectDir)\Tools\$(Platform)\FFmpegInterop.winmd" Link="FFmpegInterop.winmd" CopyToOutputDirectory="Always" />
     <Content Include="$(ProjectDir)\Tools\$(Platform)\FFmpegInterop.dll" Link="FFmpegInterop.dll" CopyToOutputDirectory="Always" />
     <Content Include="$(ProjectDir)\Tools\$(Platform)\MediaInfo.dll" Link="MediaInfo.dll" CopyToOutputDirectory="Always" />
-    <Content Include="$(ProjectDir)\Tools\$(Platform)\swresample-6.dll" Link="swresample-6.dll" CopyToOutputDirectory="Always" />
-    <Content Include="$(ProjectDir)\Tools\$(Platform)\swscale-9.dll" Link="swscale-9.dll" CopyToOutputDirectory="Always" />
+    <Content Include="$(ProjectDir)\Tools\$(Platform)\swresample-7.dll" Link="swresample-7.dll" CopyToOutputDirectory="Always" />
+    <Content Include="$(ProjectDir)\Tools\$(Platform)\swscale-10.dll" Link="swscale-10.dll" CopyToOutputDirectory="Always" />
     
     <EmbeddedResource Include="Strings\AppInformation.en-us.restext" />
     <EmbeddedResource Include="Strings\AppInformation.restext" />
