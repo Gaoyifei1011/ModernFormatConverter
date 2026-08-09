@@ -17,6 +17,7 @@ namespace ModernFormatConverter
     /// </summary>
     public partial class MainApp : Application, IDisposable
     {
+        private Icon windowIcon;
         private bool isDisposed;
 
         public Window MainWindow { get; private set; }
@@ -55,11 +56,11 @@ namespace ModernFormatConverter
         {
             try
             {
-                Icon icon = Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.ExecutablePath);
+                windowIcon = Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.ExecutablePath);
 
-                if (icon is not null)
+                if (windowIcon is not null)
                 {
-                    appWindow.SetIcon(new IconId() { Value = (ulong)icon.Handle });
+                    appWindow.SetIcon(new IconId() { Value = (ulong)windowIcon.Handle });
                 }
             }
             catch (Exception e)
