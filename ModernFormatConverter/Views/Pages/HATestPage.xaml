@@ -172,7 +172,7 @@
                                         </Grid.ColumnDefinitions>
 
                                         <TextBlock
-                                            x:Name="HATestNameText"
+                                            x:Name="HATestNameTextBlock"
                                             Grid.Column="0"
                                             MinWidth="50"
                                             Margin="10,0,0,0"
@@ -185,7 +185,7 @@
                                             TextWrapping="NoWrap">
 
                                             <ToolTipService.ToolTip>
-                                                <ToolTip Content="{x:Bind HATestName}" Visibility="{Binding ElementName=HATestNameText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                <ToolTip Content="{x:Bind HATestName}" Visibility="{Binding ElementName=HATestNameTextBlock, Path=IsTextTrimmed, Mode=OneWay}" />
                                             </ToolTipService.ToolTip>
                                         </TextBlock>
 
@@ -314,7 +314,7 @@
                                         </Grid.ColumnDefinitions>
 
                                         <TextBlock
-                                            x:Name="HATestNameText"
+                                            x:Name="HATestNameTextBlock"
                                             Grid.Column="0"
                                             MinWidth="50"
                                             Margin="10,0,0,0"
@@ -328,7 +328,7 @@
                                             TextWrapping="NoWrap">
 
                                             <ToolTipService.ToolTip>
-                                                <ToolTip Content="{x:Bind HATestName}" Visibility="{Binding ElementName=HATestNameText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                <ToolTip Content="{x:Bind HATestName}" Visibility="{Binding ElementName=HATestNameTextBlock, Path=IsTextTrimmed, Mode=OneWay}" />
                                             </ToolTipService.ToolTip>
                                         </TextBlock>
 
@@ -456,7 +456,7 @@
                                         </Grid.ColumnDefinitions>
 
                                         <TextBlock
-                                            x:Name="HATestNameText"
+                                            x:Name="HATestNameTextBlock"
                                             Grid.Column="0"
                                             MinWidth="50"
                                             Margin="10,0,0,0"
@@ -470,7 +470,7 @@
                                             TextWrapping="NoWrap">
 
                                             <ToolTipService.ToolTip>
-                                                <ToolTip Content="{x:Bind HATestName}" Visibility="{Binding ElementName=HATestNameText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                <ToolTip Content="{x:Bind HATestName}" Visibility="{Binding ElementName=HATestNameTextBlock, Path=IsTextTrimmed, Mode=OneWay}" />
                                             </ToolTipService.ToolTip>
                                         </TextBlock>
 
@@ -599,7 +599,7 @@
                                         </Grid.ColumnDefinitions>
 
                                         <TextBlock
-                                            x:Name="HATestNameText"
+                                            x:Name="HATestNameTextBlock"
                                             Grid.Column="0"
                                             MinWidth="50"
                                             Margin="10,0,0,0"
@@ -613,7 +613,7 @@
                                             TextWrapping="NoWrap">
 
                                             <ToolTipService.ToolTip>
-                                                <ToolTip Content="{x:Bind HATestName}" Visibility="{Binding ElementName=HATestNameText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                <ToolTip Content="{x:Bind HATestName}" Visibility="{Binding ElementName=HATestNameTextBlock, Path=IsTextTrimmed, Mode=OneWay}" />
                                             </ToolTipService.ToolTip>
                                         </TextBlock>
 

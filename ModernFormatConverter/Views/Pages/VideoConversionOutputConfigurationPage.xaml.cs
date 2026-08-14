@@ -1107,7 +1107,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnSelectorBarSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
         {
-            if (VideoConversionOutputConfigurationScroll.IsLoaded && !Equals(SelectedItem, sender.SelectedItem))
+            if (VideoConversionOutputConfigurationScrollViewer.IsLoaded && !Equals(SelectedItem, sender.SelectedItem))
             {
                 SelectedItem = sender.SelectedItem;
 
@@ -1119,26 +1119,26 @@ namespace ModernFormatConverter.Views.Pages
                     {
                         case 0:
                             {
-                                double currentScrollPosition = VideoConversionOutputConfigurationScroll.VerticalOffset;
+                                double currentScrollPosition = VideoConversionOutputConfigurationScrollViewer.VerticalOffset;
                                 Point currentPoint = new(0, (int)currentScrollPosition);
-                                Point targetPosition = VideoHeader.TransformToVisual(VideoConversionOutputConfigurationScroll).TransformPoint(currentPoint);
-                                VideoConversionOutputConfigurationScroll.ChangeView(null, targetPosition.Y, null);
+                                Point targetPosition = VideoHeaderTextBlock.TransformToVisual(VideoConversionOutputConfigurationScrollViewer).TransformPoint(currentPoint);
+                                VideoConversionOutputConfigurationScrollViewer.ChangeView(null, targetPosition.Y, null);
                                 break;
                             }
                         case 1:
                             {
-                                double currentScrollPosition = VideoConversionOutputConfigurationScroll.VerticalOffset;
+                                double currentScrollPosition = VideoConversionOutputConfigurationScrollViewer.VerticalOffset;
                                 Point currentPoint = new(0, (int)currentScrollPosition);
-                                Point targetPosition = AudioHeader.TransformToVisual(VideoConversionOutputConfigurationScroll).TransformPoint(currentPoint);
-                                VideoConversionOutputConfigurationScroll.ChangeView(null, targetPosition.Y, null);
+                                Point targetPosition = AudioHeaderTextBlock.TransformToVisual(VideoConversionOutputConfigurationScrollViewer).TransformPoint(currentPoint);
+                                VideoConversionOutputConfigurationScrollViewer.ChangeView(null, targetPosition.Y, null);
                                 break;
                             }
                         case 2:
                             {
-                                double currentScrollPosition = VideoConversionOutputConfigurationScroll.VerticalOffset;
+                                double currentScrollPosition = VideoConversionOutputConfigurationScrollViewer.VerticalOffset;
                                 Point currentPoint = new(0, (int)currentScrollPosition);
-                                Point targetPosition = SubtitleHeader.TransformToVisual(VideoConversionOutputConfigurationScroll).TransformPoint(currentPoint);
-                                VideoConversionOutputConfigurationScroll.ChangeView(null, targetPosition.Y, null);
+                                Point targetPosition = SubtitleHeaderTextBlock.TransformToVisual(VideoConversionOutputConfigurationScrollViewer).TransformPoint(currentPoint);
+                                VideoConversionOutputConfigurationScrollViewer.ChangeView(null, targetPosition.Y, null);
                                 break;
                             }
                     }
@@ -1365,10 +1365,10 @@ namespace ModernFormatConverter.Views.Pages
             // 视频格式转换 或 视频混流
             if (SelectedVideoConversionTypeKind is VideoConversionTypeKind.VideoFormatConversion || SelectedVideoConversionTypeKind is VideoConversionTypeKind.VideoMixedFlow)
             {
-                double currentScrollPosition = VideoConversionOutputConfigurationScroll.VerticalOffset;
+                double currentScrollPosition = VideoConversionOutputConfigurationScrollViewer.VerticalOffset;
                 Point currentPoint = new(0, (int)currentScrollPosition);
-                Point audioHeaderTargetPosition = AudioHeader.TransformToVisual(VideoConversionOutputConfigurationScroll).TransformPoint(currentPoint);
-                Point subtitleHeaderTargetPosition = SubtitleHeader.TransformToVisual(VideoConversionOutputConfigurationScroll).TransformPoint(currentPoint);
+                Point audioHeaderTargetPosition = AudioHeaderTextBlock.TransformToVisual(VideoConversionOutputConfigurationScrollViewer).TransformPoint(currentPoint);
+                Point subtitleHeaderTargetPosition = SubtitleHeaderTextBlock.TransformToVisual(VideoConversionOutputConfigurationScrollViewer).TransformPoint(currentPoint);
 
                 if (currentScrollPosition >= subtitleHeaderTargetPosition.Y)
                 {
@@ -1386,9 +1386,9 @@ namespace ModernFormatConverter.Views.Pages
             // 视频合并
             else if (SelectedVideoConversionTypeKind is VideoConversionTypeKind.VideoConcat)
             {
-                double currentScrollPosition = VideoConversionOutputConfigurationScroll.VerticalOffset;
+                double currentScrollPosition = VideoConversionOutputConfigurationScrollViewer.VerticalOffset;
                 Point currentPoint = new(0, (int)currentScrollPosition);
-                Point audioHeaderTargetPosition = AudioHeader.TransformToVisual(VideoConversionOutputConfigurationScroll).TransformPoint(currentPoint);
+                Point audioHeaderTargetPosition = AudioHeaderTextBlock.TransformToVisual(VideoConversionOutputConfigurationScrollViewer).TransformPoint(currentPoint);
                 SelectedItem = currentScrollPosition >= audioHeaderTargetPosition.Y ? VideoConversionOutputConfigurationSelectorBar.Items[1] : VideoConversionOutputConfigurationSelectorBar.Items[0];
             }
         }

@@ -49,7 +49,7 @@
                             <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind rootservice:ResourceService.SettingsAdvancedResource.GetString('LogRecord')}" />
 
                             <TextBlock
-                                x:Name="LogRecordDescription"
+                                x:Name="LogRecordDescriptionTextBlock"
                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                 Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="{x:Bind rootservice:ResourceService.SettingsAdvancedResource.GetString('LogRecordDescription')}"
@@ -57,7 +57,7 @@
                                 TextWrapping="NoWrap">
 
                                 <ToolTipService.ToolTip>
-                                    <ToolTip Content="{x:Bind rootservice:ResourceService.SettingsAdvancedResource.GetString('LogRecordDescription')}" Visibility="{x:Bind LogRecordDescription.IsTextTrimmed, Mode=OneWay}" />
+                                    <ToolTip Content="{x:Bind rootservice:ResourceService.SettingsAdvancedResource.GetString('LogRecordDescription')}" Visibility="{x:Bind LogRecordDescriptionTextBlock.IsTextTrimmed, Mode=OneWay}" />
                                 </ToolTipService.ToolTip>
                             </TextBlock>
                         </StackPanel>
@@ -87,7 +87,7 @@
                                 Text="{x:Bind rootservice:ResourceService.SettingsAdvancedResource.GetString('LogFolder')}" />
 
                             <TextBlock
-                                x:Name="LogFolderDescription"
+                                x:Name="LogFolderDescriptionTextBlock"
                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                 Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="{x:Bind rootservice:ResourceService.SettingsAdvancedResource.GetString('LogFolderDescription')}"
@@ -95,7 +95,7 @@
                                 TextWrapping="NoWrap">
 
                                 <ToolTipService.ToolTip>
-                                    <ToolTip Content="{x:Bind rootservice:ResourceService.SettingsAdvancedResource.GetString('LogFolderDescription')}" Visibility="{x:Bind LogFolderDescription.IsTextTrimmed, Mode=OneWay}" />
+                                    <ToolTip Content="{x:Bind rootservice:ResourceService.SettingsAdvancedResource.GetString('LogFolderDescription')}" Visibility="{x:Bind LogFolderDescriptionTextBlock.IsTextTrimmed, Mode=OneWay}" />
                                 </ToolTipService.ToolTip>
                             </TextBlock>
                         </StackPanel>
@@ -131,7 +131,7 @@
                                 Text="{x:Bind rootservice:ResourceService.SettingsAdvancedResource.GetString('ClearLog')}" />
 
                             <TextBlock
-                                x:Name="ClearLogDescription"
+                                x:Name="ClearLogDescriptionTextBlock"
                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                 Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="{x:Bind rootservice:ResourceService.SettingsAdvancedResource.GetString('ClearLogDescription')}"
@@ -139,7 +139,7 @@
                                 TextWrapping="NoWrap">
 
                                 <ToolTipService.ToolTip>
-                                    <ToolTip Content="{x:Bind rootservice:ResourceService.SettingsAdvancedResource.GetString('ClearLogDescription')}" Visibility="{x:Bind ClearLogDescription.IsTextTrimmed, Mode=OneWay}" />
+                                    <ToolTip Content="{x:Bind rootservice:ResourceService.SettingsAdvancedResource.GetString('ClearLogDescription')}" Visibility="{x:Bind ClearLogDescriptionTextBlock.IsTextTrimmed, Mode=OneWay}" />
                                 </ToolTipService.ToolTip>
                             </TextBlock>
                         </StackPanel>

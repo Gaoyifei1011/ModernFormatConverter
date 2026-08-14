@@ -62,22 +62,22 @@
                         Orientation="Vertical"
                         Spacing="2">
                         <TextBlock
-                            x:Name="TitleText"
+                            x:Name="TitleTextBlock"
                             Style="{StaticResource BodyStrongTextBlockStyle}"
                             Text="{x:Bind Title}"
                             TextLineBounds="TrimToCapHeight"
                             TextWrapping="NoWrap" />
 
                         <TextBlock
-                            x:Name="DescriptionText"
+                            x:Name="DescriptionTextBlock"
                             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            RelativePanel.Below="TitleText"
+                            RelativePanel.Below="TitleTextBlock"
                             Style="{StaticResource CaptionTextBlockStyle}"
                             Text="{x:Bind Description}"
                             TextTrimming="CharacterEllipsis">
 
                             <ToolTipService.ToolTip>
-                                <ToolTip Content="{x:Bind Description}" Visibility="{Binding ElementName=DescriptionText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                <ToolTip Content="{x:Bind Description}" Visibility="{Binding ElementName=DescriptionTextBlock, Path=IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </TextBlock>
                     </StackPanel>

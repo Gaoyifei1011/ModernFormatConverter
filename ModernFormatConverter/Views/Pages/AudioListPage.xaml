@@ -601,7 +601,7 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBlock
-                                x:Name="FileNameHeaderText"
+                                x:Name="FileNameHeaderTextBlock"
                                 Grid.Column="0"
                                 Margin="10,0,0,0"
                                 HorizontalAlignment="Left"
@@ -612,7 +612,7 @@
                                 ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.AudioListResource.GetString('FileName')}" />
 
                             <TextBlock
-                                x:Name="FileSizeHeaderText"
+                                x:Name="FileSizeHeaderTextBlock"
                                 Grid.Column="1"
                                 Margin="10,0,0,0"
                                 HorizontalAlignment="Left"
@@ -622,12 +622,12 @@
                                 TextWrapping="NoWrap">
 
                                 <ToolTipService.ToolTip>
-                                    <ToolTip Content="{x:Bind rootservice:ResourceService.AudioListResource.GetString('FileSize')}" Visibility="{x:Bind FileSizeHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                    <ToolTip Content="{x:Bind rootservice:ResourceService.AudioListResource.GetString('FileSize')}" Visibility="{x:Bind FileSizeHeaderTextBlock.IsTextTrimmed, Mode=OneWay}" />
                                 </ToolTipService.ToolTip>
                             </TextBlock>
 
                             <TextBlock
-                                x:Name="DurationHeaderText"
+                                x:Name="DurationHeaderTextBlock"
                                 Grid.Column="2"
                                 Margin="10,0,0,0"
                                 HorizontalAlignment="Left"
@@ -637,12 +637,12 @@
                                 TextWrapping="NoWrap">
 
                                 <ToolTipService.ToolTip>
-                                    <ToolTip Content="{x:Bind rootservice:ResourceService.AudioListResource.GetString('Duration')}" Visibility="{x:Bind DurationHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                    <ToolTip Content="{x:Bind rootservice:ResourceService.AudioListResource.GetString('Duration')}" Visibility="{x:Bind DurationHeaderTextBlock.IsTextTrimmed, Mode=OneWay}" />
                                 </ToolTipService.ToolTip>
                             </TextBlock>
 
                             <TextBlock
-                                x:Name="ChannelHeaderText"
+                                x:Name="ChannelHeaderTextBlock"
                                 Grid.Column="3"
                                 Margin="10,0,0,0"
                                 HorizontalAlignment="Left"
@@ -652,12 +652,12 @@
                                 TextWrapping="NoWrap">
 
                                 <ToolTipService.ToolTip>
-                                    <ToolTip Content="{x:Bind rootservice:ResourceService.AudioListResource.GetString('Channel')}" Visibility="{x:Bind ChannelHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                    <ToolTip Content="{x:Bind rootservice:ResourceService.AudioListResource.GetString('Channel')}" Visibility="{x:Bind ChannelHeaderTextBlock.IsTextTrimmed, Mode=OneWay}" />
                                 </ToolTipService.ToolTip>
                             </TextBlock>
 
                             <TextBlock
-                                x:Name="SamplingRateHeaderText"
+                                x:Name="SamplingRateHeaderTextBlock"
                                 Grid.Column="4"
                                 Margin="10,0,0,0"
                                 HorizontalAlignment="Left"
@@ -667,12 +667,12 @@
                                 TextWrapping="NoWrap">
 
                                 <ToolTipService.ToolTip>
-                                    <ToolTip Content="{x:Bind rootservice:ResourceService.AudioListResource.GetString('SamplingRate')}" Visibility="{x:Bind SamplingRateHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                    <ToolTip Content="{x:Bind rootservice:ResourceService.AudioListResource.GetString('SamplingRate')}" Visibility="{x:Bind SamplingRateHeaderTextBlock.IsTextTrimmed, Mode=OneWay}" />
                                 </ToolTipService.ToolTip>
                             </TextBlock>
 
                             <TextBlock
-                                x:Name="BitRateHeaderText"
+                                x:Name="BitRateHeaderTextBlock"
                                 Grid.Column="5"
                                 Margin="10,0,0,0"
                                 HorizontalAlignment="Left"
@@ -682,12 +682,12 @@
                                 TextWrapping="NoWrap">
 
                                 <ToolTipService.ToolTip>
-                                    <ToolTip Content="{x:Bind rootservice:ResourceService.AudioListResource.GetString('BitRate')}" Visibility="{x:Bind BitRateHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                    <ToolTip Content="{x:Bind rootservice:ResourceService.AudioListResource.GetString('BitRate')}" Visibility="{x:Bind BitRateHeaderTextBlock.IsTextTrimmed, Mode=OneWay}" />
                                 </ToolTipService.ToolTip>
                             </TextBlock>
 
                             <TextBlock
-                                x:Name="OptionsHeaderText"
+                                x:Name="OptionsHeaderTextBlock"
                                 Grid.Column="6"
                                 Margin="10,0,0,0"
                                 HorizontalAlignment="Left"
@@ -695,7 +695,7 @@
                                 Text="{x:Bind rootservice:ResourceService.AudioListResource.GetString('Options')}">
 
                                 <ToolTipService.ToolTip>
-                                    <ToolTip Content="{x:Bind rootservice:ResourceService.AudioListResource.GetString('Options')}" Visibility="{Binding ElementName=OptionsHeaderText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                    <ToolTip Content="{x:Bind rootservice:ResourceService.AudioListResource.GetString('Options')}" Visibility="{Binding ElementName=OptionsHeaderTextBlock, Path=IsTextTrimmed, Mode=OneWay}" />
                                 </ToolTipService.ToolTip>
                             </TextBlock>
                         </Grid>
@@ -739,7 +739,7 @@
                                         </Grid.ColumnDefinitions>
 
                                         <TextBlock
-                                            x:Name="FileNameText"
+                                            x:Name="FileNameTextBlock"
                                             Grid.Column="0"
                                             Margin="10,0,0,0"
                                             HorizontalAlignment="Left"
@@ -751,12 +751,12 @@
                                             TextWrapping="NoWrap">
 
                                             <ToolTipService.ToolTip>
-                                                <ToolTip Content="{x:Bind FilePath}" Visibility="{Binding ElementName=FileNameText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                <ToolTip Content="{x:Bind FilePath}" Visibility="{Binding ElementName=FileNameTextBlock, Path=IsTextTrimmed, Mode=OneWay}" />
                                             </ToolTipService.ToolTip>
                                         </TextBlock>
 
                                         <TextBlock
-                                            x:Name="FileSizeText"
+                                            x:Name="FileSizeTextBlock"
                                             Grid.Column="1"
                                             Margin="10,0,0,0"
                                             HorizontalAlignment="Left"
@@ -768,12 +768,12 @@
                                             TextWrapping="NoWrap">
 
                                             <ToolTipService.ToolTip>
-                                                <ToolTip Content="{x:Bind FileSize, Converter={StaticResource FileSizeValueConverter}}" Visibility="{Binding ElementName=FileSizeText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                <ToolTip Content="{x:Bind FileSize, Converter={StaticResource FileSizeValueConverter}}" Visibility="{Binding ElementName=FileSizeTextBlock, Path=IsTextTrimmed, Mode=OneWay}" />
                                             </ToolTipService.ToolTip>
                                         </TextBlock>
 
                                         <TextBlock
-                                            x:Name="DurationText"
+                                            x:Name="DurationTextBlock"
                                             Grid.Column="2"
                                             Margin="10,0,0,0"
                                             HorizontalAlignment="Left"
@@ -785,12 +785,12 @@
                                             TextWrapping="NoWrap">
 
                                             <ToolTipService.ToolTip>
-                                                <ToolTip Content="{x:Bind Duration, Converter={StaticResource DurationConverter}}" Visibility="{Binding ElementName=DurationText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                <ToolTip Content="{x:Bind Duration, Converter={StaticResource DurationConverter}}" Visibility="{Binding ElementName=DurationTextBlock, Path=IsTextTrimmed, Mode=OneWay}" />
                                             </ToolTipService.ToolTip>
                                         </TextBlock>
 
                                         <TextBlock
-                                            x:Name="ChannelText"
+                                            x:Name="ChannelTextBlock"
                                             Grid.Column="3"
                                             Margin="10,0,0,0"
                                             HorizontalAlignment="Left"
@@ -802,12 +802,12 @@
                                             TextWrapping="NoWrap">
 
                                             <ToolTipService.ToolTip>
-                                                <ToolTip Content="{x:Bind Channel}" Visibility="{Binding ElementName=ChannelText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                <ToolTip Content="{x:Bind Channel}" Visibility="{Binding ElementName=ChannelTextBlock, Path=IsTextTrimmed, Mode=OneWay}" />
                                             </ToolTipService.ToolTip>
                                         </TextBlock>
 
                                         <TextBlock
-                                            x:Name="SamplingRateText"
+                                            x:Name="SamplingRateTextBlock"
                                             Grid.Column="4"
                                             Margin="10,0,0,0"
                                             HorizontalAlignment="Left"
@@ -819,12 +819,12 @@
                                             TextWrapping="NoWrap">
 
                                             <ToolTipService.ToolTip>
-                                                <ToolTip Content="{x:Bind SamplingRate}" Visibility="{Binding ElementName=SamplingRateText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                <ToolTip Content="{x:Bind SamplingRate}" Visibility="{Binding ElementName=SamplingRateTextBlock, Path=IsTextTrimmed, Mode=OneWay}" />
                                             </ToolTipService.ToolTip>
                                         </TextBlock>
 
                                         <TextBlock
-                                            x:Name="BitRateText"
+                                            x:Name="BitRateTextBlock"
                                             Grid.Column="5"
                                             Margin="10,0,0,0"
                                             HorizontalAlignment="Left"
@@ -836,7 +836,7 @@
                                             TextWrapping="NoWrap">
 
                                             <ToolTipService.ToolTip>
-                                                <ToolTip Content="{x:Bind BitRate}" Visibility="{Binding ElementName=BitRateText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                <ToolTip Content="{x:Bind BitRate}" Visibility="{Binding ElementName=BitRateTextBlock, Path=IsTextTrimmed, Mode=OneWay}" />
                                             </ToolTipService.ToolTip>
                                         </TextBlock>
 

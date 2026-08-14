@@ -480,12 +480,8 @@
                                             Style="{StaticResource BodyStrongTextBlockStyle}"
                                             Text="{x:Bind FileName}"
                                             TextLineBounds="TrimToCapHeight"
-                                            TextWrapping="NoWrap">
-
-                                            <ToolTipService.ToolTip>
-                                                <ToolTip Content="{x:Bind FilePath}" Visibility="{Binding ElementName=DescriptionText, Path=IsTextTrimmed, Mode=OneWay}" />
-                                            </ToolTipService.ToolTip>
-                                        </TextBlock>
+                                            TextWrapping="NoWrap"
+                                            ToolTipService.ToolTip="{x:Bind FilePath}" />
 
                                         <TextBlock
                                             Grid.Row="1"
@@ -631,7 +627,7 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBlock
-                                x:Name="FileNameHeaderText"
+                                x:Name="FileNameHeaderTextBlock"
                                 Grid.Column="0"
                                 Margin="10,0,0,0"
                                 HorizontalAlignment="Left"
@@ -641,12 +637,12 @@
                                 TextWrapping="NoWrap">
 
                                 <ToolTipService.ToolTip>
-                                    <ToolTip Content="{x:Bind rootservice:ResourceService.VideoListResource.GetString('FileName')}" Visibility="{x:Bind FileNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                    <ToolTip Content="{x:Bind rootservice:ResourceService.VideoListResource.GetString('FileName')}" Visibility="{x:Bind FileNameHeaderTextBlock.IsTextTrimmed, Mode=OneWay}" />
                                 </ToolTipService.ToolTip>
                             </TextBlock>
 
                             <TextBlock
-                                x:Name="FileSizeHeaderText"
+                                x:Name="FileSizeHeaderTextBlock"
                                 Grid.Column="1"
                                 Margin="10,0,0,0"
                                 HorizontalAlignment="Left"
@@ -656,12 +652,12 @@
                                 TextWrapping="NoWrap">
 
                                 <ToolTipService.ToolTip>
-                                    <ToolTip Content="{x:Bind rootservice:ResourceService.VideoListResource.GetString('FileSize')}" Visibility="{x:Bind FileSizeHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                    <ToolTip Content="{x:Bind rootservice:ResourceService.VideoListResource.GetString('FileSize')}" Visibility="{x:Bind FileSizeHeaderTextBlock.IsTextTrimmed, Mode=OneWay}" />
                                 </ToolTipService.ToolTip>
                             </TextBlock>
 
                             <TextBlock
-                                x:Name="DurationHeaderText"
+                                x:Name="DurationHeaderTextBlock"
                                 Grid.Column="2"
                                 Margin="10,0,0,0"
                                 HorizontalAlignment="Left"
@@ -671,12 +667,12 @@
                                 TextWrapping="NoWrap">
 
                                 <ToolTipService.ToolTip>
-                                    <ToolTip Content="{x:Bind rootservice:ResourceService.VideoListResource.GetString('Duration')}" Visibility="{x:Bind DurationHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                    <ToolTip Content="{x:Bind rootservice:ResourceService.VideoListResource.GetString('Duration')}" Visibility="{x:Bind DurationHeaderTextBlock.IsTextTrimmed, Mode=OneWay}" />
                                 </ToolTipService.ToolTip>
                             </TextBlock>
 
                             <TextBlock
-                                x:Name="ScreenSizeHeaderText"
+                                x:Name="ScreenSizeHeaderTextBlock"
                                 Grid.Column="3"
                                 Margin="10,0,0,0"
                                 HorizontalAlignment="Left"
@@ -686,12 +682,12 @@
                                 TextWrapping="NoWrap">
 
                                 <ToolTipService.ToolTip>
-                                    <ToolTip Content="{x:Bind rootservice:ResourceService.VideoListResource.GetString('ScreenSize')}" Visibility="{x:Bind ScreenSizeHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                    <ToolTip Content="{x:Bind rootservice:ResourceService.VideoListResource.GetString('ScreenSize')}" Visibility="{x:Bind ScreenSizeHeaderTextBlock.IsTextTrimmed, Mode=OneWay}" />
                                 </ToolTipService.ToolTip>
                             </TextBlock>
 
                             <TextBlock
-                                x:Name="OptionsHeaderText"
+                                x:Name="OptionsHeaderTextBlock"
                                 Grid.Column="4"
                                 Margin="10,0,0,0"
                                 HorizontalAlignment="Left"
@@ -699,7 +695,7 @@
                                 Text="{x:Bind rootservice:ResourceService.VideoListResource.GetString('Options')}">
 
                                 <ToolTipService.ToolTip>
-                                    <ToolTip Content="{x:Bind rootservice:ResourceService.VideoListResource.GetString('Options')}" Visibility="{Binding ElementName=OptionsHeaderText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                    <ToolTip Content="{x:Bind rootservice:ResourceService.VideoListResource.GetString('Options')}" Visibility="{Binding ElementName=OptionsHeaderTextBlock, Path=IsTextTrimmed, Mode=OneWay}" />
                                 </ToolTipService.ToolTip>
                             </TextBlock>
                         </Grid>
@@ -741,7 +737,7 @@
                                         </Grid.ColumnDefinitions>
 
                                         <TextBlock
-                                            x:Name="FileNameText"
+                                            x:Name="FileNameTextBlock"
                                             Grid.Column="0"
                                             Margin="10,0,0,0"
                                             HorizontalAlignment="Left"
@@ -754,7 +750,7 @@
                                             ToolTipService.ToolTip="{x:Bind FilePath}" />
 
                                         <TextBlock
-                                            x:Name="FileSizeText"
+                                            x:Name="FileSizeTextBlock"
                                             Grid.Column="1"
                                             Margin="10,0,0,0"
                                             HorizontalAlignment="Left"
@@ -767,7 +763,7 @@
                                             ToolTipService.ToolTip="{x:Bind FileSize, Converter={StaticResource FileSizeValueConverter}}" />
 
                                         <TextBlock
-                                            x:Name="DurationText"
+                                            x:Name="DurationTextBlock"
                                             Grid.Column="2"
                                             Margin="10,0,0,0"
                                             HorizontalAlignment="Left"
@@ -777,12 +773,11 @@
                                             TextAlignment="Left"
                                             TextTrimming="CharacterEllipsis"
                                             TextWrapping="NoWrap"
-                                            ToolTipService.ToolTip="{x:Bind Duration, Converter={StaticResource DurationConverter}}">
-                                            >
+                                            ToolTipService.ToolTip="{x:Bind Duration, Converter={StaticResource DurationConverter}}">>
                                         </TextBlock>
 
                                         <TextBlock
-                                            x:Name="ScreenSizeText"
+                                            x:Name="ScreenSizeTextBlock"
                                             Grid.Column="3"
                                             Margin="10,0,0,0"
                                             HorizontalAlignment="Left"
@@ -795,7 +790,7 @@
                                             <Run Text="{x:Bind ScreenSizeWidth}" /><Run Text="x" /><Run Text="{x:Bind ScreenSizeHeight}" />
 
                                             <ToolTipService.ToolTip>
-                                                <ToolTip Visibility="{Binding ElementName=ScreenSizeText, Path=IsTextTrimmed, Mode=OneWay}">
+                                                <ToolTip Visibility="{Binding ElementName=ScreenSizeTextBlock, Path=IsTextTrimmed, Mode=OneWay}">
                                                     <TextBlock>
                                                         <Run Text="{x:Bind ScreenSizeWidth}" /><Run Text="x" /><Run Text="{x:Bind ScreenSizeHeight}" />
                                                     </TextBlock>
@@ -1467,12 +1462,8 @@
                                             Style="{StaticResource BodyStrongTextBlockStyle}"
                                             Text="{x:Bind FileName}"
                                             TextLineBounds="TrimToCapHeight"
-                                            TextWrapping="NoWrap">
-
-                                            <ToolTipService.ToolTip>
-                                                <ToolTip Content="{x:Bind FilePath}" Visibility="{Binding ElementName=DescriptionText, Path=IsTextTrimmed, Mode=OneWay}" />
-                                            </ToolTipService.ToolTip>
-                                        </TextBlock>
+                                            TextWrapping="NoWrap"
+                                            ToolTipService.ToolTip="{x:Bind FilePath}" />
 
                                         <TextBlock
                                             Grid.Row="1"

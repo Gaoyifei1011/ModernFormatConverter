@@ -155,7 +155,7 @@
                     <Image Grid.Row="0" Source="{x:Bind FileThumbnailImage, Mode=OneWay}" />
 
                     <TextBlock
-                        x:Name="FileNameText"
+                        x:Name="FileNameTextBlock"
                         Grid.Row="1"
                         Margin="0,5,0,5"
                         HorizontalAlignment="Center"
@@ -165,7 +165,7 @@
                         TextTrimming="CharacterEllipsis">
 
                         <ToolTipService.ToolTip>
-                            <ToolTip Content="{x:Bind FileName, Mode=OneWay}" Visibility="{x:Bind FileNameText.IsTextTrimmed, Mode=OneWay}" />
+                            <ToolTip Content="{x:Bind FileName, Mode=OneWay}" Visibility="{x:Bind FileNameTextBlock.IsTextTrimmed, Mode=OneWay}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
 
