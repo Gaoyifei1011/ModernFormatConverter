@@ -637,7 +637,11 @@ namespace ModernFormatConverter.Views.Pages
             {
                 SelectedItem = sender.SelectedItem;
             }
-            SelectedConversionType = AudioConversionTypeCollection[sender.Items.IndexOf(SelectedItem)];
+
+            if (SelectedItem is not null)
+            {
+                SelectedConversionType = AudioConversionTypeCollection[sender.Items.IndexOf(SelectedItem)];
+            }
         }
 
         /// <summary>
@@ -819,8 +823,12 @@ namespace ModernFormatConverter.Views.Pages
             if (!Equals(sender.SelectedItem, TextToAudioSelectedItem) && SelectedConversionType.TextToAudio is TextToAudioModel textToAudio)
             {
                 TextToAudioSelectedItem = sender.SelectedItem;
-                textToAudioSelectorBarIndex = sender.Items.IndexOf(TextToAudioSelectedItem);
-                textToAudio.TextToAudioType = (TextToAudioType)TextToAudioSelectorBar.Items.IndexOf(TextToAudioSelectedItem);
+
+                if (TextToAudioSelectedItem is not null)
+                {
+                    textToAudioSelectorBarIndex = sender.Items.IndexOf(TextToAudioSelectedItem);
+                    textToAudio.TextToAudioType = (TextToAudioType)TextToAudioSelectorBar.Items.IndexOf(TextToAudioSelectedItem);
+                }
             }
         }
 

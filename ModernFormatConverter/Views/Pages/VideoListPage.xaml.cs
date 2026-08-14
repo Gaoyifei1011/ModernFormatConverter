@@ -715,7 +715,10 @@ namespace ModernFormatConverter.Views.Pages
                 SelectedItem = sender.SelectedItem;
             }
 
-            SelectedConversionType = VideoConversionTypeCollection[sender.Items.IndexOf(SelectedItem)];
+            if (SelectedItem is not null)
+            {
+                SelectedConversionType = VideoConversionTypeCollection[sender.Items.IndexOf(SelectedItem)];
+            }
         }
 
         /// <summary>

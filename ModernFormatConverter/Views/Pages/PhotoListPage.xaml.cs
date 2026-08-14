@@ -407,7 +407,10 @@ namespace ModernFormatConverter.Views.Pages
                 SelectedItem = sender.SelectedItem;
             }
 
-            SelectedConversionType = PhotoConversionTypeCollection[sender.Items.IndexOf(SelectedItem)];
+            if (SelectedItem is not null)
+            {
+                SelectedConversionType = PhotoConversionTypeCollection[sender.Items.IndexOf(SelectedItem)];
+            }
         }
 
         /// <summary>

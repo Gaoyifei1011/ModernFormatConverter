@@ -777,7 +777,8 @@
                                             TextAlignment="Left"
                                             TextTrimming="CharacterEllipsis"
                                             TextWrapping="NoWrap"
-                                            ToolTipService.ToolTip="{x:Bind Duration, Converter={StaticResource DurationConverter}}">>
+                                            ToolTipService.ToolTip="{x:Bind Duration, Converter={StaticResource DurationConverter}}">
+                                            >
                                         </TextBlock>
 
                                         <TextBlock
@@ -918,6 +919,7 @@
 
                             <Grid
                                 Grid.Column="1"
+                                Margin="16,0,0,0"
                                 VerticalAlignment="Center"
                                 RowSpacing="5">
 
@@ -1043,6 +1045,7 @@
 
                             <Grid
                                 Grid.Column="1"
+                                Margin="16,0,0,0"
                                 VerticalAlignment="Center"
                                 RowSpacing="5">
 
@@ -1172,6 +1175,7 @@
 
                             <Grid
                                 Grid.Column="1"
+                                Margin="16,0,0,0"
                                 VerticalAlignment="Center"
                                 RowSpacing="5">
 

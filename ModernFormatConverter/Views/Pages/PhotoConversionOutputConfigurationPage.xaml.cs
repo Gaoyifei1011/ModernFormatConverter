@@ -1052,7 +1052,11 @@ namespace ModernFormatConverter.Views.Pages
             if (sender is Microsoft.UI.Xaml.Controls.ComboBox comboBox && !Equals(SelectedAspectRatio, comboBox.SelectedItem))
             {
                 SelectedAspectRatio = comboBox.SelectedItem is ComboBoxItemModel aspectRatio ? aspectRatio : null;
-                PhotoConversionOutputConfigurationImageCropper.AspectRatio = Convert.ToDouble(SelectedAspectRatio.SelectedValue);
+
+                if (SelectedAspectRatio is not null)
+                {
+                    PhotoConversionOutputConfigurationImageCropper.AspectRatio = Convert.ToDouble(SelectedAspectRatio.SelectedValue);
+                }
             }
         }
 

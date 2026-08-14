@@ -504,35 +504,38 @@ namespace ModernFormatConverter.Views.Pages
             {
                 SelectedFormatConversionType = comboBox.SelectedItem is ComboBoxItemModel formatConversionType ? formatConversionType : null;
 
-                ResetAudioEncoding();
-                SelectedAudioEncoding = AudioEncodingCollection[0];
-
-                ResetSamplingRate();
-                SelectedSamplingRate = SamplingRateCollection[0];
-
-                ResetAudioBitRate();
-                SelectedAudioBitRate = AudioBitRateCollection[0];
-
-                ResetSoundTrack();
-                SelectedSoundTrack = SoundTrackCollection[0];
-
-                IsVariableBitRateSupported = Equals(SelectedFormatConversionType, FormatConversionTypeList[0]);
-                ResetVariableBitRate();
-                SelectedVariableBitRate = null;
-                if (VariableBitRateCollection.Count > 0)
+                if (SelectedFormatConversionType is not null)
                 {
-                    SelectedVariableBitRate = VariableBitRateCollection[0];
+                    ResetAudioEncoding();
+                    SelectedAudioEncoding = AudioEncodingCollection[0];
+
+                    ResetSamplingRate();
+                    SelectedSamplingRate = SamplingRateCollection[0];
+
+                    ResetAudioBitRate();
+                    SelectedAudioBitRate = AudioBitRateCollection[0];
+
+                    ResetSoundTrack();
+                    SelectedSoundTrack = SoundTrackCollection[0];
+
+                    IsVariableBitRateSupported = Equals(SelectedFormatConversionType, FormatConversionTypeList[0]);
+                    ResetVariableBitRate();
+                    SelectedVariableBitRate = null;
+                    if (VariableBitRateCollection.Count > 0)
+                    {
+                        SelectedVariableBitRate = VariableBitRateCollection[0];
+                    }
+
+                    ResetSamplingFormat();
+                    SelectedSamplingFormat = SamplingFormatCollection[0];
+
+                    SelectedAudioFadeInEffect = AudioFadeInEffectList[0];
+                    SelectedAudioFadeOutEffect = AudioFadeOutEffectList[0];
+
+                    Echo = false;
+                    DeNoise = false;
+                    Reverse = false;
                 }
-
-                ResetSamplingFormat();
-                SelectedSamplingFormat = SamplingFormatCollection[0];
-
-                SelectedAudioFadeInEffect = AudioFadeInEffectList[0];
-                SelectedAudioFadeOutEffect = AudioFadeOutEffectList[0];
-
-                Echo = false;
-                DeNoise = false;
-                Reverse = false;
             }
         }
 
@@ -545,8 +548,11 @@ namespace ModernFormatConverter.Views.Pages
             {
                 SelectedAudioEncoding = comboBox.SelectedItem is ComboBoxItemModel audioEncoding ? audioEncoding : null;
 
-                ResetSamplingFormat();
-                SelectedSamplingFormat = SamplingFormatCollection[0];
+                if (SelectedAudioEncoding is not null)
+                {
+                    ResetSamplingFormat();
+                    SelectedSamplingFormat = SamplingFormatCollection[0];
+                }
             }
         }
 

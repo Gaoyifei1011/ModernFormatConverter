@@ -457,25 +457,28 @@ namespace ModernFormatConverter.Views.Windows
             {
                 SelectedItem = args.SelectedItem as NavigationViewItemModel;
 
-                // 对应的页面为空，选中项修改为已经选择的页面
-                if (SelectedItem.NavigationPage is null)
+                if (SelectedItem is not null)
                 {
-                    Type currentPageType = GetCurrentPageType();
-                    NavigationViewItemModel selectedNavigationViewItem = GetSelectedItem(currentPageType, NavigationViewItemMenuItemsCollection);
-                    if (selectedNavigationViewItem is not null)
+                    // 对应的页面为空，选中项修改为已经选择的页面
+                    if (SelectedItem.NavigationPage is null)
                     {
-                        SelectedItem = selectedNavigationViewItem;
+                        Type currentPageType = GetCurrentPageType();
+                        NavigationViewItemModel selectedNavigationViewItem = GetSelectedItem(currentPageType, NavigationViewItemMenuItemsCollection);
+                        if (selectedNavigationViewItem is not null)
+                        {
+                            SelectedItem = selectedNavigationViewItem;
+                        }
+                        else
+                        {
+                            selectedNavigationViewItem = GetSelectedItem(currentPageType, NavigationViewItemFooterMenuItemsCollection);
+                            SelectedItem = selectedNavigationViewItem is not null ? selectedNavigationViewItem : null;
+                        }
                     }
+                    // 切换到选中项对应的页面
                     else
                     {
-                        selectedNavigationViewItem = GetSelectedItem(currentPageType, NavigationViewItemFooterMenuItemsCollection);
-                        SelectedItem = selectedNavigationViewItem is not null ? selectedNavigationViewItem : null;
+                        NavigateTo(SelectedItem.NavigationPage);
                     }
-                }
-                // 切换到选中项对应的页面
-                else
-                {
-                    NavigateTo(SelectedItem.NavigationPage);
                 }
             }
         }

@@ -1110,34 +1110,38 @@ namespace ModernFormatConverter.Views.Pages
             if (VideoConversionOutputConfigurationScroll.IsLoaded && !Equals(SelectedItem, sender.SelectedItem))
             {
                 SelectedItem = sender.SelectedItem;
-                int index = sender.Items.IndexOf(SelectedItem);
 
-                switch (index)
+                if (SelectedItem is not null)
                 {
-                    case 0:
-                        {
-                            double currentScrollPosition = VideoConversionOutputConfigurationScroll.VerticalOffset;
-                            Point currentPoint = new(0, (int)currentScrollPosition);
-                            Point targetPosition = VideoHeader.TransformToVisual(VideoConversionOutputConfigurationScroll).TransformPoint(currentPoint);
-                            VideoConversionOutputConfigurationScroll.ChangeView(null, targetPosition.Y, null);
-                            break;
-                        }
-                    case 1:
-                        {
-                            double currentScrollPosition = VideoConversionOutputConfigurationScroll.VerticalOffset;
-                            Point currentPoint = new(0, (int)currentScrollPosition);
-                            Point targetPosition = AudioHeader.TransformToVisual(VideoConversionOutputConfigurationScroll).TransformPoint(currentPoint);
-                            VideoConversionOutputConfigurationScroll.ChangeView(null, targetPosition.Y, null);
-                            break;
-                        }
-                    case 2:
-                        {
-                            double currentScrollPosition = VideoConversionOutputConfigurationScroll.VerticalOffset;
-                            Point currentPoint = new(0, (int)currentScrollPosition);
-                            Point targetPosition = SubtitleHeader.TransformToVisual(VideoConversionOutputConfigurationScroll).TransformPoint(currentPoint);
-                            VideoConversionOutputConfigurationScroll.ChangeView(null, targetPosition.Y, null);
-                            break;
-                        }
+                    int index = sender.Items.IndexOf(SelectedItem);
+
+                    switch (index)
+                    {
+                        case 0:
+                            {
+                                double currentScrollPosition = VideoConversionOutputConfigurationScroll.VerticalOffset;
+                                Point currentPoint = new(0, (int)currentScrollPosition);
+                                Point targetPosition = VideoHeader.TransformToVisual(VideoConversionOutputConfigurationScroll).TransformPoint(currentPoint);
+                                VideoConversionOutputConfigurationScroll.ChangeView(null, targetPosition.Y, null);
+                                break;
+                            }
+                        case 1:
+                            {
+                                double currentScrollPosition = VideoConversionOutputConfigurationScroll.VerticalOffset;
+                                Point currentPoint = new(0, (int)currentScrollPosition);
+                                Point targetPosition = AudioHeader.TransformToVisual(VideoConversionOutputConfigurationScroll).TransformPoint(currentPoint);
+                                VideoConversionOutputConfigurationScroll.ChangeView(null, targetPosition.Y, null);
+                                break;
+                            }
+                        case 2:
+                            {
+                                double currentScrollPosition = VideoConversionOutputConfigurationScroll.VerticalOffset;
+                                Point currentPoint = new(0, (int)currentScrollPosition);
+                                Point targetPosition = SubtitleHeader.TransformToVisual(VideoConversionOutputConfigurationScroll).TransformPoint(currentPoint);
+                                VideoConversionOutputConfigurationScroll.ChangeView(null, targetPosition.Y, null);
+                                break;
+                            }
+                    }
                 }
             }
         }
@@ -1398,62 +1402,65 @@ namespace ModernFormatConverter.Views.Pages
             {
                 SelectedFormatConversionType = comboBox.SelectedItem is ComboBoxItemModel formatConversionType ? formatConversionType : null;
 
-                ResetVideoEncoding();
-                SelectedVideoEncoding = VideoEncodingCollection[0];
-
-                ResetSizeLimitation();
-                SelectedSizeLimitation = SizeLimitationCollection[0];
-
-                ResetScreenSize();
-                SelectedScreenSize = ScreenSizeCollection[0];
-
-                ResetVideoBitRate();
-                SelectedVideoBitRate = VideoBitRateCollection[0];
-
-                ResetCRF();
-                ResetGPU();
-                SelectedGPU = GPUCollection[0];
-
-                ResetAspectRatio();
-                SelectedAspectRatio = AspectRatioCollection[0];
-
-                ResetSecondaryEncoding();
-
-                ResetKeyFrameInterval();
-                SelectedKeyFrameInterval = KeyFrameIntervalCollection[0];
-
-                IsAudioConfigurationSupported = !Equals(SelectedFormatConversionType, FormatConversionTypeList[2]);
-
-                ResetAudioEncoding();
-                SelectedAudioEncoding = AudioEncodingCollection[0];
-
-                ResetSamplingRate();
-                SelectedSamplingRate = SamplingRateCollection[0];
-
-                ResetAudioBitRate();
-                SelectedAudioBitRate = AudioBitRateCollection[0];
-
-                ResetSoundTrack();
-                SelectedSoundTrack = SoundTrackCollection[0];
-
-                ResetVolume();
-                SelectedVolume = Equals(SelectedFormatConversionType, FormatConversionTypeList[2]) ? VolumeCollection[0] : VolumeCollection[4];
-
-                ResetAudioFadeInEffect();
-                SelectedAudioFadeInEffect = AudioFadeInEffectCollection[0];
-
-                ResetAudioFadeOutEffect();
-                SelectedAudioFadeOutEffect = AudioFadeOutEffectCollection[0];
-
-                ResetPreserveAllSourceInputSubtitleStream();
-
-                if (!IsAudioConfigurationSupported)
+                if (SelectedFormatConversionType is not null)
                 {
-                    CloseSoundEffect = false;
-                    PreserveAllSourceInputAudioStream = false;
-                    Echo = false;
-                    DeNoise = false;
-                    Reverse = false;
+                    ResetVideoEncoding();
+                    SelectedVideoEncoding = VideoEncodingCollection[0];
+
+                    ResetSizeLimitation();
+                    SelectedSizeLimitation = SizeLimitationCollection[0];
+
+                    ResetScreenSize();
+                    SelectedScreenSize = ScreenSizeCollection[0];
+
+                    ResetVideoBitRate();
+                    SelectedVideoBitRate = VideoBitRateCollection[0];
+
+                    ResetCRF();
+                    ResetGPU();
+                    SelectedGPU = GPUCollection[0];
+
+                    ResetAspectRatio();
+                    SelectedAspectRatio = AspectRatioCollection[0];
+
+                    ResetSecondaryEncoding();
+
+                    ResetKeyFrameInterval();
+                    SelectedKeyFrameInterval = KeyFrameIntervalCollection[0];
+
+                    IsAudioConfigurationSupported = !Equals(SelectedFormatConversionType, FormatConversionTypeList[2]);
+
+                    ResetAudioEncoding();
+                    SelectedAudioEncoding = AudioEncodingCollection[0];
+
+                    ResetSamplingRate();
+                    SelectedSamplingRate = SamplingRateCollection[0];
+
+                    ResetAudioBitRate();
+                    SelectedAudioBitRate = AudioBitRateCollection[0];
+
+                    ResetSoundTrack();
+                    SelectedSoundTrack = SoundTrackCollection[0];
+
+                    ResetVolume();
+                    SelectedVolume = Equals(SelectedFormatConversionType, FormatConversionTypeList[2]) ? VolumeCollection[0] : VolumeCollection[4];
+
+                    ResetAudioFadeInEffect();
+                    SelectedAudioFadeInEffect = AudioFadeInEffectCollection[0];
+
+                    ResetAudioFadeOutEffect();
+                    SelectedAudioFadeOutEffect = AudioFadeOutEffectCollection[0];
+
+                    ResetPreserveAllSourceInputSubtitleStream();
+
+                    if (!IsAudioConfigurationSupported)
+                    {
+                        CloseSoundEffect = false;
+                        PreserveAllSourceInputAudioStream = false;
+                        Echo = false;
+                        DeNoise = false;
+                        Reverse = false;
+                    }
                 }
             }
         }
@@ -1467,15 +1474,18 @@ namespace ModernFormatConverter.Views.Pages
             {
                 SelectedVideoEncoding = comboBox.SelectedItem is ComboBoxItemModel videoEncoding ? videoEncoding : null;
 
-                ResetSizeLimitation();
-                SelectedSizeLimitation = SizeLimitationCollection[0];
+                if (SelectedVideoEncoding is not null)
+                {
+                    ResetSizeLimitation();
+                    SelectedSizeLimitation = SizeLimitationCollection[0];
 
-                ResetCRF();
+                    ResetCRF();
 
-                ResetGPU();
-                SelectedGPU = GPUCollection[0];
+                    ResetGPU();
+                    SelectedGPU = GPUCollection[0];
 
-                ResetSecondaryEncoding();
+                    ResetSecondaryEncoding();
+                }
             }
         }
 
@@ -1827,8 +1837,11 @@ namespace ModernFormatConverter.Views.Pages
             {
                 SelectedAudioEncoding = comboBox.SelectedItem is ComboBoxItemModel audioEncoding ? audioEncoding : null;
 
-                ResetSamplingRate();
-                SelectedSamplingRate = SamplingRateCollection[0];
+                if (SelectedAudioEncoding is not null)
+                {
+                    ResetSamplingRate();
+                    SelectedSamplingRate = SamplingRateCollection[0];
+                }
             }
         }
 
@@ -2028,7 +2041,11 @@ namespace ModernFormatConverter.Views.Pages
             if (sender is Microsoft.UI.Xaml.Controls.ComboBox comboBox && !Equals(SelectedFontName, comboBox.SelectedItem))
             {
                 SelectedFontName = comboBox.SelectedItem is ComboBoxItemModel fontName ? fontName : null;
-                SelectedFontFamily = new FontFamily(Convert.ToString(SelectedFontName.SelectedValue));
+
+                if (SelectedFontName is not null)
+                {
+                    SelectedFontFamily = new FontFamily(Convert.ToString(SelectedFontName.SelectedValue));
+                }
             }
         }
 
