@@ -5,7 +5,6 @@ CustomCommand=Custom command
 CustomCommandDescription=Custom FFmpeg program execution command
 HATest=Hardware acceleration test
 HATestDescription=Test the hardware acceleration platform for available media files
-Home=Home
 FileInformation=File information
 FileInformationDescription=View media, images, and document file information
 ModernFormatConverter=Format converter

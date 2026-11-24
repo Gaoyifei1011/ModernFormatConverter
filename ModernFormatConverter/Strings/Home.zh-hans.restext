@@ -5,7 +5,6 @@ CustomCommand=自定义命令
 CustomCommandDescription=自定义 FFmepg 程序运行命令
 HATest=硬件加速测试
 HATestDescription=测试可用的媒体文件的硬件加速平台
-Home=主页
 FileInformation=文件信息
 FileInformationDescription=查看媒体、图片、文档文件信息
 ModernFormatConverter=格式转换器
