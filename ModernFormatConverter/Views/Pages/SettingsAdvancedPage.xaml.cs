@@ -15,10 +15,16 @@ namespace ModernFormatConverter.Views.Pages
     /// </summary>
     public sealed partial class SettingsAdvancedPage : Page
     {
+        #region 第一部分：构造函数
+
         public SettingsAdvancedPage()
         {
             InitializeComponent();
         }
+
+        #endregion 第一部分：构造函数
+
+        #region 第二部分：挂载事件处理
 
         /// <summary>
         /// 打开日志文件夹
@@ -36,5 +42,7 @@ namespace ModernFormatConverter.Views.Pages
             bool result = await LogService.ClearLogAsync();
             await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.LogClean, result));
         }
+
+        #endregion 第二部分：挂载事件处理
     }
 }
