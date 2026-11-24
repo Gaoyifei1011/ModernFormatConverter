@@ -12,9 +12,11 @@ using ModernFormatConverter.Views.Windows;
 using ModernFormatConverter.WindowsAPI.PInvoke.Kernel32;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
@@ -32,37 +34,54 @@ namespace ModernFormatConverter.Views.Pages
     /// <summary>
     /// 设置页面
     /// </summary>
-    public sealed partial class SettingsPage : Page, INotifyPropertyChanged
+    internal sealed partial class SettingsPage : Page, INotifyPropertyChanged
     {
+        #region 第一部分：常量、资源与状态字段
+
+        private readonly string AboutString = ResourceService.SettingsResource.GetString("About");
+        private readonly string AdvancedString = ResourceService.SettingsResource.GetString("Advanced");
         private readonly string AppNameString = ResourceService.SettingsResource.GetString("AppName");
+        private readonly string GeneralString = ResourceService.SettingsResource.GetString("General");
+
         private Guid IID_ITaskbarManagerDesktopAppSupportStatics = new("CDFEFD63-E879-4134-B9A7-8283F05F9480");
 
-        private SelectorBarItem _selectedItem;
+        #endregion 第一部分：常量、资源与状态字段
 
-        public SelectorBarItem SelectedItem
+        #region 第二部分：属性、列表与事件
+
+        private int SelectedIndex
         {
-            get { return _selectedItem; }
+            get;
 
             set
             {
-                if (!Equals(_selectedItem, value))
+                if (!Equals(field, value))
                 {
-                    _selectedItem = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedItem)));
+                    field = value;
+                    PropertyChanged?.Invoke(this, new(nameof(SelectedIndex)));
                 }
             }
         }
 
-        private List<Type> PageList { get; } = [typeof(SettingsGeneralPage), typeof(SettingsAdvancedPage), typeof(SettingsAboutPage)];
+        private ReadOnlyCollection<Type> PageCollection { get; } = new([typeof(SettingsGeneralPage), typeof(SettingsAdvancedPage), typeof(SettingsAboutPage)]);
+
+        private List<string> SettingsItemTabList { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public SettingsPage()
+        #endregion 第二部分：属性、列表与事件
+
+        #region 第三部分：构造函数
+
+        internal SettingsPage()
         {
             InitializeComponent();
+            InitializeData();
         }
 
-        #region 第一部分：重写父类事件
+        #endregion 第三部分：构造函数
+
+        #region 第四部分：父类虚方法重写
 
         /// <summary>
         /// 导航到该页面触发的事件
@@ -75,48 +94,48 @@ namespace ModernFormatConverter.Views.Pages
             // 第一次导航
             if (GetCurrentPageType() is null)
             {
-                SelectedItem = SettingsSelctorBar.Items[0];
+                NavigateTo(PageCollection[0]);
             }
         }
 
-        #endregion 第一部分：重写父类事件
+        #endregion 第四部分：父类虚方法重写
 
-        #region 第二部分：设置页面——挂载的事件
+        #region 第五部分：挂载事件处理
 
         /// <summary>
         /// 点击选择器栏选中项发生变化时发生的事件
         /// </summary>
-        private void OnSelectorBarSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
+        private void OnSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (!Equals(SelectedItem, sender.SelectedItem))
+            if (sender is TabView tabView && !Equals(SelectedIndex, tabView.SelectedIndex))
             {
-                SelectedItem = sender.SelectedItem;
+                SelectedIndex = tabView.SelectedIndex;
             }
 
-            if (SelectedItem is not null)
+            if (SelectedIndex >= 0 && SelectedIndex < SettingsItemTabList.Count)
             {
-                int index = sender.Items.IndexOf(SelectedItem);
+                int index = SelectedIndex;
                 Type currentPage = GetCurrentPageType();
-                int currentIndex = PageList.FindIndex(item => Equals(item, currentPage));
+                int currentIndex = PageCollection.IndexOf(PageCollection.FirstOrDefault(item => Equals(item, currentPage)));
 
                 if (index is 0)
                 {
                     if (currentPage is null)
                     {
-                        NavigateTo(PageList[0]);
+                        NavigateTo(PageCollection[0]);
                     }
-                    else if (!Equals(currentPage, PageList[0]))
+                    else if (!Equals(currentPage, PageCollection[0]))
                     {
-                        NavigateTo(PageList[0], null, index > currentIndex);
+                        NavigateTo(PageCollection[0], null, index > currentIndex);
                     }
                 }
-                else if (index is 1 && !Equals(currentPage, PageList[1]))
+                else if (index is 1 && !Equals(currentPage, PageCollection[1]))
                 {
-                    NavigateTo(PageList[1], null, index > currentIndex);
+                    NavigateTo(PageCollection[1], null, index > currentIndex);
                 }
-                else if (index is 2 && !Equals(currentPage, PageList[2]))
+                else if (index is 2 && !Equals(currentPage, PageCollection[2]))
                 {
-                    NavigateTo(PageList[2], null, index > currentIndex);
+                    NavigateTo(PageCollection[2], null, index > currentIndex);
                 }
             }
         }
@@ -127,11 +146,11 @@ namespace ModernFormatConverter.Views.Pages
         private void OnNavigationFailed(object sender, NavigationFailedEventArgs args)
         {
             args.Handled = true;
-            int index = PageList.FindIndex(item => Equals(item, GetCurrentPageType()));
+            int index = PageCollection.IndexOf(PageCollection.FirstOrDefault(item => Equals(item, GetCurrentPageType())));
 
-            if (index >= 0 && index < SettingsSelctorBar.Items.Count)
+            if (index >= 0 && index < SettingsItemTabList.Count)
             {
-                SelectedItem = SettingsSelctorBar.Items[index];
+                SelectedIndex = index;
             }
 
             LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(SettingsPage), nameof(OnNavigationFailed), 1, args.Exception);
@@ -169,25 +188,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnRunAsAdministratorClicked(object sender, RoutedEventArgs args)
         {
-            Task.Run(() =>
-            {
-                try
-                {
-                    ProcessStartInfo startInfo = new()
-                    {
-                        UseShellExecute = true,
-                        WorkingDirectory = Environment.CurrentDirectory,
-                        Arguments = "--elevated",
-                        FileName = System.Windows.Forms.Application.ExecutablePath,
-                        Verb = "runas"
-                    };
-                    Process.Start(startInfo);
-                }
-                catch
-                {
-                    return;
-                }
-            });
+            RunAsAdministrator();
         }
 
         /// <summary>
@@ -195,26 +196,7 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnPinToDesktopClicked(object sender, RoutedEventArgs args)
         {
-            bool isCreatedSuccessfully = await Task.Run(() =>
-            {
-                try
-                {
-                    WshShell wshShell = new();
-                    WshShortcut wshShortcut = (WshShortcut)wshShell.CreateShortcut(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), string.Format(@"{0}.lnk", AppNameString)));
-                    uint aumidLength = 260;
-                    StringBuilder aumidBuilder = new((int)aumidLength);
-                    Kernel32Library.GetCurrentApplicationUserModelId(ref aumidLength, aumidBuilder);
-                    wshShortcut.TargetPath = string.Format(@"shell:AppsFolder\{0}", Convert.ToString(aumidBuilder));
-                    wshShortcut.Save();
-                    return true;
-                }
-                catch (Exception e)
-                {
-                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(SettingsPage), nameof(OnPinToDesktopClicked), 1, e);
-                    return false;
-                }
-            });
-
+            bool isCreatedSuccessfully = await PinToDesktopAsync();
             await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.Desktop, isCreatedSuccessfully));
         }
 
@@ -223,34 +205,8 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnPinToStartScreenClicked(object sender, RoutedEventArgs args)
         {
-            bool isPinnedSuccessfully = false;
-
-            try
-            {
-                IReadOnlyList<AppListEntry> appEntriesList = await Package.Current.GetAppListEntriesAsync();
-
-                if (appEntriesList[0] is AppListEntry defaultEntry)
-                {
-                    StartScreenManager startScreenManager = StartScreenManager.GetDefault();
-
-                    bool containsEntry = await startScreenManager.ContainsAppListEntryAsync(defaultEntry);
-
-                    if (!containsEntry)
-                    {
-                        await startScreenManager.RequestAddAppListEntryAsync(defaultEntry);
-                    }
-
-                    isPinnedSuccessfully = true;
-                }
-            }
-            catch (Exception e)
-            {
-                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(SettingsPage), nameof(OnPinToStartScreenClicked), 1, e);
-            }
-            finally
-            {
-                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.StartScreen, isPinnedSuccessfully));
-            }
+            bool isPinnedSuccessfully = await PinToStartScreenAsync();
+            await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.StartScreen, isPinnedSuccessfully));
         }
 
         /// <summary>
@@ -258,39 +214,8 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private async void OnPinToTaskbarClicked(object sender, RoutedEventArgs args)
         {
-            bool isPinnedSuccessfully = false;
-
-            try
-            {
-                if (Marshal.QueryInterface(Marshal.GetIUnknownForObject(WindowsRuntimeMarshal.GetActivationFactory(typeof(TaskbarManager))), ref IID_ITaskbarManagerDesktopAppSupportStatics, out _) is 0)
-                {
-                    string feature = "com.microsoft.windows.taskbar.pin";
-                    string featureId = FeatureAccessHelper.GetFeatureId(feature);
-                    if (!string.IsNullOrEmpty(featureId))
-                    {
-                        string token = FeatureAccessHelper.GenerateTokenFromFeatureId(feature, featureId);
-                        string attestation = FeatureAccessHelper.GenerateAttestation(featureId);
-                        LimitedAccessFeatureRequestResult accessResult = LimitedAccessFeatures.TryUnlockFeature(featureId, token, attestation);
-
-                        if (accessResult.Status is LimitedAccessFeatureStatus.Available || accessResult.Status is LimitedAccessFeatureStatus.AvailableWithoutToken)
-                        {
-                            isPinnedSuccessfully = await TaskbarManager.GetDefault().RequestPinCurrentAppAsync();
-                        }
-                    }
-                    else
-                    {
-                        isPinnedSuccessfully = await TaskbarManager.GetDefault().RequestPinCurrentAppAsync();
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(SettingsPage), nameof(OnPinToTaskbarClicked), 1, e);
-            }
-            finally
-            {
-                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.Taskbar, isPinnedSuccessfully));
-            }
+            bool isPinnedSuccessfully = await PinToTaskbarAsync();
+            await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.Taskbar, isPinnedSuccessfully));
         }
 
         /// <summary>
@@ -298,39 +223,22 @@ namespace ModernFormatConverter.Views.Pages
         /// </summary>
         private void OnAppSettingsClicked(Hyperlink sender, HyperlinkClickEventArgs args)
         {
-            Task.Run(() =>
-            {
-                try
-                {
-                    Process.Start("ms-settings:appsfeatures-app");
-                }
-                catch (Exception e)
-                {
-                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(SettingsPage), nameof(OnAppSettingsClicked), 1, e);
-                }
-            });
+            OpenAppSettings();
         }
+
+        #endregion 第五部分：挂载事件处理
+
+        #region 第六部分：数据操作与业务逻辑
 
         /// <summary>
-        /// 疑难解答
+        /// 初始化数据
         /// </summary>
-        private void OnTroubleShootClicked(Hyperlink sender, HyperlinkClickEventArgs args)
+        private void InitializeData()
         {
-            SettingsSplitView.IsPaneOpen = false;
-            Task.Run(() =>
-            {
-                try
-                {
-                    Process.Start("ms-settings:troubleshoot");
-                }
-                catch (Exception e)
-                {
-                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(SettingsPage), nameof(OnTroubleShootClicked), 1, e);
-                }
-            });
+            SettingsItemTabList.Add(GeneralString);
+            SettingsItemTabList.Add(AdvancedString);
+            SettingsItemTabList.Add(AboutString);
         }
-
-        #endregion 第二部分：设置页面——挂载的事件
 
         /// <summary>
         /// 页面向前导航
@@ -339,7 +247,7 @@ namespace ModernFormatConverter.Views.Pages
         {
             try
             {
-                SettingsFrame.ContentTransitions = slideDirection.HasValue ? slideDirection.Value ? RightSlideNavigationTransitionCollection : LeftSlideNavigationTransitionCollection : SuppressNavigationTransitionCollection; ;
+                SettingsFrame.ContentTransitions = slideDirection.HasValue ? slideDirection.Value ? RightSlideNavigationTransitionCollection : LeftSlideNavigationTransitionCollection : SuppressNavigationTransitionCollection;
 
                 // 导航到该项目对应的页面
                 SettingsFrame.Navigate(navigationPageType, parameter);
@@ -368,5 +276,146 @@ namespace ModernFormatConverter.Views.Pages
                 SettingsSplitView.IsPaneOpen = true;
             }
         }
+
+        /// <summary>
+        /// 以管理员身份运行
+        /// </summary>
+        private void RunAsAdministrator()
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    ProcessStartInfo startInfo = new()
+                    {
+                        UseShellExecute = true,
+                        WorkingDirectory = Environment.CurrentDirectory,
+                        Arguments = "--elevated",
+                        FileName = System.Windows.Forms.Application.ExecutablePath,
+                        Verb = "runas"
+                    };
+                    Process.Start(startInfo);
+                }
+                catch
+                {
+                    return;
+                }
+            });
+        }
+
+        /// <summary>
+        /// 固定应用到桌面
+        /// </summary>
+        private async Task<bool> PinToDesktopAsync()
+        {
+            return await Task.Run(() =>
+            {
+                try
+                {
+                    WshShell wshShell = new();
+                    WshShortcut wshShortcut = (WshShortcut)wshShell.CreateShortcut(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), string.Format(@"{0}.lnk", AppNameString)));
+                    uint aumidLength = 260;
+                    StringBuilder aumidBuilder = new((int)aumidLength);
+                    Kernel32Library.GetCurrentApplicationUserModelId(ref aumidLength, aumidBuilder);
+                    wshShortcut.TargetPath = string.Format(@"shell:AppsFolder\{0}", Convert.ToString(aumidBuilder));
+                    wshShortcut.Save();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(SettingsPage), nameof(PinToDesktopAsync), 1, e);
+                    return false;
+                }
+            });
+        }
+
+        /// <summary>
+        /// 将应用固定到“开始”屏幕
+        /// </summary>
+        private async Task<bool> PinToStartScreenAsync()
+        {
+            bool isPinnedSuccessfully = false;
+
+            try
+            {
+                IReadOnlyList<AppListEntry> appEntryList = await Package.Current.GetAppListEntriesAsync();
+
+                if (appEntryList[0] is AppListEntry appListEntry)
+                {
+                    StartScreenManager startScreenManager = StartScreenManager.GetDefault();
+
+                    bool containsEntry = await startScreenManager.ContainsAppListEntryAsync(appListEntry);
+
+                    if (!containsEntry)
+                    {
+                        await startScreenManager.RequestAddAppListEntryAsync(appListEntry);
+                    }
+
+                    isPinnedSuccessfully = true;
+                }
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(SettingsPage), nameof(PinToStartScreenAsync), 1, e);
+            }
+            return isPinnedSuccessfully;
+        }
+
+        /// <summary>
+        /// 将应用固定到任务栏
+        /// </summary>
+        private async Task<bool> PinToTaskbarAsync()
+        {
+            bool isPinnedSuccessfully = false;
+
+            try
+            {
+                if (Marshal.QueryInterface(Marshal.GetIUnknownForObject(WindowsRuntimeMarshal.GetActivationFactory(typeof(TaskbarManager))), ref IID_ITaskbarManagerDesktopAppSupportStatics, out _) is 0)
+                {
+                    string feature = "com.microsoft.windows.taskbar.pin";
+                    string featureId = FeatureAccessHelper.GetFeatureId(feature);
+                    if (!string.IsNullOrEmpty(featureId))
+                    {
+                        string token = FeatureAccessHelper.GenerateTokenFromFeatureId(feature, featureId);
+                        string attestation = FeatureAccessHelper.GenerateAttestation(featureId);
+                        LimitedAccessFeatureRequestResult accessResult = LimitedAccessFeatures.TryUnlockFeature(featureId, token, attestation);
+
+                        if (accessResult.Status is LimitedAccessFeatureStatus.Available || accessResult.Status is LimitedAccessFeatureStatus.AvailableWithoutToken)
+                        {
+                            isPinnedSuccessfully = await TaskbarManager.GetDefault().RequestPinCurrentAppAsync();
+                        }
+                    }
+                    else
+                    {
+                        isPinnedSuccessfully = await TaskbarManager.GetDefault().RequestPinCurrentAppAsync();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(SettingsPage), nameof(PinToTaskbarAsync), 1, e);
+            }
+            return isPinnedSuccessfully;
+        }
+
+        /// <summary>
+        /// 打开应用设置
+        /// </summary>
+        private void OpenAppSettings()
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    Process.Start("ms-settings:appsfeatures-app");
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(SettingsPage), nameof(OpenAppSettings), 1, e);
+                }
+            });
+        }
+
+        #endregion 第六部分：数据操作与业务逻辑
     }
 }
