@@ -152,6 +152,7 @@
     <Content Include="$(ProjectDir)\Tools\$(Platform)\MediaInfo.dll" Link="MediaInfo.dll" CopyToOutputDirectory="Always" />
     <Content Include="$(ProjectDir)\Tools\$(Platform)\swresample-7.dll" Link="swresample-7.dll" CopyToOutputDirectory="Always" />
     <Content Include="$(ProjectDir)\Tools\$(Platform)\swscale-10.dll" Link="swscale-10.dll" CopyToOutputDirectory="Always" />
+    <Content Include="Microsoft.UI.Xaml.winmd" CopyToOutputDirectory="Always" />
     
     <EmbeddedResource Include="Strings\AppInformation.en-us.restext" />
     <EmbeddedResource Include="Strings\AppInformation.restext" />
@@ -243,6 +244,7 @@
     <EmbeddedResource Include="Strings\Window.zh-hans.restext" />
 
     <None Remove="MainApp.xaml" />
+    <None Remove="Microsoft.UI.Xaml.winmd" />
     <None Remove="Styles\AppBarButton.xaml" />
     <None Remove="Styles\ColorPicker.xaml" />
     <None Remove="Styles\ComboBox.xaml" />
@@ -341,7 +343,7 @@
 
     <Reference Include="$(PkgMicrosoft_WindowsAppSDK_InteractiveExperiences)\metadata\10.0.18362.0\Microsoft.UI.winmd" Private="false" Visible="false" />
     <Reference Include="$(PkgMicrosoft_WindowsAppSDK_WinUI)\metadata\Microsoft.UI.Text.winmd" Private="false" Visible="false" />
-    <Reference Include="$(PkgMicrosoft_WindowsAppSDK_WinUI)\metadata\Microsoft.UI.Xaml.winmd" Private="false" Visible="false" />
+    <Reference Include="Microsoft.UI.Xaml.winmd" Private="false" Visible="false" />
     <Reference Include="$(PkgMicrosoft_Windows_SDK_NET_Ref)\winmd\*.winmd" Private="false" Visible="false" />
     <Reference Include="$(WindowsSdkPath)\UnionMetadata\Facade\Windows.WinMD" Private="false" Visible="false" />
     <Reference Include="$(ProjectDir)Tools\$(Platform)\FFmpegInterop.winmd" />
