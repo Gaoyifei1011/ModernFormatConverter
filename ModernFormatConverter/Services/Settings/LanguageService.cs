@@ -1,6 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.Win32;
 using ModernFormatConverter.Extensions.DataType.Constant;
+using ModernFormatConverter.Helpers.Root;
 using ModernFormatConverter.Services.Root;
 using ModernFormatConverter.WindowsAPI.ComTypes;
 using ModernFormatConverter.WindowsAPI.PInvoke.Kernel32;
@@ -26,18 +27,14 @@ namespace ModernFormatConverter.Services.Settings
     public static class LanguageService
     {
         private static readonly string settingsKey = ConfigKey.LanguageKey;
-        private static readonly string resourceKey = @"Software\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\{0}\ResourcesConfig";
         private static readonly Guid CLSID_AppxFactory = new("5842A140-FF9F-4166-8F5C-62F5B7B0C781");
         private static readonly IAppxFactory appxFactory = Activator.CreateInstance(Type.GetTypeFromCLSID(CLSID_AppxFactory)) as IAppxFactory;
+        private static readonly string resourceKey = @"Software\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\{0}\ResourcesConfig";
         private static KeyValuePair<string, string> defaultAppLanguage;
-
-        public static KeyValuePair<string, string> AppLanguage { get; private set; }
-
-        public static FlowDirection FlowDirection { get; private set; }
-
-        private static readonly List<string> AppLanguagesList = [];
-
-        public static List<KeyValuePair<string, string>> LanguageList { get; } = [];
+        internal static KeyValuePair<string, string> AppLanguage { get; private set; }
+        internal static FlowDirection FlowDirection { get; private set; }
+        private static readonly List<string> AppLanguageList = [];
+        internal static List<KeyValuePair<string, string>> LanguageList { get; } = [];
 
         /// <summary>
         /// 应用在初始化前获取设置存储的语言值，如果设置值为空，设定默认的应用语言值
@@ -66,7 +63,7 @@ namespace ModernFormatConverter.Services.Settings
                         {
                             if (appxManifestQualifiedResourcesEnumerator.GetCurrent(out IAppxManifestQualifiedResource appxManifestQualifiedResource) is 0 && appxManifestQualifiedResource.GetLanguage(out string language) is 0 && !string.IsNullOrEmpty(language))
                             {
-                                AppLanguagesList.Add(language);
+                                AppLanguageList.Add(language);
                             }
 
                             appxManifestQualifiedResourcesEnumerator.MoveNext(out _);
@@ -76,25 +73,25 @@ namespace ModernFormatConverter.Services.Settings
                     Marshal.Release(Marshal.GetIUnknownForObject(stream));
                 }
 
-                if (AppLanguagesList.Count is 0)
+                if (AppLanguageList.Count is 0)
                 {
-                    AppLanguagesList.Add("en-us");
+                    AppLanguageList.Add("en-us");
                 }
 
-                AppLanguagesList.Sort();
+                AppLanguageList.Sort();
             }
             catch (Exception e)
             {
                 LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(LanguageService), nameof(InitializeLanguageList), 1, e);
-                AppLanguagesList.Clear();
-                AppLanguagesList.Add("en-us");
+                AppLanguageList.Clear();
+                AppLanguageList.Add("en-us");
             }
 
-            foreach (string appLanguage in AppLanguagesList)
+            foreach (string appLanguage in AppLanguageList)
             {
                 CultureInfo culture = CultureInfo.GetCultureInfo(appLanguage);
 
-                LanguageList.Add(new KeyValuePair<string, string>(culture.Name, culture.NativeName));
+                LanguageList.Add(new(culture.Name, culture.NativeName));
             }
         }
 
@@ -103,9 +100,15 @@ namespace ModernFormatConverter.Services.Settings
         /// </summary>
         private static bool IsExistsInLanguageList(CultureInfo currentCulture, out KeyValuePair<string, string> language)
         {
+            if (currentCulture is null)
+            {
+                language = default;
+                return false;
+            }
+
             foreach (KeyValuePair<string, string> languageItem in LanguageList)
             {
-                if (string.Equals(languageItem.Key, currentCulture.Name))
+                if (string.Equals(languageItem.Key, currentCulture.Name, StringComparison.OrdinalIgnoreCase))
                 {
                     language = languageItem;
                     return true;
@@ -160,7 +163,7 @@ namespace ModernFormatConverter.Services.Settings
                     else
                     {
                         SetLanguage(defaultAppLanguage);
-                        CultureInfo defaultCultureInfo = CultureInfo.GetCultureInfo(Convert.ToString(defaultAppLanguage.Key));
+                        CultureInfo defaultCultureInfo = CultureInfo.GetCultureInfo(defaultAppLanguage.Key);
                         CultureInfo.DefaultThreadCurrentUICulture = defaultCultureInfo;
                         FlowDirection = defaultCultureInfo.TextInfo.IsRightToLeft ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
                         User32Library.SetProcessDefaultLayout(Convert.ToUInt32(defaultCultureInfo.TextInfo.IsRightToLeft));
@@ -172,13 +175,13 @@ namespace ModernFormatConverter.Services.Settings
             CultureInfo savedCultureInfo = CultureInfo.GetCultureInfo(language);
             CultureInfo.DefaultThreadCurrentUICulture = savedCultureInfo;
             FlowDirection = savedCultureInfo.TextInfo.IsRightToLeft ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
-            return LanguageList.Find(item => Equals(language, item.Key));
+            return LanguageList.Find(item => string.Equals(language, item.Key, StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>
-        /// 语言发生修改时修改设置存储的语言值
+        /// 语言发生修改后修改设置存储的语言值
         /// </summary>
-        public static void SetLanguage(KeyValuePair<string, string> language)
+        internal static void SetLanguage(KeyValuePair<string, string> language)
         {
             AppLanguage = language;
             LocalSettingsService.SaveSetting(settingsKey, language.Key);
@@ -190,9 +193,7 @@ namespace ModernFormatConverter.Services.Settings
                 {
                     StringBuilder packageFamilyNameBuilder = new(length + 1);
                     Kernel32Library.GetCurrentPackageFamilyName(ref length, packageFamilyNameBuilder);
-                    RegistryKey resourceRegistry = Registry.CurrentUser.OpenSubKey(string.Format(resourceKey, Convert.ToString(packageFamilyNameBuilder)), true);
-                    resourceRegistry?.SetValue("OverrideLanguagesList", language.Key);
-                    resourceRegistry?.Dispose();
+                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, string.Format(resourceKey, Convert.ToString(packageFamilyNameBuilder)), "OverrideLanguagesList", language.Key);
                 }
             }
             catch (Exception e)

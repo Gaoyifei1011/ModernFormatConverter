@@ -13,18 +13,16 @@ namespace ModernFormatConverter.Services.Settings
 
         private static readonly bool defaultAlwaysShowBackdrop = false;
 
-        private static bool _alwaysShowBackdrop;
-
-        public static bool AlwaysShowBackdrop
+        internal static bool AlwaysShowBackdrop
         {
-            get { return _alwaysShowBackdrop; }
+            get;
 
-            private set
+            set
             {
-                if (!Equals(_alwaysShowBackdrop, value))
+                if (!Equals(field, value))
                 {
-                    _alwaysShowBackdrop = value;
-                    PropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(AlwaysShowBackdrop)));
+                    field = value;
+                    PropertyChanged?.Invoke(null, new(nameof(AlwaysShowBackdrop)));
                 }
             }
         }

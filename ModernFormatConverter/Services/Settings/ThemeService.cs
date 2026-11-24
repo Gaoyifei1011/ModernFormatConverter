@@ -2,8 +2,9 @@
 using ModernFormatConverter.Extensions.DataType.Constant;
 using ModernFormatConverter.Services.Root;
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 
 namespace ModernFormatConverter.Services.Settings
 {
@@ -16,23 +17,21 @@ namespace ModernFormatConverter.Services.Settings
 
         private static string defaultAppTheme;
 
-        private static string _appTheme;
-
-        public static string AppTheme
+        internal static string AppTheme
         {
-            get { return _appTheme; }
+            get;
 
             private set
             {
-                if (!string.Equals(_appTheme, value))
+                if (!string.Equals(field, value))
                 {
-                    _appTheme = value;
-                    PropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(AppTheme)));
+                    field = value;
+                    PropertyChanged?.Invoke(null, new(nameof(AppTheme)));
                 }
             }
         }
 
-        public static List<string> ThemeList { get; } = [nameof(ElementTheme.Default), nameof(ElementTheme.Light), nameof(ElementTheme.Dark)];
+        internal static ReadOnlyCollection<string> ThemeCollection { get; } = new([nameof(ElementTheme.Default), nameof(ElementTheme.Light), nameof(ElementTheme.Dark)]);
 
         public static event PropertyChangedEventHandler PropertyChanged;
 
@@ -41,7 +40,7 @@ namespace ModernFormatConverter.Services.Settings
         /// </summary>
         public static void InitializeTheme()
         {
-            defaultAppTheme = ThemeList.Find(item => string.Equals(item, nameof(ElementTheme.Default), StringComparison.OrdinalIgnoreCase));
+            defaultAppTheme = ThemeCollection.FirstOrDefault(item => string.Equals(item, nameof(ElementTheme.Default), StringComparison.OrdinalIgnoreCase));
             AppTheme = GetTheme();
         }
 
@@ -58,7 +57,7 @@ namespace ModernFormatConverter.Services.Settings
                 return defaultAppTheme;
             }
 
-            string selectedTheme = ThemeList.Find(item => string.Equals(item, theme, StringComparison.OrdinalIgnoreCase));
+            string selectedTheme = ThemeCollection.FirstOrDefault(item => string.Equals(item, theme, StringComparison.OrdinalIgnoreCase));
             return string.IsNullOrEmpty(selectedTheme) ? defaultAppTheme : selectedTheme;
         }
 
