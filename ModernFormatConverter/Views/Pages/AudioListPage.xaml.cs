@@ -7,11 +7,13 @@ using ModernFormatConverter.Helpers.Reflection;
 using ModernFormatConverter.Helpers.Root;
 using ModernFormatConverter.Models;
 using ModernFormatConverter.Services.Root;
+using ModernFormatConverter.Views.NotificationTips;
 using ModernFormatConverter.Views.Windows;
 using ModernFormatConverter.WindowsAPI.ComTypes;
 using ModernFormatConverter.WindowsAPI.PInvoke.MediaInfo;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -20,6 +22,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Speech.Synthesis;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -38,6 +41,7 @@ namespace ModernFormatConverter.Views.Pages
     {
         private readonly string AudioConcatString = ResourceService.AudioListResource.GetString("AudioConcat");
         private readonly string AudioConcatDragOverContentString = ResourceService.AudioListResource.GetString("AudioConcatDragOverContent");
+        private readonly string AudioConcatTaskNameString = ResourceService.AudioListResource.GetString("AudioConcatTaskName");
         private readonly string AudioFormatConversionString = ResourceService.AudioListResource.GetString("AudioFormatConversion");
         private readonly string AudioFormatConversionDragOverContentString = ResourceService.AudioListResource.GetString("AudioFormatConversionDragOverContent");
         private readonly string NoFolderString = ResourceService.AudioListResource.GetString("NoFolder");
@@ -473,7 +477,7 @@ namespace ModernFormatConverter.Views.Pages
 
                 if (fileList is not null && fileList.Count > 0)
                 {
-                    await AddAudioDataAsync(fileList);
+                    await AddAudioDataAsync(fileList.AsReadOnly());
                 }
                 IsGettingFileInformation = false;
             }
@@ -719,7 +723,7 @@ namespace ModernFormatConverter.Views.Pages
             if (openFileDialog.ShowDialog() is DialogResult.OK && !IsGettingFileInformation)
             {
                 IsGettingFileInformation = true;
-                await AddAudioDataAsync([.. openFileDialog.FileNames]);
+                await AddAudioDataAsync(new(openFileDialog.FileNames));
                 IsGettingFileInformation = false;
             }
             openFileDialog.Dispose();
@@ -740,7 +744,7 @@ namespace ModernFormatConverter.Views.Pages
             {
                 IsGettingFileInformation = true;
                 List<string> fileList = [.. Directory.GetFiles(openFolderDialog.SelectedPath)];
-                await AddAudioDataAsync(fileList);
+                await AddAudioDataAsync(fileList.AsReadOnly());
                 IsGettingFileInformation = false;
             }
             openFolderDialog.Dispose();
@@ -789,9 +793,136 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 确定
         /// </summary>
-        private void OnOkClicked(object sender, RoutedEventArgs args)
+        private async void OnOkClicked(object sender, RoutedEventArgs args)
         {
-            // TODO：未完成
+            switch (SelectedConversionType.AudioConversionTypeKind)
+            {
+                // 音频格式转换
+                case AudioConversionTypeKind.AudioFormatConversion:
+                    {
+                        if (SelectedConversionType.AudioFormatConversion is not null)
+                        {
+                            if (SelectedConversionType.AudioFormatConversion.AudioFormatConversionFileCollection.Count > 0)
+                            {
+                                List<TaskListItemModel> taskListItemList = [];
+                                foreach (AudioFormatConversionFileModel audioFormatConversionFile in SelectedConversionType.AudioFormatConversion.AudioFormatConversionFileCollection)
+                                {
+                                    taskListItemList.Add(new()
+                                    {
+                                        TaskKind = TaskKind.AudioFormatConversion,
+                                        TaskData = audioFormatConversionFile,
+                                        TaskName = string.Format("{0} - {1}", AudioFormatConversionString, audioFormatConversionFile.FileName),
+                                        FileThumbnailSource = audioFormatConversionFile.FileThumbnailSource,
+                                        FileName = audioFormatConversionFile.FileName,
+                                        FilePath = audioFormatConversionFile.FilePath,
+                                        FileSize = audioFormatConversionFile.FileSize,
+                                        ConvertedFilePath = audioFormatConversionFile.AudioConversionOutputConfiguration.OutputFolder,
+                                        Duration = audioFormatConversionFile.Duration,
+                                        Channel = audioFormatConversionFile.Channel,
+                                        SamplingRate = audioFormatConversionFile.SamplingRate,
+                                        BitRate = audioFormatConversionFile.BitRate,
+                                        TaskProgressState = TaskProgressState.NotStart
+                                    });
+                                }
+
+                                if (!Equals(MainWindow.Current.GetCurrentPageType(), typeof(TaskManagerPage)))
+                                {
+                                    MainWindow.Current.NavigateTo(typeof(TaskManagerPage), taskListItemList);
+                                }
+                            }
+                            else
+                            {
+                                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.AudioFileEmpty));
+                            }
+                        }
+                        break;
+                    }
+                // 音频合并
+                case AudioConversionTypeKind.AudioConcat:
+                    {
+                        if (SelectedConversionType.AudioConcat is not null)
+                        {
+                            if (SelectedConversionType.AudioConcat.AudioConcatFileCollection.Count > 0)
+                            {
+                                TaskListItemModel taskListItem = new()
+                                {
+                                    TaskKind = TaskKind.AudioConcat,
+                                    TaskData = SelectedConversionType.AudioConcat,
+                                    TaskName = string.Format(AudioConcatTaskNameString, SelectedConversionType.AudioConcat.AudioConcatFileCollection.Count),
+                                    FileThumbnailSource = new BitmapImage() { UriSource = new Uri("ms-appx:///Assets/ControlIcon/AudioConversion.png") },  // TODO：未完成
+                                    ConvertedFilePath = SelectedConversionType.AudioConcat.AudioConversionOutputConfiguration.OutputFolder,
+                                    TaskProgressState = TaskProgressState.NotStart
+                                };
+
+                                if (!Equals(MainWindow.Current.GetCurrentPageType(), typeof(TaskManagerPage)))
+                                {
+                                    MainWindow.Current.NavigateTo(typeof(TaskManagerPage), taskListItem);
+                                }
+                            }
+                            else
+                            {
+                                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.AudioFileEmpty));
+                            }
+                        }
+                        break;
+                    }
+                // 文本转语音
+                case AudioConversionTypeKind.TextToAudio:
+                    {
+                        if (SelectedConversionType.TextToAudio is not null)
+                        {
+                            if (SelectedConversionType.TextToAudio.TextToAudioType is TextToAudioType.Text)
+                            {
+                                if (!string.IsNullOrEmpty(SelectedConversionType.TextToAudio.InputText))
+                                {
+                                    TaskListItemModel taskListItem = new()
+                                    {
+                                        TaskKind = TaskKind.TextToAudio,
+                                        TaskData = SelectedConversionType.TextToAudio,
+                                        TaskName = TextToAudioString,
+                                        FileThumbnailSource = new BitmapImage() { UriSource = new Uri("ms-appx:///Assets/ControlIcon/TextToAudio.png") },  // TODO：未完成
+                                        ConvertedFilePath = SelectedConversionType.TextToAudio.TextToAudioOutputConfiguration.OutputFolder,
+                                        TaskProgressState = TaskProgressState.NotStart
+                                    };
+
+                                    if (!Equals(MainWindow.Current.GetCurrentPageType(), typeof(TaskManagerPage)))
+                                    {
+                                        MainWindow.Current.NavigateTo(typeof(TaskManagerPage), taskListItem);
+                                    }
+                                }
+                                else
+                                {
+                                    await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.TextToAudioTextEmpty));
+                                }
+                            }
+                            else if (SelectedConversionType.TextToAudio.TextToAudioType is TextToAudioType.File)
+                            {
+                                if (File.Exists(SelectedConversionType.TextToAudio.FilePath) && new FileInfo(SelectedConversionType.TextToAudio.FilePath).Length > 0)
+                                {
+                                    TaskListItemModel taskListItem = new()
+                                    {
+                                        TaskKind = TaskKind.TextToAudio,
+                                        TaskData = SelectedConversionType.TextToAudio,
+                                        TaskName = TextToAudioString,
+                                        FileThumbnailSource = new BitmapImage() { UriSource = new Uri("ms-appx:///Assets/ControlIcon/TextToAudio.png") },  // TODO：未完成
+                                        ConvertedFilePath = SelectedConversionType.TextToAudio.TextToAudioOutputConfiguration.OutputFolder,
+                                        TaskProgressState = TaskProgressState.NotStart
+                                    };
+
+                                    if (!Equals(MainWindow.Current.GetCurrentPageType(), typeof(TaskManagerPage)))
+                                    {
+                                        MainWindow.Current.NavigateTo(typeof(TaskManagerPage), taskListItem);
+                                    }
+                                }
+                                else
+                                {
+                                    await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.TextToAudioFileEmpty));
+                                }
+                            }
+                        }
+                        break;
+                    }
+            }
         }
 
         /// <summary>
@@ -912,7 +1043,7 @@ namespace ModernFormatConverter.Views.Pages
         /// <summary>
         /// 添加音频数据
         /// </summary>
-        public async Task AddAudioDataAsync(List<string> fileList)
+        public async Task AddAudioDataAsync(ReadOnlyCollection<string> fileCollection)
         {
             // 音频格式转换
             if (SelectedConversionType.AudioConversionTypeKind is AudioConversionTypeKind.AudioFormatConversion)
@@ -920,7 +1051,7 @@ namespace ModernFormatConverter.Views.Pages
                 List<AudioFormatConversionFileModel> audioFormatConversionFileList = [.. SelectedConversionType.AudioFormatConversion.AudioFormatConversionFileCollection];
                 List<Task> taskList = [];
                 object fileInformationLock = new();
-                foreach (string file in fileList)
+                foreach (string file in fileCollection)
                 {
                     taskList.Add(Task.Run(async () =>
                     {
@@ -948,7 +1079,7 @@ namespace ModernFormatConverter.Views.Pages
                 List<AudioConcatFileModel> audioConcatFileList = [.. SelectedConversionType.AudioConcat.AudioConcatFileCollection];
                 List<Task> taskList = [];
                 object fileInformationLock = new();
-                foreach (string file in fileList)
+                foreach (string file in fileCollection)
                 {
                     taskList.Add(Task.Run(async () =>
                     {

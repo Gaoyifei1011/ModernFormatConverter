@@ -3,7 +3,7 @@
 namespace ModernFormatConverter.WindowsAPI.PInvoke.User32
 {
     [Flags]
-    public enum WindowLongIndexFlags : int
+    public enum WINDOW_LONG_PTR_INDEX : int
     {
         /// <summary>
         /// 检索扩展窗口样式。

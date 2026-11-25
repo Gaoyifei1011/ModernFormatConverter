@@ -21,7 +21,25 @@ namespace ModernFormatConverter.WindowsAPI.PInvoke.User32
         /// <returns>如果成功，则为 TRUE;否则为 FALSE。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "ChangeWindowMessageFilter", PreserveSig = true, SetLastError = false)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool ChangeWindowMessageFilter(WindowMessage message, ChangeFilterFlags dwFlag);
+        internal static extern bool ChangeWindowMessageFilter(WindowMessage message, MSGFLT dwFlag);
+
+        /// <summary>
+        /// EnumDisplayMonitors 函数枚举显示监视器 (包括与镜像驱动程序关联的不可见伪监视器) ，这些监视器与指定剪裁矩形的交集与设备上下文的可见区域相交而形成的区域相交。 EnumDisplayMonitors 为枚举的每个监视器调用一次应用程序定义的 MonitorEnumProc 回调函数。 请注意， GetSystemMetrics (SM_CMONITORS) 仅对显示监视器进行计数。
+        /// </summary>
+        /// <param name="hdc">
+        /// 显示设备上下文的句柄，用于定义感兴趣的可见区域。
+        /// 如果此参数为 NULL，则传递给回调函数的 hdcMonitor 参数将为 NULL，并且关注的可见区域是包含桌面上所有显示器的虚拟屏幕。
+        /// </param>
+        /// <param name="lprcClip">
+        /// 指向指定剪裁矩形的 RECT 结构的指针。 感兴趣区域是剪裁矩形与 hdc 指定的可见区域的交集。
+        /// 如果 hdc 为非 NULL，则剪裁矩形的坐标相对于 hdc 的原点。 如果 hdc 为 NULL，则坐标为虚拟屏幕坐标。
+        /// 如果不想剪辑 hdc 指定的区域，此参数可以为 NULL。</param>
+        /// <param name="lpfnEnum">指向 MonitorEnumProc 应用程序定义的回调函数的指针。</param>
+        /// <param name="dwData">EnumDisplayMonitors 直接传递给 MonitorEnumProc 函数的应用程序定义数据。</param>
+        /// <returns>如果该函数成功，则返回值为非零值。如果函数失败，则返回值为零。</returns>
+        [DllImport(User32, EntryPoint = "EnumDisplayMonitors", SetLastError = false), PreserveSig]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool EnumDisplayMonitors(nint hdc, nint lprcClip, MONITORENUMPROC lpfnEnum, nint dwData);
 
         /// <summary>
         /// 返回指定窗口的每英寸点数 (dpi) 值。
@@ -30,6 +48,16 @@ namespace ModernFormatConverter.WindowsAPI.PInvoke.User32
         /// <returns>窗口的 DPI，取决于窗口 DPI_AWARENESS 。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "GetDpiForWindow", PreserveSig = true, SetLastError = false)]
         public static extern int GetDpiForWindow(nint hwnd);
+
+        /// <summary>
+        /// 检索指定窗口的显示状态以及还原、最小化和最大化的位置。
+        /// </summary>
+        /// <param name="hWnd">窗口的句柄。</param>
+        /// <param name="lpwndpl">指向接收显示状态和位置信息的 WINDOWPLACEMENT 结构的指针。 在调用 GetWindowPlacement 之前，请将 length 成员设置为 sizeof(WINDOWPLACEMENT)。 如果未正确设置 lpwndpl-length，GetWindowPlacement > 将失败。</param>
+        /// <returns>如果该函数成功，则返回值为非零值。如果函数失败，则返回值为零。</returns>
+        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "GetWindowPlacement", PreserveSig = true, SetLastError = false)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool GetWindowPlacement(nint hWnd, ref WINDOWPLACEMENT lpwndpl);
 
         /// <summary>
         /// 检索指定窗口的边框的尺寸。 尺寸以相对于屏幕左上角的屏幕坐标提供。
@@ -85,7 +113,7 @@ namespace ModernFormatConverter.WindowsAPI.PInvoke.User32
         /// <param name="dwNewLong">替换值。</param>
         /// <returns>如果函数成功，则返回值是指定 32 位整数的上一个值。如果函数失败，则返回值为零。 </returns>
         [DllImport(User32, EntryPoint = "SetWindowLongW", SetLastError = false)]
-        public static extern nint SetWindowLong(nint hWnd, WindowLongIndexFlags nIndex, ulong dwNewLong);
+        public static extern nint SetWindowLong(nint hWnd, WINDOW_LONG_PTR_INDEX nIndex, ulong dwNewLong);
 
         /// <summary>
         /// 更改指定窗口的属性。 该函数还将指定偏移量处的64位（long类型）值设置到额外的窗口内存中。
@@ -95,7 +123,17 @@ namespace ModernFormatConverter.WindowsAPI.PInvoke.User32
         /// <param name="dwNewLong">替换值。</param>
         /// <returns>如果函数成功，则返回值是指定偏移量的上一个值。如果函数失败，则返回值为零。 </returns>
         [DllImport(User32, EntryPoint = "SetWindowLongPtrW", SetLastError = false)]
-        public static extern nint SetWindowLongPtr(nint hWnd, WindowLongIndexFlags nIndex, ulong dwNewLong);
+        public static extern nint SetWindowLongPtr(nint hWnd, WINDOW_LONG_PTR_INDEX nIndex, ulong dwNewLong);
+
+        /// <summary>
+        /// 设置指定窗口的显示状态和还原、最小化和最大化的位置。
+        /// </summary>
+        /// <param name="hWnd">窗口的句柄。</param>
+        /// <param name="lpwndpl">指向 WINDOWPLACEMENT 结构的指针，该结构指定新的显示状态和窗口位置。在调用 SetWindowPlacement 之前，请将 WINDOWPLACEMENT 结构的长度成员设置为 sizeof (WINDOWPLACEMENT) 。 如果未正确设置长度成员，SetWindowPlacement 将失败。</param>
+        /// <returns>如果该函数成功，则返回值为非零值。如果函数失败，则返回值为零。</returns>
+        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "SetWindowPlacement", PreserveSig = true, SetLastError = false)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool SetWindowPlacement(nint hWnd, WINDOWPLACEMENT lpwndpl);
 
         /// <summary>
         /// 更改子窗口、弹出窗口或顶级窗口的大小、位置和 Z 顺序。 这些窗口根据屏幕上的外观进行排序。 最上面的窗口接收最高排名，是 Z 顺序中的第一个窗口。
@@ -110,6 +148,6 @@ namespace ModernFormatConverter.WindowsAPI.PInvoke.User32
         /// <returns>如果该函数成功，则返回值为非零值。如果函数失败，则返回值为零。 </returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "SetWindowPos", PreserveSig = true, SetLastError = false)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetWindowPos(nint hWnd, nint hWndInsertAfter, int X, int Y, int cx, int cy, SetWindowPosFlags uFlags);
+        public static extern bool SetWindowPos(nint hWnd, nint hWndInsertAfter, int X, int Y, int cx, int cy, SET_WINDOW_POS_FLAGS uFlags);
     }
 }
