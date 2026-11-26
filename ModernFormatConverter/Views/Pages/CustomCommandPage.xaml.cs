@@ -23,6 +23,8 @@ namespace ModernFormatConverter.Views.Pages
     /// </summary>
     public sealed partial class CustomCommandPage : Page, INotifyPropertyChanged
     {
+        #region 第一部分：常量、资源与状态字段
+
         private readonly string ProcessExitString = ResourceService.CustomCommandResource.GetString("ProcessExit");
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly StringBuilder commandResultBuilder = new();
@@ -30,49 +32,47 @@ namespace ModernFormatConverter.Views.Pages
         private Process process;
         private bool isLoaded;
 
-        private bool _isRunning;
+        #endregion 第一部分：常量、资源与状态字段
+
+        #region 第二部分：属性、集合与事件
 
         public bool IsRunning
         {
-            get { return _isRunning; }
+            get;
 
             set
             {
-                if (!Equals(_isRunning, value))
+                if (!Equals(field, value))
                 {
-                    _isRunning = value;
+                    field = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsRunning)));
                 }
             }
         }
 
-        private string _commandText;
-
         public string CommandText
         {
-            get { return _commandText; }
+            get;
 
             set
             {
-                if (!string.Equals(_commandText, value))
+                if (!string.Equals(field, value))
                 {
-                    _commandText = value;
+                    field = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CommandText)));
                 }
             }
         }
 
-        private string _commandResultText;
-
         public string CommandResultText
         {
-            get { return _commandResultText; }
+            get;
 
             set
             {
-                if (!string.Equals(_commandResultText, value))
+                if (!string.Equals(field, value))
                 {
-                    _commandResultText = value;
+                    field = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CommandResultText)));
                 }
             }
@@ -80,12 +80,18 @@ namespace ModernFormatConverter.Views.Pages
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        #endregion 第二部分：属性、集合与事件
+
+        #region 第三部分：构造函数
+
         public CustomCommandPage()
         {
             InitializeComponent();
         }
 
-        #region 第一部分：自定义命令运行页面——挂载的事件
+        #endregion 第三部分：构造函数
+
+        #region 第四部分：挂载事件处理
 
         /// <summary>
         /// 加载完成后触发的事件
@@ -124,49 +130,7 @@ namespace ModernFormatConverter.Views.Pages
                 commandResultBuilder.Clear();
                 CommandResultText = string.Empty;
                 customCommandResultTextBoxScrollViewer.ChangeView(null, 0, null, true);
-
-                await Task.Run(() =>
-                {
-                    try
-                    {
-                        process = new()
-                        {
-                            StartInfo = new ProcessStartInfo
-                            {
-                                FileName = "FFmpeg.exe",
-                                Arguments = string.Join(" ", "-nostdin", CommandText),
-                                RedirectStandardOutput = true,
-                                RedirectStandardError = true,
-                                UseShellExecute = false,
-                                CreateNoWindow = true,
-                                WorkingDirectory = Environment.CurrentDirectory,
-                                StandardOutputEncoding = Encoding.UTF8,
-                                StandardErrorEncoding = Encoding.UTF8
-                            },
-                            EnableRaisingEvents = true
-                        };
-                        process.OutputDataReceived += OnOutputDataReceived;
-                        process.ErrorDataReceived += OnErrorDataReceived;
-                        process.Exited += OnExited;
-                        process.Start();
-                        process.BeginOutputReadLine();
-                        process.BeginErrorReadLine();
-                        process.WaitForExit();
-                        process.OutputDataReceived -= OnOutputDataReceived;
-                        process.ErrorDataReceived -= OnErrorDataReceived;
-                        process.Exited -= OnExited;
-                        process = null;
-                    }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CustomCommandPage), nameof(OnTestClicked), 1, e);
-                        process.OutputDataReceived -= OnOutputDataReceived;
-                        process.ErrorDataReceived -= OnErrorDataReceived;
-                        process.Exited -= OnExited;
-                        process.Dispose();
-                        process = null;
-                    }
-                });
+                await RunCustomCommandAsync(string.Join(" ", "-nostdin", CommandText));
                 IsRunning = false;
             }
         }
@@ -196,49 +160,7 @@ namespace ModernFormatConverter.Views.Pages
                 commandResultBuilder.Clear();
                 CommandResultText = string.Empty;
                 customCommandResultTextBoxScrollViewer.ChangeView(null, 0, null, true);
-
-                await Task.Run(() =>
-                {
-                    try
-                    {
-                        process = new()
-                        {
-                            StartInfo = new ProcessStartInfo
-                            {
-                                FileName = "FFmpeg.exe",
-                                Arguments = string.Join(" ", "-nostdin", CommandText),
-                                RedirectStandardOutput = true,
-                                RedirectStandardError = true,
-                                UseShellExecute = false,
-                                CreateNoWindow = true,
-                                WorkingDirectory = Environment.CurrentDirectory,
-                                StandardOutputEncoding = Encoding.UTF8,
-                                StandardErrorEncoding = Encoding.UTF8
-                            },
-                            EnableRaisingEvents = true
-                        };
-                        process.OutputDataReceived += OnOutputDataReceived;
-                        process.ErrorDataReceived += OnErrorDataReceived;
-                        process.Exited += OnExited;
-                        process.Start();
-                        process.BeginOutputReadLine();
-                        process.BeginErrorReadLine();
-                        process.WaitForExit();
-                        process.OutputDataReceived -= OnOutputDataReceived;
-                        process.ErrorDataReceived -= OnErrorDataReceived;
-                        process.Exited -= OnExited;
-                        process = null;
-                    }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CustomCommandPage), nameof(OnTestClicked), 1, e);
-                        process.OutputDataReceived -= OnOutputDataReceived;
-                        process.ErrorDataReceived -= OnErrorDataReceived;
-                        process.Exited -= OnExited;
-                        process.Dispose();
-                        process = null;
-                    }
-                });
+                await RunCustomCommandAsync(string.Join(" ", "-nostdin", CommandText));
                 IsRunning = false;
             }
         }
@@ -250,21 +172,7 @@ namespace ModernFormatConverter.Views.Pages
         {
             if (IsRunning)
             {
-                await Task.Run(() =>
-                {
-                    try
-                    {
-                        if (process is not null && !process.HasExited)
-                        {
-                            process.Kill();
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CustomCommandPage), nameof(OnStopClicked), 1, e);
-                    }
-                });
-
+                await StopCustomCommandAsync();
                 IsRunning = false;
             }
         }
@@ -280,49 +188,7 @@ namespace ModernFormatConverter.Views.Pages
                 commandResultBuilder.Clear();
                 CommandResultText = string.Empty;
                 customCommandResultTextBoxScrollViewer.ChangeView(null, 0, null, true);
-
-                await Task.Run(() =>
-                {
-                    try
-                    {
-                        Process process = new()
-                        {
-                            EnableRaisingEvents = true,
-                            StartInfo = new ProcessStartInfo
-                            {
-                                FileName = "FFmpeg.exe",
-                                Arguments = "-nostdin",
-                                RedirectStandardOutput = true,
-                                RedirectStandardError = true,
-                                UseShellExecute = false,
-                                CreateNoWindow = true,
-                                WorkingDirectory = Environment.CurrentDirectory,
-                                StandardOutputEncoding = Encoding.UTF8,
-                                StandardErrorEncoding = Encoding.UTF8
-                            },
-                        };
-                        process.OutputDataReceived += OnOutputDataReceived;
-                        process.ErrorDataReceived += OnErrorDataReceived;
-                        process.Exited += OnExited;
-                        process.Start();
-                        process.BeginOutputReadLine();
-                        process.BeginErrorReadLine();
-                        process.WaitForExit();
-                        process.OutputDataReceived -= OnOutputDataReceived;
-                        process.ErrorDataReceived -= OnErrorDataReceived;
-                        process.Exited -= OnExited;
-                        process = null;
-                    }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CustomCommandPage), nameof(OnTestClicked), 1, e);
-                        process.OutputDataReceived -= OnOutputDataReceived;
-                        process.ErrorDataReceived -= OnErrorDataReceived;
-                        process.Exited -= OnExited;
-                        process.Dispose();
-                        process = null;
-                    }
-                });
+                await RunCustomCommandAsync("-nostdin");
                 IsRunning = false;
             }
         }
@@ -347,10 +213,6 @@ namespace ModernFormatConverter.Views.Pages
                 customCommandResultTextBoxScrollViewer.ChangeView(null, customCommandResultTextBoxScrollViewer.ExtentHeight, null, true);
             }
         }
-
-        #endregion 第一部分：自定义命令运行页面——挂载的事件
-
-        #region 第二部分：自定义命令运行页面——自定义事件
 
         /// <summary>
         /// 当应用程序向其重定向 StandardOutput 流中写入行时发生的事件
@@ -397,6 +259,80 @@ namespace ModernFormatConverter.Views.Pages
             }, null);
         }
 
-        #endregion 第二部分：自定义命令运行页面——自定义事件
+        #endregion 第四部分：挂载事件处理
+
+        #region 第五部分：数据操作与业务逻辑
+
+        /// <summary>
+        /// 运行自定义命令
+        /// </summary>
+        private async Task RunCustomCommandAsync(string arguments)
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    process = new()
+                    {
+                        StartInfo = new ProcessStartInfo
+                        {
+                            FileName = "FFmpeg.exe",
+                            Arguments = arguments,
+                            RedirectStandardOutput = true,
+                            RedirectStandardError = true,
+                            UseShellExecute = false,
+                            CreateNoWindow = true,
+                            WorkingDirectory = Environment.CurrentDirectory,
+                            StandardOutputEncoding = Encoding.UTF8,
+                            StandardErrorEncoding = Encoding.UTF8
+                        },
+                        EnableRaisingEvents = true
+                    };
+                    process.OutputDataReceived += OnOutputDataReceived;
+                    process.ErrorDataReceived += OnErrorDataReceived;
+                    process.Exited += OnExited;
+                    process.Start();
+                    process.BeginOutputReadLine();
+                    process.BeginErrorReadLine();
+                    process.WaitForExit();
+                    process.OutputDataReceived -= OnOutputDataReceived;
+                    process.ErrorDataReceived -= OnErrorDataReceived;
+                    process.Exited -= OnExited;
+                    process = null;
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CustomCommandPage), nameof(RunCustomCommandAsync), 1, e);
+                    process.OutputDataReceived -= OnOutputDataReceived;
+                    process.ErrorDataReceived -= OnErrorDataReceived;
+                    process.Exited -= OnExited;
+                    process.Dispose();
+                    process = null;
+                }
+            });
+        }
+
+        /// <summary>
+        /// 停止自定义命令
+        /// </summary>
+        private async Task StopCustomCommandAsync()
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    if (process is not null && !process.HasExited)
+                    {
+                        process.Kill();
+                    }
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(TraceEventType.Error, nameof(ModernFormatConverter), nameof(CustomCommandPage), nameof(StopCustomCommandAsync), 1, e);
+                }
+            });
+        }
+
+        #endregion 第五部分：数据操作与业务逻辑
     }
 }
